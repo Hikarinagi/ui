@@ -5,3 +5,9 @@
 @source './**/*.{vue,ts}';
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
