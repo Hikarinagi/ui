@@ -40,7 +40,9 @@
     background-color: var(--hn-state-color, var(--hn-fg-default));
     opacity: 0;
     pointer-events: none;
-    transition: opacity var(--hn-duration-fast) var(--hn-ease-enter);
+    transition:
+      opacity var(--hn-duration-fast) var(--hn-ease-enter),
+      background-color 0s var(--hn-ease-linear) var(--hn-duration-fast);
   }
 
   @media (hover: hover) {
@@ -62,6 +64,23 @@
   &[aria-selected='true']::after {
     --hn-state-color: var(--hn-accent);
     opacity: var(--hn-state-selected-opacity);
+    transition:
+      opacity var(--hn-duration-fast) var(--hn-ease-enter),
+      background-color 0s var(--hn-ease-linear) 0s;
+  }
+
+  @media (hover: hover) {
+    &[data-state='checked']:hover:not(:disabled):not([data-disabled])::after,
+    &[data-state='selected']:hover:not(:disabled):not([data-disabled])::after,
+    &[aria-selected='true']:hover:not(:disabled):not([data-disabled])::after {
+      opacity: calc(var(--hn-state-selected-opacity) + var(--hn-state-hover-opacity));
+    }
+  }
+
+  &[data-state='checked']:active:not(:disabled):not([data-disabled]):not(:has(.hn-ripple))::after,
+  &[data-state='selected']:active:not(:disabled):not([data-disabled]):not(:has(.hn-ripple))::after,
+  &[aria-selected='true']:active:not(:disabled):not([data-disabled]):not(:has(.hn-ripple))::after {
+    opacity: calc(var(--hn-state-selected-opacity) + var(--hn-state-press-opacity));
   }
 }
 

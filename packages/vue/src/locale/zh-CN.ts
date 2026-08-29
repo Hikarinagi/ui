@@ -55,4 +55,13 @@ export const zhCN: UiMessages = {
   splitter: {
     handleLabel: '调整面板大小',
   },
+  sidebar: {
+    navLabel: '侧边导航',
+  },
+  anchor: {
+    navLabel: '本页目录',
+  },
+  breadcrumb: {
+    navLabel: '面包屑',
+  },
 }

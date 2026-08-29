@@ -19,6 +19,7 @@
   "dependencies": {
     "@lucide/vue": "^1.37.0",
     "clsx": "^2.1.1",
+    "motion-v": "^2.2.1",
     "overlayscrollbars": "^2.16.0",
     "reka-ui": "^2.9.10",
     "shiki": "4.0.2",

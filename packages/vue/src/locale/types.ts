@@ -53,6 +53,15 @@ export interface UiMessages {
   splitter: {
     handleLabel: string
   }
+  sidebar: {
+    navLabel: string
+  }
+  anchor: {
+    navLabel: string
+  }
+  breadcrumb: {
+    navLabel: string
+  }
 }
 
 export type PartialUiMessages = {

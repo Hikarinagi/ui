@@ -27,6 +27,9 @@ function merge(base: UiMessages, patch: PartialUiMessages): UiMessages {
     spoiler: { ...base.spoiler, ...patch.spoiler },
     codeblock: { ...base.codeblock, ...patch.codeblock },
     splitter: { ...base.splitter, ...patch.splitter },
+    sidebar: { ...base.sidebar, ...patch.sidebar },
+    anchor: { ...base.anchor, ...patch.anchor },
+    breadcrumb: { ...base.breadcrumb, ...patch.breadcrumb },
   }
 }
 

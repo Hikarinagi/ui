@@ -55,4 +55,13 @@ export const enUS: UiMessages = {
   splitter: {
     handleLabel: 'Resize panel',
   },
+  sidebar: {
+    navLabel: 'Sidebar navigation',
+  },
+  anchor: {
+    navLabel: 'On this page',
+  },
+  breadcrumb: {
+    navLabel: 'Breadcrumb',
+  },
 }
