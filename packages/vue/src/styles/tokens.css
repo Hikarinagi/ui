@@ -223,10 +223,10 @@
   --hn-radius-xl: 14px;
   --hn-radius-full: 9999px;
 
-  --hn-duration-fast: 120ms;
-  --hn-duration-base: 180ms;
-  --hn-duration-slow: 240ms;
-  --hn-duration-exit: 110ms;
+  --hn-duration-fast: 200ms;
+  --hn-duration-base: 300ms;
+  --hn-duration-slow: 450ms;
+  --hn-duration-exit: 200ms;
 
   --hn-ease-enter: cubic-bezier(0, 0, 0.2, 1);
   --hn-ease-enter-strong: cubic-bezier(0.05, 0.7, 0.1, 1);
@@ -611,12 +611,12 @@
   cursor: pointer;
   will-change: transform;
   transition:
-    color var(--hn-duration-fast) var(--hn-ease-move),
-    background-color var(--hn-duration-fast) var(--hn-ease-move),
-    border-color var(--hn-duration-fast) var(--hn-ease-move),
-    outline-color var(--hn-duration-fast) var(--hn-ease-move),
-    box-shadow var(--hn-duration-fast) var(--hn-ease-move),
-    opacity var(--hn-duration-fast) var(--hn-ease-move),
+    color var(--hn-duration-fast) var(--hn-ease-enter),
+    background-color var(--hn-duration-fast) var(--hn-ease-enter),
+    border-color var(--hn-duration-fast) var(--hn-ease-enter),
+    outline-color var(--hn-duration-fast) var(--hn-ease-enter),
+    box-shadow var(--hn-duration-fast) var(--hn-ease-enter),
+    opacity var(--hn-duration-fast) var(--hn-ease-enter),
     transform var(--hn-duration-fast) var(--hn-ease-press);
 
   &:focus-visible {
@@ -649,7 +649,7 @@
     background-color: var(--hn-state-color, var(--hn-fg-default));
     opacity: 0;
     pointer-events: none;
-    transition: opacity var(--hn-duration-fast) var(--hn-ease-move);
+    transition: opacity var(--hn-duration-fast) var(--hn-ease-enter);
   }
 
   @media (hover: hover) {
@@ -676,14 +676,15 @@
 
 @utility hn-field {
   background-color: var(--hn-field-bg, var(--hn-surface));
-  outline: 1.5px solid transparent;
-  outline-offset: 0px;
+  outline: none;
+  box-shadow:
+    0 0 0 var(--hn-field-ring-w, 0px) var(--hn-field-ring-color, var(--hn-accent)),
+    var(--hn-field-shadow, 0 0 rgba(0, 0, 0, 0));
   transition:
-    color var(--hn-duration-fast) var(--hn-ease-move),
-    background-color var(--hn-duration-fast) var(--hn-ease-move),
-    border-color var(--hn-duration-fast) var(--hn-ease-move),
-    outline-color var(--hn-duration-fast) var(--hn-ease-move),
-    box-shadow var(--hn-duration-fast) var(--hn-ease-move);
+    color var(--hn-duration-fast) var(--hn-ease-enter),
+    background-color var(--hn-duration-fast) var(--hn-ease-enter),
+    border-color var(--hn-duration-fast) var(--hn-ease-enter),
+    box-shadow var(--hn-duration-fast) var(--hn-ease-enter);
 
   @media (hover: hover) {
     &:hover:not(:disabled):not(:focus):not([data-invalid]) {
@@ -708,12 +709,12 @@
     }
   }
 
-  &:focus-visible:not([data-invalid]) {
-    border-color: var(--hn-accent);
-    outline-color: var(--hn-accent);
+  &:focus-visible {
+    --hn-field-ring-w: 2px;
   }
 
   &[data-invalid] {
+    --hn-field-ring-color: var(--hn-danger);
     border-color: var(--hn-danger);
     background-color: color-mix(
       in oklab,
@@ -723,7 +724,7 @@
   }
 
   &[data-invalid]:focus-visible {
-    outline-color: var(--hn-danger);
+    --hn-field-ring-w: 1px;
   }
 }
 

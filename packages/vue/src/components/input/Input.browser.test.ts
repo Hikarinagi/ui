@@ -30,7 +30,7 @@ describe('input 真实交互:墨在填充里,不在边框与 ring 上', () => {
     await vi.waitFor(() => expect(getComputedStyle(el).backgroundColor).toBe(restBg))
   })
 
-  it('focus = 边框着色,无 ring;secondary 的 accent 线从无到有', async () => {
+  it('focus 环从边缘长出:spread 0→2px 恒色相,阴影层纹丝不动', async () => {
     const probe = document.createElement('span')
     probe.style.color = 'var(--hn-accent)'
     document.body.appendChild(probe)
@@ -39,16 +39,16 @@ describe('input 真实交互:墨在填充里,不在边框与 ring 上', () => {
     const w = mount(Input, { attrs: { 'aria-label': '聚焦' }, attachTo: attach() })
     const el = w.element as HTMLElement
     const restShadow = getComputedStyle(el).boxShadow
-    expect(getComputedStyle(el).outlineColor).toBe('rgba(0, 0, 0, 0)')
+    expect(restShadow).toContain(`${accent} 0px 0px 0px 0px`)
 
     await userEvent.click(el)
     expect(document.activeElement).toBe(el)
-    const midway = getComputedStyle(el).outlineColor
-    expect(midway).not.toBe(accent)
+    expect(getComputedStyle(el).transitionDuration).toContain('0.2s')
 
-    await vi.waitFor(() => expect(getComputedStyle(el).outlineColor).toBe(accent))
-    expect(getComputedStyle(el).borderColor).toBe(accent)
-    expect(getComputedStyle(el).boxShadow).toBe(restShadow)
+    const focusShadow = restShadow.replace('0px 0px 0px 0px', '0px 0px 0px 2px')
+    expect(getComputedStyle(el).boxShadow).not.toBe(focusShadow)
+    await vi.waitFor(() => expect(getComputedStyle(el).boxShadow).toBe(focusShadow))
+    expect(getComputedStyle(el).borderColor).not.toBe(accent)
 
     const flat = mount(Input, {
       props: { variant: 'secondary' },
@@ -57,10 +57,12 @@ describe('input 真实交互:墨在填充里,不在边框与 ring 上', () => {
     })
     const flatEl = flat.element as HTMLElement
     await userEvent.click(flatEl)
-    await vi.waitFor(() => expect(getComputedStyle(flatEl).borderColor).toBe(accent))
+    await vi.waitFor(() =>
+      expect(getComputedStyle(flatEl).boxShadow).toContain(`${accent} 0px 0px 0px 2px`),
+    )
   })
 
-  it('invalid 聚焦时粗边是 danger,不被 accent 抢走', async () => {
+  it('invalid 聚焦时长出的环是 danger,不被 accent 抢走', async () => {
     const probe = document.createElement('span')
     probe.style.color = 'var(--hn-danger)'
     document.body.appendChild(probe)
@@ -75,7 +77,9 @@ describe('input 真实交互:墨在填充里,不在边框与 ring 上', () => {
     const invalidBorder = getComputedStyle(badEl).borderColor
 
     await userEvent.click(badEl)
-    await vi.waitFor(() => expect(getComputedStyle(badEl).outlineColor).toBe(danger))
+    await vi.waitFor(() =>
+      expect(getComputedStyle(badEl).boxShadow).toContain(`${danger} 0px 0px 0px 1px`),
+    )
     expect(getComputedStyle(badEl).borderColor).toBe(invalidBorder)
   })
 
@@ -91,7 +95,8 @@ describe('input 真实交互:墨在填充里,不在边框与 ring 上', () => {
     const badStyle = getComputedStyle(badEl)
     expect(badStyle.borderColor).not.toBe(okStyle.borderColor)
     expect(badStyle.backgroundColor).not.toBe(okStyle.backgroundColor)
-    expect(badStyle.boxShadow).toBe(okStyle.boxShadow)
+    const elevation = (s: string) => s.slice(s.indexOf('0px 0px 0px 0px,'))
+    expect(elevation(badStyle.boxShadow)).toBe(elevation(okStyle.boxShadow))
 
     const invalidBg = badStyle.backgroundColor
     const invalidBorder = badStyle.borderColor

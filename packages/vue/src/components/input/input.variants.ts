@@ -8,8 +8,9 @@ export const input = tv({
   ],
   variants: {
     variant: {
-      primary: 'border-line shadow-sm [--hn-field-bg:var(--hn-surface)]',
-      secondary: 'border-transparent shadow-none [--hn-field-bg:var(--hn-bg-inset)]',
+      primary:
+        'border-line [--hn-field-bg:var(--hn-surface)] [--hn-field-shadow:var(--hn-shadow-sm)]',
+      secondary: 'border-transparent [--hn-field-bg:var(--hn-bg-inset)]',
     },
     size: {
       sm: 'h-[var(--hn-control-h-sm)] px-[var(--hn-control-px-sm)] text-xs',

@@ -28,13 +28,12 @@ describe('渲染与受控', () => {
 
   it('双形态:primary 是带 surface 阴影的 surface 件,secondary 是扁平件', () => {
     const primary = mount(Input)
-    expect(primary.classes()).toContain('shadow-sm')
+    expect(primary.classes()).toContain('[--hn-field-shadow:var(--hn-shadow-sm)]')
     expect(primary.classes()).toContain('border-line')
 
     const secondary = mount(Input, { props: { variant: 'secondary' } })
-    expect(secondary.classes()).toContain('shadow-none')
     expect(secondary.classes()).toContain('border-transparent')
-    expect(secondary.classes()).not.toContain('shadow-sm')
+    expect(secondary.classes()).not.toContain('[--hn-field-shadow:var(--hn-shadow-sm)]')
   })
 
   it('size 档位切换高度类', () => {

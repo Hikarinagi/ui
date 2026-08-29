@@ -9,10 +9,10 @@ export const EASE = {
 } as const satisfies Record<string, Bezier>
 
 export const DURATION = {
-  fast: 0.12,
-  base: 0.18,
-  slow: 0.24,
-  exit: 0.11,
+  fast: 0.2,
+  base: 0.3,
+  slow: 0.45,
+  exit: 0.2,
 } as const
 
 export const TRAVEL = {
