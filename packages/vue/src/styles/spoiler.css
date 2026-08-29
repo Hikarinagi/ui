@@ -1,0 +1,65 @@
+@property --hn-iris-len {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 100%;
+}
+
+@property --hn-iris-r {
+  syntax: '<length> | <percentage>';
+  inherits: false;
+  initial-value: 16px;
+}
+
+@utility hn-spoiler {
+  border-radius: var(--hn-radius-xs);
+  padding-inline: 0.125em;
+
+  &[data-hidden] {
+    cursor: pointer;
+    user-select: none;
+  }
+}
+
+@utility hn-spoiler-inner {
+  mask: radial-gradient(
+      circle farthest-corner at var(--hn-iris-x, 50%) var(--hn-iris-y, 50%),
+      black var(--hn-iris-len),
+      transparent calc(var(--hn-iris-len) + var(--hn-iris-r))
+    )
+    no-repeat center;
+  transition:
+    --hn-iris-len var(--hn-duration-base) var(--hn-ease-enter),
+    opacity var(--hn-duration-base) var(--hn-ease-enter),
+    filter var(--hn-duration-base) var(--hn-ease-enter);
+
+  [data-hidden] > & {
+    --hn-iris-len: 0%;
+    --hn-iris-r: 0px;
+    opacity: 0;
+    filter: blur(1px);
+    transition:
+      --hn-iris-len var(--hn-duration-base) var(--hn-ease-enter),
+      opacity var(--hn-duration-base) var(--hn-ease-enter),
+      filter var(--hn-duration-base) var(--hn-ease-enter);
+  }
+}
+
+@utility hn-spoiler-fb {
+  border-radius: var(--hn-radius-xs);
+  padding-inline: 0.125em;
+  transition: background-color var(--hn-duration-fast) var(--hn-ease-enter);
+
+  & > * {
+    transition: filter var(--hn-duration-base) var(--hn-ease-enter);
+  }
+
+  &[data-hidden] {
+    background-color: var(--hn-bg-subtle);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  &[data-hidden] > * {
+    filter: blur(0.35em);
+  }
+}

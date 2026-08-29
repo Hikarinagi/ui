@@ -4,8 +4,12 @@ import { describe, expect, it } from 'vitest'
 
 const root = process.cwd()
 const srcDir = join(root, 'src')
-const tokensPath = join(srcDir, 'styles/tokens.css')
-const tokens = readFileSync(tokensPath, 'utf8')
+const stylesDir = join(srcDir, 'styles')
+const tokens = readdirSync(stylesDir)
+  .filter(f => f.endsWith('.css'))
+  .sort()
+  .map(f => readFileSync(join(stylesDir, f), 'utf8'))
+  .join('\n')
 
 function walk(dir: string): string[] {
   return readdirSync(dir, { withFileTypes: true }).flatMap(e => {

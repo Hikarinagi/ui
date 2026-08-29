@@ -1,0 +1,208 @@
+@keyframes hn-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes hn-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes hn-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes hn-pop-in {
+  from {
+    opacity: 0;
+    transform: translate(var(--hn-pop-x, 0), var(--hn-pop-y, 0)) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes hn-pop-out {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translate(var(--hn-pop-x, 0), var(--hn-pop-y, 0)) scale(0.96);
+  }
+}
+
+@keyframes hn-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--hn-travel-md)) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes hn-modal-out {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(var(--hn-travel-sm)) scale(0.99);
+  }
+}
+
+@keyframes hn-sheet-in {
+  from {
+    transform: translate(var(--hn-sheet-x, 0), var(--hn-sheet-y, 0));
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes hn-sheet-out {
+  from {
+    transform: none;
+  }
+  to {
+    transform: translate(var(--hn-sheet-x, 0), var(--hn-sheet-y, 0));
+  }
+}
+
+@keyframes hn-collapse-in {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--hn-collapse-h, auto);
+  }
+}
+
+@keyframes hn-collapse-out {
+  from {
+    height: var(--hn-collapse-h, auto);
+  }
+  to {
+    height: 0;
+  }
+}
+
+@utility hn-anim-fade {
+  &[data-state='open'] {
+    animation: hn-fade-in var(--hn-duration-base) var(--hn-ease-enter);
+  }
+  &[data-state='closed'] {
+    animation: hn-fade-out var(--hn-duration-exit) var(--hn-ease-exit);
+  }
+}
+
+@utility hn-anim-pop {
+  &[data-side='top'] {
+    --hn-pop-y: var(--hn-travel-sm);
+  }
+  &[data-side='bottom'] {
+    --hn-pop-y: calc(var(--hn-travel-sm) * -1);
+  }
+  &[data-side='left'] {
+    --hn-pop-x: var(--hn-travel-sm);
+  }
+  &[data-side='right'] {
+    --hn-pop-x: calc(var(--hn-travel-sm) * -1);
+  }
+  &[data-state='open'] {
+    animation: hn-pop-in var(--hn-duration-base) var(--hn-ease-enter);
+  }
+  &[data-state='closed'] {
+    animation: hn-pop-out var(--hn-duration-exit) var(--hn-ease-exit);
+  }
+}
+
+@utility hn-anim-modal {
+  &[data-state='open'] {
+    animation: hn-modal-in var(--hn-duration-slow) var(--hn-ease-enter-strong);
+  }
+  &[data-state='closed'] {
+    animation: hn-modal-out var(--hn-duration-exit) var(--hn-ease-exit);
+  }
+}
+
+@utility hn-anim-sheet-bottom {
+  --hn-sheet-y: 100%;
+  &[data-state='open'] {
+    animation: hn-sheet-in var(--hn-duration-slow) var(--hn-ease-enter-strong);
+  }
+  &[data-state='closed'] {
+    animation: hn-sheet-out var(--hn-duration-exit) var(--hn-ease-exit);
+  }
+}
+
+@utility hn-anim-sheet-top {
+  --hn-sheet-y: -100%;
+  &[data-state='open'] {
+    animation: hn-sheet-in var(--hn-duration-slow) var(--hn-ease-enter-strong);
+  }
+  &[data-state='closed'] {
+    animation: hn-sheet-out var(--hn-duration-exit) var(--hn-ease-exit);
+  }
+}
+
+@utility hn-anim-sheet-left {
+  --hn-sheet-x: -100%;
+  &[data-state='open'] {
+    animation: hn-sheet-in var(--hn-duration-slow) var(--hn-ease-enter-strong);
+  }
+  &[data-state='closed'] {
+    animation: hn-sheet-out var(--hn-duration-exit) var(--hn-ease-exit);
+  }
+}
+
+@utility hn-anim-sheet-right {
+  --hn-sheet-x: 100%;
+  &[data-state='open'] {
+    animation: hn-sheet-in var(--hn-duration-slow) var(--hn-ease-enter-strong);
+  }
+  &[data-state='closed'] {
+    animation: hn-sheet-out var(--hn-duration-exit) var(--hn-ease-exit);
+  }
+}
+
+@utility hn-anim-collapse {
+  overflow: hidden;
+  &[data-state='open'] {
+    animation: hn-collapse-in var(--hn-duration-base) var(--hn-ease-move);
+  }
+  &[data-state='closed'] {
+    animation: hn-collapse-out var(--hn-duration-base) var(--hn-ease-move);
+  }
+}
+
+@utility hn-transition {
+  transition-property:
+    color, background-color, border-color, outline-color, text-decoration-color, fill, stroke,
+    box-shadow, opacity, transform;
+  transition-duration: var(--hn-duration-fast);
+  transition-timing-function: var(--hn-ease-move);
+}
+
+@utility hn-transition-base {
+  transition-property:
+    color, background-color, border-color, outline-color, text-decoration-color, fill, stroke,
+    box-shadow, opacity, transform;
+  transition-duration: var(--hn-duration-base);
+  transition-timing-function: var(--hn-ease-move);
+}

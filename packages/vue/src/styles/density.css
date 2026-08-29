@@ -1,0 +1,45 @@
+:root,
+[data-density='comfortable'] {
+  --hn-control-h-sm: 1.75rem;
+  --hn-control-h-md: 2.25rem;
+  --hn-control-h-lg: 2.75rem;
+  --hn-control-px-sm: 0.5rem;
+  --hn-control-px-md: 0.75rem;
+  --hn-control-px-lg: 1rem;
+  --hn-control-gap: 0.375rem;
+  --hn-field-gap: 0.5rem;
+  --hn-stack-gap: 1rem;
+  --hn-inline-gap: 0.75rem;
+  --hn-panel-p: 1.25rem;
+  --hn-row-h: 2.75rem;
+  --hn-row-px: 0.875rem;
+}
+
+[data-density='compact'] {
+  --hn-control-h-sm: 1.5rem;
+  --hn-control-h-md: 1.875rem;
+  --hn-control-h-lg: 2.25rem;
+  --hn-control-px-sm: 0.375rem;
+  --hn-control-px-md: 0.5rem;
+  --hn-control-px-lg: 0.75rem;
+  --hn-control-gap: 0.25rem;
+  --hn-field-gap: 0.375rem;
+  --hn-stack-gap: 0.75rem;
+  --hn-inline-gap: 0.5rem;
+  --hn-panel-p: 0.875rem;
+  --hn-row-h: 2.125rem;
+  --hn-row-px: 0.625rem;
+}
+
+@media (pointer: coarse) {
+  :root,
+  [data-density='comfortable'],
+  [data-density='compact'] {
+    --hn-control-h-sm: 2.25rem;
+    --hn-control-h-md: 2.75rem;
+    --hn-control-h-lg: 3rem;
+    --hn-row-h: 2.75rem;
+    --hn-state-press-opacity: 0.16;
+    --hn-press-scale: 0.99;
+  }
+}

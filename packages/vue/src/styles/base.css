@@ -1,0 +1,22 @@
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  .dark {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--hn-bg-canvas);
+    color: var(--hn-fg-default);
+    font-family: var(--hn-font-sans);
+    font-size: var(--hn-text-base);
+    line-height: var(--hn-leading-base);
+  }
+
+  table,
+  [data-tabular] {
+    font-variant-numeric: tabular-nums;
+  }
+}

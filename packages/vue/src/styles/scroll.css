@@ -1,0 +1,44 @@
+.hn-scroll-area .os-scrollbar {
+  --os-handle-bg: var(--hn-fg-disabled);
+  --os-handle-bg-hover: var(--hn-fg-subtle);
+  --os-handle-bg-active: var(--hn-fg-muted);
+}
+
+@utility hn-scroll-shadow {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--hn-duration-base) var(--hn-ease-enter);
+
+  &[data-visible] {
+    opacity: 1;
+  }
+
+  &[data-side='x-start'] {
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: 16px;
+    background: linear-gradient(to right, var(--hn-scroll-shadow), transparent);
+  }
+
+  &[data-side='x-end'] {
+    inset-block: 0;
+    inset-inline-end: 0;
+    width: 16px;
+    background: linear-gradient(to left, var(--hn-scroll-shadow), transparent);
+  }
+
+  &[data-side='y-start'] {
+    inset-inline: 0;
+    inset-block-start: 0;
+    height: 16px;
+    background: linear-gradient(to bottom, var(--hn-scroll-shadow), transparent);
+  }
+
+  &[data-side='y-end'] {
+    inset-inline: 0;
+    inset-block-end: 0;
+    height: 16px;
+    background: linear-gradient(to top, var(--hn-scroll-shadow), transparent);
+  }
+}
