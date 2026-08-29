@@ -1,4 +1,5 @@
 .hn-scroll-area .os-scrollbar {
+  --os-size: 6px;
   --os-handle-bg: var(--hn-fg-disabled);
   --os-handle-bg-hover: var(--hn-fg-subtle);
   --os-handle-bg-active: var(--hn-fg-muted);

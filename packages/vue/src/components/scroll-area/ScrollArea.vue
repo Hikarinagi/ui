@@ -72,12 +72,26 @@
     }
   }
 
+  let contentResize: ResizeObserver | undefined
+
+  function observeContent() {
+    const vp = viewport.value
+    if (!vp || !contentResize) return
+    contentResize.disconnect()
+    for (const child of Array.from(vp.children)) contentResize.observe(child)
+  }
+
   onMounted(() => {
     if (!host.value) return
     instance.value = OverlayScrollbars(host.value, options())
     viewport.value = instance.value.elements().viewport
+    contentResize = new ResizeObserver(() => instance.value?.update(true))
     instance.value.on('scroll', updateEdges)
-    instance.value.on('updated', updateEdges)
+    instance.value.on('updated', () => {
+      observeContent()
+      updateEdges()
+    })
+    observeContent()
     updateEdges()
   })
 
@@ -89,6 +103,8 @@
   watch(() => [props.shadow, props.direction], updateEdges)
 
   onBeforeUnmount(() => {
+    contentResize?.disconnect()
+    contentResize = undefined
     instance.value?.destroy()
     instance.value = undefined
     viewport.value = undefined

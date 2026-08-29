@@ -11,6 +11,7 @@ export default defineConfig({
   test: {
     include: ['src/**/*.browser.test.ts'],
     globals: false,
+    fileParallelism: false,
     browser: {
       enabled: true,
       provider: 'playwright',

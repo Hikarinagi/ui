@@ -288,7 +288,7 @@ describe('滚动条用 OverlayScrollbars 原生样式', () => {
 
     const bar = w.element.querySelector('.os-scrollbar-vertical') as HTMLElement
     expect(bar).toBeTruthy()
-    expect(getComputedStyle(bar).getPropertyValue('--os-size').trim()).toBe('10px')
+    expect(getComputedStyle(bar).getPropertyValue('--os-size').trim()).toBe('6px')
 
     await userEvent.hover(w.element as HTMLElement)
     await vi.waitFor(() => expect(getComputedStyle(bar).visibility).toBe('visible'))
@@ -299,6 +299,38 @@ describe('滚动条用 OverlayScrollbars 原生样式', () => {
     document.documentElement.classList.add('dark')
     await vi.waitFor(() => expect(getComputedStyle(handle).backgroundColor).toBe('rgb(82, 82, 82)'))
     document.documentElement.classList.remove('dark')
+  })
+})
+
+describe('动画驱动的内容尺寸变化', () => {
+  it('高度动画中拇指逐帧重算、可滚态即时进入 —— 不等下一次 DOM 变更', async () => {
+    const w = mount(
+      defineComponent({
+        components: { ScrollArea },
+        setup: () => () =>
+          h(ScrollArea, { style: 'height: 150px' }, () => [
+            h('div', { style: 'height: 100px' }, '常驻'),
+            h('div', { id: 'growing', style: 'height: 0; overflow: hidden' }),
+          ]),
+      }),
+      { attachTo: attach() },
+    )
+    await settle()
+    const viewport = viewportOf(w.findComponent(ScrollArea))
+    expect(viewport.scrollHeight).toBeLessThanOrEqual(viewport.clientHeight + 1)
+
+    const growing = w.element.querySelector('#growing') as HTMLElement
+    growing.style.transition = 'height 200ms linear'
+    growing.style.height = '400px'
+
+    await vi.waitFor(() => {
+      const bar = w.element.querySelector('.os-scrollbar-vertical') as HTMLElement
+      const handle = bar.querySelector('.os-scrollbar-handle') as HTMLElement
+      const ratio = handle.getBoundingClientRect().height / bar.getBoundingClientRect().height
+      const expected = viewport.clientHeight / viewport.scrollHeight
+      expect(viewport.scrollHeight).toBeGreaterThan(viewport.clientHeight)
+      expect(Math.abs(ratio - expected)).toBeLessThan(0.05)
+    })
   })
 })
 
