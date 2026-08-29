@@ -31,9 +31,25 @@
   import Splitter from '../src/components/splitter/Splitter.vue'
   import SplitterPanel from '../src/components/splitter/SplitterPanel.vue'
   import SplitterHandle from '../src/components/splitter/SplitterHandle.vue'
+  import Collapsible from '../src/components/collapsible/Collapsible.vue'
+  import CollapsibleTrigger from '../src/components/collapsible/CollapsibleTrigger.vue'
+  import CollapsibleContent from '../src/components/collapsible/CollapsibleContent.vue'
+  import NavLink from '../src/components/nav-link/NavLink.vue'
+  import Sidebar from '../src/components/sidebar/Sidebar.vue'
+  import SidebarGroup from '../src/components/sidebar/SidebarGroup.vue'
+  import AppShell from '../src/components/app-shell/AppShell.vue'
+  import Page from '../src/components/page/Page.vue'
+  import PageHeader from '../src/components/page/PageHeader.vue'
+  import PageBody from '../src/components/page/PageBody.vue'
+  import PageAside from '../src/components/page/PageAside.vue'
+  import Section from '../src/components/section/Section.vue'
+  import Anchor from '../src/components/anchor/Anchor.vue'
+  import Breadcrumb from '../src/components/breadcrumb/Breadcrumb.vue'
+  import BreadcrumbItem from '../src/components/breadcrumb/BreadcrumbItem.vue'
+  import BreadcrumbSeparator from '../src/components/breadcrumb/BreadcrumbSeparator.vue'
   import ScrollArea from '../src/components/scroll-area/ScrollArea.vue'
   import type { ButtonVariants } from '../src/components/button/button.variants'
-  import { cn } from '../src/lib/cn'
+  import { ChevronRight } from '@lucide/vue'
   import PlusIcon from './PlusIcon.vue'
   import ArrowIcon from './ArrowIcon.vue'
 
@@ -74,6 +90,9 @@
     { id: 'space-divider', label: 'Space · Divider' },
     { id: 'aspect-ratio', label: 'AspectRatio · 比例' },
     { id: 'splitter', label: 'Splitter · 分栏' },
+    { id: 'collapsible', label: 'Collapsible · 折叠' },
+    { id: 'sidebar-nav', label: 'NavLink · Sidebar' },
+    { id: 'app-shell', label: 'AppShell · 页面骨架' },
   ]
   const active = ref('button')
   let spy: IntersectionObserver | undefined
@@ -123,22 +142,14 @@
         class="sticky top-16 hidden h-[calc(100vh-4rem)] w-44 shrink-0 self-start overflow-y-auto py-10 lg:block"
       >
         <nav class="flex flex-col gap-0.5" aria-label="组件目录">
-          <Link
+          <NavLink
             v-for="item in nav"
             :key="item.id"
             :href="`#${item.id}`"
-            tone="neutral"
-            :class="
-              cn(
-                'rounded-sm px-2 py-1 text-sm',
-                active === item.id
-                  ? '[--hn-link-color:var(--hn-accent-text)] font-medium'
-                  : 'text-muted',
-              )
-            "
+            :active="active === item.id"
           >
             {{ item.label }}
-          </Link>
+          </NavLink>
         </nav>
       </aside>
 
@@ -738,6 +749,159 @@
               </Splitter>
             </SplitterPanel>
           </Splitter>
+        </section>
+
+        <section id="collapsible" class="flex scroll-mt-16 flex-col gap-4">
+          <h2 class="text-muted font-mono text-xs tracking-wide uppercase">
+            collapsible · 折叠(高度经 hn-anim-collapse,base + move)
+          </h2>
+          <Card class="max-w-md">
+            <Collapsible default-open>
+              <CollapsibleTrigger as-child>
+                <Button variant="ghost" tone="neutral" block class="group/coll justify-between">
+                  组件 · 12 篇
+                  <template #trailing>
+                    <ChevronRight class="hn-transition group-data-[state=open]/coll:rotate-90" />
+                  </template>
+                </Button>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <Stack gap="none" class="pt-1 ps-3">
+                  <Button
+                    v-for="t in ['Button', 'Input', 'Card']"
+                    :key="t"
+                    variant="ghost"
+                    tone="neutral"
+                    size="sm"
+                    block
+                    class="justify-start"
+                  >
+                    {{ t }}
+                  </Button>
+                </Stack>
+              </CollapsibleContent>
+            </Collapsible>
+            <Collapsible>
+              <CollapsibleTrigger as-child>
+                <Button variant="ghost" tone="neutral" block class="group/coll justify-between">
+                  设计语言 · 8 篇(默认收起)
+                  <template #trailing>
+                    <ChevronRight class="hn-transition group-data-[state=open]/coll:rotate-90" />
+                  </template>
+                </Button>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <Stack gap="sm" class="pt-2 ps-3">
+                  <Text tone="muted" size="sm">
+                    content 是无约束插槽:段落、列表、表单、嵌套折叠都行,高度动画量的是实际内容高。
+                  </Text>
+                  <List class="text-sm">
+                    <li>薄墨:一种介质三种落法</li>
+                    <li>两轴动效:时长归通道,曲线归性质</li>
+                    <li>surface 与阴影:纯度守在内容坐的地方</li>
+                  </List>
+                  <Inline gap="sm">
+                    <Button size="sm" variant="soft" tone="neutral">也能放控件</Button>
+                    <Kbd>Esc</Kbd>
+                  </Inline>
+                </Stack>
+              </CollapsibleContent>
+            </Collapsible>
+          </Card>
+        </section>
+
+        <section id="sidebar-nav" class="flex scroll-mt-16 flex-col gap-4">
+          <h2 class="text-muted font-mono text-xs tracking-wide uppercase">
+            navlink + sidebar · 文档站骨架预演(左侧工作台目录已是 NavLink 狗粮)
+          </h2>
+          <div
+            class="border-line bg-surface h-80 max-w-md overflow-hidden rounded-md border shadow-sm"
+          >
+            <Sidebar class="h-full w-full border-e-0">
+              <template #header>
+                <Text weight="medium">Hina UI</Text>
+              </template>
+              <SidebarGroup label="组件">
+                <NavLink href="#sidebar-nav" active>Button</NavLink>
+                <NavLink href="#sidebar-nav">Input</NavLink>
+                <NavLink href="#sidebar-nav">Card</NavLink>
+              </SidebarGroup>
+              <SidebarGroup label="设计语言" :default-open="false">
+                <NavLink href="#sidebar-nav">薄墨</NavLink>
+                <NavLink href="#sidebar-nav">两轴动效</NavLink>
+              </SidebarGroup>
+              <SidebarGroup label="很长的一组(测滚动)">
+                <NavLink v-for="n in 12" :key="n" href="#sidebar-nav">条目 {{ n }}</NavLink>
+              </SidebarGroup>
+              <template #footer>
+                <Text tone="muted" size="sm">v0.1.0 · dev</Text>
+              </template>
+            </Sidebar>
+          </div>
+        </section>
+
+        <section id="app-shell" class="flex scroll-mt-16 flex-col gap-4">
+          <h2 class="text-muted font-mono text-xs tracking-wide uppercase">
+            app shell · 页面骨架(固定壳,内容滚动交给 ScrollArea —— 盒内可直接滚)
+          </h2>
+          <div class="border-line h-96 max-w-3xl overflow-hidden rounded-md border shadow-sm">
+            <AppShell class="h-full">
+              <template #header>
+                <Text weight="medium">Hina Docs</Text>
+                <Space />
+                <Button size="sm" variant="outline" tone="neutral">搜索</Button>
+              </template>
+              <template #sidebar>
+                <Sidebar class="h-full">
+                  <SidebarGroup label="组件">
+                    <NavLink href="#app-shell" active>Button</NavLink>
+                    <NavLink href="#app-shell">Input</NavLink>
+                  </SidebarGroup>
+                </Sidebar>
+              </template>
+              <Page>
+                <Breadcrumb>
+                  <BreadcrumbItem href="#app-shell">文档</BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem href="#app-shell">组件</BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem current>Button</BreadcrumbItem>
+                </Breadcrumb>
+                <PageHeader
+                  title="Button"
+                  description="按钮组件的用法、变体与设计裁定。"
+                  class="-mt-4"
+                >
+                  <template #actions>
+                    <Button size="sm" variant="outline" tone="neutral">源码</Button>
+                  </template>
+                </PageHeader>
+                <PageBody>
+                  <Section title="变体" id="demo-variants">
+                    <Text tone="muted">
+                      solid / soft / outline / ghost 四种出身,墨与波纹随 hn-state-layer 白拿。
+                    </Text>
+                  </Section>
+                  <Section title="尺寸" id="demo-sizes">
+                    <Text v-for="n in 6" :key="n" tone="muted">
+                      第 {{ n }} 段填充,撑出内滚 —— 滚动条与边缘投影在壳里自然成立。
+                    </Text>
+                  </Section>
+                </PageBody>
+                <template #aside>
+                  <PageAside>
+                    <Text size="sm" weight="medium">本页目录</Text>
+                    <Anchor
+                      :items="[
+                        { id: 'demo-variants', label: '变体' },
+                        { id: 'demo-sizes', label: '尺寸' },
+                      ]"
+                    />
+                  </PageAside>
+                </template>
+              </Page>
+            </AppShell>
+          </div>
         </section>
       </main>
     </div>
