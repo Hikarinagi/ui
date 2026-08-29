@@ -62,7 +62,7 @@ describe('渐进增强:JS 到位之前也能滚', () => {
     })
     await settle()
 
-    const host = w.element as HTMLElement
+    const host = w.element.querySelector('[data-overlayscrollbars-initialize]') as HTMLElement
     const viewport = viewportOf(w)
 
     expect(host.hasAttribute('data-overlayscrollbars')).toBe(true)
@@ -270,5 +270,95 @@ describe('spike 3 · 浮层在滚动容器内的跟随定位', () => {
 
     stop()
     expect(positions.length).toBeGreaterThan(1)
+  })
+})
+
+describe('滚动条用 OverlayScrollbars 原生样式', () => {
+  it('原生尺寸结构,把手色走 fg 弱阶 token,.dark 自动翻转', async () => {
+    const w = mount(
+      defineComponent({
+        render: () =>
+          h(ScrollArea, { style: 'height: 100px' }, () =>
+            h('div', { style: 'height: 400px' }, '很长的内容'),
+          ),
+      }),
+      { attachTo: attach() },
+    )
+    await settle()
+
+    const bar = w.element.querySelector('.os-scrollbar-vertical') as HTMLElement
+    expect(bar).toBeTruthy()
+    expect(getComputedStyle(bar).getPropertyValue('--os-size').trim()).toBe('10px')
+
+    await userEvent.hover(w.element as HTMLElement)
+    await vi.waitFor(() => expect(getComputedStyle(bar).visibility).toBe('visible'))
+
+    const handle = bar.querySelector('.os-scrollbar-handle')!
+    expect(getComputedStyle(handle).backgroundColor).toBe('rgb(163, 163, 163)')
+
+    document.documentElement.classList.add('dark')
+    await vi.waitFor(() => expect(getComputedStyle(handle).backgroundColor).toBe('rgb(82, 82, 82)'))
+    document.documentElement.classList.remove('dark')
+  })
+})
+
+describe('滚动提示 · 边缘投影覆盖层', () => {
+  it('起点亮末端影、中段双影、到底只剩起点影;显隐走 base+enter 的 opacity 过渡,内容不被遮罩', async () => {
+    const w = mount(
+      defineComponent({
+        render: () =>
+          h(ScrollArea, { direction: 'horizontal', class: 'w-[200px]' }, () =>
+            h('div', { style: 'width: 600px; height: 20px' }),
+          ),
+      }),
+      { attachTo: attach() },
+    )
+    await settle()
+    const root = w.element as HTMLElement
+    const viewport = viewportOf(w.findComponent(ScrollArea))
+    const startShadow = root.querySelector('[data-side="x-start"]') as HTMLElement
+    const endShadow = root.querySelector('[data-side="x-end"]') as HTMLElement
+    expect(startShadow.getAttribute('aria-hidden')).toBe('true')
+    expect(getComputedStyle(endShadow).transitionDuration).toBe('0.3s')
+    expect(getComputedStyle(viewport).maskImage).toBe('none')
+
+    await vi.waitFor(() => expect(endShadow.hasAttribute('data-visible')).toBe(true))
+    expect(startShadow.hasAttribute('data-visible')).toBe(false)
+    await vi.waitFor(() => expect(getComputedStyle(endShadow).opacity).toBe('1'))
+    expect(getComputedStyle(startShadow).opacity).toBe('0')
+
+    viewport.scrollLeft = 200
+    viewport.dispatchEvent(new Event('scroll'))
+    await vi.waitFor(() => expect(startShadow.hasAttribute('data-visible')).toBe(true))
+    expect(endShadow.hasAttribute('data-visible')).toBe(true)
+
+    viewport.scrollLeft = 400
+    viewport.dispatchEvent(new Event('scroll'))
+    await vi.waitFor(() => expect(endShadow.hasAttribute('data-visible')).toBe(false))
+    expect(startShadow.hasAttribute('data-visible')).toBe(true)
+
+    const fits = mount(
+      defineComponent({
+        render: () =>
+          h(ScrollArea, { direction: 'horizontal', class: 'w-[200px]' }, () =>
+            h('div', { style: 'width: 100px; height: 20px' }),
+          ),
+      }),
+      { attachTo: attach() },
+    )
+    await settle()
+    expect(fits.element.querySelectorAll('[data-visible]').length).toBe(0)
+
+    const off = mount(
+      defineComponent({
+        render: () =>
+          h(ScrollArea, { direction: 'horizontal', shadow: false, class: 'w-[200px]' }, () =>
+            h('div', { style: 'width: 600px; height: 20px' }),
+          ),
+      }),
+      { attachTo: attach() },
+    )
+    await settle()
+    expect(off.element.querySelectorAll('.hn-scroll-shadow').length).toBe(0)
   })
 })

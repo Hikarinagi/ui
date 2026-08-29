@@ -26,7 +26,7 @@ describe('codeblock 与 prose pre 同源', () => {
       attachTo: attach(),
     })
 
-    const blockBox = getComputedStyle(block.find('[data-overlayscrollbars-initialize]').element)
+    const blockBox = getComputedStyle(block.find('.hn-pre').element)
     const proseBox = getComputedStyle(prose.find('pre').element)
     for (const p of ['backgroundColor', 'borderRadius', 'paddingTop', 'fontFamily'] as const) {
       expect(blockBox[p], p).toBe(proseBox[p])
@@ -39,12 +39,13 @@ describe('codeblock 与 prose pre 同源', () => {
     expect(blockCode.fontFamily).toBe(proseCode.fontFamily)
   })
 
-  it('滚动区域聚焦有可见焦点环', async () => {
+  it('滚动区域聚焦有可见焦点环(焦点在内层宿主,环画在 hn-pre 盒上)', async () => {
     const w = mount(CodeBlock, { props: { code: 'x' }, attachTo: attach() })
     const host = w.find('[data-overlayscrollbars-initialize]').element as HTMLElement
+    const box = w.find('.hn-pre').element as HTMLElement
     host.focus()
     await vi.waitFor(() => {
-      const s = getComputedStyle(host)
+      const s = getComputedStyle(box)
       expect(s.outlineStyle).toBe('solid')
       expect(s.outlineColor).not.toBe('rgba(0, 0, 0, 0)')
     })
