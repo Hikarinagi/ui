@@ -43,4 +43,12 @@ export const enUS: UiMessages = {
   scroll: {
     regionLabel: 'Scrollable region',
   },
+  spoiler: {
+    revealLabel: 'Spoiler, click to reveal',
+    hideLabel: 'Hide spoiler',
+  },
+  codeblock: {
+    copy: 'Copy code',
+    copied: 'Copied',
+  },
 }

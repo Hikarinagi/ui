@@ -45,16 +45,17 @@ describe('动效必须取自 token', () => {
 })
 
 describe('样式必须取自 token', () => {
-  it('组件源码中无硬编码颜色', () => {
-    expect(findAll(/#[0-9a-fA-F]{3,8}\b|\brgba?\(|\bhsla?\(/)).toEqual([])
+  it('组件源码中无硬编码颜色,spoiler 的 fork 粒子渲染器豁免', () => {
+    const files = componentFiles.filter(f => !f.endsWith(join('spoiler', 'worklet.ts')))
+    expect(findAll(/#[0-9a-fA-F]{3,8}\b|\brgba?\(|\bhsla?\(/, files)).toEqual([])
   })
 
   it('组件源码中无字面量圆角', () => {
     expect(findAll(/rounded-\[/)).toEqual([])
   })
 
-  it('组件源码零 dark: —— 出现即说明语义层缺角色', () => {
-    expect(findAll(/\bdark:/)).toEqual([])
+  it('组件源码零 dark: 变体 —— 出现即说明语义层缺角色(冒号后紧跟工具类;带空格的对象键如 shiki 主题配置不在此列)', () => {
+    expect(findAll(/\bdark:\S/)).toEqual([])
   })
 
   it('字重只用 400 / 500 / 600', () => {

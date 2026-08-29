@@ -1,10 +1,20 @@
 <script setup lang="ts">
   import { ref, watchEffect } from 'vue'
   import Button from '../src/components/button/Button.vue'
+  import Blockquote from '../src/components/blockquote/Blockquote.vue'
   import Card from '../src/components/card/Card.vue'
   import Input from '../src/components/input/Input.vue'
   import Ripple from '../src/components/ripple/Ripple.vue'
   import Heading from '../src/components/heading/Heading.vue'
+  import Code from '../src/components/code/Code.vue'
+  import Kbd from '../src/components/kbd/Kbd.vue'
+  import Link from '../src/components/link/Link.vue'
+  import Mark from '../src/components/mark/Mark.vue'
+  import Prose from '../src/components/prose/Prose.vue'
+  import Spoiler from '../src/components/spoiler/Spoiler.vue'
+  import CodeBlock from '../src/components/code-block/CodeBlock.vue'
+  import List from '../src/components/list/List.vue'
+  import DescriptionList from '../src/components/description-list/DescriptionList.vue'
   import Text from '../src/components/text/Text.vue'
   import type { ButtonVariants } from '../src/components/button/button.variants'
   import PlusIcon from './PlusIcon.vue'
@@ -179,6 +189,143 @@
           </Heading>
           <Heading :level="3" size="2xl">语义 h3,视觉 2xl —— 解耦示例</Heading>
         </div>
+      </section>
+
+      <section class="flex flex-col gap-4">
+        <h2 class="text-muted font-mono text-xs tracking-wide uppercase">link · 导航链接</h2>
+        <div class="flex flex-wrap items-center gap-5">
+          <Link href="#">accent 导航</Link>
+          <Link href="#" tone="neutral">neutral 导航</Link>
+          <Link href="#" underline>正文里带下划线的</Link>
+          <Link href="#" tone="neutral" underline>中性带下划线</Link>
+          <Text as="span" tone="muted" size="sm">
+            交互与 Button link 同一套墨:hover 压深,下划线只是身份标识
+          </Text>
+        </div>
+        <Text>
+          行内代码混排:运行
+          <Code>pnpm --filter @hikarinagi/ui dev</Code>
+          后访问
+          <Code>localhost:3720</Code>
+          ,字号随上下文 0.875em 缩放;按
+          <Kbd>Ctrl</Kbd>
+          +
+          <Kbd>K</Kbd>
+          唤起搜索;搜索结果里的
+          <Mark>星见书音</Mark>
+          会这样高亮。
+        </Text>
+        <Blockquote cite="星见书音" class="max-w-md">
+          独立引用组件:书页翻动的声音,是图书馆唯一允许的喧哗。
+        </Blockquote>
+        <div class="flex gap-12 text-sm">
+          <List>
+            <li>无序列表,disc 记号</li>
+            <li>marker 用 faint 淡色</li>
+            <li>
+              项距 0.375em
+              <List class="mt-1.5">
+                <li>嵌套时再挂一层 List</li>
+              </List>
+            </li>
+          </List>
+          <List ordered>
+            <li>有序列表,decimal</li>
+            <li>与 prose 里的裸 ol 同源</li>
+          </List>
+          <DescriptionList>
+            <dt>原名</dt>
+            <dd>星之航路</dd>
+            <dt>作者</dt>
+            <dd>dt 用 medium 字重作标签,dd 正文色、缩进归零</dd>
+          </DescriptionList>
+        </div>
+        <Text class="max-w-2xl">
+          剧透(点击):第三卷的结局里,
+          <Spoiler>
+            真凶其实是图书馆的园丁,这个反转在第七章就埋了伏笔,连借书卡上的墨迹都是证据
+          </Spoiler>
+          ;悬停版:
+          <Spoiler reveal-on="hover">主角最终没有回到现实世界</Spoiler>
+          ;无 Houdini 的浏览器会退回站内同款
+          <Spoiler force-fallback>模糊遮罩</Spoiler>
+          。
+        </Text>
+      </section>
+
+      <section class="flex flex-col gap-4">
+        <h2 class="text-muted font-mono text-xs tracking-wide uppercase">code block · 块级代码</h2>
+        <CodeBlock
+          class="max-w-2xl"
+          lang="ts"
+          :code="`import { CodeBlock } from '@hikarinagi/ui'\n\n// vitesse 双主题,随暗色翻转;文法按需加载,SSR 渲染素文本\nconst greeting: string = '常驻复制钮,ghost 落墨,复制后两秒内显示已复制'\nexport const answer = 42 // 横向溢出时这一行会变得非常非常非常非常非常非常长以便测试滚动`"
+        />
+        <CodeBlock
+          class="max-w-2xl"
+          :copyable="false"
+          :code="`# 无标签、不可复制的裸块\npnpm --filter @hikarinagi/ui dev`"
+        />
+      </section>
+
+      <section class="flex flex-col gap-4">
+        <h2 class="text-muted font-mono text-xs tracking-wide uppercase">prose · 接管原生标签流</h2>
+        <Card class="max-w-2xl">
+          <Prose>
+            <h2>轻小说《星之航路》第三卷</h2>
+            <p>
+              这一卷的
+              <strong>叙事结构</strong>
+              明显成熟了,作者在
+              <a href="#">上一卷的访谈</a>
+              里提过要尝试双线并进——如今看来,
+              <code>flashback</code>
+              的插入点选得相当克制。
+            </p>
+            <blockquote>
+              <p>「书页翻动的声音,是图书馆唯一允许的喧哗。」—— 星见书音</p>
+            </blockquote>
+            <h3>本卷看点</h3>
+            <ul>
+              <li>双线叙事在第七章合流,伏笔回收干净</li>
+              <li>新角色的动机铺垫充分,没有工具人感</li>
+              <li>
+                插画与文字的配合达到系列最佳,快捷键
+                <kbd>Ctrl</kbd>
+                +
+                <kbd>D</kbd>
+                收藏
+              </li>
+            </ul>
+            <pre><code>const rating = { story: 9, art: 8.5, pacing: 8 }</code></pre>
+            <table>
+              <thead>
+                <tr>
+                  <th>卷次</th>
+                  <th>评分</th>
+                  <th>状态</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>第一卷</td>
+                  <td>8.2</td>
+                  <td>已读</td>
+                </tr>
+                <tr>
+                  <td>第三卷</td>
+                  <td>9.0</td>
+                  <td><mark>在读</mark></td>
+                </tr>
+              </tbody>
+            </table>
+            <hr />
+            <p>
+              下一卷预定
+              <em>2027 年春</em>
+              发售。
+            </p>
+          </Prose>
+        </Card>
       </section>
 
       <section class="flex flex-col gap-4">

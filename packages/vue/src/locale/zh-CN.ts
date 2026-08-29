@@ -43,4 +43,12 @@ export const zhCN: UiMessages = {
   scroll: {
     regionLabel: '可滚动区域',
   },
+  spoiler: {
+    revealLabel: '剧透内容,点击显示',
+    hideLabel: '隐藏剧透',
+  },
+  codeblock: {
+    copy: '复制代码',
+    copied: '已复制',
+  },
 }

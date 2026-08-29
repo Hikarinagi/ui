@@ -283,6 +283,18 @@ const virtualizer = useVirtualizer({ getScrollElement: () => area.value?.viewpor
 
 现在宿主不再自带 `overflow`,并且断言链里明确要求 `viewport !== 宿主元素`、`instance` 已存在;`direction` 另有三条用例直接读视口的计算 `overflow-x/y`。
 
+## 代码块与着色
+
+`CodeBlock` 的盒与字从 `hn-pre` utility 取(prose 的 `& pre` 同源 `@apply`,浏览器测试逐项比对两者计算样式);滚动机制不在 hn-pre 里 —— 组件按「滚动」一节组合 `ScrollArea`,prose 的裸 markdown `pre` 保留原生 `overflow-x: auto` 兜底。复制钮**常驻**(ghost / neutral / sm / iconOnly 的 Button),不做 hover 才浮现的把戏;图标库为 `@lucide/vue`,与消费端同款。
+
+着色是**纯增强层**,壳的行为不因它改变:
+
+- 引擎:shiki 细粒度核心(`shiki/core`)+ 纯 JS 正则引擎(`forgiving`,无 WASM),核心、主题、文法全部动态 import —— 不渲染带 `lang` 的 CodeBlock 就一个字节不进主包。
+- 文法白名单在 `highlighter.ts`(ts / js / vue / html / css / json / bash / md / yaml / sql / prisma / diff 及别名),**不做变量路径动态 import** —— bare specifier 拼接在消费端 Vite 下不可解析,白名单同时也是 chunk 边界。名单外的 `lang` 静默保持素文本。
+- 主题:vitesse-light / vitesse-dark 双主题、`defaultColor: false`,token 只带 `--shiki-light/dark` 变量对,翻转规则直接写在 `hn-pre` 里:`& code span[style] { color: var(--shiki-light) }` + `.dark &` 版本取 `--shiki-dark` —— 与 class 式暗色同构,不产生内联死色。**不能经语义层别名转发**(曾写 `:root { --hn-syntax: var(--shiki-light) }` 再让 span 读它):自定义属性的 var() 在**声明处**急切求值,`:root` 上没有 `--shiki-*`,求值成死值继承下来,span 的内联变量永远不被消费 —— 表现为 span 存在、颜色却全是正文色。浏览器测试因此同时断言「span 色 ≠ 正文色」,只断言「暗色下变了」会被正文色自身的翻转骗过。自研语法色板(从项目色环推导、token 化)是排队中的独立设计项,主题 JSON 可替换,不阻塞。
+- 渲染:`codeToTokens` 拿 token 自绘 span,不用 `codeToHtml` + `v-html` —— 结构自持(shiki 的 `pre` 壳与主题背景色不进来),也没有注入面。
+- SSR:着色管线只在 `onMounted` 后启动,服务端与水合首帧都是素文本,文法就绪后原地上色 —— 与 ScrollArea / Spoiler 同款渐进增强,有 SSR 快照测试把守(输出不含 `--shiki`)。
+
 ## 有进必有出
 
 **任意组件、任意位置,严格禁止无过渡的出现与消失,禁止无过渡的状态变更。**

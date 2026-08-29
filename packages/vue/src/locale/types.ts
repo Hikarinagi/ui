@@ -41,6 +41,14 @@ export interface UiMessages {
   scroll: {
     regionLabel: string
   }
+  spoiler: {
+    revealLabel: string
+    hideLabel: string
+  }
+  codeblock: {
+    copy: string
+    copied: string
+  }
 }
 
 export type PartialUiMessages = {
