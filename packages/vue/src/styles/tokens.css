@@ -36,8 +36,8 @@
 }
 
 :root {
-  --hn-bg-canvas: var(--color-neutral-0);
-  --hn-surface: var(--color-neutral-50);
+  --hn-bg-canvas: var(--color-neutral-50);
+  --hn-surface: var(--color-neutral-0);
   --hn-bg-subtle: var(--color-neutral-100);
   --hn-bg-inset: var(--color-neutral-150);
   --hn-bg-scrim: rgb(0 0 0 / 0.32);
@@ -54,7 +54,7 @@
   --hn-accent: var(--color-brand-500);
   --hn-accent-on: var(--color-neutral-950);
   --hn-accent-text: var(--color-brand-700);
-  --hn-accent-soft: color-mix(in oklab, var(--color-brand-500) 12%, var(--hn-bg-canvas));
+  --hn-accent-soft: color-mix(in oklab, var(--color-brand-500) 12%, var(--hn-surface));
   --hn-accent-border: color-mix(in oklab, var(--color-brand-500) 34%, transparent);
 
   --hn-focus-ring: var(--color-brand-600);
@@ -73,22 +73,22 @@
   --hn-success: #147438;
   --hn-success-on: var(--color-neutral-0);
   --hn-success-text: #15803d;
-  --hn-success-soft: color-mix(in oklab, var(--hn-success) 12%, var(--hn-bg-canvas));
+  --hn-success-soft: color-mix(in oklab, var(--hn-success) 12%, var(--hn-surface));
 
   --hn-warning: #f59e0b;
   --hn-warning-on: var(--color-neutral-900);
   --hn-warning-text: #b45309;
-  --hn-warning-soft: color-mix(in oklab, var(--hn-warning) 14%, var(--hn-bg-canvas));
+  --hn-warning-soft: color-mix(in oklab, var(--hn-warning) 14%, var(--hn-surface));
 
   --hn-danger: #dc2626;
   --hn-danger-on: var(--color-neutral-0);
   --hn-danger-text: #b91c1c;
-  --hn-danger-soft: color-mix(in oklab, var(--hn-danger) 12%, var(--hn-bg-canvas));
+  --hn-danger-soft: color-mix(in oklab, var(--hn-danger) 12%, var(--hn-surface));
 
   --hn-info: #0369a1;
   --hn-info-on: var(--color-neutral-0);
   --hn-info-text: #0369a1;
-  --hn-info-soft: color-mix(in oklab, var(--hn-info) 12%, var(--hn-bg-canvas));
+  --hn-info-soft: color-mix(in oklab, var(--hn-info) 12%, var(--hn-surface));
 
   --hn-expr-blue-text: #0e7fb8;
   --hn-expr-purple-text: #7a3fd0;
@@ -114,10 +114,10 @@
 }
 
 .dark {
-  --hn-bg-canvas: var(--color-neutral-1000);
-  --hn-surface: var(--color-neutral-950);
+  --hn-bg-canvas: var(--color-neutral-950);
+  --hn-surface: var(--color-neutral-1000);
   --hn-bg-subtle: #141414;
-  --hn-bg-inset: var(--color-neutral-1000);
+  --hn-bg-inset: var(--color-neutral-800);
   --hn-bg-scrim: rgb(0 0 0 / 0.6);
 
   --hn-fg-default: var(--color-neutral-150);
@@ -132,7 +132,7 @@
   --hn-accent: var(--color-brand-400);
   --hn-accent-on: var(--color-neutral-1000);
   --hn-accent-text: var(--color-brand-400);
-  --hn-accent-soft: color-mix(in oklab, var(--color-brand-400) 16%, var(--hn-bg-canvas));
+  --hn-accent-soft: color-mix(in oklab, var(--color-brand-400) 24%, var(--hn-surface));
   --hn-accent-border: color-mix(in oklab, var(--color-brand-400) 30%, transparent);
 
   --hn-focus-ring: var(--color-brand-400);
@@ -147,18 +147,22 @@
   --hn-success: #22c55e;
   --hn-success-on: var(--color-neutral-950);
   --hn-success-text: #4ade80;
+  --hn-success-soft: color-mix(in oklab, var(--hn-success) 24%, var(--hn-surface));
 
   --hn-warning: #f59e0b;
   --hn-warning-on: var(--color-neutral-950);
   --hn-warning-text: #fbbf24;
+  --hn-warning-soft: color-mix(in oklab, var(--hn-warning) 28%, var(--hn-surface));
 
   --hn-danger: #f15050;
   --hn-danger-on: var(--color-neutral-950);
   --hn-danger-text: #f87171;
+  --hn-danger-soft: color-mix(in oklab, var(--hn-danger) 24%, var(--hn-surface));
 
   --hn-info: #0ea5e9;
   --hn-info-on: var(--color-neutral-950);
   --hn-info-text: #38bdf8;
+  --hn-info-soft: color-mix(in oklab, var(--hn-info) 24%, var(--hn-surface));
 
   --hn-expr-blue-text: #7dd3fc;
   --hn-expr-purple-text: #c9a2ff;

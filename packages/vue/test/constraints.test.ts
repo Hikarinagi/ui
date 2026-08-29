@@ -159,9 +159,11 @@ describe('token 层自身约束', () => {
     expect(bad).toEqual([])
   })
 
-  it('浅色底纯白,深色底纯黑', () => {
-    expect(varMap(':root').get('--hn-bg-canvas')).toBe('var(--color-neutral-0)')
-    expect(varMap('\\.dark').get('--hn-bg-canvas')).toBe('var(--color-neutral-1000)')
+  it('surface 纯白 / 纯黑 —— 纯度守在内容坐的地方,bg 让开一档', () => {
+    expect(varMap(':root').get('--hn-surface')).toBe('var(--color-neutral-0)')
+    expect(varMap('\\.dark').get('--hn-surface')).toBe('var(--color-neutral-1000)')
+    expect(varMap(':root').get('--hn-bg-canvas')).not.toBe('var(--color-neutral-0)')
+    expect(varMap('\\.dark').get('--hn-bg-canvas')).not.toBe('var(--color-neutral-1000)')
     expect(tokens).toContain('--color-neutral-0: #ffffff')
     expect(tokens).toContain('--color-neutral-1000: #000000')
   })
