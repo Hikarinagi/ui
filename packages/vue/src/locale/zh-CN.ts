@@ -1,6 +1,7 @@
 import type { UiMessages } from './types'
 
 export const zhCN: UiMessages = {
+  tag: 'zh-CN',
   common: {
     close: '关闭',
     clear: '清除',
@@ -50,5 +51,8 @@ export const zhCN: UiMessages = {
   codeblock: {
     copy: '复制代码',
     copied: '已复制',
+  },
+  splitter: {
+    handleLabel: '调整面板大小',
   },
 }

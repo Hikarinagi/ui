@@ -1,4 +1,5 @@
 export interface UiMessages {
+  tag: string
   common: {
     close: string
     clear: string
@@ -49,8 +50,11 @@ export interface UiMessages {
     copy: string
     copied: string
   }
+  splitter: {
+    handleLabel: string
+  }
 }
 
 export type PartialUiMessages = {
-  [K in keyof UiMessages]?: Partial<UiMessages[K]>
+  [K in keyof UiMessages]?: UiMessages[K] extends object ? Partial<UiMessages[K]> : UiMessages[K]
 }

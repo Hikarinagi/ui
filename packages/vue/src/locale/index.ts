@@ -16,6 +16,7 @@ const fallbackLocale = computed(() => zhCN)
 
 function merge(base: UiMessages, patch: PartialUiMessages): UiMessages {
   return {
+    tag: patch.tag ?? base.tag,
     common: { ...base.common, ...patch.common },
     pagination: { ...base.pagination, ...patch.pagination },
     table: { ...base.table, ...patch.table },
@@ -25,6 +26,7 @@ function merge(base: UiMessages, patch: PartialUiMessages): UiMessages {
     scroll: { ...base.scroll, ...patch.scroll },
     spoiler: { ...base.spoiler, ...patch.spoiler },
     codeblock: { ...base.codeblock, ...patch.codeblock },
+    splitter: { ...base.splitter, ...patch.splitter },
   }
 }
 

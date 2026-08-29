@@ -1,6 +1,7 @@
 import type { UiMessages } from './types'
 
 export const enUS: UiMessages = {
+  tag: 'en-US',
   common: {
     close: 'Close',
     clear: 'Clear',
@@ -50,5 +51,8 @@ export const enUS: UiMessages = {
   codeblock: {
     copy: 'Copy code',
     copied: 'Copied',
+  },
+  splitter: {
+    handleLabel: 'Resize panel',
   },
 }
