@@ -232,4 +232,27 @@ describe('toast · 常驻通知区', () => {
     await vi.waitFor(() => expect(items().length).toBe(0), { timeout: 3000 })
     expect(seen).toHaveBeenCalledWith(expect.anything())
   })
+
+  it('锁滚补偿按份额:end 档回拉全宽,center 档回拉半宽', async () => {
+    host({ position: 'top-end' })
+    toast('钉住别动', { duration: 0 })
+    await vi.waitFor(() => expect(items().length).toBe(1))
+
+    const vp = viewport()!
+    const before = vp.getBoundingClientRect().right
+    document.documentElement.style.setProperty('--scrollbar-width', '15px')
+    expect(vp.getBoundingClientRect().right).toBeCloseTo(before - 15, 0)
+    document.documentElement.style.removeProperty('--scrollbar-width')
+    expect(vp.getBoundingClientRect().right).toBeCloseTo(before, 0)
+
+    mounted.pop()!.unmount()
+    host({ position: 'bottom-center' })
+    await vi.waitFor(() => expect(viewport()).not.toBeNull())
+    const center = viewport()!
+    const centerBefore = center.getBoundingClientRect().left
+    document.documentElement.style.setProperty('--scrollbar-width', '15px')
+    expect(center.getBoundingClientRect().left).toBeCloseTo(centerBefore - 7.5, 0)
+    document.documentElement.style.removeProperty('--scrollbar-width')
+    expect(center.getBoundingClientRect().left).toBeCloseTo(centerBefore, 0)
+  })
 })

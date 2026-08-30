@@ -1,5 +1,5 @@
 import { onBeforeUnmount, onMounted, ref, watch, type Ref } from 'vue'
-import { isPaintWorkletSupported, SpoilerPainter } from './SpoilerPainter'
+import { isPaintWorkletSupported, SpoilerPainter } from '../SpoilerPainter'
 
 const ACCENT_LIGHT = '0 0% 20%'
 const ACCENT_DARK = '0 0% 100%'

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  import { computed } from 'vue'
   import {
     DialogRoot,
     DialogTrigger,
@@ -10,14 +9,14 @@
     DialogDescription,
     DialogClose,
   } from 'reka-ui'
-  import { X } from '@lucide/vue'
+  import CloseButton from '../close-button/CloseButton.vue'
   import Card from '../card/Card.vue'
   import ScrollArea from '../scroll-area/ScrollArea.vue'
-  import Button from '../button/Button.vue'
   import Heading from '../heading/Heading.vue'
   import Text from '../text/Text.vue'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
+  import { dialogWrapper, dialogCard } from './dialog.variants'
 
   defineOptions({ name: 'HnDialog' })
 
@@ -37,20 +36,6 @@
     if (props.locked) e.preventDefault()
   }
 
-  const sizeClass = { sm: 'max-w-sm', md: 'max-w-md', lg: 'max-w-xl' } as const
-
-  const wrapperPlacement = computed(() => {
-    if (props.placement === 'center') return 'place-items-center p-4'
-    if (props.placement === 'bottom') return 'items-end justify-items-center p-4'
-    return 'place-items-center p-4 max-sm:items-end max-sm:justify-items-stretch'
-  })
-
-  const cardPlacement = computed(() => {
-    if (props.placement === 'center') return 'hn-anim-modal'
-    if (props.placement === 'bottom') return 'hn-anim-sheet-bottom'
-    return 'hn-anim-modal max-sm:hn-anim-sheet-bottom max-sm:max-w-none'
-  })
-
   const open = defineModel<boolean>('open')
   const t = useUiLocale()
 
@@ -67,7 +52,12 @@
     <DialogPortal>
       <DialogOverlay class="hn-scrim" />
       <div
-        :class="cn('pointer-events-none fixed inset-0 z-(--hn-z-overlay) grid', wrapperPlacement)"
+        :class="
+          cn(
+            'pointer-events-none fixed inset-0 z-(--hn-z-overlay) grid',
+            dialogWrapper({ placement: props.placement ?? 'auto' }),
+          )
+        "
       >
         <DialogContent as-child @escape-key-down="guard" @interact-outside="guard">
           <Card
@@ -75,8 +65,7 @@
               cn(
                 'pointer-events-auto flex w-full flex-col gap-4 shadow-lg outline-none',
                 'max-h-[calc(100dvh-2rem)]',
-                cardPlacement,
-                sizeClass[props.size],
+                dialogCard({ placement: props.placement ?? 'auto', size: props.size }),
                 props.class,
               )
             "
@@ -91,17 +80,7 @@
                 </DialogDescription>
               </div>
               <DialogClose as-child>
-                <Button
-                  icon-only
-                  size="sm"
-                  variant="ghost"
-                  tone="neutral"
-                  :disabled="props.locked"
-                  :aria-label="t.common.close"
-                  class="-mt-1.5 -me-1.5 shrink-0"
-                >
-                  <X />
-                </Button>
+                <CloseButton :disabled="props.locked" class="-mt-1.5 -me-1.5 shrink-0" />
               </DialogClose>
             </div>
             <ScrollArea v-if="$slots.content" class="min-h-0">

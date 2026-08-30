@@ -2,7 +2,7 @@
   import { computed, onBeforeUnmount, shallowRef, watch } from 'vue'
   import { Motion } from 'motion-v'
   import { cn } from '../../lib/cn'
-  import { TRANSITION } from '../../motion'
+  import { TRANSITION, prefersReducedMotion } from '../../motion'
 
   defineOptions({ name: 'HnHighlight' })
 
@@ -66,9 +66,7 @@
   })
 
   const transition = computed(() =>
-    box.value && matchMedia('(prefers-reduced-motion: reduce)').matches
-      ? { duration: 0 }
-      : TRANSITION.layout,
+    box.value && prefersReducedMotion() ? { duration: 0 } : TRANSITION.layout,
   )
 </script>
 

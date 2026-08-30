@@ -1,7 +1,8 @@
 <script setup lang="ts">
-  import { computed, defineComponent } from 'vue'
+  import { computed } from 'vue'
   import { Primitive, type PrimitiveProps } from 'reka-ui'
   import { cn } from '../../lib/cn'
+  import { Passthrough } from '../../lib/passthrough'
   import Tooltip from '../tooltip/Tooltip.vue'
   import { useSidebar } from '../sidebar/context'
 
@@ -22,13 +23,6 @@
   const sidebar = useSidebar()
   const rail = computed(() => sidebar?.state.value === 'rail')
 
-  const Passthrough = defineComponent({
-    name: 'HnNavLinkPassthrough',
-    setup:
-      (_, { slots }) =>
-      () =>
-        slots.default?.(),
-  })
   const Wrapper = sidebar ? Tooltip : Passthrough
 </script>
 

@@ -1,25 +1,15 @@
 <script setup lang="ts">
   import { cn } from '../../lib/cn'
+  import { space, type SpaceVariants } from './space.variants'
 
   defineOptions({ name: 'HnSpace' })
 
   const props = defineProps<{
-    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+    size?: SpaceVariants['size']
     class?: string
   }>()
-
-  const sizes = {
-    xs: 'size-1',
-    sm: 'size-2',
-    md: 'size-4',
-    lg: 'size-6',
-    xl: 'size-8',
-  } as const
 </script>
 
 <template>
-  <div
-    aria-hidden="true"
-    :class="cn('shrink-0', props.size ? sizes[props.size] : 'flex-1 self-stretch', props.class)"
-  />
+  <div aria-hidden="true" :class="cn(space({ size: props.size }), props.class)" />
 </template>

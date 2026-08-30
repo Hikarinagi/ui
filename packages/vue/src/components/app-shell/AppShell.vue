@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+  import { computed, ref } from 'vue'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
   import ScrollArea from '../scroll-area/ScrollArea.vue'
@@ -7,6 +7,7 @@
   import Drawer from '../drawer/Drawer.vue'
   import DrawerScope from '../sidebar/DrawerScope'
   import { provideSidebar, type SidebarState } from '../sidebar/context'
+  import { useDesktopQuery } from './composables/useDesktopQuery'
 
   defineOptions({ name: 'HnAppShell' })
 
@@ -23,20 +24,7 @@
   const sidebar = defineModel<SidebarState>('sidebar', { default: 'expanded' })
   const mobileOpen = ref(false)
 
-  const media = ref<MediaQueryList>()
-  const isDesktop = ref(true)
-
-  function onMedia() {
-    isDesktop.value = media.value?.matches ?? true
-  }
-
-  onMounted(() => {
-    media.value = window.matchMedia('(min-width: 64rem)')
-    media.value.addEventListener('change', onMedia)
-    onMedia()
-  })
-
-  onBeforeUnmount(() => media.value?.removeEventListener('change', onMedia))
+  const isDesktop = useDesktopQuery()
 
   function toggle() {
     if (!isDesktop.value) {

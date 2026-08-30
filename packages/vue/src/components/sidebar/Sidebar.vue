@@ -2,7 +2,7 @@
   import { computed } from 'vue'
   import { Motion } from 'motion-v'
   import { cn } from '../../lib/cn'
-  import { TRANSITION } from '../../motion'
+  import { TRANSITION, prefersReducedMotion } from '../../motion'
   import { useUiLocale } from '../../locale'
   import ScrollArea from '../scroll-area/ScrollArea.vue'
   import { useSidebar } from './context'
@@ -24,11 +24,7 @@
     return 256
   })
 
-  const transition = computed(() =>
-    typeof window !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches
-      ? { duration: 0 }
-      : TRANSITION.layout,
-  )
+  const transition = computed(() => (prefersReducedMotion() ? { duration: 0 } : TRANSITION.layout))
 </script>
 
 <template>

@@ -1,4 +1,5 @@
 import { onBeforeUnmount, onMounted, ref, type Ref } from 'vue'
+import { prefersReducedMotion } from '../../motion'
 
 const INITIAL_ORIGIN_SCALE = 0.2
 const PADDING = 12
@@ -90,7 +91,7 @@ export function useRipple(
     determineRippleSize()
     const { startPoint, endPoint } = translationCoords(positionEvent)
     if (typeof el.animate !== 'function') return
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    if (prefersReducedMotion()) return
     growAnimation = el.animate(
       {
         height: [rippleSize, rippleSize],

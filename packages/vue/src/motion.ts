@@ -35,3 +35,7 @@ export const TRANSITION = {
 } as const
 
 export type TransitionName = keyof typeof TRANSITION
+
+export function prefersReducedMotion(): boolean {
+  return typeof window !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches
+}

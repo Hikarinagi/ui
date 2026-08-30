@@ -1,4 +1,5 @@
 import { workletSource } from './worklet'
+import { prefersReducedMotion } from '../../motion'
 
 export const isPaintWorkletSupported =
   typeof CSS !== 'undefined' && (CSS as { paintWorklet?: unknown }).paintWorklet !== undefined
@@ -67,7 +68,7 @@ export class SpoilerPainter {
   }: SpoilerPainterOptions = {}) {
     if (this.destroyed) return
 
-    this.maxFPS = matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : fps
+    this.maxFPS = prefersReducedMotion() ? 0 : fps
 
     this.el.style.setProperty('--hn-nz-density', String(density))
     this.el.style.setProperty('--hn-nz-accent', accent)

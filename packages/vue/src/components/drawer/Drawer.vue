@@ -9,14 +9,14 @@
     DialogDescription,
     DialogClose,
   } from 'reka-ui'
-  import { X } from '@lucide/vue'
+  import CloseButton from '../close-button/CloseButton.vue'
   import Card from '../card/Card.vue'
   import ScrollArea from '../scroll-area/ScrollArea.vue'
-  import Button from '../button/Button.vue'
   import Heading from '../heading/Heading.vue'
   import Text from '../text/Text.vue'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
+  import { drawerCard } from './drawer.variants'
 
   defineOptions({ name: 'HnDrawer' })
 
@@ -35,9 +35,6 @@
   function guard(e: Event) {
     if (props.locked) e.preventDefault()
   }
-
-  const sizeClass = { sm: 'w-72', md: 'w-90', lg: 'w-120' } as const
-  const sideClass = { start: 'start-0', end: 'end-0' } as const
 
   const open = defineModel<boolean>('open')
   const t = useUiLocale()
@@ -61,8 +58,7 @@
             cn(
               'hn-anim-drawer pointer-events-auto fixed inset-y-0 z-(--hn-z-overlay) flex flex-col gap-4',
               'max-w-[calc(100vw-3rem)] rounded-none shadow-lg outline-none',
-              sideClass[props.side],
-              sizeClass[props.size],
+              drawerCard({ side: props.side, size: props.size }),
               props.class,
             )
           "
@@ -77,17 +73,7 @@
               </DialogDescription>
             </div>
             <DialogClose as-child>
-              <Button
-                icon-only
-                size="sm"
-                variant="ghost"
-                tone="neutral"
-                :disabled="props.locked"
-                :aria-label="t.common.close"
-                class="-mt-1.5 -me-1.5 shrink-0"
-              >
-                <X />
-              </Button>
+              <CloseButton :disabled="props.locked" class="-mt-1.5 -me-1.5 shrink-0" />
             </DialogClose>
           </div>
           <ScrollArea v-if="$slots.content" class="min-h-0 grow">
