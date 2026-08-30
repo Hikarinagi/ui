@@ -13,7 +13,7 @@ export const input = tv({
       secondary: 'border-transparent [--hn-field-bg:var(--hn-bg-inset)]',
     },
     size: {
-      sm: 'h-[var(--hn-control-h-sm)] px-[var(--hn-control-px-sm)] text-xs',
+      sm: 'h-[var(--hn-control-h-sm)] px-[var(--hn-control-px-sm)] text-sm',
       md: 'h-[var(--hn-control-h-md)] px-[var(--hn-control-px-md)] text-base',
       lg: 'h-[var(--hn-control-h-lg)] px-[var(--hn-control-px-lg)] text-md',
     },

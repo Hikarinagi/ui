@@ -147,24 +147,26 @@
   --hn-font-sans:
     'Plus Jakarta Sans', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', ui-sans-serif, system-ui,
     sans-serif;
-  --hn-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --hn-font-mono:
+    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, 'Noto Sans SC', 'PingFang SC',
+    'Microsoft YaHei', monospace;
   --hn-latin-size-adjust: 104%;
 
-  --hn-text-xs: 0.75rem;
-  --hn-text-sm: 0.8125rem;
-  --hn-text-base: 0.875rem;
-  --hn-text-md: 1rem;
-  --hn-text-lg: 1.125rem;
-  --hn-text-xl: 1.375rem;
-  --hn-text-2xl: 1.75rem;
+  --hn-text-xs: 0.8125rem;
+  --hn-text-sm: 0.875rem;
+  --hn-text-base: 1rem;
+  --hn-text-md: 1.125rem;
+  --hn-text-lg: 1.25rem;
+  --hn-text-xl: 1.5rem;
+  --hn-text-2xl: 1.875rem;
 
-  --hn-leading-xs: 1.125rem;
-  --hn-leading-sm: 1.25rem;
-  --hn-leading-base: 1.375rem;
-  --hn-leading-md: 1.625rem;
-  --hn-leading-lg: 1.75rem;
-  --hn-leading-xl: 2rem;
-  --hn-leading-2xl: 2.375rem;
+  --hn-leading-xs: 1.25rem;
+  --hn-leading-sm: 1.375rem;
+  --hn-leading-base: 1.5rem;
+  --hn-leading-md: 1.75rem;
+  --hn-leading-lg: 1.875rem;
+  --hn-leading-xl: 2.125rem;
+  --hn-leading-2xl: 2.5rem;
 
   --hn-weight-normal: 400;
   --hn-weight-medium: 500;

@@ -32,7 +32,7 @@ describe('Prose 接管原生标签流', () => {
   it('h2 吃到 xl 字阶与 600 字重,收紧字距', () => {
     const el = mountProse().element.querySelector('h2')!
     const style = getComputedStyle(el)
-    expect(style.fontSize).toBe('22px')
+    expect(style.fontSize).toBe('24px')
     expect(style.fontWeight).toBe('600')
     expect(Number.parseFloat(style.letterSpacing)).toBeLessThan(0)
   })
