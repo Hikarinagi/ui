@@ -335,6 +335,35 @@ describe('动画驱动的内容尺寸变化', () => {
 })
 
 describe('滚动提示 · 边缘投影覆盖层', () => {
+  it('both 双轴区四缘独立检测:滚到双中段四影齐亮', async () => {
+    const w = mount(
+      defineComponent({
+        render: () =>
+          h(ScrollArea, { direction: 'both', class: 'h-[120px] w-[200px]' }, () =>
+            h('div', { style: 'width: 600px; height: 500px' }),
+          ),
+      }),
+      { attachTo: attach() },
+    )
+    await settle()
+    const viewport = viewportOf(w.findComponent(ScrollArea))
+    const shadows = () =>
+      Object.fromEntries(
+        [...w.element.querySelectorAll('.hn-scroll-shadow')].map(el => [
+          el.getAttribute('data-side'),
+          el.hasAttribute('data-visible'),
+        ]),
+      )
+    expect(Object.keys(shadows()).sort()).toEqual(['x-end', 'x-start', 'y-end', 'y-start'])
+    expect(shadows()).toEqual({ 'x-start': false, 'x-end': true, 'y-start': false, 'y-end': true })
+
+    viewport.scrollLeft = 200
+    viewport.scrollTop = 180
+    viewport.dispatchEvent(new Event('scroll'))
+    await settle()
+    expect(shadows()).toEqual({ 'x-start': true, 'x-end': true, 'y-start': true, 'y-end': true })
+  })
+
   it('起点亮末端影、中段双影、到底只剩起点影;显隐走 base+enter 的 opacity 过渡,内容不被遮罩', async () => {
     const w = mount(
       defineComponent({
@@ -392,5 +421,125 @@ describe('滚动提示 · 边缘投影覆盖层', () => {
     )
     await settle()
     expect(off.element.querySelectorAll('.hn-scroll-shadow').length).toBe(0)
+  })
+})
+
+describe('静止零抖动', () => {
+  it('挂载稳定后一秒内无自激 DOM 变更', async () => {
+    const host = attach()
+    host.style.cssText = 'height: 120px; width: 200px'
+    mount(ScrollArea, {
+      slots: { default: () => h('div', { style: 'height: 400px' }, '内容') },
+      attachTo: host,
+    })
+    await new Promise(r => setTimeout(r, 400))
+
+    let count = 0
+    const mo = new MutationObserver(list => {
+      count += list.length
+    })
+    mo.observe(host, { attributes: true, childList: true, subtree: true })
+    await new Promise(r => setTimeout(r, 1000))
+    mo.disconnect()
+    expect(count).toBeLessThan(5)
+  })
+})
+
+describe('横向滚动区的滚轮重定向', () => {
+  function mountHorizontal(width = 200) {
+    const host = attach()
+    const w = mount(
+      defineComponent({
+        render: () =>
+          h(ScrollArea, { direction: 'horizontal', class: 'block' }, () =>
+            h('div', { style: 'width: 800px; height: 40px' }, '很宽的内容'),
+          ),
+      }),
+      { attachTo: host },
+    )
+    host.style.width = `${width}px`
+    return w.findComponent(ScrollArea)
+  }
+
+  function wheel(el: HTMLElement, deltaY: number) {
+    const event = new WheelEvent('wheel', { deltaY, bubbles: true, cancelable: true })
+    const allowed = el.dispatchEvent(event)
+    return { allowed, prevented: event.defaultPrevented }
+  }
+
+  it('垂直滚轮在横向区转为横滚,事件被拦截不透给页面', async () => {
+    const area = mountHorizontal()
+    await settle()
+    const viewport = viewportOf(area)
+    expect(viewport.scrollLeft).toBe(0)
+
+    const { prevented } = wheel(viewport, 120)
+    expect(prevented).toBe(true)
+    expect(viewport.scrollLeft).toBe(120)
+  })
+
+  it('滚到两端后滚轮放行,不锁死页面滚动', async () => {
+    const area = mountHorizontal()
+    await settle()
+    const viewport = viewportOf(area)
+
+    const start = wheel(viewport, -120)
+    expect(start.prevented).toBe(false)
+
+    viewport.scrollLeft = viewport.scrollWidth - viewport.clientWidth
+    const end = wheel(viewport, 120)
+    expect(end.prevented).toBe(false)
+  })
+
+  it('横向手势(deltaX 主导)走原生,不被重定向拦截', async () => {
+    const area = mountHorizontal()
+    await settle()
+    const viewport = viewportOf(area)
+    const event = new WheelEvent('wheel', {
+      deltaY: 10,
+      deltaX: 80,
+      bubbles: true,
+      cancelable: true,
+    })
+    viewport.dispatchEvent(event)
+    expect(event.defaultPrevented).toBe(false)
+  })
+
+  it('wheelRedirect 可关闭:关闭后垂直滚轮不再被拦截', async () => {
+    const host = attach()
+    const w = mount(
+      defineComponent({
+        render: () =>
+          h(ScrollArea, { direction: 'horizontal', wheelRedirect: false, class: 'block' }, () =>
+            h('div', { style: 'width: 800px; height: 40px' }, '很宽的内容'),
+          ),
+      }),
+      { attachTo: host },
+    )
+    host.style.width = '200px'
+    await settle()
+    const viewport = viewportOf(w.findComponent(ScrollArea))
+    const event = new WheelEvent('wheel', { deltaY: 120, bubbles: true, cancelable: true })
+    viewport.dispatchEvent(event)
+    expect(event.defaultPrevented).toBe(false)
+    expect(viewport.scrollLeft).toBe(0)
+  })
+
+  it('纵向滚动区不受影响', async () => {
+    const host = attach()
+    const w = mount(
+      defineComponent({
+        render: () =>
+          h(ScrollArea, { direction: 'vertical', style: 'height: 100px' }, () =>
+            h('div', { style: 'height: 600px' }, '很高的内容'),
+          ),
+      }),
+      { attachTo: host },
+    )
+    await settle()
+    const viewport = viewportOf(w.findComponent(ScrollArea))
+    const event = new WheelEvent('wheel', { deltaY: 120, bubbles: true, cancelable: true })
+    viewport.dispatchEvent(event)
+    expect(event.defaultPrevented).toBe(false)
   })
 })
