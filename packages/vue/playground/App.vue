@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { onBeforeUnmount, onMounted, ref, watchEffect } from 'vue'
+  import { defineComponent, h, onBeforeUnmount, onMounted, ref, watchEffect } from 'vue'
   import Button from '../src/components/button/Button.vue'
   import Blockquote from '../src/components/blockquote/Blockquote.vue'
   import Card from '../src/components/card/Card.vue'
@@ -48,10 +48,19 @@
   import BreadcrumbItem from '../src/components/breadcrumb/BreadcrumbItem.vue'
   import BreadcrumbSeparator from '../src/components/breadcrumb/BreadcrumbSeparator.vue'
   import ScrollArea from '../src/components/scroll-area/ScrollArea.vue'
+  import TooltipProvider from '../src/components/tooltip/TooltipProvider.vue'
+  import Tooltip from '../src/components/tooltip/Tooltip.vue'
+  import Popover from '../src/components/popover/Popover.vue'
+  import Dialog from '../src/components/dialog/Dialog.vue'
+  import Drawer from '../src/components/drawer/Drawer.vue'
+  import Toaster from '../src/components/toast/Toaster.vue'
+  import { toast, type ToasterPosition } from '../src/components/toast/store'
   import type { ButtonVariants } from '../src/components/button/button.variants'
-  import { ChevronRight } from '@lucide/vue'
+  import { ChevronRight, MousePointerClick, TextCursorInput } from '@lucide/vue'
+  import SidebarTrigger from '../src/components/sidebar/SidebarTrigger.vue'
   import PlusIcon from './PlusIcon.vue'
   import ArrowIcon from './ArrowIcon.vue'
+  import hinaWordmark from '../src/assets/hina-wordmark.svg?raw'
 
   const dark = ref(false)
   const density = ref<'comfortable' | 'compact'>('comfortable')
@@ -93,6 +102,12 @@
     { id: 'collapsible', label: 'Collapsible · 折叠' },
     { id: 'sidebar-nav', label: 'NavLink · Sidebar' },
     { id: 'app-shell', label: 'AppShell · 页面骨架' },
+    { id: 'tooltip', label: 'Tooltip · 浮层底座' },
+    { id: 'popover', label: 'Popover · 驻留浮层' },
+    { id: 'dialog', label: 'Dialog · 对话框' },
+    { id: 'drawer', label: 'Drawer · 边缘抽屉' },
+    { id: 'toast', label: 'Toast · 通知' },
+    { id: 'overlay-stack', label: '浮层嵌套 · 栈序' },
   ]
   const active = ref('button')
   let spy: IntersectionObserver | undefined
@@ -113,797 +128,1177 @@
   })
 
   onBeforeUnmount(() => spy?.disconnect())
+
+  const toastPos = ref<ToasterPosition | 'auto'>('auto')
+  const toastPositions: (ToasterPosition | 'auto')[] = [
+    'auto',
+    'top-end',
+    'top-center',
+    'top-start',
+    'bottom-end',
+    'bottom-center',
+    'bottom-start',
+  ]
+
+  const FollowToast = defineComponent({
+    props: { toastId: { type: [String, Number], required: true } },
+    setup(p) {
+      return () =>
+        h('div', { class: 'flex items-center gap-3' }, [
+          h(
+            'span',
+            {
+              class:
+                'bg-accent-soft text-accent-text inline-flex size-9 shrink-0 items-center justify-center rounded-full text-sm font-medium',
+            },
+            '雏',
+          ),
+          h('div', { class: 'min-w-0 flex-1' }, [
+            h('p', { class: 'text-fg font-medium' }, '星见书音关注了你'),
+            h('p', { class: 'text-muted text-sm' }, '自定义 body,卡面与手势不变。'),
+          ]),
+          h(
+            Button,
+            { size: 'sm', variant: 'soft', onClick: () => toast.dismiss(p.toastId) },
+            () => '回关',
+          ),
+        ])
+    },
+  })
+
+  function demoPromise() {
+    void toast.promise(new Promise<string>(res => setTimeout(() => res('胧月的书架'), 1500)), {
+      loading: '正在保存…',
+      success: v => `已保存:${v}`,
+      error: '保存失败',
+    })
+  }
 </script>
 
 <template>
-  <div :data-density="density" class="bg-canvas text-fg min-h-screen">
-    <header
-      class="border-line bg-canvas sticky top-0 z-10 flex flex-wrap items-center gap-3 border-b px-6 py-3"
-    >
-      <span class="text-muted mr-auto text-sm font-medium">Hina UI 预览工作台</span>
-      <Button size="sm" variant="outline" tone="neutral" @click="dark = !dark">
-        {{ dark ? '深色' : '浅色' }}
-      </Button>
-      <Button
-        size="sm"
-        variant="outline"
-        tone="neutral"
-        @click="density = density === 'compact' ? 'comfortable' : 'compact'"
+  <TooltipProvider>
+    <div :data-density="density" class="bg-canvas text-fg min-h-screen">
+      <header
+        class="border-line bg-canvas sticky top-0 z-10 flex flex-wrap items-center gap-3 border-b px-6 py-3"
       >
-        {{ density }}
-      </Button>
-      <Button size="sm" variant="outline" tone="neutral" @click="loading = !loading">
-        loading {{ loading ? 'on' : 'off' }}
-      </Button>
-    </header>
+        <span class="me-auto flex items-center gap-3">
+          <span class="text-fg flex items-baseline gap-1" role="img" aria-label="Hina UI">
+            <span class="h-5 [&>svg]:h-full [&>svg]:w-auto" v-html="hinaWordmark" />
+            <span class="text-lg leading-none font-semibold tracking-tight">UI</span>
+          </span>
+          <span class="text-muted text-sm font-medium">预览工作台</span>
+        </span>
+        <Button size="sm" variant="outline" tone="neutral" @click="dark = !dark">
+          {{ dark ? '深色' : '浅色' }}
+        </Button>
+        <Button
+          size="sm"
+          variant="outline"
+          tone="neutral"
+          @click="density = density === 'compact' ? 'comfortable' : 'compact'"
+        >
+          {{ density }}
+        </Button>
+        <Button size="sm" variant="outline" tone="neutral" @click="loading = !loading">
+          loading {{ loading ? 'on' : 'off' }}
+        </Button>
+      </header>
 
-    <div class="mx-auto flex w-full max-w-6xl gap-10 px-6">
-      <aside
-        class="sticky top-16 hidden h-[calc(100vh-4rem)] w-44 shrink-0 self-start overflow-y-auto py-10 lg:block"
-      >
-        <nav class="flex flex-col gap-0.5" aria-label="组件目录">
-          <NavLink
-            v-for="item in nav"
-            :key="item.id"
-            :href="`#${item.id}`"
-            :active="active === item.id"
-          >
-            {{ item.label }}
-          </NavLink>
-        </nav>
-      </aside>
-
-      <main class="flex min-w-0 flex-1 flex-col gap-14 py-10">
-        <section id="button" class="flex scroll-mt-16 flex-col gap-8">
-          <div v-for="variant in variants" :key="variant" class="flex flex-col gap-4">
-            <h2 class="text-muted font-mono text-xs tracking-wide uppercase">{{ variant }}</h2>
-            <div
-              v-for="tone in tones"
-              :key="tone"
-              class="border-line flex flex-wrap items-center gap-3 border-b pb-4 last:border-b-0"
+      <div class="mx-auto flex w-full max-w-6xl gap-10 px-6">
+        <aside
+          class="sticky top-16 hidden h-[calc(100vh-4rem)] w-44 shrink-0 self-start overflow-y-auto py-10 lg:block"
+        >
+          <nav class="flex flex-col gap-0.5" aria-label="组件目录">
+            <NavLink
+              v-for="item in nav"
+              :key="item.id"
+              :href="`#${item.id}`"
+              :active="active === item.id"
             >
-              <span class="text-faint w-20 shrink-0 font-mono text-xs">{{ tone }}</span>
-              <Button
-                v-for="size in sizes"
-                :key="size"
-                :variant="variant"
-                :tone="tone"
-                :size="size"
-                :loading="loading"
+              {{ item.label }}
+            </NavLink>
+          </nav>
+        </aside>
+
+        <main class="flex min-w-0 flex-1 flex-col gap-14 py-10">
+          <section id="button" class="flex scroll-mt-16 flex-col gap-8">
+            <div v-for="variant in variants" :key="variant" class="flex flex-col gap-4">
+              <h2 class="text-muted font-mono text-sm tracking-wide uppercase">{{ variant }}</h2>
+              <div
+                v-for="tone in tones"
+                :key="tone"
+                class="border-line flex flex-wrap items-center gap-3 border-b pb-4 last:border-b-0"
               >
-                按钮 Button
-              </Button>
-              <Button
-                :variant="variant"
-                :tone="tone"
-                :loading="loading"
-                icon-only
-                aria-label="更多"
-              >
-                ⋯
-              </Button>
-              <Button :variant="variant" :tone="tone" disabled>禁用</Button>
+                <span class="text-faint w-20 shrink-0 font-mono text-xs">{{ tone }}</span>
+                <Button
+                  v-for="size in sizes"
+                  :key="size"
+                  :variant="variant"
+                  :tone="tone"
+                  :size="size"
+                  :loading="loading"
+                >
+                  按钮 Button
+                </Button>
+                <Button
+                  :variant="variant"
+                  :tone="tone"
+                  :loading="loading"
+                  icon-only
+                  aria-label="更多"
+                >
+                  ⋯
+                </Button>
+                <Button :variant="variant" :tone="tone" disabled>禁用</Button>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section id="button-icon" class="flex scroll-mt-16 flex-col gap-4">
-          <h2 class="text-muted font-mono text-xs tracking-wide uppercase">
-            icon 插槽 · loading 切换对比
-          </h2>
-          <div class="flex flex-wrap items-center gap-3">
-            <span class="text-faint w-20 shrink-0 font-mono text-xs">#icon</span>
-            <Button v-for="size in sizes" :key="size" :size="size" :loading="loading">
-              <template #icon><PlusIcon /></template>
-              新建
-            </Button>
-            <Button variant="outline" tone="neutral" :loading="loading">
-              <template #icon><PlusIcon /></template>
-              带图标
-            </Button>
-          </div>
-          <div class="flex flex-wrap items-center gap-3">
-            <span class="text-faint w-20 shrink-0 font-mono text-xs">#trailing</span>
-            <Button variant="soft" tone="accent" :loading="loading">
-              下一步
-              <template #trailing><ArrowIcon /></template>
-            </Button>
-            <Button variant="ghost" tone="neutral" :loading="loading">
-              <template #icon><PlusIcon /></template>
-              两侧都有
-              <template #trailing><ArrowIcon /></template>
-            </Button>
-          </div>
-          <div class="flex flex-wrap items-center gap-3">
-            <span class="text-faint w-20 shrink-0 font-mono text-xs">纯文字</span>
-            <Button :loading="loading">仅文字</Button>
-            <Button icon-only aria-label="新建" :loading="loading"><PlusIcon /></Button>
-            <span class="text-muted text-sm">
-              spinner 只顶掉主图标位(优先 #icon)· 后置的方向指示是语义标记,保持不变
-            </span>
-          </div>
-        </section>
+          <section id="button-icon" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              icon 插槽 · loading 切换对比
+            </h2>
+            <div class="flex flex-wrap items-center gap-3">
+              <span class="text-faint w-20 shrink-0 font-mono text-xs">#icon</span>
+              <Button v-for="size in sizes" :key="size" :size="size" :loading="loading">
+                <template #icon><PlusIcon /></template>
+                新建
+              </Button>
+              <Button variant="outline" tone="neutral" :loading="loading">
+                <template #icon><PlusIcon /></template>
+                带图标
+              </Button>
+            </div>
+            <div class="flex flex-wrap items-center gap-3">
+              <span class="text-faint w-20 shrink-0 font-mono text-xs">#trailing</span>
+              <Button variant="soft" tone="accent" :loading="loading">
+                下一步
+                <template #trailing><ArrowIcon /></template>
+              </Button>
+              <Button variant="ghost" tone="neutral" :loading="loading">
+                <template #icon><PlusIcon /></template>
+                两侧都有
+                <template #trailing><ArrowIcon /></template>
+              </Button>
+            </div>
+            <div class="flex flex-wrap items-center gap-3">
+              <span class="text-faint w-20 shrink-0 font-mono text-xs">纯文字</span>
+              <Button :loading="loading">仅文字</Button>
+              <Button icon-only aria-label="新建" :loading="loading"><PlusIcon /></Button>
+              <span class="text-muted text-sm">
+                spinner 只顶掉主图标位(优先 #icon)· 后置的方向指示是语义标记,保持不变
+              </span>
+            </div>
+          </section>
 
-        <section id="button-layout" class="flex scroll-mt-16 flex-col gap-4">
-          <h2 class="text-muted font-mono text-xs tracking-wide uppercase">block / as / type</h2>
-          <Button block>整宽按钮</Button>
-          <div class="flex flex-wrap items-center gap-3">
-            <Button as="a" href="#" variant="ghost" tone="neutral">作为链接渲染</Button>
-            <Button as="a" href="#" variant="ghost" tone="neutral" disabled>
-              禁用的链接(不可聚焦、不可点)
-            </Button>
-          </div>
-          <form class="flex flex-wrap items-center gap-3" @submit.prevent="submitted++">
-            <Button type="submit" variant="soft">提交表单</Button>
-            <span class="text-muted text-sm">已提交 {{ submitted }} 次</span>
-          </form>
-          <div class="flex flex-wrap items-center gap-3">
-            <Button :ripple="false">无波纹</Button>
-            <Button :ripple="false" variant="soft">无波纹</Button>
-            <Button :ripple="false" variant="outline" tone="neutral">无波纹</Button>
-            <Button :ripple="false" variant="ghost" tone="neutral">无波纹</Button>
-          </div>
-          <div class="flex flex-wrap items-center gap-3">
-            <Button pill>胶囊按钮</Button>
-            <Button pill variant="soft" tone="danger">胶囊 soft</Button>
-            <Button pill variant="outline" tone="neutral">胶囊描边</Button>
-            <Button pill icon-only aria-label="新建"><PlusIcon /></Button>
-            <Button pill icon-only size="lg" variant="soft" aria-label="新建"><PlusIcon /></Button>
-          </div>
-          <div class="flex flex-wrap items-center gap-3">
-            <span class="text-muted text-sm">行内混排:点这里</span>
-            <Button variant="link">链接按钮</Button>
-            <Button variant="link" tone="neutral">中性链接</Button>
-            <Button variant="link" tone="danger" size="sm">危险动作</Button>
-            <Button variant="link" disabled>禁用链接</Button>
-            <span class="text-muted text-sm">继续正文</span>
-          </div>
-        </section>
+          <section id="button-layout" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">block / as / type</h2>
+            <Button block>整宽按钮</Button>
+            <div class="flex flex-wrap items-center gap-3">
+              <Button as="a" href="#" variant="ghost" tone="neutral">作为链接渲染</Button>
+              <Button as="a" href="#" variant="ghost" tone="neutral" disabled>
+                禁用的链接(不可聚焦、不可点)
+              </Button>
+            </div>
+            <form class="flex flex-wrap items-center gap-3" @submit.prevent="submitted++">
+              <Button type="submit" variant="soft">提交表单</Button>
+              <span class="text-muted text-sm">已提交 {{ submitted }} 次</span>
+            </form>
+            <div class="flex flex-wrap items-center gap-3">
+              <Button :ripple="false">无波纹</Button>
+              <Button :ripple="false" variant="soft">无波纹</Button>
+              <Button :ripple="false" variant="outline" tone="neutral">无波纹</Button>
+              <Button :ripple="false" variant="ghost" tone="neutral">无波纹</Button>
+            </div>
+            <div class="flex flex-wrap items-center gap-3">
+              <Button pill>胶囊按钮</Button>
+              <Button pill variant="soft" tone="danger">胶囊 soft</Button>
+              <Button pill variant="outline" tone="neutral">胶囊描边</Button>
+              <Button pill icon-only aria-label="新建"><PlusIcon /></Button>
+              <Button pill icon-only size="lg" variant="soft" aria-label="新建">
+                <PlusIcon />
+              </Button>
+            </div>
+            <div class="flex flex-wrap items-center gap-3">
+              <span class="text-muted text-sm">行内混排:点这里</span>
+              <Button variant="link">链接按钮</Button>
+              <Button variant="link" tone="neutral">中性链接</Button>
+              <Button variant="link" tone="danger">危险动作</Button>
+              <Button variant="link" disabled>禁用链接</Button>
+              <span class="text-muted text-sm">继续正文</span>
+            </div>
+          </section>
 
-        <section id="text" class="flex scroll-mt-16 flex-col gap-4">
-          <h2 class="text-muted font-mono text-xs tracking-wide uppercase">
-            text · 字阶 / 色调 / 字重
-          </h2>
-          <div class="flex flex-col gap-1">
-            <Text size="2xl" weight="semibold">2xl 半粗 · 星见书音的藏书阁</Text>
-            <Text size="xl" weight="medium">xl 中等 · 星见书音的藏书阁</Text>
-            <Text size="lg">lg · 星见书音的藏书阁 Hoshimi Shion</Text>
-            <Text size="md">md · 星见书音的藏书阁 Hoshimi Shion</Text>
-            <Text>base(默认)· 星见书音的藏书阁 Hoshimi Shion 0123456789</Text>
-            <Text size="sm">sm · 星见书音的藏书阁 Hoshimi Shion 0123456789</Text>
-            <Text size="xs">xs · 星见书音的藏书阁 Hoshimi Shion 0123456789</Text>
-          </div>
-          <div class="flex flex-wrap items-center gap-4">
-            <Text as="span">default</Text>
-            <Text as="span" tone="muted">muted</Text>
-            <Text as="span" tone="faint">faint</Text>
-            <Text as="span" tone="disabled">disabled</Text>
-            <Text as="span" tone="accent">accent</Text>
-            <Text as="span" tone="success">success</Text>
-            <Text as="span" tone="warning">warning</Text>
-            <Text as="span" tone="danger">danger</Text>
-            <Text as="span" tone="info">info</Text>
-          </div>
-          <Text truncate class="max-w-sm">
-            truncate:这一行会在容器边缘被单行截断,后面的内容不会换行而是变成省略号,比如这些字就看不到了
-          </Text>
-          <div class="border-line flex flex-col gap-2 border-t pt-4">
-            <Heading v-for="level in [1, 2, 3, 4, 5, 6] as const" :key="level" :level="level">
-              h{{ level }} · 星见书音的藏书阁
-            </Heading>
-            <Heading :level="3" size="2xl">语义 h3,视觉 2xl —— 解耦示例</Heading>
-          </div>
-        </section>
-
-        <section id="link" class="flex scroll-mt-16 flex-col gap-4">
-          <h2 class="text-muted font-mono text-xs tracking-wide uppercase">link · 导航链接</h2>
-          <div class="flex flex-wrap items-center gap-5">
-            <Link href="#">accent 导航</Link>
-            <Link href="#" tone="neutral">neutral 导航</Link>
-            <Link href="#" underline>正文里带下划线的</Link>
-            <Link href="#" tone="neutral" underline>中性带下划线</Link>
-            <Text as="span" tone="muted" size="sm">
-              交互与 Button link 同一套墨:hover 压深,下划线只是身份标识
+          <section id="text" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              text · 字阶 / 色调 / 字重
+            </h2>
+            <div class="flex flex-col gap-1">
+              <Text size="2xl" weight="semibold">2xl 半粗 · 星见书音的藏书阁</Text>
+              <Text size="xl" weight="medium">xl 中等 · 星见书音的藏书阁</Text>
+              <Text size="lg">lg · 星见书音的藏书阁 Hoshimi Shion</Text>
+              <Text size="md">md · 星见书音的藏书阁 Hoshimi Shion</Text>
+              <Text>base(默认)· 星见书音的藏书阁 Hoshimi Shion 0123456789</Text>
+              <Text size="sm">sm · 星见书音的藏书阁 Hoshimi Shion 0123456789</Text>
+              <Text size="xs">xs · 星见书音的藏书阁 Hoshimi Shion 0123456789</Text>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+              <Text as="span">default</Text>
+              <Text as="span" tone="muted">muted</Text>
+              <Text as="span" tone="faint">faint</Text>
+              <Text as="span" tone="disabled">disabled</Text>
+              <Text as="span" tone="accent">accent</Text>
+              <Text as="span" tone="success">success</Text>
+              <Text as="span" tone="warning">warning</Text>
+              <Text as="span" tone="danger">danger</Text>
+              <Text as="span" tone="info">info</Text>
+            </div>
+            <Text truncate class="max-w-sm">
+              truncate:这一行会在容器边缘被单行截断,后面的内容不会换行而是变成省略号,比如这些字就看不到了
             </Text>
-          </div>
-        </section>
-
-        <section id="inline" class="flex scroll-mt-16 flex-col gap-4">
-          <h2 class="text-muted font-mono text-xs tracking-wide uppercase">
-            行内排印 · code / kbd / mark / spoiler
-          </h2>
-          <Text>
-            行内代码混排:运行
-            <Code>pnpm --filter @hikarinagi/ui dev</Code>
-            后访问
-            <Code>localhost:3720</Code>
-            ,字号随上下文 0.875em 缩放;按
-            <Kbd>Ctrl</Kbd>
-            +
-            <Kbd>K</Kbd>
-            唤起搜索;搜索结果里的
-            <Mark>星见书音</Mark>
-            会这样高亮。
-          </Text>
-          <Text class="max-w-2xl">
-            剧透(点击):第三卷的结局里,
-            <Spoiler>
-              真凶其实是图书馆的园丁,这个反转在第七章就埋了伏笔,连借书卡上的墨迹都是证据
-            </Spoiler>
-            ;悬停版:
-            <Spoiler reveal-on="hover">主角最终没有回到现实世界</Spoiler>
-            ;无 Houdini 的浏览器会退回站内同款
-            <Spoiler force-fallback>模糊遮罩</Spoiler>
-            。
-          </Text>
-        </section>
-
-        <section id="blocks" class="flex scroll-mt-16 flex-col gap-4">
-          <h2 class="text-muted font-mono text-xs tracking-wide uppercase">
-            块级排印 · blockquote / list / dl / time / number
-          </h2>
-          <Blockquote cite="星见书音" class="max-w-md">
-            独立引用组件:书页翻动的声音,是图书馆唯一允许的喧哗。
-          </Blockquote>
-          <div class="flex gap-12 text-sm">
-            <List>
-              <li>无序列表,disc 记号</li>
-              <li>marker 用 faint 淡色</li>
-              <li>
-                项距 0.375em
-                <List class="mt-1.5">
-                  <li>嵌套时再挂一层 List</li>
-                </List>
-              </li>
-            </List>
-            <List ordered>
-              <li>有序列表,decimal</li>
-              <li>与 prose 里的裸 ol 同源</li>
-            </List>
-            <DescriptionList>
-              <dt>原名</dt>
-              <dd>星之航路</dd>
-              <dt>作者</dt>
-              <dd>dt 用 medium 字重作标签,dd 正文色、缩进归零</dd>
-            </DescriptionList>
-          </div>
-          <Text tone="muted" size="sm">
-            时间:
-            <Time :value="Date.now()" format="relative" />
-            发布 ·
-            <Time :value="Date.now() - 3 * 60_000" format="relative" />
-            更新 ·
-            <Time :value="Date.now() - 2 * 86_400_000" format="relative" />
-            归档 · 绝对档
-            <Time :value="Date.now()" />
-            · 未知值
-            <Time :value="null" />
-          </Text>
-          <Text tone="muted" size="sm">
-            数字:
-            <NumberFormat :value="1234567.891" />
-            · 紧凑
-            <NumberFormat :value="128000" format="compact" />
-            · 百分比
-            <NumberFormat :value="0.4271" format="percent" />
-            · 货币
-            <NumberFormat :value="1234.5" format="currency" currency="CNY" />
-            · 收两位
-            <NumberFormat :value="3.14159" :precision="2" />
-            · 非法值
-            <NumberFormat :value="null" />
-          </Text>
-        </section>
-
-        <section id="codeblock" class="flex scroll-mt-16 flex-col gap-4">
-          <h2 class="text-muted font-mono text-xs tracking-wide uppercase">
-            code block · 块级代码
-          </h2>
-          <CodeBlock
-            class="max-w-2xl"
-            lang="ts"
-            :code="`import { CodeBlock } from '@hikarinagi/ui'\n\n// vitesse 双主题,随暗色翻转;文法按需加载,SSR 渲染素文本\nconst greeting: string = '常驻复制钮,ghost 落墨,复制后两秒内显示已复制'\nexport const answer = 42 // 横向溢出时这一行会变得非常非常非常非常非常非常长以便测试滚动`"
-          />
-          <CodeBlock
-            class="max-w-2xl"
-            :copyable="false"
-            :code="`# 无标签、不可复制的裸块\npnpm --filter @hikarinagi/ui dev`"
-          />
-        </section>
-
-        <section id="prose" class="flex scroll-mt-16 flex-col gap-4">
-          <h2 class="text-muted font-mono text-xs tracking-wide uppercase">
-            prose · 接管原生标签流
-          </h2>
-          <Card class="max-w-2xl">
-            <Prose>
-              <h2>轻小说《星之航路》第三卷</h2>
-              <p>
-                这一卷的
-                <strong>叙事结构</strong>
-                明显成熟了,作者在
-                <a href="#">上一卷的访谈</a>
-                里提过要尝试双线并进——如今看来,
-                <code>flashback</code>
-                的插入点选得相当克制。
-              </p>
-              <blockquote>
-                <p>「书页翻动的声音,是图书馆唯一允许的喧哗。」—— 星见书音</p>
-              </blockquote>
-              <h3>本卷看点</h3>
-              <ul>
-                <li>双线叙事在第七章合流,伏笔回收干净</li>
-                <li>新角色的动机铺垫充分,没有工具人感</li>
-                <li>
-                  插画与文字的配合达到系列最佳,快捷键
-                  <kbd>Ctrl</kbd>
-                  +
-                  <kbd>D</kbd>
-                  收藏
-                </li>
-              </ul>
-              <pre><code>const rating = { story: 9, art: 8.5, pacing: 8 }</code></pre>
-              <table>
-                <thead>
-                  <tr>
-                    <th>卷次</th>
-                    <th>评分</th>
-                    <th>状态</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>第一卷</td>
-                    <td>8.2</td>
-                    <td>已读</td>
-                  </tr>
-                  <tr>
-                    <td>第三卷</td>
-                    <td>9.0</td>
-                    <td><mark>在读</mark></td>
-                  </tr>
-                </tbody>
-              </table>
-              <hr />
-              <p>
-                下一卷预定
-                <em>2027 年春</em>
-                发售。
-              </p>
-            </Prose>
-          </Card>
-        </section>
-
-        <section id="input" class="flex scroll-mt-16 flex-col gap-4">
-          <h2 class="text-muted font-mono text-xs tracking-wide uppercase">
-            input 探针 · primary 在 bg 上 / secondary 在 surface 内
-          </h2>
-          <div class="flex max-w-md flex-col gap-3">
-            <Input v-model="email" size="sm" placeholder="primary · sm" />
-            <Input v-model="email" placeholder="primary · md:hover 落墨,focus 墨退净" />
-            <Input v-model="email" size="lg" placeholder="primary · lg" />
-            <Input v-model="email" invalid placeholder="错误态:danger 勾边 + 淡墨" />
-            <Input model-value="禁用态" disabled />
-            <span class="text-muted text-sm">已输入:{{ email || '(空)' }}</span>
-          </div>
-          <Card class="max-w-md">
-            <h3 class="text-md font-medium">surface 之内用 secondary</h3>
-            <div class="mt-3 flex flex-col gap-3">
-              <Input v-model="email" variant="secondary" placeholder="扁平 · 无阴影 · inset 填充" />
-              <Input v-model="email" variant="secondary" invalid placeholder="secondary 错误态" />
+            <div class="border-line flex flex-col gap-2 border-t pt-4">
+              <Heading v-for="level in [1, 2, 3, 4, 5, 6] as const" :key="level" :level="level">
+                h{{ level }} · 星见书音的藏书阁
+              </Heading>
+              <Heading :level="3" size="2xl">语义 h3,视觉 2xl —— 解耦示例</Heading>
             </div>
-          </Card>
-        </section>
+          </section>
 
-        <section id="card" class="flex scroll-mt-16 flex-col gap-4">
-          <h2 class="text-muted font-mono text-xs tracking-wide uppercase">
-            card 探针 · surface / 间距 / 深浅
-          </h2>
-          <div class="grid max-w-3xl grid-cols-1 gap-4 sm:grid-cols-3">
-            <Card>
-              <h3 class="text-md font-medium">静态卡片</h3>
-              <p class="text-muted mt-2 text-sm">发丝线 + 最轻阴影,底为 surface。</p>
+          <section id="link" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">link · 导航链接</h2>
+            <div class="flex flex-wrap items-center gap-5">
+              <Link href="#">accent 导航</Link>
+              <Link href="#" tone="neutral">neutral 导航</Link>
+              <Link href="#" underline>正文里带下划线的</Link>
+              <Link href="#" tone="neutral" underline>中性带下划线</Link>
+              <Text as="span" tone="muted">
+                交互与 Button link 同一套墨:hover 压深,下划线只是身份标识
+              </Text>
+            </div>
+          </section>
+
+          <section id="inline" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              行内排印 · code / kbd / mark / spoiler
+            </h2>
+            <Text>
+              行内代码混排:运行
+              <Code>pnpm --filter @hikarinagi/ui dev</Code>
+              后访问
+              <Code>localhost:3720</Code>
+              ,字号随上下文 0.875em 缩放;按
+              <Kbd>Ctrl</Kbd>
+              +
+              <Kbd>K</Kbd>
+              唤起搜索;搜索结果里的
+              <Mark>星见书音</Mark>
+              会这样高亮。
+            </Text>
+            <Text class="max-w-2xl">
+              剧透(点击):第三卷的结局里,
+              <Spoiler>
+                真凶其实是图书馆的园丁,这个反转在第七章就埋了伏笔,连借书卡上的墨迹都是证据
+              </Spoiler>
+              ;悬停版:
+              <Spoiler reveal-on="hover">主角最终没有回到现实世界</Spoiler>
+              ;无 Houdini 的浏览器会退回站内同款
+              <Spoiler force-fallback>模糊遮罩</Spoiler>
+              。
+            </Text>
+          </section>
+
+          <section id="blocks" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              块级排印 · blockquote / list / dl / time / number
+            </h2>
+            <Blockquote cite="星见书音" class="max-w-md">
+              独立引用组件:书页翻动的声音,是图书馆唯一允许的喧哗。
+            </Blockquote>
+            <div class="flex gap-12 text-sm">
+              <List>
+                <li>无序列表,disc 记号</li>
+                <li>marker 用 faint 淡色</li>
+                <li>
+                  项距 0.375em
+                  <List class="mt-1.5">
+                    <li>嵌套时再挂一层 List</li>
+                  </List>
+                </li>
+              </List>
+              <List ordered>
+                <li>有序列表,decimal</li>
+                <li>与 prose 里的裸 ol 同源</li>
+              </List>
+              <DescriptionList>
+                <dt>原名</dt>
+                <dd>星之航路</dd>
+                <dt>作者</dt>
+                <dd>dt 用 medium 字重作标签,dd 正文色、缩进归零</dd>
+              </DescriptionList>
+            </div>
+            <Text tone="muted">
+              时间:
+              <Time :value="Date.now()" format="relative" />
+              发布 ·
+              <Time :value="Date.now() - 3 * 60_000" format="relative" />
+              更新 ·
+              <Time :value="Date.now() - 2 * 86_400_000" format="relative" />
+              归档 · 绝对档
+              <Time :value="Date.now()" />
+              · 未知值
+              <Time :value="null" />
+            </Text>
+            <Text tone="muted">
+              数字:
+              <NumberFormat :value="1234567.891" />
+              · 紧凑
+              <NumberFormat :value="128000" format="compact" />
+              · 百分比
+              <NumberFormat :value="0.4271" format="percent" />
+              · 货币
+              <NumberFormat :value="1234.5" format="currency" currency="CNY" />
+              · 收两位
+              <NumberFormat :value="3.14159" :precision="2" />
+              · 非法值
+              <NumberFormat :value="null" />
+            </Text>
+          </section>
+
+          <section id="codeblock" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              code block · 块级代码
+            </h2>
+            <CodeBlock
+              class="max-w-2xl"
+              lang="ts"
+              :code="`import { CodeBlock } from '@hikarinagi/ui'\n\n// vitesse 双主题,随暗色翻转;文法按需加载,SSR 渲染素文本\nconst greeting: string = '常驻复制钮,ghost 落墨,复制后两秒内显示已复制'\nexport const answer = 42 // 横向溢出时这一行会变得非常非常非常非常非常非常长以便测试滚动`"
+            />
+            <CodeBlock
+              class="max-w-2xl"
+              :copyable="false"
+              :code="`# 无标签、不可复制的裸块\npnpm --filter @hikarinagi/ui dev`"
+            />
+          </section>
+
+          <section id="prose" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              prose · 接管原生标签流
+            </h2>
+            <Card class="max-w-2xl">
+              <Prose>
+                <h2>轻小说《星之航路》第三卷</h2>
+                <p>
+                  这一卷的
+                  <strong>叙事结构</strong>
+                  明显成熟了,作者在
+                  <a href="#">上一卷的访谈</a>
+                  里提过要尝试双线并进——如今看来,
+                  <code>flashback</code>
+                  的插入点选得相当克制。
+                </p>
+                <blockquote>
+                  <p>「书页翻动的声音,是图书馆唯一允许的喧哗。」—— 星见书音</p>
+                </blockquote>
+                <h3>本卷看点</h3>
+                <ul>
+                  <li>双线叙事在第七章合流,伏笔回收干净</li>
+                  <li>新角色的动机铺垫充分,没有工具人感</li>
+                  <li>
+                    插画与文字的配合达到系列最佳,快捷键
+                    <kbd>Ctrl</kbd>
+                    +
+                    <kbd>D</kbd>
+                    收藏
+                  </li>
+                </ul>
+                <pre><code>const rating = { story: 9, art: 8.5, pacing: 8 }</code></pre>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>卷次</th>
+                      <th>评分</th>
+                      <th>状态</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>第一卷</td>
+                      <td>8.2</td>
+                      <td>已读</td>
+                    </tr>
+                    <tr>
+                      <td>第三卷</td>
+                      <td>9.0</td>
+                      <td><mark>在读</mark></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <hr />
+                <p>
+                  下一卷预定
+                  <em>2027 年春</em>
+                  发售。
+                </p>
+              </Prose>
             </Card>
-            <Card as="button" class="hn-interactive hn-state-layer hn-press-lg text-start">
-              <Ripple />
-              <h3 class="text-md font-medium">调用方自组的可点卡</h3>
-              <p class="text-muted mt-2 text-sm">
-                Card 只交 surface;可点视觉是调用方拼的:hn-interactive + hn-state-layer + hn-press-lg
-                + Ripple。
-              </p>
-            </Card>
-            <Card :padded="false">
-              <img
-                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='120'%3E%3Crect fill='%2339c5bb' width='320' height='120'/%3E%3C/svg%3E"
-                alt=""
-                class="w-full rounded-t-lg"
-              />
-              <div class="p-[var(--hn-panel-p)]">
-                <h3 class="text-md font-medium">无内边距卡片</h3>
-                <p class="text-muted mt-2 text-sm">媒体贴边,文字区自管 padding。</p>
+          </section>
+
+          <section id="input" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              input 探针 · primary 在 bg 上 / secondary 在 surface 内
+            </h2>
+            <div class="flex max-w-md flex-col gap-3">
+              <Input v-model="email" size="sm" placeholder="primary · sm" />
+              <Input v-model="email" placeholder="primary · md:hover 落墨,focus 墨退净" />
+              <Input v-model="email" size="lg" placeholder="primary · lg" />
+              <Input v-model="email" invalid placeholder="错误态:danger 勾边 + 淡墨" />
+              <Input model-value="禁用态" disabled />
+              <span class="text-muted text-sm">已输入:{{ email || '(空)' }}</span>
+            </div>
+            <Card class="max-w-md">
+              <h3 class="text-md font-medium">surface 之内用 secondary</h3>
+              <div class="mt-3 flex flex-col gap-3">
+                <Input
+                  v-model="email"
+                  variant="secondary"
+                  placeholder="扁平 · 无阴影 · inset 填充"
+                />
+                <Input v-model="email" variant="secondary" invalid placeholder="secondary 错误态" />
               </div>
             </Card>
-          </div>
-        </section>
+          </section>
 
-        <section id="statelayer" class="flex scroll-mt-16 flex-col gap-4">
-          <h2 class="text-muted font-mono text-xs tracking-wide uppercase">
-            状态层叠加在任意底色上
-          </h2>
-          <div class="flex flex-wrap gap-3">
-            <Button
-              v-for="c in ['blue', 'purple', 'cyan', 'orange', 'coral', 'yellow']"
-              :key="c"
-              variant="ghost"
-              tone="neutral"
-              :style="{ backgroundColor: `var(--color-expr-${c})`, color: '#171717' }"
-            >
-              {{ c }}
-            </Button>
-          </div>
-        </section>
-
-        <section id="stack" class="flex scroll-mt-16 flex-col gap-4">
-          <h2 class="text-muted font-mono text-xs tracking-wide uppercase">
-            stack · 纵向布局(md 档随顶栏密度开关翻转)
-          </h2>
-          <div class="flex flex-wrap gap-10">
-            <div v-for="g in ['sm', 'md', 'lg'] as const" :key="g" class="flex flex-col gap-2">
-              <span class="text-faint font-mono text-xs">gap {{ g }}</span>
-              <Stack :gap="g" class="w-40">
-                <div v-for="n in 3" :key="n" class="bg-inset text-muted rounded-md p-2 text-xs">
-                  块 {{ n }}
+          <section id="card" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              card 探针 · surface / 间距 / 深浅
+            </h2>
+            <div class="grid max-w-3xl grid-cols-1 gap-4 sm:grid-cols-3">
+              <Card>
+                <h3 class="text-md font-medium">静态卡片</h3>
+                <p class="text-muted mt-2 text-sm">发丝线 + 最轻阴影,底为 surface。</p>
+              </Card>
+              <Card as="button" class="hn-interactive hn-state-layer hn-press-lg text-start">
+                <Ripple />
+                <h3 class="text-md font-medium">调用方自组的可点卡</h3>
+                <p class="text-muted mt-2 text-sm">
+                  Card 只交 surface;可点视觉是调用方拼的:hn-interactive + hn-state-layer +
+                  hn-press-lg + Ripple。
+                </p>
+              </Card>
+              <Card :padded="false">
+                <img
+                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='120'%3E%3Crect fill='%2339c5bb' width='320' height='120'/%3E%3C/svg%3E"
+                  alt=""
+                  class="w-full rounded-t-lg"
+                />
+                <div class="p-[var(--hn-panel-p)]">
+                  <h3 class="text-md font-medium">无内边距卡片</h3>
+                  <p class="text-muted mt-2 text-sm">媒体贴边,文字区自管 padding。</p>
                 </div>
-              </Stack>
+              </Card>
             </div>
-            <div class="flex flex-col gap-2">
-              <span class="text-faint font-mono text-xs">align center · as section</span>
-              <Stack
-                as="section"
-                align="center"
-                gap="sm"
-                class="border-line w-40 rounded-md border p-3"
+          </section>
+
+          <section id="statelayer" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              状态层叠加在任意底色上
+            </h2>
+            <div class="flex flex-wrap gap-3">
+              <Button
+                v-for="c in ['blue', 'purple', 'cyan', 'orange', 'coral', 'yellow']"
+                :key="c"
+                variant="ghost"
+                tone="neutral"
+                :style="{ backgroundColor: `var(--color-expr-${c})`, color: '#171717' }"
               >
-                <div class="bg-inset text-muted rounded-md p-2 text-xs">窄块</div>
-                <div class="bg-inset text-muted rounded-md p-2 text-xs">更宽一点的块</div>
-              </Stack>
+                {{ c }}
+              </Button>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section id="inline-layout" class="flex scroll-mt-16 flex-col gap-4">
-          <h2 class="text-muted font-mono text-xs tracking-wide uppercase">
-            inline · 横向布局(md 档随密度,默认换行 + 居中对齐)
-          </h2>
-          <Inline class="border-line max-w-md rounded-md border p-3">
-            <Button size="sm">操作一</Button>
-            <Button size="sm" variant="outline" tone="neutral">操作二</Button>
-            <Button size="sm" variant="soft" tone="neutral">操作三</Button>
-            <Button size="sm" variant="ghost" tone="neutral">操作四</Button>
-            <Button size="sm" variant="outline" tone="danger">危险操作</Button>
-          </Inline>
-          <Inline align="baseline" gap="sm">
-            <Heading :level="3">基线对齐</Heading>
-            <Text tone="muted" size="sm">大小字号沿 baseline 排,不是几何居中</Text>
-          </Inline>
-          <Inline :wrap="false" gap="sm" class="max-w-md overflow-hidden">
-            <div
-              v-for="n in 8"
-              :key="n"
-              class="bg-inset text-muted shrink-0 rounded-md p-2 text-xs"
-            >
-              nowrap {{ n }}
-            </div>
-          </Inline>
-        </section>
-
-        <section id="flex-layout" class="flex scroll-mt-16 flex-col gap-4">
-          <h2 class="text-muted font-mono text-xs tracking-wide uppercase">
-            flex · 自由布局(md 档随方向取 inline/stack 密度 token)
-          </h2>
-          <Flex justify="between" align="center" class="border-line max-w-md rounded-md border p-3">
-            <Text weight="medium">justify between</Text>
-            <Button size="sm" variant="ghost" tone="neutral">操作</Button>
-          </Flex>
-          <Flex direction="col-reverse" gap="md" class="border-line max-w-md rounded-md border p-3">
-            <div class="bg-inset text-muted rounded-md p-2 text-xs">
-              DOM 里的第一个(col-reverse 排到底)
-            </div>
-            <div class="bg-inset text-muted rounded-md p-2 text-xs">DOM 里的第二个</div>
-          </Flex>
-        </section>
-
-        <section id="grid-layout" class="flex scroll-mt-16 flex-col gap-4">
-          <h2 class="text-muted font-mono text-xs tracking-wide uppercase">
-            grid · 显式网格(md 档双轴各吃 inline/stack 密度 token)
-          </h2>
-          <Grid :cols="3" class="max-w-xl">
-            <div v-for="n in 6" :key="n" class="bg-inset text-muted rounded-md p-3 text-xs">
-              格 {{ n }}
-            </div>
-          </Grid>
-          <Grid :cols="4" gap="sm" as="ul" class="max-w-xl list-none">
-            <li v-for="n in 4" :key="n" class="bg-inset text-muted rounded-md p-2 text-xs">
-              gap sm · li {{ n }}
-            </li>
-          </Grid>
-        </section>
-
-        <section id="simple-grid" class="flex scroll-mt-16 flex-col gap-4">
-          <h2 class="text-muted font-mono text-xs tracking-wide uppercase">
-            simple grid · 自动成列(拖窗口宽度看列数变化)
-          </h2>
-          <Text tone="muted" size="sm">auto-fill(默认):容器变宽先加空轨,子项守住 min 宽</Text>
-          <SimpleGrid min="12rem">
-            <div v-for="n in 3" :key="n" class="bg-inset text-muted rounded-md p-3 text-xs">
-              fill {{ n }}
-            </div>
-          </SimpleGrid>
-          <Text tone="muted" size="sm">auto-fit:空轨塌掉,子项撑满整行</Text>
-          <SimpleGrid min="12rem" fit>
-            <div v-for="n in 3" :key="n" class="bg-inset text-muted rounded-md p-3 text-xs">
-              fit {{ n }}
-            </div>
-          </SimpleGrid>
-        </section>
-
-        <section id="container-layout" class="flex scroll-mt-16 flex-col gap-4">
-          <h2 class="text-muted font-mono text-xs tracking-wide uppercase">
-            container · 内容宽度约束(四档语义页宽,此处画的是各档右边界)
-          </h2>
-          <ScrollArea direction="horizontal">
-            <div class="flex w-[84rem] flex-col gap-2 pb-2">
-              <Container
-                v-for="s in ['sm', 'md', 'lg', 'xl'] as const"
-                :key="s"
-                :size="s"
-                class="mx-0"
-              >
-                <div class="bg-inset text-faint rounded-md p-2 text-right font-mono text-xs">
-                  {{ s }}
-                </div>
-              </Container>
-            </div>
-          </ScrollArea>
-          <Text tone="muted" size="sm">
-            工作台内容列本身只有 ~57rem,md 以上会被钳位 —— 这条轨道 84rem,横向滚动看真实档差。
-          </Text>
-        </section>
-
-        <section id="center-layout" class="flex scroll-mt-16 flex-col gap-4">
-          <h2 class="text-muted font-mono text-xs tracking-wide uppercase">center · 双轴居中</h2>
-          <Center class="border-line h-32 max-w-md rounded-md border">
-            <Stack align="center" gap="xs">
-              <Text weight="medium">空态占位</Text>
-              <Text tone="muted" size="sm">块级 Center:定高容器里双轴居中</Text>
-            </Stack>
-          </Center>
-          <Text>
-            行内版:文字里嵌一个
-            <Center inline class="bg-inset size-6 rounded-full text-xs">音</Center>
-            徽标,inline-flex 不打断行盒。
-          </Text>
-        </section>
-
-        <section id="space-divider" class="flex scroll-mt-16 flex-col gap-4">
-          <h2 class="text-muted font-mono text-xs tracking-wide uppercase">
-            space · 撑开与定长 / divider · 分隔
-          </h2>
-          <div class="border-line flex max-w-md items-center rounded-md border p-3">
-            <Text weight="medium">工具栏左侧</Text>
-            <Space />
-            <Button size="sm" variant="ghost" tone="neutral">被推到右边</Button>
-          </div>
-          <div class="border-line flex max-w-md items-center rounded-md border p-3">
-            <Button size="sm" variant="soft" tone="neutral">甲</Button>
-            <Space size="lg" />
-            <Button size="sm" variant="soft" tone="neutral">乙(隔 lg 定长)</Button>
-          </div>
-          <Divider class="max-w-md" />
-          <Divider class="max-w-md">第三卷</Divider>
-          <div class="flex h-8 max-w-md items-center gap-3">
-            <Text size="sm">左</Text>
-            <Divider orientation="vertical" />
-            <Text size="sm">右(竖分隔)</Text>
-          </div>
-        </section>
-
-        <section id="aspect-ratio" class="flex scroll-mt-16 flex-col gap-4">
-          <h2 class="text-muted font-mono text-xs tracking-wide uppercase">
-            aspect ratio · 比例盒(16:9 默认 / 1:1)
-          </h2>
-          <div class="flex max-w-2xl gap-4">
-            <AspectRatio class="flex-1">
-              <Center class="bg-inset size-full rounded-md">
-                <Text tone="muted" size="sm">16 : 9</Text>
-              </Center>
-            </AspectRatio>
-            <AspectRatio :ratio="1" class="w-40">
-              <Center class="bg-inset size-full rounded-md">
-                <Text tone="muted" size="sm">1 : 1</Text>
-              </Center>
-            </AspectRatio>
-          </div>
-        </section>
-
-        <section id="splitter" class="flex scroll-mt-16 flex-col gap-4">
-          <h2 class="text-muted font-mono text-xs tracking-wide uppercase">
-            splitter · 可调分栏(拖手柄或聚焦后用方向键)
-          </h2>
-          <Splitter class="border-line h-40 max-w-2xl rounded-md border">
-            <SplitterPanel :default-size="30" :min-size="15">
-              <Center class="h-full">
-                <Text tone="muted" size="sm">侧栏 · min 15%</Text>
-              </Center>
-            </SplitterPanel>
-            <SplitterHandle />
-            <SplitterPanel :default-size="70">
-              <Splitter direction="vertical" class="h-full">
-                <SplitterPanel :default-size="60">
-                  <Center class="h-full"><Text tone="muted" size="sm">内容区</Text></Center>
-                </SplitterPanel>
-                <SplitterHandle />
-                <SplitterPanel :default-size="40" :min-size="20">
-                  <Center class="h-full"><Text tone="muted" size="sm">纵向嵌套</Text></Center>
-                </SplitterPanel>
-              </Splitter>
-            </SplitterPanel>
-          </Splitter>
-        </section>
-
-        <section id="collapsible" class="flex scroll-mt-16 flex-col gap-4">
-          <h2 class="text-muted font-mono text-xs tracking-wide uppercase">
-            collapsible · 折叠(高度经 hn-anim-collapse,base + move)
-          </h2>
-          <Card class="max-w-md">
-            <Collapsible default-open>
-              <CollapsibleTrigger as-child>
-                <Button variant="ghost" tone="neutral" block class="group/coll justify-between">
-                  组件 · 12 篇
-                  <template #trailing>
-                    <ChevronRight class="hn-transition group-data-[state=open]/coll:rotate-90" />
-                  </template>
-                </Button>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <Stack gap="none" class="pt-1 ps-3">
-                  <Button
-                    v-for="t in ['Button', 'Input', 'Card']"
-                    :key="t"
-                    variant="ghost"
-                    tone="neutral"
-                    size="sm"
-                    block
-                    class="justify-start"
-                  >
-                    {{ t }}
-                  </Button>
+          <section id="stack" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              stack · 纵向布局(md 档随顶栏密度开关翻转)
+            </h2>
+            <div class="flex flex-wrap gap-10">
+              <div v-for="g in ['sm', 'md', 'lg'] as const" :key="g" class="flex flex-col gap-2">
+                <span class="text-faint font-mono text-xs">gap {{ g }}</span>
+                <Stack :gap="g" class="w-40">
+                  <div v-for="n in 3" :key="n" class="bg-inset text-muted rounded-md p-2 text-xs">
+                    块 {{ n }}
+                  </div>
                 </Stack>
-              </CollapsibleContent>
-            </Collapsible>
-            <Collapsible>
-              <CollapsibleTrigger as-child>
-                <Button variant="ghost" tone="neutral" block class="group/coll justify-between">
-                  设计语言 · 8 篇(默认收起)
-                  <template #trailing>
-                    <ChevronRight class="hn-transition group-data-[state=open]/coll:rotate-90" />
-                  </template>
-                </Button>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <Stack gap="sm" class="pt-2 ps-3">
-                  <Text tone="muted" size="sm">
-                    content 是无约束插槽:段落、列表、表单、嵌套折叠都行,高度动画量的是实际内容高。
-                  </Text>
-                  <List class="text-sm">
-                    <li>薄墨:一种介质三种落法</li>
-                    <li>两轴动效:时长归通道,曲线归性质</li>
-                    <li>surface 与阴影:纯度守在内容坐的地方</li>
-                  </List>
-                  <Inline gap="sm">
-                    <Button size="sm" variant="soft" tone="neutral">也能放控件</Button>
-                    <Kbd>Esc</Kbd>
-                  </Inline>
-                </Stack>
-              </CollapsibleContent>
-            </Collapsible>
-          </Card>
-        </section>
-
-        <section id="sidebar-nav" class="flex scroll-mt-16 flex-col gap-4">
-          <h2 class="text-muted font-mono text-xs tracking-wide uppercase">
-            navlink + sidebar · 文档站骨架预演(左侧工作台目录已是 NavLink 狗粮)
-          </h2>
-          <div
-            class="border-line bg-surface h-80 max-w-md overflow-hidden rounded-md border shadow-sm"
-          >
-            <Sidebar class="h-full w-full border-e-0">
-              <template #header>
-                <Text weight="medium">Hina UI</Text>
-              </template>
-              <SidebarGroup label="组件">
-                <NavLink href="#sidebar-nav" active>Button</NavLink>
-                <NavLink href="#sidebar-nav">Input</NavLink>
-                <NavLink href="#sidebar-nav">Card</NavLink>
-              </SidebarGroup>
-              <SidebarGroup label="设计语言" :default-open="false">
-                <NavLink href="#sidebar-nav">薄墨</NavLink>
-                <NavLink href="#sidebar-nav">两轴动效</NavLink>
-              </SidebarGroup>
-              <SidebarGroup label="很长的一组(测滚动)">
-                <NavLink v-for="n in 12" :key="n" href="#sidebar-nav">条目 {{ n }}</NavLink>
-              </SidebarGroup>
-              <template #footer>
-                <Text tone="muted" size="sm">v0.1.0 · dev</Text>
-              </template>
-            </Sidebar>
-          </div>
-        </section>
-
-        <section id="app-shell" class="flex scroll-mt-16 flex-col gap-4">
-          <h2 class="text-muted font-mono text-xs tracking-wide uppercase">
-            app shell · 页面骨架(固定壳,内容滚动交给 ScrollArea —— 盒内可直接滚)
-          </h2>
-          <div class="border-line h-96 max-w-3xl overflow-hidden rounded-md border shadow-sm">
-            <AppShell class="h-full">
-              <template #header>
-                <Text weight="medium">Hina Docs</Text>
-                <Space />
-                <Button size="sm" variant="outline" tone="neutral">搜索</Button>
-              </template>
-              <template #sidebar>
-                <Sidebar class="h-full">
-                  <SidebarGroup label="组件">
-                    <NavLink href="#app-shell" active>Button</NavLink>
-                    <NavLink href="#app-shell">Input</NavLink>
-                  </SidebarGroup>
-                </Sidebar>
-              </template>
-              <Page>
-                <Breadcrumb>
-                  <BreadcrumbItem href="#app-shell">文档</BreadcrumbItem>
-                  <BreadcrumbSeparator />
-                  <BreadcrumbItem href="#app-shell">组件</BreadcrumbItem>
-                  <BreadcrumbSeparator />
-                  <BreadcrumbItem current>Button</BreadcrumbItem>
-                </Breadcrumb>
-                <PageHeader
-                  title="Button"
-                  description="按钮组件的用法、变体与设计裁定。"
-                  class="-mt-4"
+              </div>
+              <div class="flex flex-col gap-2">
+                <span class="text-faint font-mono text-xs">align center · as section</span>
+                <Stack
+                  as="section"
+                  align="center"
+                  gap="sm"
+                  class="border-line w-40 rounded-md border p-3"
                 >
-                  <template #actions>
-                    <Button size="sm" variant="outline" tone="neutral">源码</Button>
-                  </template>
-                </PageHeader>
-                <PageBody>
-                  <Section title="变体" id="demo-variants">
+                  <div class="bg-inset text-muted rounded-md p-2 text-xs">窄块</div>
+                  <div class="bg-inset text-muted rounded-md p-2 text-xs">更宽一点的块</div>
+                </Stack>
+              </div>
+            </div>
+          </section>
+
+          <section id="inline-layout" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              inline · 横向布局(md 档随密度,默认换行 + 居中对齐)
+            </h2>
+            <Inline class="border-line max-w-md rounded-md border p-3">
+              <Button>操作一</Button>
+              <Button variant="outline" tone="neutral">操作二</Button>
+              <Button variant="soft" tone="neutral">操作三</Button>
+              <Button variant="ghost" tone="neutral">操作四</Button>
+              <Button variant="outline" tone="danger">危险操作</Button>
+            </Inline>
+            <Inline align="baseline" gap="sm">
+              <Heading :level="3">基线对齐</Heading>
+              <Text tone="muted">大小字号沿 baseline 排,不是几何居中</Text>
+            </Inline>
+            <Inline :wrap="false" gap="sm" class="max-w-md overflow-hidden">
+              <div
+                v-for="n in 8"
+                :key="n"
+                class="bg-inset text-muted shrink-0 rounded-md p-2 text-xs"
+              >
+                nowrap {{ n }}
+              </div>
+            </Inline>
+          </section>
+
+          <section id="flex-layout" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              flex · 自由布局(md 档随方向取 inline/stack 密度 token)
+            </h2>
+            <Flex
+              justify="between"
+              align="center"
+              class="border-line max-w-md rounded-md border p-3"
+            >
+              <Text weight="medium">justify between</Text>
+              <Button variant="ghost" tone="neutral">操作</Button>
+            </Flex>
+            <Flex
+              direction="col-reverse"
+              gap="md"
+              class="border-line max-w-md rounded-md border p-3"
+            >
+              <div class="bg-inset text-muted rounded-md p-2 text-xs">
+                DOM 里的第一个(col-reverse 排到底)
+              </div>
+              <div class="bg-inset text-muted rounded-md p-2 text-xs">DOM 里的第二个</div>
+            </Flex>
+          </section>
+
+          <section id="grid-layout" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              grid · 显式网格(md 档双轴各吃 inline/stack 密度 token)
+            </h2>
+            <Grid :cols="3" class="max-w-xl">
+              <div v-for="n in 6" :key="n" class="bg-inset text-muted rounded-md p-3 text-xs">
+                格 {{ n }}
+              </div>
+            </Grid>
+            <Grid :cols="4" gap="sm" as="ul" class="max-w-xl list-none">
+              <li v-for="n in 4" :key="n" class="bg-inset text-muted rounded-md p-2 text-xs">
+                gap sm · li {{ n }}
+              </li>
+            </Grid>
+          </section>
+
+          <section id="simple-grid" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              simple grid · 自动成列(拖窗口宽度看列数变化)
+            </h2>
+            <Text tone="muted">auto-fill(默认):容器变宽先加空轨,子项守住 min 宽</Text>
+            <SimpleGrid min="12rem">
+              <div v-for="n in 3" :key="n" class="bg-inset text-muted rounded-md p-3 text-xs">
+                fill {{ n }}
+              </div>
+            </SimpleGrid>
+            <Text tone="muted">auto-fit:空轨塌掉,子项撑满整行</Text>
+            <SimpleGrid min="12rem" fit>
+              <div v-for="n in 3" :key="n" class="bg-inset text-muted rounded-md p-3 text-xs">
+                fit {{ n }}
+              </div>
+            </SimpleGrid>
+          </section>
+
+          <section id="container-layout" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              container · 内容宽度约束(四档语义页宽,此处画的是各档右边界)
+            </h2>
+            <ScrollArea direction="horizontal">
+              <div class="flex w-[84rem] flex-col gap-2 pb-2">
+                <Container
+                  v-for="s in ['sm', 'md', 'lg', 'xl'] as const"
+                  :key="s"
+                  :size="s"
+                  class="mx-0"
+                >
+                  <div class="bg-inset text-faint rounded-md p-2 text-right font-mono text-xs">
+                    {{ s }}
+                  </div>
+                </Container>
+              </div>
+            </ScrollArea>
+            <Text tone="muted">
+              工作台内容列本身只有 ~57rem,md 以上会被钳位 —— 这条轨道 84rem,横向滚动看真实档差。
+            </Text>
+          </section>
+
+          <section id="center-layout" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">center · 双轴居中</h2>
+            <Center class="border-line h-32 max-w-md rounded-md border">
+              <Stack align="center" gap="xs">
+                <Text weight="medium">空态占位</Text>
+                <Text tone="muted">块级 Center:定高容器里双轴居中</Text>
+              </Stack>
+            </Center>
+            <Text>
+              行内版:文字里嵌一个
+              <Center inline class="bg-inset size-6 rounded-full text-xs">音</Center>
+              徽标,inline-flex 不打断行盒。
+            </Text>
+          </section>
+
+          <section id="space-divider" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              space · 撑开与定长 / divider · 分隔
+            </h2>
+            <div class="border-line flex max-w-md items-center rounded-md border p-3">
+              <Text weight="medium">工具栏左侧</Text>
+              <Space />
+              <Button variant="ghost" tone="neutral">被推到右边</Button>
+            </div>
+            <div class="border-line flex max-w-md items-center rounded-md border p-3">
+              <Button variant="soft" tone="neutral">甲</Button>
+              <Space size="lg" />
+              <Button variant="soft" tone="neutral">乙(隔 lg 定长)</Button>
+            </div>
+            <Divider class="max-w-md" />
+            <Divider class="max-w-md">第三卷</Divider>
+            <div class="flex h-8 max-w-md items-center gap-3">
+              <Text>左</Text>
+              <Divider orientation="vertical" />
+              <Text>右(竖分隔)</Text>
+            </div>
+          </section>
+
+          <section id="aspect-ratio" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              aspect ratio · 比例盒(16:9 默认 / 1:1)
+            </h2>
+            <div class="flex max-w-2xl gap-4">
+              <AspectRatio class="flex-1">
+                <Center class="bg-inset size-full rounded-md">
+                  <Text tone="muted">16 : 9</Text>
+                </Center>
+              </AspectRatio>
+              <AspectRatio :ratio="1" class="w-40">
+                <Center class="bg-inset size-full rounded-md">
+                  <Text tone="muted">1 : 1</Text>
+                </Center>
+              </AspectRatio>
+            </div>
+          </section>
+
+          <section id="splitter" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              splitter · 可调分栏(拖手柄或聚焦后用方向键)
+            </h2>
+            <Splitter class="border-line h-40 max-w-2xl rounded-md border">
+              <SplitterPanel :default-size="30" :min-size="15">
+                <Center class="h-full">
+                  <Text tone="muted">侧栏 · min 15%</Text>
+                </Center>
+              </SplitterPanel>
+              <SplitterHandle />
+              <SplitterPanel :default-size="70">
+                <Splitter direction="vertical" class="h-full">
+                  <SplitterPanel :default-size="60">
+                    <Center class="h-full"><Text tone="muted">内容区</Text></Center>
+                  </SplitterPanel>
+                  <SplitterHandle />
+                  <SplitterPanel :default-size="40" :min-size="20">
+                    <Center class="h-full"><Text tone="muted">纵向嵌套</Text></Center>
+                  </SplitterPanel>
+                </Splitter>
+              </SplitterPanel>
+            </Splitter>
+          </section>
+
+          <section id="collapsible" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              collapsible · 折叠(高度经 hn-anim-collapse,base + move)
+            </h2>
+            <Card class="max-w-md">
+              <Collapsible default-open>
+                <CollapsibleTrigger as-child>
+                  <Button variant="ghost" tone="neutral" block class="group/coll justify-between">
+                    组件 · 12 篇
+                    <template #trailing>
+                      <ChevronRight class="hn-transition group-data-[state=open]/coll:rotate-90" />
+                    </template>
+                  </Button>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <Stack gap="none" class="pt-1 ps-3">
+                    <Button
+                      v-for="t in ['Button', 'Input', 'Card']"
+                      :key="t"
+                      variant="ghost"
+                      tone="neutral"
+                      size="sm"
+                      block
+                      class="justify-start"
+                    >
+                      {{ t }}
+                    </Button>
+                  </Stack>
+                </CollapsibleContent>
+              </Collapsible>
+              <Collapsible>
+                <CollapsibleTrigger as-child>
+                  <Button variant="ghost" tone="neutral" block class="group/coll justify-between">
+                    设计语言 · 8 篇(默认收起)
+                    <template #trailing>
+                      <ChevronRight class="hn-transition group-data-[state=open]/coll:rotate-90" />
+                    </template>
+                  </Button>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <Stack gap="sm" class="pt-2 ps-3">
                     <Text tone="muted">
-                      solid / soft / outline / ghost 四种出身,墨与波纹随 hn-state-layer 白拿。
+                      content 是无约束插槽:段落、列表、表单、嵌套折叠都行,高度动画量的是实际内容高。
                     </Text>
-                  </Section>
-                  <Section title="尺寸" id="demo-sizes">
-                    <Text v-for="n in 6" :key="n" tone="muted">
-                      第 {{ n }} 段填充,撑出内滚 —— 滚动条与边缘投影在壳里自然成立。
-                    </Text>
-                  </Section>
-                </PageBody>
-                <template #aside>
-                  <PageAside>
-                    <Text size="sm" weight="medium">本页目录</Text>
-                    <Anchor
-                      :items="[
-                        { id: 'demo-variants', label: '变体' },
-                        { id: 'demo-sizes', label: '尺寸' },
-                      ]"
-                    />
-                  </PageAside>
+                    <List class="text-sm">
+                      <li>薄墨:一种介质三种落法</li>
+                      <li>两轴动效:时长归通道,曲线归性质</li>
+                      <li>surface 与阴影:纯度守在内容坐的地方</li>
+                    </List>
+                    <Inline gap="sm">
+                      <Button variant="soft" tone="neutral">也能放控件</Button>
+                      <Kbd>Esc</Kbd>
+                    </Inline>
+                  </Stack>
+                </CollapsibleContent>
+              </Collapsible>
+            </Card>
+          </section>
+
+          <section id="sidebar-nav" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              navlink + sidebar · 文档站骨架预演(左侧工作台目录已是 NavLink 狗粮)
+            </h2>
+            <div
+              class="border-line bg-surface h-80 max-w-md overflow-hidden rounded-md border shadow-sm"
+            >
+              <Sidebar class="h-full w-full border-e-0">
+                <template #header>
+                  <Text weight="medium">Hina UI</Text>
                 </template>
-              </Page>
-            </AppShell>
-          </div>
-        </section>
-      </main>
+                <SidebarGroup label="组件">
+                  <NavLink href="#sidebar-nav" active>Button</NavLink>
+                  <NavLink href="#sidebar-nav">Input</NavLink>
+                  <NavLink href="#sidebar-nav">Card</NavLink>
+                </SidebarGroup>
+                <SidebarGroup label="设计语言" :default-open="false">
+                  <NavLink href="#sidebar-nav">薄墨</NavLink>
+                  <NavLink href="#sidebar-nav">两轴动效</NavLink>
+                </SidebarGroup>
+                <SidebarGroup label="很长的一组(测滚动)">
+                  <NavLink v-for="n in 12" :key="n" href="#sidebar-nav">条目 {{ n }}</NavLink>
+                </SidebarGroup>
+                <template #footer>
+                  <Text tone="muted">v0.1.0 · dev</Text>
+                </template>
+              </Sidebar>
+            </div>
+          </section>
+
+          <section id="app-shell" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              app shell · 页面骨架(固定壳,内容滚动交给 ScrollArea —— 盒内可直接滚)
+            </h2>
+            <div class="border-line h-96 max-w-3xl overflow-hidden rounded-md border shadow-sm">
+              <AppShell class="h-full">
+                <template #header>
+                  <SidebarTrigger size="sm" />
+                  <Text weight="medium">Hina Docs</Text>
+                  <Space />
+                  <Button size="sm" variant="outline" tone="neutral">搜索</Button>
+                </template>
+                <template #sidebar>
+                  <Sidebar class="h-full">
+                    <SidebarGroup label="组件">
+                      <NavLink href="#app-shell" label="Button" active>
+                        <template #icon><MousePointerClick class="size-4 shrink-0" /></template>
+                        Button
+                      </NavLink>
+                      <NavLink href="#app-shell" label="Input">
+                        <template #icon><TextCursorInput class="size-4 shrink-0" /></template>
+                        Input
+                      </NavLink>
+                    </SidebarGroup>
+                  </Sidebar>
+                </template>
+                <Page>
+                  <Breadcrumb>
+                    <BreadcrumbItem href="#app-shell">文档</BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem href="#app-shell">组件</BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem current>Button</BreadcrumbItem>
+                  </Breadcrumb>
+                  <PageHeader
+                    title="Button"
+                    description="按钮组件的用法、变体与设计裁定。"
+                    class="-mt-4"
+                  >
+                    <template #actions>
+                      <Button variant="outline" tone="neutral">源码</Button>
+                    </template>
+                  </PageHeader>
+                  <PageBody>
+                    <Section title="变体" id="demo-variants">
+                      <Text tone="muted">
+                        solid / soft / outline / ghost 四种出身,墨与波纹随 hn-state-layer 白拿。
+                      </Text>
+                    </Section>
+                    <Section title="尺寸" id="demo-sizes">
+                      <Text v-for="n in 6" :key="n" tone="muted">
+                        第 {{ n }} 段填充,撑出内滚 —— 滚动条与边缘投影在壳里自然成立。
+                      </Text>
+                    </Section>
+                  </PageBody>
+                  <template #aside>
+                    <PageAside>
+                      <Text size="sm" weight="medium">本页目录</Text>
+                      <Anchor
+                        :items="[
+                          { id: 'demo-variants', label: '变体' },
+                          { id: 'demo-sizes', label: '尺寸' },
+                        ]"
+                      />
+                    </PageAside>
+                  </template>
+                </Page>
+              </AppShell>
+            </div>
+          </section>
+
+          <section id="tooltip" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              tooltip · 浮层底座第一件(反色小体 · pop 动效 · 悬停/聚焦触发)
+            </h2>
+            <Stack gap="sm" align="center" class="w-max">
+              <Tooltip content="side = top" side="top">
+                <Button variant="outline" tone="neutral">top</Button>
+              </Tooltip>
+              <Inline gap="sm" :wrap="false">
+                <Tooltip content="side = left" side="left">
+                  <Button variant="outline" tone="neutral">left</Button>
+                </Tooltip>
+                <Tooltip content="新建条目">
+                  <Button icon-only aria-label="新建"><PlusIcon /></Button>
+                </Tooltip>
+                <Tooltip content="side = right" side="right">
+                  <Button variant="outline" tone="neutral">right</Button>
+                </Tooltip>
+              </Inline>
+              <Tooltip content="side = bottom" side="bottom">
+                <Button variant="outline" tone="neutral">bottom</Button>
+              </Tooltip>
+            </Stack>
+            <Inline gap="sm">
+              <Tooltip
+                content="较长的一段说明文字会在 max-w-xs 处换行,保持小体形态不变成一条横幅。"
+              >
+                <Button variant="ghost" tone="neutral">长文案</Button>
+              </Tooltip>
+            </Inline>
+            <Text tone="muted">
+              组间移动共享跳过延迟(Provider 已挂在工作台根部);聚焦触发同样生效,Esc 关闭。
+            </Text>
+          </section>
+
+          <section id="popover" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              popover · 驻留型小浮层(surface 面 · 发丝线 + 浮层阴影 · 点击触发可交互)
+            </h2>
+            <Inline gap="sm">
+              <Popover>
+                <Button variant="outline" tone="neutral">筛选</Button>
+                <template #content>
+                  <Stack gap="sm">
+                    <Heading :level="3" size="base">筛选条件</Heading>
+                    <Text tone="muted">驻留可交互:点里面不会关,Esc 或点外才收。</Text>
+                    <Inline gap="sm">
+                      <Button size="sm" variant="soft" tone="neutral">重置</Button>
+                      <Button size="sm">应用</Button>
+                    </Inline>
+                  </Stack>
+                </template>
+              </Popover>
+              <Popover side="right" align="start" class="w-56">
+                <Button variant="ghost" tone="neutral">side = right</Button>
+                <template #content>
+                  <Text tone="muted">side / align 与 Tooltip 同一套定位词汇。</Text>
+                </template>
+              </Popover>
+            </Inline>
+            <Text tone="muted">
+              与 Tooltip 的身份区分:悬停说明是反色小体带箭头,点击面板是 surface 面不带箭头;动效同为
+              pop,时长驻留档 base(Tooltip 是 fast)。
+            </Text>
+          </section>
+
+          <section id="dialog" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              dialog · 大面积浮层(scrim + 第三海拔卡面 · slow 档 modal 动效 · 锁滚)
+            </h2>
+            <Inline gap="sm">
+              <Dialog
+                title="删除这本轻小说?"
+                description="删除后不可恢复,关联的卷与章节将一并移除。"
+              >
+                <Button variant="outline" tone="danger">删除条目</Button>
+                <template #content>
+                  <Text tone="muted">
+                    正文区是自由插槽;标题与描述由组件排版并自动接好 aria 关联,Esc / 点外 /
+                    右上角都能关,焦点困在框内、关闭后归还触发器。
+                  </Text>
+                </template>
+                <template #footer="{ close }">
+                  <Button variant="soft" tone="neutral" @click="close()">取消</Button>
+                  <Button tone="danger" @click="close()">确认删除</Button>
+                </template>
+              </Dialog>
+              <Dialog
+                title="服务条款"
+                description="超高内容:头脚钉住,正文交给 ScrollArea。"
+                size="lg"
+              >
+                <Button variant="outline" tone="neutral">超长内容</Button>
+                <template #content>
+                  <Stack gap="sm">
+                    <Text v-for="n in 24" :key="n" tone="muted">
+                      第 {{ n }} 条:正文在框内滚动,滚动条与边缘投影提示都来自
+                      ScrollArea,标题与动作行钉在原位不跟着跑。
+                    </Text>
+                  </Stack>
+                </template>
+                <template #footer="{ close }">
+                  <Button @click="close()">我已阅读</Button>
+                </template>
+              </Dialog>
+              <Dialog
+                title="移动端形态"
+                description="placement='bottom' 的贴底 sheet;未指定时窄屏(<640px)自动如此。"
+                placement="bottom"
+              >
+                <Button variant="ghost" tone="neutral">贴底形态</Button>
+                <template #content>
+                  <Text tone="muted">
+                    同一身份换停靠位:落底但不贴死——四周均匀留白、圆角全留(贴死切角是 Drawer
+                    的词汇),从底边整张滑入,scrim
+                    与锁滚不变。缩窄窗口后,左边两个对话框也会自动进入这个形态。
+                  </Text>
+                </template>
+                <template #footer="{ close }">
+                  <Button @click="close()">知道了</Button>
+                </template>
+              </Dialog>
+            </Inline>
+            <Text tone="muted">
+              面板同样是一张卡,海拔升到 shadow-lg;进场 slow 450 + enter-strong,出场统一 exit
+              200;开着时锁滚与 Popover 同源。
+            </Text>
+          </section>
+
+          <section id="drawer" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              drawer · 边缘工具面(贴死边 · 切直角 · 与 dialog 浮卡相对)
+            </h2>
+            <Inline gap="sm">
+              <Drawer title="筛选条件" description="按标签、年份与状态过滤列表。">
+                <Button variant="outline" tone="neutral">筛选(end)</Button>
+                <template #content>
+                  <Stack gap="sm">
+                    <Text v-for="n in 18" :key="n" tone="muted">
+                      条件组 {{ n }}:抽屉正文全高,滚动交给 ScrollArea,页脚钉底。
+                    </Text>
+                  </Stack>
+                </template>
+                <template #footer="{ close }">
+                  <Button variant="soft" tone="neutral" @click="close()">重置</Button>
+                  <Button @click="close()">应用</Button>
+                </template>
+              </Drawer>
+              <Drawer title="目录" side="start" size="sm">
+                <Button variant="ghost" tone="neutral">导航(start · sm)</Button>
+                <template #content>
+                  <Stack gap="none">
+                    <NavLink href="#drawer" active>快速开始</NavLink>
+                    <NavLink href="#drawer">设计语言</NavLink>
+                    <NavLink href="#drawer">组件目录</NavLink>
+                  </Stack>
+                </template>
+              </Drawer>
+            </Inline>
+            <Text tone="muted">
+              身份判据的另一半:贴死屏幕边、四角全直是 Drawer 的词汇,Dialog 到哪都是悬浮圆角卡。side
+              只有 start / end——bottom 的岗位归 Dialog 的 placement,top
+              无岗位。模态全套(scrim、锁滚、焦点)与 Dialog 同源。
+            </Text>
+          </section>
+
+          <section id="toast" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              toast · 常驻通知区(非模态 · 命令式 · z 阶梯唯一例外)
+            </h2>
+            <Inline gap="sm">
+              <Button
+                variant="soft"
+                tone="neutral"
+                @click="
+                  toast.success('已保存', { description: '条目更新成功,3 位关注者将收到推送。' })
+                "
+              >
+                成功
+              </Button>
+              <Button
+                variant="soft"
+                tone="neutral"
+                @click="toast.danger('保存失败', { description: '网络中断,改动已暂存本地。' })"
+              >
+                危险
+              </Button>
+              <Button variant="soft" tone="neutral" @click="toast.warning('登录即将过期')">
+                警告
+              </Button>
+              <Button variant="soft" tone="neutral" @click="toast.info('有 2 条新的评论回复')">
+                信息
+              </Button>
+              <Button variant="soft" tone="neutral" @click="toast('剪贴板已更新')">中性</Button>
+              <Button
+                variant="outline"
+                tone="neutral"
+                @click="toast.info('常驻通知,自己不会走', { duration: 0 })"
+              >
+                常驻
+              </Button>
+              <Button variant="soft" tone="neutral" @click="demoPromise()">promise</Button>
+              <Button
+                variant="soft"
+                tone="neutral"
+                @click="
+                  toast('已删除 3 条评论', {
+                    description: '可以立即撤销这次操作。',
+                    duration: 8000,
+                    action: { label: '撤销', onClick: () => toast.success('已恢复') },
+                    cancel: { label: '算了' },
+                  })
+                "
+              >
+                action
+              </Button>
+              <Button
+                variant="soft"
+                tone="neutral"
+                @click="toast.custom(FollowToast, { duration: 0 })"
+              >
+                custom
+              </Button>
+              <Button variant="ghost" tone="neutral" @click="toast.dismiss()">清空全部</Button>
+            </Inline>
+            <Inline gap="sm" align="center">
+              <Text size="sm" tone="muted">position</Text>
+              <Button
+                v-for="p in toastPositions"
+                :key="p"
+                size="sm"
+                :variant="toastPos === p ? 'soft' : 'ghost'"
+                tone="neutral"
+                @click="((toastPos = p), toast.info(`position = ${p}`))"
+              >
+                {{ p }}
+              </Button>
+            </Inline>
+            <Text tone="muted">
+              命令式 API:toast() / .success / .loading / .promise / 同 id 原地更新 / action 与
+              cancel 按钮 / onDismiss 回调。堆叠收拢露 3
+              张(背卡缩位、取前卡高度),悬停或聚焦展开全列并暂停计时;右滑扫走、hover 渐显关闭钮;上限
+              5 条丢最旧。
+            </Text>
+          </section>
+
+          <section id="overlay-stack" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              浮层嵌套 · 栈序(z 不取号 · 后开者恒在上 · toast 恒顶)
+            </h2>
+            <Inline gap="sm">
+              <Dialog
+                title="嵌套演练场"
+                description="所有浮层同一个 z=100,层序由挂载序自动决定,嵌套深度无上限。"
+              >
+                <Button variant="outline" tone="neutral">进入演练场</Button>
+                <template #content>
+                  <Stack gap="sm">
+                    <Text tone="muted">
+                      在这个对话框里继续开:驻留面板、内层对话框——后开的永远压在上面,Esc
+                      逐层往回收。先发一条通知再开这些,通知永远浮在最顶(110 档;
+                      模态开着时它只可见不可点,这是模态语义)。
+                    </Text>
+                    <Inline gap="sm">
+                      <Popover>
+                        <Button variant="soft" tone="neutral">开驻留面板</Button>
+                        <template #content>
+                          <Stack gap="sm">
+                            <Text tone="muted">同 z 100,靠 DOM 序压在对话框上。</Text>
+                            <Popover side="right">
+                              <Button size="sm" variant="soft" tone="neutral">再套一层</Button>
+                              <template #content>
+                                <Text tone="muted">第三层,依旧后来者居上。</Text>
+                              </template>
+                            </Popover>
+                          </Stack>
+                        </template>
+                      </Popover>
+                      <Dialog title="内层对话框" description="后挂载,压住外层。" size="sm">
+                        <Button variant="soft" tone="neutral">开内层对话框</Button>
+                        <template #content>
+                          <Text tone="muted">Esc 或点外只收我,外层还在。</Text>
+                        </template>
+                        <template #footer="{ close }">
+                          <Button size="sm" @click="close()">收起</Button>
+                        </template>
+                      </Dialog>
+                      <Button
+                        variant="soft"
+                        tone="neutral"
+                        @click="toast.info('我在 110 档,谁也压不住', { duration: 0 })"
+                      >
+                        发常驻通知
+                      </Button>
+                    </Inline>
+                  </Stack>
+                </template>
+              </Dialog>
+            </Inline>
+            <Text tone="muted">
+              对应跨组件回归 overlay-stack:elementFromPoint 实测绘制序、Esc 逐层判定、toast
+              先挂载仍恒顶,三条都有断言把守。
+            </Text>
+          </section>
+        </main>
+      </div>
+      <Toaster :position="toastPos === 'auto' ? undefined : toastPos" />
     </div>
-  </div>
+  </TooltipProvider>
 </template>
