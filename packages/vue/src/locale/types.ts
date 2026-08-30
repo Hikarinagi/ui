@@ -42,6 +42,9 @@ export interface UiMessages {
   scroll: {
     regionLabel: string
   }
+  toast: {
+    regionLabel: string
+  }
   spoiler: {
     revealLabel: string
     hideLabel: string
@@ -55,6 +58,7 @@ export interface UiMessages {
   }
   sidebar: {
     navLabel: string
+    toggleLabel: string
   }
   anchor: {
     navLabel: string

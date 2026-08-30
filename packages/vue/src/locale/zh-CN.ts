@@ -33,7 +33,7 @@ export const zhCN: UiMessages = {
   },
   upload: {
     choose: '选择文件',
-    dropHint: '拖拽文件到此处,或点击选择',
+    dropHint: '拖拽文件到此处，或点击选择',
     tooLargeLabel: readableSize => `文件超出 ${readableSize} 上限`,
     remove: '移除',
   },
@@ -44,8 +44,11 @@ export const zhCN: UiMessages = {
   scroll: {
     regionLabel: '可滚动区域',
   },
+  toast: {
+    regionLabel: '通知',
+  },
   spoiler: {
-    revealLabel: '剧透内容,点击显示',
+    revealLabel: '剧透内容，点击显示',
     hideLabel: '隐藏剧透',
   },
   codeblock: {
@@ -57,6 +60,7 @@ export const zhCN: UiMessages = {
   },
   sidebar: {
     navLabel: '侧边导航',
+    toggleLabel: '切换侧栏',
   },
   anchor: {
     navLabel: '本页目录',

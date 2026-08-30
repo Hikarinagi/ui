@@ -44,6 +44,9 @@ export const enUS: UiMessages = {
   scroll: {
     regionLabel: 'Scrollable region',
   },
+  toast: {
+    regionLabel: 'Notifications',
+  },
   spoiler: {
     revealLabel: 'Spoiler, click to reveal',
     hideLabel: 'Hide spoiler',
@@ -57,6 +60,7 @@ export const enUS: UiMessages = {
   },
   sidebar: {
     navLabel: 'Sidebar navigation',
+    toggleLabel: 'Toggle sidebar',
   },
   anchor: {
     navLabel: 'On this page',
