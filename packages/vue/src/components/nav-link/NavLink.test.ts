@@ -11,11 +11,12 @@ beforeEach(() => {
 describe('渲染与状态', () => {
   it('默认渲染 a,静止 muted 字色、行项不弹(hn-press-none)', () => {
     const w = mount(NavLink, { attrs: { href: '/docs' }, slots: { default: () => '组件' } })
-    expect(w.element.tagName).toBe('A')
-    expect(w.attributes('href')).toBe('/docs')
-    expect(w.classes()).toContain('text-muted')
-    expect(w.classes()).toContain('hn-press-none')
-    expect(w.attributes('aria-current')).toBeUndefined()
+    const a = w.find('a')
+    expect(a.exists()).toBe(true)
+    expect(a.attributes('href')).toBe('/docs')
+    expect(a.classes()).toContain('text-muted')
+    expect(a.classes()).toContain('hn-press-none')
+    expect(a.attributes('aria-current')).toBeUndefined()
   })
 
   it('active = aria-current="page" + 选中墨(data-state=selected)+ 字色回正加重', () => {
@@ -24,17 +25,19 @@ describe('渲染与状态', () => {
       attrs: { href: '/docs' },
       slots: { default: () => '组件' },
     })
-    expect(w.attributes('aria-current')).toBe('page')
-    expect(w.attributes('data-state')).toBe('selected')
-    expect(w.classes()).toContain('text-fg')
-    expect(w.classes()).toContain('font-medium')
-    expect(w.classes()).not.toContain('text-muted')
+    const a = w.find('a')
+    expect(a.attributes('aria-current')).toBe('page')
+    expect(a.attributes('data-state')).toBe('selected')
+    expect(a.classes()).toContain('text-fg')
+    expect(a.classes()).toContain('font-medium')
+    expect(a.classes()).not.toContain('text-muted')
   })
 
   it('disabled 退出 tab 序列并打 aria-disabled', () => {
     const w = mount(NavLink, { props: { disabled: true }, attrs: { href: '/x' } })
-    expect(w.attributes('aria-disabled')).toBe('true')
-    expect(w.attributes('tabindex')).toBe('-1')
+    const a = w.find('a')
+    expect(a.attributes('aria-disabled')).toBe('true')
+    expect(a.attributes('tabindex')).toBe('-1')
   })
 
   it('as 可换路由组件,icon 插槽在前', () => {
@@ -50,9 +53,10 @@ describe('渲染与状态', () => {
       attrs: { to: '/guide' },
       slots: { icon: () => h('svg', { class: 'nav-icon' }), default: () => '指南' },
     })
-    expect(w.attributes('data-router')).toBe('')
-    expect(w.attributes('href')).toBe('/guide')
-    expect((w.element.firstElementChild as HTMLElement).classList.contains('nav-icon')).toBe(true)
+    const a = w.find('[data-router]')
+    expect(a.exists()).toBe(true)
+    expect(a.attributes('href')).toBe('/guide')
+    expect((a.element.firstElementChild as HTMLElement).classList.contains('nav-icon')).toBe(true)
   })
 })
 

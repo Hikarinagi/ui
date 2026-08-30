@@ -33,14 +33,14 @@ describe('选中墨真实上屏', () => {
     })
 
     await vi.waitFor(() => {
-      expect(getComputedStyle(active.element as Element, '::after').opacity).toBe('0.14')
+      expect(getComputedStyle(active.find('a').element, '::after').opacity).toBe('0.14')
     })
-    expect(getComputedStyle(rest.element as Element, '::after').opacity).toBe('0')
+    expect(getComputedStyle(rest.find('a').element, '::after').opacity).toBe('0')
 
     const probe = document.createElement('span')
     probe.style.color = 'var(--hn-accent)'
     document.body.appendChild(probe)
-    expect(getComputedStyle(active.element as Element, '::after').backgroundColor).toBe(
+    expect(getComputedStyle(active.find('a').element, '::after').backgroundColor).toBe(
       getComputedStyle(probe).color,
     )
   })
@@ -58,17 +58,17 @@ describe('选中墨真实上屏', () => {
       attachTo: attach(),
     })
     await vi.waitFor(() =>
-      expect(getComputedStyle(w.element as Element, '::after').opacity).toBe('0.14'),
+      expect(getComputedStyle(w.find('a').element, '::after').opacity).toBe('0.14'),
     )
 
     await w.setProps({ active: false })
     await new Promise(resolve => setTimeout(resolve, 80))
-    const mid = getComputedStyle(w.element as Element, '::after')
+    const mid = getComputedStyle(w.find('a').element, '::after')
     expect(parseFloat(mid.opacity)).toBeLessThan(0.14)
     expect(mid.backgroundColor).toBe(accent)
 
     await vi.waitFor(() => {
-      const s = getComputedStyle(w.element as Element, '::after')
+      const s = getComputedStyle(w.find('a').element, '::after')
       expect(s.opacity).toBe('0')
       expect(s.backgroundColor).not.toBe(accent)
     })
@@ -81,9 +81,9 @@ describe('选中墨真实上屏', () => {
       slots: { default: () => '选中' },
       attachTo: attach(),
     })
-    await userEvent.hover(active.element as HTMLElement)
+    await userEvent.hover(active.find('a').element as HTMLElement)
     await vi.waitFor(() => {
-      expect(getComputedStyle(active.element as Element, '::after').opacity).toBe('0.2')
+      expect(getComputedStyle(active.find('a').element, '::after').opacity).toBe('0.2')
     })
   })
 })

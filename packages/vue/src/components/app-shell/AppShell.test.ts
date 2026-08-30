@@ -32,9 +32,10 @@ function harness() {
 describe('结构 · 固定壳,内容滚动交给 ScrollArea', () => {
   it('壳占满视口且自身不滚,地面归壳;main 内是 ScrollArea', () => {
     const w = harness()
-    expect(w.classes()).toContain('bg-canvas')
-    expect(w.classes()).toContain('h-screen')
-    expect(w.classes()).toContain('overflow-hidden')
+    const shell = w.find('div')
+    expect(shell.classes()).toContain('bg-canvas')
+    expect(shell.classes()).toContain('h-screen')
+    expect(shell.classes()).toContain('overflow-hidden')
     expect(w.find('main .hn-scroll-area').exists()).toBe(true)
     expect(w.find('main').text()).toBe('正文内容')
   })
@@ -45,10 +46,11 @@ describe('结构 · 固定壳,内容滚动交给 ScrollArea', () => {
     expect(header.classes()).toContain('shrink-0')
     expect(header.classes()).not.toContain('sticky')
 
-    const rail = w.find('main').element.previousElementSibling as HTMLElement
+    const rail = w.find('div').element.firstElementChild as HTMLElement
     expect(rail.className).toContain('h-full')
     expect(rail.className).toContain('hidden')
     expect(rail.className).toContain('lg:block')
+    expect(rail.nextElementSibling?.contains(header.element)).toBe(true)
   })
 
   it('无 header / 无侧栏的降级形态', () => {
