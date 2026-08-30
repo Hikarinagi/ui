@@ -56,8 +56,36 @@
   import Toaster from '../src/components/toast/Toaster.vue'
   import { toast, type ToasterPosition } from '../src/components/toast/store'
   import type { ButtonVariants } from '../src/components/button/button.variants'
-  import { ChevronRight, MousePointerClick, TextCursorInput } from '@lucide/vue'
+  import {
+    AlignCenter,
+    AlignLeft,
+    AlignRight,
+    ChevronDown,
+    ChevronLeft,
+    ChevronRight,
+    MousePointerClick,
+    Redo2,
+    Star,
+    TextCursorInput,
+    Undo2,
+  } from '@lucide/vue'
   import SidebarTrigger from '../src/components/sidebar/SidebarTrigger.vue'
+  import IconButton from '../src/components/icon-button/IconButton.vue'
+  import CloseButton from '../src/components/close-button/CloseButton.vue'
+  import CopyButton from '../src/components/copy-button/CopyButton.vue'
+  import ButtonGroup from '../src/components/button-group/ButtonGroup.vue'
+  import Tag from '../src/components/tag/Tag.vue'
+  import Callout from '../src/components/callout/Callout.vue'
+  import Table from '../src/components/table/Table.vue'
+  import TableHeader from '../src/components/table/TableHeader.vue'
+  import TableBody from '../src/components/table/TableBody.vue'
+  import TableRow from '../src/components/table/TableRow.vue'
+  import TableHead from '../src/components/table/TableHead.vue'
+  import TableCell from '../src/components/table/TableCell.vue'
+  import Tabs from '../src/components/tabs/Tabs.vue'
+  import TabsList from '../src/components/tabs/TabsList.vue'
+  import TabsTrigger from '../src/components/tabs/TabsTrigger.vue'
+  import TabsContent from '../src/components/tabs/TabsContent.vue'
   import PlusIcon from './PlusIcon.vue'
   import ArrowIcon from './ArrowIcon.vue'
   import hinaWordmark from '../src/assets/hina-wordmark.svg?raw'
@@ -108,6 +136,12 @@
     { id: 'drawer', label: 'Drawer · 边缘抽屉' },
     { id: 'toast', label: 'Toast · 通知' },
     { id: 'overlay-stack', label: '浮层嵌套 · 栈序' },
+    { id: 'icon-button', label: 'IconButton · 图标钮' },
+    { id: 'button-group', label: 'ButtonGroup · 按钮组' },
+    { id: 'tag', label: 'Tag · 标签' },
+    { id: 'tabs', label: 'Tabs · 分页签' },
+    { id: 'callout', label: 'Callout · 提示块' },
+    { id: 'table', label: 'Table · 样式表' },
   ]
   const active = ref('button')
   let spy: IntersectionObserver | undefined
@@ -128,6 +162,19 @@
   })
 
   onBeforeUnmount(() => spy?.disconnect())
+
+  const saveMenu = ref(false)
+  const deleteMenu = ref(false)
+
+  function pickSave(label: string) {
+    saveMenu.value = false
+    toast.success(label)
+  }
+
+  function pickDelete(label: string) {
+    deleteMenu.value = false
+    toast.danger(label)
+  }
 
   const toastPos = ref<ToasterPosition | 'auto'>('auto')
   const toastPositions: (ToasterPosition | 'auto')[] = [
@@ -1294,6 +1341,444 @@
             <Text tone="muted">
               对应跨组件回归 overlay-stack:elementFromPoint 实测绘制序、Esc 逐层判定、toast
               先挂载仍恒顶,三条都有断言把守。
+            </Text>
+          </section>
+
+          <section id="icon-button" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              icon button · 图标钮(label 必填兼 aria-label · 自带 tooltip · 无 provider 静默降级)
+            </h2>
+            <Inline gap="sm" align="center">
+              <IconButton label="收藏"><Star /></IconButton>
+              <IconButton label="新建条目" variant="solid" tone="accent"><PlusIcon /></IconButton>
+              <IconButton label="更多操作" variant="outline"><ChevronRight /></IconButton>
+              <IconButton label="胶囊形态" pill variant="soft"><PlusIcon /></IconButton>
+              <IconButton label="小档" size="sm"><ChevronRight /></IconButton>
+              <IconButton label="大档" size="lg"><PlusIcon /></IconButton>
+              <IconButton label="保存中" :loading="loading"><PlusIcon /></IconButton>
+              <IconButton label="不浮词(tooltip=false)" :tooltip="false">
+                <ChevronRight />
+              </IconButton>
+              <Divider orientation="vertical" class="h-6 self-center" />
+              <CloseButton @click="toast('关掉了点什么')" />
+              <CloseButton size="md" @click="toast('中档关闭')" />
+              <CloseButton disabled />
+              <Divider orientation="vertical" class="h-6 self-center" />
+              <CopyButton text="#34A2D5" />
+              <CopyButton text="pnpm add @hikarinagi/ui" label="复制安装命令" size="md" />
+            </Inline>
+            <Text tone="muted">
+              惯例内置:label 必填,同一份词供 aria-label 与 Tooltip;默认 ghost/neutral
+              工具位形态;loading 白拿 Button 的图标交接;顶栏 loading 开关可看交接。
+            </Text>
+          </section>
+
+          <section id="button-group" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              button group · 拼接组(几何归容器 · 组内禁按下缩放 · 形态一致性归调用方)
+            </h2>
+            <Inline gap="lg" align="center">
+              <ButtonGroup label="对齐方式">
+                <IconButton label="左对齐" variant="outline"><AlignLeft /></IconButton>
+                <IconButton label="居中对齐" variant="outline"><AlignCenter /></IconButton>
+                <IconButton label="右对齐" variant="outline"><AlignRight /></IconButton>
+              </ButtonGroup>
+              <ButtonGroup label="分页">
+                <IconButton label="上一页" variant="outline" size="sm"><ChevronLeft /></IconButton>
+                <Button variant="outline" tone="neutral" size="sm">1</Button>
+                <Button variant="outline" tone="neutral" size="sm">2</Button>
+                <Button variant="outline" tone="neutral" size="sm">3</Button>
+                <IconButton label="下一页" variant="outline" size="sm"><ChevronRight /></IconButton>
+              </ButtonGroup>
+              <ButtonGroup label="保存方式" divider>
+                <Button @click="toast.success('已保存')">保存</Button>
+                <Popover v-model:open="saveMenu" align="end" :padded="false" class="w-44">
+                  <IconButton label="更多保存方式" variant="solid" tone="accent">
+                    <ChevronDown />
+                  </IconButton>
+                  <template #content>
+                    <div class="flex flex-col p-1">
+                      <Button
+                        variant="ghost"
+                        tone="neutral"
+                        size="sm"
+                        class="justify-start"
+                        @click="pickSave('已另存为副本')"
+                      >
+                        另存为副本
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        tone="neutral"
+                        size="sm"
+                        class="justify-start"
+                        @click="pickSave('已导出 Markdown')"
+                      >
+                        导出 Markdown
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        tone="neutral"
+                        size="sm"
+                        class="justify-start"
+                        @click="pickSave('已保存并锁定')"
+                      >
+                        保存并锁定
+                      </Button>
+                    </div>
+                  </template>
+                </Popover>
+              </ButtonGroup>
+              <ButtonGroup label="删除方式" divider>
+                <Button tone="danger" @click="toast.danger('已删除')">删除</Button>
+                <Popover v-model:open="deleteMenu" align="end" :padded="false" class="w-40">
+                  <IconButton label="更多删除方式" variant="solid" tone="danger">
+                    <ChevronDown />
+                  </IconButton>
+                  <template #content>
+                    <div class="flex flex-col p-1">
+                      <Button
+                        variant="ghost"
+                        tone="neutral"
+                        size="sm"
+                        class="justify-start"
+                        @click="pickDelete('已移入回收站')"
+                      >
+                        移入回收站
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        tone="danger"
+                        size="sm"
+                        class="justify-start"
+                        @click="pickDelete('已彻底删除')"
+                      >
+                        彻底删除
+                      </Button>
+                    </div>
+                  </template>
+                </Popover>
+              </ButtonGroup>
+              <ButtonGroup label="历史" divider>
+                <IconButton label="撤销" variant="solid" tone="neutral" @click="toast('已撤销')">
+                  <Undo2 />
+                </IconButton>
+                <IconButton label="重做" variant="solid" tone="neutral" @click="toast('已重做')">
+                  <Redo2 />
+                </IconButton>
+              </ButtonGroup>
+              <ButtonGroup label="周期" divider>
+                <Button variant="soft" tone="neutral" pill>日</Button>
+                <Button variant="soft" tone="neutral" pill>周</Button>
+                <Button variant="soft" tone="neutral" pill>月</Button>
+              </ButtonGroup>
+            </Inline>
+            <Text tone="muted">
+              接缝侧圆角清零、边框叠 1px,首尾外角自动保留(pill 组免费成胶囊);focus 提 z 防 ring
+              被邻居盖;solid/soft 默认浑然一体,静止要分界时 opt-in divider——非全高 currentColor
+              细线,白字组出浅白线、深字组出灰线,同一方案通吃。拆分钮的箭头是组内嵌的 Popover
+              触发器:Root 是 fragment,真按钮仍是组的直接子,几何不破;开面板期间触发钮保持按下墨。
+            </Text>
+          </section>
+
+          <section id="tag" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              tag · 静态标注(名词不可交互 · soft/solid/outline 三变体 · 要 X 请找未来的 Chip)
+            </h2>
+            <Inline gap="sm" align="center">
+              <Tag>默认中性</Tag>
+              <Tag tone="accent">Galgame</Tag>
+              <Tag tone="success">连载中</Tag>
+              <Tag tone="warning">审核中</Tag>
+              <Tag tone="danger">已下架</Tag>
+              <Tag tone="info">公告</Tag>
+            </Inline>
+            <Inline gap="sm" align="center">
+              <Tag variant="outline">v3.2.0</Tag>
+              <Tag variant="outline" tone="accent">轻小说</Tag>
+              <Tag variant="outline" tone="success">已完结</Tag>
+              <Tag variant="outline" tone="danger">R-18</Tag>
+              <Tag tone="accent">
+                <Star />
+                精选
+              </Tag>
+              <Tag pill tone="info">pill</Tag>
+              <Tag size="md" tone="success">md 档</Tag>
+              <Tag size="md" pill variant="outline">md · pill</Tag>
+            </Inline>
+            <Inline gap="sm" align="center">
+              <Tag variant="solid" tone="danger">R-18</Tag>
+              <Tag variant="solid" tone="accent">独家</Tag>
+              <Tag variant="solid" tone="neutral">完结</Tag>
+              <Tag variant="solid" tone="warning">删修版</Tag>
+              <Tag variant="solid" tone="info" pill>NEW</Tag>
+              <div
+                class="relative h-24 w-40 overflow-hidden rounded-lg bg-neutral-300 dark:bg-neutral-600"
+              >
+                <Tag variant="solid" tone="danger" class="absolute top-1.5 start-1.5">R-18</Tag>
+                <Tag variant="solid" tone="info" pill class="absolute bottom-1.5 end-1.5">NEW</Tag>
+              </div>
+            </Inline>
+            <Text tone="muted">
+              族内分工:Tag 静态标注;Chip 可交互实体(可删可点);Indicator 状态点原子;Badge
+              锚定层(把数字或 Indicator 钉到宿主角上,自己不造点)。sm 档吃 xs 字(微标签岗位),md 档吃
+              sm 字;透明 border 占位,三变体同尺寸。solid 的岗位是注目位/贴图位——封面角标那类 soft
+              压不住的地方;内文流默认仍是 soft。
+            </Text>
+          </section>
+
+          <section id="tabs" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              tabs · 分页签(underline/soft 两形态 · 滑块走 Highlight · sm/md 两档)
+            </h2>
+            <Tabs default-value="preview" class="max-w-xl">
+              <TabsList label="示例形态">
+                <TabsTrigger value="preview">预览</TabsTrigger>
+                <TabsTrigger value="code">代码</TabsTrigger>
+                <TabsTrigger value="design">设计裁定</TabsTrigger>
+                <TabsTrigger value="locked" disabled>锁定</TabsTrigger>
+              </TabsList>
+              <TabsContent value="preview" class="pt-3">
+                <Text tone="muted">underline 默认形态:List 下边线 + accent 圆头滑块。</Text>
+              </TabsContent>
+              <TabsContent value="code" class="pt-3">
+                <Text tone="muted">滑块与 Anchor 竖条、Sidebar 收展同一条运动曲线。</Text>
+              </TabsContent>
+              <TabsContent value="design" class="pt-3">
+                <Text tone="muted">trigger 吃薄墨与波纹,成列不弹缩放;键盘方向键循焦跳禁用。</Text>
+              </TabsContent>
+            </Tabs>
+            <Inline gap="lg" align="center">
+              <Tabs default-value="a" variant="soft">
+                <TabsList label="soft 形态">
+                  <TabsTrigger value="a">总览</TabsTrigger>
+                  <TabsTrigger value="b">评论</TabsTrigger>
+                  <TabsTrigger value="c">收藏</TabsTrigger>
+                </TabsList>
+              </Tabs>
+              <Tabs default-value="a" variant="soft" size="sm">
+                <TabsList label="soft 小档">
+                  <TabsTrigger value="a">日</TabsTrigger>
+                  <TabsTrigger value="b">周</TabsTrigger>
+                  <TabsTrigger value="c">月</TabsTrigger>
+                </TabsList>
+              </Tabs>
+              <Tabs default-value="a" size="sm">
+                <TabsList label="underline 小档">
+                  <TabsTrigger value="a">pnpm</TabsTrigger>
+                  <TabsTrigger value="b">npm</TabsTrigger>
+                  <TabsTrigger value="c">yarn</TabsTrigger>
+                </TabsList>
+              </Tabs>
+            </Inline>
+            <Tabs default-value="t0" class="max-w-60">
+              <TabsList label="溢出滚动">
+                <TabsTrigger v-for="i in 8" :key="i" :value="`t${i - 1}`">第{{ i }}卷</TabsTrigger>
+              </TabsList>
+            </Tabs>
+            <Inline gap="lg" align="start">
+              <Tabs default-value="profile" orientation="vertical" class="max-w-md">
+                <TabsList label="竖排设置">
+                  <TabsTrigger value="profile">个人资料</TabsTrigger>
+                  <TabsTrigger value="notify">通知偏好</TabsTrigger>
+                  <TabsTrigger value="security">账号安全</TabsTrigger>
+                </TabsList>
+                <TabsContent value="profile">
+                  <Text tone="muted">竖排 underline:accent 竖条贴列缘滑动。</Text>
+                </TabsContent>
+                <TabsContent value="notify">
+                  <Text tone="muted">上下方向键循焦,reka 自动换轴。</Text>
+                </TabsContent>
+                <TabsContent value="security">
+                  <Text tone="muted">内容区在右侧。</Text>
+                </TabsContent>
+              </Tabs>
+              <Tabs default-value="a" orientation="vertical" variant="soft">
+                <TabsList label="竖排 soft">
+                  <TabsTrigger value="a">概览</TabsTrigger>
+                  <TabsTrigger value="b">成员</TabsTrigger>
+                  <TabsTrigger value="c">权限</TabsTrigger>
+                </TabsList>
+              </Tabs>
+            </Inline>
+            <Text tone="muted">
+              结构式四件族;滑块是 Highlight 原语的消费方(Motion 布局动画,可打断);变体与尺寸由根
+              provide 下发;页签溢出时 List 横向滚动;内容切换瞬换防动画疲劳。
+            </Text>
+          </section>
+
+          <section id="callout" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              callout · 提示块(role=note · 六 tone 语义对 · soft 底扁平块)
+            </h2>
+            <div class="flex max-w-2xl flex-col gap-3">
+              <Callout title="备注">中性档,默认形态。图标、soft 底、可选标题,正文走插槽。</Callout>
+              <Callout tone="accent" title="小技巧">
+                accent 档是文档里的 TIP:品牌色引导,不承担状态语义。
+              </Callout>
+              <Callout tone="info">info 档,无标题也成立——只有一句话的提示很常见。</Callout>
+              <Callout tone="warning" title="注意">
+                warning 档:改这个 token 之前先跑一遍机检。
+              </Callout>
+              <Callout tone="danger" title="危险">
+                danger 档:该操作不可逆,提交前确认迁移已备份。
+              </Callout>
+              <Callout tone="success" :icon="false" title="无图标形态">
+                icon=false 收起图标;#icon 插槽可整体替换。
+              </Callout>
+            </div>
+            <Text tone="muted">
+              六 tone 与 Tag 同构,零新 token;图标映射沿用 Toast 的语义图标语言;静态文档标注取
+              role=note,不用 alert(那是动态通知的语义)。
+            </Text>
+          </section>
+
+          <section id="table" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              table · 样式表族(发丝线无斑马 · tabular-nums · 与 prose 裸表同源)
+            </h2>
+            <Table caption="Button 的属性" class="max-w-2xl">
+              <TableHeader>
+                <TableRow>
+                  <TableHead class="w-32">属性</TableHead>
+                  <TableHead>类型</TableHead>
+                  <TableHead class="w-24" align="end">默认值</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell><Code>variant</Code></TableCell>
+                  <TableCell>solid | soft | outline | ghost | link</TableCell>
+                  <TableCell align="end">solid</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell><Code>tone</Code></TableCell>
+                  <TableCell>accent | neutral | danger</TableCell>
+                  <TableCell align="end">accent</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell><Code>size</Code></TableCell>
+                  <TableCell>sm | md | lg</TableCell>
+                  <TableCell align="end">md</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell><Code>ripple</Code></TableCell>
+                  <TableCell>boolean</TableCell>
+                  <TableCell align="end">true</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+            <Table class="max-w-72" caption="窄容器横滚">
+              <TableBody>
+                <TableRow>
+                  <TableCell v-for="i in 8" :key="i" class="whitespace-nowrap">
+                    第 {{ i }} 列的较宽内容
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+            <Inline gap="lg" align="start">
+              <Table class="max-w-72" caption="无保底:窄容器把列挤扁折行">
+                <TableBody>
+                  <TableRow>
+                    <TableCell v-for="i in 3" :key="i">第 {{ i }} 列的较宽内容</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+              <Table class="max-w-72" caption="min-w-36 保底:转为横滚">
+                <TableBody>
+                  <TableRow>
+                    <TableCell v-for="i in 3" :key="i" class="min-w-36">
+                      第 {{ i }} 列的较宽内容
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </Inline>
+            <Inline gap="lg" align="start">
+              <Table sticky-header class="max-h-56 max-w-80" caption="吸顶表头:容器内滚,表头钉住">
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>卷</TableHead>
+                    <TableHead align="end">章节数</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow v-for="i in 16" :key="i">
+                    <TableCell>第 {{ i }} 卷</TableCell>
+                    <TableCell align="end">{{ 8 + (i % 5) }}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+              <Table class="max-w-96" caption="吸首列:横滚时标识列钉住">
+                <TableHeader>
+                  <TableRow>
+                    <TableHead sticky class="min-w-24">属性</TableHead>
+                    <TableHead v-for="i in 6" :key="i" class="min-w-32">场景 {{ i }}</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow v-for="r in 3" :key="r">
+                    <TableCell sticky>指标 {{ r }}</TableCell>
+                    <TableCell v-for="i in 6" :key="i">值 {{ r }}-{{ i }}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </Inline>
+            <Table
+              sticky-header
+              class="max-h-64 max-w-2xl"
+              caption="双向滚:吸顶 + 吸首列 + 四缘阴影"
+            >
+              <TableHeader>
+                <TableRow>
+                  <TableHead sticky class="min-w-24">卷</TableHead>
+                  <TableHead v-for="i in 8" :key="i" align="end" class="min-w-28">
+                    指标 {{ i }}
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow v-for="r in 14" :key="r">
+                  <TableCell sticky>第 {{ r }} 卷</TableCell>
+                  <TableCell v-for="i in 8" :key="i" align="end">
+                    {{ (r * 37 + i * 13) % 97 }}
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+            <Table
+              variant="secondary"
+              class="max-w-xl"
+              caption="secondary:没有 surface 的地方,不起面的轻表"
+            >
+              <TableHeader>
+                <TableRow>
+                  <TableHead>档位</TableHead>
+                  <TableHead align="end">时长</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell>fast</TableCell>
+                  <TableCell align="end">200ms</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>base</TableCell>
+                  <TableCell align="end">300ms</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>slow</TableCell>
+                  <TableCell align="end">450ms</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+            <Text tone="muted">
+              六件结构族,不带数据逻辑(排序/筛选归将来的 DataTable);样式收在 hn-table utility,prose
+              裸 markdown 表同源 @apply,机检比对计算样式;横向溢出由 ScrollArea
+              接管(滚轮重定向白拿);th 默认 scope=col,caption 即表格可达名;列宽即 class——上表属性列
+              w-32、默认值列 w-24,th 一处定整列;对照组:同一窄容器,无保底的列被挤扁折行, min-w-36
+              保底后转为横滚。不设 width API。
             </Text>
           </section>
         </main>
