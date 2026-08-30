@@ -37,7 +37,7 @@
     inset: 0;
     z-index: -1;
     border-radius: inherit;
-    background-color: var(--hn-state-color, var(--hn-fg-default));
+    background-color: var(--hn-state-color, currentColor);
     opacity: 0;
     pointer-events: none;
     transition:
@@ -67,7 +67,7 @@
   &[data-state='checked']::after,
   &[data-state='selected']::after,
   &[aria-selected='true']::after {
-    --hn-state-color: var(--hn-accent);
+    --hn-state-color: var(--hn-state-selected-color, var(--hn-accent));
     opacity: var(--hn-state-selected-opacity);
     transition:
       opacity var(--hn-duration-fast) var(--hn-ease-enter),
@@ -203,7 +203,7 @@
     opacity: 0;
     background: radial-gradient(
       closest-side,
-      var(--hn-state-color, var(--hn-fg-default)) max(100% - 70px, 65%),
+      var(--hn-ripple-color, var(--hn-state-color, currentColor)) max(100% - 70px, 65%),
       transparent 100%
     );
     transform-origin: center center;
@@ -228,5 +228,17 @@
   &:focus-visible {
     outline: var(--hn-focus-ring-width) solid var(--hn-focus-ring);
     outline-offset: var(--hn-focus-ring-offset);
+  }
+}
+
+@utility hn-scrollbar-safe {
+  margin-inline-end: var(--scrollbar-width, 0px);
+}
+
+@utility hn-scrollbar-safe-center {
+  translate: calc(var(--scrollbar-width, 0px) / -2) 0;
+
+  &:dir(rtl) {
+    translate: calc(var(--scrollbar-width, 0px) / 2) 0;
   }
 }

@@ -140,6 +140,31 @@ describe('真实计算样式', () => {
     )
   })
 
+  it('交互墨随表面色相:有色 tone 的 hover 墨与波纹同取 tone 色,neutral 保持灰', () => {
+    const mountBtn = (tone: 'accent' | 'neutral' | 'danger') => {
+      const w = mount(Button, {
+        props: { variant: 'soft', tone },
+        slots: { default: () => '钮' },
+        attachTo: attach(),
+      })
+      return w.element as HTMLElement
+    }
+    const rippleInk = (el: HTMLElement) =>
+      getComputedStyle(el.querySelector('.hn-ripple-surface')!, '::after').backgroundImage
+    const hoverInk = (el: HTMLElement) => getComputedStyle(el, '::after').backgroundColor
+
+    const accent = mountBtn('accent')
+    const neutral = mountBtn('neutral')
+    const danger = mountBtn('danger')
+
+    expect(rippleInk(accent)).not.toBe(rippleInk(neutral))
+    expect(rippleInk(danger)).not.toBe(rippleInk(neutral))
+    expect(rippleInk(accent)).not.toBe(rippleInk(danger))
+    expect(hoverInk(accent)).not.toBe(hoverInk(neutral))
+    expect(hoverInk(danger)).not.toBe(hoverInk(neutral))
+    expect(hoverInk(accent)).not.toBe(hoverInk(danger))
+  })
+
   it('状态层的透明度过渡是真过渡,不是瞬变', async () => {
     const w = mount(Button, {
       props: { variant: 'ghost', tone: 'neutral' },
