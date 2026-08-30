@@ -4,6 +4,8 @@ export const zhCN: UiMessages = {
   tag: 'zh-CN',
   common: {
     close: '关闭',
+    copy: '复制',
+    copied: '已复制',
     clear: '清除',
     loading: '加载中',
     confirm: '确定',
@@ -53,7 +55,6 @@ export const zhCN: UiMessages = {
   },
   codeblock: {
     copy: '复制代码',
-    copied: '已复制',
   },
   splitter: {
     handleLabel: '调整面板大小',

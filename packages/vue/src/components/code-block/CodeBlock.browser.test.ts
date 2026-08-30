@@ -79,6 +79,15 @@ describe('着色随主题翻转', () => {
 })
 
 describe('复制交互', () => {
+  it('padding 对称;角落透明不遮滚动阴影', () => {
+    const w = mount(CodeBlock, { props: { code: 'const x = 1', lang: 'ts' }, attachTo: attach() })
+    const pre = w.find('.hn-pre').element
+    const cs = getComputedStyle(pre)
+    expect(cs.paddingRight).toBe(cs.paddingLeft)
+    const corner = w.find('div.absolute.top-2').element
+    expect(getComputedStyle(corner).backgroundColor).toBe('rgba(0, 0, 0, 0)')
+  })
+
   it('点击复制:剪贴板收到原文,aria-label 切到已复制', async () => {
     const writeText = vi.fn().mockResolvedValue(undefined)
     Object.defineProperty(navigator, 'clipboard', {

@@ -2,6 +2,8 @@ export interface UiMessages {
   tag: string
   common: {
     close: string
+    copy: string
+    copied: string
     clear: string
     loading: string
     confirm: string
@@ -51,7 +53,6 @@ export interface UiMessages {
   }
   codeblock: {
     copy: string
-    copied: string
   }
   splitter: {
     handleLabel: string

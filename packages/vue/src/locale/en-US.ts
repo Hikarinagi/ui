@@ -4,6 +4,8 @@ export const enUS: UiMessages = {
   tag: 'en-US',
   common: {
     close: 'Close',
+    copy: 'Copy',
+    copied: 'Copied',
     clear: 'Clear',
     loading: 'Loading',
     confirm: 'Confirm',
@@ -53,7 +55,6 @@ export const enUS: UiMessages = {
   },
   codeblock: {
     copy: 'Copy code',
-    copied: 'Copied',
   },
   splitter: {
     handleLabel: 'Resize panel',
