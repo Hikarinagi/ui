@@ -182,8 +182,8 @@
   --hn-tracking-normal: 0;
   --hn-tracking-wide: 0.08em;
 
-  --hn-radius-xs: 2px;
-  --hn-radius-sm: 4px;
+  --hn-radius-xs: 4px;
+  --hn-radius-sm: 6px;
   --hn-radius-md: 8px;
   --hn-radius-lg: 8px;
   --hn-radius-xl: 14px;
