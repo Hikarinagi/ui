@@ -4,6 +4,7 @@
   --hn-bg-subtle: var(--color-neutral-100);
   --hn-bg-inset: var(--color-neutral-150);
   --hn-bg-scrim: rgb(0 0 0 / 0.32);
+  --hn-blur-scrim: 8px;
 
   --hn-fg-default: var(--color-neutral-900);
   --hn-fg-max: var(--color-neutral-1000);
@@ -70,6 +71,11 @@
     0 40px 80px -24px rgb(0 0 0 / 0.16);
 
   --hn-scroll-shadow: rgb(0 0 0 / 0.1);
+
+  --hn-z-overlay: 100;
+  --hn-z-toast: 110;
+
+  --hn-hina-brand: #34a2d5;
 }
 
 .dark {
@@ -195,7 +201,7 @@
   --hn-ease-press: cubic-bezier(0.3, 1.2, 0.6, 1);
   --hn-ease-linear: linear;
 
-  --hn-travel-sm: 6px;
+  --hn-travel-sm: 4px;
   --hn-travel-md: 10px;
   --hn-stagger: 24ms;
   --hn-spin-duration: 700ms;

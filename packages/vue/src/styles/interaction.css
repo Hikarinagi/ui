@@ -59,6 +59,11 @@
     opacity: var(--hn-state-hover-opacity);
   }
 
+  &[aria-haspopup][data-state='open']::after,
+  &[aria-haspopup][data-state='open']:hover:not(:disabled):not([data-disabled])::after {
+    opacity: var(--hn-state-press-opacity);
+  }
+
   &[data-state='checked']::after,
   &[data-state='selected']::after,
   &[aria-selected='true']::after {

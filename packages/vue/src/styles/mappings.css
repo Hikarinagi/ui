@@ -4,6 +4,7 @@
   --color-subtle: var(--hn-bg-subtle);
   --color-inset: var(--hn-bg-inset);
   --color-scrim: var(--hn-bg-scrim);
+  --color-hina-brand: var(--hn-hina-brand);
 
   --color-fg: var(--hn-fg-default);
   --color-muted: var(--hn-fg-muted);

@@ -65,6 +65,14 @@ describe('样式必须取自 token', () => {
   it('字重只用 400 / 500 / 600', () => {
     expect(findAll(/font-(bold|extrabold|black)\b|font-weight:\s*[789]00/)).toEqual([])
   })
+
+  it('模态遮罩只有 hn-scrim 一个词,组件不许手拼 bg-scrim', () => {
+    expect(findAll(/bg-scrim/)).toEqual([])
+  })
+
+  it('blur 目前只有 scrim 一个岗位,组件源码不许自带 backdrop 滤镜', () => {
+    expect(findAll(/backdrop-blur|backdrop-filter/)).toEqual([])
+  })
 })
 
 describe('hover / press 只许走三条轴(README「hover 与 press」)', () => {

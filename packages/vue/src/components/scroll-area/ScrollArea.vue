@@ -114,7 +114,7 @@
 </script>
 
 <template>
-  <div :class="cn('hn-scroll-area relative overflow-hidden', props.class)">
+  <div :class="cn('hn-scroll-area relative flex flex-col overflow-hidden', props.class)">
     <div
       ref="host"
       v-bind="$attrs"
@@ -122,7 +122,7 @@
       :tabindex="props.focusable ? 0 : undefined"
       :role="props.focusable ? 'region' : undefined"
       :aria-label="props.focusable ? (props.label ?? t.scroll.regionLabel) : undefined"
-      class="h-full w-full"
+      class="w-full min-h-0 grow"
     >
       <slot />
     </div>

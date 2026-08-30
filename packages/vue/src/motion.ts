@@ -16,7 +16,7 @@ export const DURATION = {
 } as const
 
 export const TRAVEL = {
-  sm: 6,
+  sm: 4,
   md: 10,
 } as const
 
