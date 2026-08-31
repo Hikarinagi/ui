@@ -96,3 +96,22 @@ describe('copy button · 复制钮惯例', () => {
     expect(btn.attributes('aria-label')).toBe('复制安装命令')
   })
 })
+
+describe('copy button · 复位时长可配', () => {
+  it('timeout 覆写默认的两秒,到点回到复制态', async () => {
+    stubClipboard()
+    const w = mount(CopyButton, {
+      props: { text: 'x', timeout: 200 },
+      attachTo: attach(),
+    })
+    mounted.push(w)
+
+    const btn = w.find('button')
+    await userEvent.click(btn.element as HTMLElement)
+    await vi.waitFor(() => expect(btn.attributes('aria-label')).toBe('已复制'))
+
+    const start = performance.now()
+    await vi.waitFor(() => expect(btn.attributes('aria-label')).toBe('复制'), { timeout: 1500 })
+    expect(performance.now() - start).toBeLessThan(1000)
+  })
+})

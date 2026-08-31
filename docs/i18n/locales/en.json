@@ -1,0 +1,86 @@
+{
+  "brand": {
+    "tagline": "The Vue component library behind Hikarinagi"
+  },
+  "nav": {
+    "start": "Getting started",
+    "components": "Components",
+    "docsNav": "Documentation navigation",
+    "primaryStart": "Guide",
+    "primaryComponents": "Components",
+    "installation": "Installation"
+  },
+  "page": {
+    "toc": "On this page",
+    "prev": "Previous",
+    "next": "Next",
+    "noPrev": "No previous page",
+    "noNext": "No next page",
+    "notFound": "Page not found"
+  },
+  "actions": {
+    "copyMarkdown": "Copy Markdown",
+    "viewMarkdown": "View Markdown",
+    "openSource": "Open the Markdown source of this page",
+    "more": "More ways to open",
+    "openInChatGPT": "Open in ChatGPT",
+    "openInClaude": "Open in Claude",
+    "ask": "Ask about this page",
+    "prompt": "Read {url} and get ready to answer my questions about the {title} component",
+    "expandCode": "View code",
+    "collapseCode": "Hide code"
+  },
+  "theme": {
+    "label": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "locale": {
+    "label": "Language",
+    "zh-CN": "简体中文",
+    "en": "English"
+  },
+  "categories": {
+    "typography": {
+      "label": "Typography",
+      "description": "How text, code, lists and quotations are set in body content."
+    },
+    "atoms": {
+      "label": "Atoms",
+      "description": "The smallest reusable units — buttons, tags and badges."
+    },
+    "overlays": {
+      "label": "Overlays",
+      "description": "Panels and hints that float above the page."
+    }
+  },
+  "guides": {
+    "installation": "Dependencies, style entry, fonts, dark mode and density"
+  },
+  "components": {
+    "badge": "Pins an unread count to the corner of its host",
+    "blockquote": "Quotes a passage from elsewhere",
+    "button": "Triggers a single action",
+    "button-group": "Joins several buttons into one unit",
+    "close-button": "Dismisses dialogs, drawers and toasts",
+    "code": "Inline code within body text",
+    "code-block": "A block of code with highlighting and copying",
+    "copy-button": "Writes a piece of text to the clipboard",
+    "description-list": "Pairs of names and values",
+    "heading": "Headings with semantics and size decoupled",
+    "icon-button": "An icon-only button that requires a name",
+    "kbd": "A keyboard key, for documenting shortcuts",
+    "link": "A text link that can render as a router component",
+    "list": "Ordered and unordered lists",
+    "mark": "Marks text, such as search hits",
+    "number-format": "Formats numbers for the current language",
+    "prose": "A rich text container that styles native tags",
+    "spoiler": "Hides spoilers until revealed",
+    "tag": "A short label for status, category or attribute",
+    "text": "Body text",
+    "time": "Displays time in the current language",
+    "dropdown-menu": "A set of actions revealed on click",
+    "popover": "A small panel that floats out on click"
+  }
+}

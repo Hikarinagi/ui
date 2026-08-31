@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { computed, onMounted, shallowRef, watch } from 'vue'
+  import { computed, shallowRef, watch } from 'vue'
   import 'overlayscrollbars/overlayscrollbars.css'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
@@ -32,6 +32,7 @@
 
   const t = useUiLocale()
   const host = shallowRef<HTMLElement>()
+  const content = shallowRef<HTMLElement>()
 
   const overflow = {
     vertical: { x: 'hidden', y: 'scroll' },
@@ -48,10 +49,16 @@
         autoHideDelay: 800,
       },
       overflow: overflow[props.direction],
+      update: {
+        elementEvents: [
+          ['img', 'load'],
+          ['*', 'transitionend animationend'],
+        ] as Array<[string, string]>,
+      },
     }
   }
 
-  const { viewport, instance, onEvent } = useOverlayScrollbars(host, options)
+  const { viewport, instance, onEvent } = useOverlayScrollbars(host, content, options)
   const { showXStart, showXEnd, showYStart, showYEnd, updateEdges } = useEdgeShadow(
     viewport,
     () => ({ direction: props.direction, shadow: props.shadow }),
@@ -59,7 +66,7 @@
 
   onEvent('scroll', updateEdges)
   onEvent('updated', updateEdges)
-  onMounted(updateEdges)
+  watch(viewport, () => updateEdges())
 
   useWheelRedirect(viewport, () => props.direction === 'horizontal' && props.wheelRedirect)
 
@@ -82,7 +89,9 @@
       :aria-label="props.focusable ? (props.label ?? t.scroll.regionLabel) : undefined"
       class="w-full min-h-0 grow"
     >
-      <slot />
+      <div ref="content" data-overlayscrollbars-contents>
+        <slot />
+      </div>
     </div>
     <template v-if="props.shadow">
       <div

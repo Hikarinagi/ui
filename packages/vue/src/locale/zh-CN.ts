@@ -12,6 +12,7 @@ export const zhCN: UiMessages = {
     cancel: '取消',
   },
   pagination: {
+    navLabel: '翻页',
     prev: '上一页',
     next: '下一页',
     first: '首页',

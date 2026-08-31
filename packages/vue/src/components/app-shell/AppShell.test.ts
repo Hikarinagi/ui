@@ -1,6 +1,6 @@
 import { describe, expect, it, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { defineComponent, h } from 'vue'
+import { defineComponent, h, nextTick, ref } from 'vue'
 import AppShell from './AppShell.vue'
 import Sidebar from '../sidebar/Sidebar.vue'
 import NavLink from '../nav-link/NavLink.vue'
@@ -68,5 +68,42 @@ describe('a11y', () => {
     expect(w.find('aside').exists()).toBe(true)
     expect(w.find('main').exists()).toBe(true)
     await expectNoA11yViolations(w.element as HTMLElement)
+  })
+})
+
+describe('移动端抽屉 · 标准行为可被调用方接管', () => {
+  function routed(props: Record<string, unknown>) {
+    const currentRoute = ref({ fullPath: '/a' })
+    const wrapper = mount(
+      defineComponent({
+        setup: () => () => h(AppShell, props, { sidebar: () => h(Sidebar), default: () => h('p') }),
+      }),
+      {
+        attachTo: document.body,
+        global: { config: { globalProperties: { $router: { currentRoute } } } },
+      },
+    )
+    return { wrapper, currentRoute }
+  }
+
+  it('默认随 fullPath 变化关闭;autoClose 关掉后交由调用方决定', async () => {
+    const open = { value: true }
+    const a = routed({
+      mobileOpen: open.value,
+      'onUpdate:mobileOpen': (v: boolean) => (open.value = v),
+    })
+    a.currentRoute.value = { fullPath: '/b' }
+    await nextTick()
+    expect(open.value).toBe(false)
+
+    const kept = { value: true }
+    const b = routed({
+      autoClose: false,
+      mobileOpen: kept.value,
+      'onUpdate:mobileOpen': (v: boolean) => (kept.value = v),
+    })
+    b.currentRoute.value = { fullPath: '/c' }
+    await nextTick()
+    expect(kept.value).toBe(true)
   })
 })

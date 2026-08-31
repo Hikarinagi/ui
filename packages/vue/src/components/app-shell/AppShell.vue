@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { computed, ref } from 'vue'
+  import { computed, getCurrentInstance, shallowRef, watch } from 'vue'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
   import ScrollArea from '../scroll-area/ScrollArea.vue'
@@ -14,15 +14,23 @@
   const props = withDefaults(
     defineProps<{
       collapsible?: 'rail' | 'hidden'
+      restoreKey?: string
+      autoClose?: boolean
       class?: string
     }>(),
-    { collapsible: 'rail' },
+    { collapsible: 'rail', autoClose: true },
   )
 
   const t = useUiLocale()
 
   const sidebar = defineModel<SidebarState>('sidebar', { default: 'expanded' })
-  const mobileOpen = ref(false)
+  const mobileOpen = defineModel<boolean>('mobileOpen', { default: false })
+  const main = shallowRef<InstanceType<typeof ScrollArea>>()
+
+  defineExpose({
+    mainViewport: computed(() => main.value?.viewport),
+    mainArea: main,
+  })
 
   const isDesktop = useDesktopQuery()
 
@@ -39,6 +47,18 @@
     toggle,
     openMobile: () => (mobileOpen.value = true),
   })
+
+  type Navigable = { currentRoute?: { value?: { fullPath?: string } } }
+  const router = getCurrentInstance()?.appContext.config.globalProperties.$router as
+    | Navigable
+    | undefined
+
+  watch(
+    () => router?.currentRoute?.value?.fullPath,
+    () => {
+      if (props.autoClose) mobileOpen.value = false
+    },
+  )
 </script>
 
 <template>
@@ -54,7 +74,7 @@
           </div>
         </header>
         <main class="min-h-0 min-w-0 flex-1">
-          <ScrollArea class="h-full">
+          <ScrollArea ref="main" :data-scroll-restore="props.restoreKey" class="h-full">
             <slot />
           </ScrollArea>
         </main>

@@ -1,0 +1,40 @@
+{
+  "name": "@hikarinagi/docs",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev --port 3730",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "typecheck": "nuxt typecheck",
+    "lint": "eslint . --fix",
+    "lint:check": "eslint ."
+  },
+  "dependencies": {
+    "@hikarinagi/ui": "workspace:*",
+    "@lobehub/icons-static-svg": "^1.94.0",
+    "@lucide/vue": "^1.37.0",
+    "motion-v": "^2.2.1",
+    "nuxt": "^4.5.2",
+    "reka-ui": "^2.10.4",
+    "simple-icons": "^16.29.0",
+    "vue": "^3.5.41",
+    "vue-router": "^5.2.0"
+  },
+  "devDependencies": {
+    "@nuxt/eslint": "^1.17.0",
+    "@nuxt/fonts": "^0.14.0",
+    "@nuxtjs/color-mode": "^4.0.0",
+    "@nuxtjs/i18n": "^10.6.0",
+    "@tailwindcss/vite": "^4.3.0",
+    "eslint": "^10.9.1",
+    "markdown-it-attrs": "^5.0.1",
+    "tailwindcss": "^4.3.0",
+    "typescript": "^6.0.3",
+    "unplugin-vue-markdown": "^32.1.1",
+    "vite": "^8.2.2",
+    "vue-tsc": "^3.3.11"
+  }
+}

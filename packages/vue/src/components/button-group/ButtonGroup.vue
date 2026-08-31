@@ -1,28 +1,33 @@
 <script setup lang="ts">
   import { cn } from '../../lib/cn'
+  import { buttonGroup, type ButtonGroupVariants } from './button-group.variants'
 
   defineOptions({ name: 'HnButtonGroup' })
 
-  const props = defineProps<{
-    label?: string
-    divider?: boolean
-    class?: string
-  }>()
+  const props = withDefaults(
+    defineProps<{
+      label?: string
+      orientation?: ButtonGroupVariants['orientation']
+      block?: boolean
+      divider?: boolean
+      class?: string
+    }>(),
+    { orientation: 'horizontal', block: false, divider: false },
+  )
 </script>
 
 <template>
   <div
     role="group"
     :aria-label="props.label"
+    :aria-orientation="props.orientation === 'vertical' ? 'vertical' : undefined"
     :class="
       cn(
-        'isolate inline-flex align-middle',
-        '[&>*]:[--hn-press-scale:1]',
-        '[&>*:not(:first-child)]:-ms-px [&>*:not(:first-child)]:rounded-s-none',
-        '[&>*:not(:last-child)]:rounded-e-none',
-        '[&>*:focus-visible]:z-10',
-        props.divider &&
-          '[&>*:not(:first-child)]:before:absolute [&>*:not(:first-child)]:before:start-0 [&>*:not(:first-child)]:before:inset-y-1/4 [&>*:not(:first-child)]:before:w-px [&>*:not(:first-child)]:before:bg-current [&>*:not(:first-child)]:before:opacity-25',
+        buttonGroup({
+          orientation: props.orientation,
+          block: props.block,
+          divider: props.divider,
+        }),
         props.class,
       )
     "

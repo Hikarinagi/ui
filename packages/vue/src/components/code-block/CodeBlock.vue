@@ -15,6 +15,7 @@
       code: string
       lang?: string
       label?: string
+      html?: string
       copyable?: boolean
       class?: string
     }>(),
@@ -28,9 +29,9 @@
 
   onMounted(() => {
     watch(
-      () => [props.code, props.lang] as const,
-      async ([code, lang]) => {
-        if (!lang) {
+      () => [props.code, props.lang, props.html] as const,
+      async ([code, lang, html]) => {
+        if (html || !lang) {
           tokens.value = null
           return
         }
@@ -48,11 +49,11 @@
 </script>
 
 <template>
-  <div :class="cn('relative', props.class)">
+  <div :data-lang="props.lang" :class="cn('relative', props.class)">
     <ScrollArea direction="horizontal" focusable :label="tag" class="hn-pre">
       <pre
         class="m-0"
-      ><code v-if="tokens"><template v-for="(line, i) of tokens" :key="i">{{ i ? '\n' : '' }}<span v-for="(tk, j) of line" :key="j" :style="tk.htmlStyle">{{ tk.content }}</span></template></code><code v-else>{{ code }}</code></pre>
+      ><code v-if="props.html" v-html="props.html"></code><code v-else-if="tokens"><template v-for="(line, i) of tokens" :key="i">{{ i ? '\n' : '' }}<span v-for="(tk, j) of line" :key="j" :style="tk.htmlStyle">{{ tk.content }}</span></template></code><code v-else>{{ code }}</code></pre>
     </ScrollArea>
     <div class="absolute top-2 end-2 flex items-center gap-2">
       <span v-if="tag" class="text-faint font-mono text-xs select-none">{{ tag }}</span>

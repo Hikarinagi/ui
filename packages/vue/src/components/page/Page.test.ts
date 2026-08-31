@@ -66,7 +66,9 @@ describe('页面解剖', () => {
   it('PageAside:xl 以下隐藏、内容 sticky、可带地标名;无 aside 槽则不渲染', () => {
     const w = harness()
     const aside = w.find('aside')
-    expect(aside.attributes('aria-label')).toBe('本页目录')
+    const titleId = aside.attributes('aria-labelledby')
+    expect(titleId).toBeTruthy()
+    expect(aside.find(`#${titleId}`).text()).toBe('本页目录')
     expect(aside.classes()).toContain('hidden')
     expect(aside.classes()).toContain('xl:block')
     expect((aside.element.firstElementChild as HTMLElement).className).toContain('sticky')

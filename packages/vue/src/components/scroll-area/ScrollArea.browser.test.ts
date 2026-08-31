@@ -355,13 +355,21 @@ describe('滚动提示 · 边缘投影覆盖层', () => {
         ]),
       )
     expect(Object.keys(shadows()).sort()).toEqual(['x-end', 'x-start', 'y-end', 'y-start'])
-    expect(shadows()).toEqual({ 'x-start': false, 'x-end': true, 'y-start': false, 'y-end': true })
+    await vi.waitFor(() =>
+      expect(shadows()).toEqual({
+        'x-start': false,
+        'x-end': true,
+        'y-start': false,
+        'y-end': true,
+      }),
+    )
 
     viewport.scrollLeft = 200
     viewport.scrollTop = 180
     viewport.dispatchEvent(new Event('scroll'))
-    await settle()
-    expect(shadows()).toEqual({ 'x-start': true, 'x-end': true, 'y-start': true, 'y-end': true })
+    await vi.waitFor(() =>
+      expect(shadows()).toEqual({ 'x-start': true, 'x-end': true, 'y-start': true, 'y-end': true }),
+    )
   })
 
   it('起点亮末端影、中段双影、到底只剩起点影;显隐走 base+enter 的 opacity 过渡,内容不被遮罩', async () => {
@@ -541,5 +549,36 @@ describe('横向滚动区的滚轮重定向', () => {
     const event = new WheelEvent('wheel', { deltaY: 120, bubbles: true, cancelable: true })
     viewport.dispatchEvent(event)
     expect(event.defaultPrevented).toBe(false)
+  })
+})
+
+describe('插槽子树整体替换(路由切页):新内容必须仍在视口内', () => {
+  it('替换后的根节点是视口的后代,视口滚动量随之更新', async () => {
+    const host = attach()
+    const which = ref<'a' | 'b'>('a')
+    const PageA = defineComponent({
+      render: () => h('div', { 'data-page': 'a', style: 'height: 600px' }, '第一页'),
+    })
+    const PageB = defineComponent({
+      render: () => h('div', { 'data-page': 'b', style: 'height: 900px' }, '第二页'),
+    })
+    const w = mount(
+      defineComponent({
+        render: () =>
+          h(ScrollArea, { style: 'height: 100px' }, () => h(which.value === 'a' ? PageA : PageB)),
+      }),
+      { attachTo: host },
+    )
+    await settle()
+    const viewport = viewportOf(w.findComponent(ScrollArea))
+    expect(viewport.contains(w.find('[data-page=a]').element)).toBe(true)
+    viewport.scrollTop = 300
+
+    which.value = 'b'
+    await settle()
+    const pageB = w.find('[data-page=b]').element
+    expect(pageB, '替换后的页面没有渲染').toBeTruthy()
+    expect(viewport.contains(pageB), '替换后的子树被插到了视口外面').toBe(true)
+    expect(viewport.scrollHeight).toBeGreaterThanOrEqual(900)
   })
 })

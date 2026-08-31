@@ -18,7 +18,7 @@
 </script>
 
 <template>
-  <TooltipRoot :disabled="props.disabled">
+  <TooltipRoot :disabled="props.disabled" ignore-non-keyboard-focus>
     <TooltipTrigger as-child>
       <slot />
     </TooltipTrigger>

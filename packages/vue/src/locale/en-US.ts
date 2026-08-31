@@ -12,6 +12,7 @@ export const enUS: UiMessages = {
     cancel: 'Cancel',
   },
   pagination: {
+    navLabel: 'Pagination',
     prev: 'Previous page',
     next: 'Next page',
     first: 'First page',

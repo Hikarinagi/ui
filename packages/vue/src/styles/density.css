@@ -30,16 +30,3 @@
   --hn-row-h: 2.125rem;
   --hn-row-px: 0.625rem;
 }
-
-@media (pointer: coarse) {
-  :root,
-  [data-density='comfortable'],
-  [data-density='compact'] {
-    --hn-control-h-sm: 2.25rem;
-    --hn-control-h-md: 2.75rem;
-    --hn-control-h-lg: 3rem;
-    --hn-row-h: 2.75rem;
-    --hn-state-press-opacity: 0.16;
-    --hn-press-scale: 0.99;
-  }
-}

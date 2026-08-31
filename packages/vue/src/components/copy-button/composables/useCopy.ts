@@ -1,6 +1,12 @@
 import { onBeforeUnmount, shallowRef } from 'vue'
 
-export function useCopy(text: () => string, onCopied?: (value: string) => void) {
+export const COPIED_RESET_MS = 2000
+
+export function useCopy(
+  text: () => string,
+  onCopied?: (value: string) => void,
+  resetAfter: () => number = () => COPIED_RESET_MS,
+) {
   const copied = shallowRef(false)
   let timer: ReturnType<typeof setTimeout> | undefined
 
@@ -16,7 +22,7 @@ export function useCopy(text: () => string, onCopied?: (value: string) => void) 
     clearTimeout(timer)
     timer = setTimeout(() => {
       copied.value = false
-    }, 2000)
+    }, resetAfter())
   }
 
   onBeforeUnmount(() => clearTimeout(timer))

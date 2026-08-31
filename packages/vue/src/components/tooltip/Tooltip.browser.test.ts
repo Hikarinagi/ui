@@ -5,6 +5,8 @@ import { defineComponent, h } from 'vue'
 import TooltipProvider from './TooltipProvider.vue'
 import Tooltip from './Tooltip.vue'
 import Button from '../button/Button.vue'
+import IconButton from '../icon-button/IconButton.vue'
+import Popover from '../popover/Popover.vue'
 import '../../../test/browser.css'
 
 beforeEach(async () => {
@@ -86,7 +88,23 @@ describe('tooltip · 浮层底座第一件', () => {
 
     await userEvent.keyboard('{Escape}')
     await vi.waitFor(() => expect(bubble()).toBeNull())
+  })
 
+  it('聚焦只认键盘:Tab 进入出气泡,程序化 focus 不出', async () => {
+    const w = harness()
+    const btn = w.find('button').element as HTMLElement
+
+    await userEvent.click(btn)
+    await userEvent.hover(w.find('div').element as HTMLElement, { position: { x: 4, y: 4 } })
+    await vi.waitFor(() => expect(bubble()).toBeNull())
+
+    btn.blur()
+    btn.focus()
+    await new Promise(r => setTimeout(r, 300))
+    expect(bubble(), '指针模态下的程序化聚焦不应出气泡').toBeNull()
+
+    btn.blur()
+    await userEvent.keyboard('{ArrowDown}')
     btn.focus()
     await vi.waitFor(() => expect(bubble()).toBeTruthy())
   })
@@ -96,5 +114,43 @@ describe('tooltip · 浮层底座第一件', () => {
     await userEvent.hover(w.find('button').element as HTMLElement)
     await vi.waitFor(() => expect(bubble()).toBeTruthy())
     expect(bubble()!.dataset.side).toBe('bottom')
+  })
+
+  it('浮层关闭后的焦点回流不冒气泡', async () => {
+    const host = document.createElement('div')
+    document.body.appendChild(host)
+    const w = mount(
+      defineComponent({
+        setup: () => () =>
+          h(TooltipProvider, { delayDuration: 0 }, () =>
+            h(
+              'div',
+              { style: 'padding: 120px' },
+              h(
+                Popover,
+                {},
+                {
+                  default: () => h(IconButton, { label: '更多打开方式' }, () => '≡'),
+                  content: () => h('div', { style: 'padding: 8px' }, '面板'),
+                },
+              ),
+            ),
+          ),
+      }),
+      { attachTo: host },
+    )
+    mounted.push(w)
+    const btn = w.find('button').element as HTMLElement
+
+    await userEvent.click(btn)
+    await vi.waitFor(() => expect(document.querySelector('[data-side]')).toBeTruthy())
+
+    document.body.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }))
+    document.body.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }))
+    await vi.waitFor(() => expect(document.querySelector('[data-side]')).toBeNull())
+    expect(document.activeElement).toBe(btn)
+
+    await new Promise(r => setTimeout(r, 400))
+    expect(tip(), '浮层关闭后 tooltip 不应自己冒出来').toBeNull()
   })
 })

@@ -10,6 +10,7 @@ export interface UiMessages {
     cancel: string
   }
   pagination: {
+    navLabel: string
     prev: string
     next: string
     first: string

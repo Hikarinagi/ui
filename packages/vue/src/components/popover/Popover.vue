@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import { computed } from 'vue'
   import { PopoverRoot, PopoverTrigger, PopoverPortal, PopoverContent } from 'reka-ui'
   import Card from '../card/Card.vue'
   import { cn } from '../../lib/cn'
@@ -17,11 +18,19 @@
   )
 
   const open = defineModel<boolean>('open')
+
+  const pressOrigin = computed(() => {
+    if (props.side === 'left') return 'right'
+    if (props.side === 'right') return 'left'
+    if (props.align === 'start') return 'left'
+    if (props.align === 'end') return 'right'
+    return 'center'
+  })
 </script>
 
 <template>
   <PopoverRoot v-model:open="open" modal>
-    <PopoverTrigger as-child>
+    <PopoverTrigger as-child :style="{ transformOrigin: pressOrigin }">
       <slot />
     </PopoverTrigger>
     <PopoverPortal>

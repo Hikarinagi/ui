@@ -6,6 +6,7 @@ export interface SidebarContext {
   state: Readonly<Ref<SidebarState>>
   toggle: () => void
   openMobile: () => void
+  inDrawer?: boolean
 }
 
 const SIDEBAR_KEY = Symbol('hn-sidebar') as InjectionKey<SidebarContext>

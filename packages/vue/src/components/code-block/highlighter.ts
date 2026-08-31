@@ -48,6 +48,35 @@ function getCore() {
   return core
 }
 
+function escape(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+}
+
+function inlineStyle(style: ThemedToken['htmlStyle']): string {
+  if (!style) return ''
+  if (typeof style === 'string') return style
+  return Object.entries(style)
+    .map(([key, value]) => `${key}:${value}`)
+    .join(';')
+}
+
+export function tokensToHtml(lines: ThemedToken[][]): string {
+  return lines
+    .map(line =>
+      line
+        .map(
+          token =>
+            `<span style="${escape(inlineStyle(token.htmlStyle))}">${escape(token.content)}</span>`,
+        )
+        .join(''),
+    )
+    .join('\n')
+}
+
 export async function tokenize(code: string, lang: string): Promise<ThemedToken[][] | null> {
   const resolved = langAliases[lang] ?? lang
   const load = langLoaders[resolved]

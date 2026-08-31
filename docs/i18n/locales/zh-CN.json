@@ -1,0 +1,86 @@
+{
+  "brand": {
+    "tagline": "Hikarinagi 的 Vue 组件库"
+  },
+  "nav": {
+    "start": "开始",
+    "components": "组件",
+    "docsNav": "文档导航",
+    "primaryStart": "开始",
+    "primaryComponents": "组件",
+    "installation": "安装"
+  },
+  "page": {
+    "toc": "本页目录",
+    "prev": "上一页",
+    "next": "下一页",
+    "noPrev": "没有上一页",
+    "noNext": "没有下一页",
+    "notFound": "页面不存在"
+  },
+  "actions": {
+    "copyMarkdown": "复制 Markdown",
+    "viewMarkdown": "查看 Markdown",
+    "openSource": "打开本页的 Markdown 源文件",
+    "more": "更多打开方式",
+    "openInChatGPT": "在 ChatGPT 中打开",
+    "openInClaude": "在 Claude 中打开",
+    "ask": "就本页内容提问",
+    "prompt": "阅读 {url} 并准备回答我关于 {title} 组件的问题",
+    "expandCode": "查看代码",
+    "collapseCode": "收起代码"
+  },
+  "theme": {
+    "label": "主题",
+    "light": "浅色",
+    "dark": "深色",
+    "system": "跟随系统"
+  },
+  "locale": {
+    "label": "语言",
+    "zh-CN": "简体中文",
+    "en": "English"
+  },
+  "categories": {
+    "typography": {
+      "label": "排版",
+      "description": "正文中的文字、代码、列表与引用的呈现方式。"
+    },
+    "atoms": {
+      "label": "原子",
+      "description": "界面中最小的可复用单元，按钮、标签与徽标。"
+    },
+    "overlays": {
+      "label": "浮层",
+      "description": "悬浮在页面之上的面板与提示。"
+    }
+  },
+  "guides": {
+    "installation": "接入依赖、样式入口、字体、深色模式与密度"
+  },
+  "components": {
+    "badge": "把未读数钉在宿主元素的角上",
+    "blockquote": "引用他处的整段文字",
+    "button": "触发一次操作的按钮",
+    "button-group": "把一组按钮拼接为一个整体",
+    "close-button": "关闭对话框、抽屉与提示条",
+    "code": "正文中的行内代码",
+    "code-block": "成段的代码，带着色与复制",
+    "copy-button": "把一段文本写入剪贴板",
+    "description-list": "成组的名称与取值",
+    "heading": "标题，语义与字号分开",
+    "icon-button": "只包含图标的按钮，必须提供名称",
+    "kbd": "键盘按键，用于说明快捷键",
+    "link": "文字链接，可渲染为路由组件",
+    "list": "有序列表与无序列表",
+    "mark": "标记文字，标出搜索命中",
+    "number-format": "按当前语言格式化数字",
+    "prose": "富文本容器，接管原生标签",
+    "spoiler": "遮住剧透内容，点击后揭示",
+    "tag": "标注状态、分类与属性的短标签",
+    "text": "正文文字",
+    "time": "按当前语言显示时间",
+    "dropdown-menu": "点击展开的一组操作",
+    "popover": "点击浮出的一小块内容"
+  }
+}

@@ -17,7 +17,10 @@ export { default as CloseButton } from './components/close-button/CloseButton.vu
 export { default as CopyButton } from './components/copy-button/CopyButton.vue'
 export { default as ButtonGroup } from './components/button-group/ButtonGroup.vue'
 export { default as Tag } from './components/tag/Tag.vue'
+export { default as Badge } from './components/badge/Badge.vue'
 export { default as Callout } from './components/callout/Callout.vue'
+export { default as PrevNext } from './components/prev-next/PrevNext.vue'
+export { default as PrevNextLink } from './components/prev-next/PrevNextLink.vue'
 export { default as Table } from './components/table/Table.vue'
 export { default as TableHeader } from './components/table/TableHeader.vue'
 export { default as TableBody } from './components/table/TableBody.vue'
@@ -46,6 +49,7 @@ export { default as Kbd } from './components/kbd/Kbd.vue'
 export { default as Blockquote } from './components/blockquote/Blockquote.vue'
 export { default as Mark } from './components/mark/Mark.vue'
 export { default as CodeBlock } from './components/code-block/CodeBlock.vue'
+export { tokenize, tokensToHtml } from './components/code-block/highlighter'
 export { default as List } from './components/list/List.vue'
 export { default as DescriptionList } from './components/description-list/DescriptionList.vue'
 export { default as Time } from './components/time/Time.vue'
@@ -90,6 +94,15 @@ export { default as BreadcrumbSeparator } from './components/breadcrumb/Breadcru
 export { default as TooltipProvider } from './components/tooltip/TooltipProvider.vue'
 export { default as Tooltip } from './components/tooltip/Tooltip.vue'
 export { default as Popover } from './components/popover/Popover.vue'
+export { default as DropdownMenu } from './components/dropdown-menu/DropdownMenu.vue'
+export { default as DropdownMenuItem } from './components/dropdown-menu/DropdownMenuItem.vue'
+export { default as DropdownMenuCheckboxItem } from './components/dropdown-menu/DropdownMenuCheckboxItem.vue'
+export { default as DropdownMenuGroup } from './components/dropdown-menu/DropdownMenuGroup.vue'
+export { default as DropdownMenuSub } from './components/dropdown-menu/DropdownMenuSub.vue'
+export { default as DropdownMenuLabel } from './components/dropdown-menu/DropdownMenuLabel.vue'
+export { default as DropdownMenuSeparator } from './components/dropdown-menu/DropdownMenuSeparator.vue'
+export { default as DropdownMenuRadioGroup } from './components/dropdown-menu/DropdownMenuRadioGroup.vue'
+export { default as DropdownMenuRadioItem } from './components/dropdown-menu/DropdownMenuRadioItem.vue'
 export { default as Dialog } from './components/dialog/Dialog.vue'
 export { default as Drawer } from './components/drawer/Drawer.vue'
 export { default as SidebarTrigger } from './components/sidebar/SidebarTrigger.vue'
@@ -99,4 +112,24 @@ export { toast } from './components/toast/store'
 export type { ToastTone, ToastOptions, ToasterPosition } from './components/toast/store'
 export { default as Spoiler } from './components/spoiler/Spoiler.vue'
 export { default as Spinner } from './components/spinner/Spinner.vue'
+export { default as Wordmark } from './components/wordmark/Wordmark.vue'
 export { default as ScrollArea } from './components/scroll-area/ScrollArea.vue'
+export {
+  SCROLL_STATE_FIELD,
+  RESTORE_DEADLINE_MS,
+  SAVE_THROTTLE_MS,
+  SCROLL_RESTORE_ATTR,
+  SCROLL_ATOP_ATTR,
+  SCROLL_AT_ATTR,
+  SCROLL_ATOP_HIDE_PX,
+  atopOff,
+  firstPaintRestoreScript,
+  readScrollRecord,
+  writeScrollRecord,
+  createScrollRestorer,
+} from './components/scroll-area/scroll-restore'
+export type {
+  ScrollRecord,
+  ScrollRestorer,
+  ScrollRestorerPorts,
+} from './components/scroll-area/scroll-restore'

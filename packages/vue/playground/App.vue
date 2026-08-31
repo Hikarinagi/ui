@@ -60,6 +60,7 @@
     AlignCenter,
     AlignLeft,
     AlignRight,
+    Bell,
     ChevronDown,
     ChevronLeft,
     ChevronRight,
@@ -76,6 +77,9 @@
   import ButtonGroup from '../src/components/button-group/ButtonGroup.vue'
   import Tag from '../src/components/tag/Tag.vue'
   import Callout from '../src/components/callout/Callout.vue'
+  import Badge from '../src/components/badge/Badge.vue'
+  import PrevNext from '../src/components/prev-next/PrevNext.vue'
+  import PrevNextLink from '../src/components/prev-next/PrevNextLink.vue'
   import Table from '../src/components/table/Table.vue'
   import TableHeader from '../src/components/table/TableHeader.vue'
   import TableBody from '../src/components/table/TableBody.vue'
@@ -88,7 +92,7 @@
   import TabsContent from '../src/components/tabs/TabsContent.vue'
   import PlusIcon from './PlusIcon.vue'
   import ArrowIcon from './ArrowIcon.vue'
-  import hinaWordmark from '../src/assets/hina-wordmark.svg?raw'
+  import Wordmark from '../src/components/wordmark/Wordmark.vue'
 
   const dark = ref(false)
   const density = ref<'comfortable' | 'compact'>('comfortable')
@@ -142,6 +146,8 @@
     { id: 'tabs', label: 'Tabs · 分页签' },
     { id: 'callout', label: 'Callout · 提示块' },
     { id: 'table', label: 'Table · 样式表' },
+    { id: 'prev-next', label: 'PrevNext · 上下页' },
+    { id: 'badge', label: 'Badge · 徽标' },
   ]
   const active = ref('button')
   let spy: IntersectionObserver | undefined
@@ -163,6 +169,7 @@
 
   onBeforeUnmount(() => spy?.disconnect())
 
+  const unread = ref(5)
   const saveMenu = ref(false)
   const deleteMenu = ref(false)
 
@@ -229,10 +236,7 @@
         class="border-line bg-canvas sticky top-0 z-10 flex flex-wrap items-center gap-3 border-b px-6 py-3"
       >
         <span class="me-auto flex items-center gap-3">
-          <span class="text-fg flex items-baseline gap-1" role="img" aria-label="Hina UI">
-            <span class="h-5 [&>svg]:h-full [&>svg]:w-auto" v-html="hinaWordmark" />
-            <span class="text-lg leading-none font-semibold tracking-tight">UI</span>
-          </span>
+          <Wordmark />
           <span class="text-muted text-sm font-medium">预览工作台</span>
         </span>
         <Button size="sm" variant="outline" tone="neutral" @click="dark = !dark">
@@ -1779,6 +1783,56 @@
               接管(滚轮重定向白拿);th 默认 scope=col,caption 即表格可达名;列宽即 class——上表属性列
               w-32、默认值列 w-24,th 一处定整列;对照组:同一窄容器,无保底的列被挤扁折行, min-w-36
               保底后转为横滚。不设 width API。
+            </Text>
+          </section>
+
+          <section id="prev-next" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              prev next · 上下页导航(nav 地标 · rel 语义 · 整卡可点 · 窄屏单列)
+            </h2>
+            <PrevNext class="max-w-2xl">
+              <PrevNextLink direction="prev" href="#table">Table · 样式表</PrevNextLink>
+              <PrevNextLink direction="next" href="#button">Button · 变体阵列</PrevNextLink>
+            </PrevNext>
+            <PrevNext class="max-w-2xl">
+              <PrevNextLink direction="next" href="#tabs" label="下一章">
+                第二章 · 分页签
+              </PrevNextLink>
+            </PrevNext>
+            <Text tone="muted">
+              两件结构族:容器是 nav 地标(locale 兜底名),链接卡走 as/asChild
+              承接路由;只有一侧时仍落在对应列;方向词默认取 pagination
+              的上一页/下一页,阅读器场景可覆写为上一章/下一章。
+            </Text>
+          </section>
+
+          <section id="badge" class="flex scroll-mt-16 flex-col gap-4">
+            <h2 class="text-muted font-mono text-sm tracking-wide uppercase">
+              badge · 锚定徽标(钉在宿主角上 · 恒圆 · 六 tone solid · 四角与圆宿主内收)
+            </h2>
+            <Inline gap="lg" align="center">
+              <Badge :content="unread" label="条未读通知">
+                <IconButton label="通知" variant="outline" @click="unread = 0"><Bell /></IconButton>
+              </Badge>
+              <Badge :content="120">
+                <IconButton label="收件箱" variant="soft" tone="neutral"><Bell /></IconButton>
+              </Badge>
+              <Badge content="NEW" tone="accent" size="md">
+                <Button variant="outline" tone="neutral">更新日志</Button>
+              </Badge>
+              <Badge :content="3" tone="info" shape="circle" placement="bottom-end">
+                <span class="bg-inset inline-block size-10 rounded-full" aria-hidden="true" />
+              </Badge>
+              <Badge :content="9" tone="success" placement="top-start" :outline="false">
+                <span class="bg-inset inline-block size-10 rounded-md" aria-hidden="true" />
+              </Badge>
+              <Button size="sm" variant="ghost" tone="neutral" @click="unread = 5">重置未读</Button>
+            </Inline>
+            <Text tone="muted">
+              锚定层:content
+              钉在宿主角上,0/空不渲染且出现消失走进出过渡(点第一颗铃铛清零看出场);超过 max 显示
+              99+;circle 宿主角点内收;outline 用 surface 色描边把徽标从边缘切出;label
+              走视觉隐藏给读屏语境。侧栏 NEW 那种行内小标是 Tag 的岗位,不用它。
             </Text>
           </section>
         </main>

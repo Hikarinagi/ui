@@ -8,6 +8,7 @@ export default defineComponent({
       state: ref<SidebarState>('expanded'),
       toggle: () => {},
       openMobile: () => {},
+      inDrawer: true,
     })
     return () => h('div', { class: 'contents' }, slots.default?.())
   },

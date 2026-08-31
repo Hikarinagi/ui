@@ -97,3 +97,44 @@ describe('button group · 拼接组', () => {
     expect(getComputedStyle(mid, '::before').content).toBe('none')
   })
 })
+
+describe('button group · 纵向与撑满', () => {
+  it('纵向:接缝改上下,圆角清零换轴,叠 1px 走 margin-top', () => {
+    const w = mountGroup({ orientation: 'vertical' })
+    const group = w.element as HTMLElement
+    const [first, , last] = [...group.children] as HTMLElement[]
+    expect(getComputedStyle(group).flexDirection).toBe('column')
+    expect(group.getAttribute('aria-orientation')).toBe('vertical')
+
+    const round = (el: HTMLElement) => {
+      const s = getComputedStyle(el)
+      return [s.borderTopLeftRadius, s.borderBottomLeftRadius]
+    }
+    expect(round(first!)[0]).not.toBe('0px')
+    expect(round(first!)[1]).toBe('0px')
+    expect(round(last!)[0]).toBe('0px')
+    expect(round(last!)[1]).not.toBe('0px')
+    expect(getComputedStyle(last!).marginTop).toBe('-1px')
+  })
+
+  it('block:整组撑满容器,子项等分', () => {
+    const w = mountGroup({ block: true })
+    const group = w.element as HTMLElement
+    group.parentElement!.style.width = '600px'
+    const [first, second] = [...group.children] as HTMLElement[]
+    expect(getComputedStyle(group).display).toBe('flex')
+    expect(Math.round(group.getBoundingClientRect().width)).toBe(600)
+    expect(
+      Math.abs(first!.getBoundingClientRect().width - second!.getBoundingClientRect().width),
+    ).toBeLessThan(2)
+  })
+
+  it('纵向分隔线走横向细线,横向组不受影响', () => {
+    const vertical = mountGroup({ orientation: 'vertical', divider: true })
+    const target = vertical.element.children[1] as HTMLElement
+    const line = getComputedStyle(target, '::before')
+    expect(line.content).not.toBe('none')
+    expect(parseFloat(line.height)).toBeLessThan(2)
+    expect(parseFloat(line.width)).toBeGreaterThan(2)
+  })
+})

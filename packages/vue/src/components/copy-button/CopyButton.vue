@@ -3,7 +3,7 @@
   import { Check, Copy } from '@lucide/vue'
   import IconButton from '../icon-button/IconButton.vue'
   import { useUiLocale } from '../../locale'
-  import { useCopy } from './composables/useCopy'
+  import { useCopy, COPIED_RESET_MS } from './composables/useCopy'
   import type { ButtonVariants } from '../button/button.variants'
 
   defineOptions({ name: 'HnCopyButton', inheritAttrs: false })
@@ -13,11 +13,12 @@
       text: string
       label?: string
       size?: ButtonVariants['size']
+      timeout?: number
       disabled?: boolean
       tooltip?: boolean
       class?: string
     }>(),
-    { size: 'sm' },
+    { size: 'sm', timeout: COPIED_RESET_MS },
   )
 
   const emit = defineEmits<{ copied: [text: string] }>()
@@ -27,6 +28,7 @@
   const { copied, copy } = useCopy(
     () => props.text,
     value => emit('copied', value),
+    () => props.timeout,
   )
 
   const label = computed(() =>
