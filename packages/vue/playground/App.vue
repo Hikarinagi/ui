@@ -1360,7 +1360,7 @@
               <IconButton label="小档" size="sm"><ChevronRight /></IconButton>
               <IconButton label="大档" size="lg"><PlusIcon /></IconButton>
               <IconButton label="保存中" :loading="loading"><PlusIcon /></IconButton>
-              <IconButton label="不浮词(tooltip=false)" :tooltip="false">
+              <IconButton label="无提示(tooltip=false)" :tooltip="false">
                 <ChevronRight />
               </IconButton>
               <Divider orientation="vertical" class="h-6 self-center" />
