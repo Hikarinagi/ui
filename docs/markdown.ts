@@ -32,6 +32,7 @@ interface Collected {
   headings: Heading[]
   fences: Fence[]
   routed: boolean[]
+  linked: boolean
   demos: string[]
 }
 
@@ -40,7 +41,7 @@ const collected = new Map<string, Collected>()
 function entry(id: string): Collected {
   let found = collected.get(id)
   if (!found) {
-    found = { headings: [], fences: [], routed: [], demos: [] }
+    found = { headings: [], fences: [], routed: [], linked: false, demos: [] }
     collected.set(id, found)
   }
   return found
@@ -173,7 +174,12 @@ export function markdown() {
         const found = entry((env as { id: string }).id)
         const routed = href.startsWith('/')
         found.routed.push(routed)
-        if (routed) return `<Link as-child><NuxtLink to="${attr(href)}">`
+        if (routed) {
+          found.linked = true
+          const id = (env as { id: string }).id
+          const to = id.includes('/content/en/') ? `/en${href}` : href
+          return `<Link as-child><NuxtLink to="${attr(to)}">`
+        }
         return `<Link href="${attr(href)}" target="_blank" rel="noreferrer">`
       }
       rules.link_close = (_tokens, _index, _options, env) => {
@@ -241,6 +247,7 @@ export function markdown() {
           }),
         )
         return [
+          ...(collected.get(id)?.linked ? [`import { NuxtLink } from '#components'`] : []),
           ...demoLines.flat(),
           ...fences.flatMap((fence, slot) => [
             `const __hnFence${slot} = ${literal(fence.code)}`,
