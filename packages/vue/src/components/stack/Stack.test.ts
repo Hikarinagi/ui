@@ -24,6 +24,12 @@ describe('渲染', () => {
     expect(mount(Stack).classes().join(' ')).not.toContain('items-')
   })
 
+  it('justify 落对应类,不传时不出现', () => {
+    expect(mount(Stack, { props: { justify: 'between' } }).classes()).toContain('justify-between')
+    expect(mount(Stack, { props: { justify: 'center' } }).classes()).toContain('justify-center')
+    expect(mount(Stack).classes().join(' ')).not.toContain('justify-')
+  })
+
   it('as 换语义标签', () => {
     expect(mount(Stack, { props: { as: 'section' } }).element.tagName).toBe('SECTION')
   })

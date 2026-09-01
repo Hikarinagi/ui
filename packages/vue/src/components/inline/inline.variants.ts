@@ -18,6 +18,14 @@ export const inline = tv({
       baseline: 'items-baseline',
       stretch: 'items-stretch',
     },
+    justify: {
+      start: 'justify-start',
+      center: 'justify-center',
+      end: 'justify-end',
+      between: 'justify-between',
+      around: 'justify-around',
+      evenly: 'justify-evenly',
+    },
     wrap: {
       true: 'flex-wrap',
       false: 'flex-nowrap',

@@ -9,6 +9,7 @@
       as?: string
       gap?: InlineVariants['gap']
       align?: InlineVariants['align']
+      justify?: InlineVariants['justify']
       wrap?: boolean
       class?: string
     }>(),
@@ -17,7 +18,7 @@
 </script>
 
 <template>
-  <component :is="props.as" :class="cn(inline({ gap, align, wrap }), props.class)">
+  <component :is="props.as" :class="cn(inline({ gap, align, justify, wrap }), props.class)">
     <slot />
   </component>
 </template>

@@ -9,6 +9,7 @@
       as?: string
       gap?: StackVariants['gap']
       align?: StackVariants['align']
+      justify?: StackVariants['justify']
       class?: string
     }>(),
     { as: 'div' },
@@ -16,7 +17,7 @@
 </script>
 
 <template>
-  <component :is="props.as" :class="cn(stack({ gap, align }), props.class)">
+  <component :is="props.as" :class="cn(stack({ gap, align, justify }), props.class)">
     <slot />
   </component>
 </template>

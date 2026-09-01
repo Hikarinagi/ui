@@ -65,4 +65,17 @@ describe('tag · 静态标注', () => {
     const pill = mountTag({ pill: true })
     expect(parseFloat(getComputedStyle(pill).borderTopLeftRadius)).toBeGreaterThan(8)
   })
+
+  it('as 换语义标签,尺寸与不可聚焦不变', () => {
+    const w = mount(Tag, {
+      props: { as: 'li' },
+      slots: { default: () => '科幻' },
+      attachTo: attach(),
+    })
+    mounted.push(w)
+    const el = w.element as HTMLElement
+    expect(el.tagName).toBe('LI')
+    expect(el.offsetHeight).toBe(20)
+    expect(el.tabIndex).toBe(-1)
+  })
 })

@@ -5,6 +5,7 @@
   import { Passthrough } from '../../lib/passthrough'
   import Tooltip from '../tooltip/Tooltip.vue'
   import { useSidebar } from '../sidebar/context'
+  import { navLink, navLinkLabel } from './nav-link.variants'
 
   defineOptions({ name: 'HnNavLink', inheritAttrs: false })
 
@@ -38,28 +39,10 @@
       :data-disabled="props.disabled ? '' : undefined"
       :tabindex="props.disabled ? -1 : undefined"
       :aria-label="rail ? props.label : undefined"
-      :class="
-        cn(
-          'hn-interactive hn-state-layer hn-press-none relative isolate flex cursor-pointer items-center',
-          'h-9 gap-[var(--hn-control-gap)] rounded-md ps-2.5 pe-2 text-sm select-none',
-          props.active ? 'text-fg font-medium' : 'text-muted',
-          props.class,
-        )
-      "
+      :class="cn(navLink({ active: props.active }), props.class)"
     >
       <slot name="icon" />
-      <span
-        :aria-hidden="rail ? 'true' : undefined"
-        data-hn-label
-        :class="
-          cn(
-            'shrink-0 whitespace-nowrap',
-            rail
-              ? 'opacity-0 [transition:opacity_calc(var(--hn-duration-fast)/2)_var(--hn-ease-exit)]'
-              : 'opacity-100 [transition:opacity_var(--hn-duration-fast)_var(--hn-ease-enter)]',
-          )
-        "
-      >
+      <span :aria-hidden="rail ? 'true' : undefined" data-hn-label :class="navLinkLabel({ rail })">
         <slot />
       </span>
     </Primitive>

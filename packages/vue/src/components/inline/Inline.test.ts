@@ -24,6 +24,12 @@ describe('渲染', () => {
     expect(mount(Inline, { props: { gap: 'xs' } }).classes()).toContain('gap-1')
   })
 
+  it('justify 落对应类,不传时不出现', () => {
+    expect(mount(Inline, { props: { justify: 'between' } }).classes()).toContain('justify-between')
+    expect(mount(Inline, { props: { justify: 'evenly' } }).classes()).toContain('justify-evenly')
+    expect(mount(Inline).classes().join(' ')).not.toContain('justify-')
+  })
+
   it('as 换语义标签', () => {
     expect(mount(Inline, { props: { as: 'nav' } }).element.tagName).toBe('NAV')
   })
