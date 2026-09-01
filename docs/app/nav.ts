@@ -36,6 +36,12 @@ export const guides: DocsNavItem[] = [
 ]
 
 export const components: DocsComponent[] = [
+  {
+    label: 'AspectRatio',
+    to: '/components/aspect-ratio',
+    i18n: 'components.aspect-ratio',
+    category: 'layout',
+  },
   { label: 'Avatar', to: '/components/avatar', i18n: 'components.avatar', category: 'atoms' },
   { label: 'Badge', to: '/components/badge', i18n: 'components.badge', category: 'atoms' },
   {
@@ -57,12 +63,19 @@ export const components: DocsComponent[] = [
     i18n: 'components.close-button',
     category: 'atoms',
   },
+  { label: 'Center', to: '/components/center', i18n: 'components.center', category: 'layout' },
   { label: 'Code', to: '/components/code', i18n: 'components.code', category: 'typography' },
   {
     label: 'CodeBlock',
     to: '/components/code-block',
     i18n: 'components.code-block',
     category: 'typography',
+  },
+  {
+    label: 'Container',
+    to: '/components/container',
+    i18n: 'components.container',
+    category: 'layout',
   },
   {
     label: 'CopyButton',
@@ -77,6 +90,7 @@ export const components: DocsComponent[] = [
     category: 'typography',
   },
   { label: 'Dialog', to: '/components/dialog', i18n: 'components.dialog', category: 'overlays' },
+  { label: 'Divider', to: '/components/divider', i18n: 'components.divider', category: 'layout' },
   { label: 'Drawer', to: '/components/drawer', i18n: 'components.drawer', category: 'overlays' },
   {
     label: 'DropdownMenu',
@@ -84,6 +98,8 @@ export const components: DocsComponent[] = [
     i18n: 'components.dropdown-menu',
     category: 'overlays',
   },
+  { label: 'Flex', to: '/components/flex', i18n: 'components.flex', category: 'layout' },
+  { label: 'Grid', to: '/components/grid', i18n: 'components.grid', category: 'layout' },
   {
     label: 'Heading',
     to: '/components/heading',
@@ -114,6 +130,13 @@ export const components: DocsComponent[] = [
     category: 'overlays',
   },
   { label: 'Prose', to: '/components/prose', i18n: 'components.prose', category: 'typography' },
+  {
+    label: 'SimpleGrid',
+    to: '/components/simple-grid',
+    i18n: 'components.simple-grid',
+    category: 'layout',
+  },
+  { label: 'Space', to: '/components/space', i18n: 'components.space', category: 'layout' },
   {
     label: 'Spoiler',
     to: '/components/spoiler',

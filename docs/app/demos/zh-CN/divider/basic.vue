@@ -1,0 +1,11 @@
+<script setup lang="ts">
+  import { Divider, Stack, Text } from '@hikarinagi/ui'
+</script>
+
+<template>
+  <Stack class="w-full max-w-sm">
+    <Text>上面的内容</Text>
+    <Divider />
+    <Text>下面的内容</Text>
+  </Stack>
+</template>

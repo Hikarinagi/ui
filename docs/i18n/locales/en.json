@@ -92,6 +92,14 @@
     "toast": "Short feedback that floats in after an action",
     "stack": "Lays its children out in a single column",
     "inline": "Lays its children out in a row, wrapping when needed",
-    "avatar": "A round portrait standing for a person or entity"
+    "avatar": "A round portrait standing for a person or entity",
+    "flex": "A flex container with full control over its axes",
+    "grid": "A grid container with a fixed number of columns",
+    "simple-grid": "An even grid whose columns follow a minimum width",
+    "container": "Holds page content to a readable width and centres it",
+    "center": "Centres its content on both axes",
+    "space": "An empty element that takes up room in a flex container",
+    "aspect-ratio": "Holds its content to a given width-to-height ratio",
+    "divider": "A hairline that separates two pieces of content"
   }
 }
