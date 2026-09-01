@@ -100,6 +100,9 @@
     "center": "Centres its content on both axes",
     "space": "An empty element that takes up room in a flex container",
     "aspect-ratio": "Holds its content to a given width-to-height ratio",
-    "divider": "A hairline that separates two pieces of content"
+    "divider": "A hairline that separates two pieces of content",
+    "scroll-area": "A scrolling region with overlay scrollbars",
+    "skeleton": "A placeholder that holds the shape of loading content",
+    "image": "An image that loads lazily and falls back when it fails"
   }
 }

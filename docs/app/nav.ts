@@ -112,6 +112,7 @@ export const components: DocsComponent[] = [
     i18n: 'components.icon-button',
     category: 'atoms',
   },
+  { label: 'Image', to: '/components/image', i18n: 'components.image', category: 'atoms' },
   { label: 'Inline', to: '/components/inline', i18n: 'components.inline', category: 'layout' },
   { label: 'Kbd', to: '/components/kbd', i18n: 'components.kbd', category: 'typography' },
   { label: 'Link', to: '/components/link', i18n: 'components.link', category: 'typography' },
@@ -130,6 +131,18 @@ export const components: DocsComponent[] = [
     category: 'overlays',
   },
   { label: 'Prose', to: '/components/prose', i18n: 'components.prose', category: 'typography' },
+  {
+    label: 'ScrollArea',
+    to: '/components/scroll-area',
+    i18n: 'components.scroll-area',
+    category: 'layout',
+  },
+  {
+    label: 'Skeleton',
+    to: '/components/skeleton',
+    i18n: 'components.skeleton',
+    category: 'atoms',
+  },
   {
     label: 'SimpleGrid',
     to: '/components/simple-grid',
