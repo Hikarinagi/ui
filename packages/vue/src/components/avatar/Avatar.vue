@@ -1,19 +1,18 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { User } from '@lucide/vue'
-  import { AvatarRoot, AvatarImage, AvatarFallback } from 'reka-ui'
   import { cn } from '../../lib/cn'
+  import Image from '../image/Image.vue'
   import { avatar, type AvatarVariants } from './avatar.variants'
   import { useAvatarGroup } from './context'
 
-  defineOptions({ name: 'HnAvatar' })
+  defineOptions({ name: 'HnAvatar', inheritAttrs: false })
 
   const props = defineProps<{
     src?: string
     alt?: string
     name?: string
     size?: AvatarVariants['size']
-    delayMs?: number
     class?: string
   }>()
 
@@ -36,20 +35,23 @@
 </script>
 
 <template>
-  <AvatarRoot :class="cn(avatar({ size }), props.class)">
-    <AvatarImage
-      v-if="props.src"
-      :src="props.src"
-      :alt="props.alt ?? props.name"
-      class="size-full object-cover"
-    />
-    <AvatarFallback :delay-ms="props.delayMs" class="size-full">
-      <span class="flex size-full items-center justify-center">
-        <slot>
-          <template v-if="initials">{{ initials }}</template>
-          <User v-else aria-hidden="true" />
-        </slot>
-      </span>
-    </AvatarFallback>
-  </AvatarRoot>
+  <Image
+    :src="props.src"
+    :alt="props.alt ?? props.name ?? ''"
+    :class="cn(avatar({ size }), props.class)"
+    v-bind="$attrs"
+  >
+    <template #empty>
+      <slot>
+        <template v-if="initials">{{ initials }}</template>
+        <User v-else aria-hidden="true" />
+      </slot>
+    </template>
+    <template #error>
+      <slot>
+        <template v-if="initials">{{ initials }}</template>
+        <User v-else aria-hidden="true" />
+      </slot>
+    </template>
+  </Image>
 </template>

@@ -48,9 +48,10 @@ The default slot replaces the built-in fallback with an icon or a short piece of
 
 ## Behaviour {#behavior}
 
+- The avatar is rendered by [Image](/components/image), so its address goes through `provideImageResolver` too and a skeleton holds the circle while it loads.
 - The picture fills the circle with `object-fit: cover`, so an image of a different aspect ratio is not stretched.
-- The fallback shows while the picture loads and gives way once it arrives.
-- `delayMs` holds the fallback back, which keeps the initials from flashing when the picture loads quickly.
+- The fallback shows when there is no `src` or the picture fails; a failed picture is removed.
+- Image's other props can be written straight on Avatar — `fallback`, `lazy`, `eager` and the rest are passed through.
 
 ## Accessibility {#a11y}
 
@@ -59,14 +60,13 @@ The default slot replaces the built-in fallback with an icon or a short piece of
 
 ## API {#api}
 
-| Prop      | Type                   | Default | Description                            |
-| --------- | ---------------------- | ------- | -------------------------------------- |
-| `src`     | `string`               | —       | The picture                            |
-| `alt`     | `string`               | —       | Alternative text; falls back to `name` |
-| `name`    | `string`               | —       | The name the initials come from        |
-| `size`    | `'sm' \| 'md' \| 'lg'` | `'md'`  | Size                                   |
-| `delayMs` | `number`               | —       | Milliseconds to hold the fallback back |
-| `class`   | `string`               | —       | Classes appended to the root           |
+| Prop    | Type                   | Default | Description                            |
+| ------- | ---------------------- | ------- | -------------------------------------- |
+| `src`   | `string`               | —       | The picture                            |
+| `alt`   | `string`               | —       | Alternative text; falls back to `name` |
+| `name`  | `string`               | —       | The name the initials come from        |
+| `size`  | `'sm' \| 'md' \| 'lg'` | `'md'`  | Size                                   |
+| `class` | `string`               | —       | Classes appended to the root           |
 
 | Slot      | Description                    |
 | --------- | ------------------------------ |

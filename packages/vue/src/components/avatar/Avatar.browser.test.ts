@@ -52,11 +52,10 @@ describe('avatar · 头像', () => {
     await vi.waitFor(() => expect(w.text()).not.toContain('星'))
   })
 
-  it('图片加载失败时回落到首字母,坏图不可见', async () => {
+  it('图片加载失败时回落到首字母,坏图被移除', async () => {
     const w = mountAvatar({ src: 'data:image/png;base64,bm90LWFuLWltYWdl', name: '星见书音' })
     await vi.waitFor(() => expect(w.text()).toBe('星'))
-    const img = w.element.querySelector('img')!
-    expect(getComputedStyle(img).display).toBe('none')
+    expect(w.element.querySelector('img')).toBeNull()
   })
 
   it('alt 缺省时取 name,图片不裁变形', async () => {
