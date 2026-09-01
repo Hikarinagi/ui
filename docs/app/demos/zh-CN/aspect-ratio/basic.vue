@@ -4,6 +4,6 @@
 
 <template>
   <AspectRatio class="bg-inset w-full max-w-md overflow-hidden rounded-md">
-    <img src="/avatars/glass.webp" alt="星见书音" />
+    <img src="/sample.webp" alt="夏日午后的坡道" />
   </AspectRatio>
 </template>

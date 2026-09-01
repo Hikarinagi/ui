@@ -14,7 +14,7 @@
     <Stack v-for="ratio in ratios" :key="ratio.label" gap="xs" class="w-32">
       <Text tone="muted" size="sm">{{ ratio.label }}</Text>
       <AspectRatio :ratio="ratio.value" class="bg-inset overflow-hidden rounded-md">
-        <img src="/avatars/peek.webp" alt="星见书音" />
+        <img src="/sample.webp" alt="夏日午后的坡道" />
       </AspectRatio>
     </Stack>
   </Inline>

@@ -5,7 +5,7 @@
 <template>
   <Card class="w-full max-w-xs" :padded="false">
     <AspectRatio :ratio="3 / 4" class="overflow-hidden rounded-t-lg">
-      <img src="/avatars/paper.webp" alt="Beyond the Stars" />
+      <img src="/sample.webp" alt="Beyond the Stars" />
     </AspectRatio>
     <Stack gap="xs" class="p-4">
       <Text class="font-medium">Beyond the Stars</Text>

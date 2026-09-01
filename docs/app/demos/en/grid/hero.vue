@@ -14,7 +14,7 @@
 <template>
   <Grid :cols="3" class="w-full max-w-2xl">
     <Card v-for="work in works" :key="work.title">
-      <Stack gap="xs">
+      <Stack gap="xs" align="start">
         <div class="bg-emphasis h-20 rounded-md" />
         <Text class="font-medium">{{ work.title }}</Text>
         <Tag>{{ work.tag }}</Tag>

@@ -4,6 +4,6 @@
 
 <template>
   <AspectRatio class="bg-inset w-full max-w-md overflow-hidden rounded-md">
-    <img src="/avatars/glass.webp" alt="Shion Hoshimi" />
+    <img src="/sample.webp" alt="A slope on a summer afternoon" />
   </AspectRatio>
 </template>
