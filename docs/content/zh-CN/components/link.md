@@ -42,7 +42,7 @@ import { Link } from '@hikarinagi/ui'
 
 ### 正文中的链接 {#prose}
 
-`Prose` 会为其中的原生 `a` 套用强调色与下划线。渲染 Markdown 或者富文本时不需要替换标签。
+`Prose` 会为其中的原生 `a` 应用强调色与下划线。渲染 Markdown 或者富文本时不需要替换标签。
 
 <Demo name="link/prose" />
 

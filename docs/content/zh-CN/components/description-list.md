@@ -36,7 +36,7 @@ import { DescriptionList } from '@hikarinagi/ui'
 
 ### 正文中的描述列表 {#prose}
 
-`Prose` 会为其中的原生 `dl` 套用同一套样式。渲染 Markdown 或者富文本时不需要替换标签。
+`Prose` 会为其中的原生 `dl` 应用同一套样式。渲染 Markdown 或者富文本时不需要替换标签。
 
 <Demo name="description-list/prose" />
 

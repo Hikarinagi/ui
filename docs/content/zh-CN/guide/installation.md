@@ -53,7 +53,7 @@ export default defineNuxtConfig({
 
 字体名称定义在 `--hn-font-*` 变量中，自动扫描无法识别它们，需要显式声明，并将 `global` 设置为 `true`。
 
-## 根部挂载 {#root}
+## 在最外层挂载 {#root}
 
 ```vue
 <template>
@@ -106,7 +106,7 @@ import { enUS, provideUiLocale } from '@hikarinagi/ui'
 provideUiLocale(enUS)
 ```
 
-组件的内置文字默认为简体中文，在应用根部调用一次即可切换。也可以只传入一部分内容，覆盖个别文字，未覆盖的部分仍然使用中文。
+组件的内置文字默认为简体中文，在应用的最外层调用一次即可切换。也可以只传入一部分内容，覆盖个别文字，未覆盖的部分仍然使用中文。
 
 ## 验证安装 {#verify}
 

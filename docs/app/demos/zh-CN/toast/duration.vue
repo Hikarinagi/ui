@@ -14,6 +14,6 @@
     >
       不自动关闭
     </Button>
-    <Button variant="soft" tone="neutral" @click="toast.dismiss('sticky')">关掉上一条</Button>
+    <Button variant="soft" tone="neutral" @click="toast.dismiss('sticky')">关闭上一条</Button>
   </Inline>
 </template>

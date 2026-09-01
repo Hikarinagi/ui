@@ -24,13 +24,13 @@ import { Code } from '@hikarinagi/ui'
 
 ### 跟随上下文缩放 {#inline}
 
-字号是相对值，取所在文字的 87.5%。放进小字号的段落里会一同缩小，不会在句子中突出。
+字号是相对值，取所在文字的 87.5%。用在小字号的段落中时会一同缩小，不会在句子中突出。
 
 <Demo name="code/inline" />
 
 ### 正文中的行内代码 {#prose}
 
-`Prose` 会为其中的原生 `code` 标签套用同一套样式。渲染 Markdown 或者富文本时不需要替换标签。
+`Prose` 会为其中的原生 `code` 标签应用同一套样式。渲染 Markdown 或者富文本时不需要替换标签。
 
 <Demo name="code/prose" />
 

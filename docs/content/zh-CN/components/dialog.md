@@ -16,29 +16,29 @@ links:
 import { Dialog } from '@hikarinagi/ui'
 ```
 
-`title` 必填，`description` 是标题下的一行说明。默认插槽是触发器，`content` 插槽是正文，`footer` 插槽是底部的操作按钮。两个插槽都能拿到 `close` 方法。
+`title` 必填，`description` 是标题下面的一行说明。默认插槽是触发器，`content` 插槽是正文，`footer` 插槽是底部的操作按钮。两个插槽都会收到 `close` 方法。
 
 <Demo name="dialog/basic" />
 
-关闭按钮、遮罩、锁定滚动、焦点陷阱都由组件负责，不需要自己拼。
+关闭按钮、遮罩、停止页面滚动和焦点陷阱都由组件提供。
 
 ## 示例 {#examples}
 
 ### 尺寸 {#sizes}
 
-`size` 控制面板的最大宽度，三档分别是 384、448 与 576 像素。
+`size` 设置面板的最大宽度，三档分别为 384、448 和 576 像素。
 
 <Demo name="dialog/sizes" />
 
 ### 位置 {#placement}
 
-不写 `placement` 时，宽屏居中显示，窄屏贴底并撑满宽度。`center` 与 `bottom` 分别锁定其中一种形态。
+不设置 `placement` 时，宽屏上对话框居中，窄屏上贴底并占满宽度。`center` 和 `bottom` 各自锁定其中一种形态。
 
 <Demo name="dialog/placement" />
 
 ### 长内容 {#scroll}
 
-正文超过可用高度时在 `content` 插槽内部滚动，标题与页脚保持不动。面板的高度不会超出视口。
+超出可用高度的内容在 `content` 插槽内部滚动，标题和页脚保持不动。面板本身不会超出视口。
 
 <Demo name="dialog/scroll" />
 
@@ -50,21 +50,21 @@ import { Dialog } from '@hikarinagi/ui'
 
 ### 锁定 {#locked}
 
-`locked` 为真时 Esc 与点击遮罩都不再关闭对话框，关闭按钮变为不可用但仍然显示。提交过程中用它防止用户中途关闭。此时仍然可以通过 `open` 从代码里关闭。
+设置 `locked` 后，按 Esc 和点击遮罩都不再关闭对话框，关闭按钮变为不可用，但仍然显示。用它避免提交过程被中断。此时通过 `open` 关闭仍然有效。
 
 <Demo name="dialog/locked" />
 
 ## 行为 {#behavior}
 
-- 对话框打开期间页面锁定滚动，焦点被限制在面板内部，关闭后回到触发器。
-- Esc 或者点击遮罩关闭对话框，`locked` 为真时两者都失效。
-- 正文区域是 ScrollArea，滚动条样式与项目其他滚动区一致。
+- 对话框打开期间页面停止滚动，焦点被限制在面板内部，关闭后回到触发器。
+- 按 Esc 或点击遮罩关闭对话框，`locked` 会同时禁用这两种方式。
+- 正文区域是 ScrollArea，滚动条与项目中其他滚动区域一致。
 
 ## 无障碍 {#a11y}
 
-- 面板是 `role="dialog"`，`title` 与 `description` 分别关联到 `aria-labelledby` 与 `aria-describedby`。
-- 标题渲染为 `<h2>`，在页面标题层级之下。
-- 关闭按钮带无障碍名称，文字取自当前语言。
+- 面板是 `role="dialog"`，`title` 和 `description` 分别关联到 `aria-labelledby` 和 `aria-describedby`。
+- 标题渲染为 `<h2>`，位于页面标题层级之下。
+- 关闭按钮带有无障碍名称，文字取自当前语言。
 
 ## API {#api}
 
@@ -73,15 +73,15 @@ import { Dialog } from '@hikarinagi/ui'
 | 属性          | 类型                   | 默认值  | 说明                   |
 | ------------- | ---------------------- | ------- | ---------------------- |
 | `title`       | `string`               | —       | 必填。对话框标题       |
-| `description` | `string`               | —       | 标题下的说明           |
+| `description` | `string`               | —       | 标题下面的说明         |
 | `size`        | `'sm' \| 'md' \| 'lg'` | `'md'`  | 面板的最大宽度         |
-| `placement`   | `'center' \| 'bottom'` | —       | 不写时随屏幕宽度变化   |
+| `placement`   | `'center' \| 'bottom'` | —       | 不设置时随屏幕宽度变化 |
 | `locked`      | `boolean`              | `false` | 是否禁止用户关闭       |
 | `open`        | `boolean`              | —       | 是否打开，支持双向绑定 |
-| `class`       | `string`               | —       | 追加至面板的类名       |
+| `class`       | `string`               | —       | 追加到面板上的类名     |
 
 | 插槽      | 参数        | 说明                   |
 | --------- | ----------- | ---------------------- |
 | `default` | —           | 触发器，省略时不渲染   |
-| `content` | `{ close }` | 正文，超高时在内部滚动 |
+| `content` | `{ close }` | 正文，过高时在内部滚动 |
 | `footer`  | `{ close }` | 底部的操作按钮         |

@@ -16,7 +16,7 @@ links:
 import { DropdownMenu, DropdownMenuItem } from '@hikarinagi/ui'
 ```
 
-默认插槽是触发器，`content` 插槽放条目。点击触发器展开，选中条目后自动收起。
+默认插槽是触发器，`content` 插槽是菜单里的条目。点击触发器展开，选中条目后自动收起。
 
 <Demo name="dropdown-menu/basic" />
 
@@ -24,7 +24,7 @@ import { DropdownMenu, DropdownMenuItem } from '@hikarinagi/ui'
 
 ### 条目 {#items}
 
-条目的 `icon` 插槽放前置图标，`trailing` 插槽放尾部标记。删除一类不可撤销的操作设置 `tone="danger"`。
+条目的 `icon` 插槽用于前置图标，`trailing` 插槽用于尾部内容。删除这类不可撤销的操作设置 `tone="danger"`。
 
 <Demo name="dropdown-menu/items" />
 
@@ -36,59 +36,59 @@ import { DropdownMenu, DropdownMenuItem } from '@hikarinagi/ui'
 
 ### 快捷键 {#shortcut}
 
-条目对应的快捷键放在 `trailing` 插槽里，用 `Kbd` 呈现。它只是标记，注册按键仍由页面自己完成。
+条目对应的快捷键放在 `trailing` 插槽中，用 `Kbd` 呈现。这里只是标注，按键的注册仍由页面负责。
 
 <Demo name="dropdown-menu/shortcut" />
 
 ### 分组 {#group}
 
-`DropdownMenuGroup` 把相关条目归为一组，配合 `DropdownMenuLabel` 使用时，屏幕阅读器会把该标题作为整组的名称播报。
+`DropdownMenuGroup` 把相关的条目归为一组。组内带 `DropdownMenuLabel` 时，屏幕阅读器把这个标题作为整组的名称播报。
 
 <Demo name="dropdown-menu/group" />
 
 ### 多选项 {#checkbox}
 
-`DropdownMenuCheckboxItem` 用于可以同时选中多项的开关，`checked` 支持双向绑定。选中后条目左侧出现对勾，菜单保持展开，便于连续勾选。
+`DropdownMenuCheckboxItem` 用于可以同时选中多项的开关，`checked` 支持双向绑定。选中后条目左侧出现选中标记，菜单保持展开。
 
 <Demo name="dropdown-menu/checkbox" />
 
 ### 单选项 {#radio}
 
-一组互斥的选项用 `DropdownMenuRadioGroup` 包裹，当前项自动带对勾。它渲染为 `menuitemradio`，屏幕阅读器会播报选中状态。
+一组互斥的选项用 `DropdownMenuRadioGroup` 包裹，当前项自动带选中标记。
 
 <Demo name="dropdown-menu/radio" />
 
 ### 子菜单 {#submenu}
 
-`DropdownMenuSub` 在条目右侧展开一层子菜单，父条目自带指向的箭头。指针悬停或者按向右方向键展开，向左方向键收起。
+`DropdownMenuSub` 在条目右侧展开一层子菜单，父条目带有指向右侧的箭头。指针悬停或按向右方向键时展开，按向左方向键收起。
 
 <Demo name="dropdown-menu/submenu" />
 
 ### 位置 {#placement}
 
-`side` 决定朝哪个方向展开，`align` 决定与触发器如何对齐。默认在下方居中。
+`side` 指定菜单朝哪个方向展开，`align` 指定它与触发器的对齐方式。默认在正下方。
 
 <Demo name="dropdown-menu/placement" />
 
 ### 受控 {#controlled}
 
-`open` 支持双向绑定，可以从外部展开或者收起。
+`open` 支持双向绑定，可以从外部展开或收起菜单。
 
 <Demo name="dropdown-menu/controlled" />
 
 ### 不可用的条目 {#disabled}
 
-设置 `disabled` 的条目不可点击，键盘漫游时也会跳过它。
+设置 `disabled` 的条目不可点击，用键盘在条目间移动时也会跳过它。
 
 <Demo name="dropdown-menu/disabled" />
 
 ## 行为 {#behavior}
 
-- 菜单展开期间页面锁定滚动。
-- 触发器在菜单展开期间保持按下的墨色。
-- 方向键在条目间移动，首尾循环；输入文字跳到匹配的条目；回车选中；Esc 收起并把焦点还给触发器。子菜单用向右方向键展开，向左收起。
-- 选中普通条目或者单选项后菜单收起，勾选多选项后菜单留在原处。
-- 点击菜单以外的区域收起菜单，该次点击不会落到下面的元素上。
+- 菜单展开期间页面停止滚动。
+- 触发器在菜单展开期间保持按下时的样式。
+- 方向键在条目间移动，到首尾时循环；输入文字跳到匹配的条目；回车选中当前条目；Esc 收起菜单并把焦点交还给触发器。子菜单用向右方向键展开，向左方向键收起。
+- 选中普通条目或单选项后菜单收起，选中多选项后菜单保持展开。
+- 点击菜单以外的区域时菜单收起，这次点击不会传到下层的元素上。
 
 ## 无障碍 {#a11y}
 

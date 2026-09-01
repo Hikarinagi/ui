@@ -16,7 +16,7 @@ links:
 import { Prose } from '@hikarinagi/ui'
 ```
 
-把一段 HTML 放进容器，其中的原生标签自动获得排版样式。渲染 Markdown、接口返回的富文本或者编辑器产出的内容时使用它。
+把一段 HTML 放入容器，其中的原生标签自动获得排版样式。渲染 Markdown、接口返回的富文本或编辑器产出的内容时使用它。
 
 <Demo name="prose/basic" />
 
@@ -36,7 +36,7 @@ import { Prose } from '@hikarinagi/ui'
 
 ### 首尾外边距 {#spacing}
 
-元素之间有纵向间距，但容器内第一个元素的上外边距与最后一个元素的下外边距被清除，因此放进卡片时不会多出一段空白。
+元素之间有纵向间距，但容器内第一个元素的上外边距与最后一个元素的下外边距会被清除，因此放入卡片时不会多出一段空白。
 
 <Demo name="prose/spacing" />
 

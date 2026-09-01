@@ -30,13 +30,13 @@ import { Blockquote } from '@hikarinagi/ui'
 
 ### 多段引用 {#paragraphs}
 
-默认插槽可以放入多个段落。段落之间的间距由调用方决定。
+默认插槽可以容纳多个段落，段落之间的间距由调用方决定。
 
 <Demo name="blockquote/paragraphs" />
 
 ### 正文中的引用 {#prose}
 
-`Prose` 会为其中的原生 `blockquote` 套用同一套样式。渲染 Markdown 或者富文本时不需要替换标签。
+`Prose` 会为其中的原生 `blockquote` 应用同一套样式。渲染 Markdown 或者富文本时不需要替换标签。
 
 <Demo name="blockquote/prose" />
 

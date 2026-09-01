@@ -42,7 +42,7 @@ import { ButtonGroup } from '@hikarinagi/ui'
 
 <Demo name="button-group/orientation" />
 
-### 撑满宽度 {#block}
+### 占满宽度 {#block}
 
 设置 `block` 之后整组占满容器的宽度，组内的按钮平分剩余空间。这一形态适用于对话框的底部与移动端界面。
 

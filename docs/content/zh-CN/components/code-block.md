@@ -24,7 +24,7 @@ import { CodeBlock } from '@hikarinagi/ui'
 
 ### 角标文字 {#label}
 
-角标默认显示 `lang`。设置 `label` 可以改为文件名或者其他说明，着色仍然按 `lang` 进行。
+角标默认显示 `lang`。设置 `label` 可以改为文件名或其他说明，着色仍然依据 `lang`。
 
 <Demo name="code-block/label" />
 

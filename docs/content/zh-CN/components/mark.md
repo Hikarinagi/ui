@@ -24,13 +24,13 @@ import { Mark } from '@hikarinagi/ui'
 
 ### 标出搜索命中 {#search}
 
-按关键词切分文本，命中的片段用组件包裹。一段话里可以出现多处标记。
+按关键词切分文本，命中的片段用组件包裹。一段文字中可以出现多处标记。
 
 <Demo name="mark/search" />
 
 ### 正文中的标记 {#prose}
 
-`Prose` 会为其中的原生 `mark` 标签套用同一套样式。渲染 Markdown 或者富文本时不需要替换标签。
+`Prose` 会为其中的原生 `mark` 标签应用同一套样式。渲染 Markdown 或者富文本时不需要替换标签。
 
 <Demo name="mark/prose" />
 

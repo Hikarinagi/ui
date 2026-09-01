@@ -30,7 +30,7 @@ import { List } from '@hikarinagi/ui'
 
 ### 嵌套 {#nested}
 
-条目中可以再放一个列表，缩进逐层累加。
+条目中可以嵌套列表，缩进逐层累加。
 
 <Demo name="list/nested" />
 
@@ -42,7 +42,7 @@ import { List } from '@hikarinagi/ui'
 
 ### 正文中的列表 {#prose}
 
-`Prose` 会为其中的原生 `ul` 与 `ol` 套用同一套样式。渲染 Markdown 或者富文本时不需要替换标签。
+`Prose` 会为其中的原生 `ul` 与 `ol` 应用同一套样式。渲染 Markdown 或者富文本时不需要替换标签。
 
 <Demo name="list/prose" />
 

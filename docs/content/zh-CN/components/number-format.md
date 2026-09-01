@@ -48,7 +48,7 @@ import { NumberFormat } from '@hikarinagi/ui'
 
 ## 行为 {#behavior}
 
-- `compact` 档会把完整数字放进 `title`，指针悬停可以看到未缩写的数值。
+- `compact` 档会把完整数字写入 `title`，指针悬停即可看到未缩写的数值。
 - `currency` 档缺少 `currency` 代码时退回 `decimal`，并在开发环境输出告警。
 
 ## 无障碍 {#a11y}

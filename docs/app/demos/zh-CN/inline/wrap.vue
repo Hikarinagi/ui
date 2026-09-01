@@ -13,7 +13,7 @@
       </Inline>
     </Stack>
     <Stack gap="xs">
-      <Text tone="muted" size="sm">wrap 为假时挤在一行</Text>
+      <Text tone="muted" size="sm">wrap 为假时保持在一行</Text>
       <Inline :wrap="false" gap="xs" class="overflow-hidden">
         <Tag v-for="tag in tags" :key="tag">{{ tag }}</Tag>
       </Inline>

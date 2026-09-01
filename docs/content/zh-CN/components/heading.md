@@ -36,7 +36,7 @@ import { Heading } from '@hikarinagi/ui'
 
 ### 字重 {#weight}
 
-默认为 `semibold`。整段版面需要更轻的标题时可以改为 `medium` 或者 `normal`。
+默认为 `semibold`。版面需要更轻的标题时可以改为 `medium` 或 `normal`。
 
 <Demo name="heading/weight" />
 
@@ -48,7 +48,7 @@ import { Heading } from '@hikarinagi/ui'
 
 ### 正文中的标题 {#prose}
 
-`Prose` 会为其中的原生 `h1` 到 `h6` 套用同一套字号。渲染 Markdown 或者富文本时不需要替换标签。
+`Prose` 会为其中的原生 `h1` 到 `h6` 应用同一套字号。渲染 Markdown 或富文本时不需要替换标签。
 
 <Demo name="heading/prose" />
 

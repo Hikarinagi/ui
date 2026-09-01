@@ -16,7 +16,7 @@ links:
 import { CopyButton } from '@hikarinagi/ui'
 ```
 
-`text` 是必填属性，它的内容会被写入剪贴板。复制成功之后，图标由复制切换为对勾，按钮的名称同时变为“已复制”，两秒之后自动恢复。
+`text` 是必填属性，它的内容会写入剪贴板。复制成功后，图标由复制切换为选中标记，按钮的名称同时变为“已复制”，两秒后自动恢复。
 
 <Demo name="copy-button/basic" />
 
@@ -58,7 +58,7 @@ import { CopyButton } from '@hikarinagi/ui'
 
 - 按钮的默认名称为“复制”，复制成功后变为“已复制”，屏幕阅读器会读出这一变化。
 - 按钮渲染为原生的 `button`，可以通过键盘聚焦，回车键与空格键都能够触发。
-- 提示气泡默认关闭，需要时通过 `tooltip` 打开。
+- 提示默认关闭，需要时通过 `tooltip` 打开。
 
 ## API {#api}
 
@@ -70,7 +70,7 @@ import { CopyButton } from '@hikarinagi/ui'
 | `label`    | `string`               | 复制    | 按钮的无障碍名称       |
 | `size`     | `'sm' \| 'md' \| 'lg'` | `'sm'`  | 尺寸                   |
 | `timeout`  | `number`               | `2000`  | 成功状态持续的毫秒数   |
-| `tooltip`  | `boolean`              | `false` | 是否显示提示气泡       |
+| `tooltip`  | `boolean`              | `false` | 是否显示提示           |
 | `disabled` | `boolean`              | `false` | 是否不可用             |
 | `class`    | `string`               | —       | 追加至按钮的类名       |
 

@@ -48,7 +48,7 @@ import { IconButton } from '@hikarinagi/ui'
 
 <Demo name="icon-button/side" />
 
-提示依赖应用根部的 `TooltipProvider`。如果没有挂载它，按钮依然可以正常工作，只是不显示提示，`aria-label` 不受影响。
+提示依赖应用最外层的 `TooltipProvider`。如果没有挂载它，按钮依然可以正常工作，只是不显示提示，`aria-label` 不受影响。
 
 ## 无障碍 {#a11y}
 

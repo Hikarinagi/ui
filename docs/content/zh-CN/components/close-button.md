@@ -1,6 +1,6 @@
 ---
 title: CloseButton
-description: 用于关闭对话框、抽屉与提示条的按钮。
+description: 用于关闭对话框、抽屉与提示的按钮。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/close-button/CloseButton.vue
@@ -30,7 +30,7 @@ import { CloseButton } from '@hikarinagi/ui'
 
 ### 提示 {#tooltip}
 
-默认不显示提示气泡。如果名称被改写为更具体的动作，可以打开提示，并且通过 `side` 指定提示出现的方向。
+默认不显示提示。把名称改写为更具体的动作后可以打开它，并通过 `side` 指定出现的方向。
 
 <Demo name="close-button/tooltip" />
 
@@ -46,7 +46,7 @@ import { CloseButton } from '@hikarinagi/ui'
 
 如果需要其他外观或者其他图标，请直接使用 `IconButton`。
 
-## 对话框与提示条 {#overlays}
+## 对话框与提示 {#overlays}
 
 `Dialog`、`Drawer` 与 `Toast` 已经在标题行的右侧放置了关闭按钮，不需要重复添加。当 `Dialog` 与 `Drawer` 设置了 `locked` 时，内置的关闭按钮会同时被禁用。
 
@@ -66,8 +66,8 @@ import { CloseButton } from '@hikarinagi/ui'
 | ---------- | ---------------------- | ------- | ---------------------------------- |
 | `label`    | `string`               | 关闭    | 按钮的无障碍名称，同时作为提示文字 |
 | `size`     | `'sm' \| 'md' \| 'lg'` | `'sm'`  | 尺寸                               |
-| `tooltip`  | `boolean`              | `false` | 是否显示提示气泡                   |
+| `tooltip`  | `boolean`              | `false` | 是否显示提示                       |
 | `disabled` | `boolean`              | `false` | 是否不可用                         |
 | `class`    | `string`               | —       | 追加至按钮的类名                   |
 
-其余属性都会传递给 `IconButton`，例如通过 `side` 指定提示气泡的方向。
+其余属性都会传递给 `IconButton`，例如通过 `side` 指定提示的方向。

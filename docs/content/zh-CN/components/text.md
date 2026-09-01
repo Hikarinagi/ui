@@ -24,19 +24,19 @@ import { Text } from '@hikarinagi/ui'
 
 ### 字号 {#sizes}
 
-共七档，从 13 像素到 30 像素。`base` 是正文，`md` 用于导语，`sm` 用于界面上的辅助文字，`xs` 用于徽标一类的微小标签，`lg` 及以上通常交给 `Heading`。
+共七档，从 13 像素到 30 像素。`base` 是正文，`md` 用于导语，`sm` 用于界面上的辅助文字，`xs` 用于徽标等小标签，`lg` 及以上通常由 `Heading` 承担。
 
 <Demo name="text/sizes" />
 
 ### 色调 {#tones}
 
-`default` 是正文色，`muted` 与 `faint` 依次减弱，`disabled` 用于不可用状态，其余四种表达语义。
+`default` 是正文色，`muted` 和 `faint` 依次减弱，`disabled` 用于不可用状态，其余四种表示语义状态。
 
 <Demo name="text/tones" />
 
 ### 字重 {#weight}
 
-三档字重。正文用常规，表头与标签用中等，需要强调时用半粗。
+三档字重。正文用常规，表头和标签用中等，需要强调时用半粗。
 
 <Demo name="text/weight" />
 
@@ -48,7 +48,7 @@ import { Text } from '@hikarinagi/ui'
 
 ### 渲染的标签 {#as}
 
-`as` 指定渲染成哪个标签。放进句子里时改为 `span`，避免段落打断行内排版。
+`as` 指定渲染成哪个标签。用在句子中时改为 `span`，避免段落标签打断行内排版。
 
 <Demo name="text/as" />
 

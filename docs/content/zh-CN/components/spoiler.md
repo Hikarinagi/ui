@@ -16,7 +16,7 @@ links:
 import { Spoiler } from '@hikarinagi/ui'
 ```
 
-把要遮住的文字放进默认插槽。遮住时内容被噪点覆盖并且无法选中，点击后从指针落点向外展开。
+把要遮住的文字放入默认插槽。遮住时内容被噪点覆盖，并且无法选中，点击后从指针位置向外展开。
 
 <Demo name="spoiler/basic" />
 
@@ -36,7 +36,7 @@ import { Spoiler } from '@hikarinagi/ui'
 
 ### 跨行内容 {#multiline}
 
-一段跨越多行的文字可以整段遮住。揭示时展开的中心落在指针位置，按行铺开。
+一段跨越多行的文字可以整段遮住。揭示时以指针位置为中心，逐行展开。
 
 <Demo name="spoiler/multiline" />
 

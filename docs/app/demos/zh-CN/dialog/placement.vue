@@ -19,7 +19,7 @@
     <Dialog title="随屏幕变化">
       <Button variant="outline" tone="neutral">默认</Button>
       <template #content>
-        <Text>宽屏居中，窄屏贴底并撑满宽度。把窗口缩窄再打开一次就能看到。</Text>
+        <Text>宽屏居中，窄屏贴底并占满宽度。缩窄窗口后重新打开即可看到。</Text>
       </template>
     </Dialog>
   </Inline>
