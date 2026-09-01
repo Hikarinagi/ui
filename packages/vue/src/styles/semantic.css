@@ -205,6 +205,7 @@
   --hn-travel-md: 10px;
   --hn-stagger: 24ms;
   --hn-spin-duration: 700ms;
+  --hn-skeleton-duration: 2200ms;
   --hn-ripple-in: 75ms;
   --hn-ripple-out: 375ms;
 }

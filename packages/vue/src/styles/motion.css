@@ -4,6 +4,12 @@
   }
 }
 
+@keyframes hn-skeleton {
+  50% {
+    background-color: var(--hn-bg-inset);
+  }
+}
+
 @keyframes hn-fade-in {
   from {
     opacity: 0;

@@ -231,6 +231,24 @@
   }
 }
 
+@utility hn-skeleton {
+  background-color: var(--hn-bg-subtle);
+  border-radius: var(--hn-radius-md);
+  color: transparent;
+  cursor: default;
+  pointer-events: none;
+  user-select: none;
+  animation: hn-skeleton var(--hn-skeleton-duration) var(--hn-ease-move) infinite;
+
+  & * {
+    visibility: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
 @utility hn-scrollbar-safe {
   margin-inline-end: var(--scrollbar-width, 0px);
 }
