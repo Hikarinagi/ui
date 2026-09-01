@@ -62,6 +62,12 @@ import { Tag } from '@hikarinagi/ui'
 
 <Demo name="tag/truncate" />
 
+### 语义标签 {#as}
+
+`as` 换掉渲染出来的标签。一组标签在语义上是列表，容器用 `ul`，每个标签用 `li`。它只改变标签名，不会让标签变成可点击的控件：需要点击或者删除的标签是 Chip，不是 Tag。
+
+<Demo name="tag/as" />
+
 ## 无障碍 {#a11y}
 
 - 标签本身是普通文本，不带角色，屏幕阅读器按正文朗读。
@@ -78,6 +84,7 @@ import { Tag } from '@hikarinagi/ui'
 | `tone`    | `'neutral' \| 'accent' \| 'success' \| 'warning' \| 'danger' \| 'info'` | `'neutral'` | 语义色调           |
 | `size`    | `'sm' \| 'md'`                                                          | `'sm'`      | 尺寸               |
 | `pill`    | `boolean`                                                               | `false`     | 是否呈胶囊形       |
+| `as`      | `string`                                                                | `'span'`    | 渲染出来的标签     |
 | `class`   | `string`                                                                | —           | 追加至根元素的类名 |
 
 ### Slots {#slots}

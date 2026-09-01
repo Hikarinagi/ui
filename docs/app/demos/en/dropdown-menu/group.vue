@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import {
+    Avatar,
     Button,
     DropdownMenu,
     DropdownMenuGroup,
@@ -11,7 +12,12 @@
 
 <template>
   <DropdownMenu label="Account">
-    <Button variant="outline" tone="neutral">Shion Hoshimi</Button>
+    <Button variant="outline" tone="neutral">
+      <template #icon>
+        <Avatar size="sm" src="/avatars/huh.webp" alt="Shion Hoshimi" />
+      </template>
+      Shion Hoshimi
+    </Button>
     <template #content>
       <DropdownMenuGroup>
         <DropdownMenuLabel>My account</DropdownMenuLabel>

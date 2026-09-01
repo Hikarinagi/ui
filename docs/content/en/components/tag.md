@@ -62,6 +62,12 @@ Text inside a tag does not wrap. When the content may be long, give the tag a ma
 
 <Demo name="tag/truncate" />
 
+### Element {#as}
+
+`as` changes the rendered tag. A set of tags is a list semantically: use `ul` for the container and `li` for each tag. It only changes the tag name and does not turn a tag into a control — a tag that can be clicked or removed is a Chip, not a Tag.
+
+<Demo name="tag/as" />
+
 ## Accessibility {#a11y}
 
 - The tag is ordinary text with no role, and screen readers read it as body content.
@@ -78,6 +84,7 @@ Text inside a tag does not wrap. When the content may be long, give the tag a ma
 | `tone`    | `'neutral' \| 'accent' \| 'success' \| 'warning' \| 'danger' \| 'info'` | `'neutral'` | Semantic tone                |
 | `size`    | `'sm' \| 'md'`                                                          | `'sm'`      | Size                         |
 | `pill`    | `boolean`                                                               | `false`     | Render with rounded ends     |
+| `as`      | `string`                                                                | `'span'`    | The rendered tag             |
 | `class`   | `string`                                                                | —           | Classes appended to the root |
 
 ### Slots {#slots}

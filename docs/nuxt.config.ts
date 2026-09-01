@@ -7,6 +7,9 @@ const uiSrc = fileURLToPath(new URL('../src', import.meta.url))
 const contentDir = fileURLToPath(new URL('./content', import.meta.url))
 const demosDir = fileURLToPath(new URL('./app/demos', import.meta.url))
 const cssEntry = fileURLToPath(new URL('./app/assets/css/main.css', import.meta.url))
+const heroGlobEntry = fileURLToPath(
+  new URL('./app/components/docs/CategoryGrid.vue', import.meta.url),
+)
 
 const pagesOf = (locale: string) =>
   readdirSync(`${contentDir}/${locale}`, { recursive: true, encoding: 'utf8' })
@@ -48,6 +51,7 @@ export default defineNuxtConfig({
         if (event !== 'change') {
           const now = new Date()
           utimesSync(cssEntry, now, now)
+          if (isDemo) utimesSync(heroGlobEntry, now, now)
         }
         for (const mod of server.moduleGraph.idToModuleMap.values()) {
           if (mod.id?.endsWith('.md') || mod.id?.includes('slug'))

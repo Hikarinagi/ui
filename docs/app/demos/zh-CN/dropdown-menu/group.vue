@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import {
+    Avatar,
     Button,
     DropdownMenu,
     DropdownMenuGroup,
@@ -11,7 +12,12 @@
 
 <template>
   <DropdownMenu label="账户">
-    <Button variant="outline" tone="neutral">星见书音</Button>
+    <Button variant="outline" tone="neutral">
+      <template #icon>
+        <Avatar size="sm" src="/avatars/huh.webp" alt="星见书音" />
+      </template>
+      星见书音
+    </Button>
     <template #content>
       <DropdownMenuGroup>
         <DropdownMenuLabel>我的账户</DropdownMenuLabel>

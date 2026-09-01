@@ -26,6 +26,7 @@ export interface DocsPrimaryItem {
 
 export const categories: DocsCategory[] = [
   { slug: 'typography' },
+  { slug: 'layout' },
   { slug: 'atoms' },
   { slug: 'overlays' },
 ]
@@ -35,6 +36,7 @@ export const guides: DocsNavItem[] = [
 ]
 
 export const components: DocsComponent[] = [
+  { label: 'Avatar', to: '/components/avatar', i18n: 'components.avatar', category: 'atoms' },
   { label: 'Badge', to: '/components/badge', i18n: 'components.badge', category: 'atoms' },
   {
     label: 'Blockquote',
@@ -74,6 +76,8 @@ export const components: DocsComponent[] = [
     i18n: 'components.description-list',
     category: 'typography',
   },
+  { label: 'Dialog', to: '/components/dialog', i18n: 'components.dialog', category: 'overlays' },
+  { label: 'Drawer', to: '/components/drawer', i18n: 'components.drawer', category: 'overlays' },
   {
     label: 'DropdownMenu',
     to: '/components/dropdown-menu',
@@ -92,6 +96,7 @@ export const components: DocsComponent[] = [
     i18n: 'components.icon-button',
     category: 'atoms',
   },
+  { label: 'Inline', to: '/components/inline', i18n: 'components.inline', category: 'layout' },
   { label: 'Kbd', to: '/components/kbd', i18n: 'components.kbd', category: 'typography' },
   { label: 'Link', to: '/components/link', i18n: 'components.link', category: 'typography' },
   { label: 'List', to: '/components/list', i18n: 'components.list', category: 'typography' },
@@ -115,9 +120,17 @@ export const components: DocsComponent[] = [
     i18n: 'components.spoiler',
     category: 'typography',
   },
+  { label: 'Stack', to: '/components/stack', i18n: 'components.stack', category: 'layout' },
   { label: 'Tag', to: '/components/tag', i18n: 'components.tag', category: 'atoms' },
   { label: 'Text', to: '/components/text', i18n: 'components.text', category: 'typography' },
   { label: 'Time', to: '/components/time', i18n: 'components.time', category: 'typography' },
+  { label: 'Toast', to: '/components/toast', i18n: 'components.toast', category: 'overlays' },
+  {
+    label: 'Tooltip',
+    to: '/components/tooltip',
+    i18n: 'components.tooltip',
+    category: 'overlays',
+  },
 ]
 
 export const nav: { label: string; items: DocsNavItem[] }[] = [

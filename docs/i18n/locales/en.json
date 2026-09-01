@@ -46,6 +46,10 @@
       "label": "Typography",
       "description": "How text, code, lists and quotations are set in body content."
     },
+    "layout": {
+      "label": "Layout",
+      "description": "Containers that arrange their children — direction, spacing and alignment."
+    },
     "atoms": {
       "label": "Atoms",
       "description": "The smallest reusable units — buttons, tags and badges."
@@ -81,6 +85,13 @@
     "text": "Body text",
     "time": "Displays time in the current language",
     "dropdown-menu": "A set of actions revealed on click",
-    "popover": "A small panel that floats out on click"
+    "popover": "A small panel that floats out on click",
+    "tooltip": "A short note shown on hover or focus",
+    "dialog": "A modal dialog that interrupts the current task",
+    "drawer": "A modal panel that slides in from the screen edge",
+    "toast": "Short feedback that floats in after an action",
+    "stack": "Lays its children out in a single column",
+    "inline": "Lays its children out in a row, wrapping when needed",
+    "avatar": "A round portrait standing for a person or entity"
   }
 }

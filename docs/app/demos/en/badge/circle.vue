@@ -1,19 +1,20 @@
 <script setup lang="ts">
-  import { User } from '@lucide/vue'
-  import { Badge, IconButton, Inline } from '@hikarinagi/ui'
+  import { Avatar, Badge, Inline, Stack, Text } from '@hikarinagi/ui'
 </script>
 
 <template>
-  <Inline align="center" class="gap-6">
-    <Badge :content="4">
-      <IconButton label="Account" variant="soft" pill size="lg">
-        <User />
-      </IconButton>
-    </Badge>
-    <Badge :content="4" shape="circle">
-      <IconButton label="Account" variant="soft" pill size="lg">
-        <User />
-      </IconButton>
-    </Badge>
+  <Inline align="start" class="gap-8">
+    <Stack gap="xs" align="center">
+      <Badge :content="4">
+        <Avatar size="lg" src="/avatars/peek.webp" alt="Shion Hoshimi" />
+      </Badge>
+      <Text tone="muted" size="sm">rect</Text>
+    </Stack>
+    <Stack gap="xs" align="center">
+      <Badge :content="4" shape="circle">
+        <Avatar size="lg" src="/avatars/peek.webp" alt="Shion Hoshimi" />
+      </Badge>
+      <Text tone="muted" size="sm">circle</Text>
+    </Stack>
   </Inline>
 </template>
