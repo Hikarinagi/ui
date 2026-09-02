@@ -54,9 +54,23 @@ Without `src` the component renders the `empty` slot. When a picture fails and t
 
 ### Resolving addresses {#resolver}
 
-The component only takes `src`, and does not care whether it is a full address or a key in object storage. `provideImageResolver` injects a function that turns `src` into the final address; anything like processing parameters belongs to that function and never has to travel through the component. Without a resolver, `src` is used as it is.
+The component only takes `src`, and does not care whether it is a full address or a key in object storage. `provideImageResolver` injects a function that turns `src` into the final address; anything like processing parameters belongs to that function and never has to travel through the component. Without a resolver, `src` is used as it is. The function also receives a second argument naming the purpose: `'image'` for the picture on the page, `'preview'` for the large picture shown in the preview.
 
 <Demo name="image/resolver" />
+
+### Preview {#preview}
+
+With `preview` set, the picture can be clicked to view it enlarged: it grows from its place on the page to the centre of the screen and shrinks back on close. The preview supports zoom, drag, rotation and download, and dragging the picture down also closes it.
+
+The small and large pictures can be two renditions: the resolver addresses each by purpose, or the large address is passed to `preview` directly. The preview opens with the small picture from the page and swaps in the large one once it is ready.
+
+<Demo name="image/preview" />
+
+### Groups {#group}
+
+Put several pictures inside an `ImageGroup` and opening any of them lets you move through the whole set, in the order they appear on the page. With `loop` on, paging wraps around at both ends.
+
+<Demo name="image/group" />
 
 ## Behaviour {#behavior}
 
@@ -68,28 +82,39 @@ The component only takes `src`, and does not care whether it is a full address o
 - Where the browser has no intersection observer, the picture loads as soon as the component mounts rather than being held back forever.
 - Attributes that are not props land on the `img` element, so `sizes`, `srcset` and the like work as usual.
 - Changing `src` resets the fallback, so a new picture starts from its own address rather than the previous fallback.
+- While the preview is open the page cannot scroll and focus stays inside the preview; closing returns focus to the picture.
+- Dragging down moves the picture with the finger and shrinks it while the page shows through the background; letting go before it has travelled far enough springs it back.
+- Pinching zooms around the midpoint of the two fingers, the wheel zooms around the pointer, and a double tap zooms to 2.5× under the finger; another double tap returns to the original size. Zoom tops out at 6×; pinching past either limit gets heavier the further it goes, and springs back on release.
+- The picture can only be dragged around once zoomed in. Dragging past an edge meets resistance and springs back; a quick flick keeps the picture gliding to a stop, bouncing off the edges. When zoomed, dragging down only pans and never closes.
+- Turning the page resets the previous picture's zoom, position and rotation; when pictures are added to or removed from the page, the group in the preview follows. With a single picture, or once you reach either end, dragging meets resistance and springs back.
+- Only the current picture fetches its large rendition; moving on abandons it, so the whole set is never pulled down at once.
+- Closing and reopening starts over, with zoom and position reset.
+- When the system asks for reduced motion, opening and closing no longer travel, and zooming and gliding lose their transitions as well.
 
 ## Accessibility {#a11y}
 
 - `alt` goes straight to the `img`. Leave it empty for decorative pictures so screen readers skip them.
 - The skeleton is `aria-hidden`; the loading state belongs to the region that owns the picture.
+- A picture with `preview` is a button, named by its `alt`, which also titles the preview; an empty `alt` triggers a warning in development.
+- While the preview is open, `←` `→` switch pictures. Every button on the thumbnail strip is named by its picture's `alt`, and the current one carries `aria-current`.
 
 ## API {#api}
 
-| Prop         | Type                                                       | Default   | Description                                  |
-| ------------ | ---------------------------------------------------------- | --------- | -------------------------------------------- |
-| `src`        | `string`                                                   | —         | The address, passed through the resolver     |
-| `alt`        | `string`                                                   | `''`      | Alternative text                             |
-| `fallback`   | `string`                                                   | —         | Loaded when `src` fails                      |
-| `fit`        | `'cover' \| 'contain' \| 'fill' \| 'none' \| 'scale-down'` | `'cover'` | How the picture fills its box                |
-| `ratio`      | `number`                                                   | —         | Width divided by height, reserved in advance |
-| `lazy`       | `boolean`                                                  | `true`    | Wait until it nears the viewport             |
-| `rootMargin` | `string`                                                   | `'200px'` | How early loading starts                     |
-| `skeleton`   | `boolean`                                                  | `true`    | Whether a skeleton shows while loading       |
-| `eager`      | `boolean`                                                  | `false`   | Request at high priority, decode in sync     |
-| `draggable`  | `boolean`                                                  | —         | Whether the picture can be dragged           |
-| `class`      | `string`                                                   | —         | Classes appended to the box                  |
-| `imageClass` | `string`                                                   | —         | Classes appended to the `img`                |
+| Prop         | Type                                                       | Default   | Description                                                  |
+| ------------ | ---------------------------------------------------------- | --------- | ------------------------------------------------------------ |
+| `src`        | `string`                                                   | —         | The address, passed through the resolver                     |
+| `alt`        | `string`                                                   | `''`      | Alternative text                                             |
+| `fallback`   | `string`                                                   | —         | Loaded when `src` fails                                      |
+| `fit`        | `'cover' \| 'contain' \| 'fill' \| 'none' \| 'scale-down'` | `'cover'` | How the picture fills its box                                |
+| `ratio`      | `number`                                                   | —         | Width divided by height, reserved in advance                 |
+| `lazy`       | `boolean`                                                  | `true`    | Wait until it nears the viewport                             |
+| `rootMargin` | `string`                                                   | `'200px'` | How early loading starts                                     |
+| `skeleton`   | `boolean`                                                  | `true`    | Whether a skeleton shows while loading                       |
+| `eager`      | `boolean`                                                  | `false`   | Request at high priority, decode in sync                     |
+| `preview`    | `boolean \| string`                                        | `false`   | Opens for a closer look; an address becomes the large source |
+| `draggable`  | `boolean`                                                  | —         | Whether the picture can be dragged                           |
+| `class`      | `string`                                                   | —         | Classes appended to the box                                  |
+| `imageClass` | `string`                                                   | —         | Classes appended to the `img`                                |
 
 | Event   | Payload                   | Description                  |
 | ------- | ------------------------- | ---------------------------- |
