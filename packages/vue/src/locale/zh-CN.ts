@@ -81,4 +81,16 @@ export const zhCN: UiMessages = {
   chip: {
     remove: '移除',
   },
+  numberInput: {
+    increase: '增加',
+    decrease: '减少',
+  },
+  passwordInput: {
+    show: '显示密码',
+    hide: '隐藏密码',
+  },
+  combobox: {
+    placeholder: '输入或选择',
+    toggle: '展开选项',
+  },
 }

@@ -58,6 +58,10 @@
       "label": "Atoms",
       "description": "The smallest reusable units — buttons, tags and badges."
     },
+    "forms": {
+      "label": "Forms",
+      "description": "Controls for entering, choosing and submitting data."
+    },
     "overlays": {
       "label": "Overlays",
       "description": "Panels and hints that float above the page."
@@ -99,8 +103,11 @@
     "link": "A text link that can render as a router component",
     "list": "Ordered and unordered lists",
     "mark": "Marks text, such as search hits",
+    "multi-select": "Picks several items from a list",
     "nav-link": "One entry in a navigation list, marking the current page",
     "number-format": "Formats numbers for the current language",
+    "number-input": "A field for entering numbers",
+    "password-input": "A password field with a visibility toggle",
     "prose": "A rich text container that styles native tags",
     "spoiler": "Hides spoilers until revealed",
     "splitter": "Panes whose proportions are adjusted by dragging a divider",
@@ -108,6 +115,7 @@
     "tabs": "Several sets of content shown one at a time in the same place",
     "tag": "A short label for status, category or attribute",
     "text": "Body text",
+    "textarea": "A multi-line text field",
     "time": "Displays time in the current language",
     "dropdown-menu": "A set of actions revealed on click",
     "popover": "A small panel that floats out on click",
@@ -118,6 +126,8 @@
     "stack": "Lays its children out in a single column",
     "indicator": "A small dot that shows a status",
     "inline": "Lays its children out in a row, wrapping when needed",
+    "input": "A single-line text field",
+    "input-group": "Joins addons and buttons with a field into one surface",
     "avatar": "A round portrait standing for a person or entity",
     "flex": "A flex container with full control over its axes",
     "grid": "A grid container with a fixed number of columns",
@@ -125,6 +135,7 @@
     "container": "Holds page content to a readable width and centres it",
     "callout": "A note written into the content",
     "collapsible": "A region a single trigger opens and closes",
+    "combobox": "A select that filters as you type",
     "disclosure-icon": "An indicator that turns as a region opens and closes",
     "center": "Centres its content on both axes",
     "chip": "An item that can be selected or removed",
@@ -132,6 +143,8 @@
     "aspect-ratio": "Holds its content to a given width-to-height ratio",
     "divider": "A hairline that separates two pieces of content",
     "scroll-area": "A scrolling region with overlay scrollbars",
+    "search-input": "A field for entering a search query",
+    "select": "Picks one item from a list",
     "skeleton": "A placeholder that holds the shape of loading content",
     "image": "An image that loads lazily and falls back when it fails"
   }

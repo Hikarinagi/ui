@@ -99,10 +99,13 @@
     color var(--hn-duration-fast) var(--hn-ease-enter),
     background-color var(--hn-duration-fast) var(--hn-ease-enter),
     border-color var(--hn-duration-fast) var(--hn-ease-enter),
-    box-shadow var(--hn-duration-fast) var(--hn-ease-enter);
+    box-shadow var(--hn-duration-fast) var(--hn-ease-enter),
+    opacity var(--hn-duration-fast) var(--hn-ease-enter);
 
   @media (hover: hover) {
-    &:hover:not(:disabled):not(:focus):not([data-invalid]) {
+    &:hover:not(:disabled):not(:has(:disabled)):not(:has(:is(input, textarea):focus-visible)):not(
+        [data-invalid]
+      ) {
       background-color: color-mix(
         in oklab,
         var(--hn-field-bg, var(--hn-surface)) calc(100% - var(--hn-state-hover-opacity) * 100%),
@@ -110,7 +113,9 @@
       );
     }
 
-    &[data-invalid]:hover:not(:disabled):not(:focus) {
+    &[data-invalid]:hover:not(:disabled):not(:has(:disabled)):not(
+        :has(:is(input, textarea):focus-visible)
+      ) {
       background-color: color-mix(
         in oklab,
         color-mix(
@@ -124,7 +129,8 @@
     }
   }
 
-  &:focus-visible {
+  &:focus-visible,
+  &:has(:is(input, textarea):focus-visible) {
     --hn-field-ring-w: 2px;
   }
 
@@ -138,7 +144,8 @@
     );
   }
 
-  &[data-invalid]:focus-visible {
+  &[data-invalid]:focus-visible,
+  &[data-invalid]:has(:is(input, textarea):focus-visible) {
     --hn-field-ring-w: 1px;
   }
 }

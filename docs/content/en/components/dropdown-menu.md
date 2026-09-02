@@ -48,7 +48,7 @@ Put the shortcut for an item in its `trailing` slot, rendered with `Kbd`. It is 
 
 ### Checkbox items {#checkbox}
 
-`DropdownMenuCheckboxItem` is for options that can be on at the same time, and `checked` supports two-way binding. A tick appears on the left once an item is on, and the menu stays open so several can be ticked in a row.
+`DropdownMenuCheckboxItem` is for options that can be on at the same time, and `checked` supports two-way binding. A tick appears at the end of the item once it is on, and the menu stays open so several can be ticked in a row.
 
 <Demo name="dropdown-menu/checkbox" />
 

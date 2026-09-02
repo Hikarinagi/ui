@@ -79,6 +79,18 @@ export interface UiMessages {
   chip: {
     remove: string
   }
+  numberInput: {
+    increase: string
+    decrease: string
+  }
+  passwordInput: {
+    show: string
+    hide: string
+  }
+  combobox: {
+    placeholder: string
+    toggle: string
+  }
 }
 
 export type PartialUiMessages = {

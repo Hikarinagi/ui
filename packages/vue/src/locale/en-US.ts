@@ -81,4 +81,16 @@ export const enUS: UiMessages = {
   chip: {
     remove: 'Remove',
   },
+  numberInput: {
+    increase: 'Increase',
+    decrease: 'Decrease',
+  },
+  passwordInput: {
+    show: 'Show password',
+    hide: 'Hide password',
+  },
+  combobox: {
+    placeholder: 'Type or choose',
+    toggle: 'Show options',
+  },
 }

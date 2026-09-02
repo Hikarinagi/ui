@@ -63,6 +63,7 @@
 <template>
   <Primitive
     :as="tag"
+    data-hn-chip
     :as-child="props.asChild"
     v-bind="attrs"
     :aria-pressed="props.selectable ? selected : undefined"

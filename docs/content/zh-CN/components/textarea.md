@@ -1,0 +1,79 @@
+---
+title: Textarea
+description: 多行文本输入框。
+links:
+  - label: 源码
+    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/textarea/Textarea.vue
+  - label: 变体定义
+    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/textarea/textarea.variants.ts
+---
+
+<Demo name="textarea/hero" />
+
+## 用法 {#usage}
+
+```ts
+import { Textarea } from '@hina-ui/vue'
+```
+
+多行文本输入框渲染为原生 `textarea`，`v-model` 绑定文本。默认高度为三行，右下角可以纵向拉伸。未声明的属性都会传给 `textarea`，`placeholder`、`maxlength`、`name` 等属性照常可用。
+
+<Demo name="textarea/basic" />
+
+## 示例 {#examples}
+
+### 自动高度 {#autosize}
+
+设置 `autosize` 后高度随内容增减，拉伸把手隐藏。传入对象可以限定行数范围，超过 `maxRows` 后内部滚动。
+
+<Demo name="textarea/autosize" />
+
+### 尺寸 {#sizes}
+
+三档尺寸与输入框相同，只有一行内容时高度与同档输入框一致。
+
+<Demo name="textarea/sizes" />
+
+### 形态 {#variants}
+
+`primary` 直接放在页面底色上，带边框与阴影；`secondary` 放在卡片等表面内，只有一层浅色底。
+
+<Demo name="textarea/variants" />
+
+### 状态 {#states}
+
+`invalid` 标出校验未通过，`disabled` 不可编辑。
+
+<Demo name="textarea/states" />
+
+## 行为 {#behavior}
+
+- 悬停、聚焦、错误与禁用的表现与输入框相同。
+- 自动高度在输入与 `v-model` 变化时重新计算，行数下限默认取 `rows`。
+- 内容超出可见行数时在框内滚动，滚动条与 ScrollArea 相同。
+- 点击框内文字之外的空白也会聚焦。
+
+## 无障碍 {#a11y}
+
+- 渲染为原生 `textarea`，键盘与屏幕阅读器行为由浏览器提供。
+- 应当配合 `label` 元素或者 `aria-label` 提供名称。
+- `invalid` 同时设置 `aria-invalid`。
+
+## API {#api}
+
+### Props {#props}
+
+| 属性       | 类型                                                | 默认值       | 说明                             |
+| ---------- | --------------------------------------------------- | ------------ | -------------------------------- |
+| `variant`  | `'primary' \| 'secondary'`                          | `'primary'`  | 形态                             |
+| `size`     | `'sm' \| 'md' \| 'lg'`                              | `'md'`       | 尺寸                             |
+| `rows`     | `number`                                            | `3`          | 行数                             |
+| `autosize` | `boolean \| { minRows?: number; maxRows?: number }` | `false`      | 是否随内容调整高度               |
+| `resize`   | `'none' \| 'vertical'`                              | `'vertical'` | 是否可以拉伸，自动高度时不可拉伸 |
+| `invalid`  | `boolean`                                           | `false`      | 是否校验未通过                   |
+| `disabled` | `boolean`                                           | `false`      | 是否禁用                         |
+| `class`    | `string`                                            | —            | 追加至根元素的类名               |
+
+| 事件                | 参数            | 说明     |
+| ------------------- | --------------- | -------- |
+| `update:modelValue` | `value: string` | 文本变化 |

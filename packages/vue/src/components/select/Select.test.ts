@@ -1,0 +1,90 @@
+import { describe, expect, it, beforeEach } from 'vitest'
+import { mount } from '@vue/test-utils'
+import Select from './Select.vue'
+import { flattenOptions, isOptionGroup } from './types'
+import { expectNoA11yViolations } from '../../../test/axe'
+
+beforeEach(() => {
+  document.body.innerHTML = ''
+})
+
+const options = [
+  { value: 'gal', label: 'Galgame' },
+  { value: 'ln', label: '轻小说', description: '文库本' },
+  { value: 'manga', label: '漫画', disabled: true },
+]
+
+const triggerOf = (w: ReturnType<typeof mount>) => w.find('[data-hn-select]')
+
+describe('触发器', () => {
+  it('触发器就是输入面宿主，role=combobox，attrs 透传到触发器', () => {
+    const w = triggerOf(mount(Select, { props: { options }, attrs: { 'aria-label': '类型' } }))
+    expect(w.attributes('data-hn-select')).toBe('')
+    expect(w.attributes('role')).toBe('combobox')
+    expect(w.attributes('aria-label')).toBe('类型')
+    expect(w.classes()).toContain('hn-field')
+    expect(w.classes()).toContain('group/hn-disclosure')
+    expect(w.classes().join(' ')).toContain('control-h-md')
+  })
+
+  it('无值时显示占位并标 data-placeholder，默认占位来自语言包；有值时显示选项文字', async () => {
+    const w = mount(Select, { props: { options } })
+    expect(triggerOf(w).text()).toBe('请选择')
+    expect(triggerOf(w).attributes('data-placeholder')).toBe('')
+    await w.setProps({ placeholder: '选择类型' })
+    expect(triggerOf(w).text()).toBe('选择类型')
+    await w.setProps({ modelValue: 'ln' })
+    expect(triggerOf(w).text()).toBe('轻小说')
+    expect(triggerOf(w).attributes('data-placeholder')).toBeUndefined()
+  })
+
+  it('value 插槽定制触发器里的内容', () => {
+    const w = mount(Select, {
+      props: { options, modelValue: 'gal' },
+      slots: { value: ({ option }: { option: { label: string } }) => `已选：${option.label}` },
+    })
+    expect(triggerOf(w).text()).toBe('已选：Galgame')
+  })
+
+  it('双形态与档位类与 Input 同源', () => {
+    expect(triggerOf(mount(Select, { props: { options } })).classes()).toContain(
+      '[--hn-field-shadow:var(--hn-shadow-sm)]',
+    )
+    expect(
+      triggerOf(mount(Select, { props: { options, variant: 'secondary' } })).classes(),
+    ).toContain('border-transparent')
+    expect(
+      triggerOf(mount(Select, { props: { options, size: 'lg' } }))
+        .classes()
+        .join(' '),
+    ).toContain('control-h-lg')
+  })
+
+  it('invalid 落 data-invalid 与 aria-invalid；disabled 禁用触发器', () => {
+    const invalid = triggerOf(mount(Select, { props: { options, invalid: true } }))
+    expect(invalid.attributes('data-invalid')).toBe('')
+    expect(invalid.attributes('aria-invalid')).toBe('true')
+    const disabled = triggerOf(mount(Select, { props: { options, disabled: true } }))
+    expect((disabled.element as HTMLButtonElement).disabled).toBe(true)
+  })
+
+  it('无 a11y 违规', async () => {
+    const w = mount(Select, {
+      props: { options, modelValue: 'gal' },
+      attrs: { 'aria-label': '类型' },
+      attachTo: document.body,
+    })
+    await expectNoA11yViolations(w.element)
+  })
+})
+
+describe('选项数据', () => {
+  it('分组与平铺混排时能拉平，分组判定看 options 字段', () => {
+    const items = [
+      { value: 'a', label: 'A' },
+      { label: '组', options: [{ value: 'b', label: 'B' }] },
+    ]
+    expect(isOptionGroup(items[1]!)).toBe(true)
+    expect(flattenOptions(items).map(o => o.value)).toEqual(['a', 'b'])
+  })
+})

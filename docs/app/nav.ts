@@ -29,6 +29,7 @@ export const categories: DocsCategory[] = [
   { slug: 'typography' },
   { slug: 'layout' },
   { slug: 'atoms' },
+  { slug: 'forms' },
   { slug: 'overlays' },
   { slug: 'display' },
   { slug: 'data' },
@@ -99,6 +100,12 @@ export const components: DocsComponent[] = [
     category: 'typography',
   },
   {
+    label: 'Combobox',
+    to: '/components/combobox',
+    i18n: 'components.combobox',
+    category: 'forms',
+  },
+  {
     label: 'Container',
     to: '/components/container',
     i18n: 'components.container',
@@ -153,6 +160,13 @@ export const components: DocsComponent[] = [
     category: 'atoms',
   },
   { label: 'Inline', to: '/components/inline', i18n: 'components.inline', category: 'layout' },
+  { label: 'Input', to: '/components/input', i18n: 'components.input', category: 'forms' },
+  {
+    label: 'InputGroup',
+    to: '/components/input-group',
+    i18n: 'components.input-group',
+    category: 'forms',
+  },
   { label: 'Kbd', to: '/components/kbd', i18n: 'components.kbd', category: 'typography' },
   { label: 'Link', to: '/components/link', i18n: 'components.link', category: 'typography' },
   { label: 'List', to: '/components/list', i18n: 'components.list', category: 'typography' },
@@ -164,10 +178,28 @@ export const components: DocsComponent[] = [
     category: 'navigation',
   },
   {
+    label: 'MultiSelect',
+    to: '/components/multi-select',
+    i18n: 'components.multi-select',
+    category: 'forms',
+  },
+  {
     label: 'NumberFormat',
     to: '/components/number-format',
     i18n: 'components.number-format',
     category: 'typography',
+  },
+  {
+    label: 'NumberInput',
+    to: '/components/number-input',
+    i18n: 'components.number-input',
+    category: 'forms',
+  },
+  {
+    label: 'PasswordInput',
+    to: '/components/password-input',
+    i18n: 'components.password-input',
+    category: 'forms',
   },
   {
     label: 'Popover',
@@ -182,6 +214,13 @@ export const components: DocsComponent[] = [
     i18n: 'components.scroll-area',
     category: 'layout',
   },
+  {
+    label: 'SearchInput',
+    to: '/components/search-input',
+    i18n: 'components.search-input',
+    category: 'forms',
+  },
+  { label: 'Select', to: '/components/select', i18n: 'components.select', category: 'forms' },
   {
     label: 'Skeleton',
     to: '/components/skeleton',
@@ -212,6 +251,12 @@ export const components: DocsComponent[] = [
   { label: 'Tabs', to: '/components/tabs', i18n: 'components.tabs', category: 'display' },
   { label: 'Tag', to: '/components/tag', i18n: 'components.tag', category: 'atoms' },
   { label: 'Text', to: '/components/text', i18n: 'components.text', category: 'typography' },
+  {
+    label: 'Textarea',
+    to: '/components/textarea',
+    i18n: 'components.textarea',
+    category: 'forms',
+  },
   { label: 'Time', to: '/components/time', i18n: 'components.time', category: 'typography' },
   { label: 'Toast', to: '/components/toast', i18n: 'components.toast', category: 'overlays' },
   {

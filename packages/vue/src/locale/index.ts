@@ -33,6 +33,9 @@ function merge(base: UiMessages, patch: PartialUiMessages): UiMessages {
     breadcrumb: { ...base.breadcrumb, ...patch.breadcrumb },
     lightbox: { ...base.lightbox, ...patch.lightbox },
     chip: { ...base.chip, ...patch.chip },
+    numberInput: { ...base.numberInput, ...patch.numberInput },
+    passwordInput: { ...base.passwordInput, ...patch.passwordInput },
+    combobox: { ...base.combobox, ...patch.combobox },
   }
 }
 

@@ -1,0 +1,127 @@
+<script setup lang="ts">
+  import { computed } from 'vue'
+  import { SelectRoot, SelectTrigger } from 'reka-ui'
+  import { cn } from '../../lib/cn'
+  import { useUiLocale } from '../../locale'
+  import Chip from '../chip/Chip.vue'
+  import CloseButton from '../close-button/CloseButton.vue'
+  import DisclosureIcon from '../disclosure-icon/DisclosureIcon.vue'
+  import { injectInputGroup } from '../input-group/context'
+  import { inputEmbedded, inputHost, type InputVariants } from '../input/input.variants'
+  import SelectList from '../select/SelectList.vue'
+  import { flattenOptions, type SelectItems, type SelectOption } from '../select/types'
+  import { multiSelectChips, multiSelectTrigger } from './multi-select.variants'
+
+  defineOptions({ name: 'HnMultiSelect', inheritAttrs: false })
+
+  const props = withDefaults(
+    defineProps<{
+      options: SelectItems
+      placeholder?: string
+      maxVisible?: number
+      clearable?: boolean
+      variant?: InputVariants['variant']
+      size?: InputVariants['size']
+      disabled?: boolean
+      invalid?: boolean
+      class?: string
+    }>(),
+    { maxVisible: 2, clearable: false },
+  )
+  const emit = defineEmits<{ clear: [] }>()
+
+  const model = defineModel<Array<string | number>>({ default: () => [] })
+  const open = defineModel<boolean>('open', { default: false })
+
+  defineSlots<{ option(props: { option: SelectOption }): unknown }>()
+
+  const t = useUiLocale()
+  const group = injectInputGroup()
+
+  const size = computed(() => (group ? group.size.value : props.size))
+  const disabled = computed(() => props.disabled || !!group?.disabled.value)
+  const invalid = computed(() => props.invalid || !!group?.invalid.value)
+  const selected = computed(() =>
+    flattenOptions(props.options).filter(option => model.value.includes(option.value)),
+  )
+  const visible = computed(() => selected.value.slice(0, props.maxVisible))
+  const overflow = computed(() => selected.value.length - visible.value.length)
+  const chipSize = computed(() => (size.value === 'sm' ? 'sm' : 'md'))
+  const closeSize = computed(() => (size.value === 'sm' ? 'xs' : size.value === 'lg' ? 'md' : 'sm'))
+  const clearing = computed(() => props.clearable && selected.value.length > 0 && !disabled.value)
+
+  function remove(value: string | number) {
+    model.value = model.value.filter(item => item !== value)
+  }
+
+  function clear() {
+    if (!model.value.length) return
+    model.value = []
+    emit('clear')
+  }
+
+  function isolate(event: Event) {
+    if ((event.target as HTMLElement).closest('button')) event.stopPropagation()
+  }
+</script>
+
+<template>
+  <SelectRoot v-model="model" v-model:open="open" :disabled="disabled" multiple>
+    <SelectTrigger
+      v-bind="$attrs"
+      as="div"
+      data-hn-multi-select
+      :tabindex="disabled ? -1 : 0"
+      :aria-disabled="disabled || undefined"
+      :data-invalid="invalid ? '' : undefined"
+      :aria-invalid="invalid || undefined"
+      :class="
+        cn(
+          group ? inputEmbedded() : inputHost({ variant: props.variant, size: props.size }),
+          multiSelectTrigger(),
+          props.class,
+        )
+      "
+    >
+      <span :class="multiSelectChips()">
+        <template v-if="selected.length">
+          <Chip
+            v-for="option in visible"
+            :key="option.value"
+            :size="chipSize"
+            removable
+            class="max-w-40 min-w-0 shrink"
+            @pointerdown="isolate"
+            @click="isolate"
+            @remove="remove(option.value)"
+          >
+            <span class="min-w-0 truncate">{{ option.label }}</span>
+          </Chip>
+          <Chip v-if="overflow > 0" :size="chipSize" class="shrink-0">+{{ overflow }}</Chip>
+        </template>
+        <span v-else class="min-w-0 truncate">{{ props.placeholder ?? t.select.placeholder }}</span>
+      </span>
+      <Transition
+        enter-active-class="hn-transition-base"
+        enter-from-class="scale-90 opacity-0"
+        leave-active-class="hn-transition"
+        leave-to-class="scale-90 opacity-0"
+      >
+        <span v-if="clearing" data-hn-multi-select-clear class="flex shrink-0 items-center">
+          <CloseButton
+            :label="t.common.clear"
+            :size="closeSize"
+            @pointerdown.stop
+            @click.stop="clear"
+          />
+        </span>
+      </Transition>
+      <DisclosureIcon class="text-muted [&>svg]:size-[var(--hn-input-icon)]" />
+    </SelectTrigger>
+    <SelectList :options="props.options">
+      <template #option="slotProps">
+        <slot name="option" v-bind="slotProps" />
+      </template>
+    </SelectList>
+  </SelectRoot>
+</template>

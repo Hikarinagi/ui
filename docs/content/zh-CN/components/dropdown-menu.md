@@ -48,7 +48,7 @@ import { DropdownMenu, DropdownMenuItem } from '@hina-ui/vue'
 
 ### 多选项 {#checkbox}
 
-`DropdownMenuCheckboxItem` 用于可以同时选中多项的开关，`checked` 支持双向绑定。选中后条目左侧出现选中标记，菜单保持展开。
+`DropdownMenuCheckboxItem` 用于可以同时选中多项的开关，`checked` 支持双向绑定。选中后条目末尾出现选中标记，菜单保持展开。
 
 <Demo name="dropdown-menu/checkbox" />
 
