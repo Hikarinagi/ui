@@ -438,6 +438,88 @@
   }
 }
 
+@utility hn-collapse {
+  display: grid;
+  overflow: hidden;
+  transition:
+    grid-template-rows var(--hn-duration-fast) var(--hn-ease-enter),
+    margin-block-end var(--hn-duration-fast) var(--hn-ease-enter),
+    opacity var(--hn-duration-fast) var(--hn-ease-enter),
+    visibility 0s;
+
+  &.hn-collapse-open,
+  &[data-state='open'] {
+    grid-template-rows: 1fr;
+    margin-block-end: 0;
+    opacity: 1;
+  }
+
+  &.hn-collapse-closed,
+  &[data-state='closed'] {
+    grid-template-rows: 0fr;
+    margin-block-end: calc(var(--hn-collapse-gap, 0px) * -1);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      opacity var(--hn-duration-exit) var(--hn-ease-exit),
+      grid-template-rows var(--hn-duration-base) var(--hn-ease-move),
+      margin-block-end var(--hn-duration-base) var(--hn-ease-move),
+      visibility 0s var(--hn-ease-linear) var(--hn-duration-base);
+  }
+}
+
+@utility hn-collapse-x {
+  display: grid;
+  overflow: hidden;
+  transition:
+    grid-template-columns var(--hn-duration-fast) var(--hn-ease-enter),
+    margin-inline-end var(--hn-duration-fast) var(--hn-ease-enter),
+    opacity var(--hn-duration-fast) var(--hn-ease-enter),
+    visibility 0s;
+
+  &.hn-collapse-open,
+  &[data-state='open'] {
+    grid-template-columns: 1fr;
+    margin-inline-end: 0;
+    opacity: 1;
+  }
+
+  &.hn-collapse-closed,
+  &[data-state='closed'] {
+    grid-template-columns: 0fr;
+    margin-inline-end: calc(var(--hn-collapse-gap, 0px) * -1);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      opacity var(--hn-duration-exit) var(--hn-ease-exit),
+      grid-template-columns var(--hn-duration-base) var(--hn-ease-move),
+      margin-inline-end var(--hn-duration-base) var(--hn-ease-move),
+      visibility 0s var(--hn-ease-linear) var(--hn-duration-base);
+  }
+}
+
+@utility hn-collapse-body {
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+
+  .hn-collapse > & > *,
+  .hn-collapse-x > & > * {
+    overflow: hidden;
+    transition: opacity 0s;
+  }
+
+  .hn-collapse-closed > & > *,
+  .hn-collapse[data-state='closed'] > & > *,
+  .hn-collapse-x[data-state='closed'] > & > * {
+    opacity: 0;
+    transition: opacity var(--hn-duration-fast) var(--hn-ease-enter);
+  }
+}
+
 @utility hn-ping {
   animation: hn-ping var(--hn-pulse-duration) var(--hn-ease-enter) infinite;
 

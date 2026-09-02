@@ -88,7 +88,7 @@ describe('sidebar · 三态收起系统', () => {
       b.textContent!.includes('组件'),
     )!
     await vi.waitFor(() =>
-      expect((groupButton.closest('.overflow-hidden') as HTMLElement).clientHeight).toBe(0),
+      expect((groupButton.closest('.hn-collapse-body') as HTMLElement).clientHeight).toBe(0),
     )
 
     const iconXAfter = aside()!.querySelector('a svg')!.getBoundingClientRect().left

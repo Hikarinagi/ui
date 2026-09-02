@@ -46,6 +46,12 @@ describe('动效必须取自 token', () => {
   it('全库禁止 transition-all', () => {
     expect(findAll(/transition-all/)).toEqual([])
   })
+
+  it('组件源码不手写尺寸类 transition 任意值类,收合只能来自成对 utility', () => {
+    expect(
+      findAll(/\[transition:[^\]]*(grid-template|height|width|margin|padding|inset|gap|flex)/),
+    ).toEqual([])
+  })
 })
 
 describe('样式必须取自 token', () => {

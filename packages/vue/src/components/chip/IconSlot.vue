@@ -13,10 +13,11 @@
 
 <template>
   <span
-    class="grid [transition:grid-template-columns_var(--hn-duration-base)_var(--hn-ease-move)]"
-    :class="props.icon || props.checked ? 'grid-cols-[1fr]' : 'grid-cols-[0fr]'"
+    data-hn-icon
+    class="hn-collapse-x"
+    :class="props.icon || props.checked ? 'hn-collapse-open' : 'hn-collapse-closed'"
   >
-    <span class="flex min-w-0 overflow-hidden">
+    <span class="hn-collapse-body">
       <span :class="chipIcon({ size: props.size })">
         <span
           v-if="props.icon"

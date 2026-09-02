@@ -36,7 +36,7 @@ function el(w: VueWrapper) {
 }
 
 function track(w: VueWrapper) {
-  return el(w).querySelector('.grid') as HTMLElement
+  return el(w).querySelector('[data-hn-icon]') as HTMLElement
 }
 
 describe('chip · 尺寸与形态', () => {

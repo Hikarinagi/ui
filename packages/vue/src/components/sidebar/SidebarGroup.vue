@@ -31,11 +31,8 @@
     :class="cn(props.class)"
     @update:open="v => (rail ? undefined : (open = v))"
   >
-    <div
-      class="grid [transition:grid-template-rows_var(--hn-duration-base)_var(--hn-ease-move)]"
-      :class="rail ? 'grid-rows-[0fr]' : 'grid-rows-[1fr]'"
-    >
-      <div class="min-h-0 overflow-hidden">
+    <div class="hn-collapse" :class="rail ? 'hn-collapse-closed' : 'hn-collapse-open'">
+      <div class="hn-collapse-body">
         <CollapsibleTrigger as-child>
           <Button
             variant="ghost"
@@ -55,10 +52,10 @@
     </div>
     <div
       aria-hidden="true"
-      class="grid [transition:grid-template-rows_var(--hn-duration-base)_var(--hn-ease-move)]"
-      :class="rail ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'"
+      class="hn-collapse"
+      :class="rail ? 'hn-collapse-open' : 'hn-collapse-closed'"
     >
-      <div class="min-h-0 overflow-hidden">
+      <div class="hn-collapse-body">
         <div class="border-line mx-2 my-1.5 border-t" />
       </div>
     </div>
