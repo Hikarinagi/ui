@@ -10,8 +10,6 @@
   },
   "scripts": {
     "typecheck": "vue-tsc --noEmit -p tsconfig.json",
-    "dev": "vite",
-    "build:playground": "vite build",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:browser": "vitest run -c vitest.browser.config.ts"

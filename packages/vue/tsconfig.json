@@ -22,10 +22,7 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.vue",
-    "playground/**/*.ts",
-    "playground/**/*.vue",
     "test/**/*.ts",
-    "vite.config.ts",
     "vitest.config.ts",
     "vitest.browser.config.ts"
   ]
