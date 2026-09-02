@@ -34,6 +34,7 @@ export const categories: DocsCategory[] = [
   { slug: 'display' },
   { slug: 'data' },
   { slug: 'navigation' },
+  { slug: 'shell' },
 ]
 
 export const guides: DocsNavItem[] = [
@@ -48,6 +49,12 @@ export const components: DocsComponent[] = [
     category: 'display',
   },
   { label: 'Anchor', to: '/components/anchor', i18n: 'components.anchor', category: 'navigation' },
+  {
+    label: 'AppShell',
+    to: '/components/app-shell',
+    i18n: 'components.app-shell',
+    category: 'shell',
+  },
   { label: 'Alert', to: '/components/alert', i18n: 'components.alert', category: 'display' },
   {
     label: 'AspectRatio',
@@ -207,6 +214,18 @@ export const components: DocsComponent[] = [
     i18n: 'components.popover',
     category: 'overlays',
   },
+  {
+    label: 'Page',
+    to: '/components/page',
+    i18n: 'components.page',
+    category: 'shell',
+  },
+  {
+    label: 'PrevNext',
+    to: '/components/prev-next',
+    i18n: 'components.prev-next',
+    category: 'navigation',
+  },
   { label: 'Prose', to: '/components/prose', i18n: 'components.prose', category: 'typography' },
   {
     label: 'ScrollArea',
@@ -221,6 +240,8 @@ export const components: DocsComponent[] = [
     category: 'forms',
   },
   { label: 'Select', to: '/components/select', i18n: 'components.select', category: 'forms' },
+  { label: 'Section', to: '/components/section', i18n: 'components.section', category: 'shell' },
+  { label: 'Sidebar', to: '/components/sidebar', i18n: 'components.sidebar', category: 'shell' },
   {
     label: 'Skeleton',
     to: '/components/skeleton',
