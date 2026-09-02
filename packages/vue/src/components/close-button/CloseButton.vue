@@ -1,7 +1,9 @@
 <script setup lang="ts">
+  import { computed } from 'vue'
   import { X } from '@lucide/vue'
   import IconButton from '../icon-button/IconButton.vue'
   import { useUiLocale } from '../../locale'
+  import { cn } from '../../lib/cn'
   import type { ButtonVariants } from '../button/button.variants'
 
   defineOptions({ name: 'HnCloseButton', inheritAttrs: false })
@@ -9,7 +11,7 @@
   const props = withDefaults(
     defineProps<{
       label?: string
-      size?: ButtonVariants['size']
+      size?: 'xs' | ButtonVariants['size']
       disabled?: boolean
       tooltip?: boolean
       class?: string
@@ -18,6 +20,8 @@
   )
 
   const t = useUiLocale()
+
+  const buttonSize = computed(() => (props.size === 'xs' ? 'sm' : props.size))
 </script>
 
 <template>
@@ -25,12 +29,12 @@
     v-bind="$attrs"
     :label="props.label ?? t.common.close"
     :tooltip="props.tooltip"
-    :size="props.size"
+    :size="buttonSize"
     pill
     :disabled="props.disabled"
     variant="ghost"
     tone="neutral"
-    :class="props.class"
+    :class="cn(props.size === 'xs' && 'size-5 [&_svg]:size-3', props.class)"
   >
     <X />
   </IconButton>

@@ -76,6 +76,9 @@ export interface UiMessages {
     download: string
     loadingLarge: string
   }
+  chip: {
+    remove: string
+  }
 }
 
 export type PartialUiMessages = {

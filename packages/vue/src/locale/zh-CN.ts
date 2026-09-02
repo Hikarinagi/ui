@@ -78,4 +78,7 @@ export const zhCN: UiMessages = {
     download: '下载',
     loadingLarge: '正在加载原图',
   },
+  chip: {
+    remove: '移除',
+  },
 }

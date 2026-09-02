@@ -48,4 +48,15 @@ describe('close button · 关闭钮惯例', () => {
     expect(btn.classes()).toContain('rounded-full')
     expect(btn.attributes('disabled')).toBeDefined()
   })
+
+  it('xs 档 20px 圆、图标 12px，比 sm 低一档', () => {
+    const xs = mount(CloseButton, { props: { size: 'xs' }, attachTo: attach() })
+    const sm = mount(CloseButton, { attachTo: attach() })
+    mounted.push(xs, sm)
+    const btn = xs.find('button').element as HTMLElement
+    expect(btn.offsetHeight).toBe(20)
+    expect(btn.offsetWidth).toBe(20)
+    expect((xs.find('svg').element as SVGElement).getBoundingClientRect().height).toBe(12)
+    expect((sm.find('button').element as HTMLElement).offsetHeight).toBeGreaterThan(20)
+  })
 })

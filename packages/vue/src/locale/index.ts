@@ -32,6 +32,7 @@ function merge(base: UiMessages, patch: PartialUiMessages): UiMessages {
     anchor: { ...base.anchor, ...patch.anchor },
     breadcrumb: { ...base.breadcrumb, ...patch.breadcrumb },
     lightbox: { ...base.lightbox, ...patch.lightbox },
+    chip: { ...base.chip, ...patch.chip },
   }
 }
 

@@ -78,4 +78,7 @@ export const enUS: UiMessages = {
     download: 'Download',
     loadingLarge: 'Loading HD',
   },
+  chip: {
+    remove: 'Remove',
+  },
 }
