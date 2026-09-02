@@ -2,6 +2,8 @@ import { describe, expect, it, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { h } from 'vue'
 import DescriptionList from './DescriptionList.vue'
+import DescriptionTerm from './DescriptionTerm.vue'
+import DescriptionDetails from './DescriptionDetails.vue'
 import Prose from '../prose/Prose.vue'
 import '../../../test/browser.css'
 
@@ -55,5 +57,35 @@ describe('description list 与 prose dl 同源', () => {
     expect(parseFloat(getComputedStyle(mine.dt[1]!).marginBlockStart)).toBeGreaterThan(
       parseFloat(getComputedStyle(mine.dd[0]!).marginBlockStart),
     )
+  })
+
+  it('条目件与裸 dt / dd 在同一容器下计算样式完全一致 —— 替换是等价的', () => {
+    const raw = mount(DescriptionList, {
+      slots: {
+        default: () => [h('dt', '原名'), h('dd', '星之航路'), h('dt', '作者'), h('dd', '未知')],
+      },
+      attachTo: attach(),
+    })
+    const wrapped = mount(DescriptionList, {
+      slots: {
+        default: () => [
+          h(DescriptionTerm, () => '原名'),
+          h(DescriptionDetails, () => '星之航路'),
+          h(DescriptionTerm, () => '作者'),
+          h(DescriptionDetails, () => '未知'),
+        ],
+      },
+      attachTo: attach(),
+    })
+
+    const pick = (el: Element) => {
+      const s = getComputedStyle(el)
+      return [el.tagName, s.fontWeight, s.marginInlineStart, s.marginBlockStart].join('|')
+    }
+    const shape = (root: Element) => [...root.querySelectorAll('dt, dd')].map(pick)
+
+    expect(shape(wrapped.element)).toEqual(shape(raw.element))
+    expect(shape(wrapped.element)[0]).toContain('DT')
+    expect(shape(wrapped.element)[1]).toContain('DD')
   })
 })
