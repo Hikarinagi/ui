@@ -148,6 +148,12 @@ export const components: DocsComponent[] = [
   { label: 'Flex', to: '/components/flex', i18n: 'components.flex', category: 'layout' },
   { label: 'Grid', to: '/components/grid', i18n: 'components.grid', category: 'layout' },
   {
+    label: 'Highlight',
+    to: '/components/highlight',
+    i18n: 'components.highlight',
+    category: 'foundation',
+  },
+  {
     label: 'Heading',
     to: '/components/heading',
     i18n: 'components.heading',
@@ -227,6 +233,7 @@ export const components: DocsComponent[] = [
     category: 'navigation',
   },
   { label: 'Prose', to: '/components/prose', i18n: 'components.prose', category: 'typography' },
+  { label: 'Ripple', to: '/components/ripple', i18n: 'components.ripple', category: 'foundation' },
   {
     label: 'ScrollArea',
     to: '/components/scroll-area',
@@ -254,6 +261,7 @@ export const components: DocsComponent[] = [
     i18n: 'components.simple-grid',
     category: 'layout',
   },
+  { label: 'Spinner', to: '/components/spinner', i18n: 'components.spinner', category: 'atoms' },
   { label: 'Space', to: '/components/space', i18n: 'components.space', category: 'layout' },
   {
     label: 'Splitter',
@@ -280,6 +288,12 @@ export const components: DocsComponent[] = [
   },
   { label: 'Time', to: '/components/time', i18n: 'components.time', category: 'typography' },
   { label: 'Toast', to: '/components/toast', i18n: 'components.toast', category: 'overlays' },
+  {
+    label: 'VisuallyHidden',
+    to: '/components/visually-hidden',
+    i18n: 'components.visually-hidden',
+    category: 'foundation',
+  },
   {
     label: 'Tooltip',
     to: '/components/tooltip',
