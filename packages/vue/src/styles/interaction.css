@@ -46,7 +46,8 @@
   }
 
   @media (hover: hover) {
-    &:hover:not(:disabled):not([data-disabled])::after {
+    &:hover:not(:disabled):not([data-disabled])::after,
+    :where([data-hn-state-group]:hover) &:not(:disabled):not([data-disabled])::after {
       opacity: var(--hn-state-hover-opacity);
     }
   }
@@ -83,7 +84,13 @@
   @media (hover: hover) {
     &[data-state='checked']:hover:not(:disabled):not([data-disabled])::after,
     &[data-state='selected']:hover:not(:disabled):not([data-disabled])::after,
-    &[aria-selected='true']:hover:not(:disabled):not([data-disabled])::after {
+    &[aria-selected='true']:hover:not(:disabled):not([data-disabled])::after,
+    :where([data-hn-state-group]:hover)
+      &[data-state='checked']:not(:disabled):not([data-disabled])::after,
+    :where([data-hn-state-group]:hover)
+      &[data-state='selected']:not(:disabled):not([data-disabled])::after,
+    :where([data-hn-state-group]:hover)
+      &[aria-selected='true']:not(:disabled):not([data-disabled])::after {
       opacity: calc(var(--hn-state-selected-opacity) + var(--hn-state-hover-opacity));
     }
   }

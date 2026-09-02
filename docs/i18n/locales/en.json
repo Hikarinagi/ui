@@ -97,6 +97,8 @@
     "button": "Triggers a single action",
     "button-group": "Joins several buttons into one unit",
     "card": "Gathers a group of content onto one raised surface",
+    "checkbox": "Ticks one option, or several out of many",
+    "checkbox-group": "A set of checkboxes sharing one array value",
     "close-button": "Dismisses dialogs, drawers and toasts",
     "code": "Inline code within body text",
     "code-block": "A block of code with highlighting and copying",

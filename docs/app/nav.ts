@@ -84,6 +84,13 @@ export const components: DocsComponent[] = [
     category: 'atoms',
   },
   { label: 'Card', to: '/components/card', i18n: 'components.card', category: 'display' },
+  { label: 'Checkbox', to: '/components/checkbox', i18n: 'components.checkbox', category: 'forms' },
+  {
+    label: 'CheckboxGroup',
+    to: '/components/checkbox-group',
+    i18n: 'components.checkbox-group',
+    category: 'forms',
+  },
   {
     label: 'CloseButton',
     to: '/components/close-button',

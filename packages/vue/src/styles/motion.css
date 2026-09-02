@@ -547,3 +547,11 @@
   transition-duration: var(--hn-duration-base);
   transition-timing-function: var(--hn-ease-move);
 }
+
+@utility hn-transition-press {
+  transition-property:
+    color, background-color, border-color, outline-color, text-decoration-color, fill, stroke,
+    box-shadow, opacity, transform, rotate, scale, translate;
+  transition-duration: var(--hn-duration-fast);
+  transition-timing-function: var(--hn-ease-press);
+}
