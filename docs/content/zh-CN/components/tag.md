@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Tag } from '@hikarinagi/ui'
+import { Tag } from '@hina-ui/vue'
 ```
 
 标签渲染为 `span`，内容放在默认插槽中。
@@ -30,7 +30,15 @@ import { Tag } from '@hikarinagi/ui'
 
 同一处列表中的标签应当使用同一种变体，只用色调区分含义。
 
-<Demo name="tag/variants" />
+<Playground
+  name="Tag"
+  label="连载中"
+  :controls="[
+    { prop: 'variant', options: ['soft', 'solid', 'outline'] },
+    { prop: 'tone', options: ['neutral', 'accent', 'success', 'warning', 'danger', 'info'] },
+    { prop: 'pill' },
+  ]"
+/>
 
 ### 色调 {#tones}
 
@@ -42,7 +50,14 @@ import { Tag } from '@hikarinagi/ui'
 
 `sm` 用于列表与表格，与正文并排时高度更协调；`md` 用于详情页的标题旁。
 
-<Demo name="tag/sizes" />
+<Playground
+  name="Tag"
+  label="科幻"
+  :controls="[
+    { prop: 'size', options: ['sm', 'md'] },
+    { prop: 'variant', options: ['soft', 'solid', 'outline'] },
+  ]"
+/>
 
 ### 胶囊 {#pill}
 

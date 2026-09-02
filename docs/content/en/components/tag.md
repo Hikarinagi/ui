@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Tag } from '@hikarinagi/ui'
+import { Tag } from '@hina-ui/vue'
 ```
 
 The tag renders a `span`, with its content in the default slot.
@@ -30,7 +30,15 @@ Three of them: `soft` has a tinted background, `solid` a filled one, and `outlin
 
 Tags in the same list should share one variant and rely on tone alone to carry meaning.
 
-<Demo name="tag/variants" />
+<Playground
+  name="Tag"
+  label="Ongoing"
+  :controls="[
+    { prop: 'variant', options: ['soft', 'solid', 'outline'] },
+    { prop: 'tone', options: ['neutral', 'accent', 'success', 'warning', 'danger', 'info'] },
+    { prop: 'pill' },
+  ]"
+/>
 
 ### Tones {#tones}
 
@@ -42,7 +50,14 @@ Six tones. `neutral` suits categories and attributes; the other five express sta
 
 `sm` suits lists and tables, where it sits comfortably beside body text; `md` suits the area beside a title on a detail page.
 
-<Demo name="tag/sizes" />
+<Playground
+  name="Tag"
+  label="Sci-fi"
+  :controls="[
+    { prop: 'size', options: ['sm', 'md'] },
+    { prop: 'variant', options: ['soft', 'solid', 'outline'] },
+  ]"
+/>
 
 ### Pill {#pill}
 
