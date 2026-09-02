@@ -103,6 +103,7 @@
     "divider": "A hairline that separates two pieces of content",
     "scroll-area": "A scrolling region with overlay scrollbars",
     "skeleton": "A placeholder that holds the shape of loading content",
+    "chip": "An item that can be selected or removed",
     "image": "An image that loads lazily and falls back when it fails"
   }
 }

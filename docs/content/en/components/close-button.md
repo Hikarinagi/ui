@@ -24,7 +24,7 @@ The icon and the accessible name are built in, so no property is required. The d
 
 ### Sizes {#sizes}
 
-Defaults to `sm`. A close button usually sits on a title row or in the top corner of a card, where `sm` matches the height of the neighbouring text most closely. Enlarge it where touch is the primary input.
+Defaults to `sm`. A close button usually sits on a title row or in the top corner of a card, where `sm` matches the height of the neighbouring text most closely. Enlarge it where touch is the primary input. `xs` is for the inside of small inline controls, such as the remove button of a `Chip`.
 
 <Demo name="close-button/sizes" />
 
@@ -62,12 +62,12 @@ If another appearance or another icon is needed, use `IconButton` directly.
 
 ### Props {#props}
 
-| Prop       | Type                   | Default | Description                                |
-| ---------- | ---------------------- | ------- | ------------------------------------------ |
-| `label`    | `string`               | Close   | Accessible name, also used as tooltip text |
-| `size`     | `'sm' \| 'md' \| 'lg'` | `'sm'`  | Size                                       |
-| `tooltip`  | `boolean`              | `false` | Whether to show a tooltip                  |
-| `disabled` | `boolean`              | `false` | Whether the button is unavailable          |
-| `class`    | `string`               | —       | Classes appended to the button             |
+| Prop       | Type                           | Default | Description                                |
+| ---------- | ------------------------------ | ------- | ------------------------------------------ |
+| `label`    | `string`                       | Close   | Accessible name, also used as tooltip text |
+| `size`     | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'sm'`  | Size                                       |
+| `tooltip`  | `boolean`                      | `false` | Whether to show a tooltip                  |
+| `disabled` | `boolean`                      | `false` | Whether the button is unavailable          |
+| `class`    | `string`                       | —       | Classes appended to the button             |
 
 Remaining attributes are passed to `IconButton`, for example `side` for the tooltip direction.

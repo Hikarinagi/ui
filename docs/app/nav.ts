@@ -66,6 +66,7 @@ export const components: DocsComponent[] = [
   { label: 'Center', to: '/components/center', i18n: 'components.center', category: 'layout' },
   { label: 'Code', to: '/components/code', i18n: 'components.code', category: 'typography' },
   {
+  { label: 'Chip', to: '/components/chip', i18n: 'components.chip', category: 'atoms' },
     label: 'CodeBlock',
     to: '/components/code-block',
     i18n: 'components.code-block',

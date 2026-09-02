@@ -4,6 +4,7 @@
 
 <template>
   <Inline align="center">
+    <CloseButton size="xs" />
     <CloseButton size="sm" />
     <CloseButton size="md" />
     <CloseButton size="lg" />
