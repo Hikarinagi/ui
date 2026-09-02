@@ -16,12 +16,14 @@ import {
   Text,
 } from '@hina-ui/vue'
 import CategoryGrid from '~/components/docs/CategoryGrid.vue'
+import ComponentsOverview from '~/components/docs/ComponentsOverview.vue'
 import DemoBox from '~/components/docs/DemoBox.vue'
 import Playground from '~/components/docs/Playground.vue'
 
 const primitives = {
   Blockquote,
   CategoryGrid,
+  ComponentsOverview,
   Code,
   CodeBlock,
   DemoBox,

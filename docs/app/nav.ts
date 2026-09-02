@@ -316,7 +316,7 @@ export const nav: { label: string; items: DocsNavItem[] }[] = [
 
 export const primary: DocsPrimaryItem[] = [
   { label: 'nav.primaryStart', to: '/guide/installation', match: '/guide' },
-  { label: 'nav.primaryComponents', to: '/components/button', match: '/components' },
+  { label: 'nav.primaryComponents', to: '/components', match: '/components' },
 ]
 
 export const pages = nav.flatMap(group =>

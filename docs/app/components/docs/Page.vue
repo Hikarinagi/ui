@@ -67,7 +67,9 @@
 <template>
   <Page size="lg">
     <Breadcrumb v-if="category">
-      <BreadcrumbItem as="span">{{ t('nav.components') }}</BreadcrumbItem>
+      <BreadcrumbItem as-child>
+        <NuxtLink :to="localePath('/components')">{{ t('nav.components') }}</NuxtLink>
+      </BreadcrumbItem>
       <BreadcrumbSeparator />
       <BreadcrumbItem v-if="onCategoryPage" current>
         {{ t(`categories.${category.slug}.label`) }}
@@ -87,7 +89,7 @@
       :title="props.title"
       :description="props.description"
     >
-      <template v-if="!onCategoryPage" #actions>
+      <template v-if="index >= 0" #actions>
         <slot name="actions" />
         <DocsCopyMarkdown :title="props.title" />
         <IconButton
