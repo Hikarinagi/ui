@@ -1,75 +1,26 @@
-# Nuxt Minimal Starter
+# Hina UI 文档站
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+[`@hina-ui/vue`](../) 的文档站：组件说明、可交互示例与 API 参考，中英双语。站点用本库自己的组件搭建，因此它同时是这套组件的第一个消费方。
 
-## Setup
-
-Make sure to install dependencies:
+## 开发
 
 ```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
+pnpm --filter @hikarinagi/docs dev        # 端口 3730
+pnpm --filter @hikarinagi/docs build
+pnpm --filter @hikarinagi/docs lint:check
 ```
 
-## Development Server
+组件库源码在 `../src`，改动会直接热更新到站点，不需要构建产物。
 
-Start the development server on `http://localhost:3000`:
+## 内容组织
 
-```bash
-# npm
-npm run dev
+| 目录                           | 内容                                              |
+| ------------------------------ | ------------------------------------------------- |
+| `content/<locale>/components/` | 每个组件一份 Markdown                             |
+| `app/demos/<locale>/<组件>/`   | 示例，由正文中的 `<Demo name="组件/示例" />` 引入 |
+| `app/nav.ts`                   | 侧栏条目与分类归属                                |
+| `i18n/locales/`                | 界面文案与组件的一句话描述                        |
 
-# pnpm
-pnpm dev
+Markdown 经 `markdown.ts` 编译为 Vue 组件：标题自动生成锚点与页面目录，正文中的原生标签映射到本库的排版组件。
 
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+写文档页的约定见 [DESIGN.md](../DESIGN.md) 的「文档站」一节。
