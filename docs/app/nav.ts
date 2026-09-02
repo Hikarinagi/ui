@@ -38,6 +38,12 @@ export const guides: DocsNavItem[] = [
 ]
 
 export const components: DocsComponent[] = [
+  {
+    label: 'Accordion',
+    to: '/components/accordion',
+    i18n: 'components.accordion',
+    category: 'display',
+  },
   { label: 'Alert', to: '/components/alert', i18n: 'components.alert', category: 'display' },
   {
     label: 'AspectRatio',

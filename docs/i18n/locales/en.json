@@ -71,6 +71,7 @@
     "installation": "Dependencies, style entry, fonts, dark mode and density"
   },
   "components": {
+    "accordion": "A list of sections that expand and collapse in turn",
     "alert": "A message bar that appears in the page after something happens",
     "badge": "Pins an unread count to the corner of its host",
     "blockquote": "Quotes a passage from elsewhere",
