@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import type { Component } from 'vue'
   import { NuxtLink } from '#components'
-  import { Card, Center, Heading, Ripple, SimpleGrid, Stack, Text } from '@hina-ui/vue'
+  import { Card, Heading, Ripple, SimpleGrid, Stack, Text } from '@hina-ui/vue'
   import { components } from '~/nav'
 
   const props = defineProps<{ slug: string }>()
@@ -32,9 +32,7 @@
       class="hn-interactive hn-state-layer hn-press-lg overflow-hidden focus-within:outline-[var(--hn-focus-ring-width)] focus-within:outline-offset-[var(--hn-focus-ring-offset)] focus-within:outline-[var(--hn-focus-ring)]"
     >
       <Ripple />
-      <Center class="bg-inset h-36 overflow-hidden px-6" aria-hidden="true">
-        <component :is="item.preview" v-if="item.preview" class="pointer-events-none" />
-      </Center>
+      <DocsCategoryPreview :preview="item.preview" />
       <Stack gap="xs" class="p-5">
         <Heading :level="3" size="md">
           <NuxtLink :to="localePath(item.to)" class="outline-none after:absolute after:inset-0">
