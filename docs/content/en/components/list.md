@@ -13,10 +13,10 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { List } from '@hikarinagi/ui'
+import { List, ListItem } from '@hikarinagi/ui'
 ```
 
-Renders a `ul` by default, with items written as `li`. The list is indented and its markers are lighter than body text.
+`List` renders a `ul` by default and `ListItem` renders each `li`. The list is indented and its markers are lighter than body text.
 
 <Demo name="list/basic" />
 
@@ -49,21 +49,31 @@ The component does not intercept attributes, so the native properties of `ol` ca
 ## Accessibility {#a11y}
 
 - The component renders a native `ul` or `ol`, so screen readers announce how many items there are.
-- Items must be direct children of the list; do not wrap them in another container.
+- Items must be direct children of the list; wrapping them in another container makes the announced count wrong.
 
 ## API {#api}
 
-### Props {#props}
+### List {#props}
 
 | Prop      | Type      | Default | Description                  |
 | --------- | --------- | ------- | ---------------------------- |
 | `ordered` | `boolean` | `false` | Render an ordered list       |
 | `class`   | `string`  | —       | Classes appended to the root |
 
-Remaining attributes are passed to the root element, for example `start` and `reversed`.
-
-### Slots {#slots}
-
 | Slot      | Description    |
 | --------- | -------------- |
 | `default` | The list items |
+
+Remaining attributes are passed to the root element, for example `start` and `reversed`.
+
+### ListItem {#item}
+
+| Prop    | Type     | Default | Description                  |
+| ------- | -------- | ------- | ---------------------------- |
+| `class` | `string` | —       | Classes appended to the root |
+
+| Slot      | Description                                     |
+| --------- | ----------------------------------------------- |
+| `default` | The item's content, which may nest another list |
+
+Remaining attributes are passed to the root element, for example `value` to set one item's number in an ordered list.

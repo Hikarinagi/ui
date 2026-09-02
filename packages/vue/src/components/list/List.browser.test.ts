@@ -2,6 +2,7 @@ import { describe, expect, it, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { h } from 'vue'
 import List from './List.vue'
+import ListItem from './ListItem.vue'
 import Prose from '../prose/Prose.vue'
 import '../../../test/browser.css'
 
@@ -52,6 +53,30 @@ describe('list 与 prose 列表同源', () => {
     expect(getComputedStyle(ol.element).listStyleType).toBe('decimal')
     expect(getComputedStyle(ul.element.querySelector('li')!, '::marker').color).not.toBe(
       getComputedStyle(ul.element.querySelector('li')!).color,
+    )
+  })
+
+  it('ListItem 与裸 li 在同一容器下计算样式完全一致 —— 替换是等价的', () => {
+    const raw = mount(List, {
+      slots: { default: () => [h('li', '甲'), h('li', '乙')] },
+      attachTo: attach(),
+    })
+    const wrapped = mount(List, {
+      slots: { default: () => [h(ListItem, () => '甲'), h(ListItem, () => '乙')] },
+      attachTo: attach(),
+    })
+
+    const secondRaw = raw.element.querySelectorAll('li')[1]!
+    const secondWrapped = wrapped.element.querySelectorAll('li')[1]!
+    expect(secondWrapped.tagName).toBe('LI')
+    expect(getComputedStyle(secondWrapped).marginBlockStart).toBe(
+      getComputedStyle(secondRaw).marginBlockStart,
+    )
+    expect(getComputedStyle(secondWrapped, '::marker').color).toBe(
+      getComputedStyle(secondRaw, '::marker').color,
+    )
+    expect(getComputedStyle(secondWrapped, '::marker').color).not.toBe(
+      getComputedStyle(secondWrapped).color,
     )
   })
 })

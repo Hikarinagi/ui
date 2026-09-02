@@ -1,22 +1,22 @@
 <script setup lang="ts">
-  import { List } from '@hikarinagi/ui'
+  import { List, ListItem } from '@hikarinagi/ui'
 </script>
 
 <template>
   <List class="max-w-md">
-    <li>
+    <ListItem>
       排版
       <List>
-        <li>Text</li>
-        <li>Heading</li>
+        <ListItem>Text</ListItem>
+        <ListItem>Heading</ListItem>
       </List>
-    </li>
-    <li>
+    </ListItem>
+    <ListItem>
       原子
       <List>
-        <li>Button</li>
-        <li>Tag</li>
+        <ListItem>Button</ListItem>
+        <ListItem>Tag</ListItem>
       </List>
-    </li>
+    </ListItem>
   </List>
 </template>

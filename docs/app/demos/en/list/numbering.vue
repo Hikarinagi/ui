@@ -1,16 +1,16 @@
 <script setup lang="ts">
-  import { List, Stack } from '@hikarinagi/ui'
+  import { List, ListItem, Stack } from '@hikarinagi/ui'
 </script>
 
 <template>
   <Stack class="max-w-md">
     <List ordered :start="5">
-      <li>Starts at five</li>
-      <li>Then six</li>
+      <ListItem>Starts at five</ListItem>
+      <ListItem>Then six</ListItem>
     </List>
     <List ordered reversed>
-      <li>First item, counting down</li>
-      <li>Second item, counting down</li>
+      <ListItem>First item, counting down</ListItem>
+      <ListItem>Second item, counting down</ListItem>
     </List>
   </Stack>
 </template>
