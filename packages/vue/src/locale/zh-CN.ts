@@ -70,4 +70,12 @@ export const zhCN: UiMessages = {
   breadcrumb: {
     navLabel: '面包屑',
   },
+  lightbox: {
+    zoomIn: '放大',
+    zoomOut: '缩小',
+    resetZoom: '恢复原始大小',
+    rotate: '旋转',
+    download: '下载',
+    loadingLarge: '正在加载原图',
+  },
 }

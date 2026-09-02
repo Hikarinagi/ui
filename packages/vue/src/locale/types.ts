@@ -68,6 +68,14 @@ export interface UiMessages {
   breadcrumb: {
     navLabel: string
   }
+  lightbox: {
+    zoomIn: string
+    zoomOut: string
+    resetZoom: string
+    rotate: string
+    download: string
+    loadingLarge: string
+  }
 }
 
 export type PartialUiMessages = {

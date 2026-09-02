@@ -1,8 +1,15 @@
 <script setup lang="ts">
+  import { computed, onBeforeUnmount, shallowRef, useId, watch } from 'vue'
+  import { Primitive } from 'reka-ui'
   import { cn } from '../../lib/cn'
+  import { useRequiredLabel } from '../../lib/a11y'
   import Skeleton from '../skeleton/Skeleton.vue'
+  import Lightbox from '../lightbox/Lightbox.vue'
+  import type { LightboxItem } from '../lightbox/types'
   import { image, type ImageVariants } from './image.variants'
   import { useImage } from './composables/useImage'
+  import { useImageGroup } from './context'
+  import { useImageResolver } from './resolver'
 
   defineOptions({ name: 'HnImage', inheritAttrs: false })
 
@@ -17,11 +24,20 @@
       rootMargin?: string
       skeleton?: boolean
       eager?: boolean
+      preview?: boolean | string
       draggable?: boolean
       class?: string
       imageClass?: string
     }>(),
-    { alt: '', fit: 'cover', lazy: true, rootMargin: '200px', skeleton: true, eager: false },
+    {
+      alt: '',
+      fit: 'cover',
+      lazy: true,
+      rootMargin: '200px',
+      skeleton: true,
+      eager: false,
+      preview: false,
+    },
   )
 
   const emit = defineEmits<{
@@ -33,13 +49,59 @@
     props,
     emit,
   )
+
+  useRequiredLabel('Image', () => !props.preview || !!props.alt, '替代文本')
+
+  const resolve = useImageResolver()
+  const previewOpen = shallowRef(false)
+  const previewId = useId()
+  const previewItem = computed<LightboxItem>(() => ({
+    id: previewId,
+    src: src.value ?? '',
+    preview: resolve(
+      typeof props.preview === 'string' ? props.preview : (props.src ?? ''),
+      'preview',
+    ),
+    alt: props.alt,
+    fit: props.fit,
+    source: () => imageEl.value,
+  }))
+
+  const group = useImageGroup()
+
+  if (group) {
+    watch(
+      () => !!props.preview,
+      on => {
+        if (on) group.register(previewId, () => previewItem.value)
+        else group.unregister(previewId)
+      },
+      { immediate: true },
+    )
+    onBeforeUnmount(() => group.unregister(previewId))
+  }
+
+  function openPreview() {
+    if (!props.preview || !showImage.value || !src.value) return
+    if (group) group.open(previewId)
+    else previewOpen.value = true
+  }
 </script>
 
 <template>
-  <span
+  <Primitive
     ref="rootEl"
-    :class="cn('relative block overflow-hidden', props.class)"
+    :as="props.preview ? 'button' : 'span'"
+    :type="props.preview ? 'button' : undefined"
+    :class="
+      cn(
+        'relative block overflow-hidden',
+        props.preview && 'hn-focus-ring cursor-zoom-in',
+        props.class,
+      )
+    "
     :style="props.ratio ? { aspectRatio: String(props.ratio) } : undefined"
+    @click="openPreview"
   >
     <img
       v-if="showImage"
@@ -71,5 +133,6 @@
         <Skeleton class="size-full rounded-none" />
       </slot>
     </span>
-  </span>
+    <Lightbox v-if="props.preview && !group" v-model:open="previewOpen" :items="[previewItem]" />
+  </Primitive>
 </template>

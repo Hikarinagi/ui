@@ -1,6 +1,8 @@
 import { inject, provide, type InjectionKey } from 'vue'
 
-export type ImageResolver = (src: string) => string
+export type ImageVariant = 'image' | 'preview'
+
+export type ImageResolver = (src: string, variant: ImageVariant) => string
 
 const KEY: InjectionKey<ImageResolver> = Symbol('hn-image-resolver')
 

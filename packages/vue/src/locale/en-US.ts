@@ -70,4 +70,12 @@ export const enUS: UiMessages = {
   breadcrumb: {
     navLabel: 'Breadcrumb',
   },
+  lightbox: {
+    zoomIn: 'Zoom in',
+    zoomOut: 'Zoom out',
+    resetZoom: 'Reset zoom',
+    rotate: 'Rotate',
+    download: 'Download',
+    loadingLarge: 'Loading HD',
+  },
 }

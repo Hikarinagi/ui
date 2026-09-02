@@ -116,6 +116,7 @@ export type { ToastTone, ToastOptions, ToasterPosition } from './components/toas
 export { default as Spoiler } from './components/spoiler/Spoiler.vue'
 export { default as Skeleton } from './components/skeleton/Skeleton.vue'
 export { default as Image } from './components/image/Image.vue'
+export { default as ImageGroup } from './components/image/ImageGroup.vue'
 export { provideImageResolver, useImageResolver } from './components/image/resolver'
 export type { ImageResolver } from './components/image/resolver'
 export type { ImageVariants } from './components/image/image.variants'

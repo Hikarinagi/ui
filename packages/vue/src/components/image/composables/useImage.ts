@@ -1,4 +1,4 @@
-import { computed, nextTick, onMounted, shallowRef, watch } from 'vue'
+import { computed, nextTick, onMounted, shallowRef, watch, type ComponentPublicInstance } from 'vue'
 import { useIntersectionObserver } from '@vueuse/core'
 import { useImageResolver } from '../resolver'
 
@@ -28,7 +28,7 @@ export function useImage(
 ) {
   const resolve = useImageResolver()
 
-  const rootEl = shallowRef<HTMLElement>()
+  const rootEl = shallowRef<HTMLElement | ComponentPublicInstance>()
   const imageEl = shallowRef<HTMLImageElement>()
   const skeletonEl = shallowRef<HTMLElement>()
   const entered = shallowRef(!props.lazy)
@@ -49,9 +49,9 @@ export function useImage(
     { rootMargin: props.rootMargin, immediate: props.lazy },
   )
 
-  const primary = computed(() => (props.src ? resolve(props.src) : ''))
+  const primary = computed(() => (props.src ? resolve(props.src, 'image') : ''))
 
-  const fallback = computed(() => (props.fallback ? resolve(props.fallback) : ''))
+  const fallback = computed(() => (props.fallback ? resolve(props.fallback, 'image') : ''))
 
   const resolved = computed(() => (usingFallback.value ? fallback.value : primary.value))
 

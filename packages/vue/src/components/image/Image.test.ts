@@ -3,6 +3,7 @@ import { mount, flushPromises } from '@vue/test-utils'
 import { defineComponent, h, nextTick } from 'vue'
 import Image from './Image.vue'
 import { provideImageResolver } from './resolver'
+import { resetDevWarnings } from '../../lib/dev'
 
 let decodes: Array<'ok' | 'fail'> = []
 
@@ -34,12 +35,12 @@ describe('地址解析', () => {
     expect(w.find('img').attributes('src')).toBe('/a.webp')
   })
 
-  it('解析器只收到 src', () => {
+  it('解析器收到 src 与用途', () => {
     const resolver = vi.fn((src: string) => `https://cdn.test${src}`)
     const w = mount(withResolver(resolver), {
       slots: { default: () => h(Image, { src: '/a.webp', lazy: false }) },
     })
-    expect(resolver).toHaveBeenCalledWith('/a.webp')
+    expect(resolver).toHaveBeenCalledWith('/a.webp', 'image')
     expect(w.find('img').attributes('src')).toBe('https://cdn.test/a.webp')
   })
 
@@ -52,7 +53,7 @@ describe('地址解析', () => {
       },
     })
     await flushPromises()
-    expect(resolver).toHaveBeenLastCalledWith('/f.webp')
+    expect(resolver).toHaveBeenLastCalledWith('/f.webp', 'image')
   })
 
   it('没有 src 时不解析回退地址,交给空态', () => {
@@ -196,5 +197,39 @@ describe('渲染', () => {
   it('默认异步解码', () => {
     const w = mount(Image, { props: { src: '/a.webp', lazy: false } })
     expect(w.find('img').attributes('decoding')).toBe('async')
+  })
+})
+
+describe('预览', () => {
+  it('默认外框是 span,不带按钮语义', () => {
+    const w = mount(Image, { props: { src: '/a.webp', lazy: false } })
+    expect(w.element.tagName).toBe('SPAN')
+    expect(w.classes()).not.toContain('cursor-zoom-in')
+  })
+
+  it('设置 preview 后外框是按钮,带放大镜光标与焦点环', () => {
+    const w = mount(Image, { props: { src: '/a.webp', alt: '海边', lazy: false, preview: true } })
+    expect(w.element.tagName).toBe('BUTTON')
+    expect(w.attributes('type')).toBe('button')
+    expect(w.classes()).toContain('cursor-zoom-in')
+    expect(w.classes()).toContain('hn-focus-ring')
+    expect(w.find('img').exists()).toBe(true)
+  })
+
+  it('preview 而 alt 为空时开发期告警', () => {
+    resetDevWarnings()
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    mount(Image, { props: { src: '/a.webp', lazy: false, preview: true } })
+    expect(warn).toHaveBeenCalledTimes(1)
+    expect(warn.mock.calls[0]?.[0]).toContain('替代文本')
+    warn.mockRestore()
+  })
+
+  it('有 alt 时不告警', () => {
+    resetDevWarnings()
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    mount(Image, { props: { src: '/a.webp', alt: '海边', lazy: false, preview: true } })
+    expect(warn).not.toHaveBeenCalled()
+    warn.mockRestore()
   })
 })
