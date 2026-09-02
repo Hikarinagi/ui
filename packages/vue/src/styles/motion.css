@@ -105,18 +105,22 @@
 @keyframes hn-collapse-in {
   from {
     height: 0;
+    margin-block-end: calc(var(--hn-collapse-gap, 0px) * -1);
   }
   to {
     height: var(--hn-collapse-h, auto);
+    margin-block-end: 0;
   }
 }
 
 @keyframes hn-collapse-out {
   from {
     height: var(--hn-collapse-h, auto);
+    margin-block-end: 0;
   }
   to {
     height: 0;
+    margin-block-end: calc(var(--hn-collapse-gap, 0px) * -1);
   }
 }
 
