@@ -151,12 +151,10 @@
 
 :root {
   --hn-font-sans:
-    'Plus Jakarta Sans', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', ui-sans-serif, system-ui,
-    sans-serif;
+    'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', ui-sans-serif, system-ui, sans-serif;
   --hn-font-mono:
     'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, 'Noto Sans SC', 'PingFang SC',
     'Microsoft YaHei', monospace;
-  --hn-latin-size-adjust: 104%;
 
   --hn-text-xs: 0.8125rem;
   --hn-text-sm: 0.875rem;

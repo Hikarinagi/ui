@@ -31,20 +31,14 @@ pnpm add @hina-ui/vue
 
 ## 字体 {#fonts}
 
-西文采用 Plus Jakarta Sans，中文采用 Noto Sans SC，等宽采用 JetBrains Mono，由应用负责加载。
+正文采用 Noto Sans SC，中西文同一字体；等宽采用 JetBrains Mono。字体由应用负责加载。
 
 ```ts
 export default defineNuxtConfig({
   modules: ['@nuxt/fonts'],
   fonts: {
     families: [
-      {
-        name: 'Plus Jakarta Sans',
-        provider: 'google',
-        weights: [400, 500, 600, 700],
-        global: true,
-      },
-      { name: 'Noto Sans SC', provider: 'google', weights: [400, 500, 700], global: true },
+      { name: 'Noto Sans SC', provider: 'google', weights: [400, 500, 600, 700], global: true },
       { name: 'JetBrains Mono', provider: 'google', weights: [400, 500], global: true },
     ],
   },

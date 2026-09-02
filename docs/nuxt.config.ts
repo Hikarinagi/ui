@@ -96,13 +96,7 @@ export default defineNuxtConfig({
   },
   fonts: {
     families: [
-      {
-        name: 'Plus Jakarta Sans',
-        provider: 'google',
-        weights: [400, 500, 600, 700],
-        global: true,
-      },
-      { name: 'Noto Sans SC', provider: 'google', weights: [400, 500, 700], global: true },
+      { name: 'Noto Sans SC', provider: 'google', weights: [400, 500, 600, 700], global: true },
       { name: 'JetBrains Mono', provider: 'google', weights: [400, 500], global: true },
     ],
   },

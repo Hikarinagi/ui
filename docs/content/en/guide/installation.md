@@ -31,20 +31,14 @@ The library ships as source, and Tailwind has to scan that source to generate th
 
 ## Fonts {#fonts}
 
-Latin text uses Plus Jakarta Sans, Chinese uses Noto Sans SC and monospace uses JetBrains Mono. Loading them is the application's responsibility.
+Body text uses Noto Sans SC for both Chinese and Latin, and monospace uses JetBrains Mono. Loading them is the application's responsibility.
 
 ```ts
 export default defineNuxtConfig({
   modules: ['@nuxt/fonts'],
   fonts: {
     families: [
-      {
-        name: 'Plus Jakarta Sans',
-        provider: 'google',
-        weights: [400, 500, 600, 700],
-        global: true,
-      },
-      { name: 'Noto Sans SC', provider: 'google', weights: [400, 500, 700], global: true },
+      { name: 'Noto Sans SC', provider: 'google', weights: [400, 500, 600, 700], global: true },
       { name: 'JetBrains Mono', provider: 'google', weights: [400, 500], global: true },
     ],
   },
