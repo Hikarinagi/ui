@@ -6,10 +6,10 @@
 
 <template>
   <Stack class="w-full">
-    <div v-for="size in sizes" :key="size" class="bg-inset w-full rounded-md py-3">
+    <Stack v-for="size in sizes" :key="size" gap="none" class="bg-inset w-full rounded-md py-3">
       <Container :size="size">
         <Card class="grid h-10 place-items-center text-sm" :padded="false">{{ size }}</Card>
       </Container>
-    </div>
+    </Stack>
   </Stack>
 </template>

@@ -9,12 +9,7 @@
         auto-fill by default: empty tracks stay, each item keeps one cell
       </Text>
       <SimpleGrid min="8rem" gap="sm">
-        <Card
-          v-for="i in 2"
-          :key="i"
-          class="bg-emphasis grid h-12 place-items-center"
-          :padded="false"
-        >
+        <Card v-for="i in 2" :key="i" class="bg-inset grid h-12 place-items-center" :padded="false">
           {{ i }}
         </Card>
       </SimpleGrid>
@@ -24,12 +19,7 @@
         With fit: empty tracks collapse and the two items share the row
       </Text>
       <SimpleGrid min="8rem" gap="sm" fit>
-        <Card
-          v-for="i in 2"
-          :key="i"
-          class="bg-emphasis grid h-12 place-items-center"
-          :padded="false"
-        >
+        <Card v-for="i in 2" :key="i" class="bg-inset grid h-12 place-items-center" :padded="false">
           {{ i }}
         </Card>
       </SimpleGrid>

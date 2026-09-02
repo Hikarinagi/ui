@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="bg-inset w-full rounded-md py-8">
+  <Stack gap="none" class="bg-inset w-full rounded-md py-8">
     <Container size="sm">
       <Stack gap="xs">
         <Heading :level="3" size="lg">Dawn of the Observer</Heading>
@@ -13,5 +13,5 @@
         </Text>
       </Stack>
     </Container>
-  </div>
+  </Stack>
 </template>

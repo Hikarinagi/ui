@@ -14,7 +14,7 @@
             default: () => [
               h(
                 'div',
-                { class: 'bg-emphasis grid size-10 shrink-0 place-items-center rounded-md' },
+                { class: 'bg-inset grid size-10 shrink-0 place-items-center rounded-md' },
                 h(BookOpen, { class: 'size-5' }),
               ),
               h(

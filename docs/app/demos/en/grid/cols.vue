@@ -12,7 +12,7 @@
         <Card
           v-for="i in cols"
           :key="i"
-          class="bg-emphasis grid h-10 place-items-center text-sm"
+          class="bg-inset grid h-10 place-items-center text-sm"
           :padded="false"
         >
           {{ i }}

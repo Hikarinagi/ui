@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { AspectRatio, Inline, Stack, Text } from '@hikarinagi/ui'
+  import { AspectRatio, Image, Inline, Stack, Text } from '@hikarinagi/ui'
 
   const ratios = [
     { label: '1 / 1', value: 1 },
@@ -14,7 +14,7 @@
     <Stack v-for="ratio in ratios" :key="ratio.label" gap="xs" class="w-32">
       <Text tone="muted" size="sm">{{ ratio.label }}</Text>
       <AspectRatio :ratio="ratio.value" class="bg-inset overflow-hidden rounded-md">
-        <img src="/sample.webp" alt="A slope on a summer afternoon" />
+        <Image src="/sample.webp" alt="A slope on a summer afternoon" class="size-full" />
       </AspectRatio>
     </Stack>
   </Inline>

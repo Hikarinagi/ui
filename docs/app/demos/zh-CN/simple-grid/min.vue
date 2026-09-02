@@ -9,7 +9,7 @@
     <Stack v-for="min in mins" :key="min" gap="xs">
       <Text tone="muted" size="sm">min {{ min }}</Text>
       <SimpleGrid :min="min" gap="sm">
-        <Card v-for="i in 4" :key="i" class="bg-emphasis h-10" :padded="false" />
+        <Card v-for="i in 4" :key="i" class="bg-inset h-10" :padded="false" />
       </SimpleGrid>
     </Stack>
   </Stack>

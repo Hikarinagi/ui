@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import type { Component } from 'vue'
   import { NuxtLink } from '#components'
-  import { Card, Heading, Ripple, SimpleGrid, Text } from '@hikarinagi/ui'
+  import { Card, Center, Heading, Ripple, SimpleGrid, Stack, Text } from '@hikarinagi/ui'
   import { components } from '~/nav'
 
   const props = defineProps<{ slug: string }>()
@@ -32,17 +32,17 @@
       class="hn-interactive hn-state-layer hn-press-lg overflow-hidden focus-within:outline-[var(--hn-focus-ring-width)] focus-within:outline-offset-[var(--hn-focus-ring-offset)] focus-within:outline-[var(--hn-focus-ring)]"
     >
       <Ripple />
-      <div class="bg-inset grid h-36 place-items-center overflow-hidden px-6" aria-hidden="true">
+      <Center class="bg-inset h-36 overflow-hidden px-6" aria-hidden="true">
         <component :is="item.preview" v-if="item.preview" class="pointer-events-none" />
-      </div>
-      <div class="flex flex-col gap-1 p-5">
+      </Center>
+      <Stack gap="xs" class="p-5">
         <Heading :level="3" size="md">
           <NuxtLink :to="localePath(item.to)" class="outline-none after:absolute after:inset-0">
             {{ item.label }}
           </NuxtLink>
         </Heading>
         <Text tone="muted" size="sm">{{ t(item.i18n) }}</Text>
-      </div>
+      </Stack>
     </Card>
   </SimpleGrid>
 </template>

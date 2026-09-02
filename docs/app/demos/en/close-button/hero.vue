@@ -1,15 +1,15 @@
 <script setup lang="ts">
-  import { Card, CloseButton, Heading, Text } from '@hikarinagi/ui'
+  import { Card, CloseButton, Heading, Inline, Stack, Text } from '@hikarinagi/ui'
 </script>
 
 <template>
   <Card padded class="w-full max-w-sm">
-    <div class="flex items-start justify-between gap-4">
-      <div class="flex flex-col gap-1">
+    <Inline align="start" justify="between" :wrap="false" class="gap-4">
+      <Stack gap="xs">
         <Heading :level="3" size="sm">A new version is available</Heading>
         <Text tone="muted" size="sm">Reload the page to get the latest features.</Text>
-      </div>
+      </Stack>
       <CloseButton class="-mt-1.5 -me-1.5 shrink-0" />
-    </div>
+    </Inline>
   </Card>
 </template>

@@ -93,4 +93,12 @@ export default withNuxt(
       'vue/multi-word-component-names': 'off',
     },
   },
+  {
+    files: ['app/demos/*/prose/**/*.vue', 'app/demos/*/*/prose.vue'],
+    rules: {
+      'vue/no-restricted-html-elements': 'off',
+      'vue/no-v-html': 'off',
+      'vue/no-v-text-v-html-on-component': 'off',
+    },
+  },
 )

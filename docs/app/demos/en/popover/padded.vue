@@ -7,9 +7,9 @@
     <Button variant="outline" tone="neutral">Latest update</Button>
     <template #content>
       <Stack gap="none" class="w-64">
-        <div class="bg-inset px-4 py-3">
+        <Stack gap="none" class="bg-inset px-4 py-3">
           <Text size="sm" class="font-medium">Chapter 42 Dawn of the Observer</Text>
-        </div>
+        </Stack>
         <Divider />
         <Stack gap="xs" class="px-4 py-3">
           <Text tone="muted" size="sm">Translated by Shion Hoshimi</Text>

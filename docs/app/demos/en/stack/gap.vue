@@ -9,9 +9,9 @@
     <Stack v-for="gap in gaps" :key="gap" gap="xs">
       <Text tone="muted" size="sm">{{ gap }}</Text>
       <Stack :gap="gap">
-        <Card class="bg-emphasis size-10" :padded="false" />
-        <Card class="bg-emphasis size-10" :padded="false" />
-        <Card class="bg-emphasis size-10" :padded="false" />
+        <Card class="bg-inset size-10" :padded="false" />
+        <Card class="bg-inset size-10" :padded="false" />
+        <Card class="bg-inset size-10" :padded="false" />
       </Stack>
     </Stack>
   </Inline>

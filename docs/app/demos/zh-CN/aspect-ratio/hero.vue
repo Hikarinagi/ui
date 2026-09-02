@@ -1,11 +1,11 @@
 <script setup lang="ts">
-  import { AspectRatio, Card, Stack, Text } from '@hikarinagi/ui'
+  import { AspectRatio, Card, Image, Stack, Text } from '@hikarinagi/ui'
 </script>
 
 <template>
   <Card class="w-full max-w-xs" :padded="false">
     <AspectRatio :ratio="3 / 4" class="overflow-hidden rounded-t-lg">
-      <img src="/sample.webp" alt="星之彼方" />
+      <Image src="/sample.webp" alt="星之彼方" class="size-full" />
     </AspectRatio>
     <Stack gap="xs" class="p-4">
       <Text class="font-medium">星之彼方</Text>

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-  import { Card, Container } from '@hikarinagi/ui'
+  import { Card, Container, Stack } from '@hikarinagi/ui'
 </script>
 
 <template>
-  <div class="bg-inset w-full rounded-md py-4">
+  <Stack gap="none" class="bg-inset w-full rounded-md py-4">
     <Container>
       <Card class="grid h-16 place-items-center">居中且限宽的内容</Card>
     </Container>
-  </div>
+  </Stack>
 </template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Card, Grid, Stack, Tag, Text } from '@hikarinagi/ui'
+  import { AspectRatio, Card, Grid, Stack, Tag, Text } from '@hikarinagi/ui'
 
   const works = [
     { title: '星之彼方', tag: '科幻' },
@@ -15,7 +15,7 @@
   <Grid :cols="3" class="w-full max-w-2xl">
     <Card v-for="work in works" :key="work.title">
       <Stack gap="xs" align="start">
-        <div class="bg-emphasis h-20 rounded-md" />
+        <AspectRatio class="bg-inset w-full rounded-md" />
         <Text class="font-medium">{{ work.title }}</Text>
         <Tag>{{ work.tag }}</Tag>
       </Stack>

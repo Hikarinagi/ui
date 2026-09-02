@@ -4,8 +4,8 @@
 
 <template>
   <Flex gap="sm">
-    <Card class="bg-emphasis size-10" :padded="false" />
-    <Card class="bg-emphasis size-10" :padded="false" />
-    <Card class="bg-emphasis size-10" :padded="false" />
+    <Card class="bg-inset size-10" :padded="false" />
+    <Card class="bg-inset size-10" :padded="false" />
+    <Card class="bg-inset size-10" :padded="false" />
   </Flex>
 </template>
