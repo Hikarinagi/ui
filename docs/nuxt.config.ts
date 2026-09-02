@@ -88,7 +88,7 @@ export default defineNuxtConfig({
     },
   },
   routeRules: {
-    '/': { redirect: '/components/button' },
+    '/': { redirect: '/components' },
   },
   colorMode: {
     classSuffix: '',
