@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Divider } from '@hikarinagi/ui'
+import { Divider } from '@hina-ui/vue'
 ```
 
 Divider draws a one-pixel line coloured from `--hn-line`. It runs the full width of its container by default.

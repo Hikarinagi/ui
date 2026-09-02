@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { ScrollArea } from '@hikarinagi/ui'
+import { ScrollArea } from '@hina-ui/vue'
 ```
 
 Give the area a height and it scrolls whatever overflows. The scrollbar floats above the content instead of taking width from it, and it looks the same on every platform.

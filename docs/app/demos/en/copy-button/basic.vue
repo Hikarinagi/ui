@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { CopyButton } from '@hikarinagi/ui'
+  import { CopyButton } from '@hina-ui/vue'
 </script>
 
 <template>

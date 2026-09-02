@@ -6,7 +6,7 @@
     DropdownMenuRadioGroup,
     DropdownMenuRadioItem,
     IconButton,
-  } from '@hikarinagi/ui'
+  } from '@hina-ui/vue'
 
   const { t } = useI18n()
   const colorMode = useColorMode()

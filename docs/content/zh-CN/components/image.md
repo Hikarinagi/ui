@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Image } from '@hikarinagi/ui'
+import { Image } from '@hina-ui/vue'
 ```
 
 图片在接近视口时才开始加载，加载期间由骨架占位，图片就绪后骨架淡出。用类名给出尺寸，或者用 `ratio` 提前占好高度。

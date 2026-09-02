@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { Bold, Italic, Link2, Strikethrough } from '@lucide/vue'
-  import { ButtonGroup, IconButton } from '@hikarinagi/ui'
+  import { ButtonGroup, IconButton } from '@hina-ui/vue'
 </script>
 
 <template>

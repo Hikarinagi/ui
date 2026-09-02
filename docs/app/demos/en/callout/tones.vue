@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Callout, Stack } from '@hikarinagi/ui'
+  import { Callout, Stack } from '@hina-ui/vue'
 
   const tones = [
     { tone: 'neutral', text: 'A plain aside, carrying no mood' },

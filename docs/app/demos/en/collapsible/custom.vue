@@ -8,7 +8,7 @@
     DisclosureIcon,
     Stack,
     Text,
-  } from '@hikarinagi/ui'
+  } from '@hina-ui/vue'
 </script>
 
 <template>

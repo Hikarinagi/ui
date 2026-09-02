@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Time } from '@hikarinagi/ui'
+  import { Time } from '@hina-ui/vue'
 </script>
 
 <template>

@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Container } from '@hikarinagi/ui'
+import { Container } from '@hina-ui/vue'
 ```
 
 Container 限制内容的最大宽度并在父元素中居中，两侧带内边距：窄屏 16 像素，`sm` 断点以上 24 像素。

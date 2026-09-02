@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Alert } from '@hikarinagi/ui'
+import { Alert } from '@hina-ui/vue'
 ```
 
 消息条用于告知刚刚发生的事件，例如保存成功、发布失败、需要重新登录。它出现在页面内容中，屏幕阅读器会主动朗读。写在内容里的固定提示使用 `Callout`，短暂浮出的反馈使用 `Toast`。

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Button, Inline, Tooltip } from '@hikarinagi/ui'
+  import { Button, Inline, Tooltip } from '@hina-ui/vue'
 </script>
 
 <template>

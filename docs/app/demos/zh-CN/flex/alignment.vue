@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Card, Flex, Stack, Text } from '@hikarinagi/ui'
+  import { Card, Flex, Stack, Text } from '@hina-ui/vue'
 
   const aligns = ['start', 'center', 'end', 'stretch'] as const
   const justifies = ['start', 'center', 'end', 'between'] as const

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Button, Dialog, Stack, Text } from '@hikarinagi/ui'
+  import { Button, Dialog, Stack, Text } from '@hina-ui/vue'
 
   const terms = Array.from(
     { length: 30 },

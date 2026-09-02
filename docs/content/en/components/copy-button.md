@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { CopyButton } from '@hikarinagi/ui'
+import { CopyButton } from '@hina-ui/vue'
 ```
 
 `text` is required and its content is written to the clipboard. On success the icon turns from a copy glyph into a check, the name becomes “Copied”, and both revert after two seconds.

@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Center } from '@hikarinagi/ui'
+import { Center } from '@hina-ui/vue'
 ```
 
 Center 是一个横纵都居中的 flex 容器。它不设定高度，纵向居中要看容器自身的高度，因此通常配合 `h-*` 或者 `min-h-*` 使用。

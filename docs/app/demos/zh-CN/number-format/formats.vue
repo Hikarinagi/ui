@@ -1,10 +1,5 @@
 <script setup lang="ts">
-  import {
-    DescriptionDetails,
-    DescriptionList,
-    DescriptionTerm,
-    NumberFormat,
-  } from '@hikarinagi/ui'
+  import { DescriptionDetails, DescriptionList, DescriptionTerm, NumberFormat } from '@hina-ui/vue'
 </script>
 
 <template>

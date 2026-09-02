@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { CodeBlock } from '@hikarinagi/ui'
+import { CodeBlock } from '@hina-ui/vue'
 ```
 
 `code` 是必填属性，内容原样呈现。`lang` 指定语言，组件据此着色，并在右上角显示语言角标。

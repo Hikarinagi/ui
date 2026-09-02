@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Callout } from '@hikarinagi/ui'
+import { Callout } from '@hina-ui/vue'
 ```
 
 标注是写入内容之中的一段文字，用于补充说明、提示技巧或标示需要留意之处。它随内容一同存在，不会自行出现或消失。

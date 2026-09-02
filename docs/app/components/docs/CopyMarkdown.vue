@@ -11,7 +11,7 @@
     IconButton,
     Stack,
     Text,
-  } from '@hikarinagi/ui'
+  } from '@hina-ui/vue'
   import type { Component } from 'vue'
   import BrandIcon from '~/components/docs/BrandIcon'
   import RawIcon from '~/components/docs/RawIcon'

@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { ButtonGroup } from '@hikarinagi/ui'
+import { ButtonGroup } from '@hina-ui/vue'
 ```
 
 将按钮直接放入组容器即可，拼接由容器负责：首尾保留外侧的圆角，相接的一侧不保留圆角，相邻的边框重叠为一条，而不是并排的两条。

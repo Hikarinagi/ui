@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Card, Flex, Heading, Text } from '@hikarinagi/ui'
+  import { Card, Flex, Heading, Text } from '@hina-ui/vue'
 </script>
 
 <template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { Button, Inline, Skeleton, Stack, Text } from '@hikarinagi/ui'
+  import { Button, Inline, Skeleton, Stack, Text } from '@hina-ui/vue'
 
   const loading = ref(true)
 </script>

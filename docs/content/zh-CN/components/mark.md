@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Mark } from '@hikarinagi/ui'
+import { Mark } from '@hina-ui/vue'
 ```
 
 组件渲染为原生的 `mark`，带浅色底与很小的圆角，文字颜色不变，因此在段落中不打断阅读。

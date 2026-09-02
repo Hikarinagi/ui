@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Container } from '@hikarinagi/ui'
+import { Container } from '@hina-ui/vue'
 ```
 
 Container caps the width of its content and centres it in the parent, with an inset on either side: 16 pixels when narrow, 24 above the `sm` breakpoint.

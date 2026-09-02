@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { Button, Drawer, Text } from '@hikarinagi/ui'
+  import { Button, Drawer, Text } from '@hina-ui/vue'
 
   const open = ref(false)
   const saving = ref(false)

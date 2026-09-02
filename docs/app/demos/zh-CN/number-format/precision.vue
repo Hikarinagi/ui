@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { NumberFormat, Stack, Text } from '@hikarinagi/ui'
+  import { NumberFormat, Stack, Text } from '@hina-ui/vue'
 </script>
 
 <template>

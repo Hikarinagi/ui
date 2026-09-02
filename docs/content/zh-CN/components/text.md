@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Text } from '@hikarinagi/ui'
+import { Text } from '@hina-ui/vue'
 ```
 
 默认渲染为 `p`，正文字号，常规字重。绝大多数情况下不需要设置任何属性。

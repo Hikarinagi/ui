@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Prose } from '@hikarinagi/ui'
+import { Prose } from '@hina-ui/vue'
 ```
 
 把一段 HTML 放入容器，其中的原生标签自动获得排版样式。渲染 Markdown、接口返回的富文本或编辑器产出的内容时使用它。

@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { Bookmark, Check } from '@lucide/vue'
-  import { Badge, IconButton } from '@hikarinagi/ui'
+  import { Badge, IconButton } from '@hina-ui/vue'
 </script>
 
 <template>

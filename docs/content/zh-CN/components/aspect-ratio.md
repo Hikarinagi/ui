@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { AspectRatio } from '@hikarinagi/ui'
+import { AspectRatio } from '@hina-ui/vue'
 ```
 
 `ratio` 是宽除以高，默认为 `16 / 9`。容器的高度由宽度和这个比值算出，因此不同尺寸的图片放入后外框一致。

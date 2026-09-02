@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Badge } from '@hikarinagi/ui'
+import { Badge } from '@hina-ui/vue'
 ```
 
 The host element goes in the default slot and `content` is pinned to its corner. The component only positions and renders the badge; the host itself is untouched.

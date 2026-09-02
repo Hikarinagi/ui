@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { NumberFormat, Stack, Text, enUS, provideUiLocale } from '@hikarinagi/ui'
+  import { NumberFormat, Stack, Text, enUS, provideUiLocale } from '@hina-ui/vue'
   import { defineComponent, h } from 'vue'
 
   const English = defineComponent({

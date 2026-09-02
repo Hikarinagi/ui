@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Heading } from '@hikarinagi/ui'
+import { Heading } from '@hina-ui/vue'
 ```
 
 `level` decides which of `h1` to `h6` is rendered and defaults to 2. The font size follows the level, so `level` is usually the only property you need.

@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { IconButton } from '@hikarinagi/ui'
+import { IconButton } from '@hina-ui/vue'
 ```
 
 `label` 是必填属性，它既作为无障碍名称，也作为悬停提示的文字。默认插槽用于放置图标。

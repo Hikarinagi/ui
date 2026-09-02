@@ -19,7 +19,7 @@
     PrevNextLink,
     Text,
     type AnchorItem,
-  } from '@hikarinagi/ui'
+  } from '@hina-ui/vue'
   import { NuxtLink } from '#components'
   import { categories, categoryOf, categoryPath, pages } from '~/nav'
 

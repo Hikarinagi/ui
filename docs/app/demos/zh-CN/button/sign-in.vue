@@ -2,7 +2,7 @@
   import appleSvg from '@lobehub/icons-static-svg/icons/apple.svg?raw'
   import githubSvg from '@lobehub/icons-static-svg/icons/github.svg?raw'
   import googleSvg from '@lobehub/icons-static-svg/icons/google-color.svg?raw'
-  import { Button, Stack } from '@hikarinagi/ui'
+  import { Button, Stack } from '@hina-ui/vue'
   import RawIcon from '~/components/docs/RawIcon'
 
   const providers = [

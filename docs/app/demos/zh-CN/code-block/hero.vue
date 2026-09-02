@@ -1,9 +1,9 @@
 <script setup lang="ts">
-  import { CodeBlock } from '@hikarinagi/ui'
+  import { CodeBlock } from '@hina-ui/vue'
 
   const source = `import { createApp } from 'vue'
 import App from './App.vue'
-import '@hikarinagi/ui/styles/tokens.css'
+import '@hina-ui/vue/styles/tokens.css'
 
 createApp(App).mount('#app')`
 </script>

@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Center } from '@hikarinagi/ui'
+import { Center } from '@hina-ui/vue'
 ```
 
 Center is a flex container centred on both axes. It sets no height of its own, so vertical centring depends on the height of the container — usually given by an `h-*` or `min-h-*` class.

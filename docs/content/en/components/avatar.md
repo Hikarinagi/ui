@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Avatar } from '@hikarinagi/ui'
+import { Avatar } from '@hina-ui/vue'
 ```
 
 `src` is the picture and `name` is the person behind it. The picture shows once it loads; failing that, the initials of the name; failing that, a generic icon.

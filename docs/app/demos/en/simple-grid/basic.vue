@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Card, SimpleGrid } from '@hikarinagi/ui'
+  import { Card, SimpleGrid } from '@hina-ui/vue'
 </script>
 
 <template>

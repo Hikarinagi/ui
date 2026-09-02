@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Stack } from '@hikarinagi/ui'
+import { Stack } from '@hina-ui/vue'
 ```
 
 Stack 是一个纵向的 flex 容器，子元素依次向下排列，间距由 `gap` 决定。

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Prose } from '@hikarinagi/ui'
+  import { Prose } from '@hina-ui/vue'
 </script>
 
 <template>

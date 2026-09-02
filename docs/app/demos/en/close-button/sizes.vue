@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { CloseButton, Inline } from '@hikarinagi/ui'
+  import { CloseButton, Inline } from '@hina-ui/vue'
 </script>
 
 <template>

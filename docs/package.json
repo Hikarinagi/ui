@@ -13,7 +13,7 @@
     "lint:check": "eslint ."
   },
   "dependencies": {
-    "@hikarinagi/ui": "workspace:*",
+    "@hina-ui/vue": "workspace:*",
     "@lobehub/icons-static-svg": "^1.94.0",
     "@lucide/vue": "^1.37.0",
     "motion-v": "^2.2.1",

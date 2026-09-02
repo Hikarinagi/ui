@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Space } from '@hikarinagi/ui'
+import { Space } from '@hina-ui/vue'
 ```
 
 Space is an empty element, meaningful only inside a flex container. By default it eats the remaining room and pushes what sits on either side apart. Even spacing between children belongs to the container's `gap`; Space is for the one place that needs to stretch or to hold a gap of its own.

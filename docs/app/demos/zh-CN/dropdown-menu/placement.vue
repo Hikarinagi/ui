@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Button, DropdownMenu, DropdownMenuItem, Inline } from '@hikarinagi/ui'
+  import { Button, DropdownMenu, DropdownMenuItem, Inline } from '@hina-ui/vue'
 </script>
 
 <template>

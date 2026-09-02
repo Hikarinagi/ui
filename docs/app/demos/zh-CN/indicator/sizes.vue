@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Indicator, Inline } from '@hikarinagi/ui'
+  import { Indicator, Inline } from '@hina-ui/vue'
 </script>
 
 <template>

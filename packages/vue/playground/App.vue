@@ -434,7 +434,7 @@
             </h2>
             <Text>
               行内代码混排:运行
-              <Code>pnpm --filter @hikarinagi/ui dev</Code>
+              <Code>pnpm --filter @hina-ui/vue dev</Code>
               后访问
               <Code>localhost:3720</Code>
               ,字号随上下文 0.875em 缩放;按
@@ -522,12 +522,12 @@
             <CodeBlock
               class="max-w-2xl"
               lang="ts"
-              :code="`import { CodeBlock } from '@hikarinagi/ui'\n\n// vitesse 双主题,随暗色翻转;文法按需加载,SSR 渲染素文本\nconst greeting: string = '常驻复制钮,ghost 落墨,复制后两秒内显示已复制'\nexport const answer = 42 // 横向溢出时这一行会变得非常非常非常非常非常非常长以便测试滚动`"
+              :code="`import { CodeBlock } from '@hina-ui/vue'\n\n// vitesse 双主题,随暗色翻转;文法按需加载,SSR 渲染素文本\nconst greeting: string = '常驻复制钮,ghost 落墨,复制后两秒内显示已复制'\nexport const answer = 42 // 横向溢出时这一行会变得非常非常非常非常非常非常长以便测试滚动`"
             />
             <CodeBlock
               class="max-w-2xl"
               :copyable="false"
-              :code="`# 无标签、不可复制的裸块\npnpm --filter @hikarinagi/ui dev`"
+              :code="`# 无标签、不可复制的裸块\npnpm --filter @hina-ui/vue dev`"
             />
           </section>
 
@@ -1369,7 +1369,7 @@
               <CloseButton disabled />
               <Divider orientation="vertical" class="h-6 self-center" />
               <CopyButton text="#34A2D5" />
-              <CopyButton text="pnpm add @hikarinagi/ui" label="复制安装命令" size="md" />
+              <CopyButton text="pnpm add @hina-ui/vue" label="复制安装命令" size="md" />
             </Inline>
             <Text tone="muted">
               惯例内置:label 必填,同一份词供 aria-label 与 Tooltip;默认 ghost/neutral

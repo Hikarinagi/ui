@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { List, ListItem } from '@hikarinagi/ui'
+import { List, ListItem } from '@hina-ui/vue'
 ```
 
 `List` 默认渲染为 `ul`，条目用 `ListItem`，渲染为 `li`。列表带有缩进，项目符号使用比正文更淡的颜色。

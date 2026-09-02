@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Button, toast } from '@hikarinagi/ui'
+  import { Button, toast } from '@hina-ui/vue'
 
   function upload() {
     const task = new Promise<{ name: string }>(resolve =>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { defineComponent, h } from 'vue'
   import { BookOpen } from '@lucide/vue'
-  import { Button, Heading, Inline, Stack, Text, toast } from '@hikarinagi/ui'
+  import { Button, Heading, Inline, Stack, Text, toast } from '@hina-ui/vue'
 
   const ChapterToast = defineComponent({
     props: { title: { type: String, required: true }, chapter: { type: String, required: true } },

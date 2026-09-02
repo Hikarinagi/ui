@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Mark, Stack, Text } from '@hikarinagi/ui'
+  import { Mark, Stack, Text } from '@hina-ui/vue'
 
   const keyword = 'course'
   const paragraph =

@@ -11,7 +11,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@hikarinagi/ui'
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@hina-ui/vue'
 ```
 
 Three parts: `Collapsible` holds the open state, `CollapsibleTrigger` is the control that toggles it, and `CollapsibleContent` is the region being folded away.

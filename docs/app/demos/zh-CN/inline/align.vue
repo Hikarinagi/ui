@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Heading, Inline, Stack, Text } from '@hikarinagi/ui'
+  import { Heading, Inline, Stack, Text } from '@hina-ui/vue'
 
   const aligns = ['start', 'center', 'end', 'baseline', 'stretch'] as const
 </script>

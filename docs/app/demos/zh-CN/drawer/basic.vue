@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Button, Drawer, Text } from '@hikarinagi/ui'
+  import { Button, Drawer, Text } from '@hina-ui/vue'
 </script>
 
 <template>

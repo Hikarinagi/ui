@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Divider, Inline, Text } from '@hikarinagi/ui'
+  import { Divider, Inline, Text } from '@hina-ui/vue'
 </script>
 
 <template>

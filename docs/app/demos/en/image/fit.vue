@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Image, Inline, Stack, Text } from '@hikarinagi/ui'
+  import { Image, Inline, Stack, Text } from '@hina-ui/vue'
 
   const fits = ['cover', 'contain', 'fill'] as const
 </script>

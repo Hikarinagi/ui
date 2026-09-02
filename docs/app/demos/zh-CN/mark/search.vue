@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Mark, Stack, Text } from '@hikarinagi/ui'
+  import { Mark, Stack, Text } from '@hina-ui/vue'
 
   const keyword = '航路'
   const paragraph = '星之航路第三卷讲述了远洋航路的开辟，以及航路两端的两座灯塔。'

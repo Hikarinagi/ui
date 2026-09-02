@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { BookOpen } from '@lucide/vue'
-  import { Button, Card, Center, Heading, Stack, Text } from '@hikarinagi/ui'
+  import { Button, Card, Center, Heading, Stack, Text } from '@hina-ui/vue'
 </script>
 
 <template>

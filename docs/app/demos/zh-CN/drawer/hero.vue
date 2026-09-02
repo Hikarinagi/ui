@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { SlidersHorizontal } from '@lucide/vue'
-  import { Button, Drawer, Input, Stack, Text } from '@hikarinagi/ui'
+  import { Button, Drawer, Input, Stack, Text } from '@hina-ui/vue'
 </script>
 
 <template>

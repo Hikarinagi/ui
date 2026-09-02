@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Alert } from '@hikarinagi/ui'
+import { Alert } from '@hina-ui/vue'
 ```
 
 An alert reports something that just happened, such as a successful save, a failed publish or a required sign-in. It sits within the page content and screen readers announce it on their own. A fixed note written into the content is a `Callout`; brief feedback that floats in is a `Toast`.

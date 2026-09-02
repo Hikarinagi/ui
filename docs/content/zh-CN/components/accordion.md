@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@hikarinagi/ui'
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@hina-ui/vue'
 ```
 
 组件由四部分构成：`Accordion` 持有展开状态，`AccordionItem` 是一段内容，`AccordionTrigger` 是该段的标题与切换控件，`AccordionContent` 是被折叠的正文。每一段以 `value` 标识。

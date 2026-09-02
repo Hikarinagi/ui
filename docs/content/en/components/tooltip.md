@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Tooltip } from '@hikarinagi/ui'
+import { Tooltip } from '@hina-ui/vue'
 ```
 
 The default slot is the trigger and the `content` prop is the text of the tooltip. It appears on pointer hover or keyboard focus, and goes away when the pointer leaves or Escape is pressed.

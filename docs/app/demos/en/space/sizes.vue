@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Card, Inline, Space, Stack, Text } from '@hikarinagi/ui'
+  import { Card, Inline, Space, Stack, Text } from '@hina-ui/vue'
 
   const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
 </script>

@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Blockquote } from '@hikarinagi/ui'
+import { Blockquote } from '@hina-ui/vue'
 ```
 
 组件渲染为原生的 `blockquote`，起始一侧带一条竖线，文字使用次级颜色，与正文拉开距离。

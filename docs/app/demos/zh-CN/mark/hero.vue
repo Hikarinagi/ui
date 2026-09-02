@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Mark, Text } from '@hikarinagi/ui'
+  import { Mark, Text } from '@hina-ui/vue'
 </script>
 
 <template>

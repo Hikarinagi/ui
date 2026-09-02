@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { DescriptionList, DescriptionTerm, DescriptionDetails } from '@hikarinagi/ui'
+import { DescriptionList, DescriptionTerm, DescriptionDetails } from '@hina-ui/vue'
 ```
 
 `DescriptionList` renders a native `dl`. Names go in `DescriptionTerm` (`dt`) and values in `DescriptionDetails` (`dd`). They stack vertically by default, with names in a medium weight.

@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Divider } from '@hikarinagi/ui'
+import { Divider } from '@hina-ui/vue'
 ```
 
 Divider 渲染一条一像素的线，颜色取自 `--hn-line`。默认为横向，占满容器的宽度。

@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Link } from '@hikarinagi/ui'
+import { Link } from '@hina-ui/vue'
 ```
 
 组件默认渲染为原生的 `a`，属性原样传递，因此 `href`、`target`、`rel` 都照常书写。默认使用强调色，不带下划线。

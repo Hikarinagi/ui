@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Button, Drawer, Stack, Text } from '@hikarinagi/ui'
+  import { Button, Drawer, Stack, Text } from '@hina-ui/vue'
 
   const items = Array.from(
     { length: 30 },

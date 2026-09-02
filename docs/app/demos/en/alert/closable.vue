@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { Alert, Button, Stack } from '@hikarinagi/ui'
+  import { Alert, Button, Stack } from '@hina-ui/vue'
 
   const open = ref(true)
 </script>

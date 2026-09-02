@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { NumberFormat } from '@hikarinagi/ui'
+import { NumberFormat } from '@hina-ui/vue'
 ```
 
 `value` 是要显示的数字。组件按当前语言输出，默认加千位分隔。

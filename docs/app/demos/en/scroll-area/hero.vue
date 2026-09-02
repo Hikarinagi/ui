@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Card, ScrollArea, Stack, Text } from '@hikarinagi/ui'
+  import { Card, ScrollArea, Stack, Text } from '@hina-ui/vue'
 
   const chapters = Array.from({ length: 24 }, (_, i) => `Chapter ${i + 1}`)
 </script>

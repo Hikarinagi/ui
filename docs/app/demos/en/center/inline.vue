@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ExternalLink } from '@lucide/vue'
-  import { Center, Link, Text } from '@hikarinagi/ui'
+  import { Center, Link, Text } from '@hina-ui/vue'
 </script>
 
 <template>

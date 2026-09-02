@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Indicator } from '@hikarinagi/ui'
+import { Indicator } from '@hina-ui/vue'
 ```
 
 圆点只有颜色，没有文字。放在文字前表示该项的状态，或者用 `Badge` 钉在头像的角上表示在线状态。

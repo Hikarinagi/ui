@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Blockquote } from '@hikarinagi/ui'
+  import { Blockquote } from '@hina-ui/vue'
 </script>
 
 <template>

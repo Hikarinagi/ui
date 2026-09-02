@@ -1,11 +1,5 @@
 <script setup lang="ts">
-  import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-    Text,
-  } from '@hikarinagi/ui'
+  import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Text } from '@hina-ui/vue'
   import { Plus } from '@lucide/vue'
 </script>
 

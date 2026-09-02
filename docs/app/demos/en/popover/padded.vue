@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Button, Divider, Popover, Stack, Text } from '@hikarinagi/ui'
+  import { Button, Divider, Popover, Stack, Text } from '@hina-ui/vue'
 </script>
 
 <template>

@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Spoiler } from '@hikarinagi/ui'
+import { Spoiler } from '@hina-ui/vue'
 ```
 
 Put the text to hide in the default slot. While hidden it is covered in noise and cannot be selected; a click reveals it, expanding outward from where the pointer landed.

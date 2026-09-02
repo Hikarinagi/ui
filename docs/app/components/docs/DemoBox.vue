@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { Motion } from 'motion-v'
-  import { Button, Card, Center, CodeBlock, TRANSITION, cn } from '@hikarinagi/ui'
+  import { Button, Card, Center, CodeBlock, TRANSITION, cn } from '@hina-ui/vue'
 
   const props = withDefaults(
     defineProps<{

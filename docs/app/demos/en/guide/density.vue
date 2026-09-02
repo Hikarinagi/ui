@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { Search } from '@lucide/vue'
-  import { Button, IconButton, Inline, Input, Stack, Tag } from '@hikarinagi/ui'
+  import { Button, IconButton, Inline, Input, Stack, Tag } from '@hina-ui/vue'
 
   const compact = ref(false)
 </script>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Card, Center } from '@hikarinagi/ui'
+  import { Card, Center } from '@hina-ui/vue'
 </script>
 
 <template>

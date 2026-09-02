@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Space } from '@hikarinagi/ui'
+import { Space } from '@hina-ui/vue'
 ```
 
 Space 是一个空的占位元素，只在 flex 容器中有意义。它默认占据剩余空间，把两侧的内容推开。子元素之间统一的间距由容器的 `gap` 控制，Space 用于某一处需要单独撑开或单独留白的情况。

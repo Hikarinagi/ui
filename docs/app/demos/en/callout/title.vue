@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Callout } from '@hikarinagi/ui'
+  import { Callout } from '@hina-ui/vue'
 </script>
 
 <template>

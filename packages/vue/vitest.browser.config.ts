@@ -7,7 +7,7 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [vue(), tailwindcss()],
   resolve: {
-    alias: { '@hikarinagi/ui': fileURLToPath(new URL('./src', import.meta.url)) },
+    alias: { '@hina-ui/vue': fileURLToPath(new URL('./src', import.meta.url)) },
   },
   test: {
     include: ['src/**/*.browser.test.ts'],

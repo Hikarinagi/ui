@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { CopyButton } from '@hikarinagi/ui'
+import { CopyButton } from '@hina-ui/vue'
 ```
 
 `text` 是必填属性，它的内容会写入剪贴板。复制成功后，图标由复制切换为选中标记，按钮的名称同时变为“已复制”，两秒后自动恢复。

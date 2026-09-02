@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { SimpleGrid } from '@hikarinagi/ui'
+import { SimpleGrid } from '@hina-ui/vue'
 ```
 
 `min` 是每一列的最小宽度，容器能放下几列就放几列，各列等宽。列数由容器宽度决定，不需要写断点。列数固定的场景用 Grid。

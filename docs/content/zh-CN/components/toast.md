@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Toaster, toast } from '@hikarinagi/ui'
+import { Toaster, toast } from '@hina-ui/vue'
 ```
 
 在应用的最外层挂载一个 `Toaster`，然后在任何地方调用 `toast()`。调用后返回这条提示的 id，可以用它更新或关闭这条提示。

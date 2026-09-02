@@ -5,7 +5,7 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   plugins: [vue()],
   resolve: {
-    alias: { '@hikarinagi/ui': fileURLToPath(new URL('./src', import.meta.url)) },
+    alias: { '@hina-ui/vue': fileURLToPath(new URL('./src', import.meta.url)) },
   },
   test: {
     environment: 'happy-dom',

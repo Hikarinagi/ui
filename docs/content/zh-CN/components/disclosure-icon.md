@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { DisclosureIcon } from '@hikarinagi/ui'
+import { DisclosureIcon } from '@hina-ui/vue'
 ```
 
 指示物是展开控件上随开合旋转的那个箭头，各展开类组件共用同一个组件。多数情况下无需手动放置：`Collapsible` 的触发器已经自带，将来的 `Accordion`、`Select`、`Tree` 同样如此。

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Button, ButtonGroup, Stack } from '@hikarinagi/ui'
+  import { Button, ButtonGroup, Stack } from '@hina-ui/vue'
 </script>
 
 <template>

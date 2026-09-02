@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Image, Stack, Text, provideImageResolver } from '@hikarinagi/ui'
+  import { Image, Stack, Text, provideImageResolver } from '@hina-ui/vue'
 
   provideImageResolver(src => `${src}?preset=banner&quality=82`)
 </script>

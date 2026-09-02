@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Time } from '@hikarinagi/ui'
+import { Time } from '@hina-ui/vue'
 ```
 
 `value` 接受时间字符串、时间戳或者 `Date`。组件渲染为原生的 `time`，`datetime` 属性写入 ISO 格式，显示文本按当前语言排版。

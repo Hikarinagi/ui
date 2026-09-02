@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { BookOpen } from '@lucide/vue'
-  import { Callout, Stack } from '@hikarinagi/ui'
+  import { Callout, Stack } from '@hina-ui/vue'
 </script>
 
 <template>

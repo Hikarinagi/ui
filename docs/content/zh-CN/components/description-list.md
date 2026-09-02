@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { DescriptionList, DescriptionTerm, DescriptionDetails } from '@hikarinagi/ui'
+import { DescriptionList, DescriptionTerm, DescriptionDetails } from '@hina-ui/vue'
 ```
 
 `DescriptionList` 渲染为原生的 `dl`，名称用 `DescriptionTerm`（`dt`），取值用 `DescriptionDetails`（`dd`）。默认自上而下排列，名称使用中等字重。

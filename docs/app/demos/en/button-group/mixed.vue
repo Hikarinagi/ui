@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ChevronDown } from '@lucide/vue'
-  import { Button, ButtonGroup, IconButton } from '@hikarinagi/ui'
+  import { Button, ButtonGroup, IconButton } from '@hina-ui/vue'
 </script>
 
 <template>

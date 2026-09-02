@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { IconButton } from '@hikarinagi/ui'
+import { IconButton } from '@hina-ui/vue'
 ```
 
 `label` is required and serves as both the accessible name and the tooltip text. The default slot holds the icon.

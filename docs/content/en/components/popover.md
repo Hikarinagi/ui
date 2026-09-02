@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Popover } from '@hikarinagi/ui'
+import { Popover } from '@hina-ui/vue'
 ```
 
 The default slot is the trigger and the `content` slot is what floats out. Clicking the trigger opens the panel; clicking it again, or clicking outside the panel, closes it. The content is laid out freely and can take focus.

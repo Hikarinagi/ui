@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Grid } from '@hikarinagi/ui'
+import { Grid } from '@hina-ui/vue'
 ```
 
 `cols` is the number of columns, from 1 to 12. Children fill the cells in order and move to the next row once one is full.

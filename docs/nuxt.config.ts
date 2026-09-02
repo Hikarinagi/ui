@@ -37,7 +37,7 @@ export default defineNuxtConfig({
     bundle: { optimizeTranslationDirective: false },
   },
   alias: {
-    '@hikarinagi/ui': uiSrc,
+    '@hina-ui/vue': uiSrc,
   },
   hooks: {
     'vite:serverCreated'(server) {

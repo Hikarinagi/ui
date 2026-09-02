@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Popover } from '@hikarinagi/ui'
+import { Popover } from '@hina-ui/vue'
 ```
 
 默认插槽是触发器，`content` 插槽是浮出的内容。点击触发器打开面板，再次点击触发器或点击面板外部关闭。面板中的内容可以自由排布，也可以获得焦点。

@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Callout } from '@hikarinagi/ui'
+import { Callout } from '@hina-ui/vue'
 ```
 
 A callout is a passage written into the content — an aside, a shortcut worth knowing, or something to watch out for. It lives with the content and never appears or disappears on its own.

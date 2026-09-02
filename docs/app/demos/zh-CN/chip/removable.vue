@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { Chip, Inline } from '@hikarinagi/ui'
+  import { Chip, Inline } from '@hina-ui/vue'
 
   const tags = ref(['科幻', '校园', '恋爱', '群像'])
 </script>

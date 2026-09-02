@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Inline } from '@hikarinagi/ui'
+import { Inline } from '@hina-ui/vue'
 ```
 
 Inline 是一个横向的 flex 容器，子元素纵向居中对齐，放不下时换行。

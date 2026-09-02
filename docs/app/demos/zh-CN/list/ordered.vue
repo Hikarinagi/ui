@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { List, ListItem } from '@hikarinagi/ui'
+  import { List, ListItem } from '@hina-ui/vue'
 </script>
 
 <template>

@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Toaster, toast } from '@hikarinagi/ui'
+import { Toaster, toast } from '@hina-ui/vue'
 ```
 
 Put one `Toaster` at the root of the app and call `toast()` from anywhere. It returns the id of that toast, which you can use to update or dismiss it.

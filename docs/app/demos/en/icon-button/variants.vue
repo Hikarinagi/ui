@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { Settings, Trash2 } from '@lucide/vue'
-  import { IconButton, Inline } from '@hikarinagi/ui'
+  import { IconButton, Inline } from '@hina-ui/vue'
 </script>
 
 <template>

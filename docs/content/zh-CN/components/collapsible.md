@@ -11,7 +11,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@hikarinagi/ui'
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@hina-ui/vue'
 ```
 
 组件由三部分构成：`Collapsible` 持有开合状态，`CollapsibleTrigger` 是切换开合的控件，`CollapsibleContent` 是被折叠的内容。

@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ArrowRight, Plus, Settings } from '@lucide/vue'
-  import { Button, IconButton, Inline } from '@hikarinagi/ui'
+  import { Button, IconButton, Inline } from '@hina-ui/vue'
 </script>
 
 <template>

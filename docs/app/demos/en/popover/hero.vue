@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { Settings2 } from '@lucide/vue'
-  import { Button, Heading, Input, Popover, Stack, Text } from '@hikarinagi/ui'
+  import { Button, Heading, Input, Popover, Stack, Text } from '@hina-ui/vue'
 </script>
 
 <template>

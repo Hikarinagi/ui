@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { DisclosureIcon } from '@hikarinagi/ui'
+import { DisclosureIcon } from '@hina-ui/vue'
 ```
 
 The indicator is the arrow on a disclosure control that turns as the region opens. Every disclosure component shares this one piece, and **most of the time you never place it yourself**: `CollapsibleTrigger` brings its own, and so will `Accordion`, `Select` and `Tree`.

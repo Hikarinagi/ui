@@ -1,10 +1,10 @@
 <script setup lang="ts">
-  import { Code, CopyButton, Inline } from '@hikarinagi/ui'
+  import { Code, CopyButton, Inline } from '@hina-ui/vue'
 </script>
 
 <template>
   <Inline align="center">
-    <Code>pnpm add @hikarinagi/ui</Code>
-    <CopyButton text="pnpm add @hikarinagi/ui" />
+    <Code>pnpm add @hina-ui/vue</Code>
+    <CopyButton text="pnpm add @hina-ui/vue" />
   </Inline>
 </template>

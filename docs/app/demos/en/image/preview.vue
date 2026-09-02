@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Image, provideImageResolver } from '@hikarinagi/ui'
+  import { Image, provideImageResolver } from '@hina-ui/vue'
 
   provideImageResolver(
     (src, variant) =>

@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Image } from '@hikarinagi/ui'
+import { Image } from '@hina-ui/vue'
 ```
 
 The picture waits until it comes near the viewport, with a skeleton holding the box while it loads; once the picture is ready the skeleton fades away. Give the box a size through classes, or a `ratio` to have it reserve the height in advance.

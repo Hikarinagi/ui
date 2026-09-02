@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Avatar, Badge, Indicator, Inline } from '@hikarinagi/ui'
+  import { Avatar, Badge, Indicator, Inline } from '@hina-ui/vue'
 </script>
 
 <template>

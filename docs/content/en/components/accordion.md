@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@hikarinagi/ui'
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@hina-ui/vue'
 ```
 
 The component has four parts: `Accordion` holds the expanded state, `AccordionItem` is one section, `AccordionTrigger` is that section's heading and toggle, and `AccordionContent` is the collapsed body. Each section is identified by `value`.

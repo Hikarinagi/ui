@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { AspectRatio, Center, Text } from '@hikarinagi/ui'
+  import { AspectRatio, Center, Text } from '@hina-ui/vue'
 </script>
 
 <template>

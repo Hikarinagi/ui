@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Code } from '@hikarinagi/ui'
+import { Code } from '@hina-ui/vue'
 ```
 
 组件渲染为原生的 `code`，使用等宽字体，带浅色底与圆角。它用于在句子中标识一小段代码，例如变量名、属性名、文件名或者一条命令。

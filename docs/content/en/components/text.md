@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Text } from '@hikarinagi/ui'
+import { Text } from '@hina-ui/vue'
 ```
 
 Renders a `p` at body size in a regular weight. Most of the time no property is needed at all.

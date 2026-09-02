@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { NumberFormat } from '@hikarinagi/ui'
+  import { NumberFormat } from '@hina-ui/vue'
 </script>
 
 <template>

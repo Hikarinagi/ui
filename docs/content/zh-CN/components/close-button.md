@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { CloseButton } from '@hikarinagi/ui'
+import { CloseButton } from '@hina-ui/vue'
 ```
 
 组件已经内置了图标与无障碍名称，因此不需要传入任何属性。默认名称为“关闭”，监听 `click` 事件即可。

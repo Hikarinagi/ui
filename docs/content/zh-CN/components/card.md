@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Card } from '@hikarinagi/ui'
+import { Card } from '@hina-ui/vue'
 ```
 
 卡片由三部分构成视觉：自身的背景色、一条细边框，以及一层静止状态的阴影，三者共同使它比页面底色高出一层。内容置于默认插槽中。

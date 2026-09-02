@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Chip } from '@hikarinagi/ui'
+import { Chip } from '@hina-ui/vue'
 ```
 
 条目有两种用法：`selectable` 使条目可以选中，`removable` 为条目添加移除按钮，两者只能取其一。不需要交互的短标注使用 `Tag`。

@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { Check, CircleAlert, Clock } from '@lucide/vue'
-  import { Inline, Tag } from '@hikarinagi/ui'
+  import { Inline, Tag } from '@hina-ui/vue'
 </script>
 
 <template>

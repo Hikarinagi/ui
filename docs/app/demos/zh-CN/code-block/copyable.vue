@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { CodeBlock } from '@hikarinagi/ui'
+  import { CodeBlock } from '@hina-ui/vue'
 </script>
 
 <template>

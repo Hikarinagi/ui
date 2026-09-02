@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { Copy, Scissors, Trash2 } from '@lucide/vue'
-  import { Button, DropdownMenu, DropdownMenuItem, Kbd } from '@hikarinagi/ui'
+  import { Button, DropdownMenu, DropdownMenuItem, Kbd } from '@hina-ui/vue'
 </script>
 
 <template>

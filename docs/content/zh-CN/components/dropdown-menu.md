@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { DropdownMenu, DropdownMenuItem } from '@hikarinagi/ui'
+import { DropdownMenu, DropdownMenuItem } from '@hina-ui/vue'
 ```
 
 默认插槽是触发器，`content` 插槽是菜单里的条目。点击触发器展开，选中条目后自动收起。

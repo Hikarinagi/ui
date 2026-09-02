@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { SimpleGrid } from '@hikarinagi/ui'
+import { SimpleGrid } from '@hina-ui/vue'
 ```
 
 `min` is the smallest a column may be; the container fits as many equal columns as it can. The count follows the width of the container, so no breakpoints are needed. Use Grid where the count is fixed.

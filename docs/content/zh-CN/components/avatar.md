@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Avatar } from '@hikarinagi/ui'
+import { Avatar } from '@hina-ui/vue'
 ```
 
 `src` 是头像图片，`name` 是对应的名称。图片加载成功时显示图片，加载失败或没有图片时显示名称的首字母，没有名称时显示通用图标。

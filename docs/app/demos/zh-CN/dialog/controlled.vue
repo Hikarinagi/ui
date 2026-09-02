@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { Button, Dialog, Inline, Text } from '@hikarinagi/ui'
+  import { Button, Dialog, Inline, Text } from '@hina-ui/vue'
 
   const open = ref(false)
 </script>

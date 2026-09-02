@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { DescriptionDetails, DescriptionList, DescriptionTerm } from '@hikarinagi/ui'
+  import { DescriptionDetails, DescriptionList, DescriptionTerm } from '@hina-ui/vue'
 </script>
 
 <template>

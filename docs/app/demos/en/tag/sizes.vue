@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Inline, Tag } from '@hikarinagi/ui'
+  import { Inline, Tag } from '@hina-ui/vue'
 </script>
 
 <template>

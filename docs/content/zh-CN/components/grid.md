@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Grid } from '@hikarinagi/ui'
+import { Grid } from '@hina-ui/vue'
 ```
 
 `cols` 是列数，取 1 到 12。子元素按顺序填入格子，超出一行的自动换到下一行。

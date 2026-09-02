@@ -11,7 +11,7 @@ links:
 ## 安装依赖 {#install}
 
 ```bash
-pnpm add @hikarinagi/ui
+pnpm add @hina-ui/vue
 ```
 
 `vue` 是 peer 依赖，版本要求 `^3.5.0`。其余依赖会随包安装，不需要手动声明。
@@ -20,9 +20,9 @@ pnpm add @hikarinagi/ui
 
 ```css
 @import 'tailwindcss';
-@import '@hikarinagi/ui/styles/tokens.css';
+@import '@hina-ui/vue/styles/tokens.css';
 
-@source '../node_modules/@hikarinagi/ui/src/**/*.{vue,ts}';
+@source '../node_modules/@hina-ui/vue/src/**/*.{vue,ts}';
 ```
 
 `tokens.css` 是唯一的样式入口，不需要再引入其他文件。
@@ -68,10 +68,10 @@ Tooltip 与 Toast 各自需要一个根节点，在应用入口挂载一次即�
 
 ## 单例约束 {#singletons}
 
-`vue`、`reka-ui`、`@hikarinagi/ui` 在同一个应用中各自只能存在一份实例。如果存在多份，会导致浮层行为异常、焦点管理失效。
+`vue`、`reka-ui`、`@hina-ui/vue` 在同一个应用中各自只能存在一份实例。如果存在多份，会导致浮层行为异常、焦点管理失效。
 
 ```bash
-pnpm why vue reka-ui @hikarinagi/ui
+pnpm why vue reka-ui @hina-ui/vue
 ```
 
 ## 深色模式 {#dark}
@@ -101,7 +101,7 @@ pnpm why vue reka-ui @hikarinagi/ui
 ## 语言 {#locale}
 
 ```ts
-import { enUS, provideUiLocale } from '@hikarinagi/ui'
+import { enUS, provideUiLocale } from '@hina-ui/vue'
 
 provideUiLocale(enUS)
 ```
@@ -112,7 +112,7 @@ provideUiLocale(enUS)
 
 ```vue
 <script setup lang="ts">
-  import { Button, Stack } from '@hikarinagi/ui'
+  import { Button, Stack } from '@hina-ui/vue'
 </script>
 
 <template>

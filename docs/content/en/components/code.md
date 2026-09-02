@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Code } from '@hikarinagi/ui'
+import { Code } from '@hina-ui/vue'
 ```
 
 The component renders a native `code` element in a monospaced face with a tinted background and rounded corners. Use it to mark a short piece of code inside a sentence: a variable, a property, a file name or a single command.

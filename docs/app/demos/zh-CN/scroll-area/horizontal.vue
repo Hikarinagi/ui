@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Card, Inline, ScrollArea } from '@hikarinagi/ui'
+  import { Card, Inline, ScrollArea } from '@hina-ui/vue'
 </script>
 
 <template>

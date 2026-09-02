@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { CloseButton } from '@hikarinagi/ui'
+import { CloseButton } from '@hina-ui/vue'
 ```
 
 The icon and the accessible name are built in, so no property is required. The default name is “Close”; just listen for `click`.

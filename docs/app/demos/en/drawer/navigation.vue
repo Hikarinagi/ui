@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { BookOpen, Home, Library, Settings, User } from '@lucide/vue'
-  import { Button, Drawer, NavLink, Stack } from '@hikarinagi/ui'
+  import { Button, Drawer, NavLink, Stack } from '@hina-ui/vue'
 </script>
 
 <template>

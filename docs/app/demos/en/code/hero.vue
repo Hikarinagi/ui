@@ -1,11 +1,11 @@
 <script setup lang="ts">
-  import { Code, Text } from '@hikarinagi/ui'
+  import { Code, Text } from '@hina-ui/vue'
 </script>
 
 <template>
   <Text class="max-w-lg">
     Run
-    <Code>pnpm add @hikarinagi/ui</Code>
+    <Code>pnpm add @hina-ui/vue</Code>
     to install, then import
     <Code>tokens.css</Code>
     in your style entry.

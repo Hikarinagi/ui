@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Chip } from '@hikarinagi/ui'
+import { Chip } from '@hina-ui/vue'
 ```
 
 A chip is used in one of two ways: `selectable` makes it selectable, `removable` gives it a remove button, and the two are exclusive. A short label with no interaction is a `Tag`.

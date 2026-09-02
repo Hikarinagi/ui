@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { ButtonGroup } from '@hikarinagi/ui'
+import { ButtonGroup } from '@hina-ui/vue'
 ```
 
 Put the buttons straight into the group; joining them is the container's job. The outer corners at each end are kept, the corners where two buttons meet are dropped, and adjacent borders overlap into one rule rather than sitting side by side.

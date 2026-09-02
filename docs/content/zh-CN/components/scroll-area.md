@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { ScrollArea } from '@hikarinagi/ui'
+import { ScrollArea } from '@hina-ui/vue'
 ```
 
 给区域一个高度，超出的部分即可滚动。滚动条浮在内容之上，不占用内容的宽度，并且在各个平台上外观一致。

@@ -8,7 +8,7 @@
     Inline,
     Stack,
     Text,
-  } from '@hikarinagi/ui'
+  } from '@hina-ui/vue'
 
   const open = ref(false)
 </script>

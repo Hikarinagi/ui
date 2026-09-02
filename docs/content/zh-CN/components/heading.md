@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Heading } from '@hikarinagi/ui'
+import { Heading } from '@hina-ui/vue'
 ```
 
 `level` 决定渲染成 `h1` 到 `h6` 中的哪一个，默认为 2。字号默认跟随层级，因此通常只需要设置 `level`。

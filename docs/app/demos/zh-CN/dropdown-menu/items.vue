@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ExternalLink, Pencil, Share2, Trash2 } from '@lucide/vue'
-  import { Button, DropdownMenu, DropdownMenuItem, DropdownMenuSeparator } from '@hikarinagi/ui'
+  import { Button, DropdownMenu, DropdownMenuItem, DropdownMenuSeparator } from '@hina-ui/vue'
 </script>
 
 <template>

@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Spoiler } from '@hikarinagi/ui'
+import { Spoiler } from '@hina-ui/vue'
 ```
 
 把要遮住的文字放入默认插槽。遮住时内容被噪点覆盖，并且无法选中，点击后从指针位置向外展开。

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Chip, Inline } from '@hikarinagi/ui'
+  import { Chip, Inline } from '@hina-ui/vue'
 </script>
 
 <template>

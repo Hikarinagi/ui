@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Alert, Stack } from '@hikarinagi/ui'
+  import { Alert, Stack } from '@hina-ui/vue'
 </script>
 
 <template>

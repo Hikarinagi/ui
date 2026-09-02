@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Time } from '@hikarinagi/ui'
+import { Time } from '@hina-ui/vue'
 ```
 
 `value` accepts a time string, a timestamp or a `Date`. The component renders a native `time` element whose `datetime` attribute holds the ISO form, while the visible text is set in the current language.

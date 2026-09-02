@@ -12,7 +12,7 @@
     provideUiLocale,
     enUS,
     zhCN,
-  } from '@hikarinagi/ui'
+  } from '@hina-ui/vue'
   import { NuxtLink } from '#components'
   import { nav, primary } from '~/nav'
 

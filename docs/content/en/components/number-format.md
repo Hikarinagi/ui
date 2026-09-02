@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { NumberFormat } from '@hikarinagi/ui'
+import { NumberFormat } from '@hina-ui/vue'
 ```
 
 `value` is the number to show. The component formats it for the current language and groups thousands by default.

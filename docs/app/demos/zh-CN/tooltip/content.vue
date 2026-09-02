@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { Info, Save } from '@lucide/vue'
-  import { IconButton, Inline, Kbd, Tooltip } from '@hikarinagi/ui'
+  import { IconButton, Inline, Kbd, Tooltip } from '@hina-ui/vue'
 </script>
 
 <template>

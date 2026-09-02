@@ -15,7 +15,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Button } from '@hikarinagi/ui'
+import { Button } from '@hina-ui/vue'
 ```
 
 Give one screen a single primary action, put the rest in lighter variants, and use the neutral tone for cancelling.

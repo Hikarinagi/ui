@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Card, Inline, Stack, Text } from '@hikarinagi/ui'
+  import { Card, Inline, Stack, Text } from '@hina-ui/vue'
 
   const gaps = ['none', 'xs', 'sm', 'md', 'lg', 'xl'] as const
 </script>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Button, ButtonGroup, Inline, Text } from '@hikarinagi/ui'
+  import { Button, ButtonGroup, Inline, Text } from '@hina-ui/vue'
 
   const props = defineProps<{
     label: string

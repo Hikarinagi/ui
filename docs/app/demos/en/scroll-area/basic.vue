@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ScrollArea, Stack, Text } from '@hikarinagi/ui'
+  import { ScrollArea, Stack, Text } from '@hina-ui/vue'
 </script>
 
 <template>

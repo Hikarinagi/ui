@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { Bot } from '@lucide/vue'
-  import { Avatar, Inline } from '@hikarinagi/ui'
+  import { Avatar, Inline } from '@hina-ui/vue'
 </script>
 
 <template>

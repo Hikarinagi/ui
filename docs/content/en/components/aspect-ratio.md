@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { AspectRatio } from '@hikarinagi/ui'
+import { AspectRatio } from '@hina-ui/vue'
 ```
 
 `ratio` is the width divided by the height and defaults to `16 / 9`. The height follows from the width and that ratio, so images of any size end up in a frame of the same shape.

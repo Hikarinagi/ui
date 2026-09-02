@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { Upload } from '@lucide/vue'
-  import { Button } from '@hikarinagi/ui'
+  import { Button } from '@hina-ui/vue'
 
   const uploading = ref(false)
 

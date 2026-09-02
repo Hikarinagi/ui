@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Link } from '@hikarinagi/ui'
+import { Link } from '@hina-ui/vue'
 ```
 
 The component renders a native `a` by default and passes attributes straight through, so `href`, `target` and `rel` are written as usual. It uses the accent colour and no underline by default.

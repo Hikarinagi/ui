@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Flex } from '@hikarinagi/ui'
+import { Flex } from '@hina-ui/vue'
 ```
 
 Flex exposes all four flex properties: `direction`, `align`, `justify` and `wrap`. Stack and Inline are shorter where the direction is fixed; Flex is for switching direction or for full control over alignment.

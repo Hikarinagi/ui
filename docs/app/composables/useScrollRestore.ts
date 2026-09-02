@@ -1,7 +1,7 @@
 import type { OverlayScrollbars } from 'overlayscrollbars'
 import type { RouteLocationNormalized } from 'vue-router'
-import type { ScrollRestorer } from '@hikarinagi/ui'
-import { SCROLL_AT_ATTR, createScrollRestorer, firstPaintRestoreScript } from '@hikarinagi/ui'
+import type { ScrollRestorer } from '@hina-ui/vue'
+import { SCROLL_AT_ATTR, createScrollRestorer, firstPaintRestoreScript } from '@hina-ui/vue'
 
 interface RestoreArea {
   instance?: OverlayScrollbars

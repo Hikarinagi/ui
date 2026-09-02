@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Kbd, Stack, Text } from '@hikarinagi/ui'
+  import { Kbd, Stack, Text } from '@hina-ui/vue'
 </script>
 
 <template>

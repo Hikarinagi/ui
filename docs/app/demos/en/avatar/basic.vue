@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Avatar, Inline } from '@hikarinagi/ui'
+  import { Avatar, Inline } from '@hina-ui/vue'
 </script>
 
 <template>

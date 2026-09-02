@@ -6,7 +6,7 @@
     DropdownMenuLabel,
     DropdownMenuRadioGroup,
     DropdownMenuRadioItem,
-  } from '@hikarinagi/ui'
+  } from '@hina-ui/vue'
 
   const sort = ref('newest')
   const labels: Record<string, string> = {

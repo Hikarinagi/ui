@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { DropdownMenu, DropdownMenuItem } from '@hikarinagi/ui'
+import { DropdownMenu, DropdownMenuItem } from '@hina-ui/vue'
 ```
 
 The default slot is the trigger and the `content` slot holds the items. Clicking the trigger opens the menu, and choosing an item closes it again.

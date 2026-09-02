@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Flex } from '@hikarinagi/ui'
+import { Flex } from '@hina-ui/vue'
 ```
 
 Flex 开放了 flex 布局的四个属性：`direction`、`align`、`justify` 和 `wrap`。方向固定时用 Stack 或 Inline 更简洁，需要切换方向或完整控制对齐时用 Flex。

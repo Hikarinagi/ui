@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { Bell } from '@lucide/vue'
-  import { Badge, Button, IconButton, Inline } from '@hikarinagi/ui'
+  import { Badge, Button, IconButton, Inline } from '@hina-ui/vue'
 
   const count = ref(2)
 </script>

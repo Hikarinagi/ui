@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { CodeBlock } from '@hikarinagi/ui'
+import { CodeBlock } from '@hina-ui/vue'
 ```
 
 `code` is required and is rendered verbatim. `lang` names the language, which drives highlighting and the badge in the top corner.

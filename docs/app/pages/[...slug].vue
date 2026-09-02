@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import type { Component } from 'vue'
-  import type { AnchorItem } from '@hikarinagi/ui'
+  import type { AnchorItem } from '@hina-ui/vue'
   import type { DocsPageLink } from '~/components/docs/Page.vue'
 
   interface DocModule {

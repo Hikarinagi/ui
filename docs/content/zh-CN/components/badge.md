@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Badge } from '@hikarinagi/ui'
+import { Badge } from '@hina-ui/vue'
 ```
 
 宿主元素放在默认插槽中，`content` 是钉在角上的内容。组件只负责定位与呈现，宿主本身不受影响。

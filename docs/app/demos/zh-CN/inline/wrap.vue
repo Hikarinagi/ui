@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Inline, Stack, Tag, Text } from '@hikarinagi/ui'
+  import { Inline, Stack, Tag, Text } from '@hina-ui/vue'
 
   const tags = ['科幻', '悬疑', '校园', '青春', '治愈', '日常', '成长', '群像', '异世界']
 </script>

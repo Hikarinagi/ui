@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Dialog } from '@hikarinagi/ui'
+import { Dialog } from '@hina-ui/vue'
 ```
 
 `title` is required and `description` is the line under it. The default slot is the trigger, the `content` slot is the body, and the `footer` slot holds the actions. Both slots receive a `close` method.

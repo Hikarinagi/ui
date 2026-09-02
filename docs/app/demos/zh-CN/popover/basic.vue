@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Button, Popover, Text } from '@hikarinagi/ui'
+  import { Button, Popover, Text } from '@hina-ui/vue'
 </script>
 
 <template>

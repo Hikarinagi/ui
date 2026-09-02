@@ -11,7 +11,7 @@ links:
 ## Install {#install}
 
 ```bash
-pnpm add @hikarinagi/ui
+pnpm add @hina-ui/vue
 ```
 
 `vue` is a peer dependency and must satisfy `^3.5.0`. Everything else is installed with the package and does not need to be declared.
@@ -20,9 +20,9 @@ pnpm add @hikarinagi/ui
 
 ```css
 @import 'tailwindcss';
-@import '@hikarinagi/ui/styles/tokens.css';
+@import '@hina-ui/vue/styles/tokens.css';
 
-@source '../node_modules/@hikarinagi/ui/src/**/*.{vue,ts}';
+@source '../node_modules/@hina-ui/vue/src/**/*.{vue,ts}';
 ```
 
 `tokens.css` is the only style entry; no other file needs to be imported.
@@ -68,10 +68,10 @@ Tooltip and Toast each need one root node, mounted once at the application entry
 
 ## Single instances {#singletons}
 
-`vue`, `reka-ui` and `@hikarinagi/ui` must each resolve to a single instance within one application. Duplicates cause overlays to misbehave and focus management to break.
+`vue`, `reka-ui` and `@hina-ui/vue` must each resolve to a single instance within one application. Duplicates cause overlays to misbehave and focus management to break.
 
 ```bash
-pnpm why vue reka-ui @hikarinagi/ui
+pnpm why vue reka-ui @hina-ui/vue
 ```
 
 ## Dark mode {#dark}
@@ -101,7 +101,7 @@ Control height, padding and spacing all come from the density variables, which d
 ## Language {#locale}
 
 ```ts
-import { enUS, provideUiLocale } from '@hikarinagi/ui'
+import { enUS, provideUiLocale } from '@hina-ui/vue'
 
 provideUiLocale(enUS)
 ```
@@ -112,7 +112,7 @@ Built-in wording defaults to Simplified Chinese and is switched with one call at
 
 ```vue
 <script setup lang="ts">
-  import { Button, Stack } from '@hikarinagi/ui'
+  import { Button, Stack } from '@hina-ui/vue'
 </script>
 
 <template>

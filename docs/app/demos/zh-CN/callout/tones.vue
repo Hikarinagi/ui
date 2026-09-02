@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Callout, Stack } from '@hikarinagi/ui'
+  import { Callout, Stack } from '@hina-ui/vue'
 
   const tones = [
     { tone: 'neutral', text: '不含倾向的补充说明' },

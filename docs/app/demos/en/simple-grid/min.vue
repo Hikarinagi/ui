@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Card, SimpleGrid, Stack, Text } from '@hikarinagi/ui'
+  import { Card, SimpleGrid, Stack, Text } from '@hina-ui/vue'
 
   const mins = ['6rem', '10rem', '16rem'] as const
 </script>

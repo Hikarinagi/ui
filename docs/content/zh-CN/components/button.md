@@ -15,7 +15,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Button } from '@hikarinagi/ui'
+import { Button } from '@hina-ui/vue'
 ```
 
 同一界面中仅设置一个主操作，其余操作采用较轻的变体，取消类操作采用中性色调。

@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Kbd } from '@hikarinagi/ui'
+import { Kbd } from '@hina-ui/vue'
 ```
 
 The component renders a native `kbd` element in a monospaced face, with a bottom border heavier than the other three so it reads as a keycap. One component is one key.

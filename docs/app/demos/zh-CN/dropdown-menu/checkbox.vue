@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { Button, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuLabel } from '@hikarinagi/ui'
+  import { Button, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuLabel } from '@hina-ui/vue'
 
   const showCover = ref(true)
   const showSummary = ref(false)

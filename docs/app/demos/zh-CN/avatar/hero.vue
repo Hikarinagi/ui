@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Avatar, Card, Inline, Stack, Text } from '@hikarinagi/ui'
+  import { Avatar, Card, Inline, Stack, Text } from '@hina-ui/vue'
 </script>
 
 <template>

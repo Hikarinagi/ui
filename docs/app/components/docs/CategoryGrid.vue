@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import type { Component } from 'vue'
   import { NuxtLink } from '#components'
-  import { Card, Center, Heading, Ripple, SimpleGrid, Stack, Text } from '@hikarinagi/ui'
+  import { Card, Center, Heading, Ripple, SimpleGrid, Stack, Text } from '@hina-ui/vue'
   import { components } from '~/nav'
 
   const props = defineProps<{ slug: string }>()

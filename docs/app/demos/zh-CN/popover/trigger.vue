@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { Info } from '@lucide/vue'
-  import { IconButton, Inline, Link, Popover, Text } from '@hikarinagi/ui'
+  import { IconButton, Inline, Link, Popover, Text } from '@hina-ui/vue'
 </script>
 
 <template>

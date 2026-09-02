@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Card } from '@hikarinagi/ui'
+import { Card } from '@hina-ui/vue'
 ```
 
 A card is a surface: its own fill, a hairline border and a resting shadow, one step above the page ground. Content goes into the default slot.

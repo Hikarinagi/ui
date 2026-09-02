@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Image } from '@hikarinagi/ui'
+  import { Image } from '@hina-ui/vue'
 </script>
 
 <template>

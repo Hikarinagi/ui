@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Mark } from '@hikarinagi/ui'
+import { Mark } from '@hina-ui/vue'
 ```
 
 The component renders a native `mark` element with a tinted background and a very small radius. The text colour is unchanged, so reading is not interrupted.

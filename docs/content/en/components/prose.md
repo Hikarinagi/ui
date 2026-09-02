@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Prose } from '@hikarinagi/ui'
+import { Prose } from '@hina-ui/vue'
 ```
 
 Put a fragment of HTML inside the container and its native tags pick up the typography styles. Use it for rendered Markdown, rich text from an API, or content produced by an editor.

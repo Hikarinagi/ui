@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Indicator } from '@hikarinagi/ui'
+import { Indicator } from '@hina-ui/vue'
 ```
 
 The dot has a colour and nothing else. Put it before text to show the status of that item, or pin it to the corner of an avatar with `Badge` to show presence.

@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { AlignCenter, AlignLeft, AlignRight } from '@lucide/vue'
-  import { Button, ButtonGroup, IconButton, Stack } from '@hikarinagi/ui'
+  import { Button, ButtonGroup, IconButton, Stack } from '@hina-ui/vue'
 </script>
 
 <template>

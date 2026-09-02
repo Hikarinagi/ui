@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Spoiler, Text } from '@hikarinagi/ui'
+  import { Spoiler, Text } from '@hina-ui/vue'
 </script>
 
 <template>

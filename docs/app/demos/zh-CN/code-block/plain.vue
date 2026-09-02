@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { CodeBlock } from '@hikarinagi/ui'
+  import { CodeBlock } from '@hina-ui/vue'
 
   const output = `✔ 依赖安装完成
 ✔ 样式入口已就绪

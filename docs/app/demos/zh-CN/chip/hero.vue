@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { Chip, Inline } from '@hikarinagi/ui'
+  import { Chip, Inline } from '@hina-ui/vue'
 
   const genres = ['科幻', '奇幻', '日常', '悬疑', '恋爱']
   const picked = ref(['科幻', '日常'])

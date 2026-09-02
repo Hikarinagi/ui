@@ -6,7 +6,7 @@
     DropdownMenuItem,
     DropdownMenuSeparator,
     DropdownMenuSub,
-  } from '@hikarinagi/ui'
+  } from '@hina-ui/vue'
 </script>
 
 <template>

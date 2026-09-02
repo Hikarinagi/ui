@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { Bell, Search } from '@lucide/vue'
-  import { Card, Heading, IconButton, Inline, Space, Tag } from '@hikarinagi/ui'
+  import { Card, Heading, IconButton, Inline, Space, Tag } from '@hina-ui/vue'
 </script>
 
 <template>

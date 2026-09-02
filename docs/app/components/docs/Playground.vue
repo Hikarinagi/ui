@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import type { Component } from 'vue'
-  import * as ui from '@hikarinagi/ui'
-  import { Card, Center, CodeBlock, Inline } from '@hikarinagi/ui'
+  import * as ui from '@hina-ui/vue'
+  import { Card, Center, CodeBlock, Inline } from '@hina-ui/vue'
 
   export interface PlaygroundControl {
     prop: string

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Avatar, AvatarGroup, Stack, Text } from '@hikarinagi/ui'
+  import { Avatar, AvatarGroup, Stack, Text } from '@hina-ui/vue'
 
   const members = [
     { src: '/avatars/paper.webp', name: 'Shion Hoshimi' },

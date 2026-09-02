@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Inline, Stack, Tag, Text } from '@hikarinagi/ui'
+  import { Inline, Stack, Tag, Text } from '@hina-ui/vue'
 
   const tags = [
     'Sci-fi',

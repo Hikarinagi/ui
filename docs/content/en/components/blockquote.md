@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Blockquote } from '@hikarinagi/ui'
+import { Blockquote } from '@hina-ui/vue'
 ```
 
 The component renders a native `blockquote` with a rule along its starting edge and secondary text colour, setting it apart from body text.

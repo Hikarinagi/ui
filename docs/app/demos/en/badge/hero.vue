@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { Bell, Mail, MessageSquare } from '@lucide/vue'
-  import { Badge, IconButton, Inline } from '@hikarinagi/ui'
+  import { Badge, IconButton, Inline } from '@hina-ui/vue'
 </script>
 
 <template>

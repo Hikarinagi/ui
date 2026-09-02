@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Heading, Stack, Text } from '@hikarinagi/ui'
+  import { Heading, Stack, Text } from '@hina-ui/vue'
 </script>
 
 <template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { Button, Spoiler, Stack, Text } from '@hikarinagi/ui'
+  import { Button, Spoiler, Stack, Text } from '@hina-ui/vue'
 
   const hidden = ref(true)
 </script>

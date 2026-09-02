@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { Button, Inline, Text, Tooltip } from '@hikarinagi/ui'
+  import { Button, Inline, Text, Tooltip } from '@hina-ui/vue'
 
   const off = ref(true)
 </script>

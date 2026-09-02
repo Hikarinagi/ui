@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { List, ListItem } from '@hikarinagi/ui'
+import { List, ListItem } from '@hina-ui/vue'
 ```
 
 `List` renders a `ul` by default and `ListItem` renders each `li`. The list is indented and its markers are lighter than body text.

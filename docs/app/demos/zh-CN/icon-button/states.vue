@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { RotateCw, Trash2 } from '@lucide/vue'
-  import { IconButton, Inline } from '@hikarinagi/ui'
+  import { IconButton, Inline } from '@hina-ui/vue'
 
   const refreshing = ref(false)
 

@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Drawer } from '@hikarinagi/ui'
+import { Drawer } from '@hina-ui/vue'
 ```
 
 `title` 必填，`description` 是标题下面的一行说明。默认插槽是触发器，`content` 插槽是正文，`footer` 插槽是底部的操作按钮。两个插槽都会收到 `close` 方法。

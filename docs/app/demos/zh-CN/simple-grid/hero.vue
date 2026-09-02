@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { AspectRatio, Card, SimpleGrid, Stack, Tag, Text } from '@hikarinagi/ui'
+  import { AspectRatio, Card, SimpleGrid, Stack, Tag, Text } from '@hina-ui/vue'
 
   const works = [
     { title: '星之彼方', tag: '科幻' },

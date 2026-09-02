@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Card, Flex, Stack, Text } from '@hikarinagi/ui'
+  import { Card, Flex, Stack, Text } from '@hina-ui/vue'
 
   const items = Array.from({ length: 10 }, (_, i) => i + 1)
 </script>

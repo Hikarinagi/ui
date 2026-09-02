@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Link } from '@hikarinagi/ui'
+  import { Link } from '@hina-ui/vue'
 </script>
 
 <template>

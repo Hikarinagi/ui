@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { DescriptionDetails, DescriptionList, DescriptionTerm, Time } from '@hikarinagi/ui'
+  import { DescriptionDetails, DescriptionList, DescriptionTerm, Time } from '@hina-ui/vue'
 
   const value = '2026-03-14T09:30:00+08:00'
 </script>

@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Kbd } from '@hikarinagi/ui'
+import { Kbd } from '@hina-ui/vue'
 ```
 
 组件渲染为原生的 `kbd`，使用等宽字体，底边比其余三边更粗，呈现键帽的轮廓。一个组件对应一个按键。

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Stack, Text, Time, enUS, provideUiLocale } from '@hikarinagi/ui'
+  import { Stack, Text, Time, enUS, provideUiLocale } from '@hina-ui/vue'
   import { defineComponent, h } from 'vue'
 
   const value = '2026-03-14T09:30:00+08:00'

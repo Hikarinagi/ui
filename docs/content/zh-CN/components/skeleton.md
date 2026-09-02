@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Skeleton } from '@hikarinagi/ui'
+import { Skeleton } from '@hina-ui/vue'
 ```
 
 用它包住真实内容，再传入 `loading`。`loading` 为真时内容隐藏但仍然参与布局，因此占位块的尺寸与内容将来的尺寸完全一致；`loading` 变为假之后包裹元素消失，只剩内容本身。

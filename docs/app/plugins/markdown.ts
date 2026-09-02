@@ -14,7 +14,7 @@ import {
   TableHeader,
   TableRow,
   Text,
-} from '@hikarinagi/ui'
+} from '@hina-ui/vue'
 import CategoryGrid from '~/components/docs/CategoryGrid.vue'
 import DemoBox from '~/components/docs/DemoBox.vue'
 import Playground from '~/components/docs/Playground.vue'

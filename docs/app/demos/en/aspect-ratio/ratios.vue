@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { AspectRatio, Image, Inline, Stack, Text } from '@hikarinagi/ui'
+  import { AspectRatio, Image, Inline, Stack, Text } from '@hina-ui/vue'
 
   const ratios = [
     { label: '1 / 1', value: 1 },

@@ -13,7 +13,7 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Tooltip } from '@hikarinagi/ui'
+import { Tooltip } from '@hina-ui/vue'
 ```
 
 默认插槽是触发器，`content` 属性是提示的文字。指针悬停或键盘聚焦时显示，指针移开或按 Esc 时隐藏。

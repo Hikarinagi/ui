@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Stack } from '@hikarinagi/ui'
+import { Stack } from '@hina-ui/vue'
 ```
 
 Stack is a vertical flex container: its children run down the page, spaced by `gap`.

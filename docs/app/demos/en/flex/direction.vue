@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Card, Flex, Stack, Text } from '@hikarinagi/ui'
+  import { Card, Flex, Stack, Text } from '@hina-ui/vue'
 
   const directions = ['row', 'row-reverse', 'col', 'col-reverse'] as const
 </script>

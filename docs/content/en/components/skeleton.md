@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Skeleton } from '@hikarinagi/ui'
+import { Skeleton } from '@hina-ui/vue'
 ```
 
 Wrap the real content and pass `loading`. While it is true the content is hidden but still lays itself out, so the placeholder is exactly the size the content will be; once it turns false the wrapper disappears and only the content is left.

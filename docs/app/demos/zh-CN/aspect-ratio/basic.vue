@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { AspectRatio, Image } from '@hikarinagi/ui'
+  import { AspectRatio, Image } from '@hina-ui/vue'
 </script>
 
 <template>

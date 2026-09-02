@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { AspectRatio, Card, Image, Stack, Text } from '@hikarinagi/ui'
+  import { AspectRatio, Card, Image, Stack, Text } from '@hina-ui/vue'
 </script>
 
 <template>

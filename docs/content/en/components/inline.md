@@ -13,7 +13,7 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Inline } from '@hikarinagi/ui'
+import { Inline } from '@hina-ui/vue'
 ```
 
 Inline is a horizontal flex container: its children sit centred on the cross axis and wrap when they run out of room.

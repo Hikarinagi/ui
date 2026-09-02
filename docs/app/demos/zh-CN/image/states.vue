@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ImageOff } from '@lucide/vue'
-  import { Center, Image, Inline, Stack, Text } from '@hikarinagi/ui'
+  import { Center, Image, Inline, Stack, Text } from '@hina-ui/vue'
 </script>
 
 <template>
