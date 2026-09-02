@@ -31,6 +31,7 @@ export const categories: DocsCategory[] = [
   { slug: 'atoms' },
   { slug: 'overlays' },
   { slug: 'display' },
+  { slug: 'data' },
 ]
 
 export const guides: DocsNavItem[] = [
@@ -187,6 +188,7 @@ export const components: DocsComponent[] = [
     category: 'typography',
   },
   { label: 'Stack', to: '/components/stack', i18n: 'components.stack', category: 'layout' },
+  { label: 'Table', to: '/components/table', i18n: 'components.table', category: 'data' },
   { label: 'Tag', to: '/components/tag', i18n: 'components.tag', category: 'atoms' },
   { label: 'Text', to: '/components/text', i18n: 'components.text', category: 'typography' },
   { label: 'Time', to: '/components/time', i18n: 'components.time', category: 'typography' },
