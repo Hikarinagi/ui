@@ -60,11 +60,11 @@ import { Indicator } from '@hikarinagi/ui'
 
 ### Props {#props}
 
-| 属性    | 类型                                                                    | 默认值      | 说明               |
-| ------- | ----------------------------------------------------------------------- | ----------- | ------------------ |
-| `tone`  | `'neutral' \| 'accent' \| 'success' \| 'warning' \| 'danger' \| 'info'` | `'neutral'` | 色调               |
-| `size`  | `'sm' \| 'md' \| 'lg'`                                                  | `'md'`      | 尺寸               |
-| `pulse` | `boolean`                                                               | `false`     | 是否向外扩散光晕   |
-| `label` | `string`                                                                | —           | 读屏朗读的文字     |
-| `as`    | `string`                                                                | `'span'`    | 渲染的标签         |
-| `class` | `string`                                                                | —           | 追加至根元素的类名 |
+| 属性    | 类型                                                                    | 默认值      | 说明                 |
+| ------- | ----------------------------------------------------------------------- | ----------- | -------------------- |
+| `tone`  | `'neutral' \| 'accent' \| 'success' \| 'warning' \| 'danger' \| 'info'` | `'neutral'` | 色调                 |
+| `size`  | `'sm' \| 'md' \| 'lg'`                                                  | `'md'`      | 尺寸                 |
+| `pulse` | `boolean`                                                               | `false`     | 是否向外扩散光晕     |
+| `label` | `string`                                                                | —           | 屏幕阅读器朗读的文字 |
+| `as`    | `string`                                                                | `'span'`    | 渲染的标签           |
+| `class` | `string`                                                                | —           | 追加至根元素的类名   |

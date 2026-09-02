@@ -16,7 +16,7 @@ links:
 import { Alert } from '@hikarinagi/ui'
 ```
 
-消息条用于告知刚刚发生的事情，例如保存成功、发布失败、需要重新登录。它出现在页面内容中，屏幕阅读器会主动朗读。写在内容里的固定提示用 `Callout`，短暂浮出的反馈用 `Toast`。
+消息条用于告知刚刚发生的事件，例如保存成功、发布失败、需要重新登录。它出现在页面内容中，屏幕阅读器会主动朗读。写在内容里的固定提示使用 `Callout`，短暂浮出的反馈使用 `Toast`。
 
 <Demo name="alert/basic" />
 
@@ -24,7 +24,7 @@ import { Alert } from '@hikarinagi/ui'
 
 ### 色调 {#tones}
 
-共六种色调，默认为 `neutral`。图标随色调变化，`icon` 设为 `false` 可以去掉。
+共六种色调，默认为 `neutral`。图标随色调变化，`icon` 设为 `false` 时不显示图标。
 
 <Demo name="alert/tones" />
 
@@ -36,13 +36,13 @@ import { Alert } from '@hikarinagi/ui'
 
 ### 可关闭 {#closable}
 
-设置 `closable` 后右侧有关闭按钮，关闭时触发 `close` 事件。`v-model:open` 可以控制显示与隐藏。
+设置 `closable` 后右侧显示关闭按钮，关闭时触发 `close` 事件。`v-model:open` 可以控制显示与隐藏。
 
 <Demo name="alert/closable" />
 
 ### 操作 {#actions}
 
-`actions` 插槽放在正文之后，用于放置一两个按钮。
+`actions` 插槽位于正文之后，用于放置一到两个按钮。
 
 <Demo name="alert/actions" />
 
@@ -53,7 +53,7 @@ import { Alert } from '@hikarinagi/ui'
 
 ## 无障碍 {#a11y}
 
-- `danger` 与 `warning` 的消息条角色为 `alert`，屏幕阅读器立即朗读；其余色调角色为 `status`，在当前朗读结束后再读。
+- `danger` 与 `warning` 的消息条角色为 `alert`，屏幕阅读器立即朗读；其余色调的角色为 `status`，在当前朗读结束后朗读。
 - 关闭按钮的名称为“关闭”。
 
 ## API {#api}

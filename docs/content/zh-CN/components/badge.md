@@ -60,7 +60,7 @@ import { Badge } from '@hikarinagi/ui'
 
 <Demo name="badge/content" />
 
-设置 `bare` 后徽标不画底色与内边距，只负责定位与描边，尺寸由插槽内容决定。把 `Indicator` 放入插槽即可在头像角上显示状态点。
+设置 `bare` 后徽标不绘制底色，也没有内边距，只负责定位与描边，尺寸由插槽内容决定。把 `Indicator` 放入插槽即可在头像角上显示状态点。
 
 <Demo name="indicator/badge" />
 
