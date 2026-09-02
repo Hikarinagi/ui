@@ -37,6 +37,7 @@ export const guides: DocsNavItem[] = [
 
 export const components: DocsComponent[] = [
   {
+  { label: 'Alert', to: '/components/alert', i18n: 'components.alert', category: 'display' },
     label: 'AspectRatio',
     to: '/components/aspect-ratio',
     i18n: 'components.aspect-ratio',

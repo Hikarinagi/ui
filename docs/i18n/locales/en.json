@@ -67,6 +67,7 @@
     "blockquote": "Quotes a passage from elsewhere",
     "button": "Triggers a single action",
     "button-group": "Joins several buttons into one unit",
+    "alert": "A message bar that appears in the page after something happens",
     "close-button": "Dismisses dialogs, drawers and toasts",
     "code": "Inline code within body text",
     "code-block": "A block of code with highlighting and copying",

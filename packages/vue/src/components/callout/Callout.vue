@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  import { Info, Lightbulb, CircleCheck, TriangleAlert, CircleX } from '@lucide/vue'
   import { cn } from '../../lib/cn'
   import { callout, calloutIcon, type CalloutVariants } from './callout.variants'
+  import { calloutIcons } from './icons'
 
   defineOptions({ name: 'HnCallout' })
 
@@ -14,22 +14,13 @@
     }>(),
     { tone: 'neutral', icon: true },
   )
-
-  const icons = {
-    neutral: Info,
-    accent: Lightbulb,
-    info: Info,
-    success: CircleCheck,
-    warning: TriangleAlert,
-    danger: CircleX,
-  } as const
 </script>
 
 <template>
   <div role="note" :class="cn(callout({ tone: props.tone }), props.class)">
     <slot name="icon">
       <component
-        :is="icons[props.tone]"
+        :is="calloutIcons[props.tone]"
         v-if="props.icon"
         :class="calloutIcon({ tone: props.tone })"
         aria-hidden="true"
