@@ -15,6 +15,7 @@
       placement?: BadgeVariants['placement']
       shape?: BadgeVariants['shape']
       outline?: boolean
+      bare?: boolean
       label?: string
       class?: string
     }>(),
@@ -54,6 +55,7 @@
             placement: props.placement,
             shape: props.shape,
             outline: props.outline,
+            bare: props.bare,
           })
         "
       >

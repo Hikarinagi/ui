@@ -97,6 +97,7 @@
     "grid": "A grid container with a fixed number of columns",
     "simple-grid": "An even grid whose columns follow a minimum width",
     "container": "Holds page content to a readable width and centres it",
+    "indicator": "A small dot that shows a status",
     "center": "Centres its content on both axes",
     "space": "An empty element that takes up room in a flex container",
     "aspect-ratio": "Holds its content to a given width-to-height ratio",

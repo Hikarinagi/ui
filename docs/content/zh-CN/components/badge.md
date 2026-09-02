@@ -60,6 +60,10 @@ import { Badge } from '@hikarinagi/ui'
 
 <Demo name="badge/content" />
 
+设置 `bare` 后徽标不画底色与内边距，只负责定位与描边，尺寸由插槽内容决定。把 `Indicator` 放入插槽即可在头像角上显示状态点。
+
+<Demo name="indicator/badge" />
+
 ### 描边 {#outline}
 
 `outline` 默认开启，徽标外侧带一圈与页面底色相同的描边，使它从宿主的边缘切出。宿主颜色较深时可以关闭。
@@ -90,6 +94,7 @@ import { Badge } from '@hikarinagi/ui'
 | `placement` | `'top-end' \| 'top-start' \| 'bottom-end' \| 'bottom-start'`            | `'top-end'` | 钉在哪个角                 |
 | `shape`     | `'rect' \| 'circle'`                                                    | `'rect'`    | 宿主的形状                 |
 | `outline`   | `boolean`                                                               | `true`      | 是否描出与页面底色相同的边 |
+| `bare`      | `boolean`                                                               | `false`     | 是否只定位不画底           |
 | `label`     | `string`                                                                | —           | 供屏幕阅读器读取的完整说法 |
 | `class`     | `string`                                                                | —           | 追加至外层容器的类名       |
 

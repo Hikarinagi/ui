@@ -60,6 +60,10 @@ Whether the badge renders is still decided by the `content` property, so it must
 
 <Demo name="badge/content" />
 
+With `bare` set the badge draws no background or padding and only positions and outlines its content, which decides the size. Put an `Indicator` in the slot to show a status dot on the corner of an avatar.
+
+<Demo name="indicator/badge" />
+
 ### Outline {#outline}
 
 `outline` is on by default and draws a ring in the page background colour, cutting the badge out of the host's edge. Turn it off over darker hosts.
@@ -90,6 +94,7 @@ The badge does not render when `content` is 0, an empty string or unset. Both ap
 | `placement` | `'top-end' \| 'top-start' \| 'bottom-end' \| 'bottom-start'`            | `'top-end'` | Which corner to pin to                    |
 | `shape`     | `'rect' \| 'circle'`                                                    | `'rect'`    | Shape of the host                         |
 | `outline`   | `boolean`                                                               | `true`      | Draw a ring in the page background colour |
+| `bare`      | `boolean`                                                               | `false`     | Only position, without a background       |
 | `label`     | `string`                                                                | —           | Full wording for screen readers           |
 | `class`     | `string`                                                                | —           | Classes appended to the wrapper           |
 

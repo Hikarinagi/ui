@@ -208,6 +208,7 @@
   --hn-skeleton-duration: 2200ms;
   --hn-ripple-in: 75ms;
   --hn-ripple-out: 375ms;
+  --hn-pulse-duration: 1500ms;
 }
 
 @media (prefers-reduced-motion: reduce) {

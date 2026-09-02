@@ -32,6 +32,9 @@ export const badge = tv({
       true: 'ring-surface ring-2',
       false: '',
     },
+    bare: {
+      true: 'h-auto min-w-0 bg-transparent p-0',
+    },
   },
   compoundVariants: [
     { shape: 'circle', placement: 'top-end', class: 'top-[14%] end-[14%]' },

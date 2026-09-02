@@ -10,6 +10,18 @@
   }
 }
 
+@keyframes hn-ping {
+  from {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  75%,
+  to {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
 @keyframes hn-fade-in {
   from {
     opacity: 0;
@@ -423,6 +435,14 @@
   }
   &[data-state='closed'] {
     animation: hn-collapse-out var(--hn-duration-base) var(--hn-ease-move);
+  }
+}
+
+@utility hn-ping {
+  animation: hn-ping var(--hn-pulse-duration) var(--hn-ease-enter) infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    display: none;
   }
 }
 
