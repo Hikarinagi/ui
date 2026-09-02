@@ -77,6 +77,7 @@ export const tabsTrigger = tv({
     size: {
       sm: '',
       md: '',
+      lg: '',
     },
   },
   compoundVariants: [
@@ -84,8 +85,10 @@ export const tabsTrigger = tv({
     { variant: 'underline', orientation: 'vertical', class: '-me-px rounded-s-sm' },
     { variant: 'underline', size: 'sm', class: 'h-8 px-2.5' },
     { variant: 'underline', size: 'md', class: 'h-9 px-3' },
+    { variant: 'underline', size: 'lg', class: 'h-10 px-3.5' },
     { variant: 'soft', size: 'sm', class: 'h-7 px-2.5' },
     { variant: 'soft', size: 'md', class: 'h-8 px-3' },
+    { variant: 'soft', size: 'lg', class: 'h-9 px-3.5' },
   ],
   defaultVariants: { variant: 'underline', orientation: 'horizontal', size: 'md' },
 })

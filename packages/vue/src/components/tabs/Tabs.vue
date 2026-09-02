@@ -9,7 +9,7 @@
     defineProps<{
       defaultValue?: string
       variant?: 'underline' | 'soft'
-      size?: 'sm' | 'md'
+      size?: 'sm' | 'md' | 'lg'
       orientation?: 'horizontal' | 'vertical'
       class?: string
     }>(),
