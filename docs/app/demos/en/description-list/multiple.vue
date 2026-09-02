@@ -1,19 +1,19 @@
 <script setup lang="ts">
-  import { DescriptionList, Inline, Tag } from '@hikarinagi/ui'
+  import { DescriptionDetails, DescriptionList, DescriptionTerm, Inline, Tag } from '@hikarinagi/ui'
 </script>
 
 <template>
   <DescriptionList class="max-w-sm">
-    <dt>Author</dt>
-    <dd>Shion Hoshimi</dd>
-    <dd>Hikarinagi Editorial</dd>
-    <dt>Tags</dt>
-    <dd>
+    <DescriptionTerm>Author</DescriptionTerm>
+    <DescriptionDetails>Shion Hoshimi</DescriptionDetails>
+    <DescriptionDetails>Hikarinagi Editorial</DescriptionDetails>
+    <DescriptionTerm>Tags</DescriptionTerm>
+    <DescriptionDetails>
       <Inline align="center">
         <Tag>Sci-fi</Tag>
         <Tag>School</Tag>
         <Tag>Healing</Tag>
       </Inline>
-    </dd>
+    </DescriptionDetails>
   </DescriptionList>
 </template>

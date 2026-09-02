@@ -42,6 +42,10 @@
     "en": "English"
   },
   "categories": {
+    "foundation": {
+      "label": "Foundation",
+      "description": "Mechanism primitives the components share."
+    },
     "typography": {
       "label": "Typography",
       "description": "How text, code, lists and quotations are set in body content."
@@ -57,17 +61,22 @@
     "overlays": {
       "label": "Overlays",
       "description": "Panels and hints that float above the page."
+    },
+    "display": {
+      "label": "Display",
+      "description": "Panels, containers and states that carry and present content."
     }
   },
   "guides": {
     "installation": "Dependencies, style entry, fonts, dark mode and density"
   },
   "components": {
+    "alert": "A message bar that appears in the page after something happens",
     "badge": "Pins an unread count to the corner of its host",
     "blockquote": "Quotes a passage from elsewhere",
     "button": "Triggers a single action",
     "button-group": "Joins several buttons into one unit",
-    "alert": "A message bar that appears in the page after something happens",
+    "card": "Gathers a group of content onto one raised surface",
     "close-button": "Dismisses dialogs, drawers and toasts",
     "code": "Inline code within body text",
     "code-block": "A block of code with highlighting and copying",
@@ -92,20 +101,23 @@
     "drawer": "A modal panel that slides in from the screen edge",
     "toast": "Short feedback that floats in after an action",
     "stack": "Lays its children out in a single column",
+    "indicator": "A small dot that shows a status",
     "inline": "Lays its children out in a row, wrapping when needed",
     "avatar": "A round portrait standing for a person or entity",
     "flex": "A flex container with full control over its axes",
     "grid": "A grid container with a fixed number of columns",
     "simple-grid": "An even grid whose columns follow a minimum width",
     "container": "Holds page content to a readable width and centres it",
-    "indicator": "A small dot that shows a status",
+    "callout": "A note written into the content",
+    "collapsible": "A region a single trigger opens and closes",
+    "disclosure-icon": "An indicator that turns as a region opens and closes",
     "center": "Centres its content on both axes",
+    "chip": "An item that can be selected or removed",
     "space": "An empty element that takes up room in a flex container",
     "aspect-ratio": "Holds its content to a given width-to-height ratio",
     "divider": "A hairline that separates two pieces of content",
     "scroll-area": "A scrolling region with overlay scrollbars",
     "skeleton": "A placeholder that holds the shape of loading content",
-    "chip": "An item that can be selected or removed",
     "image": "An image that loads lazily and falls back when it fails"
   }
 }

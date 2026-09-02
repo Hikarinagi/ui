@@ -1,16 +1,16 @@
 <script setup lang="ts">
-  import { Check, ChevronDown, Copy, ExternalLink } from '@lucide/vue'
+  import { Check, Copy, ExternalLink } from '@lucide/vue'
   import { siClaude, siMarkdown } from 'simple-icons'
   import openaiSvg from '@lobehub/icons-static-svg/icons/openai.svg?raw'
   import {
     Button,
     ButtonGroup,
+    DisclosureIcon,
     DropdownMenu,
     DropdownMenuItem,
     IconButton,
     Stack,
     Text,
-    cn,
   } from '@hikarinagi/ui'
   import type { Component } from 'vue'
   import BrandIcon from '~/components/docs/BrandIcon'
@@ -96,7 +96,7 @@
     </Button>
     <DropdownMenu v-model:open="menuOpen" :label="t('actions.more')" align="end" class="w-80">
       <IconButton variant="outline" tone="neutral" size="sm" :label="t('actions.more')">
-        <ChevronDown :class="cn('hn-transition', menuOpen && 'rotate-180')" />
+        <DisclosureIcon />
       </IconButton>
       <template #content>
         <DropdownMenuItem

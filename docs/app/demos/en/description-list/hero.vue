@@ -1,14 +1,14 @@
 <script setup lang="ts">
-  import { DescriptionList } from '@hikarinagi/ui'
+  import { DescriptionDetails, DescriptionList, DescriptionTerm } from '@hikarinagi/ui'
 </script>
 
 <template>
   <DescriptionList class="max-w-sm">
-    <dt>Title</dt>
-    <dd>Course of Stars</dd>
-    <dt>Author</dt>
-    <dd>Shion Hoshimi</dd>
-    <dt>Released</dt>
-    <dd>14 March 2026</dd>
+    <DescriptionTerm>Title</DescriptionTerm>
+    <DescriptionDetails>Course of Stars</DescriptionDetails>
+    <DescriptionTerm>Author</DescriptionTerm>
+    <DescriptionDetails>Shion Hoshimi</DescriptionDetails>
+    <DescriptionTerm>Released</DescriptionTerm>
+    <DescriptionDetails>14 March 2026</DescriptionDetails>
   </DescriptionList>
 </template>

@@ -13,10 +13,10 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { DescriptionList } from '@hikarinagi/ui'
+import { DescriptionList, DescriptionTerm, DescriptionDetails } from '@hikarinagi/ui'
 ```
 
-组件渲染为原生的 `dl`，名称写在 `dt` 中，取值写在 `dd` 中，两者成对出现。默认自上而下排列，名称使用中等字重。
+`DescriptionList` 渲染为原生的 `dl`，名称用 `DescriptionTerm`（`dt`），取值用 `DescriptionDetails`（`dd`）。默认自上而下排列，名称使用中等字重。
 
 <Demo name="description-list/basic" />
 
@@ -47,14 +47,32 @@ import { DescriptionList } from '@hikarinagi/ui'
 
 ## API {#api}
 
-### Props {#props}
+### DescriptionList {#props}
 
 | 属性    | 类型     | 默认值 | 说明               |
 | ------- | -------- | ------ | ------------------ |
 | `class` | `string` | —      | 追加至根元素的类名 |
 
-### Slots {#slots}
+| 插槽      | 说明                                           |
+| --------- | ---------------------------------------------- |
+| `default` | `DescriptionTerm` 与 `DescriptionDetails` 条目 |
 
-| 插槽      | 说明                |
-| --------- | ------------------- |
-| `default` | 成对的 `dt` 与 `dd` |
+### DescriptionTerm {#term}
+
+| 属性    | 类型     | 默认值 | 说明               |
+| ------- | -------- | ------ | ------------------ |
+| `class` | `string` | —      | 追加至根元素的类名 |
+
+| 插槽      | 说明     |
+| --------- | -------- |
+| `default` | 名称文字 |
+
+### DescriptionDetails {#details}
+
+| 属性    | 类型     | 默认值 | 说明               |
+| ------- | -------- | ------ | ------------------ |
+| `class` | `string` | —      | 追加至根元素的类名 |
+
+| 插槽      | 说明     |
+| --------- | -------- |
+| `default` | 取值内容 |

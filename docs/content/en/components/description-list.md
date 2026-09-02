@@ -13,10 +13,10 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { DescriptionList } from '@hikarinagi/ui'
+import { DescriptionList, DescriptionTerm, DescriptionDetails } from '@hikarinagi/ui'
 ```
 
-The component renders a native `dl`. Names go in `dt`, values in `dd`, and the two come in pairs. They stack vertically by default, with names in a medium weight.
+`DescriptionList` renders a native `dl`. Names go in `DescriptionTerm` (`dt`) and values in `DescriptionDetails` (`dd`). They stack vertically by default, with names in a medium weight.
 
 <Demo name="description-list/basic" />
 
@@ -47,14 +47,32 @@ A single `dt` can be followed by several `dd` elements, and values can contain o
 
 ## API {#api}
 
-### Props {#props}
+### DescriptionList {#props}
 
 | Prop    | Type     | Default | Description                  |
 | ------- | -------- | ------- | ---------------------------- |
 | `class` | `string` | —       | Classes appended to the root |
 
-### Slots {#slots}
+| Slot      | Description                                      |
+| --------- | ------------------------------------------------ |
+| `default` | `DescriptionTerm` and `DescriptionDetails` items |
 
-| Slot      | Description            |
-| --------- | ---------------------- |
-| `default` | Pairs of `dt` and `dd` |
+### DescriptionTerm {#term}
+
+| Prop    | Type     | Default | Description                  |
+| ------- | -------- | ------- | ---------------------------- |
+| `class` | `string` | —       | Classes appended to the root |
+
+| Slot      | Description   |
+| --------- | ------------- |
+| `default` | The name text |
+
+### DescriptionDetails {#details}
+
+| Prop    | Type     | Default | Description                  |
+| ------- | -------- | ------- | ---------------------------- |
+| `class` | `string` | —       | Classes appended to the root |
+
+| Slot      | Description       |
+| --------- | ----------------- |
+| `default` | The value content |

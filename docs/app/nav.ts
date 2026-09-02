@@ -25,10 +25,12 @@ export interface DocsPrimaryItem {
 }
 
 export const categories: DocsCategory[] = [
+  { slug: 'foundation' },
   { slug: 'typography' },
   { slug: 'layout' },
   { slug: 'atoms' },
   { slug: 'overlays' },
+  { slug: 'display' },
 ]
 
 export const guides: DocsNavItem[] = [
@@ -36,8 +38,8 @@ export const guides: DocsNavItem[] = [
 ]
 
 export const components: DocsComponent[] = [
-  {
   { label: 'Alert', to: '/components/alert', i18n: 'components.alert', category: 'display' },
+  {
     label: 'AspectRatio',
     to: '/components/aspect-ratio',
     i18n: 'components.aspect-ratio',
@@ -58,16 +60,24 @@ export const components: DocsComponent[] = [
     i18n: 'components.button-group',
     category: 'atoms',
   },
+  { label: 'Card', to: '/components/card', i18n: 'components.card', category: 'display' },
   {
     label: 'CloseButton',
     to: '/components/close-button',
     i18n: 'components.close-button',
     category: 'atoms',
   },
+  { label: 'Callout', to: '/components/callout', i18n: 'components.callout', category: 'display' },
   { label: 'Center', to: '/components/center', i18n: 'components.center', category: 'layout' },
+  { label: 'Chip', to: '/components/chip', i18n: 'components.chip', category: 'atoms' },
   { label: 'Code', to: '/components/code', i18n: 'components.code', category: 'typography' },
   {
-  { label: 'Chip', to: '/components/chip', i18n: 'components.chip', category: 'atoms' },
+    label: 'Collapsible',
+    to: '/components/collapsible',
+    i18n: 'components.collapsible',
+    category: 'display',
+  },
+  {
     label: 'CodeBlock',
     to: '/components/code-block',
     i18n: 'components.code-block',
@@ -92,6 +102,12 @@ export const components: DocsComponent[] = [
     category: 'typography',
   },
   { label: 'Dialog', to: '/components/dialog', i18n: 'components.dialog', category: 'overlays' },
+  {
+    label: 'DisclosureIcon',
+    to: '/components/disclosure-icon',
+    i18n: 'components.disclosure-icon',
+    category: 'foundation',
+  },
   { label: 'Divider', to: '/components/divider', i18n: 'components.divider', category: 'layout' },
   { label: 'Drawer', to: '/components/drawer', i18n: 'components.drawer', category: 'overlays' },
   {

@@ -1,6 +1,12 @@
 <script setup lang="ts">
-  import { ChevronDown, Copy, Download, Pencil, Trash2 } from '@lucide/vue'
-  import { Button, DropdownMenu, DropdownMenuItem, DropdownMenuSeparator } from '@hikarinagi/ui'
+  import { Copy, Download, Pencil, Trash2 } from '@lucide/vue'
+  import {
+    Button,
+    DisclosureIcon,
+    DropdownMenu,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+  } from '@hikarinagi/ui'
 </script>
 
 <template>
@@ -8,7 +14,7 @@
     <Button variant="outline" tone="neutral">
       File
       <template #trailing>
-        <ChevronDown />
+        <DisclosureIcon />
       </template>
     </Button>
     <template #content>

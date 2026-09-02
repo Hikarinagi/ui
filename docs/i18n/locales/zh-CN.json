@@ -42,6 +42,10 @@
     "en": "English"
   },
   "categories": {
+    "foundation": {
+      "label": "基础设施",
+      "description": "组件之间共用的机制原语。"
+    },
     "typography": {
       "label": "排版",
       "description": "正文中的文字、代码、列表与引用的呈现方式。"
@@ -57,17 +61,22 @@
     "overlays": {
       "label": "浮层",
       "description": "悬浮在页面之上的面板与提示。"
+    },
+    "display": {
+      "label": "展示",
+      "description": "承载与呈现内容的面板、容器和状态。"
     }
   },
   "guides": {
     "installation": "接入依赖、样式入口、字体、深色模式与密度"
   },
   "components": {
+    "alert": "操作之后出现在页面内的消息条",
     "badge": "把未读数钉在宿主元素的角上",
     "blockquote": "引用他处的整段文字",
     "button": "触发一次操作的按钮",
     "button-group": "把一组按钮拼接为一个整体",
-    "alert": "操作之后出现在页面内的消息条",
+    "card": "承载一组内容的容器，比页面底色高出一层",
     "close-button": "关闭对话框、抽屉与提示",
     "code": "正文中的行内代码",
     "code-block": "成段的代码，带语法着色和复制按钮",
@@ -92,20 +101,23 @@
     "drawer": "从屏幕边缘滑入的模态面板",
     "toast": "操作完成后浮出的一条简短反馈",
     "stack": "把子元素纵向排成一列",
+    "indicator": "表示状态的小圆点",
     "inline": "把子元素横向排成一行，放不下时换行",
     "avatar": "代表一个用户或实体的圆形头像",
     "flex": "完整控制方向、对齐与分布的 flex 容器",
     "grid": "按固定列数排布子元素的栅格容器",
     "simple-grid": "按最小列宽自动决定列数的等宽栅格",
     "container": "把页面内容限制在可读宽度内并居中",
-    "indicator": "表示状态的小圆点",
+    "callout": "写入内容之中的一段标注",
+    "collapsible": "由一个触发器控制展开与收起的区域",
+    "disclosure-icon": "随展开与收起旋转的指示物",
     "center": "把内容在两个方向上居中",
+    "chip": "可选中或者可移除的条目",
     "space": "在 flex 容器中占位的空白元素",
     "aspect-ratio": "把内容固定在给定的宽高比内",
     "divider": "分隔两段内容的细线",
     "scroll-area": "使用浮层滚动条的滚动区域",
     "skeleton": "内容加载期间保持其形状的占位块",
-    "chip": "可选中或者可移除的条目",
     "image": "懒加载、撑住位置并在失败时回退的图片"
   }
 }
