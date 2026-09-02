@@ -28,6 +28,12 @@ import { Alert } from '@hikarinagi/ui'
 
 <Demo name="alert/tones" />
 
+### 自定义图标 {#icon}
+
+`icon` 插槽替换默认的图标。
+
+<Demo name="alert/icon" />
+
 ### 标题 {#title}
 
 `title` 显示在正文之前。

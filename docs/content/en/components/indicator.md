@@ -40,6 +40,12 @@ With `pulse` set the dot sends out a fading ring, for a status that is in progre
 
 <Demo name="indicator/pulse" />
 
+### Spoken label {#label}
+
+When no text next to the dot states the status, give screen readers one through `label`.
+
+<Demo name="indicator/label" />
+
 ### On an avatar {#badge}
 
 Use the `bare` mode of `Badge` to pin the dot to the corner of an avatar, with the dot in the `content` slot.

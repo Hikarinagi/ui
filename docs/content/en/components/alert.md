@@ -28,6 +28,12 @@ Six tones; the default is `neutral`. The icon follows the tone, and `icon` set t
 
 <Demo name="alert/tones" />
 
+### Custom icon {#icon}
+
+The `icon` slot replaces the default icon.
+
+<Demo name="alert/icon" />
+
 ### Title {#title}
 
 `title` is shown before the body.

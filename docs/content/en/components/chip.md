@@ -58,6 +58,12 @@ A `disabled` chip ignores clicks, and its remove button is disabled as well.
 
 <Demo name="chip/disabled" />
 
+### As a link {#link}
+
+With `as` set to `a` and an `href`, the chip becomes a link with hover and press feedback, for entry points such as a tag page.
+
+<Demo name="chip/link" />
+
 ## Behaviour {#behavior}
 
 - A selectable chip is a native button: click, Enter and Space all toggle it.

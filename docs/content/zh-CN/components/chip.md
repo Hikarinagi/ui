@@ -58,6 +58,12 @@ import { Chip } from '@hikarinagi/ui'
 
 <Demo name="chip/disabled" />
 
+### 作为链接 {#link}
+
+`as` 设为 `a` 并给出 `href`，条目成为链接，带悬停与按下反馈，用于跳转到标签页之类的入口。
+
+<Demo name="chip/link" />
+
 ## 行为 {#behavior}
 
 - 可选中的条目是原生按钮，点击、回车键与空格键都可以切换选中状态。

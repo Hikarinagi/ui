@@ -40,6 +40,12 @@ import { Indicator } from '@hikarinagi/ui'
 
 <Demo name="indicator/pulse" />
 
+### 朗读文字 {#label}
+
+圆点旁边没有说明状态的文字时，用 `label` 提供屏幕阅读器朗读的文字。
+
+<Demo name="indicator/label" />
+
 ### 钉在头像上 {#badge}
 
 用 `Badge` 的 `bare` 模式把圆点钉在头像的角上，圆点放入 `content` 插槽。
