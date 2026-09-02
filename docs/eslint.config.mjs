@@ -101,4 +101,11 @@ export default withNuxt(
       'vue/no-v-text-v-html-on-component': 'off',
     },
   },
+  {
+    files: ['app/components/docs/Wordmark.vue'],
+    rules: {
+      'vue/no-restricted-html-elements': 'off',
+      'vue/no-v-html': 'off',
+    },
+  },
 )

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-  import { cn } from '../../lib/cn'
-  import wordmark from '../../assets/hina-wordmark.svg?raw'
+  import { cn } from '@hina-ui/vue'
+  import wordmark from '~/assets/hina-wordmark.svg?raw'
 
-  defineOptions({ name: 'HnWordmark' })
+  defineOptions({ name: 'DocsWordmark' })
 
   const props = defineProps<{ class?: string }>()
 </script>

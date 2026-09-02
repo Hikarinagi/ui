@@ -8,7 +8,6 @@
     SidebarGroup,
     SidebarTrigger,
     Toaster,
-    Wordmark,
     provideUiLocale,
     enUS,
     zhCN,
@@ -48,7 +47,7 @@
     <template #header>
       <SidebarTrigger />
       <Button :as="NuxtLink" :to="localePath('/')" variant="ghost" tone="neutral" size="sm">
-        <Wordmark />
+        <DocsWordmark />
       </Button>
       <Inline gap="xs">
         <Button

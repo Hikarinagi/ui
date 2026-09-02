@@ -143,7 +143,6 @@ export { provideImageResolver, useImageResolver } from './components/image/resol
 export type { ImageResolver } from './components/image/resolver'
 export type { ImageVariants } from './components/image/image.variants'
 export { default as Spinner } from './components/spinner/Spinner.vue'
-export { default as Wordmark } from './components/wordmark/Wordmark.vue'
 export { default as ScrollArea } from './components/scroll-area/ScrollArea.vue'
 export {
   SCROLL_STATE_FIELD,
