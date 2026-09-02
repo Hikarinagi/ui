@@ -97,6 +97,7 @@
     "prose": "A rich text container that styles native tags",
     "spoiler": "Hides spoilers until revealed",
     "table": "Static data organised into rows and columns",
+    "tabs": "Several sets of content shown one at a time in the same place",
     "tag": "A short label for status, category or attribute",
     "text": "Body text",
     "time": "Displays time in the current language",
