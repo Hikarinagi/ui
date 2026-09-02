@@ -32,6 +32,7 @@ export const categories: DocsCategory[] = [
   { slug: 'overlays' },
   { slug: 'display' },
   { slug: 'data' },
+  { slug: 'navigation' },
 ]
 
 export const guides: DocsNavItem[] = [
@@ -45,6 +46,7 @@ export const components: DocsComponent[] = [
     i18n: 'components.accordion',
     category: 'display',
   },
+  { label: 'Anchor', to: '/components/anchor', i18n: 'components.anchor', category: 'navigation' },
   { label: 'Alert', to: '/components/alert', i18n: 'components.alert', category: 'display' },
   {
     label: 'AspectRatio',
@@ -59,6 +61,12 @@ export const components: DocsComponent[] = [
     to: '/components/blockquote',
     i18n: 'components.blockquote',
     category: 'typography',
+  },
+  {
+    label: 'Breadcrumb',
+    to: '/components/breadcrumb',
+    i18n: 'components.breadcrumb',
+    category: 'navigation',
   },
   { label: 'Button', to: '/components/button', i18n: 'components.button', category: 'atoms' },
   {
@@ -149,6 +157,12 @@ export const components: DocsComponent[] = [
   { label: 'Link', to: '/components/link', i18n: 'components.link', category: 'typography' },
   { label: 'List', to: '/components/list', i18n: 'components.list', category: 'typography' },
   { label: 'Mark', to: '/components/mark', i18n: 'components.mark', category: 'typography' },
+  {
+    label: 'NavLink',
+    to: '/components/nav-link',
+    i18n: 'components.nav-link',
+    category: 'navigation',
+  },
   {
     label: 'NumberFormat',
     to: '/components/number-format',
