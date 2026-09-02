@@ -183,6 +183,7 @@ export const components: DocsComponent[] = [
   { label: 'Kbd', to: '/components/kbd', i18n: 'components.kbd', category: 'typography' },
   { label: 'Link', to: '/components/link', i18n: 'components.link', category: 'typography' },
   { label: 'List', to: '/components/list', i18n: 'components.list', category: 'typography' },
+  { label: 'Listbox', to: '/components/listbox', i18n: 'components.listbox', category: 'forms' },
   { label: 'Mark', to: '/components/mark', i18n: 'components.mark', category: 'typography' },
   {
     label: 'NavLink',
@@ -299,6 +300,12 @@ export const components: DocsComponent[] = [
     to: '/components/tooltip',
     i18n: 'components.tooltip',
     category: 'overlays',
+  },
+  {
+    label: 'TreeSelect',
+    to: '/components/tree-select',
+    i18n: 'components.tree-select',
+    category: 'forms',
   },
 ]
 

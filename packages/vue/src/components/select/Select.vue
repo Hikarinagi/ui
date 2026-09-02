@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { computed } from 'vue'
+  import { computed, ref } from 'vue'
   import { SelectRoot, SelectTrigger } from 'reka-ui'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
@@ -32,6 +32,7 @@
 
   const t = useUiLocale()
   const group = injectInputGroup()
+  const keyboard = ref(false)
 
   const disabled = computed(() => props.disabled || !!group?.disabled.value)
   const invalid = computed(() => props.invalid || !!group?.invalid.value)
@@ -45,6 +46,8 @@
     <SelectTrigger
       v-bind="$attrs"
       data-hn-select
+      @keydown="keyboard = true"
+      @pointerdown="keyboard = false"
       :data-invalid="invalid ? '' : undefined"
       :aria-invalid="invalid || undefined"
       :class="
@@ -63,7 +66,7 @@
       </span>
       <DisclosureIcon class="text-muted" />
     </SelectTrigger>
-    <SelectList :options="props.options">
+    <SelectList :options="props.options" :keyboard="keyboard">
       <template #option="slotProps">
         <slot name="option" v-bind="slotProps" />
       </template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { computed, shallowRef, watch } from 'vue'
+  import { computed, ref, shallowRef, watch } from 'vue'
   import { Check } from '@lucide/vue'
   import {
     ComboboxAnchor,
@@ -28,7 +28,7 @@
     type InputVariants,
   } from '../input/input.variants'
   import ScrollArea from '../scroll-area/ScrollArea.vue'
-  import { selectEmpty, selectItem, selectLabel } from '../select/select.variants'
+  import { selectEmpty, selectItem, selectLabel, selectListBody } from '../select/select.variants'
   import {
     flattenOptions,
     isOptionGroup,
@@ -60,6 +60,7 @@
 
   const t = useUiLocale()
   const group = injectInputGroup()
+  const fresh = ref(false)
   const input = shallowRef<{ $el: HTMLInputElement } | null>(null)
 
   const size = computed(() => (group ? group.size.value : props.size))
@@ -105,6 +106,7 @@
           )
         "
         @click="focusFieldFrom($event.currentTarget as HTMLElement, $event.target as HTMLElement)"
+        @keydown="fresh = false"
       >
         <ComboboxInput
           ref="input"
@@ -143,27 +145,55 @@
     </ComboboxAnchor>
     <ComboboxPortal>
       <ComboboxContent as-child position="popper" align="start" :side-offset="8">
-        <Card :padded="false" data-hn-combobox-content :class="comboboxContent()">
+        <Card
+          :padded="false"
+          data-hn-combobox-content
+          :data-hn-fresh="fresh ? '' : undefined"
+          :class="comboboxContent()"
+          @vue:mounted="fresh = true"
+          @pointermove="fresh = false"
+        >
           <ScrollArea :class="comboboxList()">
-            <template
-              v-for="item in props.options"
-              :key="isOptionGroup(item) ? item.label : item.value"
-            >
-              <ComboboxGroup v-if="isOptionGroup(item)">
-                <ComboboxLabel :class="selectLabel()">{{ item.label }}</ComboboxLabel>
+            <div :class="selectListBody()">
+              <template
+                v-for="item in props.options"
+                :key="isOptionGroup(item) ? item.label : item.value"
+              >
+                <ComboboxGroup v-if="isOptionGroup(item)">
+                  <ComboboxLabel :class="selectLabel()">{{ item.label }}</ComboboxLabel>
+                  <ComboboxItem
+                    v-for="option in item.options"
+                    :key="option.value"
+                    :value="option.value"
+                    :text-value="option.label"
+                    :disabled="option.disabled"
+                    :class="selectItem()"
+                  >
+                    <span class="min-w-0 flex-1">
+                      <slot name="option" :option="option">
+                        <span class="block truncate">{{ option.label }}</span>
+                        <span v-if="option.description" class="text-muted block truncate text-xs">
+                          {{ option.description }}
+                        </span>
+                      </slot>
+                    </span>
+                    <span class="flex size-4 shrink-0 items-center justify-center">
+                      <ComboboxItemIndicator><Check /></ComboboxItemIndicator>
+                    </span>
+                  </ComboboxItem>
+                </ComboboxGroup>
                 <ComboboxItem
-                  v-for="option in item.options"
-                  :key="option.value"
-                  :value="option.value"
-                  :text-value="option.label"
-                  :disabled="option.disabled"
+                  v-else
+                  :value="item.value"
+                  :text-value="item.label"
+                  :disabled="item.disabled"
                   :class="selectItem()"
                 >
                   <span class="min-w-0 flex-1">
-                    <slot name="option" :option="option">
-                      <span class="block truncate">{{ option.label }}</span>
-                      <span v-if="option.description" class="text-muted block truncate text-xs">
-                        {{ option.description }}
+                    <slot name="option" :option="item">
+                      <span class="block truncate">{{ item.label }}</span>
+                      <span v-if="item.description" class="text-muted block truncate text-xs">
+                        {{ item.description }}
                       </span>
                     </slot>
                   </span>
@@ -171,28 +201,9 @@
                     <ComboboxItemIndicator><Check /></ComboboxItemIndicator>
                   </span>
                 </ComboboxItem>
-              </ComboboxGroup>
-              <ComboboxItem
-                v-else
-                :value="item.value"
-                :text-value="item.label"
-                :disabled="item.disabled"
-                :class="selectItem()"
-              >
-                <span class="min-w-0 flex-1">
-                  <slot name="option" :option="item">
-                    <span class="block truncate">{{ item.label }}</span>
-                    <span v-if="item.description" class="text-muted block truncate text-xs">
-                      {{ item.description }}
-                    </span>
-                  </slot>
-                </span>
-                <span class="flex size-4 shrink-0 items-center justify-center">
-                  <ComboboxItemIndicator><Check /></ComboboxItemIndicator>
-                </span>
-              </ComboboxItem>
-            </template>
-            <ComboboxEmpty :class="selectEmpty()">{{ t.select.empty }}</ComboboxEmpty>
+              </template>
+              <ComboboxEmpty :class="selectEmpty()">{{ t.select.empty }}</ComboboxEmpty>
+            </div>
           </ScrollArea>
         </Card>
       </ComboboxContent>

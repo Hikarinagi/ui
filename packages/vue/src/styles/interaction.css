@@ -64,14 +64,20 @@
     opacity: var(--hn-state-press-opacity);
   }
 
-  &[data-state='checked']::after,
-  &[data-state='selected']::after,
-  &[aria-selected='true']::after {
+  &[data-state='checked']:not([data-disabled])::after,
+  &[data-state='selected']:not([data-disabled])::after,
+  &[aria-selected='true']:not([data-disabled])::after {
     --hn-state-color: var(--hn-state-selected-color, var(--hn-accent));
     opacity: var(--hn-state-selected-opacity);
     transition:
       opacity var(--hn-duration-fast) var(--hn-ease-enter),
       background-color 0s var(--hn-ease-linear) 0s;
+  }
+
+  &[data-highlighted][data-state='checked']:not([data-disabled])::after,
+  &[data-highlighted][data-state='selected']:not([data-disabled])::after,
+  &[data-highlighted][aria-selected='true']:not([data-disabled])::after {
+    opacity: calc(var(--hn-state-selected-opacity) + var(--hn-state-hover-opacity));
   }
 
   @media (hover: hover) {

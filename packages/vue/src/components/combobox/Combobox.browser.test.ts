@@ -220,3 +220,26 @@ describe('combobox · 清除钮与 MultiSelect 对齐', () => {
     )
   })
 })
+
+describe('combobox · 打开时的初始高亮', () => {
+  it('点击打开时首项高亮但不落墨，输入后高亮才落墨', async () => {
+    const { input } = mountBox()
+    await userEvent.click(input)
+    await vi.waitFor(() => expect(listbox()).toBeTruthy())
+    const first = optionsOf()[0]!
+    await vi.waitFor(() => expect(first.hasAttribute('data-highlighted')).toBe(true))
+    await new Promise(r => setTimeout(r, 250))
+    expect(parseFloat(getComputedStyle(first, '::after').opacity)).toBe(0)
+    await userEvent.keyboard('G')
+    await vi.waitFor(() => expect(labels()).toEqual(['Galgame']))
+    const hover = parseFloat(
+      getComputedStyle(optionsOf()[0]!).getPropertyValue('--hn-state-hover-opacity'),
+    )
+    await vi.waitFor(() =>
+      expect(parseFloat(getComputedStyle(optionsOf()[0]!, '::after').opacity)).toBeCloseTo(
+        hover,
+        2,
+      ),
+    )
+  })
+})

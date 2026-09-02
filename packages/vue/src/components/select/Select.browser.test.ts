@@ -171,3 +171,55 @@ describe('select · 点选后的 hover', () => {
     await vi.waitFor(() => expect(getComputedStyle(trigger).backgroundColor).not.toBe(rest))
   })
 })
+
+describe('select · 打开时的初始高亮', () => {
+  const ink = (el: Element) => parseFloat(getComputedStyle(el, '::after').opacity)
+  const vars = (el: Element) => ({
+    selected: parseFloat(getComputedStyle(el).getPropertyValue('--hn-state-selected-opacity')),
+    hover: parseFloat(getComputedStyle(el).getPropertyValue('--hn-state-hover-opacity')),
+  })
+
+  it('鼠标打开：已选项只画选中墨，初始高亮不叠 hover；按方向键后高亮才落墨', async () => {
+    const { trigger } = mountSelect({ modelValue: 'ln' })
+    await userEvent.click(trigger)
+    await vi.waitFor(() => expect(listbox()).toBeTruthy())
+    const chosen = optionsOf()[1]!
+    await vi.waitFor(() => expect(chosen.hasAttribute('data-highlighted')).toBe(true))
+    const { selected, hover } = vars(chosen)
+    await new Promise(r => setTimeout(r, 250))
+    expect(ink(chosen)).toBeCloseTo(selected, 2)
+    await userEvent.keyboard('{ArrowDown}')
+    const next = optionsOf()[3]!
+    await vi.waitFor(() => expect(next.hasAttribute('data-highlighted')).toBe(true))
+    await vi.waitFor(() => expect(ink(next)).toBeCloseTo(hover, 2))
+  })
+
+  it('键盘打开：初始高亮立刻落墨，已选项是选中加 hover', async () => {
+    const { trigger } = mountSelect({ modelValue: 'ln' })
+    trigger.focus()
+    await userEvent.keyboard('{Enter}')
+    await vi.waitFor(() => expect(listbox()).toBeTruthy())
+    const chosen = optionsOf()[1]!
+    await vi.waitFor(() => expect(chosen.hasAttribute('data-highlighted')).toBe(true))
+    const { selected, hover } = vars(chosen)
+    await vi.waitFor(() => expect(ink(chosen)).toBeCloseTo(selected + hover, 2))
+  })
+})
+
+describe('select · 浮层的滚动结构', () => {
+  it('ScrollArea 满铺面板内缘，内边距在列表层，边缘阴影贴面板边、随圆角裁切', async () => {
+    const many = Array.from({ length: 40 }, (_, i) => ({ value: `v${i}`, label: `选项 ${i}` }))
+    const { trigger } = mountSelect({ options: many })
+    await userEvent.click(trigger)
+    await vi.waitFor(() => expect(listbox()).toBeTruthy())
+    const content = document.querySelector('[data-hn-select-content]') as HTMLElement
+    const area = content.querySelector('.hn-scroll-area') as HTMLElement
+    expect(area.offsetWidth).toBe(content.clientWidth)
+    expect(area.offsetHeight).toBe(content.clientHeight)
+    expect(getComputedStyle(content).overflow).toBe('hidden')
+    const shadow = content.querySelector('.hn-scroll-shadow[data-side="y-end"]') as HTMLElement
+    await vi.waitFor(() => expect(shadow.hasAttribute('data-visible')).toBe(true))
+    expect(shadow.offsetWidth).toBe(area.offsetWidth)
+    expect(shadow.offsetTop + shadow.offsetHeight).toBe(area.offsetHeight)
+  })
+})
