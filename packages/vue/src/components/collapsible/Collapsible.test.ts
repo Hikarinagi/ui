@@ -72,6 +72,56 @@ describe('行为', () => {
     expect(w.find('button').attributes('aria-expanded')).toBe('false')
   })
 
+  it('默认自己渲染 Button 并自带展开指示物,调用方不用组合', () => {
+    const w = harness()
+    const btn = w.find('button')
+    expect(btn.classes()).toContain('hn-interactive')
+    expect(btn.classes()).toContain('group/hn-disclosure')
+
+    const mark = btn.find('span[aria-hidden="true"]')
+    expect(mark.classes()).toContain('hn-transition')
+    expect(mark.classes()).toContain('group-data-open/hn-disclosure:rotate-180')
+    expect(mark.find('svg').exists()).toBe(true)
+  })
+
+  it('icon 为 false 时不出指示物', () => {
+    const w = mount(
+      defineComponent({
+        setup() {
+          return () =>
+            h(Collapsible, null, () => [
+              h(CollapsibleTrigger, { icon: false }, () => '展开'),
+              h(CollapsibleContent, () => h('p', '内容')),
+            ])
+        },
+      }),
+      { attachTo: document.body },
+    )
+    expect(w.find('button span[aria-hidden="true"]').exists()).toBe(false)
+  })
+
+  it('icon 插槽只换字形,旋转仍由指示物负责', () => {
+    const w = mount(
+      defineComponent({
+        setup() {
+          return () =>
+            h(Collapsible, null, () => [
+              h(CollapsibleTrigger, null, {
+                default: () => '展开',
+                icon: () => h('i', { class: 'custom-glyph' }),
+              }),
+              h(CollapsibleContent, () => h('p', '内容')),
+            ])
+        },
+      }),
+      { attachTo: document.body },
+    )
+    const mark = w.find('button span[aria-hidden="true"]')
+    expect(mark.find('.custom-glyph').exists()).toBe(true)
+    expect(mark.find('svg').exists()).toBe(false)
+    expect(mark.classes()).toContain('group-data-open/hn-disclosure:rotate-180')
+  })
+
   it('trigger 支持 asChild 借体给项目 Button', async () => {
     const w = mount(
       defineComponent({

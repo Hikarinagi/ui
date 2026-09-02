@@ -59,7 +59,11 @@ describe('分组电池', () => {
     const triggers = w.findAll('button')
     expect(triggers[0]!.attributes('aria-expanded')).toBe('true')
     expect(triggers[1]!.attributes('aria-expanded')).toBe('false')
-    expect(w.find('svg.hn-transition').exists()).toBe(true)
+
+    expect(triggers[0]!.classes()).toContain('group/hn-disclosure')
+    const mark = triggers[0]!.find('span[aria-hidden="true"]')
+    expect(mark.classes()).toContain('hn-transition')
+    expect(mark.classes()).toContain('group-data-open/hn-disclosure:rotate-90')
 
     await triggers[0]!.trigger('click')
     expect(triggers[0]!.attributes('aria-expanded')).toBe('false')

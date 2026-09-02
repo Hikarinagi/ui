@@ -1,8 +1,8 @@
 <script setup lang="ts">
   import { computed, ref } from 'vue'
-  import { ChevronRight } from '@lucide/vue'
   import { cn } from '../../lib/cn'
   import Button from '../button/Button.vue'
+  import DisclosureIcon from '../disclosure-icon/DisclosureIcon.vue'
   import Collapsible from '../collapsible/Collapsible.vue'
   import CollapsibleTrigger from '../collapsible/CollapsibleTrigger.vue'
   import CollapsibleContent from '../collapsible/CollapsibleContent.vue'
@@ -40,11 +40,11 @@
             size="sm"
             block
             :tabindex="rail ? -1 : undefined"
-            class="group/sidebar-group text-muted justify-between font-medium"
+            class="text-muted justify-between font-medium"
           >
             {{ props.label }}
             <template #trailing>
-              <ChevronRight class="hn-transition group-data-[state=open]/sidebar-group:rotate-90" />
+              <DisclosureIcon direction="end" />
             </template>
           </Button>
         </CollapsibleTrigger>

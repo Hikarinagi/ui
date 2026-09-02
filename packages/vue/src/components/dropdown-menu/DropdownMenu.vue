@@ -35,7 +35,11 @@
 
 <template>
   <DropdownMenuRoot v-model:open="open" modal>
-    <DropdownMenuTrigger as-child :style="{ transformOrigin: pressOrigin }">
+    <DropdownMenuTrigger
+      as-child
+      class="group/hn-disclosure"
+      :style="{ transformOrigin: pressOrigin }"
+    >
       <slot />
     </DropdownMenuTrigger>
     <DropdownMenuPortal>
