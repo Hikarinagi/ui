@@ -40,6 +40,14 @@ describe('渲染与状态', () => {
     expect(a.attributes('tabindex')).toBe('-1')
   })
 
+  it('disabled 同时挡住鼠标并降透明度,与其余组件的禁用态一致', () => {
+    const w = mount(NavLink, { props: { disabled: true }, attrs: { href: '/x' } })
+    const a = w.find('a')
+    expect(a.attributes('data-disabled')).toBe('')
+    expect(a.classes()).toContain('data-disabled:pointer-events-none')
+    expect(a.classes()).toContain('data-disabled:opacity-50')
+  })
+
   it('as 可换路由组件,icon 插槽在前', () => {
     const RouterStub = defineComponent({
       props: { to: { type: String, required: true } },
