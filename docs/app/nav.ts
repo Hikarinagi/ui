@@ -182,6 +182,12 @@ export const components: DocsComponent[] = [
   },
   { label: 'Space', to: '/components/space', i18n: 'components.space', category: 'layout' },
   {
+    label: 'Splitter',
+    to: '/components/splitter',
+    i18n: 'components.splitter',
+    category: 'layout',
+  },
+  {
     label: 'Spoiler',
     to: '/components/spoiler',
     i18n: 'components.spoiler',

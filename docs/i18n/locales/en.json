@@ -96,6 +96,7 @@
     "number-format": "Formats numbers for the current language",
     "prose": "A rich text container that styles native tags",
     "spoiler": "Hides spoilers until revealed",
+    "splitter": "Panes whose proportions are adjusted by dragging a divider",
     "table": "Static data organised into rows and columns",
     "tabs": "Several sets of content shown one at a time in the same place",
     "tag": "A short label for status, category or attribute",
