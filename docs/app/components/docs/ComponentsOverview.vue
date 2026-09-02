@@ -8,6 +8,7 @@
 
   const { t } = useI18n()
   const localePath = useLocalePath()
+  const componentName = useComponentName()
 
   const groups = computed(() =>
     categories
@@ -30,7 +31,12 @@
       <Text tone="muted">{{ t(`categories.${group.slug}.description`) }}</Text>
       <SimpleGrid min="14rem" gap="md">
         <Stack v-for="item in group.items" :key="item.to" gap="none">
-          <Link :as="NuxtLink" :to="localePath(item.to)">{{ item.label }}</Link>
+          <Link :as="NuxtLink" :to="localePath(item.to)">
+            {{ item.label }}
+            <Text v-if="componentName(item.to)" as="span" tone="faint" class="ms-1.5">
+              {{ componentName(item.to) }}
+            </Text>
+          </Link>
           <Text tone="muted" size="sm">{{ t(item.i18n) }}</Text>
         </Stack>
       </SimpleGrid>

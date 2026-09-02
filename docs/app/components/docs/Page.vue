@@ -61,6 +61,12 @@
       : t('page.noNext'),
   )
 
+  const componentName = useComponentName()
+  const pageTitle = computed(() => {
+    const name = componentName(current.value?.to)
+    return name ? `${props.title} ${name}` : props.title
+  })
+
   useHead({ title: props.title })
 </script>
 
@@ -86,7 +92,7 @@
     </Breadcrumb>
     <PageHeader
       :eyebrow="category ? undefined : current ? t(current.group) : undefined"
-      :title="props.title"
+      :title="pageTitle"
       :description="props.description"
     >
       <template v-if="index >= 0" #actions>

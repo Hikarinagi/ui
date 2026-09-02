@@ -8,6 +8,7 @@
 
   const { t, locale } = useI18n()
   const localePath = useLocalePath()
+  const componentName = useComponentName()
 
   const heroes = import.meta.glob<{ default: Component }>('../../demos/*/*/hero.vue', {
     eager: true,
@@ -37,6 +38,9 @@
         <Heading :level="3" size="md">
           <NuxtLink :to="localePath(item.to)" class="outline-none after:absolute after:inset-0">
             {{ item.label }}
+            <Text v-if="componentName(item.to)" as="span" size="sm" tone="faint" class="ms-1.5">
+              {{ componentName(item.to) }}
+            </Text>
           </NuxtLink>
         </Heading>
         <Text tone="muted" size="sm">{{ t(item.i18n) }}</Text>

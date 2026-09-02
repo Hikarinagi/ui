@@ -7,6 +7,7 @@
     Sidebar,
     SidebarGroup,
     SidebarTrigger,
+    Text,
     Toaster,
     provideUiLocale,
     enUS,
@@ -15,6 +16,7 @@
   import { NuxtLink } from '#components'
   import { nav, primary } from '~/nav'
 
+  const componentName = useComponentName()
   const route = useRoute()
   const { t, locale } = useI18n()
   const localePath = useLocalePath()
@@ -80,6 +82,9 @@
             :active="current(item.to)"
           >
             {{ item.label ?? t(item.labelI18n!) }}
+            <Text v-if="componentName(item.to)" as="span" size="sm" tone="faint" class="ms-1.5">
+              {{ componentName(item.to) }}
+            </Text>
           </NavLink>
         </SidebarGroup>
       </Sidebar>
