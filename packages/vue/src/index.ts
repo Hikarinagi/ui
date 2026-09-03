@@ -65,6 +65,18 @@ export { default as Switch } from './components/switch/Switch.vue'
 export type { SwitchVariants } from './components/switch/switch.variants'
 export { default as Slider } from './components/slider/Slider.vue'
 export type { SliderVariants } from './components/slider/slider.variants'
+export { default as RangeSlider } from './components/range-slider/RangeSlider.vue'
+export { default as Toggle } from './components/toggle/Toggle.vue'
+export type { ToggleVariants } from './components/toggle/toggle.variants'
+export { default as TagsInput } from './components/tags-input/TagsInput.vue'
+export { default as MultiCombobox } from './components/multi-combobox/MultiCombobox.vue'
+export { default as PinInput } from './components/pin-input/PinInput.vue'
+export type { PinInputVariants } from './components/pin-input/pin-input.variants'
+export { default as SegmentedControl } from './components/segmented-control/SegmentedControl.vue'
+export type {
+  SegmentedControlVariants,
+  SegmentedItemVariants,
+} from './components/segmented-control/segmented-control.variants'
 export { default as Card } from './components/card/Card.vue'
 export type { CardVariants } from './components/card/card.variants'
 export { default as VisuallyHidden } from './components/visually-hidden/VisuallyHidden.vue'

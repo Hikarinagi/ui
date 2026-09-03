@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { TabsRoot } from 'reka-ui'
+  import { useId } from 'vue'
   import { cn } from '../../lib/cn'
   import { provideTabsStyle } from './context'
 
@@ -18,7 +19,12 @@
 
   const modelValue = defineModel<string>()
 
-  provideTabsStyle({ variant: props.variant, size: props.size, orientation: props.orientation })
+  provideTabsStyle({
+    variant: props.variant,
+    size: props.size,
+    orientation: props.orientation,
+    highlightId: useId(),
+  })
 </script>
 
 <template>

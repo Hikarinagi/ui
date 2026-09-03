@@ -205,6 +205,12 @@ export const components: DocsComponent[] = [
     category: 'forms',
   },
   {
+    label: 'MultiCombobox',
+    to: '/components/multi-combobox',
+    i18n: 'components.multi-combobox',
+    category: 'forms',
+  },
+  {
     label: 'NumberFormat',
     to: '/components/number-format',
     i18n: 'components.number-format',
@@ -221,6 +227,12 @@ export const components: DocsComponent[] = [
     label: 'PasswordInput',
     to: '/components/password-input',
     i18n: 'components.password-input',
+    category: 'forms',
+  },
+  {
+    label: 'PinInput',
+    to: '/components/pin-input',
+    i18n: 'components.pin-input',
     category: 'forms',
   },
   {
@@ -242,6 +254,12 @@ export const components: DocsComponent[] = [
     i18n: 'components.radio-group',
     category: 'forms',
   },
+  {
+    label: 'RangeSlider',
+    to: '/components/range-slider',
+    i18n: 'components.range-slider',
+    category: 'forms',
+  },
   { label: 'Ripple', to: '/components/ripple', i18n: 'components.ripple', category: 'foundation' },
   {
     label: 'ScrollArea',
@@ -257,6 +275,12 @@ export const components: DocsComponent[] = [
   },
   { label: 'Select', to: '/components/select', i18n: 'components.select', category: 'forms' },
   { label: 'Section', to: '/components/section', i18n: 'components.section', category: 'shell' },
+  {
+    label: 'SegmentedControl',
+    to: '/components/segmented-control',
+    i18n: 'components.segmented-control',
+    category: 'forms',
+  },
   {
     label: 'Skeleton',
     to: '/components/skeleton',
@@ -290,6 +314,12 @@ export const components: DocsComponent[] = [
   { label: 'Table', to: '/components/table', i18n: 'components.table', category: 'data' },
   { label: 'Tabs', to: '/components/tabs', i18n: 'components.tabs', category: 'display' },
   { label: 'Tag', to: '/components/tag', i18n: 'components.tag', category: 'atoms' },
+  {
+    label: 'TagsInput',
+    to: '/components/tags-input',
+    i18n: 'components.tags-input',
+    category: 'forms',
+  },
   { label: 'Text', to: '/components/text', i18n: 'components.text', category: 'typography' },
   {
     label: 'Textarea',
@@ -299,6 +329,7 @@ export const components: DocsComponent[] = [
   },
   { label: 'Time', to: '/components/time', i18n: 'components.time', category: 'typography' },
   { label: 'Toast', to: '/components/toast', i18n: 'components.toast', category: 'overlays' },
+  { label: 'Toggle', to: '/components/toggle', i18n: 'components.toggle', category: 'forms' },
   {
     label: 'VisuallyHidden',
     to: '/components/visually-hidden',

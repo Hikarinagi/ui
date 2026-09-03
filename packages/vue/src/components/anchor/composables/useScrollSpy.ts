@@ -1,4 +1,5 @@
-import { computed, onBeforeUnmount, onMounted, shallowRef, watch } from 'vue'
+import { useIntersectionObserver } from '@vueuse/core'
+import { computed, onMounted, shallowRef, watch } from 'vue'
 import { prefersReducedMotion } from '../../../motion'
 
 export interface SpyEntry {
@@ -9,56 +10,51 @@ export interface SpyEntry {
 
 export function useScrollSpy(entries: () => SpyEntry[]) {
   const visible = shallowRef<ReadonlySet<string>>(new Set())
-  const linkEls = new Map<string, HTMLElement>()
-
-  function setLink(id: string, el: unknown) {
-    if (el) linkEls.set(id, el as HTMLElement)
-    else linkEls.delete(id)
-  }
+  const targets = shallowRef<Array<HTMLElement | null>>([])
+  const seen = new Set<string>()
 
   const covered = computed(() => entries().filter(entry => visible.value.has(entry.id)))
   const current = computed(() => covered.value[0]?.id)
-  const rangeStart = computed(() =>
-    covered.value.length ? (linkEls.get(covered.value[0]!.id) ?? null) : null,
-  )
-  const rangeEnd = computed(() =>
-    covered.value.length ? (linkEls.get(covered.value.at(-1)!.id) ?? null) : null,
-  )
+  const span = computed(() => {
+    const rows = entries().flatMap((entry, index) => (visible.value.has(entry.id) ? [index] : []))
+    return rows.length ? `${rows[0]! + 1} / ${rows.at(-1)! + 2}` : undefined
+  })
 
-  let spy: IntersectionObserver | undefined
+  useIntersectionObserver(
+    targets,
+    observed => {
+      const next = new Set(visible.value)
+      for (const entry of observed) {
+        if (entry.isIntersecting) {
+          seen.add(entry.target.id)
+          next.add(entry.target.id)
+        } else if (seen.has(entry.target.id)) {
+          next.delete(entry.target.id)
+        }
+      }
+      if (next.size) visible.value = next
+    },
+    { rootMargin: '0px 0px -15% 0px' },
+  )
 
   function targetOf(id: string) {
     return document.getElementById(id)
   }
 
-  function observeAll() {
-    spy?.disconnect()
-    spy = new IntersectionObserver(
-      observed => {
-        const next = new Set(visible.value)
-        for (const entry of observed) {
-          if (entry.isIntersecting) next.add(entry.target.id)
-          else next.delete(entry.target.id)
-        }
-        visible.value = next
-      },
-      { rootMargin: '0px 0px -15% 0px' },
-    )
-    for (const { id } of entries()) {
-      const el = targetOf(id)
-      if (el) spy.observe(el)
-    }
+  function locate() {
+    seen.clear()
+    targets.value = entries().map(({ id }) => targetOf(id))
   }
 
   onMounted(() => {
-    observeAll()
+    const hash = decodeURIComponent(location.hash.slice(1))
+    if (hash && entries().some(entry => entry.id === hash)) visible.value = new Set([hash])
+    locate()
     watch(entries, () => {
       visible.value = new Set()
-      observeAll()
+      locate()
     })
   })
-
-  onBeforeUnmount(() => spy?.disconnect())
 
   function jump(event: MouseEvent, id: string) {
     const el = targetOf(id)
@@ -69,5 +65,5 @@ export function useScrollSpy(entries: () => SpyEntry[]) {
     visible.value = new Set([id])
   }
 
-  return { setLink, visible, covered, current, rangeStart, rangeEnd, jump }
+  return { visible, covered, current, span, jump }
 }

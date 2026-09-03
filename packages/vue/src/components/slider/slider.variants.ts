@@ -32,6 +32,14 @@ export const sliderRange = tv({
   ],
 })
 
+export const sliderRangeBetween = tv({
+  base: [
+    'hn-slider-move bg-accent absolute inset-y-0 rounded-full group-data-dragging/hn-slider:transition-none',
+    'start-[calc(var(--hn-slider-p)*(100%-var(--hn-slider-thumb)-0.5rem))]',
+    'w-[calc((var(--hn-slider-q)-var(--hn-slider-p))*(100%-var(--hn-slider-thumb)-0.5rem)+var(--hn-slider-thumb)+0.5rem)]',
+  ],
+})
+
 export const sliderThumb = tv({
   base: [
     'hn-state-layer hn-slider-move border-line bg-surface text-fg top-1 !block size-[var(--hn-slider-thumb)] cursor-grab rounded-full border shadow-sm outline-none',

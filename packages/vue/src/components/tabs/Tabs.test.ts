@@ -1,6 +1,7 @@
 import { describe, expect, it, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { defineComponent, h } from 'vue'
+import { createSSRApp, defineComponent, h } from 'vue'
+import { renderToString } from 'vue/server-renderer'
 import Tabs from './Tabs.vue'
 import TabsList from './TabsList.vue'
 import TabsTrigger from './TabsTrigger.vue'
@@ -64,6 +65,41 @@ describe('尺寸档', () => {
     for (const tab of w.findAll('[role="tab"]')) {
       expect(tab.classes()).toContain('h-10')
     }
+  })
+})
+
+describe('服务端渲染', () => {
+  const html = (props: Record<string, unknown> = {}) =>
+    renderToString(
+      createSSRApp(
+        defineComponent({
+          render: () =>
+            h(Tabs, { defaultValue: 'a', ...props }, () => [
+              h(TabsList, { label: '分组' }, () => [
+                h(TabsTrigger, { value: 'a' }, () => '甲'),
+                h(TabsTrigger, { value: 'b' }, () => '乙'),
+              ]),
+              h(TabsContent, { value: 'a' }, () => '甲的内容'),
+            ]),
+        }),
+      ),
+    )
+
+  it('首屏的选中页签自带指示条，不等水合；未选中页签没有', async () => {
+    const out = await html()
+    const active = out.indexOf('data-state="active"')
+    const inactive = out.indexOf('data-state="inactive"')
+    const bar = out.indexOf('bg-accent')
+    expect(out.match(/bg-accent/g)).toHaveLength(1)
+    expect(bar).toBeGreaterThan(active)
+    expect(bar).toBeLessThan(inactive)
+    expect(out).toContain('bottom-px')
+  })
+
+  it('soft 形态的静态滑块铺满页签盒', async () => {
+    const out = await html({ variant: 'soft' })
+    expect(out.match(/bg-surface/g)).toHaveLength(1)
+    expect(out).toContain('inset-0')
   })
 })
 

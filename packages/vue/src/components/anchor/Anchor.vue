@@ -28,41 +28,49 @@
     ]),
   )
 
-  const { setLink, visible, current, rangeStart, rangeEnd, jump } = useScrollSpy(
-    () => entries.value,
-  )
+  const { visible, current, span, jump } = useScrollSpy(() => entries.value)
 </script>
 
 <template>
   <nav :aria-label="props.label ?? t.anchor.navLabel" :class="cn(props.class)">
-    <div class="border-line relative border-s">
-      <Highlight
-        :target="rangeStart"
-        :until="rangeEnd"
-        axis="y"
-        class="-start-px w-0.5 rounded-full bg-accent"
-      />
-      <ul class="flex flex-col">
-        <li v-for="entry in entries" :key="entry.id">
-          <a
-            :ref="el => setLink(entry.id, el)"
-            :href="`#${entry.id}`"
-            :aria-current="current === entry.id ? 'location' : undefined"
-            :class="
-              cn(
-                'hn-link block py-1 text-sm',
-                entry.depth === 0 ? 'ps-3' : 'ps-6',
-                visible.has(entry.id)
-                  ? 'font-medium [--hn-link-color:var(--hn-fg-default)]'
-                  : '[--hn-link-color:var(--hn-fg-muted)]',
-              )
-            "
-            @click="jump($event, entry.id)"
-          >
-            {{ entry.label }}
-          </a>
-        </li>
-      </ul>
-    </div>
+    <ul class="border-line relative grid grid-cols-1 border-s">
+      <Transition
+        enter-active-class="hn-transition-base"
+        enter-from-class="opacity-0"
+        leave-active-class="hn-transition"
+        leave-to-class="opacity-0"
+      >
+        <Highlight
+          v-if="span"
+          as="li"
+          role="presentation"
+          :style="{ gridRow: span }"
+          class="bg-accent col-start-1 -ms-px w-0.5 self-stretch justify-self-start rounded-full"
+        />
+      </Transition>
+      <li
+        v-for="(entry, index) in entries"
+        :key="entry.id"
+        class="col-start-1"
+        :style="{ gridRow: index + 1 }"
+      >
+        <a
+          :href="`#${entry.id}`"
+          :aria-current="current === entry.id ? 'location' : undefined"
+          :class="
+            cn(
+              'hn-link block py-1 text-sm',
+              entry.depth === 0 ? 'ps-3' : 'ps-6',
+              visible.has(entry.id)
+                ? 'font-medium [--hn-link-color:var(--hn-fg-default)]'
+                : '[--hn-link-color:var(--hn-fg-muted)]',
+            )
+          "
+          @click="jump($event, entry.id)"
+        >
+          {{ entry.label }}
+        </a>
+      </li>
+    </ul>
   </nav>
 </template>

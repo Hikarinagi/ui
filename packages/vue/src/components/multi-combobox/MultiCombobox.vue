@@ -1,0 +1,196 @@
+<script setup lang="ts">
+  import { computed, reactive, ref, shallowRef, watch } from 'vue'
+  import { ComboboxAnchor, ComboboxInput, ComboboxRoot, ComboboxTrigger } from 'reka-ui'
+  import { cn } from '../../lib/cn'
+  import { focusFieldFrom } from '../../lib/field-focus'
+  import { useUiLocale } from '../../locale'
+  import { buttonIconBox } from '../button/button.variants'
+  import IconSlot from '../button/IconSlot.vue'
+  import Chip from '../chip/Chip.vue'
+  import CloseButton from '../close-button/CloseButton.vue'
+  import ComboboxList from '../combobox/ComboboxList.vue'
+  import { comboboxToggle } from '../combobox/combobox.variants'
+  import DisclosureIcon from '../disclosure-icon/DisclosureIcon.vue'
+  import { inputHost, type InputVariants } from '../input/input.variants'
+  import { flattenOptions, type SelectItems, type SelectOption } from '../select/types'
+  import {
+    tagsInputChip,
+    tagsInputControl,
+    tagsInputHost,
+    tagsInputList,
+  } from '../tags-input/tags-input.variants'
+  import {
+    multiComboboxClear,
+    multiComboboxEnd,
+    multiComboboxHost,
+  } from './multi-combobox.variants'
+
+  defineOptions({ name: 'HnMultiCombobox', inheritAttrs: false })
+
+  const props = withDefaults(
+    defineProps<{
+      options: SelectItems
+      placeholder?: string
+      ignoreFilter?: boolean
+      loading?: boolean
+      clearable?: boolean
+      name?: string
+      variant?: InputVariants['variant']
+      size?: InputVariants['size']
+      disabled?: boolean
+      invalid?: boolean
+      class?: string
+    }>(),
+    { clearable: false },
+  )
+  const emit = defineEmits<{ clear: [] }>()
+
+  const model = defineModel<Array<string | number>>({ default: () => [] })
+  const search = defineModel<string>('search', { default: '' })
+  const open = defineModel<boolean>('open', { default: false })
+
+  defineSlots<{ option(props: { option: SelectOption }): unknown }>()
+
+  const t = useUiLocale()
+  const keyboard = ref(false)
+  const input = shallowRef<{ $el: HTMLInputElement } | null>(null)
+
+  const labels = reactive(new Map<string | number, string>())
+  watch(
+    () => props.options,
+    options => {
+      for (const option of flattenOptions(options)) labels.set(option.value, option.label)
+    },
+    { immediate: true, deep: true },
+  )
+
+  const selected = computed(() =>
+    model.value.map(value => ({ value, label: labels.get(value) ?? String(value) })),
+  )
+  const chipSize = computed(() => (props.size === 'sm' ? 'sm' : 'md'))
+  const closeSize = computed(() => (props.size === 'sm' ? 'xs' : props.size === 'lg' ? 'md' : 'sm'))
+  const clearing = computed(() => props.clearable && selected.value.length > 0 && !props.disabled)
+
+  watch(open, value => {
+    if (!value) keyboard.value = false
+  })
+
+  function remove(value: string | number) {
+    if (props.disabled) return
+    model.value = model.value.filter(item => item !== value)
+  }
+
+  function clear() {
+    if (!model.value.length) return
+    model.value = []
+    emit('clear')
+    input.value?.$el.focus()
+  }
+
+  function onHostClick(event: MouseEvent) {
+    const focused = focusFieldFrom(event.currentTarget as HTMLElement, event.target as HTMLElement)
+    if (focused && !open.value) open.value = true
+  }
+
+  function onInputKeydown(event: KeyboardEvent) {
+    keyboard.value = true
+    if (
+      event.key !== 'Backspace' ||
+      (event.target as HTMLInputElement).value !== '' ||
+      !model.value.length
+    )
+      return
+    model.value = model.value.slice(0, -1)
+  }
+</script>
+
+<template>
+  <ComboboxRoot
+    v-model="model"
+    v-model:open="open"
+    :disabled="props.disabled"
+    :ignore-filter="props.ignoreFilter"
+    :name="props.name"
+    multiple
+    open-on-click
+  >
+    <ComboboxAnchor as-child>
+      <div
+        data-hn-multi-combobox
+        :data-invalid="props.invalid ? '' : undefined"
+        :aria-busy="props.loading || undefined"
+        :class="
+          cn(
+            inputHost({ variant: props.variant, size: props.size }),
+            tagsInputHost({ size: props.size, trailing: true }),
+            multiComboboxHost({ size: props.size, clearing }),
+            props.class,
+          )
+        "
+        @click="onHostClick"
+      >
+        <div :class="tagsInputList()">
+          <Chip
+            v-for="option in selected"
+            :key="option.value"
+            :size="chipSize"
+            removable
+            :disabled="props.disabled"
+            :class="tagsInputChip()"
+            @remove="remove(option.value)"
+          >
+            <span class="min-w-0 truncate">{{ option.label }}</span>
+          </Chip>
+          <ComboboxInput
+            ref="input"
+            v-bind="$attrs"
+            v-model="search"
+            :placeholder="
+              selected.length ? undefined : (props.placeholder ?? t.combobox.placeholder)
+            "
+            :disabled="props.disabled"
+            :aria-invalid="props.invalid || undefined"
+            :class="tagsInputControl({ size: props.size })"
+            @keydown="onInputKeydown"
+          />
+        </div>
+        <span :class="multiComboboxEnd()">
+          <Transition
+            enter-active-class="hn-transition-base"
+            enter-from-class="scale-90 opacity-0"
+            leave-active-class="hn-transition"
+            leave-to-class="scale-90 opacity-0"
+          >
+            <span v-if="clearing" data-hn-multi-combobox-clear :class="multiComboboxClear()">
+              <CloseButton
+                :label="t.common.clear"
+                :size="closeSize"
+                @mousedown.prevent
+                @click="clear"
+              />
+            </span>
+          </Transition>
+          <ComboboxTrigger
+            :aria-label="t.combobox.toggle"
+            :disabled="props.disabled"
+            :class="comboboxToggle()"
+            @mousedown.prevent
+          >
+            <IconSlot
+              :box-class="buttonIconBox({ size: props.size })"
+              :swapped="!!props.loading"
+              spinner-size="sm"
+            >
+              <DisclosureIcon :open="open" class="[&>svg]:size-[var(--hn-input-icon)]" />
+            </IconSlot>
+          </ComboboxTrigger>
+        </span>
+      </div>
+    </ComboboxAnchor>
+    <ComboboxList :options="props.options" :keyboard="keyboard">
+      <template #option="slotProps">
+        <slot name="option" v-bind="slotProps" />
+      </template>
+    </ComboboxList>
+  </ComboboxRoot>
+</template>

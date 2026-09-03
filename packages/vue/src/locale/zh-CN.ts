@@ -93,4 +93,11 @@ export const zhCN: UiMessages = {
     placeholder: '输入或选择',
     toggle: '展开选项',
   },
+  slider: {
+    minimum: '最小值',
+    maximum: '最大值',
+  },
+  pinInput: {
+    cellLabel: (index, total) => `第 ${index} 位，共 ${total} 位`,
+  },
 }

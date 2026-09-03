@@ -1,17 +1,15 @@
 <script setup lang="ts">
-  import { injectTooltipProviderContext, SliderRoot, SliderThumb, SliderTrack } from 'reka-ui'
-  import { computed, ref } from 'vue'
+  import { SliderRoot, SliderTrack } from 'reka-ui'
+  import { computed, toRef } from 'vue'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
-  import Tooltip from '../tooltip/Tooltip.vue'
+  import { useSliderChrome } from './composables/useSliderChrome'
+  import SliderHandle from './SliderHandle.vue'
+  import SliderMarks from './SliderMarks.vue'
   import {
     slider,
-    sliderMark,
-    sliderMarkLabels,
-    sliderMarks,
     sliderRange,
     sliderRoot,
-    sliderThumb,
     sliderTrack,
     type SliderVariants,
   } from './slider.variants'
@@ -38,11 +36,10 @@
   const model = defineModel<number>()
 
   const t = useUiLocale()
-  const tooltips = !!injectTooltipProviderContext(null)
-  const dragging = ref(false)
-  const hovered = ref(false)
-  const ring = ref(false)
-  let pointer = false
+  const { dragging, ring, labelOpen, onPointerDown, listeners } = useSliderChrome(
+    toRef(props, 'disabled'),
+    toRef(props, 'label'),
+  )
 
   const values = computed(() => [model.value ?? props.min])
   const text = computed(() => {
@@ -50,36 +47,11 @@
     return props.format ? props.format(value) : new Intl.NumberFormat(t.value.tag).format(value)
   })
   const hasMarkLabels = computed(() => !!props.marks?.some(mark => mark.label))
-  const labelOpen = computed(
-    () =>
-      props.label === 'always' ||
-      (!props.disabled && (hovered.value || ring.value || dragging.value)),
-  )
-  const position = computed(() => ({ '--hn-slider-p': String(percent(values.value[0]!) / 100) }))
-
-  function percent(value: number) {
+  const position = computed(() => {
     const span = props.max - props.min
-    return span > 0 ? ((value - props.min) / span) * 100 : 0
-  }
-
-  function release() {
-    dragging.value = false
-  }
-
-  function onPointerDown(event: PointerEvent) {
-    pointer = true
-    if (props.disabled) return
-    const root = event.currentTarget as HTMLElement
-    if (!root.firstElementChild?.contains(event.target as Node)) return
-    dragging.value = true
-    window.addEventListener('pointerup', release, { once: true })
-    window.addEventListener('pointercancel', release, { once: true })
-  }
-
-  function onFocusIn() {
-    ring.value = !pointer
-    pointer = false
-  }
+    const p = span > 0 ? (values.value[0]! - props.min) / span : 0
+    return { '--hn-slider-p': String(p) }
+  })
 </script>
 
 <template>
@@ -91,11 +63,7 @@
     :style="position"
     :class="cn(slider({ size: props.size }), props.class)"
     @pointerdown.capture="onPointerDown"
-    @keydown="ring = true"
-    @focusin="onFocusIn"
-    @focusout="ring = false"
-    @pointerenter="(e: PointerEvent) => (hovered = e.pointerType === 'mouse')"
-    @pointerleave="hovered = false"
+    v-on="listeners"
   >
     <SliderRoot
       :model-value="values"
@@ -110,39 +78,26 @@
       <SliderTrack :class="sliderTrack()">
         <span :class="sliderRange()" />
       </SliderTrack>
-      <span v-if="props.marks?.length" aria-hidden="true" :class="sliderMarks()">
-        <span
-          v-for="mark in props.marks"
-          :key="mark.value"
-          class="absolute top-0 flex h-0 w-0 items-center justify-center"
-          :style="{ insetInlineStart: `${percent(mark.value)}%` }"
-        >
-          <span :class="sliderMark()" />
-        </span>
-      </span>
-      <Tooltip v-if="props.label !== 'none' && tooltips" :open="labelOpen" :content="text">
-        <SliderThumb
-          v-bind="$attrs"
-          :data-focus-ring="ring ? '' : undefined"
-          :class="sliderThumb()"
-        />
-      </Tooltip>
-      <SliderThumb
-        v-else
+      <SliderMarks
+        v-if="props.marks?.length"
+        :marks="props.marks"
+        :min="props.min"
+        :max="props.max"
+      />
+      <SliderHandle
         v-bind="$attrs"
-        :data-focus-ring="ring ? '' : undefined"
-        :class="sliderThumb()"
+        :text="text"
+        :open="labelOpen"
+        :ring="ring"
+        :tooltip="props.label !== 'none'"
       />
     </SliderRoot>
-    <span v-if="hasMarkLabels" aria-hidden="true" :class="sliderMarkLabels()">
-      <span
-        v-for="mark in props.marks"
-        :key="mark.value"
-        class="absolute top-0 flex w-0 justify-center whitespace-nowrap"
-        :style="{ insetInlineStart: `${percent(mark.value)}%` }"
-      >
-        {{ mark.label }}
-      </span>
-    </span>
+    <SliderMarks
+      v-if="hasMarkLabels"
+      :marks="props.marks!"
+      :min="props.min"
+      :max="props.max"
+      labels
+    />
   </span>
 </template>

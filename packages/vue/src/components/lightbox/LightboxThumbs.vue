@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { nextTick, shallowRef, watch, type ComponentPublicInstance } from 'vue'
+  import { nextTick, useId, watch, type ComponentPublicInstance } from 'vue'
   import { cn } from '../../lib/cn'
   import { prefersReducedMotion } from '../../motion'
   import ScrollArea from '../scroll-area/ScrollArea.vue'
@@ -17,7 +17,7 @@
   const emit = defineEmits<{ select: [index: number] }>()
 
   const buttons: HTMLElement[] = []
-  const active = shallowRef<HTMLElement | null>(null)
+  const highlightId = useId()
 
   function setButton(at: number, el: Element | ComponentPublicInstance | null) {
     if (el instanceof HTMLElement) buttons[at] = el
@@ -27,9 +27,7 @@
     () => [props.index, props.items.length] as const,
     async () => {
       await nextTick()
-      const el = buttons[props.index] ?? null
-      active.value = el
-      el?.scrollIntoView({
+      buttons[props.index]?.scrollIntoView({
         behavior: prefersReducedMotion() ? 'auto' : 'smooth',
         block: 'nearest',
         inline: 'center',
@@ -41,8 +39,7 @@
 
 <template>
   <ScrollArea direction="horizontal" :scrollbar="false" class="max-w-full">
-    <div data-hn-thumbs class="relative flex w-max gap-2 px-4 py-3">
-      <Highlight :target="active" class="rounded-md ring-2 ring-accent" />
+    <div data-hn-thumbs class="relative isolate flex w-max gap-2 px-4 py-3">
       <button
         v-for="(item, at) in props.items"
         :key="item.id"
@@ -52,8 +49,8 @@
         :aria-current="at === props.index ? 'true' : undefined"
         :class="
           cn(
-            'hn-interactive hn-state-layer hn-press-none hn-transition size-14 shrink-0 overflow-hidden rounded-md',
-            at === props.index ? 'opacity-100' : 'opacity-60',
+            'hn-interactive hn-state-layer hn-press-none hn-transition relative z-[1] size-14 shrink-0 overflow-hidden rounded-md',
+            at === props.index ? 'z-0 opacity-100' : 'opacity-60',
           )
         "
         @click="emit('select', at)"
@@ -64,6 +61,11 @@
           alt=""
           draggable="false"
           class="relative -z-10 size-full object-cover"
+        />
+        <Highlight
+          v-if="at === props.index"
+          :id="highlightId"
+          class="ring-accent absolute inset-0 rounded-md ring-2 ring-inset"
         />
       </button>
     </div>

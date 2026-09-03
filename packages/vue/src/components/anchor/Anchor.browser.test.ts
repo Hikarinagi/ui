@@ -34,7 +34,7 @@ describe('anchor 在固定壳滚动上下文里的 scrollspy 与跳转', () => {
             }),
           ]),
       }),
-      { attachTo: attach() },
+      { attachTo: attach(), global: { stubs: { transition: false } } },
     )
     await vi.waitFor(() => {
       expect(
@@ -91,29 +91,69 @@ describe('anchor 在固定壳滚动上下文里的 scrollspy 与跳转', () => {
             }),
           ]),
       }),
-      { attachTo: attach() },
+      { attachTo: attach(), global: { stubs: { transition: false } } },
     )
     const links = w.findAll('a')
+    const rect = (el: Element) => el.getBoundingClientRect()
     const indicator = () => w.find('.bg-accent').element as HTMLElement
     await vi.waitFor(() => {
       expect(
-        Math.abs(indicator().offsetTop - (links[0]!.element as HTMLElement).offsetTop),
-      ).toBeLessThan(2)
+        (w.findComponent(ScrollArea).vm.$.exposed as { viewport: { value?: HTMLElement } }).viewport
+          .value,
+      ).toBeTruthy()
     })
-    const startTop = indicator().offsetTop
-    const endTop = (links[1]!.element as HTMLElement).offsetTop
+    const viewport = (
+      w.findComponent(ScrollArea).vm.$.exposed as { viewport: { value: HTMLElement } }
+    ).viewport.value
+    await vi.waitFor(() => {
+      expect(Math.abs(rect(indicator()).top - rect(links[0]!.element).top)).toBeLessThan(0.01)
+    })
+    const startTop = rect(indicator()).top
+    const endTop = rect(links[1]!.element).top
 
     await links[1]!.trigger('click')
-    await new Promise(resolve => setTimeout(resolve, 120))
-    const midTop = indicator().offsetTop
-    expect(midTop).toBeGreaterThan(startTop)
-    expect(midTop).toBeLessThan(endTop)
-
+    await vi.waitFor(() => expect(viewport.scrollTop).toBeGreaterThan(0))
     await vi.waitFor(() => {
-      expect(Math.abs(indicator().offsetTop - endTop)).toBeLessThan(2)
-      expect(
-        Math.abs(indicator().offsetHeight - (links[1]!.element as HTMLElement).offsetHeight),
-      ).toBeLessThan(2)
+      const midTop = rect(indicator()).top
+      expect(midTop).toBeGreaterThan(startTop + 1)
+      expect(midTop).toBeLessThan(endTop - 1)
     })
+
+    await vi.waitFor(
+      () => {
+        expect(Math.abs(rect(indicator()).top - endTop)).toBeLessThan(0.01)
+        expect(Math.abs(rect(indicator()).height - rect(links[1]!.element).height)).toBeLessThan(
+          0.01,
+        )
+      },
+      { timeout: 1500 },
+    )
+  })
+
+  it('高亮条在观测器首次报告后淡入，不是硬切出现', async () => {
+    const w = mount(
+      defineComponent({
+        components: { ScrollArea, Anchor },
+        setup: () => () =>
+          h('div', { style: 'display: flex; gap: 16px' }, [
+            h(ScrollArea, { style: 'height: 200px; width: 300px' }, () => [
+              h('section', { id: 'fd-a', style: 'height: 600px' }, '甲'),
+              h('section', { id: 'fd-b', style: 'height: 600px' }, '乙'),
+            ]),
+            h(Anchor, {
+              items: [
+                { id: 'fd-a', label: '甲' },
+                { id: 'fd-b', label: '乙' },
+              ],
+            }),
+          ]),
+      }),
+      { attachTo: attach(), global: { stubs: { transition: false } } },
+    )
+    expect(w.find('.bg-accent').exists()).toBe(false)
+    await vi.waitFor(() => expect(w.find('.bg-accent').exists()).toBe(true))
+    const bar = w.find('.bg-accent').element as HTMLElement
+    expect(parseFloat(getComputedStyle(bar).opacity)).toBeLessThan(1)
+    await vi.waitFor(() => expect(getComputedStyle(bar).opacity).toBe('1'))
   })
 })

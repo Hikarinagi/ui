@@ -1,7 +1,7 @@
 import { tv, type VariantProps } from '../../lib/tv'
 
 export const tabsList = tv({
-  base: 'relative flex',
+  base: 'relative isolate flex',
   variants: {
     variant: {
       underline: 'border-line gap-1',
@@ -38,11 +38,11 @@ export const tabsScroll = tv({
 })
 
 export const tabsHighlight = tv({
-  base: '',
+  base: 'absolute -z-10',
   variants: {
     variant: {
       underline: 'bg-accent rounded-full',
-      soft: 'bg-surface rounded-md shadow-sm',
+      soft: 'bg-surface inset-0 rounded-md shadow-sm',
     },
     orientation: {
       horizontal: '',
@@ -50,25 +50,24 @@ export const tabsHighlight = tv({
     },
   },
   compoundVariants: [
-    { variant: 'underline', orientation: 'horizontal', class: 'bottom-0 h-0.5' },
-    { variant: 'underline', orientation: 'vertical', class: 'end-0 w-0.5' },
-    { variant: 'soft', orientation: 'horizontal', class: 'inset-y-1' },
-    { variant: 'soft', orientation: 'vertical', class: 'inset-x-1' },
+    { variant: 'underline', orientation: 'horizontal', class: 'inset-x-0 bottom-px h-0.5' },
+    { variant: 'underline', orientation: 'vertical', class: 'inset-y-0 end-px w-0.5' },
   ],
   defaultVariants: { variant: 'underline', orientation: 'horizontal' },
 })
 
 export const tabsTrigger = tv({
   base: [
-    'hn-interactive hn-state-layer hn-press-none hn-focus-ring text-muted relative inline-flex shrink-0 items-center gap-1.5 text-sm font-medium whitespace-nowrap select-none',
+    'hn-interactive hn-state-layer hn-press-none hn-focus-ring text-muted relative z-[1] inline-flex shrink-0 items-center gap-1.5 text-sm font-medium whitespace-nowrap select-none',
     '[--hn-state-selected-opacity:0] [--hn-state-selected-color:var(--hn-fg-muted)]',
+    'data-[state=active]:z-0',
     'disabled:pointer-events-none disabled:opacity-50',
     '[&_svg]:size-4',
   ],
   variants: {
     variant: {
       underline: 'data-[state=active]:text-accent-text [--hn-ripple-color:var(--hn-accent)]',
-      soft: 'z-[1] rounded-md data-[state=active]:text-fg',
+      soft: 'rounded-md data-[state=active]:text-fg',
     },
     orientation: {
       horizontal: '',

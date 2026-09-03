@@ -93,4 +93,11 @@ export const enUS: UiMessages = {
     placeholder: 'Type or choose',
     toggle: 'Show options',
   },
+  slider: {
+    minimum: 'Minimum',
+    maximum: 'Maximum',
+  },
+  pinInput: {
+    cellLabel: (index, total) => `Digit ${index} of ${total}`,
+  },
 }

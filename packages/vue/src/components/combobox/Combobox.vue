@@ -1,23 +1,9 @@
 <script setup lang="ts">
   import { computed, ref, shallowRef, watch } from 'vue'
-  import { Check } from '@lucide/vue'
-  import {
-    ComboboxAnchor,
-    ComboboxContent,
-    ComboboxEmpty,
-    ComboboxGroup,
-    ComboboxInput,
-    ComboboxItem,
-    ComboboxItemIndicator,
-    ComboboxLabel,
-    ComboboxPortal,
-    ComboboxRoot,
-    ComboboxTrigger,
-  } from 'reka-ui'
+  import { ComboboxAnchor, ComboboxInput, ComboboxRoot, ComboboxTrigger } from 'reka-ui'
   import { cn } from '../../lib/cn'
   import { focusFieldFrom } from '../../lib/field-focus'
   import { useUiLocale } from '../../locale'
-  import Card from '../card/Card.vue'
   import CloseButton from '../close-button/CloseButton.vue'
   import DisclosureIcon from '../disclosure-icon/DisclosureIcon.vue'
   import { injectInputGroup } from '../input-group/context'
@@ -27,15 +13,9 @@
     inputHost,
     type InputVariants,
   } from '../input/input.variants'
-  import ScrollArea from '../scroll-area/ScrollArea.vue'
-  import { selectEmpty, selectItem, selectLabel, selectListBody } from '../select/select.variants'
-  import {
-    flattenOptions,
-    isOptionGroup,
-    type SelectItems,
-    type SelectOption,
-  } from '../select/types'
-  import { comboboxContent, comboboxList, comboboxToggle } from './combobox.variants'
+  import { flattenOptions, type SelectItems, type SelectOption } from '../select/types'
+  import ComboboxList from './ComboboxList.vue'
+  import { comboboxToggle } from './combobox.variants'
 
   defineOptions({ name: 'HnCombobox', inheritAttrs: false })
 
@@ -60,7 +40,7 @@
 
   const t = useUiLocale()
   const group = injectInputGroup()
-  const fresh = ref(false)
+  const keyboard = ref(false)
   const input = shallowRef<{ $el: HTMLInputElement } | null>(null)
 
   const size = computed(() => (group ? group.size.value : props.size))
@@ -85,6 +65,10 @@
   watch(search, value => {
     if (value === '' && model.value != null) model.value = null
   })
+
+  watch(open, value => {
+    if (!value) keyboard.value = false
+  })
 </script>
 
 <template>
@@ -106,7 +90,7 @@
           )
         "
         @click="focusFieldFrom($event.currentTarget as HTMLElement, $event.target as HTMLElement)"
-        @keydown="fresh = false"
+        @keydown="keyboard = true"
       >
         <ComboboxInput
           ref="input"
@@ -143,70 +127,10 @@
         </ComboboxTrigger>
       </div>
     </ComboboxAnchor>
-    <ComboboxPortal>
-      <ComboboxContent as-child position="popper" align="start" :side-offset="8">
-        <Card
-          :padded="false"
-          data-hn-combobox-content
-          :data-hn-fresh="fresh ? '' : undefined"
-          :class="comboboxContent()"
-          @vue:mounted="fresh = true"
-          @pointermove="fresh = false"
-        >
-          <ScrollArea :class="comboboxList()">
-            <div :class="selectListBody()">
-              <template
-                v-for="item in props.options"
-                :key="isOptionGroup(item) ? item.label : item.value"
-              >
-                <ComboboxGroup v-if="isOptionGroup(item)">
-                  <ComboboxLabel :class="selectLabel()">{{ item.label }}</ComboboxLabel>
-                  <ComboboxItem
-                    v-for="option in item.options"
-                    :key="option.value"
-                    :value="option.value"
-                    :text-value="option.label"
-                    :disabled="option.disabled"
-                    :class="selectItem()"
-                  >
-                    <span class="min-w-0 flex-1">
-                      <slot name="option" :option="option">
-                        <span class="block truncate">{{ option.label }}</span>
-                        <span v-if="option.description" class="text-muted block truncate text-xs">
-                          {{ option.description }}
-                        </span>
-                      </slot>
-                    </span>
-                    <span class="flex size-4 shrink-0 items-center justify-center">
-                      <ComboboxItemIndicator><Check /></ComboboxItemIndicator>
-                    </span>
-                  </ComboboxItem>
-                </ComboboxGroup>
-                <ComboboxItem
-                  v-else
-                  :value="item.value"
-                  :text-value="item.label"
-                  :disabled="item.disabled"
-                  :class="selectItem()"
-                >
-                  <span class="min-w-0 flex-1">
-                    <slot name="option" :option="item">
-                      <span class="block truncate">{{ item.label }}</span>
-                      <span v-if="item.description" class="text-muted block truncate text-xs">
-                        {{ item.description }}
-                      </span>
-                    </slot>
-                  </span>
-                  <span class="flex size-4 shrink-0 items-center justify-center">
-                    <ComboboxItemIndicator><Check /></ComboboxItemIndicator>
-                  </span>
-                </ComboboxItem>
-              </template>
-              <ComboboxEmpty :class="selectEmpty()">{{ t.select.empty }}</ComboboxEmpty>
-            </div>
-          </ScrollArea>
-        </Card>
-      </ComboboxContent>
-    </ComboboxPortal>
+    <ComboboxList :options="props.options" :keyboard="keyboard">
+      <template #option="slotProps">
+        <slot name="option" v-bind="slotProps" />
+      </template>
+    </ComboboxList>
   </ComboboxRoot>
 </template>

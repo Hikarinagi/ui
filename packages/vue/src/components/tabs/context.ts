@@ -5,6 +5,7 @@ export interface TabsStyleContext {
   variant: NonNullable<TabsVariants['variant']>
   size: NonNullable<TabsVariants['size']>
   orientation: NonNullable<TabsVariants['orientation']>
+  highlightId: string
 }
 
 const TABS_STYLE_KEY: InjectionKey<TabsStyleContext> = Symbol('hn-tabs-style')
@@ -14,5 +15,10 @@ export function provideTabsStyle(ctx: TabsStyleContext) {
 }
 
 export function useTabsStyle(): TabsStyleContext {
-  return inject(TABS_STYLE_KEY, { variant: 'underline', size: 'md', orientation: 'horizontal' })
+  return inject(TABS_STYLE_KEY, {
+    variant: 'underline',
+    size: 'md',
+    orientation: 'horizontal',
+    highlightId: '',
+  })
 }

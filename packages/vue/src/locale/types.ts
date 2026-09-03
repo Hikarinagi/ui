@@ -91,6 +91,13 @@ export interface UiMessages {
     placeholder: string
     toggle: string
   }
+  slider: {
+    minimum: string
+    maximum: string
+  }
+  pinInput: {
+    cellLabel: (index: number, total: number) => string
+  }
 }
 
 export type PartialUiMessages = {

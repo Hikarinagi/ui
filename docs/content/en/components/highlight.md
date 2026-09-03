@@ -1,9 +1,11 @@
 ---
 title: Highlight
-description: A highlight block that follows a target element.
+description: A highlight that slides between active items.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/highlight/Highlight.vue
+  - label: Motion
+    href: https://motion.dev/docs/vue-layout-animations
 ---
 
 <Demo name="highlight/hero" />
@@ -14,47 +16,41 @@ links:
 import { Highlight } from '@hina-ui/vue'
 ```
 
-`Highlight` is an absolutely positioned block that measures the element `target` points at and moves there. When the target changes it travels continuously rather than disappearing in one place and appearing in another.
+`Highlight` is the block that marks the current item: the thumb of a segmented control, the indicator of tabs, the current span of a table of contents. It measures nothing; `class` pins it to the box of the active item, and when the active item changes, Motion's layout animation moves it continuously from the old position to the new one instead of hiding it in one place and showing it in another.
 
-It draws nothing of its own: background, radius and stacking all come from `class`. The surrounding container has to establish a positioning context.
+It paints nothing of its own. Background, radius and stacking all come from `class`.
 
-Use it wherever one highlight moves between several items — the selected background of a segmented control, the current position in an in-page contents list. Give each item its own background instead and switching becomes one thing vanishing while another appears; moving a single block keeps the eye with it.
+### Moving between items {#shared}
 
-## Examples {#examples}
+Render it inside the currently active item, toggled with `v-if`, and give it an `id`. When the active item changes the old block unmounts and a new one mounts inside the new item; the shared `id` lets Motion fly it from the old position to the new one. Generate the `id` with `useId()` so several instances on one page do not interfere.
 
-### Spanning a range {#range}
+The example above does exactly this: every button holds an `absolute inset-0` highlight, and only the active one renders it.
 
-Given both `target` and `until`, the block covers the whole run between them, both ends included. This suits a current position that is a stretch rather than a point, such as several sections visible at once.
+### Covering a range {#range}
 
-With `target` alone the two are the same and only that element is covered.
+When the current position is a region rather than a single item, such as the sections visible at once in a table of contents, lay the list out as a single-column grid with every item on an explicit row and make the highlight a grid item too, spanning the range with `grid-row`. It stays mounted, and the layout animation stretches it continuously whenever the span changes.
 
 <Demo name="highlight/range" />
 
-### Axis {#axis}
+## Behavior {#behavior}
 
-`axis` decides which directions are followed: `x` tracks horizontal position and width, `y` tracks vertical position and height, `both` tracks all four. The default is `both`.
-
-When one axis is fixed, the other's position and size come from `class` — a horizontal segmented control pairs `axis="x"` with `inset-y-1`, a vertical contents list pairs `axis="y"` with `inset-x-1`.
-
-## Behaviour {#behavior}
-
-- It moves when the target or the range changes, and follows size changes through a resize observer.
-- With no target it renders nothing at all and leaves no placeholder.
-- With reduced motion enabled it arrives in place without a travelling transition.
-- Position is computed from the target's offset within its positioned ancestor, so target and highlight must share one positioning context.
+- At rest its position is a plain CSS box that follows the item's size; nothing is measured or observed.
+- Moving and stretching are continuous; Motion corrects the distortion of radius and shadow while scaling.
+- With reduced motion enabled it snaps into place without a transition.
+- While flying it lives inside the target item. If items are stacking contexts of their own, give idle items a higher layer (such as `z-[1]`) and the active item `z-0`, so it passes beneath the text of the others.
+- What the server renders is the real highlight, so the first paint matches the hydrated page.
 
 ## Accessibility {#a11y}
 
-- The component carries `aria-hidden` and is pure decoration; it never enters the accessibility tree.
-- The current position must also be expressed semantically — `aria-current` or `aria-pressed` on the selected item — and never by this block alone.
+- The component is `aria-hidden`; it is decoration only and stays out of the accessibility tree.
+- The current position must have its own semantics, such as `aria-current` or `aria-pressed` on the active item; never rely on the highlight alone.
 
 ## API {#api}
 
 ### Props {#props}
 
-| Prop     | Type                   | Default  | Description                                           |
-| -------- | ---------------------- | -------- | ----------------------------------------------------- |
-| `target` | `HTMLElement \| null`  | `null`   | The element to follow                                 |
-| `until`  | `HTMLElement \| null`  | `null`   | End of the range; omitted, only the target is covered |
-| `axis`   | `'x' \| 'y' \| 'both'` | `'both'` | Axes to follow                                        |
-| `class`  | `string`               | —        | Classes appended to the root                          |
+| Prop    | Type            | Default | Description                                                    |
+| ------- | --------------- | ------- | -------------------------------------------------------------- |
+| `id`    | `string`        | —       | Shared layout animation id; required when moving between items |
+| `as`    | `'div' \| 'li'` | `'div'` | Element to render                                              |
+| `class` | `string`        | —       | Classes appended to the root element                           |

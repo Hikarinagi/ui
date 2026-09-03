@@ -69,7 +69,8 @@
 
   &[data-state='checked']:not([data-disabled])::after,
   &[data-state='selected']:not([data-disabled])::after,
-  &[aria-selected='true']:not([data-disabled])::after {
+  &[aria-selected='true']:not([data-disabled])::after,
+  &[aria-pressed='true']:not([data-disabled])::after {
     --hn-state-color: var(--hn-state-selected-color, var(--hn-accent));
     opacity: var(--hn-state-selected-opacity);
     transition:
@@ -79,7 +80,8 @@
 
   &[data-highlighted][data-state='checked']:not([data-disabled])::after,
   &[data-highlighted][data-state='selected']:not([data-disabled])::after,
-  &[data-highlighted][aria-selected='true']:not([data-disabled])::after {
+  &[data-highlighted][aria-selected='true']:not([data-disabled])::after,
+  &[data-highlighted][aria-pressed='true']:not([data-disabled])::after {
     opacity: calc(var(--hn-state-selected-opacity) + var(--hn-state-hover-opacity));
   }
 
@@ -87,19 +89,23 @@
     &[data-state='checked']:hover:not(:disabled):not([data-disabled])::after,
     &[data-state='selected']:hover:not(:disabled):not([data-disabled])::after,
     &[aria-selected='true']:hover:not(:disabled):not([data-disabled])::after,
+    &[aria-pressed='true']:hover:not(:disabled):not([data-disabled])::after,
     :where([data-hn-state-group]:hover)
       &[data-state='checked']:not(:disabled):not([data-disabled])::after,
     :where([data-hn-state-group]:hover)
       &[data-state='selected']:not(:disabled):not([data-disabled])::after,
     :where([data-hn-state-group]:hover)
-      &[aria-selected='true']:not(:disabled):not([data-disabled])::after {
+      &[aria-selected='true']:not(:disabled):not([data-disabled])::after,
+    :where([data-hn-state-group]:hover)
+      &[aria-pressed='true']:not(:disabled):not([data-disabled])::after {
       opacity: calc(var(--hn-state-selected-opacity) + var(--hn-state-hover-opacity));
     }
   }
 
   &[data-state='checked']:active:not(:disabled):not([data-disabled]):not(:has(.hn-ripple))::after,
   &[data-state='selected']:active:not(:disabled):not([data-disabled]):not(:has(.hn-ripple))::after,
-  &[aria-selected='true']:active:not(:disabled):not([data-disabled]):not(:has(.hn-ripple))::after {
+  &[aria-selected='true']:active:not(:disabled):not([data-disabled]):not(:has(.hn-ripple))::after,
+  &[aria-pressed='true']:active:not(:disabled):not([data-disabled]):not(:has(.hn-ripple))::after {
     opacity: calc(var(--hn-state-selected-opacity) + var(--hn-state-press-opacity));
   }
 }

@@ -1,9 +1,11 @@
 <script setup lang="ts">
-  import { TabsTrigger } from 'reka-ui'
+  import { TabsTrigger, injectTabsRootContext } from 'reka-ui'
+  import { computed } from 'vue'
+  import Highlight from '../highlight/Highlight.vue'
   import Ripple from '../ripple/Ripple.vue'
   import { cn } from '../../lib/cn'
   import { useTabsStyle } from './context'
-  import { tabsTrigger } from './tabs.variants'
+  import { tabsHighlight, tabsTrigger } from './tabs.variants'
 
   defineOptions({ name: 'HnTabsTrigger' })
 
@@ -13,7 +15,9 @@
     class?: string
   }>()
 
-  const { variant, size, orientation } = useTabsStyle()
+  const { variant, size, orientation, highlightId } = useTabsStyle()
+  const root = injectTabsRootContext()
+  const active = computed(() => root.modelValue.value === props.value)
 </script>
 
 <template>
@@ -22,6 +26,7 @@
     :disabled="props.disabled"
     :class="cn(tabsTrigger({ variant, size, orientation }), props.class)"
   >
+    <Highlight v-if="active" :id="highlightId" :class="tabsHighlight({ variant, orientation })" />
     <Ripple />
     <slot />
   </TabsTrigger>

@@ -16,6 +16,7 @@
     "@hina-ui/vue": "workspace:*",
     "@lobehub/icons-static-svg": "^1.94.0",
     "@lucide/vue": "^1.37.0",
+    "@vueuse/core": "^12.8.2",
     "motion-v": "^2.2.1",
     "nuxt": "^4.5.2",
     "reka-ui": "^2.10.4",

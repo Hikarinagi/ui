@@ -41,8 +41,8 @@ function mountTabs(extra: Record<string, unknown> = {}) {
 }
 
 const triggers = () => [...document.querySelectorAll('[role="tab"]')] as HTMLElement[]
-const indicator = () =>
-  document.querySelector('[role="tablist"] > [aria-hidden="true"]') as HTMLElement | null
+const indicator = () => document.querySelector('[data-hn-highlight]') as HTMLElement | null
+const rect = (el: Element) => el.getBoundingClientRect()
 
 describe('tabs · 分页签', () => {
   it('默认选中 defaultValue,点击切换内容与 aria 状态', async () => {
@@ -58,23 +58,57 @@ describe('tabs · 分页签', () => {
     expect(document.body.textContent).not.toContain('预览内容')
   })
 
-  it('滑块走 Highlight 原语:单实例、Motion 布局动画收敛到目标页签', async () => {
+  it('滑块就地渲染在选中页签内；切换时以共享布局动画飞到新页签，中途位置介于两端，落定后逐像素贴合', async () => {
     mountTabs()
     await vi.waitFor(() => expect(indicator()).not.toBeNull())
-    const ind = indicator()!
-    const [, code] = triggers()
-    const before = ind.offsetLeft
+    const [preview, code] = triggers()
+    expect(preview!.contains(indicator())).toBe(true)
+    expect(Math.abs(rect(indicator()!).left - rect(preview!).left)).toBeLessThan(0.01)
+    const from = rect(preview!).left
+    const to = rect(code!).left
 
     await userEvent.click(code!)
+    await vi.waitFor(() => expect(code!.contains(indicator())).toBe(true))
+    await vi.waitFor(() => {
+      const left = rect(indicator()!).left
+      expect(left).toBeGreaterThan(from + 1)
+      expect(left).toBeLessThan(to - 1)
+    })
     await vi.waitFor(
       () => {
-        expect(Math.abs(ind.offsetLeft - code!.offsetLeft)).toBeLessThan(2)
-        expect(Math.abs(ind.offsetWidth - code!.offsetWidth)).toBeLessThan(2)
+        expect(Math.abs(rect(indicator()!).left - to)).toBeLessThan(0.01)
+        expect(Math.abs(rect(indicator()!).width - rect(code!).width)).toBeLessThan(0.01)
       },
       { timeout: 1500 },
     )
-    expect(ind.offsetLeft).toBeGreaterThan(before)
-    expect(document.querySelectorAll('[role="tablist"] > [aria-hidden="true"]').length).toBe(1)
+    expect(document.querySelectorAll('[data-hn-highlight]').length).toBe(1)
+  })
+
+  it('拉丁文页签的宽度带小数，滑块仍逐像素贴合页签盒', async () => {
+    const host = document.createElement('div')
+    host.style.cssText = 'width: 480px'
+    document.body.appendChild(host)
+    const App = defineComponent({
+      render: () =>
+        h(Tabs, { defaultValue: 'b' }, () => [
+          h(TabsList, null, () => [
+            h(TabsTrigger, { value: 'a' }, () => 'underline'),
+            h(TabsTrigger, { value: 'b' }, () => 'Wireframe'),
+          ]),
+          h(TabsContent, { value: 'b' }, () => h('p', '内容')),
+        ]),
+    })
+    const w = mount(App, { attachTo: host })
+    mounted.push(w)
+    await vi.waitFor(() => expect(indicator()).not.toBeNull())
+    const tab = triggers()[1]!
+    const box = tab.getBoundingClientRect()
+    expect(box.width % 1).not.toBe(0)
+    await vi.waitFor(() => {
+      const ind = indicator()!.getBoundingClientRect()
+      expect(Math.abs(ind.left - box.left)).toBeLessThan(0.01)
+      expect(Math.abs(ind.width - box.width)).toBeLessThan(0.01)
+    })
   })
 
   it('选中项与未选中项的交互墨同色相,不混出灰青两套', async () => {
@@ -116,9 +150,10 @@ describe('tabs · 分页签', () => {
     expect(cs.backgroundColor).not.toBe('rgba(0, 0, 0, 0)')
     expect(parseFloat(cs.height)).toBeGreaterThan(20)
     expect(getComputedStyle(list).borderBottomWidth).toBe('0px')
-    const trigger = triggers()[0]!
-    expect(trigger.offsetHeight).toBe(28)
-    expect(getComputedStyle(trigger).zIndex).toBe('1')
+    const [active, idle] = triggers()
+    expect(active!.offsetHeight).toBe(28)
+    expect(getComputedStyle(active!).zIndex).toBe('0')
+    expect(getComputedStyle(idle!).zIndex).toBe('1')
   })
 
   it('页签溢出时 List 可横向滚动', async () => {
@@ -180,12 +215,11 @@ describe('tabs · 分页签', () => {
     expect(document.activeElement).toBe(b)
     expect(b!.getAttribute('aria-selected')).toBe('true')
 
-    await vi.waitFor(() => expect(indicator()).not.toBeNull())
-    const ind = indicator()!
+    await vi.waitFor(() => expect(b!.contains(indicator())).toBe(true))
     await vi.waitFor(
       () => {
-        expect(Math.abs(ind.offsetTop - b!.offsetTop)).toBeLessThan(2)
-        expect(Math.abs(ind.offsetHeight - b!.offsetHeight)).toBeLessThan(2)
+        expect(Math.abs(rect(indicator()!).top - rect(b!).top)).toBeLessThan(0.01)
+        expect(Math.abs(rect(indicator()!).height - rect(b!).height)).toBeLessThan(0.01)
       },
       { timeout: 1500 },
     )
