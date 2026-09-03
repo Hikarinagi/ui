@@ -76,7 +76,7 @@
     return name ? `${props.title} ${name}` : props.title
   })
 
-  useHead({ title: props.title })
+  useHead({ title: pageTitle })
 </script>
 
 <template>

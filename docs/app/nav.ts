@@ -48,6 +48,7 @@ export const components: DocsComponent[] = [
     i18n: 'components.accordion',
     category: 'display',
   },
+  { label: 'Alert', to: '/components/alert', i18n: 'components.alert', category: 'display' },
   { label: 'Anchor', to: '/components/anchor', i18n: 'components.anchor', category: 'navigation' },
   {
     label: 'AppShell',
@@ -55,7 +56,6 @@ export const components: DocsComponent[] = [
     i18n: 'components.app-shell',
     category: 'shell',
   },
-  { label: 'Alert', to: '/components/alert', i18n: 'components.alert', category: 'display' },
   {
     label: 'AspectRatio',
     to: '/components/aspect-ratio',
@@ -216,6 +216,7 @@ export const components: DocsComponent[] = [
     i18n: 'components.number-input',
     category: 'forms',
   },
+  { label: 'Page', to: '/components/page', i18n: 'components.page', category: 'shell' },
   {
     label: 'PasswordInput',
     to: '/components/password-input',
@@ -227,12 +228,6 @@ export const components: DocsComponent[] = [
     to: '/components/popover',
     i18n: 'components.popover',
     category: 'overlays',
-  },
-  {
-    label: 'Page',
-    to: '/components/page',
-    i18n: 'components.page',
-    category: 'shell',
   },
   {
     label: 'PrevNext',
@@ -262,13 +257,13 @@ export const components: DocsComponent[] = [
   },
   { label: 'Select', to: '/components/select', i18n: 'components.select', category: 'forms' },
   { label: 'Section', to: '/components/section', i18n: 'components.section', category: 'shell' },
-  { label: 'Sidebar', to: '/components/sidebar', i18n: 'components.sidebar', category: 'shell' },
   {
     label: 'Skeleton',
     to: '/components/skeleton',
     i18n: 'components.skeleton',
     category: 'atoms',
   },
+  { label: 'Sidebar', to: '/components/sidebar', i18n: 'components.sidebar', category: 'shell' },
   { label: 'Slider', to: '/components/slider', i18n: 'components.slider', category: 'forms' },
   {
     label: 'SimpleGrid',
@@ -276,8 +271,8 @@ export const components: DocsComponent[] = [
     i18n: 'components.simple-grid',
     category: 'layout',
   },
-  { label: 'Spinner', to: '/components/spinner', i18n: 'components.spinner', category: 'atoms' },
   { label: 'Space', to: '/components/space', i18n: 'components.space', category: 'layout' },
+  { label: 'Spinner', to: '/components/spinner', i18n: 'components.spinner', category: 'atoms' },
   {
     label: 'Splitter',
     to: '/components/splitter',
