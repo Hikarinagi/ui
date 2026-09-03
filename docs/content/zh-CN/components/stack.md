@@ -4,8 +4,6 @@ description: 把子元素纵向排成一列。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/stack/Stack.vue
-  - label: Inline
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/inline/Inline.vue
 ---
 
 <Demo name="stack/hero" />

@@ -4,8 +4,6 @@ description: A placeholder that holds the shape of content while it loads.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/skeleton/Skeleton.vue
-  - label: Spinner
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/spinner/Spinner.vue
 ---
 
 <Demo name="skeleton/hero" />

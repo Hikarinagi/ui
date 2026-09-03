@@ -51,7 +51,7 @@ describe('checkbox · 尺寸与对齐', () => {
       const { w, box } = mountBox({ size })
       expect(box.offsetWidth).toBe(px)
       expect(box.offsetHeight).toBe(px)
-      const text = w.find(':scope > span > span').element as HTMLElement
+      const text = w.find(':scope > span').element as HTMLElement
       const boxRect = box.getBoundingClientRect()
       const line = parseFloat(getComputedStyle(text).lineHeight)
       const textRect = text.getBoundingClientRect()
@@ -59,19 +59,20 @@ describe('checkbox · 尺寸与对齐', () => {
     }
   })
 
-  it('多行文字时盒钉在首行', () => {
+  it('多行文字时盒对着整个标题块的中线', async () => {
     const { w, box } = mountBox(
       {},
       '这是一段很长的说明文字，长到在三百二十像素宽的容器里必须折成两行以上才放得下',
     )
-    const text = w.find(':scope > span > span').element as HTMLElement
+    const text = w.find(':scope > span').element as HTMLElement
     expect(text.getBoundingClientRect().height).toBeGreaterThan(
       parseFloat(getComputedStyle(text).lineHeight) * 1.5,
     )
-    const line = parseFloat(getComputedStyle(text).lineHeight)
     const boxRect = box.getBoundingClientRect()
     const textRect = text.getBoundingClientRect()
-    expect(Math.abs(boxRect.top + boxRect.height / 2 - (textRect.top + line / 2))).toBeLessThan(1)
+    expect(
+      Math.abs(boxRect.top + boxRect.height / 2 - (textRect.top + textRect.height / 2)),
+    ).toBeLessThan(1)
   })
 })
 

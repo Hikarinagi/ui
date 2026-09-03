@@ -4,8 +4,6 @@ description: Pins an unread count or short marker to the corner of its host.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/badge/Badge.vue
-  - label: Variants
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/badge/badge.variants.ts
 ---
 
 <Demo name="badge/hero" />

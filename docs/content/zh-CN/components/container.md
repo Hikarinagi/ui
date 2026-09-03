@@ -4,8 +4,6 @@ description: 把页面内容限制在可读宽度内并居中。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/container/Container.vue
-  - label: Page
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/page/Page.vue
 ---
 
 <Demo name="container/hero" />

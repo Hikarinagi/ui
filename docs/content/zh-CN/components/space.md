@@ -4,8 +4,6 @@ description: 在 flex 容器中占位的空白元素。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/space/Space.vue
-  - label: Inline
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/inline/Inline.vue
 ---
 
 <Demo name="space/hero" />

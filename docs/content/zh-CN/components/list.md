@@ -4,8 +4,6 @@ description: 有序列表与无序列表。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/list/List.vue
-  - label: DescriptionList
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/description-list/DescriptionList.vue
 ---
 
 <Demo name="list/hero" />

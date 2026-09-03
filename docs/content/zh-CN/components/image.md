@@ -4,8 +4,6 @@ description: 懒加载、撑住位置并在失败时回退的图片。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/image/Image.vue
-  - label: Skeleton
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/skeleton/Skeleton.vue
 ---
 
 <Demo name="image/hero" />

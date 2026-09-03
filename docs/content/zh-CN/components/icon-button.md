@@ -4,8 +4,6 @@ description: 只包含图标的按钮，必须提供名称，并以名称作为�
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/icon-button/IconButton.vue
-  - label: Button
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/button/Button.vue
 ---
 
 <Demo name="icon-button/hero" />

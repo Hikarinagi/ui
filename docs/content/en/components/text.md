@@ -4,8 +4,6 @@ description: Body text, used for the vast majority of writing in an interface.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/text/Text.vue
-  - label: Variants
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/text/text.variants.ts
 ---
 
 <Demo name="text/hero" />

@@ -4,8 +4,6 @@ description: Quotes a whole passage from elsewhere and credits its source.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/blockquote/Blockquote.vue
-  - label: Callout
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/callout/Callout.vue
 ---
 
 <Demo name="blockquote/hero" />

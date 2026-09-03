@@ -4,8 +4,6 @@ description: 成段的代码，带语法着色、语言角标与复制按钮。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/code-block/CodeBlock.vue
-  - label: Code
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/code/Code.vue
 ---
 
 <Demo name="code-block/hero" />

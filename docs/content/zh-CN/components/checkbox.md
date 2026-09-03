@@ -4,8 +4,8 @@ description: 勾选一项，或者从多项中勾选若干。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/checkbox/Checkbox.vue
-  - label: 变体定义
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/checkbox/checkbox.variants.ts
+  - label: Checkbox
+    href: https://reka-ui.com/docs/components/checkbox
 ---
 
 <Demo name="checkbox/hero" />

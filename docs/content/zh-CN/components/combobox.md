@@ -4,8 +4,8 @@ description: 边输入边筛选的选择框。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/combobox/Combobox.vue
-  - label: 变体定义
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/combobox/combobox.variants.ts
+  - label: Combobox
+    href: https://reka-ui.com/docs/components/combobox
 ---
 
 <Demo name="combobox/hero" />

@@ -4,8 +4,6 @@ description: 标注状态、分类与属性的短标签。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/tag/Tag.vue
-  - label: 变体定义
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/tag/tag.variants.ts
 ---
 
 <Demo name="tag/hero" />

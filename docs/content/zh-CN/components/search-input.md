@@ -4,8 +4,6 @@ description: 输入关键词进行搜索的输入框。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/search-input/SearchInput.vue
-  - label: 变体定义
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/input/input.variants.ts
 ---
 
 <Demo name="search-input/hero" />

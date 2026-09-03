@@ -4,8 +4,6 @@ description: An even grid whose column count follows a minimum column width.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/simple-grid/SimpleGrid.vue
-  - label: Grid
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/grid/Grid.vue
 ---
 
 <Demo name="simple-grid/hero" />

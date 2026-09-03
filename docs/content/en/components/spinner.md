@@ -4,8 +4,6 @@ description: A spinning indicator for work in progress.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/spinner/Spinner.vue
-  - label: Variants
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/spinner/spinner.variants.ts
 ---
 
 <Demo name="spinner/hero" />

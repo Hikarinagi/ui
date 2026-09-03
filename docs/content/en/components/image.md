@@ -4,8 +4,6 @@ description: An image that loads lazily, holds its box and falls back when it fa
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/image/Image.vue
-  - label: Skeleton
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/skeleton/Skeleton.vue
 ---
 
 <Demo name="image/hero" />

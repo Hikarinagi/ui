@@ -4,8 +4,6 @@ description: A keyboard key, for documenting shortcuts.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/kbd/Kbd.vue
-  - label: Code
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/code/Code.vue
 ---
 
 <Demo name="kbd/hero" />

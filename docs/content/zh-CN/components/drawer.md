@@ -5,7 +5,7 @@ links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/drawer/Drawer.vue
   - label: Dialog
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/dialog/Dialog.vue
+    href: https://reka-ui.com/docs/components/dialog
 ---
 
 <Demo name="drawer/hero" />

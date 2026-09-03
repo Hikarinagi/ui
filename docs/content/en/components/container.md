@@ -4,8 +4,6 @@ description: Holds page content to a readable width and centres it.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/container/Container.vue
-  - label: Page
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/page/Page.vue
 ---
 
 <Demo name="container/hero" />

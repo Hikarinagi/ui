@@ -4,8 +4,6 @@ description: 按当前语言显示时间，可显示为相对时间。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/time/Time.vue
-  - label: NumberFormat
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/number-format/NumberFormat.vue
 ---
 
 <Demo name="time/hero" />

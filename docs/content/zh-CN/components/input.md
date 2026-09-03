@@ -4,8 +4,6 @@ description: 单行文本输入框。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/input/Input.vue
-  - label: 变体定义
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/input/input.variants.ts
 ---
 
 <Demo name="input/hero" />

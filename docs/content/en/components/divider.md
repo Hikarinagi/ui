@@ -4,8 +4,8 @@ description: A hairline that separates two pieces of content.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/divider/Divider.vue
-  - label: Stack
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/stack/Stack.vue
+  - label: Separator
+    href: https://reka-ui.com/docs/components/separator
 ---
 
 <Demo name="divider/hero" />

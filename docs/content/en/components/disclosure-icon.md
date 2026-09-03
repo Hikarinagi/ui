@@ -4,8 +4,6 @@ description: An indicator that turns as a region opens and closes.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/disclosure-icon/DisclosureIcon.vue
-  - label: Variants
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/disclosure-icon/disclosure-icon.variants.ts
 ---
 
 <Demo name="disclosure-icon/hero" />

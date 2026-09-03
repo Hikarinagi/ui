@@ -4,8 +4,6 @@ description: Formats numbers for the current language.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/number-format/NumberFormat.vue
-  - label: Time
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/time/Time.vue
 ---
 
 <Demo name="number-format/hero" />

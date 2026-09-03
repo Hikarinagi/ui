@@ -4,8 +4,8 @@ description: A set of actions revealed by clicking a trigger.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/dropdown-menu/DropdownMenu.vue
-  - label: Popover
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/popover/Popover.vue
+  - label: DropdownMenu
+    href: https://reka-ui.com/docs/components/dropdown-menu
 ---
 
 <Demo name="dropdown-menu/hero" />

@@ -4,8 +4,6 @@ description: 正文中的行内代码，用于标识变量名、属性与命令�
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/code/Code.vue
-  - label: CodeBlock
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/code-block/CodeBlock.vue
 ---
 
 <Demo name="code/hero" />

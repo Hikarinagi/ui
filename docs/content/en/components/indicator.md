@@ -4,8 +4,6 @@ description: A small dot that shows a status.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/indicator/Indicator.vue
-  - label: Variants
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/indicator/indicator.variants.ts
 ---
 
 <Demo name="indicator/hero" />

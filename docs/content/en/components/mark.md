@@ -4,8 +4,6 @@ description: Marks a fragment of text, such as a search hit or something to noti
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/mark/Mark.vue
-  - label: Tag
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/tag/Tag.vue
 ---
 
 <Demo name="mark/hero" />

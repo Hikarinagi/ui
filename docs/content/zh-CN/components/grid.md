@@ -4,8 +4,6 @@ description: 按固定列数排布子元素的栅格容器。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/grid/Grid.vue
-  - label: SimpleGrid
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/simple-grid/SimpleGrid.vue
 ---
 
 <Demo name="grid/hero" />

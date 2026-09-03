@@ -4,8 +4,6 @@ description: A multi-line text field.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/textarea/Textarea.vue
-  - label: Variants
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/textarea/textarea.variants.ts
 ---
 
 <Demo name="textarea/hero" />

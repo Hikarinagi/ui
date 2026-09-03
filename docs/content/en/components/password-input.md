@@ -4,8 +4,6 @@ description: A password field with a visibility toggle.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/password-input/PasswordInput.vue
-  - label: Variants
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/input/input.variants.ts
 ---
 
 <Demo name="password-input/hero" />

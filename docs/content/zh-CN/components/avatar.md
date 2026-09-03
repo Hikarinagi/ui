@@ -4,8 +4,6 @@ description: 代表一个用户或实体的圆形头像。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/avatar/Avatar.vue
-  - label: Tag
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/tag/Tag.vue
 ---
 
 <Demo name="avatar/hero" />

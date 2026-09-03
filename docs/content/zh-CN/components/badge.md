@@ -4,8 +4,6 @@ description: 把未读数或者短标记钉在宿主元素的角上。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/badge/Badge.vue
-  - label: 变体定义
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/badge/badge.variants.ts
 ---
 
 <Demo name="badge/hero" />

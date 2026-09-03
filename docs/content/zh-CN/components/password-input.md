@@ -4,8 +4,6 @@ description: 输入密码的输入框，可以切换明文显示。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/password-input/PasswordInput.vue
-  - label: 变体定义
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/input/input.variants.ts
 ---
 
 <Demo name="password-input/hero" />

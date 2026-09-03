@@ -4,8 +4,6 @@ description: A round portrait standing for a person or an entity.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/avatar/Avatar.vue
-  - label: Tag
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/tag/Tag.vue
 ---
 
 <Demo name="avatar/hero" />

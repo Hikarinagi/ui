@@ -4,8 +4,6 @@ description: 富文本容器，统一接管其中的原生标签。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/prose/Prose.vue
-  - label: 排版样式
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/styles/typography.css
 ---
 
 <Demo name="prose/hero" />

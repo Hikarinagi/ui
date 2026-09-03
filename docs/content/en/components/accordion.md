@@ -4,8 +4,8 @@ description: A list of sections that expand and collapse in turn.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/accordion/Accordion.vue
-  - label: Variants
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/accordion/accordion.variants.ts
+  - label: Accordion
+    href: https://reka-ui.com/docs/components/accordion
 ---
 
 <Demo name="accordion/hero" />

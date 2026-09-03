@@ -4,8 +4,6 @@ description: Gathers a group of content onto one raised surface.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/card/Card.vue
-  - label: Variants
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/card/card.variants.ts
 ---
 
 <Demo name="card/hero" />

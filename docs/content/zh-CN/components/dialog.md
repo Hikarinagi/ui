@@ -4,8 +4,8 @@ description: 打断当前任务的模态对话框。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/dialog/Dialog.vue
-  - label: Drawer
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/drawer/Drawer.vue
+  - label: Dialog
+    href: https://reka-ui.com/docs/components/dialog
 ---
 
 <Demo name="dialog/hero" />

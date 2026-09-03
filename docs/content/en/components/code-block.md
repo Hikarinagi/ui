@@ -4,8 +4,6 @@ description: A block of code with syntax highlighting, a language badge and copy
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/code-block/CodeBlock.vue
-  - label: Code
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/code/Code.vue
 ---
 
 <Demo name="code-block/hero" />

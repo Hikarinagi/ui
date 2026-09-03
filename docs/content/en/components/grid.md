@@ -4,8 +4,6 @@ description: A grid container laying its children out in a fixed number of colum
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/grid/Grid.vue
-  - label: SimpleGrid
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/simple-grid/SimpleGrid.vue
 ---
 
 <Demo name="grid/hero" />

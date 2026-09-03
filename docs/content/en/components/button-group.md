@@ -4,8 +4,6 @@ description: Joins several buttons into one unit that shares borders and corners
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/button-group/ButtonGroup.vue
-  - label: Button
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/button/Button.vue
 ---
 
 <Demo name="button-group/hero" />

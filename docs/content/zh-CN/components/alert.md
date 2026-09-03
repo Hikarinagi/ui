@@ -4,8 +4,6 @@ description: 操作之后出现在页面内的消息条。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/alert/Alert.vue
-  - label: 变体定义
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/callout/callout.variants.ts
 ---
 
 <Demo name="alert/hero" />

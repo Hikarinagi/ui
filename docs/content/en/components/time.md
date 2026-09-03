@@ -4,8 +4,6 @@ description: Shows a moment in the current language, optionally relative to now.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/time/Time.vue
-  - label: NumberFormat
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/number-format/NumberFormat.vue
 ---
 
 <Demo name="time/hero" />

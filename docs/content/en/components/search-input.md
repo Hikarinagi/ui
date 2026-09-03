@@ -4,8 +4,6 @@ description: A field for entering a search query.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/search-input/SearchInput.vue
-  - label: Variants
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/input/input.variants.ts
 ---
 
 <Demo name="search-input/hero" />

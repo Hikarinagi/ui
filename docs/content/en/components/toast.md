@@ -4,8 +4,8 @@ description: A short piece of feedback that floats in once an action finishes.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/toast/Toaster.vue
-  - label: Callout
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/callout/Callout.vue
+  - label: Toast
+    href: https://reka-ui.com/docs/components/toast
 ---
 
 <Demo name="toast/hero" />

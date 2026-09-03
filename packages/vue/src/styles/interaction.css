@@ -52,7 +52,9 @@
     }
   }
 
-  &:active:not(:disabled):not([data-disabled]):not(:has(.hn-ripple))::after {
+  &:active:not(:disabled):not([data-disabled]):not(:has(.hn-ripple))::after,
+  :where([data-hn-state-group]:active)
+    &:not(:disabled):not([data-disabled]):not(:has(.hn-ripple))::after {
     opacity: var(--hn-state-press-opacity);
   }
 

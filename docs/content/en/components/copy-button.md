@@ -4,8 +4,6 @@ description: Writes a piece of text to the clipboard and confirms the result.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/copy-button/CopyButton.vue
-  - label: IconButton
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/icon-button/IconButton.vue
 ---
 
 <Demo name="copy-button/hero" />

@@ -4,8 +4,6 @@ description: Lays its children out in a row, wrapping when they run out of room.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/inline/Inline.vue
-  - label: Stack
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/stack/Stack.vue
 ---
 
 <Demo name="inline/hero" />

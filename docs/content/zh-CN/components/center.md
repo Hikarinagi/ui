@@ -4,8 +4,6 @@ description: 把内容在两个方向上居中。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/center/Center.vue
-  - label: Flex
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/flex/Flex.vue
 ---
 
 <Demo name="center/hero" />

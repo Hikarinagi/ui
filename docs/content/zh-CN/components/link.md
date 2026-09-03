@@ -4,8 +4,6 @@ description: 文字链接，可渲染为原生链接或者路由组件。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/link/Link.vue
-  - label: Button
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/button/Button.vue
 ---
 
 <Demo name="link/hero" />

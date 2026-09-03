@@ -4,8 +4,8 @@ description: 多段内容依次展开与收起的折叠列表。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/accordion/Accordion.vue
-  - label: 变体定义
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/accordion/accordion.variants.ts
+  - label: Accordion
+    href: https://reka-ui.com/docs/components/accordion
 ---
 
 <Demo name="accordion/hero" />

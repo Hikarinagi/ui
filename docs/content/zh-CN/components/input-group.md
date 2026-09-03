@@ -4,8 +4,6 @@ description: 把前后缀、按钮与输入框合为一个输入面。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/input-group/InputGroup.vue
-  - label: 变体定义
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/input-group/input-group.variants.ts
 ---
 
 <Demo name="input-group/hero" />

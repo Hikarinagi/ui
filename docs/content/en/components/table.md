@@ -4,8 +4,6 @@ description: Static data organised into rows and columns.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/table/Table.vue
-  - label: Variants
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/table/table.variants.ts
 ---
 
 <Demo name="table/hero" />

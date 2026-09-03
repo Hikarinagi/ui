@@ -4,8 +4,6 @@ description: Headings whose semantic level and visual size are set independently
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/heading/Heading.vue
-  - label: Variants
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/heading/heading.variants.ts
 ---
 
 <Demo name="heading/hero" />

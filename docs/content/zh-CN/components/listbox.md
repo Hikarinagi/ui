@@ -4,8 +4,8 @@ description: 常驻的可选列表。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/listbox/Listbox.vue
-  - label: 变体定义
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/listbox/listbox.variants.ts
+  - label: Listbox
+    href: https://reka-ui.com/docs/components/listbox
 ---
 
 <Demo name="listbox/hero" />

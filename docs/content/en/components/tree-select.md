@@ -4,8 +4,8 @@ description: Picks one item from a tree.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/tree-select/TreeSelect.vue
-  - label: Variants
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/tree-select/tree-select.variants.ts
+  - label: Tree
+    href: https://reka-ui.com/docs/components/tree
 ---
 
 <Demo name="tree-select/hero" />

@@ -4,8 +4,8 @@ description: 操作完成后浮出的一条简短反馈。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/toast/Toaster.vue
-  - label: Callout
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/callout/Callout.vue
+  - label: Toast
+    href: https://reka-ui.com/docs/components/toast
 ---
 
 <Demo name="toast/hero" />

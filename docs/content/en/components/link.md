@@ -4,8 +4,6 @@ description: A text link that can render as a native anchor or a router componen
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/link/Link.vue
-  - label: Button
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/button/Button.vue
 ---
 
 <Demo name="link/hero" />

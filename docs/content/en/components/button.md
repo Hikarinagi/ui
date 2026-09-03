@@ -4,10 +4,6 @@ description: Triggers a single action. Variant sets the visual style, tone sets 
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/button/Button.vue
-  - label: Variants
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/button/button.variants.ts
-  - label: Interaction styles
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/styles/interaction.css
 ---
 
 <Demo name="button/hero" />

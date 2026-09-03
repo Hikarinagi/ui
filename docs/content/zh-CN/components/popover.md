@@ -4,8 +4,8 @@ description: 点击触发器后浮出的面板。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/popover/Popover.vue
-  - label: DropdownMenu
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/dropdown-menu/DropdownMenu.vue
+  - label: Popover
+    href: https://reka-ui.com/docs/components/popover
 ---
 
 <Demo name="popover/hero" />

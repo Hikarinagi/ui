@@ -4,8 +4,6 @@ description: 多行文本输入框。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/textarea/Textarea.vue
-  - label: 变体定义
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/textarea/textarea.variants.ts
 ---
 
 <Demo name="textarea/hero" />

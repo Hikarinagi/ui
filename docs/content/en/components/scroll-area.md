@@ -4,8 +4,8 @@ description: A scrolling region with overlay scrollbars.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/scroll-area/ScrollArea.vue
-  - label: AppShell
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/app-shell/AppShell.vue
+  - label: OverlayScrollbars
+    href: https://kingsora.github.io/OverlayScrollbars/
 ---
 
 <Demo name="scroll-area/hero" />

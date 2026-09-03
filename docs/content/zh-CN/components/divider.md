@@ -4,8 +4,8 @@ description: 分隔两段内容的细线。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/divider/Divider.vue
-  - label: Stack
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/stack/Stack.vue
+  - label: Separator
+    href: https://reka-ui.com/docs/components/separator
 ---
 
 <Demo name="divider/hero" />

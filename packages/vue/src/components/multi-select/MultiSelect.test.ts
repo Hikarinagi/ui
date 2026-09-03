@@ -64,7 +64,7 @@ describe('触发器', () => {
     expect(trigger.find('button[aria-label="清除"]').exists()).toBe(false)
   })
 
-  it('invalid 与 disabled：禁用后退出 Tab 序列、带 aria-disabled，清除钮不渲染', () => {
+  it('invalid 与 disabled：禁用后退出 Tab 序列、带 aria-disabled，清除钮不渲染，Chip 的移除钮也禁用', async () => {
     const invalid = triggerOf(mount(MultiSelect, { props: { options, invalid: true } }))
     expect(invalid.attributes('data-invalid')).toBe('')
     expect(invalid.attributes('aria-invalid')).toBe('true')
@@ -74,6 +74,18 @@ describe('触发器', () => {
     expect(disabled.attributes('tabindex')).toBe('-1')
     expect(disabled.attributes('aria-disabled')).toBe('true')
     expect(disabled.find('button[aria-label="清除"]').exists()).toBe(false)
+    const chips = mount(MultiSelect, {
+      props: { options, disabled: true, clearable: true, modelValue: ['gal', 'ln'] },
+    })
+    const removes = chips.findAll('[data-hn-chip] button')
+    expect(removes.length).toBeGreaterThan(0)
+    expect(removes.every(b => b.attributes('disabled') !== undefined)).toBe(true)
+    expect(chips.findAll('[data-hn-chip]').every(c => c.attributes('data-disabled') === '')).toBe(
+      true,
+    )
+    await removes[0]!.trigger('click')
+    expect(chips.emitted('update:modelValue')).toBeUndefined()
+    expect(chips.find('[data-hn-multi-select-clear]').exists()).toBe(false)
   })
 
   it('无 a11y 违规', async () => {

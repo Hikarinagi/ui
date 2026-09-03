@@ -1,7 +1,8 @@
 <script setup lang="ts">
-  import { ArrowLeft, ArrowRight } from '@lucide/vue'
-  import { siGithub } from 'simple-icons'
+  import { ArrowLeft, ArrowRight, Blocks } from '@lucide/vue'
+  import { siGithub, siRekaui } from 'simple-icons'
   import BrandIcon from '~/components/docs/BrandIcon'
+  import { overlayScrollbars } from '~/components/docs/brands'
   import {
     Anchor,
     Breadcrumb,
@@ -36,6 +37,14 @@
   }>()
 
   const { t } = useI18n()
+
+  function brand(href: string) {
+    const host = new URL(href).hostname
+    if (host === 'github.com') return siGithub
+    if (host === 'reka-ui.com') return siRekaui
+    if (host === 'kingsora.github.io') return overlayScrollbars
+    return undefined
+  }
   const localePath = useLocalePath()
   const route = useRoute()
   const category = computed(
@@ -131,7 +140,8 @@
           pill
         >
           <template #icon>
-            <BrandIcon :icon="siGithub" />
+            <BrandIcon v-if="brand(link.href)" :icon="brand(link.href)!" />
+            <Blocks v-else />
           </template>
           {{ link.label }}
         </Button>

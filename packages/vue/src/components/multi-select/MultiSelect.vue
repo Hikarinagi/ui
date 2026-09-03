@@ -52,6 +52,7 @@
   const clearing = computed(() => props.clearable && selected.value.length > 0 && !disabled.value)
 
   function remove(value: string | number) {
+    if (disabled.value) return
     model.value = model.value.filter(item => item !== value)
   }
 
@@ -93,14 +94,22 @@
             :key="option.value"
             :size="chipSize"
             removable
-            class="max-w-40 min-w-0 shrink"
+            :disabled="disabled"
+            class="max-w-40 min-w-0 shrink data-disabled:opacity-100"
             @pointerdown="isolate"
             @click="isolate"
             @remove="remove(option.value)"
           >
             <span class="min-w-0 truncate">{{ option.label }}</span>
           </Chip>
-          <Chip v-if="overflow > 0" :size="chipSize" class="shrink-0">+{{ overflow }}</Chip>
+          <Chip
+            v-if="overflow > 0"
+            :size="chipSize"
+            :disabled="disabled"
+            class="shrink-0 data-disabled:opacity-100"
+          >
+            +{{ overflow }}
+          </Chip>
         </template>
         <span v-else class="min-w-0 truncate">{{ props.placeholder ?? t.select.placeholder }}</span>
       </span>

@@ -120,10 +120,12 @@
     "password-input": "A password field with a visibility toggle",
     "prev-next": "A pair of links at the foot of a page leading to its neighbours",
     "prose": "A rich text container that styles native tags",
+    "radio-group": "Picks exactly one option from a set",
     "ripple": "A ripple spreading from the point of contact",
     "sidebar": "The navigation column on the left of an application, collapsible to a rail of icons",
     "spinner": "A spinning indicator for work in progress",
     "spoiler": "Hides spoilers until revealed",
+    "switch": "Toggles between on and off",
     "splitter": "Panes whose proportions are adjusted by dragging a divider",
     "table": "Static data organised into rows and columns",
     "tabs": "Several sets of content shown one at a time in the same place",
@@ -163,6 +165,7 @@
     "search-input": "A field for entering a search query",
     "select": "Picks one item from a list",
     "skeleton": "A placeholder that holds the shape of loading content",
+    "slider": "Picks a number within a range by dragging",
     "image": "An image that loads lazily and falls back when it fails"
   }
 }

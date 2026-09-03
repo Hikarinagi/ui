@@ -4,8 +4,8 @@ description: A modal dialog that interrupts the current task.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/dialog/Dialog.vue
-  - label: Drawer
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/drawer/Drawer.vue
+  - label: Dialog
+    href: https://reka-ui.com/docs/components/dialog
 ---
 
 <Demo name="dialog/hero" />

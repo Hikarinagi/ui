@@ -4,8 +4,8 @@ description: 悬停或聚焦时显示的简短说明。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/tooltip/Tooltip.vue
-  - label: Popover
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/popover/Popover.vue
+  - label: Tooltip
+    href: https://reka-ui.com/docs/components/tooltip
 ---
 
 <Demo name="tooltip/hero" />
@@ -50,6 +50,12 @@ Tooltip 需要外层有 `TooltipProvider`，`AppShell` 已经包含了一个。�
 
 <Demo name="tooltip/delay" />
 
+### 受控 {#controlled}
+
+传入 `open` 后，显示与隐藏由调用方决定，悬停与键盘焦点不再起作用；受控时提示的定位改为逐帧更新，可以跟随移动中的触发器，`Slider` 的取值标签即采用这种方式。
+
+<Demo name="tooltip/controlled" />
+
 ### 禁用 {#disabled}
 
 设置 `disabled` 后不创建浮层，只渲染触发器。
@@ -70,14 +76,15 @@ Tooltip 需要外层有 `TooltipProvider`，`AppShell` 已经包含了一个。�
 
 ### Tooltip {#props}
 
-| 属性         | 类型                                     | 默认值     | 说明               |
-| ------------ | ---------------------------------------- | ---------- | ------------------ |
-| `content`    | `string`                                 | —          | 提示的文字         |
-| `side`       | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'`    | 出现在哪一侧       |
-| `align`      | `'start' \| 'center' \| 'end'`           | `'center'` | 与触发器的对齐方式 |
-| `sideOffset` | `number`                                 | `8`        | 与触发器的距离     |
-| `disabled`   | `boolean`                                | `false`    | 是否禁用提示       |
-| `class`      | `string`                                 | —          | 追加到提示上的类名 |
+| 属性         | 类型                                     | 默认值     | 说明                                         |
+| ------------ | ---------------------------------------- | ---------- | -------------------------------------------- |
+| `content`    | `string`                                 | —          | 提示的文字                                   |
+| `side`       | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'`    | 出现在哪一侧                                 |
+| `align`      | `'start' \| 'center' \| 'end'`           | `'center'` | 与触发器的对齐方式                           |
+| `sideOffset` | `number`                                 | `8`        | 与触发器的距离                               |
+| `open`       | `boolean`                                | —          | 受控的显示状态，未传入时由悬停与键盘焦点决定 |
+| `disabled`   | `boolean`                                | `false`    | 是否禁用提示                                 |
+| `class`      | `string`                                 | —          | 追加到提示上的类名                           |
 
 | 插槽      | 说明                       |
 | --------- | -------------------------- |

@@ -4,6 +4,8 @@ description: Text visible only to screen readers.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/visually-hidden/VisuallyHidden.vue
+  - label: VisuallyHidden
+    href: https://reka-ui.com/docs/utilities/visually-hidden
 ---
 
 <Demo name="visually-hidden/hero" />

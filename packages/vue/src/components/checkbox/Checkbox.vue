@@ -7,6 +7,8 @@
     checkbox,
     checkboxBox,
     checkboxDescription,
+    checkboxTitle,
+    checkboxTitleText,
     type CheckboxVariants,
   } from './checkbox.variants'
 
@@ -39,7 +41,7 @@
       :disabled="props.disabled"
       :aria-invalid="props.invalid || undefined"
       :data-invalid="props.invalid ? '' : undefined"
-      :class="checkboxBox()"
+      :class="checkboxBox({ size: props.size })"
     >
       <Transition
         enter-active-class="hn-transition-press"
@@ -58,11 +60,11 @@
         <Minus v-if="state === 'indeterminate'" aria-hidden="true" />
       </Transition>
     </CheckboxRoot>
-    <span v-if="slots.default || props.description" class="flex min-w-0 flex-col">
-      <span><slot /></span>
-      <span v-if="props.description" :class="checkboxDescription({ size: props.size })">
-        {{ props.description }}
-      </span>
+    <span v-if="slots.default" :class="checkboxTitle()">
+      <span :class="checkboxTitleText()"><slot /></span>
+    </span>
+    <span v-if="props.description" :class="checkboxDescription({ size: props.size })">
+      {{ props.description }}
     </span>
   </label>
 </template>

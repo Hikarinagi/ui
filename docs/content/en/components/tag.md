@@ -4,8 +4,6 @@ description: A short label for status, category or attribute.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/tag/Tag.vue
-  - label: Variants
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/tag/tag.variants.ts
 ---
 
 <Demo name="tag/hero" />

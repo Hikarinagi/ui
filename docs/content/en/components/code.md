@@ -4,8 +4,6 @@ description: Inline code within body text, for variable names, properties and co
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/code/Code.vue
-  - label: CodeBlock
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/code-block/CodeBlock.vue
 ---
 
 <Demo name="code/hero" />

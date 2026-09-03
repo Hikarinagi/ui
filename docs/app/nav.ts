@@ -241,6 +241,12 @@ export const components: DocsComponent[] = [
     category: 'navigation',
   },
   { label: 'Prose', to: '/components/prose', i18n: 'components.prose', category: 'typography' },
+  {
+    label: 'RadioGroup',
+    to: '/components/radio-group',
+    i18n: 'components.radio-group',
+    category: 'forms',
+  },
   { label: 'Ripple', to: '/components/ripple', i18n: 'components.ripple', category: 'foundation' },
   {
     label: 'ScrollArea',
@@ -263,6 +269,7 @@ export const components: DocsComponent[] = [
     i18n: 'components.skeleton',
     category: 'atoms',
   },
+  { label: 'Slider', to: '/components/slider', i18n: 'components.slider', category: 'forms' },
   {
     label: 'SimpleGrid',
     to: '/components/simple-grid',
@@ -284,6 +291,7 @@ export const components: DocsComponent[] = [
     category: 'typography',
   },
   { label: 'Stack', to: '/components/stack', i18n: 'components.stack', category: 'layout' },
+  { label: 'Switch', to: '/components/switch', i18n: 'components.switch', category: 'forms' },
   { label: 'Table', to: '/components/table', i18n: 'components.table', category: 'data' },
   { label: 'Tabs', to: '/components/tabs', i18n: 'components.tabs', category: 'display' },
   { label: 'Tag', to: '/components/tag', i18n: 'components.tag', category: 'atoms' },

@@ -4,8 +4,6 @@ description: Joins addons and buttons with a field into one surface.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/input-group/InputGroup.vue
-  - label: Variants
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/input-group/input-group.variants.ts
 ---
 
 <Demo name="input-group/hero" />

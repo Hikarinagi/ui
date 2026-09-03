@@ -4,8 +4,6 @@ description: 完整控制方向、对齐与分布的 flex 容器。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/flex/Flex.vue
-  - label: Stack
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/stack/Stack.vue
 ---
 
 <Demo name="flex/hero" />

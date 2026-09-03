@@ -4,8 +4,8 @@ description: A small panel that floats out when a trigger is clicked.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/popover/Popover.vue
-  - label: DropdownMenu
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/dropdown-menu/DropdownMenu.vue
+  - label: Popover
+    href: https://reka-ui.com/docs/components/popover
 ---
 
 <Demo name="popover/hero" />

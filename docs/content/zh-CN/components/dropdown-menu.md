@@ -4,8 +4,8 @@ description: 点击触发器展开的一组操作。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/dropdown-menu/DropdownMenu.vue
-  - label: Popover
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/popover/Popover.vue
+  - label: DropdownMenu
+    href: https://reka-ui.com/docs/components/dropdown-menu
 ---
 
 <Demo name="dropdown-menu/hero" />

@@ -4,8 +4,6 @@ description: Hides spoilers until they are revealed by a click or hover.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/spoiler/Spoiler.vue
-  - label: Mark
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/mark/Mark.vue
 ---
 
 <Demo name="spoiler/hero" />

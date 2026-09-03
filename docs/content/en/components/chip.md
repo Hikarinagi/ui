@@ -4,8 +4,6 @@ description: An item that can be selected or removed.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/chip/Chip.vue
-  - label: Variants
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/chip/chip.variants.ts
 ---
 
 <Demo name="chip/hero" />

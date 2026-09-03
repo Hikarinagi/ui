@@ -1,0 +1,53 @@
+<script setup lang="ts">
+  import { SwitchRoot } from 'reka-ui'
+  import { useSlots } from 'vue'
+  import { cn } from '../../lib/cn'
+  import {
+    checkbox,
+    checkboxDescription,
+    checkboxTitle,
+    checkboxTitleText,
+  } from '../checkbox/checkbox.variants'
+  import { switchThumb, switchTrack, type SwitchVariants } from './switch.variants'
+
+  defineOptions({ name: 'HnSwitch', inheritAttrs: false })
+
+  const props = defineProps<{
+    size?: SwitchVariants['size']
+    description?: string
+    disabled?: boolean
+    invalid?: boolean
+    class?: string
+  }>()
+
+  const model = defineModel<boolean>({ default: false })
+
+  const slots = useSlots()
+</script>
+
+<template>
+  <label
+    data-hn-switch
+    data-hn-state-group
+    :data-disabled="props.disabled ? '' : undefined"
+    :class="cn(checkbox({ size: props.size }), props.class)"
+  >
+    <SwitchRoot
+      v-bind="$attrs"
+      v-model="model"
+      :disabled="props.disabled"
+      :aria-invalid="props.invalid || undefined"
+      :data-invalid="props.invalid ? '' : undefined"
+      :data-hn-on="model ? '' : undefined"
+      :class="switchTrack({ size: props.size })"
+    >
+      <span data-hn-thumb aria-hidden="true" :class="switchThumb()" />
+    </SwitchRoot>
+    <span v-if="slots.default" :class="checkboxTitle()">
+      <span :class="checkboxTitleText()"><slot /></span>
+    </span>
+    <span v-if="props.description" :class="checkboxDescription({ size: props.size })">
+      {{ props.description }}
+    </span>
+  </label>
+</template>

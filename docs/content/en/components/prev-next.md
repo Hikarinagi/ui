@@ -4,8 +4,6 @@ description: A pair of links at the foot of a page leading to its neighbours.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/prev-next/PrevNext.vue
-  - label: Variants
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/prev-next/prev-next.variants.ts
 ---
 
 <Demo name="prev-next/hero" />

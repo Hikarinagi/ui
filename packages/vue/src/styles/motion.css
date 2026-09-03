@@ -555,3 +555,15 @@
   transition-duration: var(--hn-duration-fast);
   transition-timing-function: var(--hn-ease-press);
 }
+
+@utility hn-switch-thumb {
+  transition-property: translate, background-color, border-color;
+  transition-duration: var(--hn-duration-base);
+  transition-timing-function: var(--hn-ease-press);
+}
+
+@utility hn-slider-move {
+  transition-property: left, right, top, bottom, inset-inline-start, inset-inline-end, width;
+  transition-duration: var(--hn-duration-fast);
+  transition-timing-function: var(--hn-ease-enter);
+}

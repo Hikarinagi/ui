@@ -4,8 +4,6 @@ description: 页面底部通往相邻两页的一对链接。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/prev-next/PrevNext.vue
-  - label: 变体定义
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/prev-next/prev-next.variants.ts
 ---
 
 <Demo name="prev-next/hero" />

@@ -54,11 +54,11 @@ describe('结构', () => {
   it('三档尺寸落在根上的字号与尺寸变量，描述随档位小一号', () => {
     const sm = mount(Checkbox, { props: { size: 'sm', description: 'd' } })
     expect(sm.classes()).toContain('text-sm')
-    expect(sm.classes()).toContain('[--hn-checkbox-size:0.875rem]')
+    expect(sm.find('[role="checkbox"]').classes()).toContain('[--hn-checkbox-size:0.875rem]')
     expect(sm.find('.text-muted').classes()).toContain('text-xs')
     const lg = mount(Checkbox, { props: { size: 'lg', description: 'd' } })
     expect(lg.classes()).toContain('text-md')
-    expect(lg.classes()).toContain('[--hn-checkbox-size:1.125rem]')
+    expect(lg.find('[role="checkbox"]').classes()).toContain('[--hn-checkbox-size:1.125rem]')
     expect(lg.find('.text-muted').classes()).toContain('text-base')
   })
 

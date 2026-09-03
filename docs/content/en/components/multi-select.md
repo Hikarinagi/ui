@@ -4,8 +4,8 @@ description: Picks several items from a list.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/multi-select/MultiSelect.vue
-  - label: Variants
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/multi-select/multi-select.variants.ts
+  - label: Select
+    href: https://reka-ui.com/docs/components/select
 ---
 
 <Demo name="multi-select/hero" />

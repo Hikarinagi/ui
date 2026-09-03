@@ -4,7 +4,7 @@ description: Panes whose proportions are adjusted by dragging a divider.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/splitter/Splitter.vue
-  - label: Reka UI
+  - label: Splitter
     href: https://reka-ui.com/docs/components/splitter
 ---
 

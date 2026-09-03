@@ -4,8 +4,8 @@ description: A set of checkboxes sharing one array value.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/checkbox-group/CheckboxGroup.vue
-  - label: Variants
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/checkbox-group/checkbox-group.variants.ts
+  - label: Checkbox
+    href: https://reka-ui.com/docs/components/checkbox
 ---
 
 <Demo name="checkbox-group/hero" />

@@ -4,8 +4,6 @@ description: 导航列表中的一项，标示当前所在的页面。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/nav-link/NavLink.vue
-  - label: 变体定义
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/nav-link/nav-link.variants.ts
 ---
 
 <Demo name="nav-link/hero" />

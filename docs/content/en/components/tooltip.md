@@ -4,8 +4,8 @@ description: A short note shown on hover or focus.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/tooltip/Tooltip.vue
-  - label: Popover
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/popover/Popover.vue
+  - label: Tooltip
+    href: https://reka-ui.com/docs/components/tooltip
 ---
 
 <Demo name="tooltip/hero" />
@@ -50,6 +50,12 @@ The `content` slot takes more than text, a shortcut for instance. A line past th
 
 <Demo name="tooltip/delay" />
 
+### Controlled {#controlled}
+
+With `open` set, visibility is up to the caller and hover and keyboard focus no longer apply; a controlled tooltip repositions every frame, so it can follow a moving trigger, which is how the `Slider` value label works.
+
+<Demo name="tooltip/controlled" />
+
 ### Disabling {#disabled}
 
 With `disabled`, no overlay is built and only the trigger is rendered.
@@ -70,14 +76,15 @@ With `disabled`, no overlay is built and only the trigger is rendered.
 
 ### Tooltip {#props}
 
-| Prop         | Type                                     | Default    | Description                      |
-| ------------ | ---------------------------------------- | ---------- | -------------------------------- |
-| `content`    | `string`                                 | —          | The text of the tooltip          |
-| `side`       | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'`    | Which side it appears on         |
-| `align`      | `'start' \| 'center' \| 'end'`           | `'center'` | How it lines up with the trigger |
-| `sideOffset` | `number`                                 | `8`        | Distance from the trigger        |
-| `disabled`   | `boolean`                                | `false`    | Whether the tooltip is disabled  |
-| `class`      | `string`                                 | —          | Classes appended to the tooltip  |
+| Prop         | Type                                     | Default    | Description                                                       |
+| ------------ | ---------------------------------------- | ---------- | ----------------------------------------------------------------- |
+| `content`    | `string`                                 | —          | The text of the tooltip                                           |
+| `side`       | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'`    | Which side it appears on                                          |
+| `align`      | `'start' \| 'center' \| 'end'`           | `'center'` | How it lines up with the trigger                                  |
+| `sideOffset` | `number`                                 | `8`        | Distance from the trigger                                         |
+| `open`       | `boolean`                                | —          | Controlled visibility; hover and keyboard focus decide when unset |
+| `disabled`   | `boolean`                                | `false`    | Whether the tooltip is disabled                                   |
+| `class`      | `string`                                 | —          | Classes appended to the tooltip                                   |
 
 | Slot      | Description                          |
 | --------- | ------------------------------------ |

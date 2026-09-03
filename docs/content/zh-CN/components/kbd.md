@@ -4,8 +4,6 @@ description: 键盘按键，用于说明快捷键。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/kbd/Kbd.vue
-  - label: Code
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/code/Code.vue
 ---
 
 <Demo name="kbd/hero" />

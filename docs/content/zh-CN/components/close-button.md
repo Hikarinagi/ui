@@ -4,8 +4,6 @@ description: 用于关闭对话框、抽屉与提示的按钮。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/close-button/CloseButton.vue
-  - label: IconButton
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/icon-button/IconButton.vue
 ---
 
 <Demo name="close-button/hero" />

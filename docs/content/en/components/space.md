@@ -4,8 +4,6 @@ description: An empty element that takes up room inside a flex container.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/space/Space.vue
-  - label: Inline
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/inline/Inline.vue
 ---
 
 <Demo name="space/hero" />

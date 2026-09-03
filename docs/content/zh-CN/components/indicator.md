@@ -4,8 +4,6 @@ description: 表示状态的小圆点。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/indicator/Indicator.vue
-  - label: 变体定义
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/indicator/indicator.variants.ts
 ---
 
 <Demo name="indicator/hero" />

@@ -4,8 +4,8 @@ description: Picks one item from a list.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/select/Select.vue
-  - label: Variants
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/select/select.variants.ts
+  - label: Select
+    href: https://reka-ui.com/docs/components/select
 ---
 
 <Demo name="select/hero" />

@@ -4,8 +4,8 @@ description: Several sets of content shown one at a time in the same place.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/tabs/Tabs.vue
-  - label: Variants
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/tabs/tabs.variants.ts
+  - label: Tabs
+    href: https://reka-ui.com/docs/components/tabs
 ---
 
 <Demo name="tabs/hero" />

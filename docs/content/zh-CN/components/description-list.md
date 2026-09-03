@@ -4,8 +4,6 @@ description: 成组的名称与取值，用于详情页的属性罗列。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/description-list/DescriptionList.vue
-  - label: Table
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/table/Table.vue
 ---
 
 <Demo name="description-list/hero" />

@@ -4,8 +4,6 @@ description: A flex container with full control over direction, alignment and di
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/flex/Flex.vue
-  - label: Stack
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/stack/Stack.vue
 ---
 
 <Demo name="flex/hero" />

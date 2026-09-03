@@ -4,8 +4,8 @@ description: A field for entering numbers.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/number-input/NumberInput.vue
-  - label: Variants
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/number-input/number-input.variants.ts
+  - label: NumberField
+    href: https://reka-ui.com/docs/components/number-field
 ---
 
 <Demo name="number-input/hero" />

@@ -4,8 +4,6 @@ description: 承载一组内容的容器，比页面底色高出一层。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/card/Card.vue
-  - label: 变体定义
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/card/card.variants.ts
 ---
 
 <Demo name="card/hero" />

@@ -4,6 +4,8 @@ description: 只对屏幕阅读器可见的文字。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/visually-hidden/VisuallyHidden.vue
+  - label: VisuallyHidden
+    href: https://reka-ui.com/docs/utilities/visually-hidden
 ---
 
 <Demo name="visually-hidden/hero" />

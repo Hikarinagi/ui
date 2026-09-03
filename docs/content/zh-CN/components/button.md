@@ -4,10 +4,6 @@ description: 触发一次操作的按钮。变体决定视觉样式，色调决�
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/button/Button.vue
-  - label: 变体定义
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/button/button.variants.ts
-  - label: 交互样式
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/styles/interaction.css
 ---
 
 <Demo name="button/hero" />

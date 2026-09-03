@@ -4,8 +4,6 @@ description: Centres its content on both axes.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/center/Center.vue
-  - label: Flex
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/flex/Flex.vue
 ---
 
 <Demo name="center/hero" />

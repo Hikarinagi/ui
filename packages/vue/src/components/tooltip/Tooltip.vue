@@ -10,15 +10,16 @@
       side?: 'top' | 'right' | 'bottom' | 'left'
       align?: 'start' | 'center' | 'end'
       sideOffset?: number
+      open?: boolean
       disabled?: boolean
       class?: string
     }>(),
-    { side: 'top', align: 'center', sideOffset: 8, disabled: false },
+    { side: 'top', align: 'center', sideOffset: 8, open: undefined, disabled: false },
   )
 </script>
 
 <template>
-  <TooltipRoot :disabled="props.disabled" ignore-non-keyboard-focus>
+  <TooltipRoot :open="props.open" :disabled="props.disabled" ignore-non-keyboard-focus>
     <TooltipTrigger as-child>
       <slot />
     </TooltipTrigger>
@@ -27,6 +28,8 @@
         :side="props.side"
         :align="props.align"
         :side-offset="props.sideOffset"
+        :aria-label="props.content"
+        :update-position-strategy="props.open === undefined ? 'optimized' : 'always'"
         :class="
           cn(
             'hn-anim-pop [--hn-pop-in:var(--hn-duration-fast)] bg-neutral-solid text-neutral-solid-on z-(--hn-z-overlay)',

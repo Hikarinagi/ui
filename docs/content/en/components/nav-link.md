@@ -4,8 +4,6 @@ description: One entry in a navigation list, marking the current page.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/nav-link/NavLink.vue
-  - label: Variants
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/nav-link/nav-link.variants.ts
 ---
 
 <Demo name="nav-link/hero" />

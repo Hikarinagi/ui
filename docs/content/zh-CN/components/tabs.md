@@ -4,8 +4,8 @@ description: 在同一位置切换显示的几组内容。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/tabs/Tabs.vue
-  - label: 变体定义
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/tabs/tabs.variants.ts
+  - label: Tabs
+    href: https://reka-ui.com/docs/components/tabs
 ---
 
 <Demo name="tabs/hero" />

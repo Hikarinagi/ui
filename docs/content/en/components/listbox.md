@@ -4,8 +4,8 @@ description: An always-visible list of options.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/listbox/Listbox.vue
-  - label: Variants
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/listbox/listbox.variants.ts
+  - label: Listbox
+    href: https://reka-ui.com/docs/components/listbox
 ---
 
 <Demo name="listbox/hero" />

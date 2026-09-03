@@ -4,8 +4,8 @@ description: A select that filters as you type.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/combobox/Combobox.vue
-  - label: Variants
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/combobox/combobox.variants.ts
+  - label: Combobox
+    href: https://reka-ui.com/docs/components/combobox
 ---
 
 <Demo name="combobox/hero" />

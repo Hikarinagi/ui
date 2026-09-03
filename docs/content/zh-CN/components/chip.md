@@ -4,8 +4,6 @@ description: 可选中或者可移除的条目。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/chip/Chip.vue
-  - label: 变体定义
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/chip/chip.variants.ts
 ---
 
 <Demo name="chip/hero" />

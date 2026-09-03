@@ -4,8 +4,6 @@ description: A rich text container that styles the native tags inside it.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/prose/Prose.vue
-  - label: Typography styles
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/styles/typography.css
 ---
 
 <Demo name="prose/hero" />

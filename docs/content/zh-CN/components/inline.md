@@ -4,8 +4,6 @@ description: 把子元素横向排成一行，放不下时换行。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/inline/Inline.vue
-  - label: Stack
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/stack/Stack.vue
 ---
 
 <Demo name="inline/hero" />

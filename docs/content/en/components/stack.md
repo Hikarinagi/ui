@@ -4,8 +4,6 @@ description: Lays its children out in a single column.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/stack/Stack.vue
-  - label: Inline
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/inline/Inline.vue
 ---
 
 <Demo name="stack/hero" />

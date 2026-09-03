@@ -4,8 +4,6 @@ description: Dismisses dialogs, drawers and toasts.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/close-button/CloseButton.vue
-  - label: IconButton
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/icon-button/IconButton.vue
 ---
 
 <Demo name="close-button/hero" />

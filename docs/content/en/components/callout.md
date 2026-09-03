@@ -4,8 +4,6 @@ description: A note written into the content.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/callout/Callout.vue
-  - label: Variants
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/callout/callout.variants.ts
 ---
 
 <Demo name="callout/hero" />

@@ -4,8 +4,6 @@ description: 表示正在进行中的旋转指示。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/spinner/Spinner.vue
-  - label: 变体定义
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/spinner/spinner.variants.ts
 ---
 
 <Demo name="spinner/hero" />

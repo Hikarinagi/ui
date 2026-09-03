@@ -4,8 +4,6 @@ description: Ordered and unordered lists.
 links:
   - label: Source
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/list/List.vue
-  - label: DescriptionList
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/description-list/DescriptionList.vue
 ---
 
 <Demo name="list/hero" />

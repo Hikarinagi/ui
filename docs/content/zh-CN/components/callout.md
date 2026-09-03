@@ -4,8 +4,6 @@ description: 写入内容之中的一段标注。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/callout/Callout.vue
-  - label: 变体定义
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/callout/callout.variants.ts
 ---
 
 <Demo name="callout/hero" />

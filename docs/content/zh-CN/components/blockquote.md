@@ -4,8 +4,6 @@ description: 引用他处的整段文字，并标明出处。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/blockquote/Blockquote.vue
-  - label: Callout
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/callout/Callout.vue
 ---
 
 <Demo name="blockquote/hero" />

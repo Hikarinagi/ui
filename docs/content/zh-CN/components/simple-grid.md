@@ -4,8 +4,6 @@ description: 按最小列宽自动决定列数的等宽栅格。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/simple-grid/SimpleGrid.vue
-  - label: Grid
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/grid/Grid.vue
 ---
 
 <Demo name="simple-grid/hero" />

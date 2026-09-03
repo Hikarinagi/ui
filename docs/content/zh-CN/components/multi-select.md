@@ -4,8 +4,8 @@ description: 从列表中选择多项。
 links:
   - label: 源码
     href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/multi-select/MultiSelect.vue
-  - label: 变体定义
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/multi-select/multi-select.variants.ts
+  - label: Select
+    href: https://reka-ui.com/docs/components/select
 ---
 
 <Demo name="multi-select/hero" />
