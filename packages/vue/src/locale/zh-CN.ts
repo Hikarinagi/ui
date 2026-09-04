@@ -100,4 +100,33 @@ export const zhCN: UiMessages = {
   pinInput: {
     cellLabel: (index, total) => `第 ${index} 位，共 ${total} 位`,
   },
+  dateField: {
+    year: '年',
+    month: '月',
+    day: '日',
+    hour: '时',
+    minute: '分',
+    second: '秒',
+    dayPeriod: '上午或下午',
+  },
+  dateRangeField: {
+    start: '开始日期',
+    end: '结束日期',
+    separator: '至',
+  },
+  datePicker: {
+    open: '打开日历',
+  },
+  calendar: {
+    label: '日历',
+    prev: '上个月',
+    next: '下个月',
+    prevYear: '上一年',
+    nextYear: '下一年',
+    prevYears: '前十二年',
+    nextYears: '后十二年',
+    pickMonth: '选择月份',
+    pickYear: '选择年份',
+    weekStartsOn: 1,
+  },
 }

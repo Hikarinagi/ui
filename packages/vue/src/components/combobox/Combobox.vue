@@ -4,18 +4,21 @@
   import { cn } from '../../lib/cn'
   import { focusFieldFrom } from '../../lib/field-focus'
   import { useUiLocale } from '../../locale'
-  import CloseButton from '../close-button/CloseButton.vue'
+  import { X } from '@lucide/vue'
+  import InputAction from '../input/InputAction.vue'
   import DisclosureIcon from '../disclosure-icon/DisclosureIcon.vue'
   import { injectInputGroup } from '../input-group/context'
   import {
+    inputActionSlot,
+    inputAdornment,
     inputControl,
     inputEmbedded,
     inputHost,
+    inputIndicator,
     type InputVariants,
   } from '../input/input.variants'
   import { flattenOptions, type SelectItems, type SelectOption } from '../select/types'
   import ComboboxList from './ComboboxList.vue'
-  import { comboboxToggle } from './combobox.variants'
 
   defineOptions({ name: 'HnCombobox', inheritAttrs: false })
 
@@ -46,7 +49,6 @@
   const size = computed(() => (group ? group.size.value : props.size))
   const disabled = computed(() => props.disabled || !!group?.disabled.value)
   const invalid = computed(() => props.invalid || !!group?.invalid.value)
-  const closeSize = computed(() => (size.value === 'sm' ? 'xs' : size.value === 'lg' ? 'md' : 'sm'))
   const clearing = computed(
     () => !!props.clearable && model.value != null && model.value !== '' && !disabled.value,
   )
@@ -108,22 +110,19 @@
           leave-active-class="hn-transition"
           leave-to-class="scale-90 opacity-0"
         >
-          <span v-if="clearing" data-hn-combobox-clear class="flex shrink-0 items-center ps-2">
-            <CloseButton
-              :label="t.common.clear"
-              :size="closeSize"
-              @mousedown.prevent
-              @click="clear"
-            />
+          <span v-if="clearing" data-hn-combobox-clear :class="inputActionSlot()">
+            <InputAction :label="t.common.clear" @click="clear">
+              <X />
+            </InputAction>
           </span>
         </Transition>
         <ComboboxTrigger
           :aria-label="t.combobox.toggle"
           :disabled="disabled"
-          :class="comboboxToggle()"
+          :class="cn(inputAdornment(), inputIndicator())"
           @mousedown.prevent
         >
-          <DisclosureIcon :open="open" class="[&>svg]:size-[var(--hn-input-icon)]" />
+          <DisclosureIcon :open="open" />
         </ComboboxTrigger>
       </div>
     </ComboboxAnchor>

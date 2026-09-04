@@ -38,6 +38,10 @@ function merge(base: UiMessages, patch: PartialUiMessages): UiMessages {
     combobox: { ...base.combobox, ...patch.combobox },
     slider: { ...base.slider, ...patch.slider },
     pinInput: { ...base.pinInput, ...patch.pinInput },
+    dateField: { ...base.dateField, ...patch.dateField },
+    dateRangeField: { ...base.dateRangeField, ...patch.dateRangeField },
+    calendar: { ...base.calendar, ...patch.calendar },
+    datePicker: { ...base.datePicker, ...patch.datePicker },
   }
 }
 

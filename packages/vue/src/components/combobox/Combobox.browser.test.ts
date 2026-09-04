@@ -200,6 +200,7 @@ describe('combobox · 清除钮与 MultiSelect 对齐', () => {
       props: { options, modelValue: ['gal'], clearable: true },
       attrs: { 'aria-label': 'multi' },
       attachTo: attach(),
+      global: { stubs: { transition: false } },
     })
     mounted.push(multi)
     const multiHost = multi.find('[data-hn-multi-select]').element as HTMLElement

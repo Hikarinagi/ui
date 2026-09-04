@@ -124,9 +124,9 @@
     opacity var(--hn-duration-fast) var(--hn-ease-enter);
 
   @media (hover: hover) {
-    &:hover:not(:disabled):not(:has(:disabled)):not(:has(:is(input, textarea):focus-visible)):not(
-        [data-invalid]
-      ) {
+    &:hover:not(:disabled):not(:has(:disabled)):not(
+        :has(:is(input, textarea, [data-hn-segment]):focus-visible)
+      ):not([data-invalid]) {
       background-color: color-mix(
         in oklab,
         var(--hn-field-bg, var(--hn-surface)) calc(100% - var(--hn-state-hover-opacity) * 100%),
@@ -135,7 +135,7 @@
     }
 
     &[data-invalid]:hover:not(:disabled):not(:has(:disabled)):not(
-        :has(:is(input, textarea):focus-visible)
+        :has(:is(input, textarea, [data-hn-segment]):focus-visible)
       ) {
       background-color: color-mix(
         in oklab,
@@ -151,7 +151,7 @@
   }
 
   &:focus-visible,
-  &:has(:is(input, textarea):focus-visible) {
+  &:has(:is(input, textarea, [data-hn-segment]):focus-visible) {
     --hn-field-ring-w: 2px;
   }
 
@@ -166,7 +166,7 @@
   }
 
   &[data-invalid]:focus-visible,
-  &[data-invalid]:has(:is(input, textarea):focus-visible) {
+  &[data-invalid]:has(:is(input, textarea, [data-hn-segment]):focus-visible) {
     --hn-field-ring-w: 1px;
   }
 }

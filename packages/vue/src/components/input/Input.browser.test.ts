@@ -139,7 +139,7 @@ describe('card 无自带 hover 效果', () => {
 })
 
 describe('附属件方格', () => {
-  it('每格是控件高的正方形，钮居中天然留 4px；清除后焦点仍在输入区', async () => {
+  it('每格是控件高的正方形，清除钮就是整格、贴着宿主内缘；清除后焦点仍在输入区', async () => {
     for (const size of ['sm', 'md', 'lg'] as const) {
       const w = mount(Input, {
         props: { size, clearable: true, modelValue: '星见' },
@@ -152,7 +152,11 @@ describe('附属件方格', () => {
       const button = box.querySelector('button') as HTMLElement
       expect(box.getBoundingClientRect().width).toBe(root.offsetHeight)
       expect(getComputedStyle(root.querySelector('input')!).paddingInlineEnd).toBe('0px')
-      expect(box.getBoundingClientRect().right - button.getBoundingClientRect().right).toBe(4)
+      expect(button.getBoundingClientRect().width).toBe(root.offsetHeight)
+      expect(box.getBoundingClientRect().right - button.getBoundingClientRect().right).toBe(0)
+      expect(root.getBoundingClientRect().right - button.getBoundingClientRect().right).toBe(
+        parseFloat(getComputedStyle(root).borderRightWidth),
+      )
     }
 
     const w = mount(Input, {

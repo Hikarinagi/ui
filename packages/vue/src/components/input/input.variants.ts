@@ -2,7 +2,7 @@ import { tv, type VariantProps } from '../../lib/tv'
 
 export const inputHost = tv({
   base: [
-    'hn-field text-fg flex w-full min-w-0 items-stretch overflow-hidden rounded-md border font-medium',
+    'hn-field text-fg flex w-full min-w-0 cursor-text items-stretch overflow-hidden rounded-md border font-medium',
     'has-disabled:cursor-not-allowed has-disabled:opacity-50',
   ],
   variants: {
@@ -40,9 +40,25 @@ export const inputControl = tv({
 
 export const inputAdornment = tv({
   base: [
-    'text-muted relative flex min-w-[var(--hn-input-h)] shrink-0 cursor-text items-center justify-center px-1',
+    'text-muted relative flex min-w-[var(--hn-input-h)] shrink-0 items-center justify-center self-stretch px-1',
     '[&>svg]:size-[var(--hn-input-icon)] [&>span_svg]:size-[var(--hn-input-icon)]',
   ],
+})
+
+export const inputAction = tv({
+  base: [
+    'hn-interactive hn-state-layer text-fg cursor-pointer outline-none',
+    'focus-visible:[outline-offset:calc(var(--hn-focus-ring-offset)*-1)]',
+    'disabled:pointer-events-none',
+  ],
+})
+
+export const inputIndicator = tv({
+  base: 'cursor-pointer outline-none',
+})
+
+export const inputActionSlot = tv({
+  base: 'flex shrink-0 items-stretch self-stretch',
 })
 
 export type InputVariants = VariantProps<typeof inputHost>

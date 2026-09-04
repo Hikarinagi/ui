@@ -2,8 +2,8 @@
   import { Eye, EyeOff } from '@lucide/vue'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
-  import IconButton from '../icon-button/IconButton.vue'
-  import Input from '../input/Input.vue'
+  import InputBase from '../input/InputBase.vue'
+  import InputAction from '../input/InputAction.vue'
   import type { InputVariants } from '../input/input.variants'
 
   defineOptions({ name: 'HnPasswordInput', inheritAttrs: false })
@@ -23,7 +23,7 @@
 </script>
 
 <template>
-  <Input
+  <InputBase
     v-bind="$attrs"
     v-model="model"
     :type="visible ? 'text' : 'password'"
@@ -33,15 +33,10 @@
     :invalid="props.invalid"
     :class="cn('[&_input::-ms-reveal]:hidden', props.class)"
   >
-    <template #trailing>
-      <IconButton
+    <template #action>
+      <InputAction
         :label="visible ? t.passwordInput.hide : t.passwordInput.show"
-        :tooltip="false"
-        :size="props.size === 'lg' ? 'md' : 'sm'"
-        pill
         :disabled="props.disabled"
-        :class="props.size === 'sm' ? 'size-5 [&_svg]:size-3' : undefined"
-        @mousedown.prevent
         @click="visible = !visible"
       >
         <span class="relative inline-flex">
@@ -55,7 +50,7 @@
             <Eye v-else key="show" />
           </Transition>
         </span>
-      </IconButton>
+      </InputAction>
     </template>
-  </Input>
+  </InputBase>
 </template>

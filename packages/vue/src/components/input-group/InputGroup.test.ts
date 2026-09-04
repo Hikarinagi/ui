@@ -45,7 +45,7 @@ describe('一副输入面', () => {
     expect(w.classes().join(' ')).toContain('control-h-lg')
     expect(w.classes()).toContain('border-transparent')
     expect(w.classes().join(' ')).toContain('--hn-input-icon:1.125rem')
-    expect(w.find('[data-hn-input] > span').classes().join(' ')).toContain('var(--hn-input-icon)')
+    expect(w.find('[data-hn-input] button').classes().join(' ')).toContain('var(--hn-input-icon)')
   })
 
   it('disabled 与 invalid 下发到组内的每个输入框', () => {

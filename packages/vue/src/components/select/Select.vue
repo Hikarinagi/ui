@@ -5,7 +5,12 @@
   import { useUiLocale } from '../../locale'
   import DisclosureIcon from '../disclosure-icon/DisclosureIcon.vue'
   import { injectInputGroup } from '../input-group/context'
-  import { inputEmbedded, inputHost, type InputVariants } from '../input/input.variants'
+  import {
+    inputAdornment,
+    inputEmbedded,
+    inputHost,
+    type InputVariants,
+  } from '../input/input.variants'
   import SelectList from './SelectList.vue'
   import { selectTrigger } from './select.variants'
   import { flattenOptions, type SelectItems, type SelectOption } from './types'
@@ -64,7 +69,9 @@
         </template>
         <template v-else>{{ props.placeholder ?? t.select.placeholder }}</template>
       </span>
-      <DisclosureIcon class="text-muted" />
+      <span :class="inputAdornment()">
+        <DisclosureIcon />
+      </span>
     </SelectTrigger>
     <SelectList :options="props.options" :keyboard="keyboard">
       <template #option="slotProps">

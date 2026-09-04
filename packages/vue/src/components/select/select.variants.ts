@@ -2,7 +2,7 @@ import { tv } from '../../lib/tv'
 
 export const selectTrigger = tv({
   base: [
-    'group/hn-disclosure cursor-pointer items-center gap-2 px-[var(--hn-input-px)] text-start',
+    'group/hn-disclosure cursor-pointer items-center ps-[var(--hn-input-px)] pe-0 text-start',
     'data-placeholder:text-faint data-placeholder:font-normal',
     'disabled:cursor-not-allowed disabled:opacity-50',
     '[&_svg]:size-[var(--hn-input-icon)] [&_svg]:shrink-0',

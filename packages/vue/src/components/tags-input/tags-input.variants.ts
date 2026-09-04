@@ -1,7 +1,7 @@
 import { tv, type VariantProps } from '../../lib/tv'
 
 export const tagsInputHost = tv({
-  base: 'relative h-auto min-h-[var(--hn-input-h)] cursor-text gap-1 ps-[var(--hn-input-px)]',
+  base: 'relative h-auto min-h-[var(--hn-input-h)] gap-1 ps-[var(--hn-input-px)]',
   variants: {
     size: {
       sm: 'py-[calc((0.25rem-2px)/2)]',

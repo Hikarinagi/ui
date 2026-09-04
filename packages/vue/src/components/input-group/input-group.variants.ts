@@ -9,5 +9,5 @@ export const inputGroup = tv({
 })
 
 export const inputGroupAddon = tv({
-  base: 'text-muted flex shrink-0 cursor-text items-center gap-2 px-[var(--hn-input-px)] whitespace-nowrap [&>svg]:size-[var(--hn-input-icon)]',
+  base: 'text-muted flex shrink-0 items-center gap-2 px-[var(--hn-input-px)] whitespace-nowrap [&>svg]:size-[var(--hn-input-icon)]',
 })

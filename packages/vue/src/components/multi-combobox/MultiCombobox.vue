@@ -7,11 +7,17 @@
   import { buttonIconBox } from '../button/button.variants'
   import IconSlot from '../button/IconSlot.vue'
   import Chip from '../chip/Chip.vue'
-  import CloseButton from '../close-button/CloseButton.vue'
+  import { X } from '@lucide/vue'
+  import InputAction from '../input/InputAction.vue'
   import ComboboxList from '../combobox/ComboboxList.vue'
-  import { comboboxToggle } from '../combobox/combobox.variants'
   import DisclosureIcon from '../disclosure-icon/DisclosureIcon.vue'
-  import { inputHost, type InputVariants } from '../input/input.variants'
+  import {
+    inputActionSlot,
+    inputAdornment,
+    inputHost,
+    inputIndicator,
+    type InputVariants,
+  } from '../input/input.variants'
   import { flattenOptions, type SelectItems, type SelectOption } from '../select/types'
   import {
     tagsInputChip,
@@ -19,11 +25,7 @@
     tagsInputHost,
     tagsInputList,
   } from '../tags-input/tags-input.variants'
-  import {
-    multiComboboxClear,
-    multiComboboxEnd,
-    multiComboboxHost,
-  } from './multi-combobox.variants'
+  import { multiComboboxEnd, multiComboboxHost } from './multi-combobox.variants'
 
   defineOptions({ name: 'HnMultiCombobox', inheritAttrs: false })
 
@@ -68,7 +70,6 @@
     model.value.map(value => ({ value, label: labels.get(value) ?? String(value) })),
   )
   const chipSize = computed(() => (props.size === 'sm' ? 'sm' : 'md'))
-  const closeSize = computed(() => (props.size === 'sm' ? 'xs' : props.size === 'lg' ? 'md' : 'sm'))
   const clearing = computed(() => props.clearable && selected.value.length > 0 && !props.disabled)
 
   watch(open, value => {
@@ -123,7 +124,7 @@
           cn(
             inputHost({ variant: props.variant, size: props.size }),
             tagsInputHost({ size: props.size, trailing: true }),
-            multiComboboxHost({ size: props.size, clearing }),
+            multiComboboxHost({ clearing }),
             props.class,
           )
         "
@@ -161,19 +162,16 @@
             leave-active-class="hn-transition"
             leave-to-class="scale-90 opacity-0"
           >
-            <span v-if="clearing" data-hn-multi-combobox-clear :class="multiComboboxClear()">
-              <CloseButton
-                :label="t.common.clear"
-                :size="closeSize"
-                @mousedown.prevent
-                @click="clear"
-              />
+            <span v-if="clearing" data-hn-multi-combobox-clear :class="inputActionSlot()">
+              <InputAction :label="t.common.clear" @click="clear">
+                <X />
+              </InputAction>
             </span>
           </Transition>
           <ComboboxTrigger
             :aria-label="t.combobox.toggle"
             :disabled="props.disabled"
-            :class="comboboxToggle()"
+            :class="cn(inputAdornment(), inputIndicator())"
             @mousedown.prevent
           >
             <IconSlot
@@ -181,7 +179,7 @@
               :swapped="!!props.loading"
               spinner-size="sm"
             >
-              <DisclosureIcon :open="open" class="[&>svg]:size-[var(--hn-input-icon)]" />
+              <DisclosureIcon :open="open" />
             </IconSlot>
           </ComboboxTrigger>
         </span>

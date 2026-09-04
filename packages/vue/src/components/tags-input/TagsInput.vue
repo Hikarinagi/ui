@@ -4,8 +4,9 @@
   import { cn } from '../../lib/cn'
   import { focusFieldFrom } from '../../lib/field-focus'
   import { useUiLocale } from '../../locale'
-  import CloseButton from '../close-button/CloseButton.vue'
-  import { inputAdornment, inputHost, type InputVariants } from '../input/input.variants'
+  import { X } from '@lucide/vue'
+  import InputAction from '../input/InputAction.vue'
+  import { inputActionSlot, inputHost, type InputVariants } from '../input/input.variants'
   import TagsInputChip from './TagsInputChip.vue'
   import { tagsInputControl, tagsInputHost, tagsInputList } from './tags-input.variants'
 
@@ -37,7 +38,6 @@
   const t = useUiLocale()
 
   const chipSize = computed(() => (props.size === 'sm' ? 'sm' : 'md'))
-  const closeSize = computed(() => (props.size === 'sm' ? 'xs' : props.size === 'lg' ? 'md' : 'sm'))
   const clearing = computed(() => props.clearable && model.value.length > 0 && !props.disabled)
 
   function remove(tag: string) {
@@ -113,14 +113,11 @@
       <span
         v-if="clearing"
         data-hn-tags-input-clear
-        :class="cn(inputAdornment(), 'absolute inset-y-0 end-0')"
+        :class="cn(inputActionSlot(), 'absolute inset-y-0 end-0')"
       >
-        <CloseButton
-          :label="t.common.clear"
-          :size="closeSize"
-          @mousedown.prevent
-          @click.stop="clear"
-        />
+        <InputAction :label="t.common.clear" @click.stop="clear">
+          <X />
+        </InputAction>
       </span>
     </Transition>
   </div>

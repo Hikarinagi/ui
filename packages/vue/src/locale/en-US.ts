@@ -100,4 +100,33 @@ export const enUS: UiMessages = {
   pinInput: {
     cellLabel: (index, total) => `Digit ${index} of ${total}`,
   },
+  dateField: {
+    year: 'Year',
+    month: 'Month',
+    day: 'Day',
+    hour: 'Hour',
+    minute: 'Minute',
+    second: 'Second',
+    dayPeriod: 'AM or PM',
+  },
+  dateRangeField: {
+    start: 'start date',
+    end: 'end date',
+    separator: '–',
+  },
+  datePicker: {
+    open: 'Open calendar',
+  },
+  calendar: {
+    label: 'Calendar',
+    prev: 'Previous month',
+    next: 'Next month',
+    prevYear: 'Previous year',
+    nextYear: 'Next year',
+    prevYears: 'Previous twelve years',
+    nextYears: 'Next twelve years',
+    pickMonth: 'Choose a month',
+    pickYear: 'Choose a year',
+    weekStartsOn: 0,
+  },
 }

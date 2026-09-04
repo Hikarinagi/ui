@@ -20,13 +20,13 @@ import { MultiCombobox } from '@hina-ui/vue'
 
 <Demo name="multi-combobox/basic" />
 
-它与 `MultiSelect` 的区别在于是否打字：多选选择器从固定的选项里挑选，浮层打开期间锁定页面滚动；多选组合框靠打字缩小范围，浮层不锁滚，输入区始终可以打字。与 `TagsInput` 的区别在于值的来源：标签输入框接受任意文字，这里的值必须来自选项。
+它与 `MultiSelect` 的区别在于能否输入：多选选择器只能从固定的选项里挑选，浮层打开期间锁定页面滚动；多选组合框通过输入文字缩小范围，浮层不锁定页面滚动，输入区始终可以输入。与 `TagsInput` 的区别在于值的来源：标签输入框接受任意文字，这里的值必须来自选项。
 
 ## 示例 {#examples}
 
 ### 远程搜索 {#remote}
 
-下面的示例请求一个真实的搜索接口：`ignoreFilter` 关闭本地筛选，`v-model:search` 把输入的文字交给调用方，调用方用 VueUse 的 `refDebounced` 防抖 300 毫秒，再用 `useFetch` 在搜索词变化时重新请求并取消上一次请求，取回结果后写入 `options`，`loading` 期间展开箭头换成加载指示。组件会记住它见过的每个选项的名称，结果列表随搜索词变化时已选标签不会失名；编辑已有数据时，只需在初始的 `options` 里带上当前已选的项。请求的防抖与取消由调用方负责。
+下面的示例请求一个真实的搜索接口：`ignoreFilter` 关闭本地筛选，`v-model:search` 把输入的文字交给调用方，调用方用 VueUse 的 `refDebounced` 防抖 300 毫秒，再用 `useFetch` 在搜索词变化时重新请求并取消上一次请求，取回结果后写入 `options`，`loading` 为真时展开箭头换成加载指示器。组件会记住出现过的每个选项的名称，结果列表随搜索词变化时，已选标签仍然显示名称；编辑已有数据时，只需在初始的 `options` 里包含当前已选的项。请求的防抖与取消由调用方负责。
 
 <Demo name="multi-combobox/remote" />
 
@@ -38,7 +38,7 @@ import { MultiCombobox } from '@hina-ui/vue'
 
 ### 可清除 {#clearable}
 
-`clearable` 在末尾加一个按钮，点击后清空全部并把焦点交还输入区。每个标签自带移除按钮，所以默认不显示它。
+`clearable` 在末尾加一个清除按钮，点击后清空全部并把焦点交回输入区。每个标签都有移除按钮，所以默认不显示清除按钮。
 
 <Demo name="multi-combobox/clearable" />
 
@@ -56,7 +56,7 @@ import { MultiCombobox } from '@hina-ui/vue'
 
 ## 行为 {#behavior}
 
-- 输入即打开列表并筛选；上下键移动高亮，Enter 勾选或者取消勾选，列表保持展开，搜索词与筛选结果保留，方便在同一批结果里连续勾选；清空输入即回到完整列表。
+- 输入即打开列表并筛选；上下方向键移动高亮，Enter 勾选或者取消勾选，列表保持展开，搜索词与筛选结果保留，方便在同一批结果里连续勾选；清空输入即回到完整列表。
 - 点击输入面的空白处或者标签正文即聚焦输入区并打开列表，与点击输入区相同。
 - 输入区为空时按退格移除最后一个标签。
 - Esc 或者点击外部关闭列表。浮层不锁定页面滚动。
@@ -79,7 +79,7 @@ import { MultiCombobox } from '@hina-ui/vue'
 | `placeholder`  | `string`                   | 语言包      | 无已选项时输入区的占位文字           |
 | `search`       | `string`                   | `''`        | 输入区的文字，支持 `v-model:search`  |
 | `ignoreFilter` | `boolean`                  | `false`     | 是否关闭本地筛选，交给调用方远程搜索 |
-| `loading`      | `boolean`                  | `false`     | 是否把展开箭头换成加载指示           |
+| `loading`      | `boolean`                  | `false`     | 是否把展开箭头换成加载指示器         |
 | `clearable`    | `boolean`                  | `false`     | 是否显示清空全部的按钮               |
 | `name`         | `string`                   | —           | 表单字段名                           |
 | `open`         | `boolean`                  | `false`     | 浮层是否打开，支持 `v-model:open`    |

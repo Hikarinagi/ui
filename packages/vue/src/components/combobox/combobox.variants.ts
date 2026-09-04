@@ -10,10 +10,3 @@ export const comboboxContent = tv({
 export const comboboxList = tv({
   base: 'max-h-[min(20rem,var(--reka-combobox-content-available-height))]',
 })
-
-export const comboboxToggle = tv({
-  base: [
-    'text-muted flex shrink-0 cursor-pointer items-center self-stretch ps-2 pe-[var(--hn-input-px)] outline-none',
-    'disabled:pointer-events-none data-disabled:pointer-events-none',
-  ],
-})

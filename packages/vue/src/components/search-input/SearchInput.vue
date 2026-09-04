@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { Search } from '@lucide/vue'
   import { cn } from '../../lib/cn'
-  import Input from '../input/Input.vue'
+  import InputBase from '../input/InputBase.vue'
   import type { InputVariants } from '../input/input.variants'
 
   defineOptions({ name: 'HnSearchInput', inheritAttrs: false })
@@ -30,7 +30,7 @@
 </script>
 
 <template>
-  <Input
+  <InputBase
     type="search"
     enterkeyhint="search"
     v-bind="$attrs"
@@ -53,5 +53,5 @@
     <template #leading>
       <Search />
     </template>
-  </Input>
+  </InputBase>
 </template>

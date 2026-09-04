@@ -98,6 +98,35 @@ export interface UiMessages {
   pinInput: {
     cellLabel: (index: number, total: number) => string
   }
+  dateField: {
+    year: string
+    month: string
+    day: string
+    hour: string
+    minute: string
+    second: string
+    dayPeriod: string
+  }
+  dateRangeField: {
+    start: string
+    end: string
+    separator: string
+  }
+  datePicker: {
+    open: string
+  }
+  calendar: {
+    label: string
+    prev: string
+    next: string
+    prevYear: string
+    nextYear: string
+    prevYears: string
+    nextYears: string
+    pickMonth: string
+    pickYear: string
+    weekStartsOn: 0 | 1 | 2 | 3 | 4 | 5 | 6
+  }
 }
 
 export type PartialUiMessages = {

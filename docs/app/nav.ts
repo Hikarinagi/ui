@@ -97,6 +97,12 @@ export const components: DocsComponent[] = [
     i18n: 'components.close-button',
     category: 'atoms',
   },
+  {
+    label: 'Calendar',
+    to: '/components/calendar',
+    i18n: 'components.calendar',
+    category: 'display',
+  },
   { label: 'Callout', to: '/components/callout', i18n: 'components.callout', category: 'display' },
   { label: 'Center', to: '/components/center', i18n: 'components.center', category: 'layout' },
   { label: 'Chip', to: '/components/chip', i18n: 'components.chip', category: 'atoms' },
@@ -130,6 +136,30 @@ export const components: DocsComponent[] = [
     to: '/components/copy-button',
     i18n: 'components.copy-button',
     category: 'atoms',
+  },
+  {
+    label: 'DateField',
+    to: '/components/date-field',
+    i18n: 'components.date-field',
+    category: 'forms',
+  },
+  {
+    label: 'DatePicker',
+    to: '/components/date-picker',
+    i18n: 'components.date-picker',
+    category: 'forms',
+  },
+  {
+    label: 'DateRangeField',
+    to: '/components/date-range-field',
+    i18n: 'components.date-range-field',
+    category: 'forms',
+  },
+  {
+    label: 'DateRangePicker',
+    to: '/components/date-range-picker',
+    i18n: 'components.date-range-picker',
+    category: 'forms',
   },
   {
     label: 'DescriptionList',
@@ -253,6 +283,12 @@ export const components: DocsComponent[] = [
     to: '/components/radio-group',
     i18n: 'components.radio-group',
     category: 'forms',
+  },
+  {
+    label: 'RangeCalendar',
+    to: '/components/range-calendar',
+    i18n: 'components.range-calendar',
+    category: 'display',
   },
   {
     label: 'RangeSlider',

@@ -4,10 +4,17 @@
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
   import Chip from '../chip/Chip.vue'
-  import CloseButton from '../close-button/CloseButton.vue'
+  import { X } from '@lucide/vue'
+  import InputAction from '../input/InputAction.vue'
   import DisclosureIcon from '../disclosure-icon/DisclosureIcon.vue'
   import { injectInputGroup } from '../input-group/context'
-  import { inputEmbedded, inputHost, type InputVariants } from '../input/input.variants'
+  import {
+    inputActionSlot,
+    inputAdornment,
+    inputEmbedded,
+    inputHost,
+    type InputVariants,
+  } from '../input/input.variants'
   import SelectList from '../select/SelectList.vue'
   import { flattenOptions, type SelectItems, type SelectOption } from '../select/types'
   import { multiSelectChips, multiSelectTrigger } from './multi-select.variants'
@@ -48,7 +55,6 @@
   const visible = computed(() => selected.value.slice(0, props.maxVisible))
   const overflow = computed(() => selected.value.length - visible.value.length)
   const chipSize = computed(() => (size.value === 'sm' ? 'sm' : 'md'))
-  const closeSize = computed(() => (size.value === 'sm' ? 'xs' : size.value === 'lg' ? 'md' : 'sm'))
   const clearing = computed(() => props.clearable && selected.value.length > 0 && !disabled.value)
 
   function remove(value: string | number) {
@@ -119,16 +125,15 @@
         leave-active-class="hn-transition"
         leave-to-class="scale-90 opacity-0"
       >
-        <span v-if="clearing" data-hn-multi-select-clear class="flex shrink-0 items-center">
-          <CloseButton
-            :label="t.common.clear"
-            :size="closeSize"
-            @pointerdown.stop
-            @click.stop="clear"
-          />
+        <span v-if="clearing" data-hn-multi-select-clear :class="inputActionSlot()">
+          <InputAction :label="t.common.clear" @pointerdown.stop @click.stop="clear">
+            <X />
+          </InputAction>
         </span>
       </Transition>
-      <DisclosureIcon class="text-muted [&>svg]:size-[var(--hn-input-icon)]" />
+      <span :class="inputAdornment()">
+        <DisclosureIcon />
+      </span>
     </SelectTrigger>
     <SelectList :options="props.options" :keyboard="keyboard">
       <template #option="slotProps">

@@ -14,7 +14,12 @@
   import Card from '../card/Card.vue'
   import DisclosureIcon from '../disclosure-icon/DisclosureIcon.vue'
   import { injectInputGroup } from '../input-group/context'
-  import { inputEmbedded, inputHost, type InputVariants } from '../input/input.variants'
+  import {
+    inputAdornment,
+    inputEmbedded,
+    inputHost,
+    type InputVariants,
+  } from '../input/input.variants'
   import ScrollArea from '../scroll-area/ScrollArea.vue'
   import { selectEmpty, selectTrigger } from '../select/select.variants'
   import {
@@ -103,7 +108,9 @@
       <span class="min-w-0 flex-1 truncate">
         {{ selected ? selected.label : (props.placeholder ?? t.select.placeholder) }}
       </span>
-      <DisclosureIcon class="text-muted" />
+      <span :class="inputAdornment()">
+        <DisclosureIcon />
+      </span>
     </PopoverTrigger>
     <PopoverPortal>
       <PopoverContent as-child align="start" :side-offset="8">
