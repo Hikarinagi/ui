@@ -6,6 +6,7 @@
   import { useOverlayScrollbars } from './composables/useOverlayScrollbars'
   import { useEdgeShadow } from './composables/useEdgeShadow'
   import { useWheelRedirect } from './composables/useWheelRedirect'
+  import { useLayerLock } from './composables/useLayerLock'
 
   defineOptions({ name: 'HnScrollArea', inheritAttrs: false })
 
@@ -69,6 +70,7 @@
   watch(viewport, () => updateEdges())
 
   useWheelRedirect(viewport, () => props.direction === 'horizontal' && props.wheelRedirect)
+  useLayerLock(viewport)
 
   watch(
     () => [props.direction, props.autoHide, props.scrollbar],

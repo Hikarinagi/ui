@@ -53,6 +53,7 @@ A region that scrolls but holds nothing focusable cannot be reached by keyboard.
 - The scrollbar is laid over the content, so the layout width does not change when content starts to overflow.
 - Scrolling works before the component takes over: the markup scrolls natively from first paint, and OverlayScrollbars attaches once the browser is idle.
 - Content that changes size through an animation updates the scrollbar on its own; there is no observer to wire up.
+- While an overlay that locks the page, such as a dialog or a menu, is open the area stops answering the wheel and touch at once; scroll areas inside the overlay are unaffected, and scrolling resumes when it closes.
 
 ## Accessibility {#a11y}
 

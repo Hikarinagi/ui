@@ -47,6 +47,12 @@ export const components: DocsComponent[] = [
     category: 'display',
   },
   { label: 'Alert', to: '/components/alert', i18n: 'components.alert', category: 'display' },
+  {
+    label: 'AlertDialog',
+    to: '/components/alert-dialog',
+    i18n: 'components.alert-dialog',
+    category: 'overlays',
+  },
   { label: 'Anchor', to: '/components/anchor', i18n: 'components.anchor', category: 'navigation' },
   {
     label: 'AppShell',
@@ -128,6 +134,12 @@ export const components: DocsComponent[] = [
     to: '/components/container',
     i18n: 'components.container',
     category: 'layout',
+  },
+  {
+    label: 'ContextMenu',
+    to: '/components/context-menu',
+    i18n: 'components.context-menu',
+    category: 'overlays',
   },
   {
     label: 'CopyButton',
@@ -214,6 +226,12 @@ export const components: DocsComponent[] = [
     category: 'foundation',
   },
   {
+    label: 'HoverCard',
+    to: '/components/hover-card',
+    i18n: 'components.hover-card',
+    category: 'overlays',
+  },
+  {
     label: 'Heading',
     to: '/components/heading',
     i18n: 'components.heading',
@@ -287,6 +305,12 @@ export const components: DocsComponent[] = [
     to: '/components/pin-input',
     i18n: 'components.pin-input',
     category: 'forms',
+  },
+  {
+    label: 'Popconfirm',
+    to: '/components/popconfirm',
+    i18n: 'components.popconfirm',
+    category: 'overlays',
   },
   {
     label: 'Popover',
