@@ -101,6 +101,26 @@ describe('值', () => {
     expect(w.findAll('li')).toHaveLength(1)
   })
 
+  it.each([
+    { name: 'doc.pdf', type: 'application/pdf', size: 1024, reason: 'type' },
+    { name: 'big.png', type: 'image/png', size: 4096, reason: 'size' },
+  ])('单选拒绝 $reason 不清空旧文件，下一次合法选择仍能替换', async rejected => {
+    const previous = file('old.png')
+    const w = mountUpload({ accept: 'image/*', maxSize: 2048 })
+    await choose(w, [previous])
+    await choose(w, [file(rejected.name, rejected.size, rejected.type)])
+    expect(w.props('modelValue')).toEqual(previous)
+    expect(w.find('li').text()).toContain('old.png')
+    expect(w.emitted('reject')?.[0]?.[0]).toEqual([
+      expect.objectContaining({ reason: rejected.reason }),
+    ])
+    const replacement = file('new.png')
+    await choose(w, [replacement])
+    expect(w.props('modelValue')).toEqual(replacement)
+    expect(w.findAll('li')).toHaveLength(1)
+    w.unmount()
+  })
+
   it('多选时交出数组并追加，重复的文件只留一份；移除按钮删掉对应的文件', async () => {
     const w = mountUpload({ multiple: true })
     await choose(w, [file('a.png'), file('b.png')])

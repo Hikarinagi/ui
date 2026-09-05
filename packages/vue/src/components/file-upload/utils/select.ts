@@ -33,7 +33,7 @@ function sameFile(a: File, b: File) {
 
 export function selectFiles(current: File[], incoming: File[], rules: Rules) {
   const rejected: FileUploadRejection[] = []
-  const next = rules.multiple ? [...current] : []
+  const next = rules.multiple ? [...current] : current.slice(0, 1)
   for (const file of incoming) {
     if (!matchesAccept(file, rules.accept)) {
       rejected.push({ file, reason: 'type' })
