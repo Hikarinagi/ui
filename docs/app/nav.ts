@@ -1,9 +1,7 @@
-export interface DocsNavItem {
-  label?: string
-  labelI18n?: string
+export type DocsNavItem = {
   to: string
   i18n: string
-}
+} & ({ label: string; labelI18n?: never } | { label?: never; labelI18n: string })
 
 export interface DocsNavGroup {
   label: string
@@ -14,7 +12,7 @@ export interface DocsCategory {
   slug: string
 }
 
-export interface DocsComponent extends DocsNavItem {
+export type DocsComponent = DocsNavItem & {
   category: string
 }
 
