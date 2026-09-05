@@ -48,6 +48,12 @@ import { RangeSlider } from '@hina-ui/vue'
 
 <Demo name="range-slider/states" />
 
+### 在表单中 {#form}
+
+放进 [FormField](/components/form-field) 后，标签通过 `aria-labelledby` 关联到整个滑块组，说明与错误信息由字段渲染；校验规则与提交交给 [Form](/components/form)。值是二元数组，区间宽度这类规则写在数组层。
+
+<Demo name="range-slider/form" />
+
 ## 行为 {#behavior}
 
 - 点击轨道时，离点击处更近的拇指跳过去；拖动只移动被按住的拇指，两个拇指不会交叉。

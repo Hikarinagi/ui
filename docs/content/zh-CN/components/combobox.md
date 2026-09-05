@@ -58,6 +58,12 @@ import { Combobox } from '@hina-ui/vue'
 
 <Demo name="combobox/states" />
 
+### 在表单中 {#form}
+
+放进 [FormField](/components/form-field) 后，标签指向输入区，说明与错误信息由字段渲染并关联到控件；校验规则与提交交给 [Form](/components/form)。
+
+<Demo name="combobox/form" />
+
 ## 行为 {#behavior}
 
 - 点击输入区或者按下方向键打开列表，输入文字时按选项文字筛选，无匹配时显示提示。

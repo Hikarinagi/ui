@@ -50,6 +50,12 @@ Number, search and other fields can all go in a group.
 
 <Demo name="input-group/fields" />
 
+### In a form {#form}
+
+With the whole group inside a [FormField](/components/form-field) the label points at the input in the group, and the error message is rendered by the field; validation rules and submission belong to the [Form](/components/form). Keep one input per field.
+
+<Demo name="input-group/form" />
+
 ## Behaviour {#behavior}
 
 - Focusing any text area inside the group grows the focus ring around the whole group.

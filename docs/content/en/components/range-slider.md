@@ -48,6 +48,12 @@ Each thumb has its own value label; `label` and `format` work as in `Slider`.
 
 <Demo name="range-slider/states" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the label is linked to the slider group through `aria-labelledby`, and the description and error message are rendered by the field; validation rules and submission belong to the [Form](/components/form). The value is a pair, so a rule about the width of the range goes on the pair.
+
+<Demo name="range-slider/form" />
+
 ## Behaviour {#behavior}
 
 - Clicking the track moves the nearer thumb there; dragging moves only the thumb being held, and the thumbs never cross.

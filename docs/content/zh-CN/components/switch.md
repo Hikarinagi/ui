@@ -46,6 +46,12 @@ import { Switch } from '@hina-ui/vue'
 
 <Demo name="switch/bare" />
 
+### 在表单中 {#form}
+
+放进 [FormField](/components/form-field) 后，错误信息由字段渲染并关联到开关；校验规则与提交交给 [Form](/components/form)。开关自带文字，字段不必再写标签；它的值常常决定其他字段是否必填，这类规则写在对象层，再指定错误落在哪个字段。
+
+<Demo name="switch/form" />
+
 ## 行为 {#behavior}
 
 - 点击文字或者轨道都会切换，拇指滑到另一侧，轨道同时换色。键盘 Tab 落在轨道上，空格切换。

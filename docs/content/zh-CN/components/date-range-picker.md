@@ -46,6 +46,12 @@ import { DateRangePicker } from '@hina-ui/vue'
 
 <Demo name="date-range-picker/states" />
 
+### 在表单中 {#form}
+
+放进 [FormField](/components/form-field) 后，标签关联到输入区，错误信息由字段渲染；校验规则与提交交给 [Form](/components/form)。区间完整性的校验写在对象层，错误才会落到这个字段上。
+
+<Demo name="date-range-picker/form" />
+
 ## 行为 {#behavior}
 
 - 点击末尾的按钮打开日历，焦点落在当前区间的开始日期。在日历里点第一个日期确定开始，此时值更新为开始日期加 `null`，日历保持打开；点第二个日期确定结束，值更新后关闭日历，焦点回到按钮。

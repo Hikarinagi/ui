@@ -54,6 +54,12 @@ import { TagsInput } from '@hina-ui/vue'
 
 <Demo name="tags-input/states" />
 
+### 在表单中 {#form}
+
+放进 [FormField](/components/form-field) 后，标签指向输入区，说明与错误信息由字段渲染；校验规则与提交交给 [Form](/components/form)。值是字符串数组，数量与单个标签的长度分别写在数组层与元素层。
+
+<Demo name="tags-input/form" />
+
 ## 行为 {#behavior}
 
 - 按 Enter 或者输入分隔符，把当前文字添加为标签并清空输入区。

@@ -56,6 +56,12 @@ The `leading` and `trailing` slots sit on either side of the text area, for icon
 
 <Demo name="input/states" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the label points at the input through `for`, and the description and error message are rendered by the field and linked to it; validation rules, timing and submission belong to the [Form](/components/form).
+
+<Demo name="input/form" />
+
 ## Behaviour {#behavior}
 
 - The fill darkens on hover, an accent ring grows from the edge on focus, and the border and ring turn to the danger colour when invalid.

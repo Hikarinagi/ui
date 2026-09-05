@@ -58,6 +58,12 @@ Three sizes, matching the input.
 
 <Demo name="combobox/states" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the label points at the input, and the description and error message are rendered by the field and linked to it; validation rules and submission belong to the [Form](/components/form).
+
+<Demo name="combobox/form" />
+
 ## Behaviour {#behavior}
 
 - Clicking the text area or pressing an arrow key opens the list; typing filters it by option label, and a hint shows when nothing matches.

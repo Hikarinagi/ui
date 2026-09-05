@@ -46,6 +46,12 @@ import { Rating } from '@hina-ui/vue'
 
 <Demo name="rating/states" />
 
+### 在表单中 {#form}
+
+放进 [FormField](/components/form-field) 后，标签通过 `aria-labelledby` 关联到整组星，错误信息由字段渲染；校验规则与提交交给 [Form](/components/form)。未打分时值是 `0`。
+
+<Demo name="rating/form" />
+
 ## 行为 {#behavior}
 
 - 点击一颗星即选中该分值，再次点击同一颗星清零；悬停时前面的星预览为实心，移开后恢复。

@@ -56,6 +56,12 @@ import { Input } from '@hina-ui/vue'
 
 <Demo name="input/states" />
 
+### 在表单中 {#form}
+
+放进 [FormField](/components/form-field) 后，标签通过 `for` 指向输入框，说明与错误信息由字段渲染并关联到它；校验规则、校验时机与提交交给 [Form](/components/form)。
+
+<Demo name="input/form" />
+
 ## 行为 {#behavior}
 
 - 悬停时填充加深，聚焦时边缘长出强调色环，校验未通过时边框与环变为危险色。

@@ -52,6 +52,12 @@ Without a label only the box renders, and it must then be named with `aria-label
 
 <Demo name="checkbox/bare" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the error message is rendered by the field and linked to the checkbox; validation rules and submission belong to the [Form](/components/form). The checkbox carries its own text, so the field needs no label.
+
+<Demo name="checkbox/form" />
+
 ## Behaviour {#behavior}
 
 - Clicking the label or the box toggles. Tab lands on the box, Space toggles and Enter does not, as with a native checkbox.

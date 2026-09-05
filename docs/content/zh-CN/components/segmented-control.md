@@ -54,6 +54,12 @@ import { SegmentedControl } from '@hina-ui/vue'
 
 <Demo name="segmented-control/states" />
 
+### 在表单中 {#form}
+
+放进 [FormField](/components/form-field) 后，标签通过 `aria-labelledby` 关联到整组；校验规则与提交交给 [Form](/components/form)。分段控制器总有一个值，它常常决定其他字段是否必填，这类规则写在对象层，再指定错误落在哪个字段。
+
+<Demo name="segmented-control/form" />
+
 ## 行为 {#behavior}
 
 - 点击某项即选中，滑块平移到该项；再点已选项不会取消选择。

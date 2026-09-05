@@ -46,6 +46,12 @@ The date range picker combines the segmented field of `DateRangeField` with `Ran
 
 <Demo name="date-range-picker/states" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the label is linked to the input, and the error message is rendered by the field; validation rules and submission belong to the [Form](/components/form). Write the completeness check on the range object itself for the error to land on this field.
+
+<Demo name="date-range-picker/form" />
+
 ## Behavior {#behavior}
 
 - Clicking the button at the end opens the calendar with focus on the current start date. The first click in the calendar sets the start, updating the value to the start plus `null` while the calendar stays open; the second sets the end, after which the value updates, the calendar closes and focus returns to the button.

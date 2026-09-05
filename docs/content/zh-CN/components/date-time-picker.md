@@ -46,6 +46,12 @@ import { DateTimePicker } from '@hina-ui/vue'
 
 <Demo name="date-time-picker/states" />
 
+### 在表单中 {#form}
+
+放进 [FormField](/components/form-field) 后，标签关联到输入区，错误信息由字段渲染；校验规则与提交交给 [Form](/components/form)。
+
+<Demo name="date-time-picker/form" />
+
 ## 行为 {#behavior}
 
 - 点击末尾的按钮打开浮层，焦点落在当前选中的日期。选一天只更新日期部分，时间部分沿用原值，浮层保持打开；没有值时，时间部分取 `placeholder` 的时间，没有则取零点。

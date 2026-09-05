@@ -44,6 +44,12 @@ import { PasswordInput } from '@hina-ui/vue'
 
 <Demo name="password-input/states" />
 
+### 在表单中 {#form}
+
+放进 [FormField](/components/form-field) 后，标签指向输入框，说明与错误信息由字段渲染；校验规则与提交交给 [Form](/components/form)。两次输入是否一致这类跨字段的规则写在对象层，再指定错误落在哪个字段。
+
+<Demo name="password-input/form" />
+
 ## 行为 {#behavior}
 
 - 点击切换按钮不会让输入区失焦，切换后可以继续输入。

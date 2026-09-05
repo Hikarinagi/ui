@@ -46,6 +46,12 @@ The date time picker combines a minute-precision `DateField` with a `Calendar` a
 
 <Demo name="date-time-picker/states" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the label is linked to the input, and the error message is rendered by the field; validation rules and submission belong to the [Form](/components/form).
+
+<Demo name="date-time-picker/form" />
+
 ## Behavior {#behavior}
 
 - Clicking the button at the end opens the popover with focus on the current date. Picking a day updates only the date part, keeps the time part and leaves the popover open; with no value yet, the time part comes from `placeholder`, or midnight without one.

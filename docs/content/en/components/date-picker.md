@@ -46,6 +46,12 @@ The date picker puts the segmented `DateField` and the `Calendar` together: type
 
 <Demo name="date-picker/states" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the label is linked to the input, and the description and error message are rendered by the field; validation rules and submission belong to the [Form](/components/form).
+
+<Demo name="date-picker/form" />
+
 ## Behavior {#behavior}
 
 - The button at the end opens the calendar with focus on the picked day; picking a day writes the value, closes the calendar and returns focus to the button.

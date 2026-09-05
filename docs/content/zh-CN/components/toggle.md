@@ -54,6 +54,12 @@ import { Toggle } from '@hina-ui/vue'
 
 <Demo name="toggle/states" />
 
+### 在表单中 {#form}
+
+放进 [FormField](/components/form-field) 后，错误信息由字段渲染并关联到按钮；校验规则与提交交给 [Form](/components/form)。切换按钮自带文字，字段不必再写标签；它的值决定其他字段是否必填时，规则写在对象层，再指定错误落在哪个字段。
+
+<Demo name="toggle/form" />
+
 ## 行为 {#behavior}
 
 - 点击、空格或者 Enter 在按下与松开之间切换。

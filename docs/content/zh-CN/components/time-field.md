@@ -58,6 +58,12 @@ import { TimeField } from '@hina-ui/vue'
 
 <Demo name="time-field/states" />
 
+### 在表单中 {#form}
+
+放进 [FormField](/components/form-field) 后，标签通过 `aria-labelledby` 关联到整个时间输入，错误信息由字段渲染；校验规则与提交交给 [Form](/components/form)。值是 `HH:mm` 字符串，可以直接按字符串比较。
+
+<Demo name="time-field/form" />
+
 ## 行为 {#behavior}
 
 - 点击任意一段即可输入；点击输入面的空白处时，焦点落到第一个空段。

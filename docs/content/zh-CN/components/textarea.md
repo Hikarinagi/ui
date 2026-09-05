@@ -44,6 +44,12 @@ import { Textarea } from '@hina-ui/vue'
 
 <Demo name="textarea/states" />
 
+### 在表单中 {#form}
+
+放进 [FormField](/components/form-field) 后，标签通过 `for` 指向文本域，说明与错误信息由字段渲染并关联到它；校验规则与提交交给 [Form](/components/form)。
+
+<Demo name="textarea/form" />
+
 ## 行为 {#behavior}
 
 - 悬停、聚焦、错误与禁用的表现与输入框相同。

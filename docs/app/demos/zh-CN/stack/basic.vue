@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Card, Stack, Text } from '@hina-ui/vue'
+  import { Card, Stack } from '@hina-ui/vue'
 </script>
 
 <template>

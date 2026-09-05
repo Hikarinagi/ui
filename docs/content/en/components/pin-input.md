@@ -52,6 +52,12 @@ A pin input splits a fixed-length code into cells that hold one character each. 
 
 <Demo name="pin-input/states" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the label is linked to the whole row of cells through `aria-labelledby`, and the description and error message are rendered by the field; validation rules and submission belong to the [Form](/components/form).
+
+<Demo name="pin-input/form" />
+
 ## Behavior {#behavior}
 
 - Every cell holds one character; typing moves focus forward, and Backspace in an empty cell moves back and clears the previous cell.

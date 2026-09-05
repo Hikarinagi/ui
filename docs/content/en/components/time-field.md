@@ -58,6 +58,12 @@ The time field splits a time into hour and minute segments. Each segment accepts
 
 <Demo name="time-field/states" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the label is linked to the whole time input through `aria-labelledby`, and the error message is rendered by the field; validation rules and submission belong to the [Form](/components/form). The value is an `HH:mm` string, so it can be compared as a string.
+
+<Demo name="time-field/form" />
+
 ## Behavior {#behavior}
 
 - Clicking a segment starts typing; a click on the blank area focuses the first empty segment.

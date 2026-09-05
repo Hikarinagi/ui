@@ -58,6 +58,12 @@ The value label is a `Tooltip` with the thumb as its trigger: it follows the thu
 
 <Demo name="slider/commit" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the label is linked to the thumb through `aria-labelledby`, and the description and error message are rendered by the field; validation rules and submission belong to the [Form](/components/form).
+
+<Demo name="slider/form" />
+
 ## Behaviour {#behavior}
 
 - Clicking anywhere on the track jumps the thumb there and starts dragging; while dragging the thumb and the fill follow the pointer without a transition, and jumps from clicks or keys are eased.

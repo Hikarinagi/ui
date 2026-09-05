@@ -163,6 +163,7 @@
     "file-upload": "Picks files by clicking or dropping",
     "form": "Collects field values, validates them and submits",
     "form-field": "Pairs a control with its label, description and error",
+    "form-layout": "Groups fields into a grid with a title and description",
     "flex": "A flex container with full control over its axes",
     "grid": "A grid container with a fixed number of columns",
     "simple-grid": "An even grid whose columns follow a minimum width",

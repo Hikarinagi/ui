@@ -52,6 +52,12 @@ The date range field puts a start and an end set of date segments in one field, 
 
 <Demo name="date-range-field/states" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the label is linked to the whole range input through `aria-labelledby`, and the error message is rendered by the field; validation rules and submission belong to the [Form](/components/form). The value is an object whose other side is `null` while only one side is filled, so write the completeness check on the object itself for the error to land on this field.
+
+<Demo name="date-range-field/form" />
+
 ## Behavior {#behavior}
 
 - Clicking a segment starts typing; a click on the blank area focuses the first empty segment, which is the first end segment once the start date is complete.

@@ -52,6 +52,12 @@ import { Checkbox } from '@hina-ui/vue'
 
 <Demo name="checkbox/bare" />
 
+### 在表单中 {#form}
+
+放进 [FormField](/components/form-field) 后，错误信息由字段渲染并关联到复选框；校验规则与提交交给 [Form](/components/form)。复选框自带文字，字段不必再写标签。
+
+<Demo name="checkbox/form" />
+
 ## 行为 {#behavior}
 
 - 点击文字或者方框都会切换。键盘 Tab 落在方框上，空格切换，Enter 不切换，与原生复选框一致。

@@ -64,6 +64,12 @@ Three sizes, matching the input; the chips scale with them.
 
 <Demo name="multi-select/states" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the label points at the trigger, and the description and error message are rendered by the field; validation rules and submission belong to the [Form](/components/form). The value is an array, so count limits go on the array.
+
+<Demo name="multi-select/form" />
+
 ## Behaviour {#behavior}
 
 - Clicking or pressing Enter on an option ticks it and keeps the list open; doing it again unticks it.

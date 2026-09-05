@@ -52,6 +52,12 @@ Three sizes, matching the input.
 
 <Demo name="select/states" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the label points at the trigger, and the description and error message are rendered by the field and linked to it; validation rules, timing and submission belong to the [Form](/components/form).
+
+<Demo name="select/form" />
+
 ## Behaviour {#behavior}
 
 - The list opens against the trigger at the same width, and scrolls inside the panel when it is taller than the space available.

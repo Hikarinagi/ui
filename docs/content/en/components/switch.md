@@ -46,6 +46,12 @@ Without a label only the track renders, and it must then be named with `aria-lab
 
 <Demo name="switch/bare" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the error message is rendered by the field and linked to the switch; validation rules and submission belong to the [Form](/components/form). The switch carries its own text, so the field needs no label, and its value often decides whether another field is required; such a rule goes on the object and names the field the error lands on.
+
+<Demo name="switch/form" />
+
 ## Behaviour {#behavior}
 
 - Clicking the label or the track toggles: the thumb slides across and the track changes colour. Tab lands on the track and Space toggles.

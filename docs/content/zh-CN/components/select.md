@@ -52,6 +52,12 @@ import { Select } from '@hina-ui/vue'
 
 <Demo name="select/states" />
 
+### 在表单中 {#form}
+
+放进 [FormField](/components/form-field) 后，标签指向触发器，说明与错误信息由字段渲染并关联到它；校验规则、校验时机与提交交给 [Form](/components/form)。
+
+<Demo name="select/form" />
+
 ## 行为 {#behavior}
 
 - 浮层贴着触发器展开，宽度与触发器相同，列表超出高度时在浮层内滚动。

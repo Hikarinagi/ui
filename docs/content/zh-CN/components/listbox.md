@@ -58,6 +58,12 @@ import { Listbox } from '@hina-ui/vue'
 
 <Demo name="listbox/states" />
 
+### 在表单中 {#form}
+
+放进 [FormField](/components/form-field) 后，标签通过 `aria-labelledby` 关联到列表，错误信息由字段渲染；校验规则与提交交给 [Form](/components/form)。
+
+<Demo name="listbox/form" />
+
 ## 行为 {#behavior}
 
 - 点选切换选中。键盘 Tab 进入列表后，方向键移动高亮，Enter 或者空格选中，禁用项会被跳过。

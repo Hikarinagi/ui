@@ -58,6 +58,12 @@ import { NumberInput } from '@hina-ui/vue'
 
 <Demo name="number-input/controls" />
 
+### 在表单中 {#form}
+
+放进 [FormField](/components/form-field) 后，标签指向输入框，说明与错误信息由字段渲染；校验规则与提交交给 [Form](/components/form)。值是数字或者 `null`，范围规则写在数字层。
+
+<Demo name="number-input/form" />
+
 ## 行为 {#behavior}
 
 - 失焦或者按 Enter 时解析输入。无法解析时恢复为上一个值，超出范围的值限制到边界。

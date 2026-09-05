@@ -54,6 +54,12 @@ The `option` slot customises each row in the list, for example with a cover and 
 
 <Demo name="multi-combobox/states" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the label points at the input, and the description and error message are rendered by the field; validation rules and submission belong to the [Form](/components/form). The value is an array, so count limits go on the array.
+
+<Demo name="multi-combobox/form" />
+
 ## Behavior {#behavior}
 
 - Typing opens the list and filters it; the arrow keys move the highlight, Enter ticks or unticks the highlighted item, the list stays open and the typed text and its filtering stay put, so several items from one query can be ticked in a row; clearing the input brings the whole list back.

@@ -82,6 +82,8 @@ export { default as Rating } from './components/rating/Rating.vue'
 export { default as FileUpload } from './components/file-upload/FileUpload.vue'
 export { default as Form } from './components/form/Form.vue'
 export { default as FormField } from './components/form-field/FormField.vue'
+export { default as FormLayout } from './components/form-layout/FormLayout.vue'
+export type { FormLayoutVariants } from './components/form-layout/form-layout.variants'
 export type { FormValidateOn } from './components/form/composables/useForm'
 export type {
   FormErrors,

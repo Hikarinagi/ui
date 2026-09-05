@@ -54,6 +54,12 @@ Icon toggles in a row each hold their own boolean and do not affect each other. 
 
 <Demo name="toggle/states" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the error message is rendered by the field and linked to the button; validation rules and submission belong to the [Form](/components/form). The toggle carries its own text, so the field needs no label; when its value decides whether another field is required, the rule goes on the object and names the field the error lands on.
+
+<Demo name="toggle/form" />
+
 ## Behavior {#behavior}
 
 - Click, Space or Enter switches between pressed and released.

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Button, Card, Inline, Stack, Text } from '@hina-ui/vue'
+  import { Button, Inline, Stack, Text } from '@hina-ui/vue'
 
   const aligns = ['start', 'center', 'end', 'stretch'] as const
 </script>

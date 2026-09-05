@@ -52,6 +52,12 @@ import { CheckboxGroup } from '@hina-ui/vue'
 
 <Demo name="checkbox-group/custom" />
 
+### 在表单中 {#form}
+
+放进 [FormField](/components/form-field) 后，标签通过 `aria-labelledby` 关联到整组，说明与错误信息由字段渲染；校验规则与提交交给 [Form](/components/form)。
+
+<Demo name="checkbox-group/form" />
+
 ## 行为 {#behavior}
 
 - 点选把值加入数组，再点移除，数组顺序与点选顺序一致。

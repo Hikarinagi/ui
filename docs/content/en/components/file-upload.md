@@ -50,6 +50,12 @@ Some places hand files straight to an upload flow and show the results elsewhere
 
 <Demo name="file-upload/states" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the label points at the drop area, and the description and error message are rendered by the field; validation rules and submission belong to the [Form](/components/form). The value is a `File`, so size and type rules go straight into the schema.
+
+<Demo name="file-upload/form" />
+
 ## Behavior {#behavior}
 
 - Clicking the area or the button opens the system file dialog; dragging files over the area turns its border to the accent color, and dropping picks them.

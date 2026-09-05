@@ -64,6 +64,12 @@ import { MultiSelect } from '@hina-ui/vue'
 
 <Demo name="multi-select/states" />
 
+### 在表单中 {#form}
+
+放进 [FormField](/components/form-field) 后，标签指向触发器，说明与错误信息由字段渲染；校验规则与提交交给 [Form](/components/form)。值是数组，数量限制写在数组层。
+
+<Demo name="multi-select/form" />
+
 ## 行为 {#behavior}
 
 - 点选或者按 Enter 勾选一项后列表保持展开，再次点选取消勾选。

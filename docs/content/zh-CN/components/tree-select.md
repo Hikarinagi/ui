@@ -52,6 +52,12 @@ import { TreeSelect } from '@hina-ui/vue'
 
 <Demo name="tree-select/states" />
 
+### 在表单中 {#form}
+
+放进 [FormField](/components/form-field) 后，标签指向触发器，错误信息由字段渲染并关联到它；校验规则与提交交给 [Form](/components/form)。
+
+<Demo name="tree-select/form" />
+
 ## 行为 {#behavior}
 
 - 点击节点前的箭头只展开或者收起，点击节点本身则选中它并关闭浮层。

@@ -58,6 +58,12 @@ import { Slider } from '@hina-ui/vue'
 
 <Demo name="slider/commit" />
 
+### 在表单中 {#form}
+
+放进 [FormField](/components/form-field) 后，标签通过 `aria-labelledby` 关联到拇指，说明与错误信息由字段渲染；校验规则与提交交给 [Form](/components/form)。
+
+<Demo name="slider/form" />
+
 ## 行为 {#behavior}
 
 - 点击轨道任意位置，拇指跳到该处并开始拖动；拖动时拇指与填充跟手，不带过渡；点击与键盘引起的跳动带过渡。

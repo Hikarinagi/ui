@@ -50,6 +50,12 @@ import { InputGroup, InputGroupAddon } from '@hina-ui/vue'
 
 <Demo name="input-group/fields" />
 
+### 在表单中 {#form}
+
+整组放进 [FormField](/components/form-field) 后，标签指向组内的输入框，错误信息由字段渲染；校验规则与提交交给 [Form](/components/form)。一个字段里只放一个输入框。
+
+<Demo name="input-group/form" />
+
 ## 行为 {#behavior}
 
 - 聚焦组内任一输入区时，整个组长出聚焦环。

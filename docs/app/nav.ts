@@ -200,6 +200,12 @@ export const components: DocsComponent[] = [
     i18n: 'components.form-field',
     category: 'forms',
   },
+  {
+    label: 'FormLayout',
+    to: '/components/form-layout',
+    i18n: 'components.form-layout',
+    category: 'forms',
+  },
   { label: 'Grid', to: '/components/grid', i18n: 'components.grid', category: 'layout' },
   {
     label: 'Highlight',

@@ -46,6 +46,12 @@ import { DatePicker } from '@hina-ui/vue'
 
 <Demo name="date-picker/states" />
 
+### 在表单中 {#form}
+
+放进 [FormField](/components/form-field) 后，标签关联到输入区，说明与错误信息由字段渲染；校验规则与提交交给 [Form](/components/form)。
+
+<Demo name="date-picker/form" />
+
 ## 行为 {#behavior}
 
 - 点击末尾的按钮打开日历，焦点落在当前选中的日期；选中日期后更新值并关闭日历，焦点回到按钮。

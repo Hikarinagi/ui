@@ -52,6 +52,12 @@ Three sizes, matching the input.
 
 <Demo name="tree-select/states" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the label points at the trigger, and the error message is rendered by the field and linked to it; validation rules and submission belong to the [Form](/components/form).
+
+<Demo name="tree-select/form" />
+
 ## Behaviour {#behavior}
 
 - Clicking the arrow before a node only expands or collapses it; clicking the node itself chooses it and closes the panel.

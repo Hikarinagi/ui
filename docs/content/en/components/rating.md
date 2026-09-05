@@ -46,6 +46,12 @@ With `step` set to `0.5` every star splits into two halves, so scores such as 2.
 
 <Demo name="rating/states" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the label is linked to the row of stars through `aria-labelledby`, and the error message is rendered by the field; validation rules and submission belong to the [Form](/components/form). The value is `0` until a rating is given.
+
+<Demo name="rating/form" />
+
 ## Behavior {#behavior}
 
 - Clicking a star picks that score, and clicking the same star again resets to zero; hovering previews the stars up to the pointer as filled and leaving restores them.

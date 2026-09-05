@@ -52,6 +52,12 @@ The `option` slot customises each label.
 
 <Demo name="checkbox-group/custom" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the label is linked to the whole group through `aria-labelledby`, and the description and error message are rendered by the field; validation rules and submission belong to the [Form](/components/form).
+
+<Demo name="checkbox-group/form" />
+
 ## Behaviour {#behavior}
 
 - Ticking adds the value to the array, ticking again removes it; the array keeps the order values were ticked in.

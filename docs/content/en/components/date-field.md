@@ -52,6 +52,12 @@ The date field splits a date into year, month and day segments. Each segment acc
 
 <Demo name="date-field/states" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the label is linked to the whole date input through `aria-labelledby`, and the description and error message are rendered by the field; validation rules and submission belong to the [Form](/components/form). The value is an ISO string, so it can be compared as a string.
+
+<Demo name="date-field/form" />
+
 ## Behavior {#behavior}
 
 - Clicking a segment or the blank area of the field starts typing; a click on the blank area focuses the first empty segment.

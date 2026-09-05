@@ -52,6 +52,12 @@ The `option` slot customises each label.
 
 <Demo name="radio-group/custom" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the label is linked to the whole group through `aria-labelledby`, and the error message is rendered by the field; validation rules and submission belong to the [Form](/components/form).
+
+<Demo name="radio-group/form" />
+
 ## Behaviour {#behavior}
 
 - Clicking the label or the circle chooses that option; the chosen one cannot be clicked back to unchosen.

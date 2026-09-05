@@ -50,6 +50,12 @@ import { FileUpload } from '@hina-ui/vue'
 
 <Demo name="file-upload/states" />
 
+### 在表单中 {#form}
+
+放进 [FormField](/components/form-field) 后，标签指向拖放区，说明与错误信息由字段渲染；校验规则与提交交给 [Form](/components/form)。值是 `File` 对象，大小、类型这类规则可以直接写在校验里。
+
+<Demo name="file-upload/form" />
+
 ## 行为 {#behavior}
 
 - 点击拖放区或者按钮打开系统的文件选择框；把文件拖到拖放区上时边框换成强调色，放下即选择。

@@ -44,6 +44,12 @@ Three sizes, matching the input.
 
 <Demo name="password-input/states" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the label points at the input, and the description and error message are rendered by the field; validation rules and submission belong to the [Form](/components/form). A rule that spans fields, such as the two entries matching, goes on the object and names the field the error lands on.
+
+<Demo name="password-input/form" />
+
 ## Behaviour {#behavior}
 
 - Clicking the toggle does not blur the text area, so typing can continue after switching.

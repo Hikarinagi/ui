@@ -44,6 +44,12 @@ Three sizes, matching the input.
 
 <Demo name="search-input/states" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the label points at the input, and the error message is rendered by the field; validation rules and submission belong to the [Form](/components/form), and Enter to submit and the submit button keep their default behavior.
+
+<Demo name="search-input/form" />
+
 ## Behaviour {#behavior}
 
 - The clear button only appears with content and when not disabled; clicking it does not blur the text area.

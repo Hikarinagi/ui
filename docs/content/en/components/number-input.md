@@ -58,6 +58,12 @@ With `controls` off only the text area remains; keyboard and wheel still work.
 
 <Demo name="number-input/controls" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the label points at the input, and the description and error message are rendered by the field; validation rules and submission belong to the [Form](/components/form). The value is a number or `null`, so range rules go on the number.
+
+<Demo name="number-input/form" />
+
 ## Behaviour {#behavior}
 
 - The text is parsed on blur or Enter. Unparseable text reverts to the previous value, and out-of-range values clamp to the bounds.

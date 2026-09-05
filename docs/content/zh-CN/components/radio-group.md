@@ -52,6 +52,12 @@ import { RadioGroup } from '@hina-ui/vue'
 
 <Demo name="radio-group/custom" />
 
+### 在表单中 {#form}
+
+放进 [FormField](/components/form-field) 后，标签通过 `aria-labelledby` 关联到整组，错误信息由字段渲染；校验规则与提交交给 [Form](/components/form)。
+
+<Demo name="radio-group/form" />
+
 ## 行为 {#behavior}
 
 - 点击文字或者圆即选中该项，已选中的项不能再点成未选中。

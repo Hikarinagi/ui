@@ -52,6 +52,12 @@ import { DateRangeField } from '@hina-ui/vue'
 
 <Demo name="date-range-field/states" />
 
+### 在表单中 {#form}
+
+放进 [FormField](/components/form-field) 后，标签通过 `aria-labelledby` 关联到整个区间输入，错误信息由字段渲染；校验规则与提交交给 [Form](/components/form)。区间的值是一个对象，只填了一端时另一端是 `null`，校验完整性写在对象层，错误才会落到这个字段上。
+
+<Demo name="date-range-field/form" />
+
 ## 行为 {#behavior}
 
 - 点击任意一段即可输入；点击输入面的空白处时，焦点落到第一个空段，开始日期填满时落到结束日期的第一段。

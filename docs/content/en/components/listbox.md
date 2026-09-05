@@ -58,6 +58,12 @@ The `option` slot customises each row.
 
 <Demo name="listbox/states" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the label is linked to the list through `aria-labelledby`, and the error message is rendered by the field; validation rules and submission belong to the [Form](/components/form).
+
+<Demo name="listbox/form" />
+
 ## Behaviour {#behavior}
 
 - Clicking toggles the choice. After tabbing into the list, the arrow keys move the highlight, Enter or Space chooses, and disabled options are skipped.

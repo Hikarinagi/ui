@@ -54,6 +54,12 @@ The `#option` slot replaces the content of every item. With icons only, each ite
 
 <Demo name="segmented-control/states" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the label is linked to the whole group through `aria-labelledby`; validation rules and submission belong to the [Form](/components/form). A segmented control always has a value, and that value often decides whether another field is required; such a rule goes on the object and names the field the error lands on.
+
+<Demo name="segmented-control/form" />
+
 ## Behavior {#behavior}
 
 - Clicking an item selects it and the thumb slides to it; clicking the selected item again does not deselect it.

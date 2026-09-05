@@ -52,6 +52,12 @@ import { PinInput } from '@hina-ui/vue'
 
 <Demo name="pin-input/states" />
 
+### 在表单中 {#form}
+
+放进 [FormField](/components/form-field) 后，标签通过 `aria-labelledby` 关联到整组格子，说明与错误信息由字段渲染；校验规则与提交交给 [Form](/components/form)。
+
+<Demo name="pin-input/form" />
+
 ## 行为 {#behavior}
 
 - 每格只容纳一个字符，输入后焦点前进；在空格子里退格会回到上一格并清除它。

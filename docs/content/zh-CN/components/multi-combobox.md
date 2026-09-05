@@ -54,6 +54,12 @@ import { MultiCombobox } from '@hina-ui/vue'
 
 <Demo name="multi-combobox/states" />
 
+### 在表单中 {#form}
+
+放进 [FormField](/components/form-field) 后，标签指向输入区，说明与错误信息由字段渲染；校验规则与提交交给 [Form](/components/form)。值是数组，数量限制写在数组层。
+
+<Demo name="multi-combobox/form" />
+
 ## 行为 {#behavior}
 
 - 输入即打开列表并筛选；上下方向键移动高亮，Enter 勾选或者取消勾选，列表保持展开，搜索词与筛选结果保留，方便在同一批结果里连续勾选；清空输入即回到完整列表。

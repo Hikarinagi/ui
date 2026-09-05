@@ -44,6 +44,12 @@ import { SearchInput } from '@hina-ui/vue'
 
 <Demo name="search-input/states" />
 
+### 在表单中 {#form}
+
+放进 [FormField](/components/form-field) 后，标签指向输入框，错误信息由字段渲染；校验规则与提交交给 [Form](/components/form)，回车提交与提交按钮的行为保持默认。
+
+<Demo name="search-input/form" />
+
 ## 行为 {#behavior}
 
 - 清除按钮只在有内容且未禁用时出现，点击后不会让输入区失焦。

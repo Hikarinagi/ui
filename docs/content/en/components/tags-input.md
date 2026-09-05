@@ -54,6 +54,12 @@ It differs from `MultiSelect` in where the values come from: a multi select pick
 
 <Demo name="tags-input/states" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the label points at the input, and the description and error message are rendered by the field; validation rules and submission belong to the [Form](/components/form). The value is an array of strings, so count limits go on the array and length limits on the items.
+
+<Demo name="tags-input/form" />
+
 ## Behavior {#behavior}
 
 - Enter or the delimiter turns the current text into a tag and clears the input.

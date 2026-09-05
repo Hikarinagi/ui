@@ -44,6 +44,12 @@ Three sizes, matching the input. With a single line of content the height equals
 
 <Demo name="textarea/states" />
 
+### In a form {#form}
+
+Inside a [FormField](/components/form-field) the label points at the textarea through `for`, and the description and error message are rendered by the field and linked to it; validation rules and submission belong to the [Form](/components/form).
+
+<Demo name="textarea/form" />
+
 ## Behaviour {#behavior}
 
 - Hover, focus, invalid and disabled behave the same as the input.
