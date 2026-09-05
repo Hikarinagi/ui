@@ -109,8 +109,8 @@ export function resumeTimers(reason: string) {
   }
 }
 
-function settle(id: number | string) {
-  const index = toastState.items.findIndex(item => item.id === id)
+function settle(item: ToastItem) {
+  const index = toastState.items.indexOf(item)
   if (index >= 0) toastState.items.splice(index, 1)
 }
 
@@ -120,7 +120,7 @@ function close(item: ToastItem, source: 'manual' | 'auto') {
   stopTimer(item.id)
   if (source === 'auto') item.onAutoClose?.(item.id)
   item.onDismiss?.(item.id)
-  setTimeout(() => settle(item.id), SETTLE_DELAY)
+  setTimeout(() => settle(item), SETTLE_DELAY)
 }
 
 export function dismiss(id?: number | string) {
@@ -158,6 +158,8 @@ function push(message: string, options: InternalOptions = {}) {
     startTimer(existing)
     return existing.id
   }
+
+  if (existing) settle(existing)
 
   const item: ToastItem = {
     id: options.id ?? ++seed,
