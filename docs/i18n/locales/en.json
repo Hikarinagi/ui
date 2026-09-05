@@ -161,6 +161,8 @@
     "input-group": "Joins addons and buttons with a field into one surface",
     "avatar": "A round portrait standing for a person or entity",
     "file-upload": "Picks files by clicking or dropping",
+    "form": "Collects field values, validates them and submits",
+    "form-field": "Pairs a control with its label, description and error",
     "flex": "A flex container with full control over its axes",
     "grid": "A grid container with a fixed number of columns",
     "simple-grid": "An even grid whose columns follow a minimum width",

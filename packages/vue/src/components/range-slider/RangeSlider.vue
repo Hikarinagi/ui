@@ -2,6 +2,7 @@
   import { SliderRoot, SliderTrack } from 'reka-ui'
   import { computed, toRef } from 'vue'
   import { cn } from '../../lib/cn'
+  import { useFieldControl } from '../form-field/context'
   import { useUiLocale } from '../../locale'
   import { useSliderChrome } from '../slider/composables/useSliderChrome'
   import SliderHandle from '../slider/SliderHandle.vue'
@@ -37,8 +38,11 @@
   const model = defineModel<[number, number]>()
 
   const t = useUiLocale()
+  const { labelledBy, invalid, disabled, describedBy } = useFieldControl({
+    disabled: () => props.disabled,
+  })
   const { dragging, ring, labelOpen, onPointerDown, listeners } = useSliderChrome(
-    toRef(props, 'disabled'),
+    disabled,
     toRef(props, 'label'),
   )
 
@@ -66,7 +70,10 @@
     data-hn-state-group
     role="group"
     v-bind="$attrs"
-    :data-disabled="props.disabled ? '' : undefined"
+    :aria-labelledby="labelledBy"
+    :aria-describedby="describedBy"
+    :aria-invalid="invalid || undefined"
+    :data-disabled="disabled ? '' : undefined"
     :data-dragging="dragging ? '' : undefined"
     :style="position"
     :class="cn(slider({ size: props.size }), props.class)"
@@ -79,7 +86,7 @@
       :max="props.max"
       :step="props.step"
       :min-steps-between-thumbs="props.minSteps"
-      :disabled="props.disabled"
+      :disabled="disabled"
       :class="sliderRoot()"
       @update:model-value="value => (model = [value![0]!, value![1]!])"
       @value-commit="value => emit('commit', [value[0]!, value[1]!])"

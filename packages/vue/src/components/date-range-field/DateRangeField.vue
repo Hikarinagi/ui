@@ -12,6 +12,7 @@
   import { useUiLocale } from '../../locale'
   import { X } from '@lucide/vue'
   import InputAction from '../input/InputAction.vue'
+  import { useFieldControl } from '../form-field/context'
   import { injectInputGroup } from '../input-group/context'
   import {
     inputActionSlot,
@@ -58,7 +59,10 @@
   const group = injectInputGroup()
   const host = shallowRef<HTMLElement | null>(null)
 
-  const disabled = computed(() => props.disabled || !!group?.disabled.value)
+  const { labelledBy, invalid, disabled, describedBy } = useFieldControl({
+    invalid: () => props.invalid || !!group?.invalid.value || outOfRange.value,
+    disabled: () => props.disabled || !!group?.disabled.value,
+  })
 
   const value = computed(() => parseDateRange(model.value, props.granularity))
   const placeholder = computed(() => parseDateValue(props.placeholder, props.granularity))
@@ -67,7 +71,6 @@
   const outOfRange = computed(() =>
     isRangeInvalid(value.value, { min: minValue.value, max: maxValue.value }),
   )
-  const invalid = computed(() => props.invalid || !!group?.invalid.value || outOfRange.value)
   const clearing = computed(() => props.clearable && model.value != null && !disabled.value)
 
   const sides = ['start', 'end'] as const
@@ -114,6 +117,8 @@
     <DateRangeFieldRoot
       v-slot="{ segments }"
       v-bind="$attrs"
+      :aria-labelledby="labelledBy"
+      :aria-describedby="describedBy"
       :model-value="value"
       :placeholder="placeholder"
       :min-value="minValue"

@@ -2,6 +2,7 @@
   import { TagsInputInput, TagsInputItem, TagsInputRoot } from 'reka-ui'
   import { computed } from 'vue'
   import { cn } from '../../lib/cn'
+  import { useFieldControl } from '../form-field/context'
   import { focusFieldFrom } from '../../lib/field-focus'
   import { useUiLocale } from '../../locale'
   import { X } from '@lucide/vue'
@@ -37,11 +38,21 @@
 
   const t = useUiLocale()
 
+  const {
+    id: fieldId,
+    invalid,
+    disabled,
+    describedBy,
+  } = useFieldControl({
+    invalid: () => props.invalid,
+    disabled: () => props.disabled,
+  })
+
   const chipSize = computed(() => (props.size === 'sm' ? 'sm' : 'md'))
-  const clearing = computed(() => props.clearable && model.value.length > 0 && !props.disabled)
+  const clearing = computed(() => props.clearable && model.value.length > 0 && !disabled.value)
 
   function remove(tag: string) {
-    if (props.disabled) return
+    if (disabled.value) return
     model.value = model.value.filter(item => item !== tag)
   }
 
@@ -66,7 +77,7 @@
 <template>
   <div
     data-hn-tags-input
-    :data-invalid="props.invalid ? '' : undefined"
+    :data-invalid="invalid ? '' : undefined"
     @click="focusFieldFrom($event.currentTarget as HTMLElement, $event.target as HTMLElement)"
     :class="
       cn(
@@ -84,23 +95,20 @@
       :add-on-paste="props.addOnPaste"
       :add-on-blur="props.addOnBlur"
       :name="props.name"
-      :disabled="props.disabled"
+      :disabled="disabled"
       :class="tagsInputList()"
       @invalid="value => emit('invalid', String(value))"
     >
       <TagsInputItem v-for="tag in model" :key="tag" :value="tag" as-child>
-        <TagsInputChip
-          :tag="tag"
-          :size="chipSize"
-          :disabled="props.disabled"
-          @remove="remove(tag)"
-        />
+        <TagsInputChip :tag="tag" :size="chipSize" :disabled="disabled" @remove="remove(tag)" />
       </TagsInputItem>
       <TagsInputInput
         v-bind="$attrs"
         @keydown.capture="onInputKeydown"
+        :id="fieldId"
         :placeholder="props.placeholder"
-        :aria-invalid="props.invalid || undefined"
+        :aria-invalid="invalid || undefined"
+        :aria-describedby="describedBy"
         :class="tagsInputControl({ size: props.size })"
       />
     </TagsInputRoot>

@@ -7,6 +7,7 @@
   import { useUiLocale } from '../../locale'
   import { X } from '@lucide/vue'
   import InputAction from '../input/InputAction.vue'
+  import { useFieldControl } from '../form-field/context'
   import { injectInputGroup } from '../input-group/context'
   import {
     inputActionSlot,
@@ -48,7 +49,10 @@
   const host = shallowRef<HTMLElement | null>(null)
 
   const size = computed(() => (group ? group.size.value : props.size))
-  const disabled = computed(() => props.disabled || !!group?.disabled.value)
+  const { labelledBy, invalid, disabled, describedBy } = useFieldControl({
+    invalid: () => props.invalid || !!group?.invalid.value || outOfRange.value,
+    disabled: () => props.disabled || !!group?.disabled.value,
+  })
 
   const value = computed(() => parseDateValue(model.value, props.granularity))
   const placeholder = computed(() => parseDateValue(props.placeholder, props.granularity))
@@ -60,7 +64,6 @@
       ((!!minValue.value && value.value.compare(minValue.value) < 0) ||
         (!!maxValue.value && value.value.compare(maxValue.value) > 0)),
   )
-  const invalid = computed(() => props.invalid || !!group?.invalid.value || outOfRange.value)
   const clearing = computed(() => props.clearable && model.value != null && !disabled.value)
 
   function segmentLabel(part: string) {
@@ -104,6 +107,8 @@
     <DateFieldRoot
       v-slot="{ segments: parts }"
       v-bind="$attrs"
+      :aria-labelledby="labelledBy"
+      :aria-describedby="describedBy"
       :model-value="value"
       :placeholder="placeholder"
       :min-value="minValue"

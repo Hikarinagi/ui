@@ -2,6 +2,7 @@
   import { RatingItem, RatingItemIndicator, RatingRoot } from 'reka-ui'
   import { Star } from '@lucide/vue'
   import { cn } from '../../lib/cn'
+  import { useFieldControl } from '../form-field/context'
   import { useUiLocale } from '../../locale'
   import {
     ratingFill,
@@ -32,6 +33,10 @@
   const model = defineModel<number>({ default: 0 })
 
   const t = useUiLocale()
+
+  const { labelledBy, invalid, disabled, describedBy } = useFieldControl({
+    disabled: () => props.disabled,
+  })
 </script>
 
 <template>
@@ -56,13 +61,17 @@
     v-slot="{ items }"
     v-bind="$attrs"
     data-hn-rating
-    :data-disabled="props.disabled ? '' : undefined"
+    :data-disabled="disabled ? '' : undefined"
+    :data-invalid="invalid ? '' : undefined"
+    :aria-labelledby="labelledBy"
+    :aria-describedby="describedBy"
+    :aria-invalid="invalid || undefined"
     :model-value="model"
     :length="props.max"
     :step="props.step"
     :clearable="props.clearable"
     hoverable
-    :disabled="props.disabled"
+    :disabled="disabled"
     :name="props.name"
     :class="cn(ratingRoot({ size: props.size }), props.class)"
     @update:model-value="model = $event"

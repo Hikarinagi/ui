@@ -1,11 +1,22 @@
 <script setup lang="ts">
   import { computed, nextTick, onMounted, shallowRef, watch } from 'vue'
   import { cn } from '../../lib/cn'
+  import { useFieldControl } from '../form-field/context'
   import { caretTop } from '../../lib/caret'
   import ScrollArea from '../scroll-area/ScrollArea.vue'
   import { textarea, textareaField, type TextareaVariants } from './textarea.variants'
 
   defineOptions({ name: 'HnTextarea', inheritAttrs: false })
+
+  const {
+    id: fieldId,
+    invalid,
+    disabled,
+    describedBy,
+  } = useFieldControl({
+    invalid: () => props.invalid,
+    disabled: () => props.disabled,
+  })
 
   const props = withDefaults(
     defineProps<{
@@ -67,7 +78,7 @@
 <template>
   <div
     data-hn-textarea
-    :data-invalid="props.invalid ? '' : undefined"
+    :data-invalid="invalid ? '' : undefined"
     :style="{ '--hn-textarea-rows': bounds.min, '--hn-textarea-max-rows': bounds.max }"
     :class="
       cn(
@@ -87,9 +98,11 @@
         ref="el"
         v-bind="$attrs"
         v-model="model"
+        :id="fieldId"
         :rows="bounds.min"
-        :disabled="props.disabled"
-        :aria-invalid="props.invalid || undefined"
+        :disabled="disabled"
+        :aria-invalid="invalid || undefined"
+        :aria-describedby="describedBy"
         :class="textareaField()"
         @input="fit"
       />

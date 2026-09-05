@@ -4,6 +4,7 @@
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
   import DisclosureIcon from '../disclosure-icon/DisclosureIcon.vue'
+  import { useFieldControl } from '../form-field/context'
   import { injectInputGroup } from '../input-group/context'
   import {
     inputAdornment,
@@ -42,8 +43,15 @@
   const group = injectInputGroup()
   const keyboard = ref(false)
 
-  const disabled = computed(() => props.disabled || !!group?.disabled.value)
-  const invalid = computed(() => props.invalid || !!group?.invalid.value)
+  const {
+    id: fieldId,
+    invalid,
+    disabled,
+    describedBy,
+  } = useFieldControl({
+    invalid: () => props.invalid || !!group?.invalid.value,
+    disabled: () => props.disabled || !!group?.disabled.value,
+  })
   const selected = computed(() =>
     flattenOptions(props.options).find(option => option.value === model.value),
   )
@@ -60,6 +68,8 @@
   >
     <SelectTrigger
       v-bind="$attrs"
+      :id="fieldId"
+      :aria-describedby="describedBy"
       data-hn-select
       @keydown="keyboard = true"
       @pointerdown="keyboard = false"

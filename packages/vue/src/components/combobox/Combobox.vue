@@ -7,6 +7,7 @@
   import { X } from '@lucide/vue'
   import InputAction from '../input/InputAction.vue'
   import DisclosureIcon from '../disclosure-icon/DisclosureIcon.vue'
+  import { useFieldControl } from '../form-field/context'
   import { injectInputGroup } from '../input-group/context'
   import {
     inputActionSlot,
@@ -47,8 +48,15 @@
   const input = shallowRef<{ $el: HTMLInputElement } | null>(null)
 
   const size = computed(() => (group ? group.size.value : props.size))
-  const disabled = computed(() => props.disabled || !!group?.disabled.value)
-  const invalid = computed(() => props.invalid || !!group?.invalid.value)
+  const {
+    id: fieldId,
+    invalid,
+    disabled,
+    describedBy,
+  } = useFieldControl({
+    invalid: () => props.invalid || !!group?.invalid.value,
+    disabled: () => props.disabled || !!group?.disabled.value,
+  })
   const clearing = computed(
     () => !!props.clearable && model.value != null && model.value !== '' && !disabled.value,
   )
@@ -98,6 +106,8 @@
           ref="input"
           v-bind="$attrs"
           v-model="search"
+          :id="fieldId"
+          :aria-describedby="describedBy"
           :display-value="displayValue"
           :placeholder="props.placeholder ?? t.combobox.placeholder"
           :disabled="disabled"

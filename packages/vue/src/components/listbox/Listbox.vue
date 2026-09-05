@@ -9,6 +9,7 @@
     ListboxRoot,
   } from 'reka-ui'
   import { cn } from '../../lib/cn'
+  import { useFieldControl } from '../form-field/context'
   import { useUiLocale } from '../../locale'
   import ScrollArea from '../scroll-area/ScrollArea.vue'
   import { selectEmpty, selectItem, selectLabel } from '../select/select.variants'
@@ -34,15 +35,23 @@
   defineSlots<{ option(props: { option: SelectOption }): unknown }>()
 
   const t = useUiLocale()
+
+  const { labelledBy, invalid, disabled, describedBy } = useFieldControl({
+    disabled: () => props.disabled,
+  })
 </script>
 
 <template>
   <ListboxRoot
     v-model="model"
     :multiple="props.multiple"
-    :disabled="props.disabled"
+    :disabled="disabled"
+    :aria-labelledby="labelledBy"
+    :aria-describedby="describedBy"
+    :aria-invalid="invalid || undefined"
     data-hn-listbox
-    :data-disabled="props.disabled ? '' : undefined"
+    :data-disabled="disabled ? '' : undefined"
+    :data-invalid="invalid ? '' : undefined"
     :class="cn(listbox({ variant: props.variant }), props.class)"
   >
     <ScrollArea :style="{ maxHeight: props.maxHeight }">

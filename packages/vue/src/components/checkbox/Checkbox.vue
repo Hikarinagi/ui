@@ -3,6 +3,7 @@
   import { CheckboxRoot } from 'reka-ui'
   import { useSlots } from 'vue'
   import { cn } from '../../lib/cn'
+  import { useFieldControl } from '../form-field/context'
   import {
     checkbox,
     checkboxBox,
@@ -25,22 +26,34 @@
   const model = defineModel<boolean | 'indeterminate'>({ default: false })
 
   const slots = useSlots()
+
+  const {
+    id: fieldId,
+    invalid,
+    disabled,
+    describedBy,
+  } = useFieldControl({
+    invalid: () => props.invalid,
+    disabled: () => props.disabled,
+  })
 </script>
 
 <template>
   <label
     data-hn-checkbox
     data-hn-state-group
-    :data-disabled="props.disabled ? '' : undefined"
+    :data-disabled="disabled ? '' : undefined"
     :class="cn(checkbox({ size: props.size }), props.class)"
   >
     <CheckboxRoot
       v-slot="{ state }"
       v-bind="$attrs"
       v-model="model"
-      :disabled="props.disabled"
-      :aria-invalid="props.invalid || undefined"
-      :data-invalid="props.invalid ? '' : undefined"
+      :id="fieldId"
+      :disabled="disabled"
+      :aria-invalid="invalid || undefined"
+      :aria-describedby="describedBy"
+      :data-invalid="invalid ? '' : undefined"
       :class="checkboxBox({ size: props.size })"
     >
       <Transition

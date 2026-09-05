@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import { RadioGroupItem, RadioGroupRoot } from 'reka-ui'
   import { cn } from '../../lib/cn'
+  import { useFieldControl } from '../form-field/context'
   import {
     checkbox,
     checkboxBox,
@@ -29,13 +30,21 @@
 
   const model = defineModel<string | number | null>()
 
+  const { labelledBy, invalid, disabled, describedBy } = useFieldControl({
+    invalid: () => props.invalid,
+    disabled: () => props.disabled,
+  })
+
   defineSlots<{ option(props: { option: SelectOption }): unknown }>()
 </script>
 
 <template>
   <RadioGroupRoot
     v-model="model"
-    :disabled="props.disabled"
+    :disabled="disabled"
+    :aria-labelledby="labelledBy"
+    :aria-describedby="describedBy"
+    :aria-invalid="invalid || undefined"
     data-hn-radio-group
     :class="cn(checkboxGroup({ orientation: props.orientation }), props.class)"
   >
@@ -44,15 +53,15 @@
       :key="option.value"
       data-hn-radio
       data-hn-state-group
-      :data-disabled="props.disabled || option.disabled ? '' : undefined"
+      :data-disabled="disabled || option.disabled ? '' : undefined"
       :class="checkbox({ size: props.size })"
     >
       <RadioGroupItem
         v-slot="{ checked }"
         :value="option.value"
         :disabled="option.disabled"
-        :aria-invalid="props.invalid || undefined"
-        :data-invalid="props.invalid ? '' : undefined"
+        :aria-invalid="invalid || undefined"
+        :data-invalid="invalid ? '' : undefined"
         :class="checkboxBox({ shape: 'round', size: props.size })"
       >
         <Transition

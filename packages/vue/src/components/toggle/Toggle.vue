@@ -2,6 +2,7 @@
   import { Toggle as ToggleRoot, injectTooltipProviderContext } from 'reka-ui'
   import { computed, useSlots } from 'vue'
   import { cn } from '../../lib/cn'
+  import { useFieldControl } from '../form-field/context'
   import { useAccessibleName } from '../../lib/a11y'
   import { Passthrough } from '../../lib/passthrough'
   import { buttonIconBox } from '../button/button.variants'
@@ -30,6 +31,14 @@
 
   const slots = useSlots()
 
+  const {
+    id: fieldId,
+    disabled,
+    describedBy,
+  } = useFieldControl({
+    disabled: () => props.disabled,
+  })
+
   defineSlots<{
     default(): unknown
     icon(props: { pressed: boolean }): unknown
@@ -54,7 +63,9 @@
     <ToggleRoot
       v-bind="$attrs"
       v-model="pressed"
-      :disabled="props.disabled"
+      :id="fieldId"
+      :disabled="disabled"
+      :aria-describedby="describedBy"
       :aria-label="props.label"
       data-hn-toggle
       :class="
@@ -69,7 +80,7 @@
         )
       "
     >
-      <Ripple v-if="props.ripple" :disabled="props.disabled" />
+      <Ripple v-if="props.ripple" :disabled="disabled" />
       <span v-if="slots.icon" :class="iconBox">
         <Transition
           enter-active-class="hn-transition-base"

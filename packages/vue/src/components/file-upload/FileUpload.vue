@@ -2,6 +2,7 @@
   import { computed, shallowRef } from 'vue'
   import { File as FileIcon, Upload, X } from '@lucide/vue'
   import { cn } from '../../lib/cn'
+  import { useFieldControl } from '../form-field/context'
   import { useUiLocale } from '../../locale'
   import Button from '../button/Button.vue'
   import IconSlot from '../button/IconSlot.vue'
@@ -46,7 +47,16 @@
   const t = useUiLocale()
   const input = shallowRef<HTMLInputElement | null>(null)
 
-  const disabled = computed(() => !!props.disabled || !!props.loading)
+  const {
+    field,
+    id: fieldId,
+    invalid,
+    disabled,
+    describedBy,
+  } = useFieldControl({
+    invalid: () => props.invalid,
+    disabled: () => !!props.disabled || !!props.loading,
+  })
   const files = computed<File[]>(() =>
     Array.isArray(model.value) ? model.value : model.value ? [model.value] : [],
   )
@@ -103,8 +113,11 @@
       v-bind="$attrs"
       type="button"
       data-hn-file-upload-area
+      :id="fieldId"
+      :aria-describedby="describedBy"
+      :aria-invalid="invalid || undefined"
       :data-dragging="dragging ? '' : undefined"
-      :data-invalid="props.invalid ? '' : undefined"
+      :data-invalid="invalid ? '' : undefined"
       :aria-busy="props.loading || undefined"
       :disabled="disabled"
       :class="fileUploadArea()"
@@ -128,10 +141,13 @@
     <Button
       v-else
       v-bind="$attrs"
+      :id="fieldId"
+      :aria-describedby="describedBy"
+      :aria-invalid="invalid || undefined"
       variant="outline"
       tone="neutral"
       :loading="props.loading"
-      :disabled="props.disabled"
+      :disabled="props.disabled || !!field?.disabled.value"
       class="self-start"
       @click="browse"
     >

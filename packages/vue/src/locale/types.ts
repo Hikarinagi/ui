@@ -123,6 +123,9 @@ export interface UiMessages {
     star: (value: number) => string
     label: (value: number, max: number) => string
   }
+  form: {
+    required: string
+  }
   calendar: {
     label: string
     prev: string

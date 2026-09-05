@@ -14,6 +14,7 @@
   import type { CalendarVariants } from '../calendar/calendar.variants'
   import Card from '../card/Card.vue'
   import DateField from '../date-field/DateField.vue'
+  import { useFieldControl } from '../form-field/context'
   import { injectInputGroup } from '../input-group/context'
   import InputGroupScope from '../input-group/InputGroupScope.vue'
   import InputAction from '../input/InputAction.vue'
@@ -53,8 +54,10 @@
   const host = shallowRef<HTMLElement | null>(null)
 
   const size = computed(() => (outer ? outer.size.value : props.size))
-  const disabled = computed(() => props.disabled || !!outer?.disabled.value)
-  const invalid = computed(() => props.invalid || !!outer?.invalid.value)
+  const { invalid, disabled } = useFieldControl({
+    invalid: () => props.invalid || !!outer?.invalid.value,
+    disabled: () => props.disabled || !!outer?.disabled.value,
+  })
   const calendarSize = computed<CalendarVariants['size']>(() => size.value ?? 'md')
 
   function pick(next: string | null) {

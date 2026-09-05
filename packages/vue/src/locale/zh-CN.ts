@@ -125,6 +125,9 @@ export const zhCN: UiMessages = {
     star: value => `${value} 星`,
     label: (value, max) => `${value} 星，满分 ${max} 星`,
   },
+  form: {
+    required: '必填',
+  },
   calendar: {
     label: '日历',
     prev: '上个月',

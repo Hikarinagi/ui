@@ -467,9 +467,9 @@
     pointer-events: none;
     transition:
       opacity var(--hn-duration-exit) var(--hn-ease-exit),
-      grid-template-rows var(--hn-duration-base) var(--hn-ease-move),
-      margin-block-end var(--hn-duration-base) var(--hn-ease-move),
-      visibility 0s var(--hn-ease-linear) var(--hn-duration-base);
+      grid-template-rows var(--hn-collapse-out, var(--hn-duration-base)) var(--hn-ease-move),
+      margin-block-end var(--hn-collapse-out, var(--hn-duration-base)) var(--hn-ease-move),
+      visibility 0s var(--hn-ease-linear) var(--hn-collapse-out, var(--hn-duration-base));
   }
 }
 
@@ -498,9 +498,9 @@
     pointer-events: none;
     transition:
       opacity var(--hn-duration-exit) var(--hn-ease-exit),
-      grid-template-columns var(--hn-duration-base) var(--hn-ease-move),
-      margin-inline-end var(--hn-duration-base) var(--hn-ease-move),
-      visibility 0s var(--hn-ease-linear) var(--hn-duration-base);
+      grid-template-columns var(--hn-collapse-out, var(--hn-duration-base)) var(--hn-ease-move),
+      margin-inline-end var(--hn-collapse-out, var(--hn-duration-base)) var(--hn-ease-move),
+      visibility 0s var(--hn-ease-linear) var(--hn-collapse-out, var(--hn-duration-base));
   }
 }
 

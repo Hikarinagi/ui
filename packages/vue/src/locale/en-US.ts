@@ -125,6 +125,9 @@ export const enUS: UiMessages = {
     star: value => `${value} ${value === 1 ? 'star' : 'stars'}`,
     label: (value, max) => `${value} out of ${max} stars`,
   },
+  form: {
+    required: 'Required',
+  },
   calendar: {
     label: 'Calendar',
     prev: 'Previous month',

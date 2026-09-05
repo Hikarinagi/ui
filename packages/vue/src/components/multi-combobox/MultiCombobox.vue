@@ -2,6 +2,7 @@
   import { computed, reactive, ref, shallowRef, watch } from 'vue'
   import { ComboboxAnchor, ComboboxInput, ComboboxRoot, ComboboxTrigger } from 'reka-ui'
   import { cn } from '../../lib/cn'
+  import { useFieldControl } from '../form-field/context'
   import { focusFieldFrom } from '../../lib/field-focus'
   import { useUiLocale } from '../../locale'
   import { buttonIconBox } from '../button/button.variants'
@@ -57,6 +58,16 @@
   const keyboard = ref(false)
   const input = shallowRef<{ $el: HTMLInputElement } | null>(null)
 
+  const {
+    id: fieldId,
+    invalid,
+    disabled,
+    describedBy,
+  } = useFieldControl({
+    invalid: () => props.invalid,
+    disabled: () => props.disabled,
+  })
+
   const labels = reactive(new Map<string | number, string>())
   watch(
     () => props.options,
@@ -70,14 +81,14 @@
     model.value.map(value => ({ value, label: labels.get(value) ?? String(value) })),
   )
   const chipSize = computed(() => (props.size === 'sm' ? 'sm' : 'md'))
-  const clearing = computed(() => props.clearable && selected.value.length > 0 && !props.disabled)
+  const clearing = computed(() => props.clearable && selected.value.length > 0 && !disabled.value)
 
   watch(open, value => {
     if (!value) keyboard.value = false
   })
 
   function remove(value: string | number) {
-    if (props.disabled) return
+    if (disabled.value) return
     model.value = model.value.filter(item => item !== value)
   }
 
@@ -109,7 +120,7 @@
   <ComboboxRoot
     v-model="model"
     v-model:open="open"
-    :disabled="props.disabled"
+    :disabled="disabled"
     :ignore-filter="props.ignoreFilter"
     :name="props.name"
     multiple
@@ -118,7 +129,7 @@
     <ComboboxAnchor as-child>
       <div
         data-hn-multi-combobox
-        :data-invalid="props.invalid ? '' : undefined"
+        :data-invalid="invalid ? '' : undefined"
         :aria-busy="props.loading || undefined"
         :class="
           cn(
@@ -136,7 +147,7 @@
             :key="option.value"
             :size="chipSize"
             removable
-            :disabled="props.disabled"
+            :disabled="disabled"
             :class="tagsInputChip()"
             @remove="remove(option.value)"
           >
@@ -149,8 +160,10 @@
             :placeholder="
               selected.length ? undefined : (props.placeholder ?? t.combobox.placeholder)
             "
-            :disabled="props.disabled"
-            :aria-invalid="props.invalid || undefined"
+            :disabled="disabled"
+            :id="fieldId"
+            :aria-invalid="invalid || undefined"
+            :aria-describedby="describedBy"
             :class="tagsInputControl({ size: props.size })"
             @keydown="onInputKeydown"
           />
@@ -170,7 +183,7 @@
           </Transition>
           <ComboboxTrigger
             :aria-label="t.combobox.toggle"
-            :disabled="props.disabled"
+            :disabled="disabled"
             :class="cn(inputAdornment(), inputIndicator())"
             @mousedown.prevent
           >

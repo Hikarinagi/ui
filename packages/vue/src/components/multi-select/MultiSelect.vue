@@ -8,6 +8,7 @@
   import { X } from '@lucide/vue'
   import InputAction from '../input/InputAction.vue'
   import DisclosureIcon from '../disclosure-icon/DisclosureIcon.vue'
+  import { useFieldControl } from '../form-field/context'
   import { injectInputGroup } from '../input-group/context'
   import {
     inputActionSlot,
@@ -51,8 +52,15 @@
   const keyboard = ref(false)
 
   const size = computed(() => (group ? group.size.value : props.size))
-  const disabled = computed(() => props.disabled || !!group?.disabled.value)
-  const invalid = computed(() => props.invalid || !!group?.invalid.value)
+  const {
+    id: fieldId,
+    invalid,
+    disabled,
+    describedBy,
+  } = useFieldControl({
+    invalid: () => props.invalid || !!group?.invalid.value,
+    disabled: () => props.disabled || !!group?.disabled.value,
+  })
   const selected = computed(() =>
     flattenOptions(props.options).filter(option => model.value.includes(option.value)),
   )
@@ -89,6 +97,8 @@
     <SelectTrigger
       v-bind="$attrs"
       as="div"
+      :id="fieldId"
+      :aria-describedby="describedBy"
       data-hn-multi-select
       @keydown="keyboard = true"
       @pointerdown="keyboard = false"

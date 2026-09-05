@@ -7,6 +7,7 @@
   import IconSlot from '../button/IconSlot.vue'
   import InputAction from './InputAction.vue'
   import Spinner from '../spinner/Spinner.vue'
+  import { useFieldControl } from '../form-field/context'
   import { injectInputGroup } from '../input-group/context'
   import {
     inputActionSlot,
@@ -38,8 +39,15 @@
   const el = shallowRef<HTMLInputElement | null>(null)
 
   const size = computed(() => (group ? group.size.value : props.size))
-  const disabled = computed(() => props.disabled || !!group?.disabled.value)
-  const invalid = computed(() => props.invalid || !!group?.invalid.value)
+  const {
+    id: fieldId,
+    invalid,
+    disabled,
+    describedBy,
+  } = useFieldControl({
+    invalid: () => props.invalid || !!group?.invalid.value,
+    disabled: () => props.disabled || !!group?.disabled.value,
+  })
   const clearing = computed(() => !!props.clearable && !!model.value && !disabled.value)
   const trailingSpinner = computed(() => !!props.loading && !slots.leading)
   const spinnerSize = computed(() => (size.value === 'lg' ? 'md' : 'sm'))
@@ -80,8 +88,10 @@
       ref="el"
       v-bind="$attrs"
       v-model="model"
+      :id="fieldId"
       :disabled="disabled"
       :aria-invalid="invalid || undefined"
+      :aria-describedby="describedBy"
       :class="
         inputControl({
           leading: !!slots.leading,

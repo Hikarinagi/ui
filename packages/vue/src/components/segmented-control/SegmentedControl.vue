@@ -2,6 +2,7 @@
   import { ToggleGroupItem, ToggleGroupRoot, type AcceptableValue } from 'reka-ui'
   import { computed, useId, useSlots } from 'vue'
   import { cn } from '../../lib/cn'
+  import { useFieldControl } from '../form-field/context'
   import Highlight from '../highlight/Highlight.vue'
   import Ripple from '../ripple/Ripple.vue'
   import type { SelectOption } from '../select/types'
@@ -32,6 +33,10 @@
   defineSlots<{ option(props: { option: SelectOption }): unknown }>()
 
   const slots = useSlots()
+
+  const { labelledBy, disabled, describedBy } = useFieldControl({
+    disabled: () => props.disabled,
+  })
   const highlightId = useId()
 
   const current = computed(
@@ -47,10 +52,12 @@
   <ToggleGroupRoot
     type="single"
     :model-value="current"
-    :disabled="props.disabled"
+    :disabled="disabled"
+    :aria-labelledby="labelledBy"
+    :aria-describedby="describedBy"
     :orientation="props.orientation"
     data-hn-segmented-control
-    :data-disabled="props.disabled ? '' : undefined"
+    :data-disabled="disabled ? '' : undefined"
     :class="
       cn(segmentedControl({ orientation: props.orientation, block: props.block }), props.class)
     "

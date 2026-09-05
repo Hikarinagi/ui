@@ -13,6 +13,7 @@
   import { useUiLocale } from '../../locale'
   import Card from '../card/Card.vue'
   import DisclosureIcon from '../disclosure-icon/DisclosureIcon.vue'
+  import { useFieldControl } from '../form-field/context'
   import { injectInputGroup } from '../input-group/context'
   import {
     inputAdornment,
@@ -54,8 +55,15 @@
   const t = useUiLocale()
   const group = injectInputGroup()
 
-  const disabled = computed(() => props.disabled || !!group?.disabled.value)
-  const invalid = computed(() => props.invalid || !!group?.invalid.value)
+  const {
+    id: fieldId,
+    invalid,
+    disabled,
+    describedBy,
+  } = useFieldControl({
+    invalid: () => props.invalid || !!group?.invalid.value,
+    disabled: () => props.disabled || !!group?.disabled.value,
+  })
   const selected = computed(() => findNode(props.items, model.value))
   const expanded = ref<string[]>([])
 
@@ -90,6 +98,8 @@
   <PopoverRoot v-model:open="open" modal>
     <PopoverTrigger
       v-bind="$attrs"
+      :id="fieldId"
+      :aria-describedby="describedBy"
       data-hn-tree-select
       role="combobox"
       :aria-expanded="open"

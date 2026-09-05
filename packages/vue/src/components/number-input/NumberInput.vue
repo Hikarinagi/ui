@@ -11,6 +11,7 @@
   } from 'reka-ui'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
+  import { useFieldControl } from '../form-field/context'
   import { injectInputGroup } from '../input-group/context'
   import {
     inputControl,
@@ -47,8 +48,15 @@
   const t = useUiLocale()
   const group = injectInputGroup()
   const size = computed(() => (group ? group.size.value : props.size))
-  const invalid = computed(() => props.invalid || !!group?.invalid.value)
-  const disabled = computed(() => props.disabled || !!group?.disabled.value)
+  const {
+    id: fieldId,
+    invalid,
+    disabled,
+    describedBy,
+  } = useFieldControl({
+    invalid: () => props.invalid || !!group?.invalid.value,
+    disabled: () => props.disabled || !!group?.disabled.value,
+  })
 
   const forwarded = useForwardPropsEmits(
     () => ({
@@ -81,7 +89,9 @@
   >
     <NumberFieldInput
       v-bind="$attrs"
+      :id="fieldId"
       :aria-invalid="invalid || undefined"
+      :aria-describedby="describedBy"
       :class="cn(inputControl(), 'tabular-nums')"
     />
     <div v-if="props.controls" :class="numberInputStepper({ size })">

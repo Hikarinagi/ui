@@ -193,6 +193,13 @@ export const components: DocsComponent[] = [
     category: 'forms',
   },
   { label: 'Flex', to: '/components/flex', i18n: 'components.flex', category: 'layout' },
+  { label: 'Form', to: '/components/form', i18n: 'components.form', category: 'forms' },
+  {
+    label: 'FormField',
+    to: '/components/form-field',
+    i18n: 'components.form-field',
+    category: 'forms',
+  },
   { label: 'Grid', to: '/components/grid', i18n: 'components.grid', category: 'layout' },
   {
     label: 'Highlight',
