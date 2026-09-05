@@ -262,7 +262,19 @@ export const components: DocsComponent[] = [
   { label: 'Link', to: '/components/link', i18n: 'components.link', category: 'typography' },
   { label: 'List', to: '/components/list', i18n: 'components.list', category: 'typography' },
   { label: 'Listbox', to: '/components/listbox', i18n: 'components.listbox', category: 'forms' },
+  {
+    label: 'LoadingOverlay',
+    to: '/components/loading-overlay',
+    i18n: 'components.loading-overlay',
+    category: 'overlays',
+  },
   { label: 'Mark', to: '/components/mark', i18n: 'components.mark', category: 'typography' },
+  {
+    label: 'Menubar',
+    to: '/components/menubar',
+    i18n: 'components.menubar',
+    category: 'overlays',
+  },
   {
     label: 'NavLink',
     to: '/components/nav-link',
@@ -371,6 +383,7 @@ export const components: DocsComponent[] = [
     i18n: 'components.skeleton',
     category: 'atoms',
   },
+  { label: 'Sheet', to: '/components/sheet', i18n: 'components.sheet', category: 'overlays' },
   { label: 'Sidebar', to: '/components/sidebar', i18n: 'components.sidebar', category: 'shell' },
   { label: 'Slider', to: '/components/slider', i18n: 'components.slider', category: 'forms' },
   {

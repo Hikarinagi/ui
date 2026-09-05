@@ -95,7 +95,7 @@
 
 @keyframes hn-sheet-out {
   from {
-    transform: none;
+    transform: translate(var(--hn-sheet-from-x, 0), var(--hn-sheet-from-y, 0));
   }
   to {
     transform: translate(var(--hn-sheet-x, 0), var(--hn-sheet-y, 0));
