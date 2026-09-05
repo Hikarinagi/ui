@@ -82,19 +82,22 @@ Three sizes, matching the input; the chips scale with them.
 
 ### Props {#props}
 
-| Prop          | Type                       | Default     | Description                              |
-| ------------- | -------------------------- | ----------- | ---------------------------------------- |
-| `modelValue`  | `Array<string \| number>`  | `[]`        | The chosen values                        |
-| `options`     | `SelectItems`              | —           | The items, same type as `Select`         |
-| `placeholder` | `string`                   | locale pack | Text shown when nothing is chosen        |
-| `maxVisible`  | `number`                   | `2`         | Maximum chips shown in the trigger       |
-| `clearable`   | `boolean`                  | `false`     | Whether the clear-all button is shown    |
-| `open`        | `boolean`                  | `false`     | Whether the list is open; `v-model:open` |
-| `variant`     | `'primary' \| 'secondary'` | `'primary'` | Variant                                  |
-| `size`        | `'sm' \| 'md' \| 'lg'`     | `'md'`      | Size                                     |
-| `invalid`     | `boolean`                  | `false`     | Whether validation failed                |
-| `disabled`    | `boolean`                  | `false`     | Whether the control is disabled          |
-| `class`       | `string`                   | —           | Classes appended to the trigger          |
+| Prop           | Type                       | Default     | Description                              |
+| -------------- | -------------------------- | ----------- | ---------------------------------------- |
+| `modelValue`   | `Array<string \| number>`  | `[]`        | The chosen values                        |
+| `options`      | `SelectItems`              | —           | The items, same type as `Select`         |
+| `placeholder`  | `string`                   | locale pack | Text shown when nothing is chosen        |
+| `maxVisible`   | `number`                   | `2`         | Maximum chips shown in the trigger       |
+| `clearable`    | `boolean`                  | `false`     | Whether the clear-all button is shown    |
+| `open`         | `boolean`                  | `false`     | Whether the list is open; `v-model:open` |
+| `variant`      | `'primary' \| 'secondary'` | `'primary'` | Variant                                  |
+| `size`         | `'sm' \| 'md' \| 'lg'`     | `'md'`      | Size                                     |
+| `invalid`      | `boolean`                  | `false`     | Whether validation failed                |
+| `name`         | `string`                   | —           | Native form field name                   |
+| `required`     | `boolean`                  | `false`     | Require a selection when `name` is set   |
+| `autocomplete` | `string`                   | —           | Native form autofill hint                |
+| `disabled`     | `boolean`                  | `false`     | Whether the control is disabled          |
+| `class`        | `string`                   | —           | Classes appended to the trigger          |
 
 ### Slots {#slots}
 

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
 import { userEvent } from '@vitest/browser/context'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { flushPromises, mount, type VueWrapper } from '@vue/test-utils'
 import { ref } from 'vue'
 import MultiSelect from './MultiSelect.vue'
 import Input from '../input/Input.vue'
@@ -182,5 +182,28 @@ describe('multi-select · 最后一枚 Chip 移除', () => {
     expect(clear.offsetLeft).toBe(left)
     expect(trigger.textContent?.trim()).toBe('请选择')
     await vi.waitFor(() => expect(clear.isConnected).toBe(false))
+  })
+})
+
+describe('原生表单', () => {
+  it('表单提交全部选中值，清空后必填校验失败，禁用后不提交', async () => {
+    const form = document.createElement('form')
+    document.body.appendChild(form)
+    const w = mount(MultiSelect, {
+      props: { options, modelValue: ['gal', 'ln'], name: 'kind', required: true },
+      attrs: { 'aria-label': '类型' },
+      attachTo: form,
+    })
+    await flushPromises()
+    expect(new FormData(form).getAll('kind')).toEqual(['gal', 'ln'])
+    expect(w.find('[data-hn-multi-select]').attributes('aria-required')).toBe('true')
+    expect(form.checkValidity()).toBe(true)
+    await w.setProps({ modelValue: [] })
+    expect(new FormData(form).has('kind')).toBe(false)
+    expect(form.checkValidity()).toBe(false)
+    await w.setProps({ modelValue: ['manga'], disabled: true })
+    expect(new FormData(form).has('kind')).toBe(false)
+    expect(form.checkValidity()).toBe(true)
+    w.unmount()
   })
 })

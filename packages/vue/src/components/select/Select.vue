@@ -20,6 +20,9 @@
   const props = defineProps<{
     options: SelectItems
     placeholder?: string
+    name?: string
+    required?: boolean
+    autocomplete?: string
     variant?: InputVariants['variant']
     size?: InputVariants['size']
     disabled?: boolean
@@ -47,7 +50,14 @@
 </script>
 
 <template>
-  <SelectRoot v-model="model" v-model:open="open" :disabled="disabled">
+  <SelectRoot
+    v-model="model"
+    v-model:open="open"
+    :disabled="disabled"
+    :name="props.name"
+    :required="props.required"
+    :autocomplete="props.autocomplete"
+  >
     <SelectTrigger
       v-bind="$attrs"
       data-hn-select

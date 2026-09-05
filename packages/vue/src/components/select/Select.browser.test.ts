@@ -1,6 +1,6 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
 import { userEvent } from '@vitest/browser/context'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { flushPromises, mount, type VueWrapper } from '@vue/test-utils'
 import { ref } from 'vue'
 import Select from './Select.vue'
 import Input from '../input/Input.vue'
@@ -221,5 +221,29 @@ describe('select · 浮层的滚动结构', () => {
     await vi.waitFor(() => expect(shadow.hasAttribute('data-visible')).toBe(true))
     expect(shadow.offsetWidth).toBe(area.offsetWidth)
     expect(shadow.offsetTop + shadow.offsetHeight).toBe(area.offsetHeight)
+  })
+})
+
+describe('原生表单', () => {
+  it('表单提交选中值，required 参与校验，disabled 时不提交', async () => {
+    const form = document.createElement('form')
+    document.body.appendChild(form)
+    const w = mount(Select, {
+      props: { options, modelValue: 'ln', name: 'kind', required: true, autocomplete: 'off' },
+      attrs: { 'aria-label': '类型' },
+      attachTo: form,
+    })
+    await flushPromises()
+    expect(new FormData(form).get('kind')).toBe('ln')
+    expect(w.find('[data-hn-select]').attributes('aria-required')).toBe('true')
+    expect(w.find('[data-hn-select]').attributes('name')).toBeUndefined()
+    expect(w.get('select').attributes('autocomplete')).toBe('off')
+    expect(form.checkValidity()).toBe(true)
+    await w.setProps({ modelValue: null })
+    expect(form.checkValidity()).toBe(false)
+    await w.setProps({ modelValue: 'gal', disabled: true })
+    expect(new FormData(form).has('kind')).toBe(false)
+    expect(form.checkValidity()).toBe(true)
+    w.unmount()
   })
 })

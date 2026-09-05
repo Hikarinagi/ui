@@ -68,17 +68,20 @@ import { Select } from '@hina-ui/vue'
 
 ### Props {#props}
 
-| 属性          | 类型                       | 默认值      | 说明                              |
-| ------------- | -------------------------- | ----------- | --------------------------------- |
-| `modelValue`  | `string \| number \| null` | —           | 选中的值                          |
-| `options`     | `SelectItems`              | —           | 选项，见下方类型                  |
-| `placeholder` | `string`                   | 语言包      | 无值时显示的文字                  |
-| `open`        | `boolean`                  | `false`     | 浮层是否打开，支持 `v-model:open` |
-| `variant`     | `'primary' \| 'secondary'` | `'primary'` | 形态                              |
-| `size`        | `'sm' \| 'md' \| 'lg'`     | `'md'`      | 尺寸                              |
-| `invalid`     | `boolean`                  | `false`     | 是否校验未通过                    |
-| `disabled`    | `boolean`                  | `false`     | 是否禁用                          |
-| `class`       | `string`                   | —           | 追加至触发器的类名                |
+| 属性           | 类型                       | 默认值      | 说明                              |
+| -------------- | -------------------------- | ----------- | --------------------------------- |
+| `modelValue`   | `string \| number \| null` | —           | 选中的值                          |
+| `options`      | `SelectItems`              | —           | 选项，见下方类型                  |
+| `placeholder`  | `string`                   | 语言包      | 无值时显示的文字                  |
+| `open`         | `boolean`                  | `false`     | 浮层是否打开，支持 `v-model:open` |
+| `variant`      | `'primary' \| 'secondary'` | `'primary'` | 形态                              |
+| `size`         | `'sm' \| 'md' \| 'lg'`     | `'md'`      | 尺寸                              |
+| `invalid`      | `boolean`                  | `false`     | 是否校验未通过                    |
+| `name`         | `string`                   | —           | 原生表单字段名                    |
+| `required`     | `boolean`                  | `false`     | 设置 `name` 后启用原生必填校验    |
+| `autocomplete` | `string`                   | —           | 原生表单自动填充提示              |
+| `disabled`     | `boolean`                  | `false`     | 是否禁用                          |
+| `class`        | `string`                   | —           | 追加至触发器的类名                |
 
 ### 插槽 {#slots}
 

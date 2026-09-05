@@ -4,6 +4,7 @@
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
   import Chip from '../chip/Chip.vue'
+  import VisuallyHidden from '../visually-hidden/VisuallyHidden.vue'
   import { X } from '@lucide/vue'
   import InputAction from '../input/InputAction.vue'
   import DisclosureIcon from '../disclosure-icon/DisclosureIcon.vue'
@@ -25,6 +26,9 @@
     defineProps<{
       options: SelectItems
       placeholder?: string
+      name?: string
+      required?: boolean
+      autocomplete?: string
       maxVisible?: number
       clearable?: boolean
       variant?: InputVariants['variant']
@@ -52,6 +56,7 @@
   const selected = computed(() =>
     flattenOptions(props.options).filter(option => model.value.includes(option.value)),
   )
+  const formOptions = computed(() => flattenOptions(props.options))
   const visible = computed(() => selected.value.slice(0, props.maxVisible))
   const overflow = computed(() => selected.value.length - visible.value.length)
   const chipSize = computed(() => (size.value === 'sm' ? 'sm' : 'md'))
@@ -74,7 +79,13 @@
 </script>
 
 <template>
-  <SelectRoot v-model="model" v-model:open="open" :disabled="disabled" multiple>
+  <SelectRoot
+    v-model="model"
+    v-model:open="open"
+    :disabled="disabled"
+    :required="props.required"
+    multiple
+  >
     <SelectTrigger
       v-bind="$attrs"
       as="div"
@@ -135,6 +146,28 @@
         <DisclosureIcon />
       </span>
     </SelectTrigger>
+    <!-- Reka 2.10 BubbleSelect assigns arrays to select.value, which loses multiple values. -->
+    <VisuallyHidden v-if="props.name" as-child>
+      <select
+        v-model="model"
+        multiple
+        :name="props.name"
+        :required="props.required"
+        :autocomplete="props.autocomplete"
+        :disabled="disabled"
+        aria-hidden="true"
+        tabindex="-1"
+      >
+        <option
+          v-for="option in formOptions"
+          :key="option.value"
+          :value="option.value"
+          :disabled="option.disabled"
+        >
+          {{ option.label }}
+        </option>
+      </select>
+    </VisuallyHidden>
     <SelectList :options="props.options" :keyboard="keyboard">
       <template #option="slotProps">
         <slot name="option" v-bind="slotProps" />

@@ -68,17 +68,20 @@ Three sizes, matching the input.
 
 ### Props {#props}
 
-| Prop          | Type                       | Default     | Description                              |
-| ------------- | -------------------------- | ----------- | ---------------------------------------- |
-| `modelValue`  | `string \| number \| null` | —           | The chosen value                         |
-| `options`     | `SelectItems`              | —           | The items, see the types below           |
-| `placeholder` | `string`                   | locale pack | Text shown when nothing is chosen        |
-| `open`        | `boolean`                  | `false`     | Whether the list is open; `v-model:open` |
-| `variant`     | `'primary' \| 'secondary'` | `'primary'` | Variant                                  |
-| `size`        | `'sm' \| 'md' \| 'lg'`     | `'md'`      | Size                                     |
-| `invalid`     | `boolean`                  | `false`     | Whether validation failed                |
-| `disabled`    | `boolean`                  | `false`     | Whether the select is disabled           |
-| `class`       | `string`                   | —           | Classes appended to the trigger          |
+| Prop           | Type                       | Default     | Description                              |
+| -------------- | -------------------------- | ----------- | ---------------------------------------- |
+| `modelValue`   | `string \| number \| null` | —           | The chosen value                         |
+| `options`      | `SelectItems`              | —           | The items, see the types below           |
+| `placeholder`  | `string`                   | locale pack | Text shown when nothing is chosen        |
+| `open`         | `boolean`                  | `false`     | Whether the list is open; `v-model:open` |
+| `variant`      | `'primary' \| 'secondary'` | `'primary'` | Variant                                  |
+| `size`         | `'sm' \| 'md' \| 'lg'`     | `'md'`      | Size                                     |
+| `invalid`      | `boolean`                  | `false`     | Whether validation failed                |
+| `name`         | `string`                   | —           | Native form field name                   |
+| `required`     | `boolean`                  | `false`     | Require a selection when `name` is set   |
+| `autocomplete` | `string`                   | —           | Native form autofill hint                |
+| `disabled`     | `boolean`                  | `false`     | Whether the select is disabled           |
+| `class`        | `string`                   | —           | Classes appended to the trigger          |
 
 ### Slots {#slots}
 
