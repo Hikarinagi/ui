@@ -83,47 +83,50 @@
     "
     @click.capture="guard"
   >
-    <Ripple v-if="withRipple" :disabled="isDisabled" />
+    <slot v-if="props.asChild" />
+    <template v-else>
+      <Ripple v-if="withRipple" :disabled="isDisabled" />
 
-    <IconSlot
-      v-if="slots.icon"
-      :box-class="iconBox"
-      :swapped="!!props.loading && spinnerAt === 'icon'"
-      :spinner-size="spinnerSize"
-    >
-      <slot name="icon" />
-    </IconSlot>
-
-    <span
-      v-if="slots.default"
-      class="hn-transition inline-flex items-center"
-      :class="props.loading && spinnerAt === 'center' ? 'opacity-0' : 'opacity-100'"
-    >
-      <slot />
-    </span>
-
-    <IconSlot
-      v-if="slots.trailing"
-      :box-class="iconBox"
-      :swapped="!!props.loading && spinnerAt === 'trailing'"
-      :spinner-size="spinnerSize"
-    >
-      <slot name="trailing" />
-    </IconSlot>
-
-    <Transition
-      enter-active-class="hn-transition-base"
-      enter-from-class="opacity-0"
-      leave-active-class="hn-transition"
-      leave-to-class="opacity-0"
-    >
-      <span
-        v-if="props.loading && spinnerAt === 'center'"
-        aria-hidden="true"
-        class="absolute inset-0 flex items-center justify-center"
+      <IconSlot
+        v-if="slots.icon"
+        :box-class="iconBox"
+        :swapped="!!props.loading && spinnerAt === 'icon'"
+        :spinner-size="spinnerSize"
       >
-        <Spinner :size="spinnerSize" />
+        <slot name="icon" />
+      </IconSlot>
+
+      <span
+        v-if="slots.default"
+        class="hn-transition inline-flex items-center"
+        :class="props.loading && spinnerAt === 'center' ? 'opacity-0' : 'opacity-100'"
+      >
+        <slot />
       </span>
-    </Transition>
+
+      <IconSlot
+        v-if="slots.trailing"
+        :box-class="iconBox"
+        :swapped="!!props.loading && spinnerAt === 'trailing'"
+        :spinner-size="spinnerSize"
+      >
+        <slot name="trailing" />
+      </IconSlot>
+
+      <Transition
+        enter-active-class="hn-transition-base"
+        enter-from-class="opacity-0"
+        leave-active-class="hn-transition"
+        leave-to-class="opacity-0"
+      >
+        <span
+          v-if="props.loading && spinnerAt === 'center'"
+          aria-hidden="true"
+          class="absolute inset-0 flex items-center justify-center"
+        >
+          <Spinner :size="spinnerSize" />
+        </span>
+      </Transition>
+    </template>
   </Primitive>
 </template>

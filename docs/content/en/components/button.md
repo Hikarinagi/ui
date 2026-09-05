@@ -133,6 +133,8 @@ Where only the appearance of a link is wanted, without the semantics of a button
 
 If the target component renders its own root element, use `asChild` instead: the button renders nothing itself and merges its classes and behaviour into the single child.
 
+In this mode the child owns its content, including icons, ripples and loading indicators. `loading` still sets the busy state and blocks clicks.
+
 ```vue
 <template>
   <Button as-child>

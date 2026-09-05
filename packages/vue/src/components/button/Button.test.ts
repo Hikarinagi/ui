@@ -1,6 +1,6 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { h } from 'vue'
+import { defineComponent, h } from 'vue'
 import Button from './Button.vue'
 import { resetDevWarnings } from '../../lib/dev'
 import { expectNoA11yViolations } from '../../../test/axe'
@@ -70,6 +70,51 @@ describe('渲染与变体', () => {
   it('波纹容器对辅助技术隐藏', () => {
     const w = mount(Button)
     expect(w.find('.hn-ripple').attributes('aria-hidden')).toBe('true')
+  })
+})
+
+describe('asChild 组合', () => {
+  it.each(['disabled', 'loading'] as const)('%s 时状态与点击拦截落在子链接上', async state => {
+    const onClick = vi.fn()
+    const w = mount(Button, {
+      props: { asChild: true, [state]: true, class: 'test-button' },
+      slots: { default: () => h('a', { href: '#', onClick }, '打开') },
+      attachTo: attachTo(),
+    })
+    const link = w.get('a')
+    expect(w.element).toBe(link.element)
+    expect(link.classes()).toContain('test-button')
+    expect(link.classes()).toContain('hn-interactive')
+    expect(link.attributes('aria-disabled')).toBe('true')
+    expect(link.attributes('tabindex')).toBe('-1')
+    if (state === 'loading') expect(link.attributes('aria-busy')).toBe('true')
+    await link.trigger('click')
+    expect(onClick).not.toHaveBeenCalled()
+    await w.setProps({ [state]: false })
+    await link.trigger('click')
+    expect(onClick).toHaveBeenCalledOnce()
+    w.unmount()
+  })
+
+  it('自定义子组件保留内容、属性与事件，并接收按钮样式', async () => {
+    const onClick = vi.fn()
+    const Child = defineComponent({
+      setup:
+        (_, { slots }) =>
+        () =>
+          h('a', { href: '#', 'data-child': '' }, slots.default?.()),
+    })
+    const w = mount(Button, {
+      props: { asChild: true, class: 'test-button', onClick },
+      slots: { default: () => h(Child, {}, { default: () => '自定义链接' }) },
+    })
+    expect(w.element.tagName).toBe('A')
+    expect(w.attributes('data-child')).toBe('')
+    expect(w.classes()).toContain('test-button')
+    expect(w.text()).toBe('自定义链接')
+    await w.trigger('click')
+    expect(onClick).toHaveBeenCalledOnce()
+    w.unmount()
   })
 })
 
