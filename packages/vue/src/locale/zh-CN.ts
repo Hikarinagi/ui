@@ -117,6 +117,9 @@ export const zhCN: UiMessages = {
   datePicker: {
     open: '打开日历',
   },
+  dateTimePicker: {
+    time: '时间',
+  },
   calendar: {
     label: '日历',
     prev: '上个月',

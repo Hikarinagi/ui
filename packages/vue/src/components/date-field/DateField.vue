@@ -16,7 +16,7 @@
     type InputVariants,
   } from '../input/input.variants'
   import { useSegmentFocus } from './composables/useSegmentFocus'
-  import { dateFieldControl, dateFieldSegment } from './date-field.variants'
+  import { dateFieldControl, dateFieldHost, dateFieldSegment } from './date-field.variants'
 
   defineOptions({ name: 'HnDateField', inheritAttrs: false })
 
@@ -92,7 +92,7 @@
     :class="
       cn(
         group ? inputEmbedded() : inputHost({ variant: props.variant, size: props.size }),
-        'data-disabled:cursor-not-allowed data-disabled:opacity-50',
+        dateFieldHost(),
         props.class,
       )
     "

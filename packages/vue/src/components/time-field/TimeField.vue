@@ -1,14 +1,8 @@
 <script setup lang="ts">
   import { computed, shallowRef, useSlots } from 'vue'
-  import { DateRangeFieldInput, DateRangeFieldRoot, type DateRange } from 'reka-ui'
+  import { TimeFieldInput, TimeFieldRoot, type TimeValue } from 'reka-ui'
   import { cn } from '../../lib/cn'
-  import {
-    formatDateRange,
-    parseDateRange,
-    parseDateValue,
-    type DateGranularity,
-    type DateRangeValue,
-  } from '../../lib/date'
+  import { formatTimeValue, parseTimeValue, type TimeGranularity } from '../../lib/date'
   import { useUiLocale } from '../../locale'
   import { X } from '@lucide/vue'
   import InputAction from '../input/InputAction.vue'
@@ -26,18 +20,17 @@
     dateFieldHost,
     dateFieldSegment,
   } from '../date-field/date-field.variants'
-  import { dateRangeFieldSeparator } from './date-range-field.variants'
-  import { isRangeInvalid } from './utils/validity'
 
-  defineOptions({ name: 'HnDateRangeField', inheritAttrs: false })
+  defineOptions({ name: 'HnTimeField', inheritAttrs: false })
 
   const props = withDefaults(
     defineProps<{
       placeholder?: string
       min?: string
       max?: string
-      granularity?: DateGranularity
+      granularity?: TimeGranularity
       hourCycle?: 12 | 24
+      minuteStep?: number
       clearable?: boolean
       readonly?: boolean
       name?: string
@@ -47,11 +40,11 @@
       invalid?: boolean
       class?: string
     }>(),
-    { granularity: 'day', clearable: false },
+    { granularity: 'minute', clearable: false },
   )
   const emit = defineEmits<{ clear: [] }>()
 
-  const model = defineModel<DateRangeValue | null>({ default: null })
+  const model = defineModel<string | null>({ default: null })
 
   const slots = useSlots()
   const t = useUiLocale()
@@ -60,25 +53,26 @@
 
   const disabled = computed(() => props.disabled || !!group?.disabled.value)
 
-  const value = computed(() => parseDateRange(model.value, props.granularity))
-  const placeholder = computed(() => parseDateValue(props.placeholder, props.granularity))
-  const minValue = computed(() => parseDateValue(props.min, props.granularity))
-  const maxValue = computed(() => parseDateValue(props.max, props.granularity))
-  const outOfRange = computed(() =>
-    isRangeInvalid(value.value, { min: minValue.value, max: maxValue.value }),
+  const value = computed(() => parseTimeValue(model.value))
+  const placeholder = computed(() => parseTimeValue(props.placeholder))
+  const minValue = computed(() => parseTimeValue(props.min))
+  const maxValue = computed(() => parseTimeValue(props.max))
+  const step = computed(() => (props.minuteStep ? { minute: props.minuteStep } : undefined))
+  const outOfRange = computed(
+    () =>
+      !!value.value &&
+      ((!!minValue.value && value.value.compare(minValue.value) < 0) ||
+        (!!maxValue.value && value.value.compare(maxValue.value) > 0)),
   )
   const invalid = computed(() => props.invalid || !!group?.invalid.value || outOfRange.value)
   const clearing = computed(() => props.clearable && model.value != null && !disabled.value)
 
-  const sides = ['start', 'end'] as const
-
-  function segmentLabel(side: 'start' | 'end', part: string) {
-    const name = (t.value.dateField as Record<string, string | undefined>)[part]
-    return `${t.value.dateRangeField[side]} ${name}`
+  function segmentLabel(part: string) {
+    return (t.value.dateField as Record<string, string | undefined>)[part]
   }
 
-  function update(next: DateRange) {
-    model.value = formatDateRange(next, props.granularity)
+  function update(next: TimeValue | undefined) {
+    model.value = next ? formatTimeValue(next, props.granularity) : null
   }
 
   const { focus, onHostClick } = useSegmentFocus(host)
@@ -96,7 +90,7 @@
 <template>
   <div
     ref="host"
-    data-hn-date-range-field
+    data-hn-time-field
     :data-invalid="invalid ? '' : undefined"
     :data-disabled="disabled ? '' : undefined"
     :class="
@@ -111,8 +105,8 @@
     <span v-if="slots.leading" :class="inputAdornment()">
       <slot name="leading" />
     </span>
-    <DateRangeFieldRoot
-      v-slot="{ segments }"
+    <TimeFieldRoot
+      v-slot="{ segments: parts }"
       v-bind="$attrs"
       :model-value="value"
       :placeholder="placeholder"
@@ -120,6 +114,9 @@
       :max-value="maxValue"
       :granularity="props.granularity"
       :hour-cycle="props.hourCycle"
+      :step="step"
+      :step-snapping="!!step"
+      hide-time-zone
       :locale="t.tag"
       :disabled="disabled"
       :readonly="props.readonly"
@@ -130,23 +127,17 @@
       "
       @update:model-value="update"
     >
-      <template v-for="(side, index) in sides" :key="side">
-        <span v-if="index" aria-hidden="true" :class="dateRangeFieldSeparator()">
-          {{ t.dateRangeField.separator }}
-        </span>
-        <DateRangeFieldInput
-          v-for="part in segments[side]"
-          :key="`${side}-${part.part}`"
-          :type="side"
-          :part="part.part"
-          data-hn-segment
-          :aria-label="part.part === 'literal' ? undefined : segmentLabel(side, part.part)"
-          :class="dateFieldSegment({ part: part.part === 'literal' ? 'literal' : 'editable' })"
-        >
-          {{ part.value }}
-        </DateRangeFieldInput>
-      </template>
-    </DateRangeFieldRoot>
+      <TimeFieldInput
+        v-for="part in parts"
+        :key="part.part"
+        :part="part.part"
+        data-hn-segment
+        :aria-label="part.part === 'literal' ? undefined : segmentLabel(part.part)"
+        :class="dateFieldSegment({ part: part.part === 'literal' ? 'literal' : 'editable' })"
+      >
+        {{ part.value }}
+      </TimeFieldInput>
+    </TimeFieldRoot>
     <Transition
       enter-active-class="hn-transition-base"
       enter-from-class="scale-90 opacity-0"

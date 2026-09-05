@@ -7,26 +7,33 @@
     PopoverRoot,
     PopoverTrigger,
   } from 'reka-ui'
-  import { CalendarDays } from '@lucide/vue'
+  import { CalendarClock } from '@lucide/vue'
   import { cn } from '../../lib/cn'
+  import { joinDateTime, splitDateTime, type TimeGranularity } from '../../lib/date'
   import { useUiLocale } from '../../locale'
+  import Button from '../button/Button.vue'
   import Calendar from '../calendar/Calendar.vue'
   import type { CalendarVariants } from '../calendar/calendar.variants'
   import Card from '../card/Card.vue'
   import DateField from '../date-field/DateField.vue'
+  import { datePickerContent } from '../date-picker/date-picker.variants'
   import { injectInputGroup } from '../input-group/context'
   import InputGroupScope from '../input-group/InputGroupScope.vue'
   import InputAction from '../input/InputAction.vue'
   import { inputEmbedded, inputHost, type InputVariants } from '../input/input.variants'
-  import { datePickerContent } from './date-picker.variants'
+  import TimeField from '../time-field/TimeField.vue'
+  import { dateTimePickerFooter } from './date-time-picker.variants'
 
-  defineOptions({ name: 'HnDatePicker', inheritAttrs: false })
+  defineOptions({ name: 'HnDateTimePicker', inheritAttrs: false })
 
   const props = withDefaults(
     defineProps<{
       placeholder?: string
       min?: string
       max?: string
+      granularity?: Exclude<TimeGranularity, 'hour'>
+      hourCycle?: 12 | 24
+      minuteStep?: number
       unavailable?: (date: string) => boolean
       weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6
       weekdayFormat?: 'narrow' | 'short'
@@ -40,7 +47,7 @@
       invalid?: boolean
       class?: string
     }>(),
-    { clearable: false, fixedWeeks: true },
+    { granularity: 'minute', clearable: false, fixedWeeks: true },
   )
   const emit = defineEmits<{ clear: [] }>()
 
@@ -57,9 +64,25 @@
   const invalid = computed(() => props.invalid || !!outer?.invalid.value)
   const calendarSize = computed<CalendarVariants['size']>(() => size.value ?? 'md')
 
-  function pick(next: string | null) {
-    model.value = next
-    if (next) open.value = false
+  const parts = computed(() => splitDateTime(model.value))
+  const fallbackTime = computed(
+    () =>
+      splitDateTime(props.placeholder).time ??
+      (props.granularity === 'second' ? '00:00:00' : '00:00'),
+  )
+  const minDate = computed(() => splitDateTime(props.min).date ?? undefined)
+  const maxDate = computed(() => splitDateTime(props.max).date ?? undefined)
+
+  function pickDate(date: string | null) {
+    model.value = joinDateTime(date, parts.value.time ?? fallbackTime.value)
+  }
+
+  function pickTime(time: string | null) {
+    model.value = joinDateTime(parts.value.date, time)
+  }
+
+  function done() {
+    open.value = false
   }
 </script>
 
@@ -68,7 +91,7 @@
     <PopoverAnchor as-child>
       <div
         ref="host"
-        data-hn-date-picker
+        data-hn-date-time-picker
         :data-invalid="invalid ? '' : undefined"
         :class="
           cn(
@@ -84,6 +107,8 @@
             :placeholder="props.placeholder"
             :min="props.min"
             :max="props.max"
+            :granularity="props.granularity"
+            :hour-cycle="props.hourCycle"
             :clearable="props.clearable"
             :readonly="props.readonly"
             :name="props.name"
@@ -97,7 +122,7 @@
         </InputGroupScope>
         <PopoverTrigger as-child>
           <InputAction :label="t.datePicker.open" :disabled="disabled">
-            <CalendarDays />
+            <CalendarClock />
           </InputAction>
         </PopoverTrigger>
       </div>
@@ -112,10 +137,10 @@
       >
         <Card :padded="false" :class="datePickerContent()">
           <Calendar
-            :model-value="model"
-            :placeholder="props.placeholder"
-            :min="props.min"
-            :max="props.max"
+            :model-value="parts.date"
+            :placeholder="splitDateTime(props.placeholder).date ?? undefined"
+            :min="minDate"
+            :max="maxDate"
             :unavailable="props.unavailable"
             :week-starts-on="props.weekStartsOn"
             :weekday-format="props.weekdayFormat"
@@ -123,8 +148,22 @@
             :size="calendarSize"
             :readonly="props.readonly"
             autofocus
-            @update:model-value="pick"
+            @update:model-value="pickDate"
           />
+          <div :class="dateTimePickerFooter()">
+            <TimeField
+              :model-value="parts.time"
+              :placeholder="fallbackTime"
+              :granularity="props.granularity"
+              :hour-cycle="props.hourCycle"
+              :minute-step="props.minuteStep"
+              :size="calendarSize"
+              :readonly="props.readonly"
+              :aria-label="t.dateTimePicker.time"
+              @update:model-value="pickTime"
+            />
+            <Button :size="calendarSize" @click="done">{{ t.common.confirm }}</Button>
+          </div>
         </Card>
       </PopoverContent>
     </PopoverPortal>

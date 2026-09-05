@@ -22,7 +22,7 @@
       <Highlight
         v-if="current === index"
         :id="id"
-        class="bg-surface absolute inset-0 -z-10 rounded-xs shadow-sm"
+        class="bg-surface absolute inset-0 -z-10 rounded-md shadow-sm"
       />
       {{ item }}
     </Button>

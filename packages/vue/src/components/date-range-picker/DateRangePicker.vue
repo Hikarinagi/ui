@@ -15,7 +15,8 @@
   import Card from '../card/Card.vue'
   import DateRangeField from '../date-range-field/DateRangeField.vue'
   import { datePickerContent } from '../date-picker/date-picker.variants'
-  import { injectInputGroup, provideInputGroup } from '../input-group/context'
+  import { injectInputGroup } from '../input-group/context'
+  import InputGroupScope from '../input-group/InputGroupScope.vue'
   import InputAction from '../input/InputAction.vue'
   import { inputEmbedded, inputHost, type InputVariants } from '../input/input.variants'
   import RangeCalendar from '../range-calendar/RangeCalendar.vue'
@@ -58,8 +59,6 @@
   const invalid = computed(() => props.invalid || !!outer?.invalid.value)
   const calendarSize = computed<CalendarVariants['size']>(() => size.value ?? 'md')
 
-  provideInputGroup({ size, disabled, invalid })
-
   function pick(next: DateRangeValue | null) {
     model.value = next
     if (next?.start && next.end) open.value = false
@@ -80,22 +79,24 @@
           )
         "
       >
-        <DateRangeField
-          v-bind="$attrs"
-          :model-value="model"
-          :placeholder="props.placeholder"
-          :min="props.min"
-          :max="props.max"
-          :clearable="props.clearable"
-          :readonly="props.readonly"
-          :name="props.name"
-          @update:model-value="model = $event"
-          @clear="emit('clear')"
-        >
-          <template v-if="slots.leading" #leading>
-            <slot name="leading" />
-          </template>
-        </DateRangeField>
+        <InputGroupScope :size="size" :disabled="disabled" :invalid="invalid">
+          <DateRangeField
+            v-bind="$attrs"
+            :model-value="model"
+            :placeholder="props.placeholder"
+            :min="props.min"
+            :max="props.max"
+            :clearable="props.clearable"
+            :readonly="props.readonly"
+            :name="props.name"
+            @update:model-value="model = $event"
+            @clear="emit('clear')"
+          >
+            <template v-if="slots.leading" #leading>
+              <slot name="leading" />
+            </template>
+          </DateRangeField>
+        </InputGroupScope>
         <PopoverTrigger as-child>
           <InputAction :label="t.datePicker.open" :disabled="disabled">
             <CalendarRange />

@@ -117,6 +117,9 @@ export const enUS: UiMessages = {
   datePicker: {
     open: 'Open calendar',
   },
+  dateTimePicker: {
+    time: 'Time',
+  },
   calendar: {
     label: 'Calendar',
     prev: 'Previous month',

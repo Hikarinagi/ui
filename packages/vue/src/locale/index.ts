@@ -42,6 +42,7 @@ function merge(base: UiMessages, patch: PartialUiMessages): UiMessages {
     dateRangeField: { ...base.dateRangeField, ...patch.dateRangeField },
     calendar: { ...base.calendar, ...patch.calendar },
     datePicker: { ...base.datePicker, ...patch.datePicker },
+    dateTimePicker: { ...base.dateTimePicker, ...patch.dateTimePicker },
   }
 }
 

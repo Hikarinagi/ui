@@ -162,6 +162,12 @@ export const components: DocsComponent[] = [
     category: 'forms',
   },
   {
+    label: 'DateTimePicker',
+    to: '/components/date-time-picker',
+    i18n: 'components.date-time-picker',
+    category: 'forms',
+  },
+  {
     label: 'DescriptionList',
     to: '/components/description-list',
     i18n: 'components.description-list',
@@ -364,6 +370,12 @@ export const components: DocsComponent[] = [
     category: 'forms',
   },
   { label: 'Time', to: '/components/time', i18n: 'components.time', category: 'typography' },
+  {
+    label: 'TimeField',
+    to: '/components/time-field',
+    i18n: 'components.time-field',
+    category: 'forms',
+  },
   { label: 'Toast', to: '/components/toast', i18n: 'components.toast', category: 'overlays' },
   { label: 'Toggle', to: '/components/toggle', i18n: 'components.toggle', category: 'forms' },
   {

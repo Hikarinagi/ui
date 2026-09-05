@@ -1,12 +1,49 @@
 import {
   CalendarDate,
   CalendarDateTime,
+  Time,
   parseDate,
   parseDateTime,
+  parseTime,
   type DateValue,
 } from '@internationalized/date'
 
 export type DateGranularity = 'day' | 'hour' | 'minute' | 'second'
+export type TimeGranularity = 'hour' | 'minute' | 'second'
+
+const TIME_LENGTH: Record<TimeGranularity, number> = {
+  hour: 'HH:mm'.length,
+  minute: 'HH:mm'.length,
+  second: 'HH:mm:ss'.length,
+}
+
+export function parseTimeValue(value: string | null | undefined): Time | undefined {
+  if (!value) return undefined
+  try {
+    return parseTime(value)
+  } catch {
+    return undefined
+  }
+}
+
+export function formatTimeValue(
+  value: { hour: number; minute: number; second: number },
+  granularity: TimeGranularity = 'minute',
+): string {
+  return new Time(value.hour, value.minute, value.second)
+    .toString()
+    .slice(0, TIME_LENGTH[granularity])
+}
+
+export function splitDateTime(value: string | null | undefined) {
+  if (!value) return { date: null, time: null }
+  const [date, time] = value.split('T')
+  return { date: date || null, time: time || null }
+}
+
+export function joinDateTime(date: string | null, time: string | null) {
+  return date && time ? `${date}T${time}` : null
+}
 
 export interface DateRangeValue {
   start: string | null

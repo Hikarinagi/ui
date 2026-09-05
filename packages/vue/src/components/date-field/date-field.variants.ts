@@ -1,5 +1,9 @@
 import { tv, type VariantProps } from '../../lib/tv'
 
+export const dateFieldHost = tv({
+  base: 'data-disabled:cursor-not-allowed data-disabled:opacity-50',
+})
+
 export const dateFieldControl = tv({
   base: 'flex h-full min-w-0 flex-1 items-center px-[var(--hn-input-px)] tabular-nums select-none',
   variants: {

@@ -115,6 +115,9 @@ export interface UiMessages {
   datePicker: {
     open: string
   }
+  dateTimePicker: {
+    time: string
+  }
   calendar: {
     label: string
     prev: string
