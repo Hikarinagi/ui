@@ -11,6 +11,11 @@
   const { t, locale, locales } = useI18n()
   const switchLocalePath = useSwitchLocalePath()
   const router = useRouter()
+
+  function changeLocale(value: string | undefined) {
+    const target = locales.value.find(item => item.code === value)
+    if (target) return router.push(switchLocalePath(target.code))
+  }
 </script>
 
 <template>
@@ -20,10 +25,7 @@
     </IconButton>
     <template #content>
       <DropdownMenuLabel>{{ t('locale.label') }}</DropdownMenuLabel>
-      <DropdownMenuRadioGroup
-        :model-value="locale"
-        @update:model-value="value => router.push(switchLocalePath(value))"
-      >
+      <DropdownMenuRadioGroup :model-value="locale" @update:model-value="changeLocale">
         <DropdownMenuRadioItem v-for="item in locales" :key="item.code" :value="item.code">
           {{ item.name }}
         </DropdownMenuRadioItem>
