@@ -39,6 +39,7 @@ export const zhCN: UiMessages = {
     dropHint: '拖拽文件到此处，或点击选择',
     tooLargeLabel: readableSize => `文件超出 ${readableSize} 上限`,
     remove: '移除',
+    removeFile: name => `移除 ${name}`,
   },
   time: {
     justNow: '刚刚',
@@ -119,6 +120,10 @@ export const zhCN: UiMessages = {
   },
   dateTimePicker: {
     time: '时间',
+  },
+  rating: {
+    star: value => `${value} 星`,
+    label: (value, max) => `${value} 星，满分 ${max} 星`,
   },
   calendar: {
     label: '日历',

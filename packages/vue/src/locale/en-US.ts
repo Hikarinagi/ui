@@ -39,6 +39,7 @@ export const enUS: UiMessages = {
     dropHint: 'Drop files here, or click to browse',
     tooLargeLabel: readableSize => `File exceeds the ${readableSize} limit`,
     remove: 'Remove',
+    removeFile: name => `Remove ${name}`,
   },
   time: {
     justNow: 'Just now',
@@ -119,6 +120,10 @@ export const enUS: UiMessages = {
   },
   dateTimePicker: {
     time: 'Time',
+  },
+  rating: {
+    star: value => `${value} ${value === 1 ? 'star' : 'stars'}`,
+    label: (value, max) => `${value} out of ${max} stars`,
   },
   calendar: {
     label: 'Calendar',

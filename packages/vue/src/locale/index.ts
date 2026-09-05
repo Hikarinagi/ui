@@ -43,6 +43,7 @@ function merge(base: UiMessages, patch: PartialUiMessages): UiMessages {
     calendar: { ...base.calendar, ...patch.calendar },
     datePicker: { ...base.datePicker, ...patch.datePicker },
     dateTimePicker: { ...base.dateTimePicker, ...patch.dateTimePicker },
+    rating: { ...base.rating, ...patch.rating },
   }
 }
 

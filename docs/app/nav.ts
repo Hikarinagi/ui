@@ -188,6 +188,12 @@ export const components: DocsComponent[] = [
     i18n: 'components.dropdown-menu',
     category: 'overlays',
   },
+  {
+    label: 'FileUpload',
+    to: '/components/file-upload',
+    i18n: 'components.file-upload',
+    category: 'forms',
+  },
   { label: 'Flex', to: '/components/flex', i18n: 'components.flex', category: 'layout' },
   { label: 'Grid', to: '/components/grid', i18n: 'components.grid', category: 'layout' },
   {
@@ -302,6 +308,7 @@ export const components: DocsComponent[] = [
     i18n: 'components.range-slider',
     category: 'forms',
   },
+  { label: 'Rating', to: '/components/rating', i18n: 'components.rating', category: 'forms' },
   { label: 'Ripple', to: '/components/ripple', i18n: 'components.ripple', category: 'foundation' },
   {
     label: 'ScrollArea',

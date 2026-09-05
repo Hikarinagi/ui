@@ -37,6 +37,7 @@ export interface UiMessages {
     dropHint: string
     tooLargeLabel: (readableSize: string) => string
     remove: string
+    removeFile: (name: string) => string
   }
   time: {
     justNow: string
@@ -117,6 +118,10 @@ export interface UiMessages {
   }
   dateTimePicker: {
     time: string
+  }
+  rating: {
+    star: (value: number) => string
+    label: (value: number, max: number) => string
   }
   calendar: {
     label: string
