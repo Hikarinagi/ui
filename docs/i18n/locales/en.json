@@ -41,6 +41,13 @@
     "zh-CN": "简体中文",
     "en": "English"
   },
+  "search": {
+    "label": "Search",
+    "placeholder": "Search components, sections and actions",
+    "categories": "Categories",
+    "sections": "Sections",
+    "actions": "Actions"
+  },
   "categories": {
     "foundation": {
       "label": "Foundation",
@@ -182,6 +189,7 @@
     "callout": "A note written into the content",
     "collapsible": "A region a single trigger opens and closes",
     "combobox": "A select that filters as you type",
+    "command-palette": "A keyboard-summoned search panel for picking commands and pages",
     "disclosure-icon": "An indicator that turns as a region opens and closes",
     "center": "Centres its content on both axes",
     "chip": "An item that can be selected or removed",

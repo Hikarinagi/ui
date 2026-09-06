@@ -87,20 +87,6 @@ export const components: DocsComponent[] = [
     i18n: 'components.button-group',
     category: 'atoms',
   },
-  { label: 'Card', to: '/components/card', i18n: 'components.card', category: 'display' },
-  { label: 'Checkbox', to: '/components/checkbox', i18n: 'components.checkbox', category: 'forms' },
-  {
-    label: 'CheckboxGroup',
-    to: '/components/checkbox-group',
-    i18n: 'components.checkbox-group',
-    category: 'forms',
-  },
-  {
-    label: 'CloseButton',
-    to: '/components/close-button',
-    i18n: 'components.close-button',
-    category: 'atoms',
-  },
   {
     label: 'Calendar',
     to: '/components/calendar',
@@ -108,15 +94,23 @@ export const components: DocsComponent[] = [
     category: 'display',
   },
   { label: 'Callout', to: '/components/callout', i18n: 'components.callout', category: 'display' },
+  { label: 'Card', to: '/components/card', i18n: 'components.card', category: 'display' },
   { label: 'Center', to: '/components/center', i18n: 'components.center', category: 'layout' },
-  { label: 'Chip', to: '/components/chip', i18n: 'components.chip', category: 'atoms' },
-  { label: 'Code', to: '/components/code', i18n: 'components.code', category: 'typography' },
+  { label: 'Checkbox', to: '/components/checkbox', i18n: 'components.checkbox', category: 'forms' },
   {
-    label: 'Collapsible',
-    to: '/components/collapsible',
-    i18n: 'components.collapsible',
-    category: 'display',
+    label: 'CheckboxGroup',
+    to: '/components/checkbox-group',
+    i18n: 'components.checkbox-group',
+    category: 'forms',
   },
+  { label: 'Chip', to: '/components/chip', i18n: 'components.chip', category: 'atoms' },
+  {
+    label: 'CloseButton',
+    to: '/components/close-button',
+    i18n: 'components.close-button',
+    category: 'atoms',
+  },
+  { label: 'Code', to: '/components/code', i18n: 'components.code', category: 'typography' },
   {
     label: 'CodeBlock',
     to: '/components/code-block',
@@ -124,10 +118,22 @@ export const components: DocsComponent[] = [
     category: 'typography',
   },
   {
+    label: 'Collapsible',
+    to: '/components/collapsible',
+    i18n: 'components.collapsible',
+    category: 'display',
+  },
+  {
     label: 'Combobox',
     to: '/components/combobox',
     i18n: 'components.combobox',
     category: 'forms',
+  },
+  {
+    label: 'CommandPalette',
+    to: '/components/command-palette',
+    i18n: 'components.command-palette',
+    category: 'overlays',
   },
   {
     label: 'Container',
@@ -220,6 +226,12 @@ export const components: DocsComponent[] = [
   },
   { label: 'Grid', to: '/components/grid', i18n: 'components.grid', category: 'layout' },
   {
+    label: 'Heading',
+    to: '/components/heading',
+    i18n: 'components.heading',
+    category: 'typography',
+  },
+  {
     label: 'Highlight',
     to: '/components/highlight',
     i18n: 'components.highlight',
@@ -230,12 +242,6 @@ export const components: DocsComponent[] = [
     to: '/components/hover-card',
     i18n: 'components.hover-card',
     category: 'overlays',
-  },
-  {
-    label: 'Heading',
-    to: '/components/heading',
-    i18n: 'components.heading',
-    category: 'typography',
   },
   {
     label: 'IconButton',
@@ -276,10 +282,10 @@ export const components: DocsComponent[] = [
     category: 'overlays',
   },
   {
-    label: 'NavLink',
-    to: '/components/nav-link',
-    i18n: 'components.nav-link',
-    category: 'navigation',
+    label: 'MultiCombobox',
+    to: '/components/multi-combobox',
+    i18n: 'components.multi-combobox',
+    category: 'forms',
   },
   {
     label: 'MultiSelect',
@@ -288,10 +294,10 @@ export const components: DocsComponent[] = [
     category: 'forms',
   },
   {
-    label: 'MultiCombobox',
-    to: '/components/multi-combobox',
-    i18n: 'components.multi-combobox',
-    category: 'forms',
+    label: 'NavLink',
+    to: '/components/nav-link',
+    i18n: 'components.nav-link',
+    category: 'navigation',
   },
   {
     label: 'NumberFormat',
@@ -382,7 +388,6 @@ export const components: DocsComponent[] = [
     i18n: 'components.search-input',
     category: 'forms',
   },
-  { label: 'Select', to: '/components/select', i18n: 'components.select', category: 'forms' },
   { label: 'Section', to: '/components/section', i18n: 'components.section', category: 'shell' },
   {
     label: 'SegmentedControl',
@@ -390,21 +395,22 @@ export const components: DocsComponent[] = [
     i18n: 'components.segmented-control',
     category: 'forms',
   },
-  {
-    label: 'Skeleton',
-    to: '/components/skeleton',
-    i18n: 'components.skeleton',
-    category: 'atoms',
-  },
+  { label: 'Select', to: '/components/select', i18n: 'components.select', category: 'forms' },
   { label: 'Sheet', to: '/components/sheet', i18n: 'components.sheet', category: 'overlays' },
   { label: 'Sidebar', to: '/components/sidebar', i18n: 'components.sidebar', category: 'shell' },
-  { label: 'Slider', to: '/components/slider', i18n: 'components.slider', category: 'forms' },
   {
     label: 'SimpleGrid',
     to: '/components/simple-grid',
     i18n: 'components.simple-grid',
     category: 'layout',
   },
+  {
+    label: 'Skeleton',
+    to: '/components/skeleton',
+    i18n: 'components.skeleton',
+    category: 'atoms',
+  },
+  { label: 'Slider', to: '/components/slider', i18n: 'components.slider', category: 'forms' },
   { label: 'Space', to: '/components/space', i18n: 'components.space', category: 'layout' },
   { label: 'Spinner', to: '/components/spinner', i18n: 'components.spinner', category: 'atoms' },
   {
@@ -447,12 +453,6 @@ export const components: DocsComponent[] = [
   { label: 'Toast', to: '/components/toast', i18n: 'components.toast', category: 'overlays' },
   { label: 'Toggle', to: '/components/toggle', i18n: 'components.toggle', category: 'forms' },
   {
-    label: 'VisuallyHidden',
-    to: '/components/visually-hidden',
-    i18n: 'components.visually-hidden',
-    category: 'foundation',
-  },
-  {
     label: 'Tooltip',
     to: '/components/tooltip',
     i18n: 'components.tooltip',
@@ -463,6 +463,12 @@ export const components: DocsComponent[] = [
     to: '/components/tree-select',
     i18n: 'components.tree-select',
     category: 'forms',
+  },
+  {
+    label: 'VisuallyHidden',
+    to: '/components/visually-hidden',
+    i18n: 'components.visually-hidden',
+    category: 'foundation',
   },
 ]
 

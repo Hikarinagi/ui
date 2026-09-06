@@ -128,6 +128,11 @@ export const zhCN: UiMessages = {
   form: {
     required: '必填',
   },
+  command: {
+    label: '命令面板',
+    placeholder: '搜索',
+    empty: '无匹配项',
+  },
   calendar: {
     label: '日历',
     prev: '上个月',

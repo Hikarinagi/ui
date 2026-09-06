@@ -41,6 +41,13 @@
     "zh-CN": "简体中文",
     "en": "English"
   },
+  "search": {
+    "label": "搜索",
+    "placeholder": "搜索组件、章节与操作",
+    "categories": "分类",
+    "sections": "章节",
+    "actions": "操作"
+  },
   "categories": {
     "foundation": {
       "label": "基础设施",
@@ -182,6 +189,7 @@
     "callout": "写入内容之中的一段标注",
     "collapsible": "由一个触发器控制展开与收起的区域",
     "combobox": "边输入边筛选的选择框",
+    "command-palette": "以快捷键唤起的搜索面板，输入后从命令与页面中选择",
     "disclosure-icon": "随展开与收起旋转的指示物",
     "center": "把内容在两个方向上居中",
     "chip": "可选中或者可移除的条目",
@@ -222,6 +230,7 @@
     "code-block": "代码块",
     "collapsible": "折叠区域",
     "combobox": "组合框",
+    "command-palette": "命令面板",
     "container": "内容容器",
     "copy-button": "复制按钮",
     "context-menu": "右键菜单",

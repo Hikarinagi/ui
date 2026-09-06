@@ -98,7 +98,7 @@
 
       <span
         v-if="slots.default"
-        class="hn-transition inline-flex items-center"
+        class="hn-transition inline-flex items-center gap-[var(--hn-control-gap)]"
         :class="props.loading && spinnerAt === 'center' ? 'opacity-0' : 'opacity-100'"
       >
         <slot />

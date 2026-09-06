@@ -2,6 +2,7 @@ import { existsSync, readdirSync, utimesSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import tailwindcss from '@tailwindcss/vite'
 import { markdown } from './markdown'
+import { searchIndex } from './search-index'
 
 const uiSrc = fileURLToPath(new URL('../src', import.meta.url))
 const contentDir = fileURLToPath(new URL('./content', import.meta.url))
@@ -53,7 +54,11 @@ export default defineNuxtConfig({
           if (isDemo) utimesSync(heroGlobEntry, now, now)
         }
         for (const mod of server.moduleGraph.idToModuleMap.values()) {
-          if (mod.id?.endsWith('.md') || mod.id?.includes('slug'))
+          if (
+            mod.id?.endsWith('.md') ||
+            mod.id?.includes('slug') ||
+            mod.id?.includes('docs-search')
+          )
             server.moduleGraph.invalidateModule(mod)
         }
         server.ws.send({ type: 'full-reload', path: '*' })
@@ -65,7 +70,7 @@ export default defineNuxtConfig({
     },
   },
   css: ['~/assets/css/main.css'],
-  watch: ['markdown.ts'],
+  watch: ['markdown.ts', 'search-index.ts'],
   nitro: {
     serverAssets: [
       { baseName: 'content', dir: contentDir },
@@ -76,7 +81,7 @@ export default defineNuxtConfig({
     },
   },
   vite: {
-    plugins: [tailwindcss(), markdown()],
+    plugins: [tailwindcss(), markdown(), searchIndex()],
     vue: {
       include: [/\.vue$/, /\.md$/],
     },

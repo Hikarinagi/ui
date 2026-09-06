@@ -50,6 +50,10 @@
     :where([data-hn-state-group]:hover) &:not(:disabled):not([data-disabled])::after {
       opacity: var(--hn-state-hover-opacity);
     }
+
+    &[data-hn-highlight-only]:hover:not([data-highlighted])::after {
+      opacity: 0;
+    }
   }
 
   &:active:not(:disabled):not([data-disabled]):not(:has(.hn-ripple))::after,

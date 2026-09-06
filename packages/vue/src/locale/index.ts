@@ -45,6 +45,7 @@ function merge(base: UiMessages, patch: PartialUiMessages): UiMessages {
     dateTimePicker: { ...base.dateTimePicker, ...patch.dateTimePicker },
     rating: { ...base.rating, ...patch.rating },
     form: { ...base.form, ...patch.form },
+    command: { ...base.command, ...patch.command },
   }
 }
 

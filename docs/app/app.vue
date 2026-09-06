@@ -66,6 +66,7 @@
         </Button>
       </Inline>
       <Inline gap="xs" class="ms-auto">
+        <DocsSearch />
         <DocsLocaleToggle />
         <DocsThemeToggle />
       </Inline>

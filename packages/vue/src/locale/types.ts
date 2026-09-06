@@ -126,6 +126,11 @@ export interface UiMessages {
   form: {
     required: string
   }
+  command: {
+    label: string
+    placeholder: string
+    empty: string
+  }
   calendar: {
     label: string
     prev: string

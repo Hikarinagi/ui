@@ -228,6 +228,6 @@ A loading button counts as unavailable.
 
 | Slot       | Description                                               |
 | ---------- | --------------------------------------------------------- |
-| `default`  | The button content                                        |
+| `default`  | The button content; multiple children are spaced apart    |
 | `icon`     | Leading icon, replaced by the spinner while loading       |
 | `trailing` | Trailing icon, replaced only when there is no leading one |

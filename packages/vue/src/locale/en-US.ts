@@ -128,6 +128,11 @@ export const enUS: UiMessages = {
   form: {
     required: 'Required',
   },
+  command: {
+    label: 'Command palette',
+    placeholder: 'Search',
+    empty: 'No matches',
+  },
   calendar: {
     label: 'Calendar',
     prev: 'Previous month',
