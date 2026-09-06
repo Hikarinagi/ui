@@ -35,6 +35,9 @@ export default defineNuxtConfig({
       { code: 'en', language: 'en-US', name: 'English', file: 'en.json' },
     ],
     detectBrowserLanguage: false,
+    experimental: {
+      prerenderMessages: true,
+    },
   },
   alias: {
     '@hina-ui/vue': uiSrc,
