@@ -1,0 +1,11 @@
+node_modules/
+.DS_Store
+
+dist/
+coverage/
+.output/
+.nuxt/
+
+pnpm-lock.yaml
+
+CHANGELOG.md

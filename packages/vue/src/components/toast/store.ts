@@ -4,12 +4,7 @@ import { DURATION } from '../../motion'
 export type ToastTone = 'neutral' | 'success' | 'danger' | 'warning' | 'info' | 'loading'
 
 export type ToasterPosition =
-  | 'bottom-end'
-  | 'bottom-start'
-  | 'bottom-center'
-  | 'top-end'
-  | 'top-start'
-  | 'top-center'
+  'bottom-end' | 'bottom-start' | 'bottom-center' | 'top-end' | 'top-start' | 'top-center'
 
 export interface ToastAction {
   label: string

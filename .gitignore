@@ -1,0 +1,17 @@
+node_modules/
+.DS_Store
+
+dist/
+.output/
+.nuxt/
+.nitro/
+.cache/
+coverage/
+*.tsbuildinfo
+*.log
+__screenshots__/
+.vitest-attachments/
+
+.env
+.env.*
+!.env.example

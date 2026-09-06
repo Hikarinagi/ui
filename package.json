@@ -1,0 +1,25 @@
+{
+  "name": "hina-ui",
+  "version": "0.0.0",
+  "scripts": {
+    "test:browser": "pnpm --filter @hina-ui/vue test:browser",
+    "format:check": "prettier --check .",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm --filter @hina-ui/vue test",
+    "lint": "pnpm --filter @hina-ui/docs lint:check",
+    "format": "prettier --write .",
+    "build": "pnpm --filter @hina-ui/docs generate",
+    "changeset": "changeset",
+    "prepare": "husky"
+  },
+  "type": "module",
+  "private": true,
+  "packageManager": "pnpm@11.25.0",
+  "devDependencies": {
+    "@changesets/cli": "^3.0.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.4.1",
+    "prettier": "^3.9.6"
+  },
+  "license": "MIT"
+}

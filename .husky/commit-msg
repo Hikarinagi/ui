@@ -1,0 +1,29 @@
+node --input-type=commonjs - "$1" <<'NODE'
+const fs = require('node:fs')
+
+const TOOL_TRAILERS = /^[ \t]*(?:Co-Authored-By|Co-Developed-By|Generated-By|Claude-[A-Za-z0-9-]+):[^\r\n]*(?:\r?\n|$)/gim
+
+const path = process.argv[2]
+const message = fs.readFileSync(path, 'utf8')
+const cleaned = message.replace(TOOL_TRAILERS, '')
+
+if (cleaned !== message) {
+  fs.writeFileSync(path, cleaned.replace(/(?:\r?\n)+$/, '\n'))
+}
+
+const lines = cleaned
+  .split(/\r?\n/)
+  .filter(line => !line.startsWith('#'))
+  .join('\n')
+  .split(/\r?\n/)
+
+const subject = lines[0] ?? ''
+const body = lines.slice(1).join('\n').trim()
+
+if (!body || /^(?:Merge|Revert) /.test(subject)) process.exit(0)
+
+process.stderr.write(
+  `commit-msg: the subject says it; drop the body.\n\n  ${subject}\n\nrejected body:\n${body.replace(/^/gm, '  ')}\n`,
+)
+process.exit(1)
+NODE

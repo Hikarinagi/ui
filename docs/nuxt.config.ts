@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 import { markdown } from './markdown'
 import { searchIndex } from './search-index'
 
-const uiSrc = fileURLToPath(new URL('../src', import.meta.url))
+const uiSrc = fileURLToPath(new URL('../packages/vue/src', import.meta.url))
 const contentDir = fileURLToPath(new URL('./content', import.meta.url))
 const demosDir = fileURLToPath(new URL('./app/demos', import.meta.url))
 const cssEntry = fileURLToPath(new URL('./app/assets/css/main.css', import.meta.url))

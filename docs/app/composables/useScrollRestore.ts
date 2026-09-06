@@ -85,8 +85,7 @@ export function useScrollRestore(key: string, area: () => RestoreArea | undefine
 
     nuxtApp.hooks.hookOnce('page:loading:end', () => {
       const transition = (nuxtApp as unknown as Record<string, unknown>)['~transitionPromise'] as
-        | Promise<void>
-        | undefined
+        Promise<void> | undefined
       if (transition) transition.then(run)
       else run()
     })

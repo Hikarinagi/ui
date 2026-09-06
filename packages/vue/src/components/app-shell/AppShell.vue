@@ -50,8 +50,7 @@
 
   type Navigable = { currentRoute?: { value?: { fullPath?: string } } }
   const router = getCurrentInstance()?.appContext.config.globalProperties.$router as
-    | Navigable
-    | undefined
+    Navigable | undefined
 
   watch(
     () => router?.currentRoute?.value?.fullPath,

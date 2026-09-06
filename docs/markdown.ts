@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import Markdown from 'unplugin-vue-markdown/vite'
 import attrs from 'markdown-it-attrs'
-import { tokenize, tokensToHtml } from '../src/components/code-block/highlighter'
+import { tokenize, tokensToHtml } from '../packages/vue/src/components/code-block/highlighter'
 
 const DEMOS_ROOT = fileURLToPath(new URL('./app/demos/', import.meta.url))
 

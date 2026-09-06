@@ -1,5 +1,5 @@
 {
-  "name": "@hikarinagi/docs",
+  "name": "@hina-ui/docs",
   "type": "module",
   "private": true,
   "scripts": {
@@ -32,6 +32,7 @@
     "@tailwindcss/vite": "^4.3.0",
     "eslint": "^10.9.1",
     "markdown-it-attrs": "^5.0.1",
+    "overlayscrollbars": "^2.16.0",
     "tailwindcss": "^4.3.0",
     "typescript": "^6.0.3",
     "unplugin-vue-markdown": "^32.1.1",
