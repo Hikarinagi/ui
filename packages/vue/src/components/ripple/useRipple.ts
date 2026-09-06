@@ -108,6 +108,7 @@ export function useRipple(
         fill: 'forwards',
       },
     )
+    growAnimation.finished.catch(() => {})
   }
 
   function endPress() {
