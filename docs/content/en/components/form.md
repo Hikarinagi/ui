@@ -3,7 +3,7 @@ title: Form
 description: Collects field values, validates them and submits.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/form/Form.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/form/Form.vue
 ---
 
 <Demo name="form/hero" />

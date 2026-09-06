@@ -3,7 +3,7 @@ title: Dialog
 description: 打断当前任务的模态对话框。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/dialog/Dialog.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/dialog/Dialog.vue
   - label: Dialog
     href: https://reka-ui.com/docs/components/dialog
 ---

@@ -3,7 +3,7 @@ title: CodeBlock
 description: A block of code with syntax highlighting, a language badge and copying.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/code-block/CodeBlock.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/code-block/CodeBlock.vue
 ---
 
 <Demo name="code-block/hero" />

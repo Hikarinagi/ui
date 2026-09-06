@@ -3,7 +3,7 @@ title: Dialog
 description: A modal dialog that interrupts the current task.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/dialog/Dialog.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/dialog/Dialog.vue
   - label: Dialog
     href: https://reka-ui.com/docs/components/dialog
 ---

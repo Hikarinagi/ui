@@ -3,7 +3,7 @@ title: Inline
 description: Lays its children out in a row, wrapping when they run out of room.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/inline/Inline.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/inline/Inline.vue
 ---
 
 <Demo name="inline/hero" />

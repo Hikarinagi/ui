@@ -3,7 +3,7 @@ title: Callout
 description: A note written into the content.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/callout/Callout.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/callout/Callout.vue
 ---
 
 <Demo name="callout/hero" />

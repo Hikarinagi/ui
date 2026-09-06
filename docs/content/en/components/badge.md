@@ -3,7 +3,7 @@ title: Badge
 description: Pins an unread count or short marker to the corner of its host.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/badge/Badge.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/badge/Badge.vue
 ---
 
 <Demo name="badge/hero" />

@@ -3,7 +3,7 @@ title: DateRangePicker
 description: 输入或者从日历中选择日期区间。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/date-range-picker/DateRangePicker.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/date-range-picker/DateRangePicker.vue
   - label: Popover
     href: https://reka-ui.com/docs/components/popover
 ---

@@ -3,7 +3,7 @@ title: Skeleton
 description: A placeholder that holds the shape of content while it loads.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/skeleton/Skeleton.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/skeleton/Skeleton.vue
 ---
 
 <Demo name="skeleton/hero" />

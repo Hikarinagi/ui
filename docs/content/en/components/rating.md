@@ -3,7 +3,7 @@ title: Rating
 description: Rates with stars or shows a score.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/rating/Rating.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/rating/Rating.vue
   - label: Rating
     href: https://reka-ui.com/docs/components/rating
 ---

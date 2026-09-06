@@ -3,7 +3,7 @@ title: Spoiler
 description: 遮住剧透内容，点击或者悬停后揭示。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/spoiler/Spoiler.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/spoiler/Spoiler.vue
 ---
 
 <Demo name="spoiler/hero" />

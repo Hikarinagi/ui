@@ -3,7 +3,7 @@ title: Sheet
 description: A panel that rises from the bottom of the screen and can be dragged shut.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/sheet/Sheet.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/sheet/Sheet.vue
   - label: Dialog
     href: https://reka-ui.com/docs/components/dialog
 ---

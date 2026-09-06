@@ -3,7 +3,7 @@ title: PinInput
 description: 逐格输入验证码或者 PIN 码。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/pin-input/PinInput.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/pin-input/PinInput.vue
   - label: PinInput
     href: https://reka-ui.com/docs/components/pin-input
 ---

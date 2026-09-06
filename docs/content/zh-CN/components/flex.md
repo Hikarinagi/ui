@@ -3,7 +3,7 @@ title: Flex
 description: 完整控制方向、对齐与分布的 flex 容器。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/flex/Flex.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/flex/Flex.vue
 ---
 
 <Demo name="flex/hero" />

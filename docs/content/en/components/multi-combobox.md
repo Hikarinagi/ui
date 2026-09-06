@@ -3,7 +3,7 @@ title: MultiCombobox
 description: Types to search and picks several items.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/multi-combobox/MultiCombobox.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/multi-combobox/MultiCombobox.vue
   - label: Combobox
     href: https://reka-ui.com/docs/components/combobox
 ---

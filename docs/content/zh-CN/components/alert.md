@@ -3,7 +3,7 @@ title: Alert
 description: 操作之后出现在页面内的消息条。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/alert/Alert.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/alert/Alert.vue
 ---
 
 <Demo name="alert/hero" />

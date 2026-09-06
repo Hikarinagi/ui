@@ -3,7 +3,7 @@ title: FileUpload
 description: 点击或者拖放选择文件。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/file-upload/FileUpload.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/file-upload/FileUpload.vue
 ---
 
 <Demo name="file-upload/hero" />

@@ -3,7 +3,7 @@ title: TreeSelect
 description: Picks one item from a tree.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/tree-select/TreeSelect.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/tree-select/TreeSelect.vue
   - label: Tree
     href: https://reka-ui.com/docs/components/tree
 ---

@@ -3,7 +3,7 @@ title: List
 description: Ordered and unordered lists.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/list/List.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/list/List.vue
 ---
 
 <Demo name="list/hero" />

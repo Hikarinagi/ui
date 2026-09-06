@@ -3,7 +3,7 @@ title: Card
 description: Gathers a group of content onto one raised surface.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/card/Card.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/card/Card.vue
 ---
 
 <Demo name="card/hero" />

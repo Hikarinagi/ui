@@ -3,7 +3,7 @@ title: Blockquote
 description: Quotes a whole passage from elsewhere and credits its source.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/blockquote/Blockquote.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/blockquote/Blockquote.vue
 ---
 
 <Demo name="blockquote/hero" />

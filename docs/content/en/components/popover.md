@@ -3,7 +3,7 @@ title: Popover
 description: A small panel that floats out when a trigger is clicked.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/popover/Popover.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/popover/Popover.vue
   - label: Popover
     href: https://reka-ui.com/docs/components/popover
 ---

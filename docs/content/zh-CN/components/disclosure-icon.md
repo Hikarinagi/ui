@@ -3,7 +3,7 @@ title: DisclosureIcon
 description: 随展开与收起旋转的指示物。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/disclosure-icon/DisclosureIcon.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/disclosure-icon/DisclosureIcon.vue
 ---
 
 <Demo name="disclosure-icon/hero" />

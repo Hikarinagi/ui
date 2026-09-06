@@ -3,7 +3,7 @@ title: Collapsible
 description: A region a single trigger opens and closes.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/collapsible/Collapsible.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/collapsible/Collapsible.vue
   - label: Collapsible
     href: https://reka-ui.com/docs/components/collapsible
 ---

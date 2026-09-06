@@ -3,7 +3,7 @@ title: Table
 description: Static data organised into rows and columns.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/table/Table.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/table/Table.vue
 ---
 
 <Demo name="table/hero" />

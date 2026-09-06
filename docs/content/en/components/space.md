@@ -3,7 +3,7 @@ title: Space
 description: An empty element that takes up room inside a flex container.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/space/Space.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/space/Space.vue
 ---
 
 <Demo name="space/hero" />

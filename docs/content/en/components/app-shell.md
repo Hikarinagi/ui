@@ -3,7 +3,7 @@ title: AppShell
 description: The outer frame of an application, holding the sidebar, header and main area.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/app-shell/AppShell.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/app-shell/AppShell.vue
 ---
 
 <Demo name="app-shell/hero" />

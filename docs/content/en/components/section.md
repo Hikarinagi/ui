@@ -3,7 +3,7 @@ title: Section
 description: A titled section of content.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/section/Section.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/section/Section.vue
 ---
 
 <Demo name="section/hero" />

@@ -3,7 +3,7 @@ title: Alert
 description: A message bar that appears in the page after something happens.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/alert/Alert.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/alert/Alert.vue
 ---
 
 <Demo name="alert/hero" />

@@ -3,7 +3,7 @@ title: Tooltip
 description: 悬停或聚焦时显示的简短说明。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/tooltip/Tooltip.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/tooltip/Tooltip.vue
   - label: Tooltip
     href: https://reka-ui.com/docs/components/tooltip
 ---

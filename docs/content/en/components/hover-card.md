@@ -3,7 +3,7 @@ title: HoverCard
 description: A preview card that floats out while hovering a link.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/hover-card/HoverCard.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/hover-card/HoverCard.vue
   - label: HoverCard
     href: https://reka-ui.com/docs/components/hover-card
 ---

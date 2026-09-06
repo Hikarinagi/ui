@@ -5,12 +5,7 @@
 <template>
   <Text class="max-w-lg">
     The full list of components lives on the
-    <Link
-      href="https://github.com/Hikarinagi/hikarinagi"
-      target="_blank"
-      rel="noreferrer"
-      underline
-    >
+    <Link href="https://github.com/Hikarinagi/ui" target="_blank" rel="noreferrer" underline>
       repository home page
     </Link>
     , and the style variables are covered in the installation guide.

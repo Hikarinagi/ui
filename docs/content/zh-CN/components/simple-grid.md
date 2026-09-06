@@ -3,7 +3,7 @@ title: SimpleGrid
 description: 按最小列宽自动决定列数的等宽栅格。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/simple-grid/SimpleGrid.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/simple-grid/SimpleGrid.vue
 ---
 
 <Demo name="simple-grid/hero" />

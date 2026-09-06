@@ -3,7 +3,7 @@ title: Flex
 description: A flex container with full control over direction, alignment and distribution.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/flex/Flex.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/flex/Flex.vue
 ---
 
 <Demo name="flex/hero" />

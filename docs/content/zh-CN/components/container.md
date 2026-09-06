@@ -3,7 +3,7 @@ title: Container
 description: 把页面内容限制在可读宽度内并居中。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/container/Container.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/container/Container.vue
 ---
 
 <Demo name="container/hero" />

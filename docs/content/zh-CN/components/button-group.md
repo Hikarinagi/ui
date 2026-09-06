@@ -3,7 +3,7 @@ title: ButtonGroup
 description: 把一组按钮拼接为一个整体，共用边框与圆角。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/button-group/ButtonGroup.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/button-group/ButtonGroup.vue
 ---
 
 <Demo name="button-group/hero" />

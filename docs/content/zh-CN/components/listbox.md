@@ -3,7 +3,7 @@ title: Listbox
 description: 常驻的可选列表。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/listbox/Listbox.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/listbox/Listbox.vue
   - label: Listbox
     href: https://reka-ui.com/docs/components/listbox
 ---

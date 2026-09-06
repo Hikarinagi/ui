@@ -3,7 +3,7 @@ title: Section
 description: 带标题的内容分节。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/section/Section.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/section/Section.vue
 ---
 
 <Demo name="section/hero" />

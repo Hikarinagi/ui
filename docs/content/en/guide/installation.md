@@ -3,9 +3,9 @@ title: Installation
 description: Hina UI ships as source and depends on Tailwind CSS v4 and Vue 3.5.
 links:
   - label: Style entry
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/styles/tokens.css
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/styles/tokens.css
   - label: Exports
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/index.ts
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/index.ts
 ---
 
 ## Install {#install}

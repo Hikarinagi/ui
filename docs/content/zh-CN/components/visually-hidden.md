@@ -3,7 +3,7 @@ title: VisuallyHidden
 description: 只对屏幕阅读器可见的文字。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/visually-hidden/VisuallyHidden.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/visually-hidden/VisuallyHidden.vue
   - label: VisuallyHidden
     href: https://reka-ui.com/docs/utilities/visually-hidden
 ---

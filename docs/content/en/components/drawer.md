@@ -3,7 +3,7 @@ title: Drawer
 description: A modal panel that slides in from the edge of the screen.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/drawer/Drawer.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/drawer/Drawer.vue
   - label: Dialog
     href: https://reka-ui.com/docs/components/dialog
 ---

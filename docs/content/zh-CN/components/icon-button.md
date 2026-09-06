@@ -3,7 +3,7 @@ title: IconButton
 description: 只包含图标的按钮，必须提供名称，并以名称作为悬停提示。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/icon-button/IconButton.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/icon-button/IconButton.vue
 ---
 
 <Demo name="icon-button/hero" />

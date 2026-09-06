@@ -3,7 +3,7 @@ title: DescriptionList
 description: Groups of names and values, for listing attributes on detail pages.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/description-list/DescriptionList.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/description-list/DescriptionList.vue
 ---
 
 <Demo name="description-list/hero" />

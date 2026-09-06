@@ -3,7 +3,7 @@ title: Table
 description: 按行列组织的静态数据表。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/table/Table.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/table/Table.vue
 ---
 
 <Demo name="table/hero" />

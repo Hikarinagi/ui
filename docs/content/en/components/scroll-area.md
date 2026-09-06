@@ -3,7 +3,7 @@ title: ScrollArea
 description: A scrolling region with overlay scrollbars.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/scroll-area/ScrollArea.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/scroll-area/ScrollArea.vue
   - label: OverlayScrollbars
     href: https://kingsora.github.io/OverlayScrollbars/
 ---

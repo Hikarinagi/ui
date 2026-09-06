@@ -3,7 +3,7 @@ title: Button
 description: Triggers a single action. Variant sets the visual style, tone sets the meaning.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/button/Button.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/button/Button.vue
 ---
 
 <Demo name="button/hero" />

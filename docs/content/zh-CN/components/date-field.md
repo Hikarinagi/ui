@@ -3,7 +3,7 @@ title: DateField
 description: 分段输入日期与时间。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/date-field/DateField.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/date-field/DateField.vue
   - label: DateField
     href: https://reka-ui.com/docs/components/date-field
 ---

@@ -3,7 +3,7 @@ title: PasswordInput
 description: 输入密码的输入框，可以切换明文显示。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/password-input/PasswordInput.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/password-input/PasswordInput.vue
 ---
 
 <Demo name="password-input/hero" />

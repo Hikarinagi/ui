@@ -3,7 +3,7 @@ title: SegmentedControl
 description: Switches among a few peer options.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/segmented-control/SegmentedControl.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/segmented-control/SegmentedControl.vue
   - label: ToggleGroup
     href: https://reka-ui.com/docs/components/toggle-group
 ---

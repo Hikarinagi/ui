@@ -3,7 +3,7 @@ title: SearchInput
 description: A field for entering a search query.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/search-input/SearchInput.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/search-input/SearchInput.vue
 ---
 
 <Demo name="search-input/hero" />

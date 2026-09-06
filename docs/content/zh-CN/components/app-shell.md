@@ -3,7 +3,7 @@ title: AppShell
 description: 应用的外层框架，安置侧栏、页眉与主区域。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/app-shell/AppShell.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/app-shell/AppShell.vue
 ---
 
 <Demo name="app-shell/hero" />

@@ -3,7 +3,7 @@ title: DateTimePicker
 description: 输入或者从日历与时间段中选择日期时间。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/date-time-picker/DateTimePicker.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/date-time-picker/DateTimePicker.vue
   - label: Popover
     href: https://reka-ui.com/docs/components/popover
 ---

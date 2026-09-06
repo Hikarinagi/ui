@@ -3,7 +3,7 @@ title: AlertDialog
 description: A confirmation dialog that needs an explicit answer.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/alert-dialog/AlertDialog.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/alert-dialog/AlertDialog.vue
   - label: AlertDialog
     href: https://reka-ui.com/docs/components/alert-dialog
 ---

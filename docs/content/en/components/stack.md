@@ -3,7 +3,7 @@ title: Stack
 description: Lays its children out in a single column.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/stack/Stack.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/stack/Stack.vue
 ---
 
 <Demo name="stack/hero" />

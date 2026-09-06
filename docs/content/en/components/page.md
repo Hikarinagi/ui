@@ -3,7 +3,7 @@ title: Page
 description: The skeleton of a page's content, with a header, body and aside.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/page/Page.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/page/Page.vue
 ---
 
 <Demo name="page/hero" />

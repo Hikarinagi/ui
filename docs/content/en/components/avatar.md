@@ -3,7 +3,7 @@ title: Avatar
 description: A round portrait standing for a person or an entity.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/avatar/Avatar.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/avatar/Avatar.vue
 ---
 
 <Demo name="avatar/hero" />

@@ -3,7 +3,7 @@ title: RadioGroup
 description: 从多项中选择一项的单选框组。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/radio-group/RadioGroup.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/radio-group/RadioGroup.vue
   - label: RadioGroup
     href: https://reka-ui.com/docs/components/radio-group
 ---

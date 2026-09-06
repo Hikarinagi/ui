@@ -3,7 +3,7 @@ title: InputGroup
 description: 把前后缀、按钮与输入框合为一个输入面。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/input-group/InputGroup.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/input-group/InputGroup.vue
 ---
 
 <Demo name="input-group/hero" />

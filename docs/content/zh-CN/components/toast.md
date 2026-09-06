@@ -3,7 +3,7 @@ title: Toast
 description: 操作完成后浮出的一条简短反馈。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/toast/Toaster.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/toast/Toaster.vue
   - label: Toast
     href: https://reka-ui.com/docs/components/toast
 ---

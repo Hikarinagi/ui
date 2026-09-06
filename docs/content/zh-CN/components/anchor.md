@@ -3,7 +3,7 @@ title: Anchor
 description: 页内目录，随滚动标出当前所在的小节。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/anchor/Anchor.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/anchor/Anchor.vue
 ---
 
 <Demo name="anchor/hero" />

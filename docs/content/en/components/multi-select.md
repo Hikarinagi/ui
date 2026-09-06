@@ -3,7 +3,7 @@ title: MultiSelect
 description: Picks several items from a list.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/multi-select/MultiSelect.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/multi-select/MultiSelect.vue
   - label: Select
     href: https://reka-ui.com/docs/components/select
 ---

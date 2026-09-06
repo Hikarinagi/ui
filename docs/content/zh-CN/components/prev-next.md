@@ -3,7 +3,7 @@ title: PrevNext
 description: 页面底部通往相邻两页的一对链接。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/prev-next/PrevNext.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/prev-next/PrevNext.vue
 ---
 
 <Demo name="prev-next/hero" />

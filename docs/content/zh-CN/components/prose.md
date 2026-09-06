@@ -3,7 +3,7 @@ title: Prose
 description: 富文本容器，统一接管其中的原生标签。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/prose/Prose.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/prose/Prose.vue
 ---
 
 <Demo name="prose/hero" />

@@ -3,7 +3,7 @@ title: Skeleton
 description: 内容加载期间保持其形状的占位块。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/skeleton/Skeleton.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/skeleton/Skeleton.vue
 ---
 
 <Demo name="skeleton/hero" />

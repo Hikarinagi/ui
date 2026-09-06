@@ -3,7 +3,7 @@ title: List
 description: 有序列表与无序列表。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/list/List.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/list/List.vue
 ---
 
 <Demo name="list/hero" />

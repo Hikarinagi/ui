@@ -3,7 +3,7 @@ title: Breadcrumb
 description: 标示当前页面在层级中的位置。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/breadcrumb/Breadcrumb.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/breadcrumb/Breadcrumb.vue
 ---
 
 <Demo name="breadcrumb/hero" />

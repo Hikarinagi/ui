@@ -3,7 +3,7 @@ title: DescriptionList
 description: 成组的名称与取值，用于详情页的属性罗列。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/description-list/DescriptionList.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/description-list/DescriptionList.vue
 ---
 
 <Demo name="description-list/hero" />

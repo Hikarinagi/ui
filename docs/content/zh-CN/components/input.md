@@ -3,7 +3,7 @@ title: Input
 description: 单行文本输入框。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/input/Input.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/input/Input.vue
 ---
 
 <Demo name="input/hero" />

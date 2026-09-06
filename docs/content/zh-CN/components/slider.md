@@ -3,7 +3,7 @@ title: Slider
 description: 在数值范围内拖动取值。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/slider/Slider.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/slider/Slider.vue
   - label: Slider
     href: https://reka-ui.com/docs/components/slider
 ---

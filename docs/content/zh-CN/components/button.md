@@ -3,7 +3,7 @@ title: Button
 description: 触发一次操作的按钮。变体决定视觉样式，色调决定语义。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/button/Button.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/button/Button.vue
 ---
 
 <Demo name="button/hero" />

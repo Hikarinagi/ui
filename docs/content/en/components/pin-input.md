@@ -3,7 +3,7 @@ title: PinInput
 description: Enters a code one character per cell.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/pin-input/PinInput.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/pin-input/PinInput.vue
   - label: PinInput
     href: https://reka-ui.com/docs/components/pin-input
 ---

@@ -3,7 +3,7 @@ title: Highlight
 description: A highlight that slides between active items.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/highlight/Highlight.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/highlight/Highlight.vue
   - label: Motion
     href: https://motion.dev/docs/vue-layout-animations
 ---

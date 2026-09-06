@@ -3,7 +3,7 @@ title: Kbd
 description: A keyboard key, for documenting shortcuts.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/kbd/Kbd.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/kbd/Kbd.vue
 ---
 
 <Demo name="kbd/hero" />

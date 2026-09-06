@@ -3,7 +3,7 @@ title: Sidebar
 description: The navigation column on the left of an application, collapsible to a rail of icons.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/sidebar/Sidebar.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/sidebar/Sidebar.vue
 ---
 
 <Demo name="sidebar/hero" />

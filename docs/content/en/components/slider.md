@@ -3,7 +3,7 @@ title: Slider
 description: Picks a number within a range by dragging.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/slider/Slider.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/slider/Slider.vue
   - label: Slider
     href: https://reka-ui.com/docs/components/slider
 ---

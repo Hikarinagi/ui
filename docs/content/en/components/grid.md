@@ -3,7 +3,7 @@ title: Grid
 description: A grid container laying its children out in a fixed number of columns.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/grid/Grid.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/grid/Grid.vue
 ---
 
 <Demo name="grid/hero" />

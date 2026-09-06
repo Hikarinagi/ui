@@ -3,7 +3,7 @@ title: Card
 description: 承载一组内容的容器，比页面底色高出一层。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/card/Card.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/card/Card.vue
 ---
 
 <Demo name="card/hero" />

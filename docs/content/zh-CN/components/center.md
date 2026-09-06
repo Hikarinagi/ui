@@ -3,7 +3,7 @@ title: Center
 description: 把内容在两个方向上居中。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/center/Center.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/center/Center.vue
 ---
 
 <Demo name="center/hero" />

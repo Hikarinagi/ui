@@ -3,7 +3,7 @@ title: CommandPalette
 description: A keyboard-summoned search panel for picking commands and pages.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/command-palette/CommandPalette.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/command-palette/CommandPalette.vue
   - label: Listbox
     href: https://reka-ui.com/docs/components/listbox
 ---

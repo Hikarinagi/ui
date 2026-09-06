@@ -3,7 +3,7 @@ title: DateRangeField
 description: 分段输入开始与结束日期。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/date-range-field/DateRangeField.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/date-range-field/DateRangeField.vue
   - label: DateRangeField
     href: https://reka-ui.com/docs/components/date-range-field
 ---

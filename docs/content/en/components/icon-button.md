@@ -3,7 +3,7 @@ title: IconButton
 description: An icon-only button that requires a name and shows it on hover.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/icon-button/IconButton.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/icon-button/IconButton.vue
 ---
 
 <Demo name="icon-button/hero" />

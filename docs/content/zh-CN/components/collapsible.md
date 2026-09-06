@@ -3,7 +3,7 @@ title: Collapsible
 description: 由一个触发器控制展开与收起的区域。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/collapsible/Collapsible.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/collapsible/Collapsible.vue
   - label: Collapsible
     href: https://reka-ui.com/docs/components/collapsible
 ---

@@ -3,7 +3,7 @@ title: Checkbox
 description: Ticks one option, or several out of many.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/checkbox/Checkbox.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/checkbox/Checkbox.vue
   - label: Checkbox
     href: https://reka-ui.com/docs/components/checkbox
 ---

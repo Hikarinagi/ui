@@ -3,7 +3,7 @@ title: Drawer
 description: 从屏幕边缘滑入的模态面板。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/drawer/Drawer.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/drawer/Drawer.vue
   - label: Dialog
     href: https://reka-ui.com/docs/components/dialog
 ---

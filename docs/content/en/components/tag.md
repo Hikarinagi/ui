@@ -3,7 +3,7 @@ title: Tag
 description: A short label for status, category or attribute.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/tag/Tag.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/tag/Tag.vue
 ---
 
 <Demo name="tag/hero" />

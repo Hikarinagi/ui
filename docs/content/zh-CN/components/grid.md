@@ -3,7 +3,7 @@ title: Grid
 description: 按固定列数排布子元素的栅格容器。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/grid/Grid.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/grid/Grid.vue
 ---
 
 <Demo name="grid/hero" />

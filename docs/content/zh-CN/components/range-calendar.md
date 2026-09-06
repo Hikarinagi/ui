@@ -3,7 +3,7 @@ title: RangeCalendar
 description: 按月展示与选择日期区间。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/range-calendar/RangeCalendar.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/range-calendar/RangeCalendar.vue
   - label: RangeCalendar
     href: https://reka-ui.com/docs/components/range-calendar
 ---

@@ -3,7 +3,7 @@ title: RingProgress
 description: 以圆环的弧长表示任务完成的比例。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/ring-progress/RingProgress.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/ring-progress/RingProgress.vue
 ---
 
 <Demo name="ring-progress/hero" />

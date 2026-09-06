@@ -3,7 +3,7 @@ title: ContextMenu
 description: 右键或者长按某个区域时在指针处展开的菜单。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/context-menu/ContextMenu.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/context-menu/ContextMenu.vue
   - label: ContextMenu
     href: https://reka-ui.com/docs/components/context-menu
 ---

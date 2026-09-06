@@ -3,7 +3,7 @@ title: Code
 description: Inline code within body text, for variable names, properties and commands.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/code/Code.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/code/Code.vue
 ---
 
 <Demo name="code/hero" />

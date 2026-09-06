@@ -3,7 +3,7 @@ title: Tag
 description: 标注状态、分类与属性的短标签。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/tag/Tag.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/tag/Tag.vue
 ---
 
 <Demo name="tag/hero" />

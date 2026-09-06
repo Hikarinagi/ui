@@ -3,7 +3,7 @@ title: Callout
 description: 写入内容之中的一段标注。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/callout/Callout.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/callout/Callout.vue
 ---
 
 <Demo name="callout/hero" />

@@ -3,9 +3,9 @@ title: 安装
 description: Hina UI 以源码分发，依赖 Tailwind CSS v4 与 Vue 3.5。
 links:
   - label: 样式入口
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/styles/tokens.css
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/styles/tokens.css
   - label: 导出清单
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/index.ts
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/index.ts
 ---
 
 ## 安装依赖 {#install}

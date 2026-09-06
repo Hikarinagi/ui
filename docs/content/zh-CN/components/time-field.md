@@ -3,7 +3,7 @@ title: TimeField
 description: 分段输入时间。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/time-field/TimeField.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/time-field/TimeField.vue
   - label: TimeField
     href: https://reka-ui.com/docs/components/time-field
 ---

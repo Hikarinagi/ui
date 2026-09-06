@@ -3,7 +3,7 @@ title: RingProgress
 description: A ring whose arc shows how much of a task is done.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/ring-progress/RingProgress.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/ring-progress/RingProgress.vue
 ---
 
 <Demo name="ring-progress/hero" />

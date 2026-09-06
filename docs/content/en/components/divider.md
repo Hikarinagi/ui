@@ -3,7 +3,7 @@ title: Divider
 description: A hairline that separates two pieces of content.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/divider/Divider.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/divider/Divider.vue
   - label: Separator
     href: https://reka-ui.com/docs/components/separator
 ---

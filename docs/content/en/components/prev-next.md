@@ -3,7 +3,7 @@ title: PrevNext
 description: A pair of links at the foot of a page leading to its neighbours.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/prev-next/PrevNext.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/prev-next/PrevNext.vue
 ---
 
 <Demo name="prev-next/hero" />

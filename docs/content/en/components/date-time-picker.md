@@ -3,7 +3,7 @@ title: DateTimePicker
 description: Types a date and time or picks them from a calendar and a time field.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/date-time-picker/DateTimePicker.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/date-time-picker/DateTimePicker.vue
   - label: Popover
     href: https://reka-ui.com/docs/components/popover
 ---

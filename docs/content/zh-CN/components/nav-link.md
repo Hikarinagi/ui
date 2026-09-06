@@ -3,7 +3,7 @@ title: NavLink
 description: 导航列表中的一项，标示当前所在的页面。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/nav-link/NavLink.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/nav-link/NavLink.vue
 ---
 
 <Demo name="nav-link/hero" />

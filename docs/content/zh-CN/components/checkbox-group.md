@@ -3,7 +3,7 @@ title: CheckboxGroup
 description: 一组复选框，共用一个数组值。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/checkbox-group/CheckboxGroup.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/checkbox-group/CheckboxGroup.vue
   - label: Checkbox
     href: https://reka-ui.com/docs/components/checkbox
 ---

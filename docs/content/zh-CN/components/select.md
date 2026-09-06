@@ -3,7 +3,7 @@ title: Select
 description: 从列表中选择一项。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/select/Select.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/select/Select.vue
   - label: Select
     href: https://reka-ui.com/docs/components/select
 ---

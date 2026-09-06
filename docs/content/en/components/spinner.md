@@ -3,7 +3,7 @@ title: Spinner
 description: A spinning indicator for work in progress.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/spinner/Spinner.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/spinner/Spinner.vue
 ---
 
 <Demo name="spinner/hero" />

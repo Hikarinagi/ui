@@ -3,7 +3,7 @@ title: Toggle
 description: 可按下与松开的双态按钮。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/toggle/Toggle.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/toggle/Toggle.vue
   - label: Toggle
     href: https://reka-ui.com/docs/components/toggle
 ---

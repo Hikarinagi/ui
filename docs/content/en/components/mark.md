@@ -3,7 +3,7 @@ title: Mark
 description: Marks a fragment of text, such as a search hit or something to notice.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/mark/Mark.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/mark/Mark.vue
 ---
 
 <Demo name="mark/hero" />

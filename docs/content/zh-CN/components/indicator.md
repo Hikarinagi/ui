@@ -3,7 +3,7 @@ title: Indicator
 description: 表示状态的小圆点。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/indicator/Indicator.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/indicator/Indicator.vue
 ---
 
 <Demo name="indicator/hero" />

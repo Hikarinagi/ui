@@ -3,7 +3,7 @@ title: TimeField
 description: Types a time segment by segment.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/time-field/TimeField.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/time-field/TimeField.vue
   - label: TimeField
     href: https://reka-ui.com/docs/components/time-field
 ---

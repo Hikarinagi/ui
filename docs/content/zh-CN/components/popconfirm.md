@@ -3,7 +3,7 @@ title: Popconfirm
 description: 贴着触发器浮出的确认气泡。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/popconfirm/Popconfirm.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/popconfirm/Popconfirm.vue
   - label: Popover
     href: https://reka-ui.com/docs/components/popover
 ---

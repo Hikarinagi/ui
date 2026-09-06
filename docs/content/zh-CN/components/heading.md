@@ -3,7 +3,7 @@ title: Heading
 description: 标题，语义层级与视觉字号相互独立。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/heading/Heading.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/heading/Heading.vue
 ---
 
 <Demo name="heading/hero" />

@@ -3,7 +3,7 @@ title: RangeSlider
 description: 在数值范围内拖出一段区间。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/range-slider/RangeSlider.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/range-slider/RangeSlider.vue
   - label: Slider
     href: https://reka-ui.com/docs/components/slider
 ---

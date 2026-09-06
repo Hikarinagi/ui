@@ -3,7 +3,7 @@ title: Menubar
 description: 横向排列的一组菜单，像桌面应用的菜单栏。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/menubar/Menubar.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/menubar/Menubar.vue
   - label: Menubar
     href: https://reka-ui.com/docs/components/menubar
 ---

@@ -3,7 +3,7 @@ title: Spinner
 description: 表示正在进行中的旋转指示。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/spinner/Spinner.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/spinner/Spinner.vue
 ---
 
 <Demo name="spinner/hero" />

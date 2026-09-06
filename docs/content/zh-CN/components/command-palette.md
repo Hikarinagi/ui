@@ -3,7 +3,7 @@ title: CommandPalette
 description: 以快捷键唤起的搜索面板，输入后从命令与页面中选择。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/command-palette/CommandPalette.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/command-palette/CommandPalette.vue
   - label: Listbox
     href: https://reka-ui.com/docs/components/listbox
 ---

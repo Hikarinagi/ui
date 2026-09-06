@@ -3,7 +3,7 @@ title: Combobox
 description: 边输入边筛选的选择框。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/combobox/Combobox.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/combobox/Combobox.vue
   - label: Combobox
     href: https://reka-ui.com/docs/components/combobox
 ---

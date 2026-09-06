@@ -3,7 +3,7 @@ title: DateRangeField
 description: Types a start and an end date segment by segment.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/date-range-field/DateRangeField.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/date-range-field/DateRangeField.vue
   - label: DateRangeField
     href: https://reka-ui.com/docs/components/date-range-field
 ---

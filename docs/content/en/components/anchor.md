@@ -3,7 +3,7 @@ title: Anchor
 description: An in-page table of contents that tracks the section you are reading.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/anchor/Anchor.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/anchor/Anchor.vue
 ---
 
 <Demo name="anchor/hero" />

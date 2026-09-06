@@ -3,7 +3,7 @@ title: Heading
 description: Headings whose semantic level and visual size are set independently.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/heading/Heading.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/heading/Heading.vue
 ---
 
 <Demo name="heading/hero" />

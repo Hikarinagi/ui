@@ -3,7 +3,7 @@ title: Listbox
 description: An always-visible list of options.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/listbox/Listbox.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/listbox/Listbox.vue
   - label: Listbox
     href: https://reka-ui.com/docs/components/listbox
 ---

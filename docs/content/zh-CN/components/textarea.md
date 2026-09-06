@@ -3,7 +3,7 @@ title: Textarea
 description: 多行文本输入框。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/textarea/Textarea.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/textarea/Textarea.vue
 ---
 
 <Demo name="textarea/hero" />

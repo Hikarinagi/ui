@@ -3,7 +3,7 @@ title: Badge
 description: 把未读数或者短标记钉在宿主元素的角上。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/badge/Badge.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/badge/Badge.vue
 ---
 
 <Demo name="badge/hero" />

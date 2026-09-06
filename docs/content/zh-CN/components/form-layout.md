@@ -3,7 +3,7 @@ title: FormLayout
 description: 把字段分组排成栅格，带有标题与说明。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/form-layout/FormLayout.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/form-layout/FormLayout.vue
 ---
 
 <Demo name="form-layout/hero" />

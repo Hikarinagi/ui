@@ -3,7 +3,7 @@ title: Tooltip
 description: A short note shown on hover or focus.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/tooltip/Tooltip.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/tooltip/Tooltip.vue
   - label: Tooltip
     href: https://reka-ui.com/docs/components/tooltip
 ---

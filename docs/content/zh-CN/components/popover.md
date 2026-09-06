@@ -3,7 +3,7 @@ title: Popover
 description: 点击触发器后浮出的面板。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/popover/Popover.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/popover/Popover.vue
   - label: Popover
     href: https://reka-ui.com/docs/components/popover
 ---

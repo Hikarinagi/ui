@@ -3,7 +3,7 @@ title: Switch
 description: 在开与关之间切换。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/switch/Switch.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/switch/Switch.vue
   - label: Switch
     href: https://reka-ui.com/docs/components/switch
 ---

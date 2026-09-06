@@ -3,7 +3,7 @@ title: CloseButton
 description: Dismisses dialogs, drawers and toasts.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/close-button/CloseButton.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/close-button/CloseButton.vue
 ---
 
 <Demo name="close-button/hero" />

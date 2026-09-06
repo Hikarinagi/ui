@@ -3,7 +3,7 @@ title: Textarea
 description: A multi-line text field.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/textarea/Textarea.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/textarea/Textarea.vue
 ---
 
 <Demo name="textarea/hero" />

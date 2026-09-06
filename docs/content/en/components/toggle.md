@@ -3,7 +3,7 @@ title: Toggle
 description: A two-state button that stays pressed.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/toggle/Toggle.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/toggle/Toggle.vue
   - label: Toggle
     href: https://reka-ui.com/docs/components/toggle
 ---

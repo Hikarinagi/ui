@@ -3,7 +3,7 @@ title: Splitter
 description: 可以拖动分隔线调整比例的分栏容器。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/splitter/Splitter.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/splitter/Splitter.vue
   - label: Splitter
     href: https://reka-ui.com/docs/components/splitter
 ---

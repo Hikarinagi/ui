@@ -3,7 +3,7 @@ title: Calendar
 description: 按月展示与选择日期。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/calendar/Calendar.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/calendar/Calendar.vue
   - label: Calendar
     href: https://reka-ui.com/docs/components/calendar
 ---

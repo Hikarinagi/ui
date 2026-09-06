@@ -3,7 +3,7 @@ title: Spoiler
 description: Hides spoilers until they are revealed by a click or hover.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/spoiler/Spoiler.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/spoiler/Spoiler.vue
 ---
 
 <Demo name="spoiler/hero" />

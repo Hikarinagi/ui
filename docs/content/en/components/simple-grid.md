@@ -3,7 +3,7 @@ title: SimpleGrid
 description: An even grid whose column count follows a minimum column width.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/simple-grid/SimpleGrid.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/simple-grid/SimpleGrid.vue
 ---
 
 <Demo name="simple-grid/hero" />

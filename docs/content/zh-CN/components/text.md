@@ -3,7 +3,7 @@ title: Text
 description: 正文文字，界面上绝大多数文字都用它。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/text/Text.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/text/Text.vue
 ---
 
 <Demo name="text/hero" />

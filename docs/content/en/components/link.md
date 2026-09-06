@@ -3,7 +3,7 @@ title: Link
 description: A text link that can render as a native anchor or a router component.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/link/Link.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/link/Link.vue
 ---
 
 <Demo name="link/hero" />

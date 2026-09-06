@@ -3,7 +3,7 @@ title: FormLayout
 description: Groups fields into a grid with a title and description.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/form-layout/FormLayout.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/form-layout/FormLayout.vue
 ---
 
 <Demo name="form-layout/hero" />

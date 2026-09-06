@@ -3,7 +3,7 @@ title: Accordion
 description: 多段内容依次展开与收起的折叠列表。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/accordion/Accordion.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/accordion/Accordion.vue
   - label: Accordion
     href: https://reka-ui.com/docs/components/accordion
 ---

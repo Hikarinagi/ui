@@ -3,7 +3,7 @@ title: AspectRatio
 description: 把内容固定在给定的宽高比内。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/aspect-ratio/AspectRatio.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/aspect-ratio/AspectRatio.vue
   - label: AspectRatio
     href: https://reka-ui.com/docs/components/aspect-ratio
 ---

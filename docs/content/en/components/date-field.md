@@ -3,7 +3,7 @@ title: DateField
 description: Types a date or time segment by segment.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/date-field/DateField.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/date-field/DateField.vue
   - label: DateField
     href: https://reka-ui.com/docs/components/date-field
 ---

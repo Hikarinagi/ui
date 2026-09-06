@@ -3,7 +3,7 @@ title: Center
 description: Centres its content on both axes.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/center/Center.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/center/Center.vue
 ---
 
 <Demo name="center/hero" />

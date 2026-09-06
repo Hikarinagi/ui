@@ -3,7 +3,7 @@ title: Highlight
 description: 在活动条目之间平移的高亮块。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/highlight/Highlight.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/highlight/Highlight.vue
   - label: Motion
     href: https://motion.dev/docs/vue-layout-animations
 ---

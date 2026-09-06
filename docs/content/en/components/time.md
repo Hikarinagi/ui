@@ -3,7 +3,7 @@ title: Time
 description: Shows a moment in the current language, optionally relative to now.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/time/Time.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/time/Time.vue
 ---
 
 <Demo name="time/hero" />

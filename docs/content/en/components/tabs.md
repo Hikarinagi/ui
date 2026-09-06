@@ -3,7 +3,7 @@ title: Tabs
 description: Several sets of content shown one at a time in the same place.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/tabs/Tabs.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/tabs/Tabs.vue
   - label: Tabs
     href: https://reka-ui.com/docs/components/tabs
 ---

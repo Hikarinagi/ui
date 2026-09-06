@@ -3,7 +3,7 @@ title: Progress
 description: 以横条的填充长度表示任务完成的比例。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/progress/Progress.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/progress/Progress.vue
 ---
 
 <Demo name="progress/hero" />

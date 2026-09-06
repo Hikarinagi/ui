@@ -3,7 +3,7 @@ title: Ripple
 description: A ripple spreading from the point of contact.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/ripple/Ripple.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/ripple/Ripple.vue
 ---
 
 <Demo name="ripple/hero" />

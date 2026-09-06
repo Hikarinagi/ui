@@ -3,7 +3,7 @@ title: Ripple
 description: 从按下位置扩散的涟漪反馈。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/ripple/Ripple.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/ripple/Ripple.vue
 ---
 
 <Demo name="ripple/hero" />

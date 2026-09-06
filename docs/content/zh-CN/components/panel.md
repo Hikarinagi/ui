@@ -3,7 +3,7 @@ title: Panel
 description: 带有标准标题栏的卡片，标题、计数与操作各有固定位置。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/panel/Panel.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/panel/Panel.vue
 ---
 
 <Demo name="panel/hero" />

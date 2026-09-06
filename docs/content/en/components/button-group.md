@@ -3,7 +3,7 @@ title: ButtonGroup
 description: Joins several buttons into one unit that shares borders and corners.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/button-group/ButtonGroup.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/button-group/ButtonGroup.vue
 ---
 
 <Demo name="button-group/hero" />

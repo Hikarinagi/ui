@@ -3,7 +3,7 @@ title: NavLink
 description: One entry in a navigation list, marking the current page.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/nav-link/NavLink.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/nav-link/NavLink.vue
 ---
 
 <Demo name="nav-link/hero" />

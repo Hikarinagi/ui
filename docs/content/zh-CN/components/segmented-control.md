@@ -3,7 +3,7 @@ title: SegmentedControl
 description: 在几个并列的选项中切换其一。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/segmented-control/SegmentedControl.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/segmented-control/SegmentedControl.vue
   - label: ToggleGroup
     href: https://reka-ui.com/docs/components/toggle-group
 ---

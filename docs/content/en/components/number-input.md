@@ -3,7 +3,7 @@ title: NumberInput
 description: A field for entering numbers.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/number-input/NumberInput.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/number-input/NumberInput.vue
   - label: NumberField
     href: https://reka-ui.com/docs/components/number-field
 ---

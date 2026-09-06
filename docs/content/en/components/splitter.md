@@ -3,7 +3,7 @@ title: Splitter
 description: Panes whose proportions are adjusted by dragging a divider.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/splitter/Splitter.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/splitter/Splitter.vue
   - label: Splitter
     href: https://reka-ui.com/docs/components/splitter
 ---

@@ -3,7 +3,7 @@ title: Toast
 description: A short piece of feedback that floats in once an action finishes.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/toast/Toaster.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/toast/Toaster.vue
   - label: Toast
     href: https://reka-ui.com/docs/components/toast
 ---

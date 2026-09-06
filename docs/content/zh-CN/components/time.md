@@ -3,7 +3,7 @@ title: Time
 description: 按当前语言显示时间，可显示为相对时间。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/time/Time.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/time/Time.vue
 ---
 
 <Demo name="time/hero" />

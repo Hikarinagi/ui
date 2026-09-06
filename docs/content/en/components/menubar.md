@@ -3,7 +3,7 @@ title: Menubar
 description: A row of menus, like the menu bar of a desktop app.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/menubar/Menubar.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/menubar/Menubar.vue
   - label: Menubar
     href: https://reka-ui.com/docs/components/menubar
 ---

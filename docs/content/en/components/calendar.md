@@ -3,7 +3,7 @@ title: Calendar
 description: Shows a month and picks a date.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/calendar/Calendar.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/calendar/Calendar.vue
   - label: Calendar
     href: https://reka-ui.com/docs/components/calendar
 ---

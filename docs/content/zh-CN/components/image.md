@@ -3,7 +3,7 @@ title: Image
 description: 懒加载、撑住位置并在失败时回退的图片。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/image/Image.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/image/Image.vue
 ---
 
 <Demo name="image/hero" />

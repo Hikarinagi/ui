@@ -3,7 +3,7 @@ title: LoadingOverlay
 description: A loading indicator laid over an area, shown after a short wait.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/loading-overlay/LoadingOverlay.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/loading-overlay/LoadingOverlay.vue
 ---
 
 <Demo name="loading-overlay/hero" />

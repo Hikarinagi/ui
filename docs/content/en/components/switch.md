@@ -3,7 +3,7 @@ title: Switch
 description: Toggles between on and off.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/switch/Switch.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/switch/Switch.vue
   - label: Switch
     href: https://reka-ui.com/docs/components/switch
 ---

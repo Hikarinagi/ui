@@ -3,7 +3,7 @@ title: HoverCard
 description: 悬停在链接上时浮出的预览卡片。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/hover-card/HoverCard.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/hover-card/HoverCard.vue
   - label: HoverCard
     href: https://reka-ui.com/docs/components/hover-card
 ---

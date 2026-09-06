@@ -3,7 +3,7 @@ title: TagsInput
 description: Enters several values as removable tags.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/tags-input/TagsInput.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/tags-input/TagsInput.vue
   - label: TagsInput
     href: https://reka-ui.com/docs/components/tags-input
 ---

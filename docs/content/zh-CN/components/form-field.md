@@ -3,7 +3,7 @@ title: FormField
 description: 为控件配上标签、说明与错误信息。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/form-field/FormField.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/form-field/FormField.vue
 ---
 
 <Demo name="form-field/hero" />

@@ -3,7 +3,7 @@ title: AlertDialog
 description: 需要用户明确回答的确认对话框。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/alert-dialog/AlertDialog.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/alert-dialog/AlertDialog.vue
   - label: AlertDialog
     href: https://reka-ui.com/docs/components/alert-dialog
 ---

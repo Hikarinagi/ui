@@ -3,7 +3,7 @@ title: Chip
 description: 可选中或者可移除的条目。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/chip/Chip.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/chip/Chip.vue
 ---
 
 <Demo name="chip/hero" />

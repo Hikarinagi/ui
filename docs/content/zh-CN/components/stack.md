@@ -3,7 +3,7 @@ title: Stack
 description: 把子元素纵向排成一列。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/stack/Stack.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/stack/Stack.vue
 ---
 
 <Demo name="stack/hero" />

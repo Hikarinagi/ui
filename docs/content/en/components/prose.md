@@ -3,7 +3,7 @@ title: Prose
 description: A rich text container that styles the native tags inside it.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/prose/Prose.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/prose/Prose.vue
 ---
 
 <Demo name="prose/hero" />

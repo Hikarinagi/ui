@@ -3,7 +3,7 @@ title: LoadingOverlay
 description: 盖在一块区域上的加载指示，稍作等待再显示。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/loading-overlay/LoadingOverlay.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/loading-overlay/LoadingOverlay.vue
 ---
 
 <Demo name="loading-overlay/hero" />

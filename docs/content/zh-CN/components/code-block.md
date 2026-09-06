@@ -3,7 +3,7 @@ title: CodeBlock
 description: 成段的代码，带语法着色、语言角标与复制按钮。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/code-block/CodeBlock.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/code-block/CodeBlock.vue
 ---
 
 <Demo name="code-block/hero" />

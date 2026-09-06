@@ -3,7 +3,7 @@ title: CloseButton
 description: 用于关闭对话框、抽屉与提示的按钮。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/close-button/CloseButton.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/close-button/CloseButton.vue
 ---
 
 <Demo name="close-button/hero" />

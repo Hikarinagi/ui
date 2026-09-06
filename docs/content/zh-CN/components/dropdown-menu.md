@@ -3,7 +3,7 @@ title: DropdownMenu
 description: 点击触发器展开的一组操作。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/dropdown-menu/DropdownMenu.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/dropdown-menu/DropdownMenu.vue
   - label: DropdownMenu
     href: https://reka-ui.com/docs/components/dropdown-menu
 ---

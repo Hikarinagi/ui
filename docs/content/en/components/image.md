@@ -3,7 +3,7 @@ title: Image
 description: An image that loads lazily, holds its box and falls back when it fails.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/image/Image.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/image/Image.vue
 ---
 
 <Demo name="image/hero" />

@@ -3,7 +3,7 @@ title: DisclosureIcon
 description: An indicator that turns as a region opens and closes.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/disclosure-icon/DisclosureIcon.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/disclosure-icon/DisclosureIcon.vue
 ---
 
 <Demo name="disclosure-icon/hero" />

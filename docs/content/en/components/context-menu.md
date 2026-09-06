@@ -3,7 +3,7 @@ title: ContextMenu
 description: A menu that opens at the pointer on right-click or long press.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/context-menu/ContextMenu.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/context-menu/ContextMenu.vue
   - label: ContextMenu
     href: https://reka-ui.com/docs/components/context-menu
 ---

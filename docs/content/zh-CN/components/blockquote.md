@@ -3,7 +3,7 @@ title: Blockquote
 description: 引用他处的整段文字，并标明出处。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/blockquote/Blockquote.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/blockquote/Blockquote.vue
 ---
 
 <Demo name="blockquote/hero" />

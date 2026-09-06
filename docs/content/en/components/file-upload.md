@@ -3,7 +3,7 @@ title: FileUpload
 description: Picks files by clicking or dropping.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/file-upload/FileUpload.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/file-upload/FileUpload.vue
 ---
 
 <Demo name="file-upload/hero" />

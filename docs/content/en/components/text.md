@@ -3,7 +3,7 @@ title: Text
 description: Body text, used for the vast majority of writing in an interface.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/text/Text.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/text/Text.vue
 ---
 
 <Demo name="text/hero" />

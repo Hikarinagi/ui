@@ -3,7 +3,7 @@ title: PasswordInput
 description: A password field with a visibility toggle.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/password-input/PasswordInput.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/password-input/PasswordInput.vue
 ---
 
 <Demo name="password-input/hero" />

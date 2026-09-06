@@ -3,7 +3,7 @@ title: DatePicker
 description: Types a date or picks it from a calendar.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/date-picker/DatePicker.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/date-picker/DatePicker.vue
   - label: Popover
     href: https://reka-ui.com/docs/components/popover
 ---

@@ -3,7 +3,7 @@ title: Sidebar
 description: 应用左侧的导航栏，可收起为图标条。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/sidebar/Sidebar.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/sidebar/Sidebar.vue
 ---
 
 <Demo name="sidebar/hero" />

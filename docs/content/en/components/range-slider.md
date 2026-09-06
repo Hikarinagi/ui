@@ -3,7 +3,7 @@ title: RangeSlider
 description: Picks a range within bounds with two thumbs.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/range-slider/RangeSlider.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/range-slider/RangeSlider.vue
   - label: Slider
     href: https://reka-ui.com/docs/components/slider
 ---

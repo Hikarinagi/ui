@@ -3,7 +3,7 @@ title: Divider
 description: 分隔两段内容的细线。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/divider/Divider.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/divider/Divider.vue
   - label: Separator
     href: https://reka-ui.com/docs/components/separator
 ---

@@ -3,7 +3,7 @@ title: Progress
 description: A bar whose fill shows how much of a task is done.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/progress/Progress.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/progress/Progress.vue
 ---
 
 <Demo name="progress/hero" />

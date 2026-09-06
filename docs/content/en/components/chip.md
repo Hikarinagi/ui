@@ -3,7 +3,7 @@ title: Chip
 description: An item that can be selected or removed.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/chip/Chip.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/chip/Chip.vue
 ---
 
 <Demo name="chip/hero" />

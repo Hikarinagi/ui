@@ -3,7 +3,7 @@ title: Popconfirm
 description: A confirmation bubble that floats out next to its trigger.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/popconfirm/Popconfirm.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/popconfirm/Popconfirm.vue
   - label: Popover
     href: https://reka-ui.com/docs/components/popover
 ---

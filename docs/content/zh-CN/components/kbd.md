@@ -3,7 +3,7 @@ title: Kbd
 description: 键盘按键，用于说明快捷键。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/kbd/Kbd.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/kbd/Kbd.vue
 ---
 
 <Demo name="kbd/hero" />

@@ -3,7 +3,7 @@ title: Panel
 description: A card with a standard title bar, with places for a title, a count and actions.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/panel/Panel.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/panel/Panel.vue
 ---
 
 <Demo name="panel/hero" />

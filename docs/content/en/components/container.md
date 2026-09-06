@@ -3,7 +3,7 @@ title: Container
 description: Holds page content to a readable width and centres it.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/container/Container.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/container/Container.vue
 ---
 
 <Demo name="container/hero" />

@@ -3,7 +3,7 @@ title: Breadcrumb
 description: Shows where the current page sits in the hierarchy.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/breadcrumb/Breadcrumb.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/breadcrumb/Breadcrumb.vue
 ---
 
 <Demo name="breadcrumb/hero" />

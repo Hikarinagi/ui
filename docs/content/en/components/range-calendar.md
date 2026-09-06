@@ -3,7 +3,7 @@ title: RangeCalendar
 description: Shows a month and picks a date range.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/range-calendar/RangeCalendar.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/range-calendar/RangeCalendar.vue
   - label: RangeCalendar
     href: https://reka-ui.com/docs/components/range-calendar
 ---

@@ -3,7 +3,7 @@ title: CopyButton
 description: Writes a piece of text to the clipboard and confirms the result.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/copy-button/CopyButton.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/copy-button/CopyButton.vue
 ---
 
 <Demo name="copy-button/hero" />

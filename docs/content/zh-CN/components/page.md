@@ -3,7 +3,7 @@ title: Page
 description: 页面内容的骨架，含标题区、正文与侧栏。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/page/Page.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/page/Page.vue
 ---
 
 <Demo name="page/hero" />

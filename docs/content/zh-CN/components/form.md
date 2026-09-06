@@ -3,7 +3,7 @@ title: Form
 description: 汇集字段的值、按规则校验并提交。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/form/Form.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/form/Form.vue
 ---
 
 <Demo name="form/hero" />

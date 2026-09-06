@@ -3,7 +3,7 @@ title: NumberFormat
 description: Formats numbers for the current language.
 links:
   - label: Source
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/number-format/NumberFormat.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/number-format/NumberFormat.vue
 ---
 
 <Demo name="number-format/hero" />

@@ -3,7 +3,7 @@ title: Mark
 description: 标记文字，用于标出搜索命中或者需要注意的片段。
 links:
   - label: 源码
-    href: https://github.com/Hikarinagi/hikarinagi/blob/dev/packages/ui/src/components/mark/Mark.vue
+    href: https://github.com/Hikarinagi/ui/blob/main/packages/vue/src/components/mark/Mark.vue
 ---
 
 <Demo name="mark/hero" />
