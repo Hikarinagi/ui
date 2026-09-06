@@ -8,3 +8,6 @@
 @import './spoiler.css';
 @import './scroll.css';
 @import './base.css';
+
+@source '../components/**/*.{vue,ts}';
+@source not '../components/**/*.test.ts';

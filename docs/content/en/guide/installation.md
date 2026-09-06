@@ -21,13 +21,9 @@ pnpm add @hina-ui/vue
 ```css
 @import 'tailwindcss';
 @import '@hina-ui/vue/styles/tokens.css';
-
-@source '../node_modules/@hina-ui/vue/src/**/*.{vue,ts}';
 ```
 
-`tokens.css` is the only style entry; no other file needs to be imported.
-
-The library ships as source, and Tailwind has to scan that source to generate the matching styles, so the `@source` line cannot be omitted. Its path is resolved relative to the CSS file.
+`tokens.css` is the only style entry; no other file needs to be imported, and no `@source` line is needed for the library, since the entry already registers the paths to scan.
 
 ## Fonts {#fonts}
 
@@ -116,4 +112,4 @@ Built-in wording defaults to Simplified Chinese and is switched with one call at
 </template>
 ```
 
-If the button shows the accent background, changes colour on hover and ripples on press, both the dependencies and the styles are in place. Structure without styling usually means the `@source` path is wrong.
+If the button shows the accent background, changes colour on hover and ripples on press, both the dependencies and the styles are in place. Structure without styling usually means the style entry is not imported.

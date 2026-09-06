@@ -1,4 +1,2 @@
 @import 'tailwindcss';
 @import '../src/styles/tokens.css';
-
-@source '../src/**/*.{vue,ts}';

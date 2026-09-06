@@ -21,13 +21,9 @@ pnpm add @hina-ui/vue
 ```css
 @import 'tailwindcss';
 @import '@hina-ui/vue/styles/tokens.css';
-
-@source '../node_modules/@hina-ui/vue/src/**/*.{vue,ts}';
 ```
 
-`tokens.css` 是唯一的样式入口，不需要再引入其他文件。
-
-本库以源码形式分发，Tailwind 需要扫描到库的源码才能生成相应的样式，因此 `@source` 这一行不能省略。它的路径相对于该 CSS 文件计算。
+`tokens.css` 是唯一的样式入口，不需要再引入其他文件，也不需要为本库另写 `@source`，需要扫描的路径已经由这个入口登记。
 
 ## 字体 {#fonts}
 
@@ -116,4 +112,4 @@ provideUiLocale(enUS)
 </template>
 ```
 
-如果按钮显示为强调色底色，悬停时变色，按下时出现波纹，说明依赖与样式都已经就位。如果只有结构而没有样式，通常是 `@source` 的路径有误。
+如果按钮显示为强调色底色，悬停时变色，按下时出现波纹，说明依赖与样式都已经就位。如果只有结构而没有样式，通常是样式入口没有引入。
