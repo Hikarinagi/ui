@@ -9,5 +9,5 @@
 @import './scroll.css';
 @import './base.css';
 
-@source '../components/**/*.{vue,ts}';
-@source not '../components/**/*.test.ts';
+@source '../components/**/*.vue';
+@source '../components/**/*.variants.ts';
