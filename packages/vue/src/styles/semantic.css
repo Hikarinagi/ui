@@ -206,6 +206,7 @@
   --hn-ripple-in: 75ms;
   --hn-ripple-out: 375ms;
   --hn-pulse-duration: 1500ms;
+  --hn-progress-duration: 1800ms;
 }
 
 @media (prefers-reduced-motion: reduce) {

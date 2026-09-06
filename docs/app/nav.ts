@@ -306,6 +306,7 @@ export const components: DocsComponent[] = [
     category: 'forms',
   },
   { label: 'Page', to: '/components/page', i18n: 'components.page', category: 'shell' },
+  { label: 'Panel', to: '/components/panel', i18n: 'components.panel', category: 'display' },
   {
     label: 'PasswordInput',
     to: '/components/password-input',
@@ -336,6 +337,12 @@ export const components: DocsComponent[] = [
     i18n: 'components.prev-next',
     category: 'navigation',
   },
+  {
+    label: 'Progress',
+    to: '/components/progress',
+    i18n: 'components.progress',
+    category: 'display',
+  },
   { label: 'Prose', to: '/components/prose', i18n: 'components.prose', category: 'typography' },
   {
     label: 'RadioGroup',
@@ -356,6 +363,12 @@ export const components: DocsComponent[] = [
     category: 'forms',
   },
   { label: 'Rating', to: '/components/rating', i18n: 'components.rating', category: 'forms' },
+  {
+    label: 'RingProgress',
+    to: '/components/ring-progress',
+    i18n: 'components.ring-progress',
+    category: 'display',
+  },
   { label: 'Ripple', to: '/components/ripple', i18n: 'components.ripple', category: 'foundation' },
   {
     label: 'ScrollArea',

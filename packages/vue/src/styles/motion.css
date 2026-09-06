@@ -567,3 +567,40 @@
   transition-duration: var(--hn-duration-fast);
   transition-timing-function: var(--hn-ease-enter);
 }
+
+@keyframes hn-progress-sweep {
+  from {
+    translate: calc(var(--hn-progress-dir, 1) * -100%) 0;
+  }
+  to {
+    translate: calc(var(--hn-progress-dir, 1) * 250%) 0;
+  }
+}
+
+@utility hn-ring-arc {
+  transition: stroke-dashoffset var(--hn-duration-base) var(--hn-ease-move);
+}
+
+@utility hn-ring-spin {
+  [data-state='indeterminate'] & {
+    animation: hn-spin var(--hn-spin-duration) var(--hn-ease-linear) infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+}
+
+@utility hn-progress-bar {
+  transition: width var(--hn-duration-base) var(--hn-ease-move);
+
+  &[data-state='indeterminate'] {
+    width: 40%;
+    animation: hn-progress-sweep var(--hn-progress-duration) var(--hn-ease-linear) infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+      translate: calc(var(--hn-progress-dir, 1) * 75%) 0;
+    }
+  }
+}
