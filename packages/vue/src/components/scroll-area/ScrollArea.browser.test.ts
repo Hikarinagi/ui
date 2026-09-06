@@ -20,6 +20,15 @@ async function settle(frames = 3) {
     await new Promise(r => requestAnimationFrame(() => r(null)))
   }
   await nextTick()
+  await vi.waitFor(
+    () => {
+      const hosts = document.querySelectorAll(
+        '[data-overlayscrollbars-initialize]:has([data-overlayscrollbars-contents])',
+      )
+      for (const host of hosts) expect(host.hasAttribute('data-overlayscrollbars')).toBe(true)
+    },
+    { timeout: 5000 },
+  )
 }
 
 type Exposed = { viewport?: { value?: HTMLElement }; instance?: { value?: unknown } }
