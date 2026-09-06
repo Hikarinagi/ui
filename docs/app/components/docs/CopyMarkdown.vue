@@ -23,6 +23,7 @@
   const { t } = useI18n()
   const route = useRoute()
   const source = computed(() => `${route.path.replace(/\/$/, '')}.md`)
+  prerenderRoutes(source.value)
 
   const copied = ref(false)
   const menuOpen = ref(false)

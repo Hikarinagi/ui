@@ -1,4 +1,4 @@
-import { existsSync, readdirSync, utimesSync } from 'node:fs'
+import { utimesSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import tailwindcss from '@tailwindcss/vite'
 import { markdown } from './markdown'
@@ -11,16 +11,6 @@ const cssEntry = fileURLToPath(new URL('./app/assets/css/main.css', import.meta.
 const heroGlobEntry = fileURLToPath(
   new URL('./app/components/docs/CategoryGrid.vue', import.meta.url),
 )
-
-const pagesOf = (locale: string) =>
-  readdirSync(`${contentDir}/${locale}`, { recursive: true, encoding: 'utf8' })
-    .filter(name => name.endsWith('.md'))
-    .map(name => `/${name.split('\\').join('/')}`)
-
-const sourceRoutes = [
-  ...pagesOf('zh-CN'),
-  ...(existsSync(`${contentDir}/en`) ? pagesOf('en').map(route => `/en${route}`) : []),
-]
 
 export default defineNuxtConfig({
   compatibilityDate: '2026-08-01',
@@ -80,7 +70,7 @@ export default defineNuxtConfig({
       { baseName: 'demos', dir: demosDir },
     ],
     prerender: {
-      routes: sourceRoutes,
+      routes: ['/components', '/en/components'],
     },
   },
   vite: {
@@ -97,6 +87,7 @@ export default defineNuxtConfig({
   },
   routeRules: {
     '/': { redirect: '/components' },
+    '/en': { redirect: '/en/components' },
   },
   colorMode: {
     classSuffix: '',
