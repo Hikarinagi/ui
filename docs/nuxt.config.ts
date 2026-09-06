@@ -71,6 +71,7 @@ export default defineNuxtConfig({
     ],
     prerender: {
       routes: ['/components', '/en/components'],
+      autoSubfolderIndex: false,
     },
   },
   vite: {
