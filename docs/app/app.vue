@@ -46,6 +46,9 @@
     collapsible="hidden"
     restore-key="main"
   >
+    <template #banner>
+      <DocsBanner />
+    </template>
     <template #header>
       <SidebarTrigger />
       <Button :as="NuxtLink" :to="localePath('/')" variant="ghost" tone="neutral" size="sm">
@@ -67,6 +70,7 @@
       </Inline>
       <Inline gap="xs" class="ms-auto">
         <DocsSearch />
+        <DocsGithub />
         <DocsLocaleToggle />
         <DocsThemeToggle />
       </Inline>

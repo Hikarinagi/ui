@@ -1,4 +1,8 @@
 {
+  "banner": {
+    "text": "为 Vue 构建的界面语言。",
+    "link": "在 GitHub 上关注进展"
+  },
   "brand": {
     "tagline": "Hikarinagi 的 Vue 组件库"
   },
@@ -8,7 +12,8 @@
     "docsNav": "文档导航",
     "primaryStart": "开始",
     "primaryComponents": "组件",
-    "installation": "安装"
+    "installation": "安装",
+    "github": "GitHub 仓库"
   },
   "page": {
     "toc": "本页目录",

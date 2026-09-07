@@ -1,4 +1,8 @@
 {
+  "banner": {
+    "text": "A UI language built for Vue.",
+    "link": "Follow along on GitHub"
+  },
   "brand": {
     "tagline": "The Vue component library behind Hikarinagi"
   },
@@ -8,7 +12,8 @@
     "docsNav": "Documentation navigation",
     "primaryStart": "Guide",
     "primaryComponents": "Components",
-    "installation": "Installation"
+    "installation": "Installation",
+    "github": "GitHub repository"
   },
   "page": {
     "toc": "On this page",
