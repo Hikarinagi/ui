@@ -129,6 +129,7 @@
     "loading-overlay": "A loading indicator laid over an area, shown after a short wait",
     "mark": "Marks text, such as search hits",
     "menubar": "A row of menus, like the menu bar of a desktop app",
+    "meter-group": "A segmented bar showing how parts make up a whole",
     "multi-select": "Picks several items from a list",
     "multi-combobox": "Types to search and picks several items",
     "nav-link": "One entry in a navigation list, marking the current page",

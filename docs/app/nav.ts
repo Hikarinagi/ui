@@ -282,6 +282,12 @@ export const components: DocsComponent[] = [
     category: 'overlays',
   },
   {
+    label: 'MeterGroup',
+    to: '/components/meter-group',
+    i18n: 'components.meter-group',
+    category: 'display',
+  },
+  {
     label: 'MultiCombobox',
     to: '/components/multi-combobox',
     i18n: 'components.multi-combobox',
