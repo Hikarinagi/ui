@@ -204,6 +204,7 @@ export const components: DocsComponent[] = [
     i18n: 'components.dropdown-menu',
     category: 'overlays',
   },
+  { label: 'Empty', to: '/components/empty', i18n: 'components.empty', category: 'display' },
   {
     label: 'FileUpload',
     to: '/components/file-upload',

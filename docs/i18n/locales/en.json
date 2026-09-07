@@ -163,6 +163,7 @@
     "time": "Displays time in the current language",
     "time-field": "Types a time segment by segment",
     "dropdown-menu": "A set of actions revealed on click",
+    "empty": "A placeholder for an area with nothing in it, saying why and what to do next",
     "popover": "A small panel that floats out on click",
     "popconfirm": "A confirmation bubble that floats out next to its trigger",
     "tooltip": "A short note shown on hover or focus",
