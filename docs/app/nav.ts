@@ -376,6 +376,7 @@ export const components: DocsComponent[] = [
     category: 'forms',
   },
   { label: 'Rating', to: '/components/rating', i18n: 'components.rating', category: 'forms' },
+  { label: 'Result', to: '/components/result', i18n: 'components.result', category: 'display' },
   {
     label: 'RingProgress',
     to: '/components/ring-progress',

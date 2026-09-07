@@ -146,6 +146,7 @@
     "range-calendar": "Shows a month and picks a date range",
     "range-slider": "Picks a range within bounds with two thumbs",
     "rating": "Rates with stars or shows a score",
+    "result": "The outcome of an operation, as success, error, warning or info",
     "ring-progress": "A ring whose arc shows how much of a task is done",
     "ripple": "A ripple spreading from the point of contact",
     "sidebar": "The navigation column on the left of an application, collapsible to a rail of icons",
