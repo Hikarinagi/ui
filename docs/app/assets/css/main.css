@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import '../../../../packages/vue/src/styles/tokens.css';
+@source '../../../markdown.ts';
 
 @property --demo-fade {
   syntax: '<length>';

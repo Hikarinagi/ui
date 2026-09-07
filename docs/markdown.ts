@@ -11,6 +11,16 @@ function demoDir(id: string) {
 }
 const DEMO_TAG = /<Demo\s+name="([^"]+)"\s*\/>/g
 
+const columnWidths: Record<string, string> = {
+  类型: 'min-w-48',
+  Type: 'min-w-48',
+  参数: 'min-w-40',
+  Payload: 'min-w-40',
+  Props: 'min-w-40',
+  说明: 'min-w-64',
+  Description: 'min-w-64',
+}
+
 interface Heading {
   id: string
   label: string
@@ -148,18 +158,39 @@ export function markdown() {
       rules.text = (tokens, index) => text(tokens[index]?.content ?? '')
       rules.code_inline = (tokens, index) => `<Code>${text(tokens[index]?.content ?? '')}</Code>`
 
-      rules.table_open = () => '<Table variant="secondary">'
+      let columns: string[] = []
+      let column = 0
+      const cellOpen = (tag: string) => {
+        const width = columnWidths[columns[column] ?? '']
+        column += 1
+        return width ? `<${tag}><div class="${width}">` : `<${tag}>`
+      }
+      const cellClose = (tag: string) =>
+        columnWidths[columns[column - 1] ?? ''] ? `</div></${tag}>` : `</${tag}>`
+
+      rules.table_open = (tokens, index) => {
+        columns = []
+        for (let cursor = index; cursor < tokens.length; cursor += 1) {
+          const token = tokens[cursor]
+          if (!token || token.type === 'thead_close') break
+          if (token.type === 'th_open') columns.push(tokens[cursor + 1]?.content?.trim() ?? '')
+        }
+        return '<Table variant="secondary">'
+      }
       rules.table_close = () => '</Table>'
       rules.thead_open = () => '<TableHeader>'
       rules.thead_close = () => '</TableHeader>'
       rules.tbody_open = () => '<TableBody>'
       rules.tbody_close = () => '</TableBody>'
-      rules.tr_open = () => '<TableRow>'
+      rules.tr_open = () => {
+        column = 0
+        return '<TableRow>'
+      }
       rules.tr_close = () => '</TableRow>'
-      rules.th_open = () => '<TableHead>'
-      rules.th_close = () => '</TableHead>'
-      rules.td_open = () => '<TableCell>'
-      rules.td_close = () => '</TableCell>'
+      rules.th_open = () => cellOpen('TableHead')
+      rules.th_close = () => cellClose('TableHead')
+      rules.td_open = () => cellOpen('TableCell')
+      rules.td_close = () => cellClose('TableCell')
 
       rules.bullet_list_open = () => '<List>'
       rules.bullet_list_close = () => '</List>'
