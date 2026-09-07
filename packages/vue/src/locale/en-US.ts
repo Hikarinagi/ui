@@ -11,6 +11,10 @@ export const enUS: UiMessages = {
     confirm: 'Confirm',
     cancel: 'Cancel',
   },
+  banner: {
+    prev: 'Previous notice',
+    next: 'Next notice',
+  },
   pagination: {
     navLabel: 'Pagination',
     prev: 'Previous page',

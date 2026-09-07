@@ -32,14 +32,16 @@
   <Motion
     as="aside"
     :initial="false"
-    :animate="{ width }"
+    :animate="inDrawer ? undefined : { width }"
     :transition="transition"
     :data-state="state"
     :class="
       cn(
-        'border-line flex h-full min-h-0 shrink-0 flex-col overflow-hidden border-e',
-        '[transition:border-color_var(--hn-duration-base)_var(--hn-ease-move)]',
-        state === 'hidden' && 'border-e-transparent',
+        'flex h-full min-h-0 shrink-0 flex-col overflow-hidden',
+        inDrawer
+          ? 'w-full'
+          : 'border-line border-e [transition:border-color_var(--hn-duration-base)_var(--hn-ease-move)]',
+        !inDrawer && state === 'hidden' && 'border-e-transparent',
         props.class,
       )
     "

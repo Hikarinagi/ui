@@ -110,6 +110,17 @@ describe('sidebar · 三态收起系统', () => {
     expect(aside()!.dataset.state).toBe('expanded')
   })
 
+  it('组头按钮保留自己的按压过渡:收合占位层不清零它的 transition', async () => {
+    const w = harness()
+    const trigger = w.find('aside button').element as HTMLElement
+    const style = getComputedStyle(trigger)
+    expect(style.transitionProperty).toContain('transform')
+    expect(style.transitionDuration.split(',').every(d => parseFloat(d) > 0)).toBe(true)
+    const body = trigger.parentElement as HTMLElement
+    expect(body.classList.contains('hn-collapse-body')).toBe(true)
+    expect(getComputedStyle(body).transitionProperty).toBe('opacity')
+  })
+
   it("collapsible='hidden':触发器在展开与全收之间二态切换", async () => {
     await page.viewport(1280, 800)
     harness({ collapsible: 'hidden' })
@@ -145,6 +156,17 @@ describe('sidebar · 三态收起系统', () => {
       expect(drawer?.textContent).toContain('收藏夹')
       expect(drawer?.textContent).toContain('组件')
     })
+
+    const drawerAside = document.querySelector('[role="dialog"] aside') as HTMLElement
+    const style = getComputedStyle(drawerAside)
+    expect(style.borderRightWidth).toBe('0px')
+    expect(style.borderLeftWidth).toBe('0px')
+    let host = drawerAside.parentElement as HTMLElement
+    while (host.getBoundingClientRect().width === 0) host = host.parentElement as HTMLElement
+    const hostStyle = getComputedStyle(host)
+    expect(drawerAside.getBoundingClientRect().width).toBe(
+      host.clientWidth - parseFloat(hostStyle.paddingLeft) - parseFloat(hostStyle.paddingRight),
+    )
 
     await userEvent.keyboard('{Escape}')
     await vi.waitFor(() => expect(document.querySelector('[role="dialog"]')).toBeNull())

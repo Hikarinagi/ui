@@ -46,11 +46,31 @@ describe('结构 · 固定壳,内容滚动交给 ScrollArea', () => {
     expect(header.classes()).toContain('shrink-0')
     expect(header.classes()).not.toContain('sticky')
 
-    const rail = w.find('div').element.firstElementChild as HTMLElement
+    const row = w.find('div').element.firstElementChild as HTMLElement
+    const rail = row.firstElementChild as HTMLElement
     expect(rail.className).toContain('h-full')
     expect(rail.className).toContain('hidden')
     expect(rail.className).toContain('lg:block')
     expect(rail.nextElementSibling?.contains(header.element)).toBe(true)
+  })
+
+  it('banner 槽在最顶部横贯整个壳,侧栏与内容列在它下面一行', () => {
+    const w = mount(AppShell, {
+      slots: {
+        banner: () => h('p', '公告'),
+        sidebar: () => h(Sidebar),
+        default: () => h('p', '正文'),
+      },
+    })
+    const root = w.find('div').element
+    expect(root.className).toContain('flex-col')
+    const top = root.firstElementChild as HTMLElement
+    expect(top.textContent).toBe('公告')
+    expect(top.className).toContain('shrink-0')
+    const row = top.nextElementSibling as HTMLElement
+    expect(row.className).toContain('flex-1')
+    expect(row.querySelector('aside')).not.toBeNull()
+    expect(row.querySelector('main')).not.toBeNull()
   })
 
   it('无 header / 无侧栏的降级形态', () => {

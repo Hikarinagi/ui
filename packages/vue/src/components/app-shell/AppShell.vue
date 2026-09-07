@@ -62,21 +62,26 @@
 
 <template>
   <TooltipProvider>
-    <div :class="cn('bg-canvas text-fg flex h-screen overflow-hidden', props.class)">
-      <div v-if="$slots.sidebar" class="hidden h-full shrink-0 lg:block">
-        <slot name="sidebar" />
+    <div :class="cn('bg-canvas text-fg flex h-screen flex-col overflow-hidden', props.class)">
+      <div v-if="$slots.banner" class="shrink-0">
+        <slot name="banner" />
       </div>
-      <div class="flex min-h-0 min-w-0 flex-1 flex-col">
-        <header v-if="$slots.header" class="border-line bg-canvas shrink-0 border-b">
-          <div class="flex h-14 items-center gap-3 px-4 sm:px-6">
-            <slot name="header" />
-          </div>
-        </header>
-        <main class="min-h-0 min-w-0 flex-1">
-          <ScrollArea ref="main" :data-scroll-restore="props.restoreKey" class="h-full">
-            <slot />
-          </ScrollArea>
-        </main>
+      <div class="flex min-h-0 flex-1">
+        <div v-if="$slots.sidebar" class="hidden h-full shrink-0 lg:block">
+          <slot name="sidebar" />
+        </div>
+        <div class="flex min-h-0 min-w-0 flex-1 flex-col">
+          <header v-if="$slots.header" class="border-line bg-canvas shrink-0 border-b">
+            <div class="flex h-14 items-center gap-3 px-4 sm:px-6">
+              <slot name="header" />
+            </div>
+          </header>
+          <main class="min-h-0 min-w-0 flex-1">
+            <ScrollArea ref="main" :data-scroll-restore="props.restoreKey" class="h-full">
+              <slot />
+            </ScrollArea>
+          </main>
+        </div>
       </div>
       <Drawer
         v-if="$slots.sidebar"

@@ -1,4 +1,8 @@
 {
+  "banner": {
+    "text": "A UI language built for Vue.",
+    "link": "Follow along on GitHub"
+  },
   "brand": {
     "tagline": "The Vue component library behind Hikarinagi"
   },
@@ -8,7 +12,8 @@
     "docsNav": "Documentation navigation",
     "primaryStart": "Guide",
     "primaryComponents": "Components",
-    "installation": "Installation"
+    "installation": "Installation",
+    "github": "GitHub repository"
   },
   "page": {
     "toc": "On this page",
@@ -100,6 +105,7 @@
     "anchor": "An in-page table of contents that tracks the section you are reading",
     "app-shell": "The outer frame of an application, holding the sidebar, header and main area",
     "badge": "Pins an unread count to the corner of its host",
+    "banner": "An announcement bar across the top of the page",
     "blockquote": "Quotes a passage from elsewhere",
     "breadcrumb": "Shows where the current page sits in the hierarchy",
     "button": "Triggers a single action",
@@ -129,6 +135,7 @@
     "loading-overlay": "A loading indicator laid over an area, shown after a short wait",
     "mark": "Marks text, such as search hits",
     "menubar": "A row of menus, like the menu bar of a desktop app",
+    "meter-group": "A segmented bar showing how parts make up a whole",
     "multi-select": "Picks several items from a list",
     "multi-combobox": "Types to search and picks several items",
     "nav-link": "One entry in a navigation list, marking the current page",
@@ -145,6 +152,7 @@
     "range-calendar": "Shows a month and picks a date range",
     "range-slider": "Picks a range within bounds with two thumbs",
     "rating": "Rates with stars or shows a score",
+    "result": "The outcome of an operation, as success, error, warning or info",
     "ring-progress": "A ring whose arc shows how much of a task is done",
     "ripple": "A ripple spreading from the point of contact",
     "sidebar": "The navigation column on the left of an application, collapsible to a rail of icons",
@@ -162,6 +170,7 @@
     "time": "Displays time in the current language",
     "time-field": "Types a time segment by segment",
     "dropdown-menu": "A set of actions revealed on click",
+    "empty": "A placeholder for an area with nothing in it, saying why and what to do next",
     "popover": "A small panel that floats out on click",
     "popconfirm": "A confirmation bubble that floats out next to its trigger",
     "tooltip": "A short note shown on hover or focus",
@@ -172,6 +181,7 @@
     "toggle": "A two-state button that stays pressed",
     "visually-hidden": "Text visible only to screen readers",
     "stack": "Lays its children out in a single column",
+    "statistic": "A key figure set large, with its label and change",
     "indicator": "A small dot that shows a status",
     "inline": "Lays its children out in a row, wrapping when needed",
     "input": "A single-line text field",

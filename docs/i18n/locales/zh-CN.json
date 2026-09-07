@@ -1,4 +1,8 @@
 {
+  "banner": {
+    "text": "为 Vue 构建的界面语言。",
+    "link": "在 GitHub 上关注进展"
+  },
   "brand": {
     "tagline": "Hikarinagi 的 Vue 组件库"
   },
@@ -8,7 +12,8 @@
     "docsNav": "文档导航",
     "primaryStart": "开始",
     "primaryComponents": "组件",
-    "installation": "安装"
+    "installation": "安装",
+    "github": "GitHub 仓库"
   },
   "page": {
     "toc": "本页目录",
@@ -100,6 +105,7 @@
     "anchor": "页内目录，随滚动标出当前所在的小节",
     "app-shell": "应用的外层框架，安置侧栏、页眉与主区域",
     "badge": "把未读数钉在宿主元素的角上",
+    "banner": "横贯页面顶部的一条公告",
     "blockquote": "引用他处的整段文字",
     "breadcrumb": "标示当前页面在层级中的位置",
     "button": "触发一次操作的按钮",
@@ -129,6 +135,7 @@
     "loading-overlay": "盖在一块区域上的加载指示，稍作等待再显示",
     "mark": "标出搜索命中的文字",
     "menubar": "横向排列的一组菜单，像桌面应用的菜单栏",
+    "meter-group": "以一条分段的横条表示各部分占总量的比例",
     "multi-select": "从列表中选择多项",
     "multi-combobox": "输入搜索并选择多项",
     "nav-link": "导航列表中的一项，标示当前所在的页面",
@@ -145,6 +152,7 @@
     "range-calendar": "按月展示与选择日期区间",
     "range-slider": "在数值范围内拖出一段区间",
     "rating": "以星级打分或者展示评分",
+    "result": "一次操作完成后的结果页，成功、失败、警告或提示",
     "ring-progress": "以圆环的弧长表示任务完成的比例",
     "ripple": "从按下位置扩散的涟漪反馈",
     "sidebar": "应用左侧的导航栏，可收起为图标条",
@@ -162,6 +170,7 @@
     "time": "按当前语言显示时间",
     "time-field": "分段输入时间",
     "dropdown-menu": "点击展开的一组操作",
+    "empty": "一块区域没有内容时的占位，说明原因与下一步",
     "popover": "点击触发器后浮出的面板",
     "popconfirm": "贴着触发器浮出的确认气泡",
     "tooltip": "悬停或聚焦时显示的简短说明",
@@ -172,6 +181,7 @@
     "toggle": "可按下与松开的双态按钮",
     "visually-hidden": "只对屏幕阅读器可见的文字",
     "stack": "把子元素纵向排成一列",
+    "statistic": "突出显示一个关键数字，附带标签与变化",
     "indicator": "表示状态的小圆点",
     "inline": "把子元素横向排成一行，放不下时换行",
     "input": "单行文本输入框",
@@ -214,6 +224,7 @@
     "aspect-ratio": "宽高比",
     "avatar": "头像",
     "badge": "徽标",
+    "banner": "公告条",
     "blockquote": "引用",
     "breadcrumb": "面包屑",
     "button": "按钮",
@@ -249,6 +260,7 @@
     "form-field": "表单字段",
     "form-layout": "表单布局",
     "dropdown-menu": "下拉菜单",
+    "empty": "空状态",
     "flex": "弹性布局",
     "grid": "栅格",
     "heading": "标题",
@@ -267,6 +279,7 @@
     "loading-overlay": "加载遮罩",
     "mark": "标记",
     "menubar": "菜单栏",
+    "meter-group": "占比条",
     "multi-select": "多选选择器",
     "multi-combobox": "多选组合框",
     "nav-link": "导航项",
@@ -285,6 +298,7 @@
     "range-calendar": "范围日历",
     "range-slider": "范围滑块",
     "rating": "评分",
+    "result": "结果",
     "ring-progress": "环形进度",
     "ripple": "涟漪",
     "scroll-area": "滚动区域",
@@ -302,6 +316,7 @@
     "splitter": "分栏",
     "spoiler": "剧透遮罩",
     "stack": "纵向排列",
+    "statistic": "统计数值",
     "switch": "开关",
     "table": "表格",
     "tabs": "标签页",

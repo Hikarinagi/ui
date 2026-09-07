@@ -68,6 +68,7 @@ export const components: DocsComponent[] = [
   },
   { label: 'Avatar', to: '/components/avatar', i18n: 'components.avatar', category: 'atoms' },
   { label: 'Badge', to: '/components/badge', i18n: 'components.badge', category: 'atoms' },
+  { label: 'Banner', to: '/components/banner', i18n: 'components.banner', category: 'display' },
   {
     label: 'Blockquote',
     to: '/components/blockquote',
@@ -204,6 +205,7 @@ export const components: DocsComponent[] = [
     i18n: 'components.dropdown-menu',
     category: 'overlays',
   },
+  { label: 'Empty', to: '/components/empty', i18n: 'components.empty', category: 'display' },
   {
     label: 'FileUpload',
     to: '/components/file-upload',
@@ -280,6 +282,12 @@ export const components: DocsComponent[] = [
     to: '/components/menubar',
     i18n: 'components.menubar',
     category: 'overlays',
+  },
+  {
+    label: 'MeterGroup',
+    to: '/components/meter-group',
+    i18n: 'components.meter-group',
+    category: 'display',
   },
   {
     label: 'MultiCombobox',
@@ -369,6 +377,7 @@ export const components: DocsComponent[] = [
     category: 'forms',
   },
   { label: 'Rating', to: '/components/rating', i18n: 'components.rating', category: 'forms' },
+  { label: 'Result', to: '/components/result', i18n: 'components.result', category: 'display' },
   {
     label: 'RingProgress',
     to: '/components/ring-progress',
@@ -426,6 +435,12 @@ export const components: DocsComponent[] = [
     category: 'typography',
   },
   { label: 'Stack', to: '/components/stack', i18n: 'components.stack', category: 'layout' },
+  {
+    label: 'Statistic',
+    to: '/components/statistic',
+    i18n: 'components.statistic',
+    category: 'display',
+  },
   { label: 'Switch', to: '/components/switch', i18n: 'components.switch', category: 'forms' },
   { label: 'Table', to: '/components/table', i18n: 'components.table', category: 'data' },
   { label: 'Tabs', to: '/components/tabs', i18n: 'components.tabs', category: 'display' },
