@@ -157,6 +157,17 @@ describe('sidebar · 三态收起系统', () => {
       expect(drawer?.textContent).toContain('组件')
     })
 
+    const drawerAside = document.querySelector('[role="dialog"] aside') as HTMLElement
+    const style = getComputedStyle(drawerAside)
+    expect(style.borderRightWidth).toBe('0px')
+    expect(style.borderLeftWidth).toBe('0px')
+    let host = drawerAside.parentElement as HTMLElement
+    while (host.getBoundingClientRect().width === 0) host = host.parentElement as HTMLElement
+    const hostStyle = getComputedStyle(host)
+    expect(drawerAside.getBoundingClientRect().width).toBe(
+      host.clientWidth - parseFloat(hostStyle.paddingLeft) - parseFloat(hostStyle.paddingRight),
+    )
+
     await userEvent.keyboard('{Escape}')
     await vi.waitFor(() => expect(document.querySelector('[role="dialog"]')).toBeNull())
   })
