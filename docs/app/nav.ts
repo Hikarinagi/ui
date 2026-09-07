@@ -68,6 +68,7 @@ export const components: DocsComponent[] = [
   },
   { label: 'Avatar', to: '/components/avatar', i18n: 'components.avatar', category: 'atoms' },
   { label: 'Badge', to: '/components/badge', i18n: 'components.badge', category: 'atoms' },
+  { label: 'Banner', to: '/components/banner', i18n: 'components.banner', category: 'display' },
   {
     label: 'Blockquote',
     to: '/components/blockquote',

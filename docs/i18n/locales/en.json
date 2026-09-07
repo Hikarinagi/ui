@@ -100,6 +100,7 @@
     "anchor": "An in-page table of contents that tracks the section you are reading",
     "app-shell": "The outer frame of an application, holding the sidebar, header and main area",
     "badge": "Pins an unread count to the corner of its host",
+    "banner": "An announcement bar across the top of the page",
     "blockquote": "Quotes a passage from elsewhere",
     "breadcrumb": "Shows where the current page sits in the hierarchy",
     "button": "Triggers a single action",

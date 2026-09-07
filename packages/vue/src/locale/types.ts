@@ -9,6 +9,10 @@ export interface UiMessages {
     confirm: string
     cancel: string
   }
+  banner: {
+    prev: string
+    next: string
+  }
   pagination: {
     navLabel: string
     prev: string
