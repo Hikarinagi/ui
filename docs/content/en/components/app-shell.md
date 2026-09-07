@@ -14,7 +14,7 @@ links:
 import { AppShell } from '@hina-ui/vue'
 ```
 
-`AppShell` fills the viewport and divides the interface into three parts: the `sidebar` slot on the left, the `header` slot along the top and the default slot for the main area. All three are optional.
+`AppShell` fills the viewport and divides the interface into three parts: the `sidebar` slot on the left, the `header` slot along the top and the default slot for the main area. All three are optional. A `banner` slot sits above everything, spanning the sidebar and the main area, for a [Banner](/components/banner).
 
 It is also the source of the sidebar's state. `Sidebar`, `SidebarGroup`, `SidebarTrigger` and any `NavLink` inside the sidebar read their state from here; outside an `AppShell` they fall back to the expanded form and `SidebarTrigger` does not render at all.
 
@@ -37,6 +37,12 @@ The state can be bound two-way with `v-model:sidebar`, taking `expanded`, `rail`
 The main area brings its own scroll container, so however long the content grows it scrolls within that area while the header and sidebar stay put.
 
 <Demo name="app-shell/scroll" />
+
+### Banner {#banner}
+
+A [Banner](/components/banner) in the `banner` slot spans the whole shell. When it is closed, the sidebar and the main area move up to fill the space.
+
+<Demo name="app-shell/banner" />
 
 ## Behaviour {#behavior}
 
@@ -75,6 +81,7 @@ The main area brings its own scroll container, so however long the content grows
 
 | Slot      | Description                                        |
 | --------- | -------------------------------------------------- |
+| `banner`  | Announcement bar across the very top of the shell  |
 | `sidebar` | Sidebar content, moved into the drawer when narrow |
 | `header`  | Content of the top bar                             |
 | `default` | Content of the main area                           |

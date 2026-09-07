@@ -14,7 +14,7 @@ links:
 import { AppShell } from '@hina-ui/vue'
 ```
 
-`AppShell` 占满视口，把界面分成三块：`sidebar` 插槽是左侧栏，`header` 插槽是顶部条，默认插槽是主区域。三块都是可选的。
+`AppShell` 占满视口，把界面分成三块：`sidebar` 插槽是左侧栏，`header` 插槽是顶部条，默认插槽是主区域。三块都是可选的。此外还有 `banner` 插槽，位于最顶部，横贯侧栏与主区域，用于放置 [Banner](/components/banner)。
 
 它同时是侧栏状态的提供方。`Sidebar`、`SidebarGroup`、`SidebarTrigger` 以及侧栏内的 `NavLink` 都从这里取状态，脱离 `AppShell` 时它们退回展开形态，`SidebarTrigger` 不会渲染。
 
@@ -37,6 +37,12 @@ import { AppShell } from '@hina-ui/vue'
 主区域自带滚动容器，内容再长也只在其内部滚动，页眉与侧栏保持不动。
 
 <Demo name="app-shell/scroll" />
+
+### 公告条 {#banner}
+
+`banner` 插槽里的 [Banner](/components/banner) 横贯整个壳。公告条关闭后，侧栏与主区域一起上移补满。
+
+<Demo name="app-shell/banner" />
 
 ## 行为 {#behavior}
 
@@ -73,11 +79,12 @@ import { AppShell } from '@hina-ui/vue'
 
 ### Slots {#slots}
 
-| 插槽      | 说明                     |
-| --------- | ------------------------ |
-| `sidebar` | 侧栏内容，窄屏时搬入抽屉 |
-| `header`  | 顶部条内容               |
-| `default` | 主区域内容               |
+| 插槽      | 说明                       |
+| --------- | -------------------------- |
+| `banner`  | 最顶部的公告条，横贯整个壳 |
+| `sidebar` | 侧栏内容，窄屏时搬入抽屉   |
+| `header`  | 顶部条内容                 |
+| `default` | 主区域内容                 |
 
 ### Expose {#expose}
 
