@@ -175,6 +175,7 @@
     "toggle": "A two-state button that stays pressed",
     "visually-hidden": "Text visible only to screen readers",
     "stack": "Lays its children out in a single column",
+    "statistic": "A key figure set large, with its label and change",
     "indicator": "A small dot that shows a status",
     "inline": "Lays its children out in a row, wrapping when needed",
     "input": "A single-line text field",

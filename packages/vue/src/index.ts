@@ -102,6 +102,7 @@ export { default as RingProgress } from './components/ring-progress/RingProgress
 export { default as MeterGroup } from './components/meter-group/MeterGroup.vue'
 export { default as Empty } from './components/empty/Empty.vue'
 export { default as Result } from './components/result/Result.vue'
+export { default as Statistic } from './components/statistic/Statistic.vue'
 export type { MeterItem, MeterTone } from './components/meter-group/types'
 export { default as Menubar } from './components/menubar/Menubar.vue'
 export { default as MenubarMenu } from './components/menubar/MenubarMenu.vue'

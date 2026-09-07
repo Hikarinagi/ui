@@ -434,6 +434,12 @@ export const components: DocsComponent[] = [
     category: 'typography',
   },
   { label: 'Stack', to: '/components/stack', i18n: 'components.stack', category: 'layout' },
+  {
+    label: 'Statistic',
+    to: '/components/statistic',
+    i18n: 'components.statistic',
+    category: 'display',
+  },
   { label: 'Switch', to: '/components/switch', i18n: 'components.switch', category: 'forms' },
   { label: 'Table', to: '/components/table', i18n: 'components.table', category: 'data' },
   { label: 'Tabs', to: '/components/tabs', i18n: 'components.tabs', category: 'display' },
