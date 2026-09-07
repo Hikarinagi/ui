@@ -54,7 +54,7 @@
       <Button :as="NuxtLink" :to="localePath('/')" variant="ghost" tone="neutral" size="sm">
         <DocsWordmark />
       </Button>
-      <Inline gap="xs">
+      <Inline gap="xs" class="max-md:hidden">
         <Button
           v-for="item in primary"
           :key="item.to"
