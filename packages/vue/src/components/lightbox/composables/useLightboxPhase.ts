@@ -1,4 +1,4 @@
-import { nextTick, type Ref } from 'vue'
+import { nextTick, shallowRef, type Ref } from 'vue'
 import type { useLightboxMotion } from './useLightboxMotion'
 import type { Pose } from '../utils/pose'
 
@@ -14,12 +14,12 @@ export function useLightboxPhase(options: {
   layout: () => void
 }) {
   const { motion } = options
-  let phase: LightboxPhase = 'closed'
+  const phase = shallowRef<LightboxPhase>('closed')
   let generation = 0
 
   async function show() {
-    if (phase !== 'closed') return
-    phase = 'entering'
+    if (phase.value !== 'closed') return
+    phase.value = 'entering'
     const run = ++generation
     options.prepare()
     options.mounted.value = true
@@ -27,33 +27,33 @@ export function useLightboxPhase(options: {
     await nextTick()
     options.layout()
     await motion.enter(options.pose())
-    if (run === generation) phase = 'open'
+    if (run === generation) phase.value = 'open'
   }
 
   async function reopen() {
-    if (phase !== 'closing') return
-    phase = 'entering'
+    if (phase.value !== 'closing') return
+    phase.value = 'entering'
     const run = ++generation
     await motion.resume()
-    if (run === generation) phase = 'open'
+    if (run === generation) phase.value = 'open'
   }
 
   async function close() {
-    if (phase === 'closed' || phase === 'closing') return
-    phase = 'closing'
+    if (phase.value === 'closed' || phase.value === 'closing') return
+    phase.value = 'closing'
     const run = ++generation
     await motion.leave(options.pose())
     if (run !== generation) return
-    phase = 'closed'
+    phase.value = 'closed'
     options.mounted.value = false
     options.locked.value = false
     if (options.open.value) options.open.value = false
   }
 
   function interrupt() {
-    if (phase === 'entering') void close()
-    else if (phase === 'closing') void reopen()
+    if (phase.value === 'entering') void close()
+    else if (phase.value === 'closing') void reopen()
   }
 
-  return { current: () => phase, show, close, reopen, interrupt }
+  return { current: () => phase.value, show, close, reopen, interrupt }
 }
