@@ -1,5 +1,5 @@
 import { useDocumentVisibility, useIntervalFn, useMediaQuery } from '@vueuse/core'
-import { computed, ref, toValue, watch, type MaybeRefOrGetter } from 'vue'
+import { computed, onMounted, ref, toValue, watch, type MaybeRefOrGetter } from 'vue'
 
 export function useAutoplay(
   interval: MaybeRefOrGetter<number | undefined>,
@@ -23,7 +23,9 @@ export function useAutoplay(
 
   const timer = useIntervalFn(tick, () => toValue(interval) ?? 0, { immediate: false })
 
-  watch(active, value => (value ? timer.resume() : timer.pause()), { immediate: true })
+  onMounted(() => {
+    watch(active, value => (value ? timer.resume() : timer.pause()), { immediate: true })
+  })
 
   return { hovered, focused, active }
 }
