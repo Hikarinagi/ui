@@ -130,16 +130,19 @@
         "castBody": "新增 902 次访问，其中 314 次来自搜索。",
         "staffBody": "新增 3,860 次访问，创建内容 47 条。"
       },
-      "release": {
-        "label": "导出时间范围",
-        "hint": "区间最长七天，超出的日期不可选。"
-      },
       "volumes": {
         "label": "价格区间"
       },
       "autoplay": {
         "label": "桌面通知",
         "hint": "有新消息时在系统通知中提醒"
+      },
+      "signIn": {
+        "title": "登录 Hikarinagi",
+        "body": "登录后，设置与草稿会在设备之间同步。",
+        "passkey": "使用通行密钥登录",
+        "or": "或",
+        "github": "使用 GitHub 继续"
       }
     },
     "release": "v{version} 已发布"

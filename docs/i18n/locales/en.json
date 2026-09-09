@@ -130,16 +130,19 @@
         "castBody": "902 visits, 314 of them from search.",
         "staffBody": "3,860 visits and 47 items created."
       },
-      "release": {
-        "label": "Export range",
-        "hint": "At most seven days; dates beyond that are unavailable."
-      },
       "volumes": {
         "label": "Price range"
       },
       "autoplay": {
         "label": "Desktop notifications",
         "hint": "Alert in system notifications on new messages"
+      },
+      "signIn": {
+        "title": "Sign in to Hikarinagi",
+        "body": "Settings and drafts sync across devices once signed in.",
+        "passkey": "Continue with a passkey",
+        "or": "or",
+        "github": "Continue with GitHub"
       }
     },
     "release": "v{version} is out"

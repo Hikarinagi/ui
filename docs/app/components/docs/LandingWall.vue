@@ -7,7 +7,7 @@
 <template>
   <Container size="xl">
     <Container
-      class="mx-auto max-h-[70rem] max-w-none overflow-hidden px-0 [mask-image:linear-gradient(to_bottom,#000_90%,transparent)] sm:px-0"
+      class="mx-auto max-h-[68rem] max-w-none overflow-hidden px-0 [mask-image:linear-gradient(to_bottom,#000_90%,transparent)] sm:px-0"
     >
       <Container
         class="mx-auto grid w-full max-w-none grid-cols-1 gap-6 md:w-fit md:grid-cols-2 lg:grid-cols-[auto_auto_auto]"
@@ -17,7 +17,6 @@
           <LandingFind />
           <LandingShelf />
           <LandingVolumes />
-          <LandingUploading />
           <LandingTags />
           <LandingActions />
           <LandingSort />
@@ -25,9 +24,10 @@
         </Stack>
 
         <Stack align="center" class="order-1 w-full gap-6 md:w-[340px] md:order-2">
-          <LandingRelease />
+          <LandingSignIn />
           <LandingNotice />
           <LandingStorage />
+          <LandingUploading />
           <LandingDiscard />
           <LandingAutoplay />
           <LandingChapters />
