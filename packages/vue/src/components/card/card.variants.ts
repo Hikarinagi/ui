@@ -5,6 +5,7 @@ export const card = tv({
   variants: {
     padded: {
       true: 'p-[var(--hn-panel-p)]',
+      false: 'overflow-hidden',
     },
   },
   defaultVariants: {

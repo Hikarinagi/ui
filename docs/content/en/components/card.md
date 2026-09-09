@@ -24,7 +24,7 @@ The card owns the surface, not the arrangement inside it. Leave direction and sp
 
 ### Padding {#padded}
 
-Padding is on by default and follows the current density. For content that should run to the edge — images, tables — set `padded` to `false` and let an inner container supply the padding instead.
+Padding is on by default and follows the current density. For content that should run to the edge — images, tables — set `padded` to `false` and let an inner container supply the padding instead. The card then clips its overflow, so the square corners of edge-to-edge content cannot cover the card radius.
 
 <Demo name="card/padded" />
 
@@ -60,12 +60,12 @@ Padding reads a density token, so setting `data-density="compact"` on any ancest
 
 ### Props {#props}
 
-| Prop       | Type      | Default | Description                                                           |
-| ---------- | --------- | ------- | --------------------------------------------------------------------- |
-| `padded`   | `boolean` | `true`  | Whether the card has padding; the value follows density               |
-| `as`       | `string`  | `'div'` | The rendered element                                                  |
-| `as-child` | `boolean` | `false` | Render no element of its own and merge the styles onto the sole child |
-| `class`    | `string`  | —       | Classes appended to the root element                                  |
+| Prop       | Type      | Default | Description                                                                |
+| ---------- | --------- | ------- | -------------------------------------------------------------------------- |
+| `padded`   | `boolean` | `true`  | Whether the card has padding; follows density, and clips overflow when off |
+| `as`       | `string`  | `'div'` | The rendered element                                                       |
+| `as-child` | `boolean` | `false` | Render no element of its own and merge the styles onto the sole child      |
+| `class`    | `string`  | —       | Classes appended to the root element                                       |
 
 ### Slots {#slots}
 
