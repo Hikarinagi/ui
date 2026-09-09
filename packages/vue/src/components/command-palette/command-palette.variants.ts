@@ -5,7 +5,15 @@ export const commandWrapper = tv({
 })
 
 export const commandCard = tv({
-  base: 'hn-anim-modal pointer-events-auto flex w-full max-w-xl flex-col overflow-hidden shadow-lg outline-none',
+  base: 'flex w-full max-w-xl flex-col overflow-hidden outline-none',
+  variants: {
+    inline: {
+      false: 'hn-anim-modal pointer-events-auto shadow-lg',
+    },
+  },
+  defaultVariants: {
+    inline: false,
+  },
 })
 
 export const commandInputRow = tv({
