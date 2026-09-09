@@ -23,7 +23,7 @@
         </Stack>
         <Stack gap="xs">
           <Text size="sm">制作方</Text>
-          <Input model-value="星见工作室" />
+          <Input model-value="ANIPLEX.EXE" />
         </Stack>
       </Stack>
     </template>

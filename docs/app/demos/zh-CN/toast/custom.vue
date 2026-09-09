@@ -42,7 +42,7 @@
     toast.custom(ChapterToast, {
       id: 'chapter',
       duration: 6000,
-      props: { title: '星之彼方', chapter: '第 42 话 观测者的黎明' },
+      props: { title: 'ATRI', chapter: '第 42 话' },
     })
   }
 </script>

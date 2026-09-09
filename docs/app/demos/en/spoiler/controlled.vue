@@ -9,7 +9,7 @@
   <Stack class="max-w-lg">
     <Text>
       How it ends:
-      <Spoiler v-model:hidden="hidden">both lighthouses go dark the same night</Spoiler>
+      <Spoiler v-model:hidden="hidden">the deal turns over at the last moment</Spoiler>
     </Text>
     <Button variant="outline" tone="neutral" size="sm" @click="hidden = !hidden">
       {{ hidden ? 'Reveal all' : 'Hide all' }}

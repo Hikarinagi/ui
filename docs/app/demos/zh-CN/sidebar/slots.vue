@@ -10,7 +10,7 @@
         <template #header>
           <Inline gap="sm" align="center">
             <BookMarked class="size-5" aria-hidden="true" />
-            <Text weight="medium">光凪文库</Text>
+            <Text weight="medium">電撃文庫</Text>
           </Inline>
         </template>
 

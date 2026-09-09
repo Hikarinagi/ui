@@ -9,7 +9,7 @@
   <Stack class="w-full max-w-sm">
     <Inline>
       <Skeleton :loading="loading">
-        <Text>星之彼方</Text>
+        <Text>ATRI</Text>
       </Skeleton>
       <Skeleton :loading="loading">
         <Text tone="muted" size="sm">第 42 章</Text>

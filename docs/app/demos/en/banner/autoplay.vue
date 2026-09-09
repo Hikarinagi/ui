@@ -3,7 +3,7 @@
 
   const notices = [
     { text: '86 new reviews this week, 1,204 active readers.' },
-    { text: 'The most popular title this week is Hoshimi Shion.' },
+    { text: 'The most popular title this week is Spice and Wolf.' },
     { text: 'Shelves can now be filtered by tag.' },
   ]
 </script>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { Card, Splitter, SplitterHandle, SplitterPanel, Stack, Text } from '@hina-ui/vue'
 
-  const chapters = ['第一章 夏之扉', '第二章 蝉时雨', '第三章 远雷']
+  const chapters = ['第 I 章', '第 II 章', '第 III 章']
 </script>
 
 <template>

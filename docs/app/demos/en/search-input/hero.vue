@@ -2,7 +2,7 @@
   import { ref } from 'vue'
   import { SearchInput } from '@hina-ui/vue'
 
-  const query = ref('Hoshimi Shion')
+  const query = ref('Spice and Wolf')
 </script>
 
 <template>

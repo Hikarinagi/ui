@@ -7,7 +7,7 @@
     <Stack>
       <Stack gap="xs">
         <Inline justify="between" align="start" :wrap="false">
-          <Heading :level="3" size="md">Beyond the Summer Sky</Heading>
+          <Heading :level="3" size="md">Sakura no Uta</Heading>
           <Tag tone="success">Ongoing</Tag>
         </Inline>
         <Text tone="muted" size="sm">

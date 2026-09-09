@@ -4,8 +4,8 @@
 
 <template>
   <Stack class="w-72">
-    <SearchInput size="sm" model-value="Hoshimi" aria-label="Small" />
-    <SearchInput size="md" model-value="Hoshimi" aria-label="Medium" />
-    <SearchInput size="lg" model-value="Hoshimi" aria-label="Large" />
+    <SearchInput size="sm" model-value="Spice" aria-label="Small" />
+    <SearchInput size="md" model-value="Spice" aria-label="Medium" />
+    <SearchInput size="lg" model-value="Spice" aria-label="Large" />
   </Stack>
 </template>

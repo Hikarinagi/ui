@@ -13,7 +13,7 @@
       class="rounded-t-lg"
     />
     <Stack gap="xs" align="start" class="p-4">
-      <Text class="font-medium">Beyond the Stars</Text>
+      <Text class="font-medium">ATRI</Text>
       <Tag>Sci-fi</Tag>
     </Stack>
   </Card>

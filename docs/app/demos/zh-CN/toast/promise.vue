@@ -3,7 +3,7 @@
 
   function upload() {
     const task = new Promise<{ name: string }>(resolve =>
-      setTimeout(() => resolve({ name: '星之彼方.epub' }), 2000),
+      setTimeout(() => resolve({ name: 'ATRI.epub' }), 2000),
     )
     toast.promise(task, {
       loading: '正在上传',

@@ -23,7 +23,7 @@
         </Stack>
         <Stack gap="xs">
           <Text size="sm">Producer</Text>
-          <Input model-value="Hoshimi Studio" />
+          <Input model-value="ANIPLEX.EXE" />
         </Stack>
       </Stack>
     </template>

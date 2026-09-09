@@ -8,11 +8,11 @@
     <template #content>
       <Stack gap="none" class="w-64">
         <Stack gap="none" class="bg-inset px-4 py-3">
-          <Text size="sm" class="font-medium">Chapter 42 Dawn of the Observer</Text>
+          <Text size="sm" class="font-medium">Chapter 42</Text>
         </Stack>
         <Divider />
         <Stack gap="xs" class="px-4 py-3">
-          <Text tone="muted" size="sm">Translated by Shion Hoshimi</Text>
+          <Text tone="muted" size="sm">Written by Isuna Hasekura</Text>
           <Text tone="muted" size="sm">Updated three hours ago</Text>
         </Stack>
       </Stack>

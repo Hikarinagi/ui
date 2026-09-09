@@ -5,9 +5,9 @@
 <template>
   <Text class="max-w-lg">
     Searching for “
-    <Mark>lighthouse</Mark>
-    ” found 3 results; volume three of Course of Stars mentions the
-    <Mark>lighthouse</Mark>
+    <Mark>spice</Mark>
+    ” found 3 results; volume three of Spice and Wolf mentions the
+    <Mark>spice</Mark>
     most often.
   </Text>
 </template>

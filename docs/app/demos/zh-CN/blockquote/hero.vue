@@ -3,5 +3,5 @@
 </script>
 
 <template>
-  <Blockquote cite="星见书音" class="max-w-lg">书页翻动的声音，是图书馆唯一允许的喧哗。</Blockquote>
+  <Blockquote cite="夏目漱石" class="max-w-lg">どこで生れたかとんと見当がつかぬ。</Blockquote>
 </template>

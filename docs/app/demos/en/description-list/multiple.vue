@@ -5,8 +5,8 @@
 <template>
   <DescriptionList class="max-w-sm">
     <DescriptionTerm>Author</DescriptionTerm>
-    <DescriptionDetails>Shion Hoshimi</DescriptionDetails>
-    <DescriptionDetails>Hikarinagi Editorial</DescriptionDetails>
+    <DescriptionDetails>Isuna Hasekura</DescriptionDetails>
+    <DescriptionDetails>Jyuu Ayakura</DescriptionDetails>
     <DescriptionTerm>Tags</DescriptionTerm>
     <DescriptionDetails>
       <Inline align="center">

@@ -5,9 +5,9 @@
 <template>
   <DescriptionList class="max-w-sm">
     <DescriptionTerm>Title</DescriptionTerm>
-    <DescriptionDetails>Course of Stars</DescriptionDetails>
+    <DescriptionDetails>Spice and Wolf</DescriptionDetails>
     <DescriptionTerm>Author</DescriptionTerm>
-    <DescriptionDetails>Shion Hoshimi</DescriptionDetails>
+    <DescriptionDetails>Isuna Hasekura</DescriptionDetails>
     <DescriptionTerm>Released</DescriptionTerm>
     <DescriptionDetails>14 March 2026</DescriptionDetails>
   </DescriptionList>

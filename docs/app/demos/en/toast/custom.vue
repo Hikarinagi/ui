@@ -42,7 +42,7 @@
     toast.custom(ChapterToast, {
       id: 'chapter',
       duration: 6000,
-      props: { title: 'Beyond the Stars', chapter: 'Chapter 42 Dawn of the Observer' },
+      props: { title: 'ATRI', chapter: 'Chapter 42' },
     })
   }
 </script>

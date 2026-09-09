@@ -7,7 +7,7 @@
     <Stack gap="sm">
       <Text size="sm" tone="faint">只有下一项</Text>
       <PrevNext>
-        <PrevNextLink direction="next" href="#">第一章 夏之扉</PrevNextLink>
+        <PrevNextLink direction="next" href="#">第 I 章</PrevNextLink>
       </PrevNext>
     </Stack>
 

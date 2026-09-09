@@ -3,7 +3,7 @@
 
   const keyword = 'course'
   const paragraph =
-    'Volume three of Course of Stars follows the opening of an ocean course, and the two lighthouses at either end of that course.'
+    'Volume one of Spice and Wolf follows a travelling merchant and a girl who calls herself a harvest deity.'
   const parts = paragraph.split(keyword)
 </script>
 

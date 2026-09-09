@@ -17,7 +17,7 @@
         </Stack>
         <Stack gap="xs">
           <Text size="sm">简介</Text>
-          <Input model-value="在废弃天文台重启观测计划。" />
+          <Input model-value="行商人与自称丰收之神的少女同行的旅途。" />
         </Stack>
       </Stack>
     </template>

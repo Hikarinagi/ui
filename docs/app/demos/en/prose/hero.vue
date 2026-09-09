@@ -4,7 +4,7 @@
 
 <template>
   <Prose class="max-w-xl">
-    <h2>Course of Stars</h2>
+    <h2>Spice and Wolf</h2>
     <p>
       This is rich text coming from a backend. Paragraphs, headings, lists and quotations are all
       handled by the container, so the caller does not style each tag.

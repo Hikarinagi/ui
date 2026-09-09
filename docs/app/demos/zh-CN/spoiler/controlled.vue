@@ -9,7 +9,7 @@
   <Stack class="max-w-lg">
     <Text>
       全书结局：
-      <Spoiler v-model:hidden="hidden">两座灯塔在同一夜熄灭</Spoiler>
+      <Spoiler v-model:hidden="hidden">交易在最后一刻反转</Spoiler>
     </Text>
     <Button variant="outline" tone="neutral" size="sm" @click="hidden = !hidden">
       {{ hidden ? '全部揭示' : '全部遮住' }}

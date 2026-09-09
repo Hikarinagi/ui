@@ -23,9 +23,7 @@
     </TabsContent>
     <TabsContent value="staff">
       <Stack gap="xs" class="pt-4">
-        <Text tone="muted" size="sm">
-          Written by Shion Hoshimi, illustrated by Hikarinagi Editorial.
-        </Text>
+        <Text tone="muted" size="sm">Written by Isuna Hasekura, illustrated by Jyuu Ayakura.</Text>
       </Stack>
     </TabsContent>
   </Tabs>

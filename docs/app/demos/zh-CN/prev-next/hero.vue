@@ -4,7 +4,7 @@
 
 <template>
   <PrevNext class="w-full max-w-2xl">
-    <PrevNextLink direction="prev" href="#">第二章 蝉时雨</PrevNextLink>
-    <PrevNextLink direction="next" href="#">第四章 远雷</PrevNextLink>
+    <PrevNextLink direction="prev" href="#">第 II 章</PrevNextLink>
+    <PrevNextLink direction="next" href="#">第 IV 章</PrevNextLink>
   </PrevNext>
 </template>

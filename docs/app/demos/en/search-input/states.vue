@@ -4,7 +4,7 @@
 
 <template>
   <Stack class="w-72">
-    <SearchInput disabled model-value="Hoshimi" aria-label="Disabled" />
-    <SearchInput :clearable="false" model-value="Hoshimi" aria-label="Without clear button" />
+    <SearchInput disabled model-value="Spice" aria-label="Disabled" />
+    <SearchInput :clearable="false" model-value="Spice" aria-label="Without clear button" />
   </Stack>
 </template>

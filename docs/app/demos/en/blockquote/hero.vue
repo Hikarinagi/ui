@@ -3,7 +3,5 @@
 </script>
 
 <template>
-  <Blockquote cite="Shion Hoshimi" class="max-w-lg">
-    The sound of turning pages is the only noise a library allows.
-  </Blockquote>
+  <Blockquote cite="Natsume Sōseki" class="max-w-lg">I have no idea where I was born.</Blockquote>
 </template>

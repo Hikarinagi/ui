@@ -3,7 +3,7 @@
   import { Combobox, Stack, Text } from '@hina-ui/vue'
 
   const all = [
-    { value: 'hoshimi', label: 'Hoshimi Shion' },
+    { value: 'hasekura', label: 'Isuna Hasekura' },
     { value: 'hikari', label: 'Hikari' },
     { value: 'nagi', label: 'Nagi' },
     { value: 'shion', label: 'Shion' },
