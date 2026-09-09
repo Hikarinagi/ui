@@ -1,7 +1,7 @@
 {
   "banner": {
     "text": "A UI language built for Vue.",
-    "link": "Follow along on GitHub"
+    "link": "v{version} is out"
   },
   "landing": {
     "title": "An elegant, restrained Vue 3 component library",
@@ -141,7 +141,8 @@
         "label": "Desktop notifications",
         "hint": "Alert in system notifications on new messages"
       }
-    }
+    },
+    "release": "v{version} is out"
   },
   "nav": {
     "start": "Getting started",

@@ -1,7 +1,7 @@
 {
   "banner": {
     "text": "为 Vue 构建的界面语言。",
-    "link": "在 GitHub 上关注进展"
+    "link": "v{version} 已发布"
   },
   "landing": {
     "title": "优雅、克制的 Vue 3 组件库",
@@ -141,7 +141,8 @@
         "label": "桌面通知",
         "hint": "有新消息时在系统通知中提醒"
       }
-    }
+    },
+    "release": "v{version} 已发布"
   },
   "nav": {
     "start": "开始",

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ArrowRight } from '@lucide/vue'
+  import { ArrowRight, Rocket } from '@lucide/vue'
   import {
     Button,
     Container,
@@ -8,6 +8,7 @@
     Inline,
     SimpleGrid,
     Stack,
+    Tag,
     Text,
   } from '@hina-ui/vue'
   import { NuxtLink } from '#components'
@@ -15,6 +16,7 @@
 
   const { t } = useI18n()
   const localePath = useLocalePath()
+  const { version, releasesUrl } = useAppConfig()
 
   const FEATURES = ['modes', 'appearance', 'a11y', 'scaffolding'] as const
 
@@ -31,6 +33,18 @@
     <Container size="xl" class="py-24 sm:py-32 lg:py-40">
       <Stack gap="xl" align="center" class="text-center">
         <Stack gap="md" align="center">
+          <Tag
+            :as="NuxtLink"
+            :to="releasesUrl"
+            target="_blank"
+            rel="noreferrer"
+            pill
+            tone="accent"
+            class="hn-interactive h-8 gap-1.5 px-3.5 text-base [&_svg]:size-4"
+          >
+            <Rocket />
+            {{ t('landing.release', { version }) }}
+          </Tag>
           <Heading :level="1" size="2xl" class="max-w-4xl text-5xl text-balance sm:text-7xl">
             {{ t('landing.title') }}
           </Heading>
