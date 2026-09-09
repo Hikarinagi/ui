@@ -39,8 +39,8 @@ describe('渲染与受控', () => {
         'onUpdate:modelValue': (v?: string) => w.setProps({ modelValue: v }),
       },
     })
-    await w.find('textarea').setValue('星见书音')
-    expect(w.props('modelValue')).toBe('星见书音')
+    await w.find('textarea').setValue('狼と香辛料')
+    expect(w.props('modelValue')).toBe('狼と香辛料')
   })
 
   it('双形态与档位类与 Input 同源', () => {

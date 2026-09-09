@@ -82,10 +82,10 @@ describe('search-input · 清除与提交', () => {
   it('点击清除钮清空、焦点留在输入区；Enter 提交当前值', async () => {
     const { w, root, input } = mountField({ modelValue: '' })
     await userEvent.click(input)
-    await userEvent.keyboard('星见书音')
+    await userEvent.keyboard('狼と香辛料')
     await vi.waitFor(() => expect(root.querySelector('button')).toBeTruthy())
     await userEvent.keyboard('{Enter}')
-    expect(w.emitted('search')).toEqual([['星见书音']])
+    expect(w.emitted('search')).toEqual([['狼と香辛料']])
 
     await userEvent.click(root.querySelector('button') as HTMLElement)
     await vi.waitFor(() => expect(input.value).toBe(''))

@@ -10,20 +10,20 @@ beforeEach(() => {
   document.body.innerHTML = ''
 })
 
-const pairs = () => [h('dt', '原名'), h('dd', '星之航路'), h('dt', '作者'), h('dd', '未知')]
+const pairs = () => [h('dt', '原名'), h('dd', '狼と香辛料'), h('dt', '作者'), h('dd', '未知')]
 
 describe('渲染', () => {
   it('渲染 dl,插槽的 dt / dd 原样进入', () => {
     const w = mount(DescriptionList, { slots: { default: pairs } })
     expect(w.element.tagName).toBe('DL')
     expect(w.findAll('dt').map(n => n.text())).toEqual(['原名', '作者'])
-    expect(w.findAll('dd').map(n => n.text())).toEqual(['星之航路', '未知'])
+    expect(w.findAll('dd').map(n => n.text())).toEqual(['狼と香辛料', '未知'])
   })
 })
 
 const wrapped = () => [
   h(DescriptionTerm, () => '原名'),
-  h(DescriptionDetails, () => '星之航路'),
+  h(DescriptionDetails, () => '狼と香辛料'),
   h(DescriptionTerm, () => '作者'),
   h(DescriptionDetails, () => '未知'),
 ]
@@ -36,8 +36,8 @@ describe('条目件', () => {
 
   it('插槽内容原样渲染', () => {
     expect(mount(DescriptionTerm, { slots: { default: () => '原名' } }).text()).toBe('原名')
-    expect(mount(DescriptionDetails, { slots: { default: () => '星之航路' } }).text()).toBe(
-      '星之航路',
+    expect(mount(DescriptionDetails, { slots: { default: () => '狼と香辛料' } }).text()).toBe(
+      '狼と香辛料',
     )
   })
 
@@ -53,7 +53,7 @@ describe('条目件', () => {
   it('作为容器的直接子元素落成 dt / dd,可被 hn-dl 的 > dt 与 > dd 选中', () => {
     const w = mount(DescriptionList, { slots: { default: wrapped } })
     expect(w.findAll(':scope > dt').map(n => n.text())).toEqual(['原名', '作者'])
-    expect(w.findAll(':scope > dd').map(n => n.text())).toEqual(['星之航路', '未知'])
+    expect(w.findAll(':scope > dd').map(n => n.text())).toEqual(['狼と香辛料', '未知'])
   })
 
   it('一个术语可配多条描述,不强制成对', () => {
@@ -61,13 +61,13 @@ describe('条目件', () => {
       slots: {
         default: () => [
           h(DescriptionTerm, () => '作者'),
-          h(DescriptionDetails, () => '星见书音'),
-          h(DescriptionDetails, () => '光凪编辑部'),
+          h(DescriptionDetails, () => '支倉凍砂'),
+          h(DescriptionDetails, () => '文倉十'),
         ],
       },
     })
     expect(w.findAll('dt')).toHaveLength(1)
-    expect(w.findAll('dd').map(n => n.text())).toEqual(['星见书音', '光凪编辑部'])
+    expect(w.findAll('dd').map(n => n.text())).toEqual(['支倉凍砂', '文倉十'])
   })
 })
 
