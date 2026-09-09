@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import { computed, shallowRef, watch } from 'vue'
-  import 'overlayscrollbars/overlayscrollbars.css'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
   import { useOverlayScrollbars } from './composables/useOverlayScrollbars'
