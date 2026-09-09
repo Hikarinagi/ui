@@ -3,8 +3,145 @@
     "text": "为 Vue 构建的界面语言。",
     "link": "在 GitHub 上关注进展"
   },
-  "brand": {
-    "tagline": "Hikarinagi 的 Vue 组件库"
+  "landing": {
+    "title": "优雅、克制的 Vue 3 组件库",
+    "subtitle": "由 Reka UI 和 Tailwind CSS v4 驱动，组件覆盖排版、布局、浮层与页面骨架。",
+    "start": "开始使用",
+    "browse": "浏览组件",
+    "features": {
+      "modes": {
+        "title": "深色模式与紧凑模式",
+        "body": "在外层容器设置一个属性，整片界面随之切换，组件不必逐个适配。"
+      },
+      "appearance": {
+        "title": "外观可调",
+        "body": "颜色、圆角、动效时长都是 CSS 变量，覆盖变量即可自定义外观。"
+      },
+      "a11y": {
+        "title": "无障碍",
+        "body": "焦点管理、键盘操作与屏幕阅读器语义均已内置。"
+      },
+      "scaffolding": {
+        "title": "排版与骨架齐全",
+        "body": "无需编写原生标签即可组织页面结构。"
+      }
+    },
+    "copyright": "© 2026 Hikarinagi All Right Reserved.",
+    "wall": {
+      "verify": {
+        "label": "验证账户",
+        "hint": "验证码已发送至绑定的邮箱。",
+        "resendPrefix": "未收到验证码",
+        "resend": "重新发送"
+      },
+      "discard": {
+        "title": "放弃这次编辑？",
+        "body": "改动尚未保存，离开后无法恢复。",
+        "discard": "放弃",
+        "save": "继续编辑"
+      },
+      "upload": {
+        "label": "更换头像"
+      },
+      "notice": {
+        "title": "收到 3 条新私信",
+        "body": "来自关注的三位创作者。"
+      },
+      "stats": {
+        "label": "本月新增关注",
+        "delta": "较上月"
+      },
+      "shelf": {
+        "all": "全部",
+        "ongoing": "提及",
+        "done": "关注",
+        "label": "消息分类"
+      },
+      "storage": {
+        "label": "存储空间",
+        "doc": "文档",
+        "image": "图片",
+        "video": "视频",
+        "other": "其他"
+      },
+      "ring": {
+        "label": "同步进度",
+        "hint": "剩余 6 个设备"
+      },
+      "progress": {
+        "label": "正在导入"
+      },
+      "published": {
+        "title": "导出完成",
+        "body": "文件已保存至下载目录。",
+        "view": "打开",
+        "back": "返回"
+      },
+      "commands": {
+        "placeholder": "搜索页面与操作",
+        "pages": "页面",
+        "home": "首页",
+        "library": "消息",
+        "bookmarks": "设置",
+        "settings": "账号",
+        "actions": "操作",
+        "newReview": "新建草稿",
+        "newReviewHint": "从空白开始",
+        "theme": "切换主题"
+      },
+      "cover": {
+        "title": "玩玩的恋爱关系",
+        "brand": "富士見ファンタジア文庫",
+        "tag": "恋爱喜剧",
+        "alt": "あそびのかんけい 封面"
+      },
+      "find": {
+        "label": "搜索",
+        "placeholder": "标题、作者或标签"
+      },
+      "tags": {
+        "label": "兴趣标签",
+        "placeholder": "添加标签"
+      },
+      "sort": {
+        "label": "排序方式",
+        "date": "按时间",
+        "score": "按热度",
+        "saves": "按相关度"
+      },
+      "actions": {
+        "read": "打开",
+        "save": "收藏",
+        "share": "分享",
+        "review": "编辑",
+        "remove": "移除",
+        "report": "举报"
+      },
+      "chapters": {
+        "label": "操作日志",
+        "item": "第 {n} 条记录"
+      },
+      "workTabs": {
+        "label": "统计范围",
+        "intro": "今日",
+        "cast": "本周",
+        "staff": "本月",
+        "introBody": "新增 128 次访问，较昨日增加 12%。",
+        "castBody": "新增 902 次访问，其中 314 次来自搜索。",
+        "staffBody": "新增 3,860 次访问，创建内容 47 条。"
+      },
+      "release": {
+        "label": "导出时间范围",
+        "hint": "区间最长七天，超出的日期不可选。"
+      },
+      "volumes": {
+        "label": "价格区间"
+      },
+      "autoplay": {
+        "label": "桌面通知",
+        "hint": "有新消息时在系统通知中提醒"
+      }
+    }
   },
   "nav": {
     "start": "开始",

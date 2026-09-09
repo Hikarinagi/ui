@@ -70,7 +70,7 @@ export default defineNuxtConfig({
       { baseName: 'demos', dir: demosDir },
     ],
     prerender: {
-      routes: ['/components', '/en/components'],
+      routes: ['/', '/en', '/components', '/en/components'],
       autoSubfolderIndex: false,
     },
   },
@@ -85,10 +85,6 @@ export default defineNuxtConfig({
       titleTemplate: '%s · Hina UI',
       link: [{ rel: 'icon', type: 'image/png', href: '/favicon.png' }],
     },
-  },
-  routeRules: {
-    '/': { redirect: '/components' },
-    '/en': { redirect: '/en/components' },
   },
   colorMode: {
     classSuffix: '',
