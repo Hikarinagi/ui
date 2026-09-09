@@ -1,10 +1,151 @@
 {
   "banner": {
     "text": "A UI language built for Vue.",
-    "link": "Follow along on GitHub"
+    "link": "v{version} is out"
   },
-  "brand": {
-    "tagline": "The Vue component library behind Hikarinagi"
+  "landing": {
+    "title": "An elegant, restrained Vue 3 component library",
+    "subtitle": "Powered by Reka UI and Tailwind CSS v4. The components cover typography, layout, overlays and page scaffolding.",
+    "start": "Get started",
+    "browse": "Browse components",
+    "features": {
+      "modes": {
+        "title": "Dark and compact modes",
+        "body": "Set one attribute on an outer container and the whole interface follows."
+      },
+      "appearance": {
+        "title": "Adjustable appearance",
+        "body": "Colours, radii and motion durations are CSS variables; override them to customise the look."
+      },
+      "a11y": {
+        "title": "Accessible",
+        "body": "Focus management, keyboard operation and screen reader semantics work out of the box."
+      },
+      "scaffolding": {
+        "title": "Typography and scaffolding included",
+        "body": "Build pages without native tags."
+      }
+    },
+    "copyright": "© 2026 Hikarinagi All Right Reserved.",
+    "wall": {
+      "verify": {
+        "label": "Verify account",
+        "hint": "A code has been sent to the linked mailbox.",
+        "resendPrefix": "No code received",
+        "resend": "Resend"
+      },
+      "discard": {
+        "title": "Discard these changes?",
+        "body": "The edits are unsaved and cannot be recovered.",
+        "discard": "Discard",
+        "save": "Keep editing"
+      },
+      "upload": {
+        "label": "Change avatar"
+      },
+      "notice": {
+        "title": "3 new messages",
+        "body": "From three creators you follow."
+      },
+      "stats": {
+        "label": "New followers this month",
+        "delta": "vs last month"
+      },
+      "shelf": {
+        "all": "All",
+        "ongoing": "Mentions",
+        "done": "Following",
+        "label": "Message filter"
+      },
+      "storage": {
+        "label": "Storage",
+        "doc": "Documents",
+        "image": "Images",
+        "video": "Video",
+        "other": "Other"
+      },
+      "ring": {
+        "label": "Sync progress",
+        "hint": "6 devices remaining"
+      },
+      "progress": {
+        "label": "Importing"
+      },
+      "published": {
+        "title": "Export complete",
+        "body": "The file has been saved to your downloads.",
+        "view": "Open",
+        "back": "Back"
+      },
+      "commands": {
+        "placeholder": "Search pages and actions",
+        "pages": "Pages",
+        "home": "Home",
+        "library": "Messages",
+        "bookmarks": "Settings",
+        "settings": "Account",
+        "actions": "Actions",
+        "newReview": "New draft",
+        "newReviewHint": "Start from blank",
+        "theme": "Toggle theme"
+      },
+      "cover": {
+        "title": "あそびのかんけい",
+        "brand": "Fujimi Fantasia Bunko",
+        "tag": "Romcom",
+        "alt": "Asobi no Kankei cover"
+      },
+      "find": {
+        "label": "Search",
+        "placeholder": "Title, author or tag"
+      },
+      "tags": {
+        "label": "Interests",
+        "placeholder": "Add a tag"
+      },
+      "sort": {
+        "label": "Sort by",
+        "date": "Newest",
+        "score": "Popular",
+        "saves": "Relevance"
+      },
+      "actions": {
+        "read": "Open",
+        "save": "Bookmark",
+        "share": "Share",
+        "review": "Edit",
+        "remove": "Remove",
+        "report": "Report"
+      },
+      "chapters": {
+        "label": "Activity log",
+        "item": "Entry {n}"
+      },
+      "workTabs": {
+        "label": "Range",
+        "intro": "Today",
+        "cast": "This week",
+        "staff": "This month",
+        "introBody": "128 visits, up 12% on yesterday.",
+        "castBody": "902 visits, 314 of them from search.",
+        "staffBody": "3,860 visits and 47 items created."
+      },
+      "volumes": {
+        "label": "Price range"
+      },
+      "autoplay": {
+        "label": "Desktop notifications",
+        "hint": "Alert in system notifications on new messages"
+      },
+      "signIn": {
+        "title": "Sign in to Hikarinagi",
+        "body": "Settings and drafts sync across devices once signed in.",
+        "passkey": "Continue with a passkey",
+        "or": "or",
+        "github": "Continue with GitHub"
+      }
+    },
+    "release": "v{version} is out"
   },
   "nav": {
     "start": "Getting started",

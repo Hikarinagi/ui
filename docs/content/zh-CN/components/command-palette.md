@@ -52,6 +52,12 @@ import { CommandPalette } from '@hina-ui/vue'
 
 <Demo name="command-palette/filter" />
 
+### 内联 {#inline}
+
+设置 `inline` 后面板不再包进浮层，直接渲染在文档流里，适合嵌在页面中而不是由快捷键唤起。内联形态不注册全局快捷键，选中条目之后面板停在原地。
+
+<Demo name="command-palette/inline" />
+
 ## 行为 {#behavior}
 
 - 打开后焦点落在输入框，首个条目自动高亮；输入时列表即时过滤，标签中匹配的片段以强调色标出。
@@ -78,6 +84,7 @@ import { CommandPalette } from '@hina-ui/vue'
 | `label`        | `string`       | 取自界面语言 | 面板的无障碍名                   |
 | `hotkey`       | `string`       | —            | 全局快捷键，例如 `mod+k`         |
 | `ignoreFilter` | `boolean`      | `false`      | 不自行过滤，条目列表由调用方决定 |
+| `inline`       | `boolean`      | `false`      | 渲染为内联面板，不使用浮层       |
 | `class`        | `string`       | —            | 追加至面板的类名                 |
 
 ### 双向绑定 {#models}

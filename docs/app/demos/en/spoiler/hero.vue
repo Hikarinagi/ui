@@ -5,7 +5,7 @@
 <template>
   <Text class="max-w-lg">
     Volume three ends with
-    <Spoiler>the lighthouse keeper being the hero's mother</Spoiler>
+    <Spoiler>the two deciding to travel on together</Spoiler>
     , so read it after the main text.
   </Text>
 </template>

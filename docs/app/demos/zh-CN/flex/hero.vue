@@ -6,7 +6,7 @@
   <Card class="w-full max-w-lg">
     <Flex justify="between" align="center" wrap class="gap-3">
       <Flex direction="col" gap="xs">
-        <Heading :level="3" size="md">星之彼方</Heading>
+        <Heading :level="3" size="md">ATRI</Heading>
         <Flex gap="xs">
           <Tag>科幻</Tag>
           <Tag>连载中</Tag>

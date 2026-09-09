@@ -52,6 +52,12 @@ Groups have their own headings, and an item's `description` sits under its label
 
 <Demo name="command-palette/filter" />
 
+### Inline {#inline}
+
+With `inline` the panel is no longer wrapped in an overlay and renders in the document flow, which suits embedding it in a page rather than summoning it with a shortcut. The inline form registers no global hotkey, and selecting an item leaves the panel in place.
+
+<Demo name="command-palette/inline" />
+
 ## Behavior {#behavior}
 
 - On open the input takes focus and the first item is highlighted; typing filters the list at once, and the matching part of a label is marked in the accent colour.
@@ -78,6 +84,7 @@ Groups have their own headings, and an item's `description` sits under its label
 | `label`        | `string`       | from locale | Accessible name of the panel                      |
 | `hotkey`       | `string`       | —           | Global hotkey, e.g. `mod+k`                       |
 | `ignoreFilter` | `boolean`      | `false`     | Skip built-in filtering; the caller owns the list |
+| `inline`       | `boolean`      | `false`     | Render as an inline panel instead of an overlay   |
 | `class`        | `string`       | —           | Extra classes on the panel                        |
 
 ### Models {#models}

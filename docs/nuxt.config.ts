@@ -1,10 +1,12 @@
-import { utimesSync } from 'node:fs'
+import { readFileSync, utimesSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import tailwindcss from '@tailwindcss/vite'
 import { markdown } from './markdown'
 import { searchIndex } from './search-index'
 
 const uiSrc = fileURLToPath(new URL('../packages/vue/src', import.meta.url))
+const uiPkg = fileURLToPath(new URL('../packages/vue/package.json', import.meta.url))
+const version = JSON.parse(readFileSync(uiPkg, 'utf8')).version as string
 const contentDir = fileURLToPath(new URL('./content', import.meta.url))
 const demosDir = fileURLToPath(new URL('./app/demos', import.meta.url))
 const cssEntry = fileURLToPath(new URL('./app/assets/css/main.css', import.meta.url))
@@ -14,6 +16,10 @@ const heroGlobEntry = fileURLToPath(
 
 export default defineNuxtConfig({
   compatibilityDate: '2026-08-01',
+  appConfig: {
+    version,
+    releasesUrl: 'https://github.com/Hikarinagi/ui/releases',
+  },
   ssr: true,
   devtools: { enabled: false },
   modules: ['@nuxt/eslint', '@nuxt/fonts', '@nuxtjs/color-mode', '@nuxtjs/i18n', 'motion-v/nuxt'],
@@ -70,7 +76,7 @@ export default defineNuxtConfig({
       { baseName: 'demos', dir: demosDir },
     ],
     prerender: {
-      routes: ['/components', '/en/components'],
+      routes: ['/', '/en', '/components', '/en/components'],
       autoSubfolderIndex: false,
     },
   },
@@ -85,10 +91,6 @@ export default defineNuxtConfig({
       titleTemplate: '%s · Hina UI',
       link: [{ rel: 'icon', type: 'image/png', href: '/favicon.png' }],
     },
-  },
-  routeRules: {
-    '/': { redirect: '/components' },
-    '/en': { redirect: '/en/components' },
   },
   colorMode: {
     classSuffix: '',

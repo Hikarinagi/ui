@@ -10,7 +10,7 @@
     "format": "prettier --write .",
     "build": "pnpm --filter @hina-ui/docs generate",
     "changeset": "changeset",
-    "prepare": "husky"
+    "prepare": "husky && git config alias.sync-dev '!./scripts/git-sync-dev.sh' || true"
   },
   "type": "module",
   "private": true,

@@ -2,7 +2,7 @@
   import { ref } from 'vue'
   import { SearchInput } from '@hina-ui/vue'
 
-  const query = ref('星见书音')
+  const query = ref('狼と香辛料')
 </script>
 
 <template>

@@ -3,5 +3,5 @@
 </script>
 
 <template>
-  <SearchInput model-value="Hoshimi" loading aria-label="Search" class="w-72" />
+  <SearchInput model-value="Spice" loading aria-label="Search" class="w-72" />
 </template>

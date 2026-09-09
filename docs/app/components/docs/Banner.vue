@@ -4,6 +4,7 @@
 
   defineOptions({ name: 'DocsBanner' })
 
+  const { version, releasesUrl } = useAppConfig()
   const key = 'hn-docs-banner:preview'
   const { t } = useI18n()
   const open = ref(true)
@@ -45,8 +46,8 @@
   <Banner v-model:open="open" :data-docs-banner="key" closable @close="close">
     <template #icon><Puzzle class="size-4 shrink-0" /></template>
     {{ t('banner.text') }}
-    <Link href="https://github.com/Hikarinagi/ui" target="_blank" rel="noreferrer" underline>
-      {{ t('banner.link') }}
+    <Link :href="releasesUrl" target="_blank" rel="noreferrer" underline>
+      {{ t('banner.link', { version }) }}
     </Link>
   </Banner>
 </template>

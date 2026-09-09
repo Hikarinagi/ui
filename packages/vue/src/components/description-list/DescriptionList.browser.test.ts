@@ -21,12 +21,12 @@ describe('description list 与 prose dl 同源', () => {
   it('dt 字重、dd 缩进、对内对间距逐项一致 —— hn-dl 是唯一来源', () => {
     const w = mount(DescriptionList, {
       slots: {
-        default: () => [h('dt', '原名'), h('dd', '星之航路'), h('dt', '作者'), h('dd', '未知')],
+        default: () => [h('dt', '原名'), h('dd', '狼と香辛料'), h('dt', '作者'), h('dd', '未知')],
       },
       attachTo: attach(),
     })
     const prose = mount(Prose, {
-      slots: { default: '<dl><dt>原名</dt><dd>星之航路</dd><dt>作者</dt><dd>未知</dd></dl>' },
+      slots: { default: '<dl><dt>原名</dt><dd>狼と香辛料</dd><dt>作者</dt><dd>未知</dd></dl>' },
       attachTo: attach(),
     })
 
@@ -62,7 +62,7 @@ describe('description list 与 prose dl 同源', () => {
   it('条目件与裸 dt / dd 在同一容器下计算样式完全一致 —— 替换是等价的', () => {
     const raw = mount(DescriptionList, {
       slots: {
-        default: () => [h('dt', '原名'), h('dd', '星之航路'), h('dt', '作者'), h('dd', '未知')],
+        default: () => [h('dt', '原名'), h('dd', '狼と香辛料'), h('dt', '作者'), h('dd', '未知')],
       },
       attachTo: attach(),
     })
@@ -70,7 +70,7 @@ describe('description list 与 prose dl 同源', () => {
       slots: {
         default: () => [
           h(DescriptionTerm, () => '原名'),
-          h(DescriptionDetails, () => '星之航路'),
+          h(DescriptionDetails, () => '狼と香辛料'),
           h(DescriptionTerm, () => '作者'),
           h(DescriptionDetails, () => '未知'),
         ],

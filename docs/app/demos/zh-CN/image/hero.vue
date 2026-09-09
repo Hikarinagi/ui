@@ -13,7 +13,7 @@
       class="rounded-t-lg"
     />
     <Stack gap="xs" align="start" class="p-4">
-      <Text class="font-medium">星之彼方</Text>
+      <Text class="font-medium">ATRI</Text>
       <Tag>科幻</Tag>
     </Stack>
   </Card>

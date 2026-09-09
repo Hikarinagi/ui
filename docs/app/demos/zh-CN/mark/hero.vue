@@ -5,9 +5,9 @@
 <template>
   <Text class="max-w-lg">
     搜索「
-    <Mark>灯塔</Mark>
-    」共找到 3 条结果，其中《星之航路》第三卷提到
-    <Mark>灯塔</Mark>
+    <Mark>香辛料</Mark>
+    」共找到 3 条结果，其中《狼と香辛料》第一卷提到
+    <Mark>香辛料</Mark>
     的段落最多。
   </Text>
 </template>

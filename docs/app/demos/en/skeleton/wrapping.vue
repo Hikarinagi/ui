@@ -9,7 +9,7 @@
   <Stack class="w-full max-w-sm">
     <Inline>
       <Skeleton :loading="loading">
-        <Text>Beyond the Stars</Text>
+        <Text>ATRI</Text>
       </Skeleton>
       <Skeleton :loading="loading">
         <Text tone="muted" size="sm">Chapter 42</Text>

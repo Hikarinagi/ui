@@ -5,8 +5,8 @@
 <template>
   <DescriptionList class="max-w-sm">
     <DescriptionTerm>作者</DescriptionTerm>
-    <DescriptionDetails>星见书音</DescriptionDetails>
-    <DescriptionDetails>光凪编辑部</DescriptionDetails>
+    <DescriptionDetails>支倉凍砂</DescriptionDetails>
+    <DescriptionDetails>文倉十</DescriptionDetails>
     <DescriptionTerm>标签</DescriptionTerm>
     <DescriptionDetails>
       <Inline align="center">

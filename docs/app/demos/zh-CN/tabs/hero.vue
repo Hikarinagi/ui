@@ -21,7 +21,7 @@
     </TabsContent>
     <TabsContent value="staff">
       <Stack gap="xs" class="pt-4">
-        <Text tone="muted" size="sm">作者 星见书音，插画 光凪编辑部。</Text>
+        <Text tone="muted" size="sm">作者 支倉凍砂，插画 文倉十。</Text>
       </Stack>
     </TabsContent>
   </Tabs>

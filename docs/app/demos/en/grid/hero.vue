@@ -2,8 +2,8 @@
   import { AspectRatio, Card, Grid, Stack, Tag, Text } from '@hina-ui/vue'
 
   const works = [
-    { title: 'Beyond the Stars', tag: 'Sci-fi' },
-    { title: 'Dawn of the Observer', tag: 'Mystery' },
+    { title: 'ATRI', tag: 'Sci-fi' },
+    { title: 'Sakura no Uta', tag: 'Drama' },
     { title: 'Afternoon at the Observatory', tag: 'Slice of life' },
     { title: 'The Other Side of the Galaxy', tag: 'Sci-fi' },
     { title: 'Between the Pages', tag: 'School' },

@@ -2,7 +2,7 @@
   import { ref } from 'vue'
   import { Input } from '@hina-ui/vue'
 
-  const keyword = ref('Hoshimi Shion')
+  const keyword = ref('Spice and Wolf')
 </script>
 
 <template>

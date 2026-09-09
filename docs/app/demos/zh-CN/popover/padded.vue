@@ -8,11 +8,11 @@
     <template #content>
       <Stack gap="none" class="w-64">
         <Stack gap="none" class="bg-inset px-4 py-3">
-          <Text size="sm" class="font-medium">第 42 话 观测者的黎明</Text>
+          <Text size="sm" class="font-medium">第 42 话</Text>
         </Stack>
         <Divider />
         <Stack gap="xs" class="px-4 py-3">
-          <Text tone="muted" size="sm">译者：星见书音</Text>
+          <Text tone="muted" size="sm">作者：支倉凍砂</Text>
           <Text tone="muted" size="sm">更新于三小时前</Text>
         </Stack>
       </Stack>

@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <Blockquote cite="《光凪编年史》第一卷" class="max-w-lg">
-    海面下的灯塔仍然亮着，只是没有人再需要它指路。
+  <Blockquote cite="夏目漱石《吾輩は猫である》" class="max-w-lg">
+    吾輩は猫である。名前はまだ無い。
   </Blockquote>
 </template>

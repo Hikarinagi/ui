@@ -17,7 +17,9 @@
         </Stack>
         <Stack gap="xs">
           <Text size="sm">Bio</Text>
-          <Input model-value="Restarting an observation programme at an abandoned observatory." />
+          <Input
+            model-value="A travelling merchant and a girl who calls herself a harvest deity."
+          />
         </Stack>
       </Stack>
     </template>
