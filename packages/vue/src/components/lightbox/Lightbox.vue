@@ -190,6 +190,7 @@
       >
         <div
           ref="stageEl"
+          :data-hn-phase="phase.current()"
           :class="
             cn(
               'dark fixed inset-0 z-(--hn-z-overlay) touch-none outline-none select-none',

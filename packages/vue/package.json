@@ -1,14 +1,48 @@
 {
   "name": "@hina-ui/vue",
   "version": "0.0.0",
-  "private": true,
+  "description": "An elegant, restrained Vue 3 component library built on Reka UI and Tailwind CSS v4.",
+  "keywords": [
+    "vue",
+    "vue3",
+    "component-library",
+    "design-system",
+    "ui",
+    "tailwindcss",
+    "reka-ui",
+    "accessibility"
+  ],
+  "homepage": "https://hinaui.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hikarinagi/ui.git",
+    "directory": "packages/vue"
+  },
+  "bugs": "https://github.com/Hikarinagi/ui/issues",
   "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "module": "./dist/index.js",
+  "types": "./dist/types/index.d.ts",
   "exports": {
-    ".": "./src/index.ts",
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/index.js"
+    },
     "./styles/tokens.css": "./src/styles/tokens.css",
     "./package.json": "./package.json"
   },
+  "files": [
+    "dist",
+    "src",
+    "!src/**/*.test.ts"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
+    "build": "vite build && vue-tsc -p tsconfig.build.json",
     "typecheck": "vue-tsc --noEmit -p tsconfig.json",
     "test": "vitest run",
     "test:watch": "vitest",

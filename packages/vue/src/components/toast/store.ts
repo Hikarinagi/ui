@@ -50,7 +50,7 @@ const SETTLE_DELAY = (DURATION.exit + 0.06) * 1000
 
 let seed = 0
 
-export const toastState = reactive<{ items: ToastItem[] }>({ items: [] })
+export const toastState: { items: ToastItem[] } = reactive({ items: [] })
 
 interface Timer {
   handle: ReturnType<typeof setTimeout> | undefined
