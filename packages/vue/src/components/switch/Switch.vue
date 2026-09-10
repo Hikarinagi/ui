@@ -5,9 +5,11 @@
   import { useFieldControl } from '../form-field/context'
   import {
     checkbox,
+    checkboxControl,
     checkboxDescription,
     checkboxTitle,
     checkboxTitleText,
+    type CheckboxVariants,
   } from '../checkbox/checkbox.variants'
   import { switchThumb, switchTrack, type SwitchVariants } from './switch.variants'
 
@@ -16,6 +18,8 @@
   const props = defineProps<{
     size?: SwitchVariants['size']
     description?: string
+    controlPlacement?: CheckboxVariants['controlPlacement']
+    block?: boolean
     disabled?: boolean
     invalid?: boolean
     class?: string
@@ -41,7 +45,17 @@
     data-hn-switch
     data-hn-state-group
     :data-disabled="disabled ? '' : undefined"
-    :class="cn(checkbox({ size: props.size }), props.class)"
+    :class="
+      cn(
+        checkbox({
+          size: props.size,
+          controlPlacement: props.controlPlacement,
+          block: props.block,
+          bare: !slots.default && !props.description,
+        }),
+        props.class,
+      )
+    "
   >
     <SwitchRoot
       v-bind="$attrs"
@@ -52,14 +66,22 @@
       :aria-describedby="describedBy"
       :data-invalid="invalid ? '' : undefined"
       :data-hn-on="model ? '' : undefined"
-      :class="switchTrack({ size: props.size })"
+      :class="
+        cn(
+          switchTrack({ size: props.size }),
+          checkboxControl({ controlPlacement: props.controlPlacement }),
+        )
+      "
     >
       <span data-hn-thumb aria-hidden="true" :class="switchThumb()" />
     </SwitchRoot>
-    <span v-if="slots.default" :class="checkboxTitle()">
+    <span v-if="slots.default" :class="checkboxTitle({ controlPlacement: props.controlPlacement })">
       <span :class="checkboxTitleText()"><slot /></span>
     </span>
-    <span v-if="props.description" :class="checkboxDescription({ size: props.size })">
+    <span
+      v-if="props.description"
+      :class="checkboxDescription({ size: props.size, controlPlacement: props.controlPlacement })"
+    >
       {{ props.description }}
     </span>
   </label>

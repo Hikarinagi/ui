@@ -79,6 +79,7 @@
   <div
     data-hn-textarea
     :data-invalid="invalid ? '' : undefined"
+    :data-disabled="disabled ? '' : undefined"
     :style="{ '--hn-textarea-rows': bounds.min, '--hn-textarea-max-rows': bounds.max }"
     :class="
       cn(

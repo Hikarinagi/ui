@@ -20,6 +20,24 @@ A form field lays out one control together with its label, description and error
 
 ## Examples {#examples}
 
+### Horizontal layout {#horizontal}
+
+`orientation="horizontal"` puts the label on the leading side and the control on the trailing side. `label-width` accepts a CSS length or a number of pixels; it defaults to `10rem`. Use [FormLayout](/components/form-layout#aligned) to share a label width across fields. The horizontal layout always keeps two columns.
+
+<Demo name="form-field/horizontal" />
+
+### Description placement {#description-placement}
+
+`description-placement="label"` places the description below the label and before the control in reading order. The default, `control`, places it below the control. Errors always stay in the control area. Both placements support the `description` slot and retain the same accessible association.
+
+<Demo name="form-field/description-placement" />
+
+### Responsive layout {#responsive}
+
+`orientation="responsive"` stacks content while the field is narrower than `32rem`, and uses two columns at `32rem` and above. This follows the field's own available width, including inside a multi-column form, rather than the viewport. Resize the example to see the switch.
+
+<Demo name="form-field/responsive" />
+
 ### Description {#description}
 
 `description` shows a line of help under the control; the slot of the same name takes richer content.
@@ -60,15 +78,18 @@ A single control is linked through the label's `for`; grouped controls such as r
 
 ### Props {#props}
 
-| Prop          | Type      | Default | Description                                     |
-| ------------- | --------- | ------- | ----------------------------------------------- |
-| `name`        | `string`  | —       | Field name used to read the error from the form |
-| `label`       | `string`  | —       | Label text                                      |
-| `description` | `string`  | —       | Description text                                |
-| `error`       | `string`  | —       | Error text set directly                         |
-| `required`    | `boolean` | `false` | Whether the required mark shows                 |
-| `disabled`    | `boolean` | `false` | Whether the control is disabled                 |
-| `class`       | `string`  | —       | Classes appended to the root element            |
+| Prop                   | Type                                         | Default      | Description                                                        |
+| ---------------------- | -------------------------------------------- | ------------ | ------------------------------------------------------------------ |
+| `name`                 | `string`                                     | —            | Field name used to read the error from the form                    |
+| `label`                | `string`                                     | —            | Label text                                                         |
+| `description`          | `string`                                     | —            | Description text                                                   |
+| `error`                | `string`                                     | —            | Error text set directly                                            |
+| `required`             | `boolean`                                    | `false`      | Whether the required mark shows                                    |
+| `orientation`          | `'vertical' \| 'horizontal' \| 'responsive'` | `'vertical'` | Label/control layout; inherits from FormLayout                     |
+| `descriptionPlacement` | `'label' \| 'control'`                       | `'control'`  | Description below the label or control; inherits from FormLayout   |
+| `labelWidth`           | `string \| number`                           | `'10rem'`    | Label column width: CSS length or pixels; inherits from FormLayout |
+| `disabled`             | `boolean`                                    | `false`      | Whether the control is disabled                                    |
+| `class`                | `string`                                     | —            | Classes appended to the root element                               |
 
 ### Slots {#slots}
 

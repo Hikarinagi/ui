@@ -20,6 +20,14 @@ import { FormLayout } from '@hina-ui/vue'
 
 ## 示例 {#examples}
 
+### 标签列对齐 {#aligned}
+
+在布局上统一设置 `orientation`、`label-width` 和 `description-placement`，内部 FormField 会继承这些设置，也可以逐项覆盖。嵌套 FormLayout 继承外层配置，其覆盖值只作用于自己的后代。`columns` 仍表示一行放几个字段，不表示标签与控件的列数。
+
+响应式模式下，每个字段的可用宽度小于 `32rem` 时改为纵向排列。没有标签和标签侧说明的字段占满整行，适合包装自带文案的 Switch 或 Checkbox。
+
+<Demo name="form-layout/aligned" />
+
 ### 多列 {#columns}
 
 `columns` 取 1 到 4；需要占满一行的字段给它加上 `sm:col-span-2` 这类跨列的类。
@@ -53,13 +61,16 @@ import { FormLayout } from '@hina-ui/vue'
 
 ### Props {#props}
 
-| 属性          | 类型               | 默认值  | 说明               |
-| ------------- | ------------------ | ------- | ------------------ |
-| `legend`      | `string`           | —       | 这组字段的标题     |
-| `description` | `string`           | —       | 说明文字           |
-| `columns`     | `1 \| 2 \| 3 \| 4` | `1`     | 栅格列数           |
-| `disabled`    | `boolean`          | `false` | 是否禁用整组字段   |
-| `class`       | `string`           | —       | 追加至根元素的类名 |
+| 属性                   | 类型                                         | 默认值       | 说明                           |
+| ---------------------- | -------------------------------------------- | ------------ | ------------------------------ |
+| `legend`               | `string`                                     | —            | 这组字段的标题                 |
+| `description`          | `string`                                     | —            | 说明文字                       |
+| `columns`              | `1 \| 2 \| 3 \| 4`                           | `1`          | 栅格列数                       |
+| `orientation`          | `'vertical' \| 'horizontal' \| 'responsive'` | `'vertical'` | 后代字段的默认布局             |
+| `descriptionPlacement` | `'label' \| 'control'`                       | `'control'`  | 后代字段的默认说明位置         |
+| `labelWidth`           | `string \| number`                           | `'10rem'`    | 统一标签列宽：CSS 长度或像素数 |
+| `disabled`             | `boolean`                                    | `false`      | 是否禁用整组字段               |
+| `class`                | `string`                                     | —            | 追加至根元素的类名             |
 
 ### 插槽 {#slots}
 

@@ -28,6 +28,12 @@ The checkbox joins the box and its label into one clickable unit. `v-model` bind
 
 <Demo name="checkbox/description" />
 
+### Settings rows {#settings}
+
+Use `control-placement="end"` to place the control after the text and `block` to fill the available width. The description stays below the label. `start` and `end` follow the text direction.
+
+<Demo name="checkbox/settings" />
+
 ### Indeterminate {#indeterminate}
 
 The value `'indeterminate'` shows a dash. The usual case is "select all": the parent is indeterminate while some children are ticked, and clicking it ticks them all.
@@ -74,14 +80,16 @@ Inside a [FormField](/components/form-field) the error message is rendered by th
 
 ### Props {#props}
 
-| Prop          | Type                         | Default | Description                                 |
-| ------------- | ---------------------------- | ------- | ------------------------------------------- |
-| `modelValue`  | `boolean \| 'indeterminate'` | `false` | Whether ticked; `'indeterminate'` for mixed |
-| `size`        | `'sm' \| 'md' \| 'lg'`       | `'md'`  | Size                                        |
-| `description` | `string`                     | —       | Supporting text under the label             |
-| `disabled`    | `boolean`                    | `false` | Whether the control is disabled             |
-| `invalid`     | `boolean`                    | `false` | Whether the control failed validation       |
-| `class`       | `string`                     | —       | Classes appended to the root element        |
+| Prop               | Type                         | Default   | Description                                  |
+| ------------------ | ---------------------------- | --------- | -------------------------------------------- |
+| `modelValue`       | `boolean \| 'indeterminate'` | `false`   | Whether ticked; `'indeterminate'` for mixed  |
+| `size`             | `'sm' \| 'md' \| 'lg'`       | `'md'`    | Size                                         |
+| `description`      | `string`                     | —         | Supporting text under the label              |
+| `controlPlacement` | `'start' \| 'end'`           | `'start'` | Position of the control relative to its text |
+| `block`            | `boolean`                    | `false`   | Fill the available row width                 |
+| `disabled`         | `boolean`                    | `false`   | Whether the control is disabled              |
+| `invalid`          | `boolean`                    | `false`   | Whether the control failed validation        |
+| `class`            | `string`                     | —         | Classes appended to the root element         |
 
 ### Slots {#slots}
 

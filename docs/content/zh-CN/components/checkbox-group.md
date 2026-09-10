@@ -34,6 +34,12 @@ import { CheckboxGroup } from '@hina-ui/vue'
 
 <Demo name="checkbox-group/description" />
 
+### 设置行 {#settings}
+
+使用 `control-placement="end"` 将控件放到文案末端，配合 `block` 撑满容器宽度。说明始终位于标题下方；`start` 和 `end` 会跟随文字方向。启用 `block` 后，纵向选项各自撑满一行，横向选项等分行宽。`orientation` 仍表示多个选项的排列方向。
+
+<Demo name="checkbox-group/settings" />
+
 ### 尺寸 {#sizes}
 
 `size` 下发到每个复选框。
@@ -71,15 +77,17 @@ import { CheckboxGroup } from '@hina-ui/vue'
 
 ### Props {#props}
 
-| 属性          | 类型                         | 默认值       | 说明                       |
-| ------------- | ---------------------------- | ------------ | -------------------------- |
-| `modelValue`  | `Array<string \| number>`    | `[]`         | 已选值                     |
-| `options`     | `SelectOption[]`             | —            | 选项，类型与 `Select` 相同 |
-| `orientation` | `'vertical' \| 'horizontal'` | `'vertical'` | 排列方向                   |
-| `size`        | `'sm' \| 'md' \| 'lg'`       | `'md'`       | 每个复选框的尺寸           |
-| `disabled`    | `boolean`                    | `false`      | 是否禁用整组               |
-| `invalid`     | `boolean`                    | `false`      | 是否处于校验未通过状态     |
-| `class`       | `string`                     | —            | 追加至根元素的类名         |
+| 属性               | 类型                         | 默认值       | 说明                       |
+| ------------------ | ---------------------------- | ------------ | -------------------------- |
+| `modelValue`       | `Array<string \| number>`    | `[]`         | 已选值                     |
+| `options`          | `SelectOption[]`             | —            | 选项，类型与 `Select` 相同 |
+| `orientation`      | `'vertical' \| 'horizontal'` | `'vertical'` | 排列方向                   |
+| `size`             | `'sm' \| 'md' \| 'lg'`       | `'md'`       | 每个复选框的尺寸           |
+| `controlPlacement` | `'start' \| 'end'`           | `'start'`    | 控件相对于文案的位置       |
+| `block`            | `boolean`                    | `false`      | 整组撑满，横向选项等分宽度 |
+| `disabled`         | `boolean`                    | `false`      | 是否禁用整组               |
+| `invalid`          | `boolean`                    | `false`      | 是否处于校验未通过状态     |
+| `class`            | `string`                     | —            | 追加至根元素的类名         |
 
 ### 插槽 {#slots}
 

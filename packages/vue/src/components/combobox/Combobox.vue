@@ -93,6 +93,7 @@
       <div
         data-hn-combobox
         :data-invalid="invalid ? '' : undefined"
+        :data-disabled="disabled ? '' : undefined"
         :class="
           cn(
             group ? inputEmbedded() : inputHost({ variant: props.variant, size: props.size }),

@@ -118,6 +118,7 @@ export { default as MenubarRadioGroup } from './components/menubar/MenubarRadioG
 export { default as MenubarRadioItem } from './components/menubar/MenubarRadioItem.vue'
 export { default as Form } from './components/form/Form.vue'
 export { default as FormField } from './components/form-field/FormField.vue'
+export type { FormFieldLayoutProps } from './components/form-field/types'
 export { default as FormLayout } from './components/form-layout/FormLayout.vue'
 export type { FormLayoutVariants } from './components/form-layout/form-layout.variants'
 export type { FormValidateOn } from './components/form/composables/useForm'

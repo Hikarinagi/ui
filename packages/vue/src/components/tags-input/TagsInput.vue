@@ -78,6 +78,7 @@
   <div
     data-hn-tags-input
     :data-invalid="invalid ? '' : undefined"
+    :data-disabled="disabled ? '' : undefined"
     @click="focusFieldFrom($event.currentTarget as HTMLElement, $event.target as HTMLElement)"
     :class="
       cn(

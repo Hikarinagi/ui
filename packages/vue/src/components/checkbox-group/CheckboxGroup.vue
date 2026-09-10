@@ -5,7 +5,11 @@
   import Checkbox from '../checkbox/Checkbox.vue'
   import type { CheckboxVariants } from '../checkbox/checkbox.variants'
   import type { SelectOption } from '../select/types'
-  import { checkboxGroup, type CheckboxGroupVariants } from './checkbox-group.variants'
+  import {
+    checkboxGroup,
+    checkboxGroupItem,
+    type CheckboxGroupVariants,
+  } from './checkbox-group.variants'
 
   defineOptions({ name: 'HnCheckboxGroup' })
 
@@ -13,6 +17,8 @@
     options: SelectOption[]
     orientation?: CheckboxGroupVariants['orientation']
     size?: CheckboxVariants['size']
+    controlPlacement?: CheckboxVariants['controlPlacement']
+    block?: boolean
     disabled?: boolean
     invalid?: boolean
     class?: string
@@ -41,13 +47,16 @@
     data-hn-checkbox-group
     :data-orientation="props.orientation ?? 'vertical'"
     :data-disabled="disabled ? '' : undefined"
-    :class="cn(checkboxGroup({ orientation: props.orientation }), props.class)"
+    :class="cn(checkboxGroup({ orientation: props.orientation, block: props.block }), props.class)"
   >
     <Checkbox
       v-for="option in props.options"
       :key="option.value"
       :value="option.value"
       :size="props.size"
+      :control-placement="props.controlPlacement"
+      :block="props.block"
+      :class="checkboxGroupItem({ orientation: props.orientation, block: props.block })"
       :disabled="disabled || option.disabled"
       :invalid="invalid"
       :description="option.description"

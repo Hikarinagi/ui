@@ -28,6 +28,12 @@ import { Switch } from '@hina-ui/vue'
 
 <Demo name="switch/description" />
 
+### 设置行 {#settings}
+
+使用 `control-placement="end"` 将控件放到文案末端，配合 `block` 撑满容器宽度。说明始终位于标题下方；`start` 和 `end` 会跟随文字方向。
+
+<Demo name="switch/settings" />
+
 ### 尺寸 {#sizes}
 
 `size` 有 `sm`、`md`、`lg` 三档，轨道高分别为 20、24、28 像素，文字随档位变化。
@@ -67,14 +73,16 @@ import { Switch } from '@hina-ui/vue'
 
 ### Props {#props}
 
-| 属性          | 类型                   | 默认值  | 说明                   |
-| ------------- | ---------------------- | ------- | ---------------------- |
-| `modelValue`  | `boolean`              | `false` | 是否开启               |
-| `size`        | `'sm' \| 'md' \| 'lg'` | `'md'`  | 尺寸                   |
-| `description` | `string`               | —       | 文字下方的说明         |
-| `disabled`    | `boolean`              | `false` | 是否禁用               |
-| `invalid`     | `boolean`              | `false` | 是否处于校验未通过状态 |
-| `class`       | `string`               | —       | 追加至根元素的类名     |
+| 属性               | 类型                   | 默认值    | 说明                   |
+| ------------------ | ---------------------- | --------- | ---------------------- |
+| `modelValue`       | `boolean`              | `false`   | 是否开启               |
+| `size`             | `'sm' \| 'md' \| 'lg'` | `'md'`    | 尺寸                   |
+| `description`      | `string`               | —         | 文字下方的说明         |
+| `controlPlacement` | `'start' \| 'end'`     | `'start'` | 控件相对于文案的位置   |
+| `block`            | `boolean`              | `false`   | 整行撑满容器宽度       |
+| `disabled`         | `boolean`              | `false`   | 是否禁用               |
+| `invalid`          | `boolean`              | `false`   | 是否处于校验未通过状态 |
+| `class`            | `string`               | —         | 追加至根元素的类名     |
 
 ### 插槽 {#slots}
 

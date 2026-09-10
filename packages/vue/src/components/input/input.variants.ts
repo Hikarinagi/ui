@@ -2,8 +2,8 @@ import { tv, type VariantProps } from '../../lib/tv'
 
 export const inputHost = tv({
   base: [
-    'hn-field text-fg flex w-full min-w-0 cursor-text items-stretch overflow-hidden rounded-md border font-medium',
-    'has-disabled:cursor-not-allowed has-disabled:opacity-50',
+    'group/hn-field hn-field text-fg flex w-full min-w-0 cursor-text items-stretch overflow-hidden rounded-md border font-medium',
+    'data-disabled:cursor-not-allowed data-disabled:opacity-50',
   ],
   variants: {
     variant: {
@@ -64,5 +64,9 @@ export const inputActionSlot = tv({
 export type InputVariants = VariantProps<typeof inputHost>
 
 export const inputEmbedded = tv({
-  base: 'flex min-w-0 flex-1 items-stretch',
+  base: [
+    'group/hn-field flex min-w-0 flex-1 items-stretch',
+    'data-disabled:cursor-not-allowed data-disabled:opacity-50',
+    'group-data-disabled/hn-field:data-disabled:opacity-100',
+  ],
 })

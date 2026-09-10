@@ -16,9 +16,9 @@ afterEach(() => {
   mounted = []
 })
 
-function attach() {
+function attach(width = 320) {
   const host = document.createElement('div')
-  host.style.cssText = 'width: 320px; padding: 40px'
+  host.style.cssText = `width: ${width}px; padding: 40px`
   document.body.appendChild(host)
   return host
 }
@@ -56,39 +56,42 @@ function monotonic(samples: number[], direction: 1 | -1) {
 }
 
 describe('FormField', () => {
-  it('错误信息出现与消失时高度连续变化，不跳变', async () => {
-    const w = mount(FormField, {
-      attachTo: attach(),
-      props: { label: '邮箱' },
-      slots: { default: () => h(Input) },
-      global: { stubs: { transition: false } },
-    })
-    mounted.push(w)
-    const root = w.element as HTMLElement
-    const height = () => root.getBoundingClientRect().height
-    const before = height()
+  it.each(['vertical', 'horizontal', 'responsive'] as const)(
+    '%s：错误信息出现与消失时高度连续变化，不跳变',
+    async orientation => {
+      const w = mount(FormField, {
+        attachTo: attach(orientation === 'vertical' ? 320 : 700),
+        props: { label: '邮箱', orientation },
+        slots: { default: () => h(Input) },
+        global: { stubs: { transition: false } },
+      })
+      mounted.push(w)
+      const root = w.element as HTMLElement
+      const height = () => root.getBoundingClientRect().height
+      const before = height()
 
-    await w.setProps({ error: '邮箱格式不正确' })
-    await nextTick()
-    const collapse = root.querySelector<HTMLElement>('[data-hn-form-field-message]')!
-    const opening = await settle(height)
-    const after = opening[opening.length - 1]!
-    expect(after).toBeGreaterThan(before + 10)
-    expect(between(opening, before, after).length).toBeGreaterThanOrEqual(4)
-    expect(monotonic(opening, 1)).toBe(true)
+      await w.setProps({ error: '邮箱格式不正确' })
+      await nextTick()
+      const collapse = root.querySelector<HTMLElement>('[data-hn-form-field-message]')!
+      const opening = await settle(height)
+      const after = opening[opening.length - 1]!
+      expect(after).toBeGreaterThan(before + 10)
+      expect(between(opening, before, after).length).toBeGreaterThanOrEqual(4)
+      expect(monotonic(opening, 1)).toBe(true)
 
-    await w.setProps({ error: undefined })
-    await nextTick()
-    expect(root.contains(collapse)).toBe(true)
-    await frame()
-    await frame()
-    const fast = ms(getComputedStyle(root).getPropertyValue('--hn-duration-fast'))
-    const durations = getComputedStyle(collapse).transitionDuration.split(',').map(ms)
-    expect(durations).toEqual([fast, fast, fast, 0])
-    const closing = await settle(height)
-    expect(closing[closing.length - 1]).toBeCloseTo(before, 0)
-    expect(between(closing, before, after).length).toBeGreaterThanOrEqual(4)
-    expect(monotonic(closing, -1)).toBe(true)
-    expect(root.contains(collapse)).toBe(false)
-  })
+      await w.setProps({ error: undefined })
+      await nextTick()
+      expect(root.contains(collapse)).toBe(true)
+      await frame()
+      await frame()
+      const fast = ms(getComputedStyle(root).getPropertyValue('--hn-duration-fast'))
+      const durations = getComputedStyle(collapse).transitionDuration.split(',').map(ms)
+      expect(durations).toEqual([fast, fast, fast, 0])
+      const closing = await settle(height)
+      expect(closing[closing.length - 1]).toBeCloseTo(before, 0)
+      expect(between(closing, before, after).length).toBeGreaterThanOrEqual(4)
+      expect(monotonic(closing, -1)).toBe(true)
+      expect(root.contains(collapse)).toBe(false)
+    },
+  )
 })

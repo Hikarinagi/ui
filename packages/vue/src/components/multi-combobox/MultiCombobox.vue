@@ -130,6 +130,7 @@
       <div
         data-hn-multi-combobox
         :data-invalid="invalid ? '' : undefined"
+        :data-disabled="disabled ? '' : undefined"
         :aria-busy="props.loading || undefined"
         :class="
           cn(

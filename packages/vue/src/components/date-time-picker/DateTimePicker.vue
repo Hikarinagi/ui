@@ -96,6 +96,7 @@
         ref="host"
         data-hn-date-time-picker
         :data-invalid="invalid ? '' : undefined"
+        :data-disabled="disabled ? '' : undefined"
         :class="
           cn(
             outer ? inputEmbedded() : inputHost({ variant: props.variant, size: props.size }),

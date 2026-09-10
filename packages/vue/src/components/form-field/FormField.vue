@@ -6,8 +6,13 @@
   import VisuallyHidden from '../visually-hidden/VisuallyHidden.vue'
   import { injectForm } from '../form/context'
   import { provideFormField } from './context'
+  import { useFormFieldLayout } from '../form-layout/context'
+  import type { FormFieldLayoutProps } from './types'
   import {
     formFieldDescription,
+    formFieldLayout,
+    formFieldContent,
+    formFieldControl,
     formFieldLabel,
     formFieldMark,
     formFieldMessage,
@@ -16,16 +21,19 @@
 
   defineOptions({ name: 'HnFormField' })
 
-  const props = defineProps<{
-    name?: string
-    label?: string
-    description?: string
-    error?: string
-    required?: boolean
-    disabled?: boolean
-    class?: string
-  }>()
+  const props = defineProps<
+    FormFieldLayoutProps & {
+      name?: string
+      label?: string
+      description?: string
+      error?: string
+      required?: boolean
+      disabled?: boolean
+      class?: string
+    }
+  >()
 
+  const layout = useFormFieldLayout(props)
   const slots = useSlots()
   const t = useUiLocale()
   const form = injectForm()
@@ -45,6 +53,19 @@
   const invalid = computed(() => !!message.value)
   const disabled = computed(() => !!props.disabled || !!form?.disabled.value)
   const described = computed(() => !!props.description || !!slots.description)
+  const headed = computed(() => !!props.label || !!slots.label)
+  const descriptionWithLabel = computed(
+    () => described.value && layout.value.descriptionPlacement === 'label',
+  )
+  const contentOrientation = computed(() =>
+    headed.value || descriptionWithLabel.value ? layout.value.orientation : 'vertical',
+  )
+  const layoutStyle = computed(() => ({
+    '--hn-form-label-width':
+      typeof layout.value.labelWidth === 'number'
+        ? `${layout.value.labelWidth}px`
+        : layout.value.labelWidth,
+  }))
   const describedBy = computed(() => {
     const ids = []
     if (described.value) ids.push(descriptionId)
@@ -65,39 +86,63 @@
     data-hn-form-field
     :data-invalid="invalid ? '' : undefined"
     :data-disabled="disabled ? '' : undefined"
-    :class="cn(formFieldRoot(), props.class)"
+    :data-orientation="layout.orientation"
+    :class="cn(formFieldRoot({ orientation: layout.orientation }), props.class)"
+    :style="layoutStyle"
     @focusout="onFocusOut"
   >
-    <label
-      v-if="props.label || slots.label"
-      :id="labelId"
-      :for="controlId"
-      :class="formFieldLabel({ disabled })"
-    >
-      <slot name="label">{{ props.label }}</slot>
-      <span v-if="props.required" :class="formFieldMark()" aria-hidden="true">*</span>
-      <VisuallyHidden v-if="props.required">{{ t.form.required }}</VisuallyHidden>
-    </label>
-    <slot />
-    <p v-if="described" :id="descriptionId" :class="formFieldDescription()">
-      <slot name="description">{{ props.description }}</slot>
-    </p>
-    <Transition
-      enter-from-class="hn-collapse-closed"
-      enter-to-class="hn-collapse-open"
-      leave-from-class="hn-collapse-open"
-      leave-to-class="hn-collapse-closed"
-      v-on="hooks"
-    >
+    <div data-hn-form-field-layout :class="formFieldLayout({ orientation: contentOrientation })">
       <div
-        v-if="message"
-        data-hn-form-field-message
-        class="hn-collapse [--hn-collapse-out:var(--hn-duration-fast)]"
+        v-if="headed || descriptionWithLabel"
+        data-hn-form-field-header
+        :class="formFieldContent()"
       >
-        <div class="hn-collapse-body">
-          <p :id="messageId" :class="formFieldMessage()" aria-live="polite">{{ message }}</p>
-        </div>
+        <label
+          v-if="headed"
+          :id="labelId"
+          :for="controlId"
+          :class="formFieldLabel({ disabled, orientation: contentOrientation })"
+        >
+          <slot name="label">{{ props.label }}</slot>
+          <span v-if="props.required" :class="formFieldMark()" aria-hidden="true">*</span>
+          <VisuallyHidden v-if="props.required">{{ t.form.required }}</VisuallyHidden>
+        </label>
+        <p v-if="descriptionWithLabel" :id="descriptionId" :class="formFieldDescription()">
+          <slot name="description">{{ props.description }}</slot>
+        </p>
       </div>
-    </Transition>
+      <div data-hn-form-field-body :class="formFieldContent()">
+        <div
+          data-hn-form-field-control
+          :class="formFieldControl({ orientation: contentOrientation })"
+        >
+          <slot />
+        </div>
+        <p
+          v-if="described && !descriptionWithLabel"
+          :id="descriptionId"
+          :class="formFieldDescription()"
+        >
+          <slot name="description">{{ props.description }}</slot>
+        </p>
+        <Transition
+          enter-from-class="hn-collapse-closed"
+          enter-to-class="hn-collapse-open"
+          leave-from-class="hn-collapse-open"
+          leave-to-class="hn-collapse-closed"
+          v-on="hooks"
+        >
+          <div
+            v-if="message"
+            data-hn-form-field-message
+            class="hn-collapse [--hn-collapse-out:var(--hn-duration-fast)]"
+          >
+            <div class="hn-collapse-body">
+              <p :id="messageId" :class="formFieldMessage()" aria-live="polite">{{ message }}</p>
+            </div>
+          </div>
+        </Transition>
+      </div>
+    </div>
   </div>
 </template>

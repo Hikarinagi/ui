@@ -106,6 +106,7 @@
       :disabled="disabled"
       :data-placeholder="selected ? undefined : ''"
       :data-invalid="invalid ? '' : undefined"
+      :data-disabled="disabled ? '' : undefined"
       :aria-invalid="invalid || undefined"
       :class="
         cn(

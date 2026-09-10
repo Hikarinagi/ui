@@ -4,6 +4,7 @@
   import { useFieldControl } from '../form-field/context'
   import {
     checkbox,
+    checkboxControl,
     checkboxBox,
     checkboxDescription,
     checkboxTitle,
@@ -12,6 +13,7 @@
   } from '../checkbox/checkbox.variants'
   import {
     checkboxGroup,
+    checkboxGroupItem,
     type CheckboxGroupVariants,
   } from '../checkbox-group/checkbox-group.variants'
   import type { SelectOption } from '../select/types'
@@ -23,6 +25,8 @@
     options: SelectOption[]
     orientation?: CheckboxGroupVariants['orientation']
     size?: CheckboxVariants['size']
+    controlPlacement?: CheckboxVariants['controlPlacement']
+    block?: boolean
     disabled?: boolean
     invalid?: boolean
     class?: string
@@ -46,7 +50,7 @@
     :aria-describedby="describedBy"
     :aria-invalid="invalid || undefined"
     data-hn-radio-group
-    :class="cn(checkboxGroup({ orientation: props.orientation }), props.class)"
+    :class="cn(checkboxGroup({ orientation: props.orientation, block: props.block }), props.class)"
   >
     <label
       v-for="option in props.options"
@@ -54,7 +58,16 @@
       data-hn-radio
       data-hn-state-group
       :data-disabled="disabled || option.disabled ? '' : undefined"
-      :class="checkbox({ size: props.size })"
+      :class="
+        cn(
+          checkbox({
+            size: props.size,
+            controlPlacement: props.controlPlacement,
+            block: props.block,
+          }),
+          checkboxGroupItem({ orientation: props.orientation, block: props.block }),
+        )
+      "
     >
       <RadioGroupItem
         v-slot="{ checked }"
@@ -62,7 +75,12 @@
         :disabled="option.disabled"
         :aria-invalid="invalid || undefined"
         :data-invalid="invalid ? '' : undefined"
-        :class="checkboxBox({ shape: 'round', size: props.size })"
+        :class="
+          cn(
+            checkboxBox({ shape: 'round', size: props.size }),
+            checkboxControl({ controlPlacement: props.controlPlacement }),
+          )
+        "
       >
         <Transition
           enter-active-class="hn-transition-press"
@@ -73,12 +91,15 @@
           <span v-if="checked" :class="radioDot()" />
         </Transition>
       </RadioGroupItem>
-      <span :class="checkboxTitle()">
+      <span :class="checkboxTitle({ controlPlacement: props.controlPlacement })">
         <span :class="checkboxTitleText()">
           <slot name="option" :option="option">{{ option.label }}</slot>
         </span>
       </span>
-      <span v-if="option.description" :class="checkboxDescription({ size: props.size })">
+      <span
+        v-if="option.description"
+        :class="checkboxDescription({ size: props.size, controlPlacement: props.controlPlacement })"
+      >
         {{ option.description }}
       </span>
     </label>
