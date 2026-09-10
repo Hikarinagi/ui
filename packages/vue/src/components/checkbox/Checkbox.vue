@@ -6,6 +6,7 @@
   import { useFieldControl } from '../form-field/context'
   import {
     checkbox,
+    checkboxControl,
     checkboxBox,
     checkboxDescription,
     checkboxTitle,
@@ -18,6 +19,8 @@
   const props = defineProps<{
     size?: CheckboxVariants['size']
     description?: string
+    controlPlacement?: CheckboxVariants['controlPlacement']
+    block?: boolean
     disabled?: boolean
     invalid?: boolean
     class?: string
@@ -43,7 +46,17 @@
     data-hn-checkbox
     data-hn-state-group
     :data-disabled="disabled ? '' : undefined"
-    :class="cn(checkbox({ size: props.size }), props.class)"
+    :class="
+      cn(
+        checkbox({
+          size: props.size,
+          controlPlacement: props.controlPlacement,
+          block: props.block,
+          bare: !slots.default && !props.description,
+        }),
+        props.class,
+      )
+    "
   >
     <CheckboxRoot
       v-slot="{ state }"
@@ -54,7 +67,12 @@
       :aria-invalid="invalid || undefined"
       :aria-describedby="describedBy"
       :data-invalid="invalid ? '' : undefined"
-      :class="checkboxBox({ size: props.size })"
+      :class="
+        cn(
+          checkboxBox({ size: props.size }),
+          checkboxControl({ controlPlacement: props.controlPlacement }),
+        )
+      "
     >
       <Transition
         enter-active-class="hn-transition-press"
@@ -73,10 +91,13 @@
         <Minus v-if="state === 'indeterminate'" aria-hidden="true" />
       </Transition>
     </CheckboxRoot>
-    <span v-if="slots.default" :class="checkboxTitle()">
+    <span v-if="slots.default" :class="checkboxTitle({ controlPlacement: props.controlPlacement })">
       <span :class="checkboxTitleText()"><slot /></span>
     </span>
-    <span v-if="props.description" :class="checkboxDescription({ size: props.size })">
+    <span
+      v-if="props.description"
+      :class="checkboxDescription({ size: props.size, controlPlacement: props.controlPlacement })"
+    >
       {{ props.description }}
     </span>
   </label>

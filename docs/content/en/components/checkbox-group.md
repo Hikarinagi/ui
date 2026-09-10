@@ -34,6 +34,12 @@ An option's `description` shows under its label.
 
 <Demo name="checkbox-group/description" />
 
+### Settings rows {#settings}
+
+Use `control-placement="end"` to place the control after the text and `block` to fill the available width. The description stays below the label. `start` and `end` follow the text direction. With `block`, vertical items fill each row; horizontal items share the row equally. `orientation` still controls the arrangement of options.
+
+<Demo name="checkbox-group/settings" />
+
 ### Sizes {#sizes}
 
 `size` is passed to every checkbox.
@@ -71,15 +77,17 @@ Inside a [FormField](/components/form-field) the label is linked to the whole gr
 
 ### Props {#props}
 
-| Prop          | Type                         | Default      | Description                          |
-| ------------- | ---------------------------- | ------------ | ------------------------------------ |
-| `modelValue`  | `Array<string \| number>`    | `[]`         | The chosen values                    |
-| `options`     | `SelectOption[]`             | —            | The items, same type as `Select`     |
-| `orientation` | `'vertical' \| 'horizontal'` | `'vertical'` | Layout direction                     |
-| `size`        | `'sm' \| 'md' \| 'lg'`       | `'md'`       | Size of every checkbox               |
-| `disabled`    | `boolean`                    | `false`      | Whether the whole group is disabled  |
-| `invalid`     | `boolean`                    | `false`      | Whether the group failed validation  |
-| `class`       | `string`                     | —            | Classes appended to the root element |
+| Prop               | Type                         | Default      | Description                                      |
+| ------------------ | ---------------------------- | ------------ | ------------------------------------------------ |
+| `modelValue`       | `Array<string \| number>`    | `[]`         | The chosen values                                |
+| `options`          | `SelectOption[]`             | —            | The items, same type as `Select`                 |
+| `orientation`      | `'vertical' \| 'horizontal'` | `'vertical'` | Layout direction                                 |
+| `size`             | `'sm' \| 'md' \| 'lg'`       | `'md'`       | Size of every checkbox                           |
+| `controlPlacement` | `'start' \| 'end'`           | `'start'`    | Position of the control relative to its text     |
+| `block`            | `boolean`                    | `false`      | Fill the group; horizontal items share the width |
+| `disabled`         | `boolean`                    | `false`      | Whether the whole group is disabled              |
+| `invalid`          | `boolean`                    | `false`      | Whether the group failed validation              |
+| `class`            | `string`                     | —            | Classes appended to the root element             |
 
 ### Slots {#slots}
 

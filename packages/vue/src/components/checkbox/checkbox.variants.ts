@@ -2,10 +2,16 @@ import { tv, type VariantProps } from '../../lib/tv'
 
 export const checkbox = tv({
   base: [
-    'text-fg grid w-fit max-w-full cursor-pointer grid-cols-[auto_minmax(0,1fr)] items-center gap-x-[var(--hn-field-gap)] select-none',
+    'text-fg grid w-fit max-w-full cursor-pointer items-center gap-x-[var(--hn-field-gap)] select-none',
     'data-disabled:cursor-not-allowed data-disabled:opacity-50',
   ],
   variants: {
+    controlPlacement: {
+      start: 'grid-cols-[auto_minmax(0,1fr)]',
+      end: 'grid-cols-[minmax(0,1fr)_auto]',
+    },
+    block: { true: 'w-full' },
+    bare: { true: 'gap-x-0' },
     size: {
       sm: 'text-sm',
       md: 'text-base',
@@ -14,7 +20,20 @@ export const checkbox = tv({
   },
   defaultVariants: {
     size: 'md',
+    controlPlacement: 'start',
+    block: false,
   },
+})
+
+export const checkboxControl = tv({
+  base: 'row-start-1',
+  variants: {
+    controlPlacement: {
+      start: 'col-start-1 justify-self-start',
+      end: 'col-start-2 justify-self-end',
+    },
+  },
+  defaultVariants: { controlPlacement: 'start' },
 })
 
 export const checkboxBox = tv({
@@ -46,7 +65,14 @@ export const checkboxBox = tv({
 })
 
 export const checkboxTitle = tv({
-  base: 'flex min-h-[1lh] min-w-0 items-center',
+  base: 'row-start-1 flex min-h-[1lh] min-w-0 items-center',
+  variants: {
+    controlPlacement: {
+      start: 'col-start-2',
+      end: 'col-start-1',
+    },
+  },
+  defaultVariants: { controlPlacement: 'start' },
 })
 
 export const checkboxTitleText = tv({
@@ -54,8 +80,12 @@ export const checkboxTitleText = tv({
 })
 
 export const checkboxDescription = tv({
-  base: 'text-muted col-start-2 block',
+  base: 'text-muted row-start-2 block',
   variants: {
+    controlPlacement: {
+      start: 'col-start-2',
+      end: 'col-start-1',
+    },
     size: {
       sm: 'text-xs',
       md: 'text-sm',
@@ -64,6 +94,7 @@ export const checkboxDescription = tv({
   },
   defaultVariants: {
     size: 'md',
+    controlPlacement: 'start',
   },
 })
 

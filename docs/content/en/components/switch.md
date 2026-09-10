@@ -28,6 +28,12 @@ A switch stands for a setting that takes effect immediately, unlike a checkbox t
 
 <Demo name="switch/description" />
 
+### Settings rows {#settings}
+
+Use `control-placement="end"` to place the control after the text and `block` to fill the available width. The description stays below the label. `start` and `end` follow the text direction.
+
+<Demo name="switch/settings" />
+
 ### Sizes {#sizes}
 
 `size` is `sm`, `md` or `lg`; the track is 20, 24 or 28 pixels tall and the text follows.
@@ -67,14 +73,16 @@ Inside a [FormField](/components/form-field) the error message is rendered by th
 
 ### Props {#props}
 
-| Prop          | Type                   | Default | Description                           |
-| ------------- | ---------------------- | ------- | ------------------------------------- |
-| `modelValue`  | `boolean`              | `false` | Whether the switch is on              |
-| `size`        | `'sm' \| 'md' \| 'lg'` | `'md'`  | Size                                  |
-| `description` | `string`               | —       | Supporting text under the label       |
-| `disabled`    | `boolean`              | `false` | Whether the control is disabled       |
-| `invalid`     | `boolean`              | `false` | Whether the control failed validation |
-| `class`       | `string`               | —       | Classes appended to the root element  |
+| Prop               | Type                   | Default   | Description                                  |
+| ------------------ | ---------------------- | --------- | -------------------------------------------- |
+| `modelValue`       | `boolean`              | `false`   | Whether the switch is on                     |
+| `size`             | `'sm' \| 'md' \| 'lg'` | `'md'`    | Size                                         |
+| `description`      | `string`               | —         | Supporting text under the label              |
+| `controlPlacement` | `'start' \| 'end'`     | `'start'` | Position of the control relative to its text |
+| `block`            | `boolean`              | `false`   | Fill the available row width                 |
+| `disabled`         | `boolean`              | `false`   | Whether the control is disabled              |
+| `invalid`          | `boolean`              | `false`   | Whether the control failed validation        |
+| `class`            | `string`               | —         | Classes appended to the root element         |
 
 ### Slots {#slots}
 
