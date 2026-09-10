@@ -3,7 +3,7 @@ import { tv, type VariantProps } from '../../lib/tv'
 export const textarea = tv({
   base: [
     'hn-field text-fg flex w-full min-w-0 cursor-text flex-col overflow-hidden rounded-md border font-medium',
-    'has-disabled:cursor-not-allowed has-disabled:opacity-50',
+    'data-disabled:cursor-not-allowed data-disabled:opacity-50',
   ],
   variants: {
     variant: {

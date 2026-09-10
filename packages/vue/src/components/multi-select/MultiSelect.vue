@@ -105,6 +105,7 @@
       :tabindex="disabled ? -1 : 0"
       :aria-disabled="disabled || undefined"
       :data-invalid="invalid ? '' : undefined"
+      :data-disabled="disabled ? '' : undefined"
       :aria-invalid="invalid || undefined"
       :class="
         cn(

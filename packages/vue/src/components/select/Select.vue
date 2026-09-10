@@ -74,6 +74,7 @@
       @keydown="keyboard = true"
       @pointerdown="keyboard = false"
       :data-invalid="invalid ? '' : undefined"
+      :data-disabled="disabled ? '' : undefined"
       :aria-invalid="invalid || undefined"
       :class="
         cn(

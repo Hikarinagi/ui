@@ -128,7 +128,7 @@
     opacity var(--hn-duration-fast) var(--hn-ease-enter);
 
   @media (hover: hover) {
-    &:hover:not(:disabled):not(:has(:disabled)):not(
+    &:hover:not(:disabled):not([data-disabled]):not(
         :has(:is(input, textarea, [data-hn-segment]):focus-visible)
       ):not([data-invalid]) {
       background-color: color-mix(
@@ -138,7 +138,7 @@
       );
     }
 
-    &[data-invalid]:hover:not(:disabled):not(:has(:disabled)):not(
+    &[data-invalid]:hover:not(:disabled):not([data-disabled]):not(
         :has(:is(input, textarea, [data-hn-segment]):focus-visible)
       ) {
       background-color: color-mix(
