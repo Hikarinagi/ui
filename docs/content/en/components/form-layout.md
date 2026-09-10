@@ -20,6 +20,14 @@ The form layout puts a set of related fields into a `fieldset`: `legend` names t
 
 ## Examples {#examples}
 
+### Aligned fields {#aligned}
+
+Set `orientation`, `label-width` and `description-placement` once on the layout to configure its FormFields. A field can override any setting; nested layouts inherit the outer settings and scope their own overrides to their descendants. `columns` still means the number of fields per row, not label/control columns.
+
+In responsive mode each field stacks below `32rem` of available width. A field without a label or label-side description uses the full row, which suits a Switch or Checkbox that carries its own label.
+
+<Demo name="form-layout/aligned" />
+
 ### Columns {#columns}
 
 `columns` takes 1 to 4; give a field that should fill a row a spanning class such as `sm:col-span-2`.
@@ -53,13 +61,16 @@ Several layouts in one form, each with its own title and description, separated 
 
 ### Props {#props}
 
-| Prop          | Type               | Default | Description                          |
-| ------------- | ------------------ | ------- | ------------------------------------ |
-| `legend`      | `string`           | —       | Title of the group                   |
-| `description` | `string`           | —       | Description text                     |
-| `columns`     | `1 \| 2 \| 3 \| 4` | `1`     | Number of grid columns               |
-| `disabled`    | `boolean`          | `false` | Whether the whole group is disabled  |
-| `class`       | `string`           | —       | Classes appended to the root element |
+| Prop                   | Type                                         | Default      | Description                                         |
+| ---------------------- | -------------------------------------------- | ------------ | --------------------------------------------------- |
+| `legend`               | `string`                                     | —            | Title of the group                                  |
+| `description`          | `string`                                     | —            | Description text                                    |
+| `columns`              | `1 \| 2 \| 3 \| 4`                           | `1`          | Number of grid columns                              |
+| `orientation`          | `'vertical' \| 'horizontal' \| 'responsive'` | `'vertical'` | Default layout for descendant fields                |
+| `descriptionPlacement` | `'label' \| 'control'`                       | `'control'`  | Default description placement for descendant fields |
+| `labelWidth`           | `string \| number`                           | `'10rem'`    | Shared label column width: CSS length or pixels     |
+| `disabled`             | `boolean`                                    | `false`      | Whether the whole group is disabled                 |
+| `class`                | `string`                                     | —            | Classes appended to the root element                |
 
 ### Slots {#slots}
 

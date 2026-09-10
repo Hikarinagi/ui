@@ -20,6 +20,24 @@ import { FormField } from '@hina-ui/vue'
 
 ## 示例 {#examples}
 
+### 横向布局 {#horizontal}
+
+`orientation="horizontal"` 将标签放在起始侧，控件放在末端侧。`label-width` 接受 CSS 长度或以像素为单位的数字，默认 `10rem`。通过 [FormLayout](/components/form-layout#aligned) 可为多个字段统一标签列宽。横向模式始终保持两列。
+
+<Demo name="form-field/horizontal" />
+
+### 说明位置 {#description-placement}
+
+`description-placement="label"` 将说明放在标签下方，阅读顺序也位于控件之前。默认的 `control` 将说明放在控件下方。错误提示始终留在控件区域。两种位置都支持 `description` 插槽，并保持与控件的无障碍关联。
+
+<Demo name="form-field/description-placement" />
+
+### 响应式布局 {#responsive}
+
+`orientation="responsive"` 在字段宽度小于 `32rem` 时纵向排列，达到 `32rem` 时切为两列。断点依据字段自身的可用宽度，多列表单也按每个字段的列宽判断。拖动示例容器调整宽度即可观察切换。
+
+<Demo name="form-field/responsive" />
+
 ### 说明文字 {#description}
 
 `description` 在控件下方显示一段说明，也可以用同名插槽放入更丰富的内容。
@@ -60,15 +78,18 @@ import { FormField } from '@hina-ui/vue'
 
 ### Props {#props}
 
-| 属性          | 类型      | 默认值  | 说明                       |
-| ------------- | --------- | ------- | -------------------------- |
-| `name`        | `string`  | —       | 字段名，用于从表单取得错误 |
-| `label`       | `string`  | —       | 标签文字                   |
-| `description` | `string`  | —       | 说明文字                   |
-| `error`       | `string`  | —       | 直接指定的错误文字         |
-| `required`    | `boolean` | `false` | 是否显示必填标记           |
-| `disabled`    | `boolean` | `false` | 是否禁用控件               |
-| `class`       | `string`  | —       | 追加至根元素的类名         |
+| 属性                   | 类型                                         | 默认值       | 说明                                             |
+| ---------------------- | -------------------------------------------- | ------------ | ------------------------------------------------ |
+| `name`                 | `string`                                     | —            | 字段名，用于从表单取得错误                       |
+| `label`                | `string`                                     | —            | 标签文字                                         |
+| `description`          | `string`                                     | —            | 说明文字                                         |
+| `error`                | `string`                                     | —            | 直接指定的错误文字                               |
+| `required`             | `boolean`                                    | `false`      | 是否显示必填标记                                 |
+| `orientation`          | `'vertical' \| 'horizontal' \| 'responsive'` | `'vertical'` | 标签与控件的布局，继承 FormLayout 配置           |
+| `descriptionPlacement` | `'label' \| 'control'`                       | `'control'`  | 说明位于标签或控件下方，继承 FormLayout 配置     |
+| `labelWidth`           | `string \| number`                           | `'10rem'`    | 标签列宽：CSS 长度或像素数，继承 FormLayout 配置 |
+| `disabled`             | `boolean`                                    | `false`      | 是否禁用控件                                     |
+| `class`                | `string`                                     | —            | 追加至根元素的类名                               |
 
 ### 插槽 {#slots}
 

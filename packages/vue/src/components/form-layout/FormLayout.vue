@@ -2,6 +2,8 @@
   import { computed, shallowRef, useId, useSlots } from 'vue'
   import { cn } from '../../lib/cn'
   import { injectForm, provideForm } from '../form/context'
+  import type { FormFieldLayoutProps } from '../form-field/types'
+  import { provideFormLayout, useFormFieldLayout } from './context'
   import type { FormErrors } from '../form/standard-schema'
   import {
     formLayoutDescription,
@@ -14,15 +16,19 @@
   defineOptions({ name: 'HnFormLayout' })
 
   const props = withDefaults(
-    defineProps<{
-      legend?: string
-      description?: string
-      columns?: FormLayoutVariants['columns']
-      disabled?: boolean
-      class?: string
-    }>(),
+    defineProps<
+      FormFieldLayoutProps & {
+        legend?: string
+        description?: string
+        columns?: FormLayoutVariants['columns']
+        disabled?: boolean
+        class?: string
+      }
+    >(),
     { columns: 1 },
   )
+
+  provideFormLayout(useFormFieldLayout(props))
 
   const slots = useSlots()
   const form = injectForm()
