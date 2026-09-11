@@ -52,9 +52,23 @@ import { Dialog } from '@hina-ui/vue'
 
 ### 尺寸 {#sizes}
 
-`size` 设置面板的最大宽度，三档分别为 384、448 和 576 像素。
+`size` 设置面板的最大宽度，默认 `md`。五档宽度如下，实际宽度受视口限制。
+
+| size  | 最大宽度 |
+| ----- | -------- |
+| `sm`  | 24rem    |
+| `md`  | 28rem    |
+| `lg`  | 36rem    |
+| `xl`  | 42rem    |
+| `2xl` | 56rem    |
 
 <Demo name="dialog/sizes" />
+
+### 自定义宽度 {#width}
+
+`class` 作用于面板，可用 `max-w-[40rem]` 或 `max-w-[52rem]` 覆盖预设最大宽度。默认定位在窄屏上仍占满可用宽度，并保留两侧留白。
+
+<Demo name="dialog/width" />
 
 ### 位置 {#placement}
 
@@ -96,17 +110,17 @@ import { Dialog } from '@hina-ui/vue'
 
 ### Dialog {#props}
 
-| 属性          | 类型                   | 默认值  | 说明                         |
-| ------------- | ---------------------- | ------- | ---------------------------- |
-| `title`       | `string`               | —       | 必填。对话框标题             |
-| `description` | `string`               | —       | 标题下面的说明               |
-| `size`        | `'sm' \| 'md' \| 'lg'` | `'md'`  | 面板的最大宽度               |
-| `placement`   | `'center' \| 'bottom'` | —       | 不设置时随屏幕宽度变化       |
-| `header`      | `boolean`              | `true`  | 是否显示头部及其中的关闭按钮 |
-| `closable`    | `boolean`              | `true`  | 是否显示头部内的关闭按钮     |
-| `locked`      | `boolean`              | `false` | 是否禁止用户关闭             |
-| `open`        | `boolean`              | —       | 是否打开，支持双向绑定       |
-| `class`       | `string`               | —       | 追加到面板上的类名           |
+| 属性          | 类型                                    | 默认值  | 说明                         |
+| ------------- | --------------------------------------- | ------- | ---------------------------- |
+| `title`       | `string`                                | —       | 必填。对话框标题             |
+| `description` | `string`                                | —       | 标题下面的说明               |
+| `size`        | `'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'` | `'md'`  | 面板的最大宽度               |
+| `placement`   | `'center' \| 'bottom'`                  | —       | 不设置时随屏幕宽度变化       |
+| `header`      | `boolean`                               | `true`  | 是否显示头部及其中的关闭按钮 |
+| `closable`    | `boolean`                               | `true`  | 是否显示头部内的关闭按钮     |
+| `locked`      | `boolean`                               | `false` | 是否禁止用户关闭             |
+| `open`        | `boolean`                               | —       | 是否打开，支持双向绑定       |
+| `class`       | `string`                                | —       | 追加到面板上的类名           |
 
 | 插槽      | 参数        | 说明                                   |
 | --------- | ----------- | -------------------------------------- |

@@ -52,9 +52,23 @@ In this mode, `header`, `closable`, and the `icon`, `title`, `content` and `foot
 
 ### Sizes {#sizes}
 
-`size` sets the maximum width of the panel: 384, 448 and 576 pixels.
+`size` sets the panel's maximum width and defaults to `md`. The five widths are listed below; the actual width is constrained by the viewport.
+
+| size  | Maximum width |
+| ----- | ------------- |
+| `sm`  | 24rem         |
+| `md`  | 28rem         |
+| `lg`  | 36rem         |
+| `xl`  | 42rem         |
+| `2xl` | 56rem         |
 
 <Demo name="dialog/sizes" />
+
+### Custom width {#width}
+
+`class` styles the panel. Use `max-w-[40rem]` or `max-w-[52rem]` to override the preset maximum width. With the default placement, narrow screens still use the available width with space on both sides.
+
+<Demo name="dialog/width" />
 
 ### Placement {#placement}
 
@@ -96,17 +110,17 @@ With `locked`, neither Escape nor a click on the scrim closes the dialog, and a 
 
 ### Dialog {#props}
 
-| Prop          | Type                   | Default | Description                             |
-| ------------- | ---------------------- | ------- | --------------------------------------- |
-| `title`       | `string`               | —       | Required. The dialog title              |
-| `description` | `string`               | —       | The line under the title                |
-| `size`        | `'sm' \| 'md' \| 'lg'` | `'md'`  | Maximum width of the panel              |
-| `placement`   | `'center' \| 'bottom'` | —       | Follows the screen width when omitted   |
-| `header`      | `boolean`              | `true`  | Show the header and its close button    |
-| `closable`    | `boolean`              | `true`  | Show the close button within the header |
-| `locked`      | `boolean`              | `false` | Whether the user is kept from closing   |
-| `open`        | `boolean`              | —       | Whether it is open; supports v-model    |
-| `class`       | `string`               | —       | Classes appended to the panel           |
+| Prop          | Type                                    | Default | Description                             |
+| ------------- | --------------------------------------- | ------- | --------------------------------------- |
+| `title`       | `string`                                | —       | Required. The dialog title              |
+| `description` | `string`                                | —       | The line under the title                |
+| `size`        | `'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'` | `'md'`  | Maximum width of the panel              |
+| `placement`   | `'center' \| 'bottom'`                  | —       | Follows the screen width when omitted   |
+| `header`      | `boolean`                               | `true`  | Show the header and its close button    |
+| `closable`    | `boolean`                               | `true`  | Show the close button within the header |
+| `locked`      | `boolean`                               | `false` | Whether the user is kept from closing   |
+| `open`        | `boolean`                               | —       | Whether it is open; supports v-model    |
+| `class`       | `string`                                | —       | Classes appended to the panel           |
 
 | Slot      | Payload     | Description                                                      |
 | --------- | ----------- | ---------------------------------------------------------------- |

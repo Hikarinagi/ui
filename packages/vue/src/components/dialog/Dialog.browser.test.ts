@@ -188,12 +188,19 @@ describe('dialog · 大面积浮层', () => {
     await vi.waitFor(() => expect(panel()).toBeNull())
   })
 
-  it('size 三档:lg 拿到 576px 上限', async () => {
-    await page.viewport(1024, 720)
-    const w = harness({ size: 'lg' })
+  it.each([
+    ['sm', 384],
+    ['md', 448],
+    ['lg', 576],
+    ['xl', 672],
+    ['2xl', 896],
+  ] as const)('size=%s 最大宽度为 %s px', async (size, pixels) => {
+    await page.viewport(1280, 720)
+    const w = harness({ size })
     await userEvent.click(w.find('button').element as HTMLElement)
     await vi.waitFor(() => expect(panel()).toBeTruthy())
-    expect(getComputedStyle(panel()!).maxWidth).toBe('576px')
+    expect(getComputedStyle(panel()!).maxWidth).toBe(pixels + 'px')
+    await vi.waitFor(() => expect(Math.round(panel()!.getBoundingClientRect().width)).toBe(pixels))
   })
 
   it('placement 显式 bottom:浮底留白、四角圆角保留、sheet 动画', async () => {
@@ -467,5 +474,37 @@ describe('dialog · 自定义 body', () => {
     expect(root.querySelector('.hn-scroll-area')).toBeNull()
     expect(getComputedStyle(root).padding).toBe('0px')
     expect(panel()).toBe(root)
+  })
+})
+
+describe('dialog · 宽度边界', () => {
+  it.each([undefined, 'center', 'bottom'] as const)(
+    '2xl 在窄屏 placement=%s 时仍保留视口留白',
+    async placement => {
+      await page.viewport(430, 780)
+      const w = harness({ size: '2xl', placement })
+      await userEvent.click(w.find('button').element as HTMLElement)
+      await vi.waitFor(() => expect(panel()).toBeTruthy())
+      await vi.waitFor(() => {
+        const rect = panel()!.getBoundingClientRect()
+        expect(Math.round(rect.width)).toBe(398)
+        expect(Math.round(rect.left)).toBe(16)
+        expect(Math.round(rect.right)).toBe(414)
+      })
+    },
+  )
+
+  it.each([
+    ['max-w-[40rem]', 640],
+    ['max-w-[52rem]', 832],
+  ] as const)('class=%s 可覆盖大尺寸预设且不破坏窄屏宽度', async (className, pixels) => {
+    await page.viewport(1280, 720)
+    const w = harness({ size: '2xl', class: className })
+    await userEvent.click(w.find('button').element as HTMLElement)
+    await vi.waitFor(() => expect(panel()).toBeTruthy())
+    expect(getComputedStyle(panel()!).maxWidth).toBe(pixels + 'px')
+    await vi.waitFor(() => expect(Math.round(panel()!.getBoundingClientRect().width)).toBe(pixels))
+    await page.viewport(430, 780)
+    await vi.waitFor(() => expect(Math.round(panel()!.getBoundingClientRect().width)).toBe(398))
   })
 })

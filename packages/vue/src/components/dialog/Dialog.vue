@@ -15,7 +15,7 @@
   import Heading from '../heading/Heading.vue'
   import Text from '../text/Text.vue'
   import { cn } from '../../lib/cn'
-  import { dialogWrapper, dialogCard } from './dialog.variants'
+  import { dialogWrapper, dialogCard, type DialogVariants } from './dialog.variants'
 
   defineOptions({ name: 'HnDialog' })
 
@@ -23,7 +23,7 @@
     defineProps<{
       title: string
       description?: string
-      size?: 'sm' | 'md' | 'lg'
+      size?: DialogVariants['size']
       placement?: 'center' | 'bottom'
       header?: boolean
       closable?: boolean
