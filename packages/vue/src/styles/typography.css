@@ -81,7 +81,8 @@
   padding: 1em 1.25em;
 
   &:focus-visible,
-  &:has(> [data-overlayscrollbars-initialize]:focus-visible) {
+  &:has(> [data-overlayscrollbars-initialize]:focus-visible),
+  &:has(> [data-overlayscrollbars-initialize] > [data-overlayscrollbars-contents]:focus-visible) {
     outline: var(--hn-focus-ring-width) solid var(--hn-focus-ring);
     outline-offset: var(--hn-focus-ring-offset);
   }

@@ -6,6 +6,7 @@
   import { useEdgeShadow } from './composables/useEdgeShadow'
   import { useWheelRedirect } from './composables/useWheelRedirect'
   import { useLayerLock } from './composables/useLayerLock'
+  import { useScrollFocus } from './composables/useScrollFocus'
 
   defineOptions({ name: 'HnScrollArea', inheritAttrs: false })
 
@@ -59,6 +60,10 @@
   }
 
   const { viewport, instance, onEvent } = useOverlayScrollbars(host, content, options)
+  const { hostFocus, viewportFocus } = useScrollFocus(host, viewport, () => ({
+    focusable: props.focusable,
+    label: props.label ?? t.value.scroll.regionLabel,
+  }))
   const { showXStart, showXEnd, showYStart, showYEnd, updateEdges } = useEdgeShadow(
     viewport,
     () => ({ direction: props.direction, shadow: props.shadow }),
@@ -83,14 +88,11 @@
   <div :class="cn('hn-scroll-area relative flex flex-col overflow-hidden', props.class)">
     <div
       ref="host"
-      v-bind="$attrs"
+      v-bind="{ ...$attrs, ...hostFocus }"
       data-overlayscrollbars-initialize
-      :tabindex="props.focusable ? 0 : undefined"
-      :role="props.focusable ? 'region' : undefined"
-      :aria-label="props.focusable ? (props.label ?? t.scroll.regionLabel) : undefined"
       class="w-full min-h-0 grow"
     >
-      <div ref="content" data-overlayscrollbars-contents>
+      <div ref="content" v-bind="viewportFocus" data-overlayscrollbars-contents>
         <slot />
       </div>
     </div>
