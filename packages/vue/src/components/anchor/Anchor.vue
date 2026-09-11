@@ -43,6 +43,7 @@
         <Highlight
           v-if="span"
           as="li"
+          axis="y"
           role="presentation"
           :style="{ gridRow: span }"
           class="bg-accent col-start-1 -ms-px w-0.5 self-stretch justify-self-start rounded-full"

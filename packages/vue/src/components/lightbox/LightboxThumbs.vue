@@ -65,6 +65,7 @@
         <Highlight
           v-if="at === props.index"
           :id="highlightId"
+          axis="x"
           class="ring-accent absolute inset-0 rounded-md ring-2 ring-inset"
         />
       </button>

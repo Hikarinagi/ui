@@ -16,7 +16,7 @@ links:
 import { Highlight } from '@hina-ui/vue'
 ```
 
-`Highlight` is the block that marks the current item: the thumb of a segmented control, the indicator of tabs, the current span of a table of contents. It measures nothing; `class` pins it to the box of the active item, and when the active item changes, Motion's layout animation moves it continuously from the old position to the new one instead of hiding it in one place and showing it in another.
+`Highlight` marks the current item. It measures nothing; `class` pins it to the box of the active item, and when the active item changes, Motion's layout animation moves it continuously from the old position to the new one instead of hiding it in one place and showing it in another.
 
 It paints nothing of its own. Background, radius and stacking all come from `class`.
 
@@ -26,9 +26,15 @@ Render it inside the currently active item, toggled with `v-if`, and give it an 
 
 The example above does exactly this: every button holds an `absolute inset-0` highlight, and only the active one renders it.
 
+### Translation axis {#axis}
+
+Set `axis="x"` to animate horizontal translation only, or `axis="y"` to animate vertical translation only. Position on the other axis follows the current layout immediately. Width and height changes still animate. The default, `axis="both"`, animates translation on both axes.
+
+[Tabs](/components/tabs) and [SegmentedControl](/components/segmented-control) select the axis from `orientation`; [Anchor](/components/anchor) uses `y`.
+
 ### Covering a range {#range}
 
-When the current position is a region rather than a single item, such as the sections visible at once in a table of contents, lay the list out as a single-column grid with every item on an explicit row and make the highlight a grid item too, spanning the range with `grid-row`. It stays mounted, and the layout animation stretches it continuously whenever the span changes.
+Lay the list out as a single-column grid with every item on an explicit row and make the highlight a grid item too, spanning the range with `grid-row`. It stays mounted, and the layout animation stretches it continuously whenever the span changes.
 
 <Demo name="highlight/range" />
 
@@ -49,8 +55,9 @@ When the current position is a region rather than a single item, such as the sec
 
 ### Props {#props}
 
-| Prop    | Type            | Default | Description                                                    |
-| ------- | --------------- | ------- | -------------------------------------------------------------- |
-| `id`    | `string`        | —       | Shared layout animation id; required when moving between items |
-| `as`    | `'div' \| 'li'` | `'div'` | Element to render                                              |
-| `class` | `string`        | —       | Classes appended to the root element                           |
+| Prop    | Type                   | Default  | Description                                                    |
+| ------- | ---------------------- | -------- | -------------------------------------------------------------- |
+| `id`    | `string`               | —        | Shared layout animation id; required when moving between items |
+| `axis`  | `'x' \| 'y' \| 'both'` | `'both'` | Translation axis; width and height animations are preserved    |
+| `as`    | `'div' \| 'li'`        | `'div'`  | Element to render                                              |
+| `class` | `string`               | —        | Classes appended to the root element                           |
