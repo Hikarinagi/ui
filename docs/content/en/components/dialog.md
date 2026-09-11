@@ -24,6 +24,12 @@ The close button, the scrim, the scroll lock and the focus trap all come with th
 
 ## Examples {#examples}
 
+### Title content {#title}
+
+The `icon` slot displays a decorative icon before the title. The `title` slot replaces the title content and defaults to the `title` prop. Custom titles retain the `<h2>` semantics and provide the dialog's accessible name.
+
+<Demo name="dialog/title" />
+
 ### Sizes {#sizes}
 
 `size` sets the maximum width of the panel: 384, 448 and 576 pixels.
@@ -80,8 +86,10 @@ With `locked`, neither Escape nor a click on the scrim closes the dialog, and th
 | `open`        | `boolean`              | —       | Whether it is open; supports v-model  |
 | `class`       | `string`               | —       | Classes appended to the panel         |
 
-| Slot      | Payload     | Description                             |
-| --------- | ----------- | --------------------------------------- |
-| `default` | —           | The trigger; omit it to render none     |
-| `content` | `{ close }` | The body, scrolling when it is too tall |
-| `footer`  | `{ close }` | The actions along the bottom            |
+| Slot      | Payload     | Description                               |
+| --------- | ----------- | ----------------------------------------- |
+| `default` | —           | The trigger; omit it to render none       |
+| `icon`    | —           | Decorative icon before the title          |
+| `title`   | —           | Title content; defaults to the title prop |
+| `content` | `{ close }` | The body, scrolling when it is too tall   |
+| `footer`  | `{ close }` | The actions along the bottom              |

@@ -1,7 +1,7 @@
 import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest'
 import { page, userEvent } from '@vitest/browser/context'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { defineComponent, h, ref, type Ref } from 'vue'
+import { defineComponent, h, ref, type Ref, type VNodeChild } from 'vue'
 import Dialog from './Dialog.vue'
 import Button from '../button/Button.vue'
 import '../../../test/browser.css'
@@ -17,10 +17,18 @@ afterEach(() => {
   mounted = []
 })
 
+type DialogSlots = Partial<{
+  icon: () => VNodeChild
+  title: () => VNodeChild
+  content: (props: { close: () => void }) => VNodeChild
+  footer: (props: { close: () => void }) => VNodeChild
+}>
+
 function harness(
   dialogProps: Record<string, unknown> = {},
   open?: Ref<boolean>,
   content: () => ReturnType<typeof h> = () => h('p', '正文内容'),
+  slots: DialogSlots = {},
 ) {
   const host = document.createElement('div')
   document.body.appendChild(host)
@@ -43,6 +51,7 @@ function harness(
             default: () => h(Button, { variant: 'outline', tone: 'neutral' }, () => '打开'),
             content,
             footer: () => h(Button, { tone: 'danger' }, () => '确认删除'),
+            ...slots,
           }),
         )
       },
@@ -226,5 +235,29 @@ describe('dialog · 大面积浮层', () => {
     open.value = false
     await w.vm.$forceUpdate()
     await vi.waitFor(() => expect(panel()).toBeNull())
+  })
+})
+
+describe('dialog · 标题插槽', () => {
+  it('自定义标题关联到弹窗名称，装饰图标不参与命名，标题可响应更新', async () => {
+    const title = ref('自定义标题')
+    const w = harness({}, undefined, undefined, {
+      icon: () => h('svg', { 'data-test-icon': '', viewBox: '0 0 24 24' }, h('title', '装饰图标')),
+      title: () => h('span', title.value),
+    })
+    await userEvent.click(w.find('button').element as HTMLElement)
+    await vi.waitFor(() => expect(panel()).toBeTruthy())
+    const label = document.getElementById(panel()!.getAttribute('aria-labelledby')!)!
+    expect(label.tagName).toBe('H2')
+    expect(label.textContent).toBe('自定义标题')
+    expect(panel()!.querySelector('[data-test-icon]')!.closest('[aria-hidden="true"]')).toBeTruthy()
+    await expect
+      .element(page.getByRole('dialog', { name: '自定义标题', exact: true }))
+      .toBeVisible()
+    title.value = '更新后的标题'
+    await vi.waitFor(() => expect(label.textContent).toBe('更新后的标题'))
+    await expect
+      .element(page.getByRole('dialog', { name: '更新后的标题', exact: true }))
+      .toBeVisible()
   })
 })
