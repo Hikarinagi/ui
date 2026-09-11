@@ -1,23 +1,20 @@
 <script setup lang="ts">
-  import { AtSign } from '@lucide/vue'
-  import { Card, Input, InputGroup, InputGroupAddon, Stack } from '@hina-ui/vue'
+  import { Input, InputGroup, InputGroupAddon, Stack } from '@hina-ui/vue'
 </script>
 
 <template>
-  <Stack class="w-80">
-    <InputGroup>
-      <InputGroupAddon>
-        <AtSign />
-      </InputGroupAddon>
-      <Input aria-label="页面上的输入框" placeholder="直接放在页面上" />
+  <Stack class="w-full max-w-xs">
+    <InputGroup variant="primary">
+      <InputGroupAddon>@</InputGroupAddon>
+      <Input aria-label="primary" placeholder="primary" />
     </InputGroup>
-    <Card>
-      <InputGroup variant="secondary">
-        <InputGroupAddon>
-          <AtSign />
-        </InputGroupAddon>
-        <Input aria-label="卡片内的输入框" placeholder="放在卡片内" />
-      </InputGroup>
-    </Card>
+    <InputGroup variant="secondary">
+      <InputGroupAddon>@</InputGroupAddon>
+      <Input aria-label="secondary" placeholder="secondary" />
+    </InputGroup>
+    <InputGroup variant="bare">
+      <InputGroupAddon>@</InputGroupAddon>
+      <Input aria-label="bare" placeholder="bare" />
+    </InputGroup>
   </Stack>
 </template>

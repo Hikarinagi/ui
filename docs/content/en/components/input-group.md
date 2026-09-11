@@ -34,7 +34,9 @@ Size is set on the group and the fields and buttons inside line up with it. Butt
 
 ### Variants {#variants}
 
-`primary` sits directly on the page background with a border and shadow; `secondary` sits inside a surface such as a card, with only a tinted fill.
+`primary` has a border, background and shadow; `secondary` uses a tinted background; `bare` is transparent, without a border, shadow, hover fill or container focus ring. Size and padding keep their existing settings.
+
+`bare` preserves the disabled state and `aria-invalid`; [FormField](/components/form-field) can display the error message. Internal dividers are also hidden; buttons keep their own interaction feedback.
 
 <Demo name="input-group/variants" />
 
@@ -58,10 +60,10 @@ With the whole group inside a [FormField](/components/form-field) the label poin
 
 ## Behaviour {#behavior}
 
-- Focusing any text area inside the group grows the focus ring around the whole group.
+- For `primary` and `secondary`, focusing any text area inside the group shows the focus ring around the whole group.
 - Clicking an addon focuses the adjacent text area, placing the caret at the start for a prefix and at the end for a suffix. Buttons are unaffected.
 - A button inside the group draws its keyboard focus outline inwards, so the group's edge never clips it.
-- Hover, invalid and disabled behave the same as the input.
+- Hover, invalid and disabled behave the same as [Input](/components/input).
 
 ## Accessibility {#a11y}
 
@@ -71,13 +73,13 @@ With the whole group inside a [FormField](/components/form-field) the label poin
 
 ### InputGroup {#input-group}
 
-| Prop       | Type                       | Default     | Description                          |
-| ---------- | -------------------------- | ----------- | ------------------------------------ |
-| `variant`  | `'primary' \| 'secondary'` | `'primary'` | Variant                              |
-| `size`     | `'sm' \| 'md' \| 'lg'`     | `'md'`      | Size                                 |
-| `invalid`  | `boolean`                  | `false`     | Whether validation failed            |
-| `disabled` | `boolean`                  | `false`     | Whether the group is disabled        |
-| `class`    | `string`                   | —           | Classes appended to the root element |
+| Prop       | Type                                 | Default     | Description                          |
+| ---------- | ------------------------------------ | ----------- | ------------------------------------ |
+| `variant`  | `'primary' \| 'secondary' \| 'bare'` | `'primary'` | Variant                              |
+| `size`     | `'sm' \| 'md' \| 'lg'`               | `'md'`      | Size                                 |
+| `invalid`  | `boolean`                            | `false`     | Whether validation failed            |
+| `disabled` | `boolean`                            | `false`     | Whether the group is disabled        |
+| `class`    | `string`                             | —           | Classes appended to the root element |
 
 ### InputGroupAddon {#input-group-addon}
 

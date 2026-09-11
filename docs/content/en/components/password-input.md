@@ -34,7 +34,9 @@ Three sizes, matching the input.
 
 ### Variants {#variants}
 
-`primary` sits directly on the page background with a border and shadow; `secondary` sits inside a surface such as a card, with only a tinted fill.
+`primary` has a border, background and shadow; `secondary` uses a tinted background; `bare` is transparent, without a border, shadow, hover fill or container focus ring. Size and padding keep their existing settings.
+
+`bare` preserves the disabled state and `aria-invalid`; [FormField](/components/form-field) can display the error message. Action buttons keep their own hover and keyboard focus feedback.
 
 <Demo name="password-input/variants" />
 
@@ -54,7 +56,7 @@ Inside a [FormField](/components/form-field) the label points at the input, and 
 
 - Clicking the toggle does not blur the text area, so typing can continue after switching.
 - The toggle only changes how the text is displayed, not its value.
-- Hover, focus, invalid and disabled behave the same as the input.
+- Hover, focus, invalid and disabled behave the same as [Input](/components/input).
 
 ## Accessibility {#a11y}
 
@@ -65,15 +67,15 @@ Inside a [FormField](/components/form-field) the label points at the input, and 
 
 ### Props {#props}
 
-| Prop         | Type                       | Default     | Description                                           |
-| ------------ | -------------------------- | ----------- | ----------------------------------------------------- |
-| `modelValue` | `string`                   | —           | The text                                              |
-| `visible`    | `boolean`                  | `false`     | Whether the text is shown in plain; `v-model:visible` |
-| `variant`    | `'primary' \| 'secondary'` | `'primary'` | Variant                                               |
-| `size`       | `'sm' \| 'md' \| 'lg'`     | `'md'`      | Size                                                  |
-| `invalid`    | `boolean`                  | `false`     | Whether validation failed                             |
-| `disabled`   | `boolean`                  | `false`     | Whether the field is disabled                         |
-| `class`      | `string`                   | —           | Classes appended to the root element                  |
+| Prop         | Type                                 | Default     | Description                                           |
+| ------------ | ------------------------------------ | ----------- | ----------------------------------------------------- |
+| `modelValue` | `string`                             | —           | The text                                              |
+| `visible`    | `boolean`                            | `false`     | Whether the text is shown in plain; `v-model:visible` |
+| `variant`    | `'primary' \| 'secondary' \| 'bare'` | `'primary'` | Variant                                               |
+| `size`       | `'sm' \| 'md' \| 'lg'`               | `'md'`      | Size                                                  |
+| `invalid`    | `boolean`                            | `false`     | Whether validation failed                             |
+| `disabled`   | `boolean`                            | `false`     | Whether the field is disabled                         |
+| `class`      | `string`                             | —           | Classes appended to the root element                  |
 
 | Event               | Payload            | Description            |
 | ------------------- | ------------------ | ---------------------- |

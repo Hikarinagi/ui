@@ -1,8 +1,11 @@
 import { tv } from '../../lib/tv'
 
 export const numberInputStepper = tv({
-  base: 'border-line flex shrink-0 flex-col border-s',
+  base: 'flex shrink-0 flex-col',
   variants: {
+    divided: {
+      true: 'border-line border-s',
+    },
     size: {
       sm: '[&_svg]:size-3',
       md: '[&_svg]:size-3',
@@ -11,6 +14,7 @@ export const numberInputStepper = tv({
   },
   defaultVariants: {
     size: 'md',
+    divided: true,
   },
 })
 

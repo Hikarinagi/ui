@@ -2,10 +2,17 @@ import { tv } from '../../lib/tv'
 
 export const inputGroup = tv({
   base: [
-    '[&>*+*]:border-s [&>*+*]:border-s-line',
     '[&>button]:h-auto [&>button]:rounded-none [&>button]:[--hn-press-scale:1]',
     '[&>button:focus-visible]:-outline-offset-2',
   ],
+  variants: {
+    divided: {
+      true: '[&>*+*]:border-s [&>*+*]:border-s-line',
+    },
+  },
+  defaultVariants: {
+    divided: true,
+  },
 })
 
 export const inputGroupAddon = tv({

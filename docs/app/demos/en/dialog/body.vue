@@ -46,12 +46,12 @@
               </Stack>
               <Textarea
                 v-model="content"
-                variant="secondary"
+                variant="bare"
                 :autosize="{ minRows: 5 }"
                 :invalid="overLimit"
                 aria-label="Post content"
                 placeholder="Share a discovery, a recommendation, or a thought…"
-                class="rounded-none border-0 [--hn-field-bg:transparent] [--hn-textarea-px:0px]"
+                class="[--hn-textarea-px:0px]"
               />
               <Stack v-if="attached" class="relative">
                 <Image

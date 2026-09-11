@@ -42,7 +42,9 @@ import { NumberInput } from '@hina-ui/vue'
 
 ### 形态 {#variants}
 
-`primary` 直接放在页面底色上，带边框与阴影；`secondary` 放在卡片等表面内，只有一层浅色底。
+`primary` 带边框、背景与阴影；`secondary` 使用浅色背景；`bare` 背景透明，不绘制边框、阴影、悬停底色或容器聚焦环，尺寸与内边距仍由原有设置控制。
+
+`bare` 保留禁用状态与 `aria-invalid`；错误信息可由 [FormField](/components/form-field) 显示。步进按钮之间及其与输入区之间的分隔线也会隐藏，按钮仍可正常操作。
 
 <Demo name="number-input/variants" />
 
@@ -69,7 +71,7 @@ import { NumberInput } from '@hina-ui/vue'
 - 失焦或者按 Enter 时解析输入。无法解析时恢复为上一个值，超出范围的值限制到边界。
 - 输入时拒绝不能构成数字的字符。
 - 步进按钮支持按住连续增减，到达边界的一侧会禁用。
-- 悬停、聚焦、错误与禁用的表现与输入框相同。
+- 悬停、聚焦、错误与禁用的表现与 [Input](/components/input) 相同。
 
 ## 无障碍 {#a11y}
 
@@ -81,23 +83,23 @@ import { NumberInput } from '@hina-ui/vue'
 
 ### Props {#props}
 
-| 属性            | 类型                       | 默认值      | 说明               |
-| --------------- | -------------------------- | ----------- | ------------------ |
-| `modelValue`    | `number \| null`           | —           | 数值               |
-| `defaultValue`  | `number`                   | —           | 非受控时的初始值   |
-| `min`           | `number`                   | —           | 最小值             |
-| `max`           | `number`                   | —           | 最大值             |
-| `step`          | `number`                   | `1`         | 步长               |
-| `stepSnapping`  | `boolean`                  | `true`      | 是否把值对齐到步长 |
-| `formatOptions` | `Intl.NumberFormatOptions` | —           | 显示格式           |
-| `locale`        | `string`                   | —           | 格式化所用的语言   |
-| `controls`      | `boolean`                  | `true`      | 是否显示步进按钮   |
-| `variant`       | `'primary' \| 'secondary'` | `'primary'` | 形态               |
-| `size`          | `'sm' \| 'md' \| 'lg'`     | `'md'`      | 尺寸               |
-| `invalid`       | `boolean`                  | `false`     | 是否校验未通过     |
-| `disabled`      | `boolean`                  | `false`     | 是否禁用           |
-| `readonly`      | `boolean`                  | `false`     | 是否只读           |
-| `class`         | `string`                   | —           | 追加至根元素的类名 |
+| 属性            | 类型                                 | 默认值      | 说明               |
+| --------------- | ------------------------------------ | ----------- | ------------------ |
+| `modelValue`    | `number \| null`                     | —           | 数值               |
+| `defaultValue`  | `number`                             | —           | 非受控时的初始值   |
+| `min`           | `number`                             | —           | 最小值             |
+| `max`           | `number`                             | —           | 最大值             |
+| `step`          | `number`                             | `1`         | 步长               |
+| `stepSnapping`  | `boolean`                            | `true`      | 是否把值对齐到步长 |
+| `formatOptions` | `Intl.NumberFormatOptions`           | —           | 显示格式           |
+| `locale`        | `string`                             | —           | 格式化所用的语言   |
+| `controls`      | `boolean`                            | `true`      | 是否显示步进按钮   |
+| `variant`       | `'primary' \| 'secondary' \| 'bare'` | `'primary'` | 形态               |
+| `size`          | `'sm' \| 'md' \| 'lg'`               | `'md'`      | 尺寸               |
+| `invalid`       | `boolean`                            | `false`     | 是否校验未通过     |
+| `disabled`      | `boolean`                            | `false`     | 是否禁用           |
+| `readonly`      | `boolean`                            | `false`     | 是否只读           |
+| `class`         | `string`                             | —           | 追加至根元素的类名 |
 
 | 事件                | 参数                         | 说明     |
 | ------------------- | ---------------------------- | -------- |

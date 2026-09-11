@@ -70,7 +70,7 @@
 
   onMounted(fit)
   watch(
-    () => [model.value, props.size, bounds.value.min],
+    () => [model.value, props.size, props.variant, bounds.value.min],
     () => void nextTick(fit),
   )
 </script>

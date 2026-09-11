@@ -96,40 +96,45 @@ describe('textarea · 与 Input 同一副输入面', () => {
   })
 })
 
-describe('textarea · 滚动归 ScrollArea', () => {
-  it('固定行数时内容超出在框内滚动，textarea 自身不滚', async () => {
-    const { root, field } = mountArea({ rows: 3, modelValue: '一\n二\n三\n四\n五\n六' })
-    const three = root.offsetHeight
-    const viewport = await viewportOf(root)
-    expect(field.offsetHeight).toBeGreaterThan(three)
-    expect(viewport.scrollHeight).toBeGreaterThan(viewport.clientHeight)
-    expect(getComputedStyle(field).overflowY).toBe('hidden')
-    expect(getComputedStyle(root).resize).toBe('vertical')
-    viewport.scrollTop = 999
-    await vi.waitFor(() => expect(viewport.scrollTop).toBeGreaterThan(0))
-    expect(field.scrollTop).toBe(0)
-  })
+describe.each(['primary', 'secondary', 'bare'] as const)(
+  'textarea %s · 滚动归 ScrollArea',
+  variant => {
+    it('固定行数时内容超出在框内滚动，textarea 自身不滚', async () => {
+      const { root, field } = mountArea({ variant, rows: 3, modelValue: '一\n二\n三\n四\n五\n六' })
+      const three = root.offsetHeight
+      const viewport = await viewportOf(root)
+      expect(field.offsetHeight).toBeGreaterThan(three)
+      expect(viewport.scrollHeight).toBeGreaterThan(viewport.clientHeight)
+      expect(getComputedStyle(field).overflowY).toBe('hidden')
+      expect(getComputedStyle(root).resize).toBe('vertical')
+      viewport.scrollTop = 999
+      await vi.waitFor(() => expect(viewport.scrollTop).toBeGreaterThan(0))
+      expect(field.scrollTop).toBe(0)
+    })
 
-  it('autosize 随内容长高、在 maxRows 封顶后框内滚动且光标始终可见、删行后缩回', async () => {
-    const { root, field } = mountArea({ autosize: { minRows: 2, maxRows: 4 } })
-    const viewport = await viewportOf(root)
-    const line = parseFloat(getComputedStyle(field).lineHeight)
-    const two = root.offsetHeight
-    expect(getComputedStyle(root).resize).toBe('none')
+    it('autosize 随内容长高、在 maxRows 封顶后框内滚动且光标始终可见、删行后缩回', async () => {
+      const { root, field } = mountArea({ variant, autosize: { minRows: 2, maxRows: 4 } })
+      const viewport = await viewportOf(root)
+      const line = parseFloat(getComputedStyle(field).lineHeight)
+      const two = root.offsetHeight
+      expect(getComputedStyle(root).resize).toBe('none')
 
-    await userEvent.click(field)
-    await userEvent.keyboard('一{Enter}二{Enter}三')
-    await vi.waitFor(() => expect(root.offsetHeight).toBe(two + line))
+      await userEvent.click(field)
+      await userEvent.keyboard('一{Enter}二{Enter}三')
+      await vi.waitFor(() => expect(root.offsetHeight).toBe(two + line))
 
-    await userEvent.keyboard('{Enter}四{Enter}五{Enter}六')
-    await vi.waitFor(() => expect(root.offsetHeight).toBe(two + line * 2))
-    expect(viewport.scrollHeight).toBeGreaterThan(viewport.clientHeight)
-    expect(field.scrollTop).toBe(0)
-    await vi.waitFor(() =>
-      expect(viewport.scrollTop + viewport.clientHeight).toBeGreaterThanOrEqual(caretBottom(field)),
-    )
+      await userEvent.keyboard('{Enter}四{Enter}五{Enter}六')
+      await vi.waitFor(() => expect(root.offsetHeight).toBe(two + line * 2))
+      expect(viewport.scrollHeight).toBeGreaterThan(viewport.clientHeight)
+      expect(field.scrollTop).toBe(0)
+      await vi.waitFor(() =>
+        expect(viewport.scrollTop + viewport.clientHeight).toBeGreaterThanOrEqual(
+          caretBottom(field),
+        ),
+      )
 
-    await userEvent.keyboard('{Control>}a{/Control}{Backspace}')
-    await vi.waitFor(() => expect(root.offsetHeight).toBe(two))
-  })
-})
+      await userEvent.keyboard('{Control>}a{/Control}{Backspace}')
+      await vi.waitFor(() => expect(root.offsetHeight).toBe(two))
+    })
+  },
+)

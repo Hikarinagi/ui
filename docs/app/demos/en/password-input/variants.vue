@@ -1,17 +1,11 @@
 <script setup lang="ts">
-  import { Card, PasswordInput, Stack } from '@hina-ui/vue'
+  import { PasswordInput, Stack } from '@hina-ui/vue'
 </script>
 
 <template>
   <Stack class="w-full max-w-xs">
-    <PasswordInput model-value="hoshimi" aria-label="On the page" class="w-64" />
-    <Card>
-      <PasswordInput
-        variant="secondary"
-        model-value="hoshimi"
-        aria-label="Inside a card"
-        class="w-64"
-      />
-    </Card>
+    <PasswordInput variant="primary" aria-label="primary" model-value="hoshimi" />
+    <PasswordInput variant="secondary" aria-label="secondary" model-value="hoshimi" />
+    <PasswordInput variant="bare" aria-label="bare" model-value="hoshimi" />
   </Stack>
 </template>

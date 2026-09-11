@@ -4,13 +4,13 @@
   import { useUiLocale } from '../../locale'
   import InputBase from '../input/InputBase.vue'
   import InputAction from '../input/InputAction.vue'
-  import type { InputVariants } from '../input/input.variants'
+  import type { TextInputVariants } from '../input/input.variants'
 
   defineOptions({ name: 'HnPasswordInput', inheritAttrs: false })
 
   const props = defineProps<{
-    variant?: InputVariants['variant']
-    size?: InputVariants['size']
+    variant?: TextInputVariants['variant']
+    size?: TextInputVariants['size']
     disabled?: boolean
     invalid?: boolean
     class?: string

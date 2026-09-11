@@ -46,7 +46,9 @@ The `leading` and `trailing` slots sit on either side of the text area, for icon
 
 ### Variants {#variants}
 
-`primary` sits directly on the page background with a border and shadow; `secondary` sits inside a surface such as a card, with only a tinted fill.
+`primary` has a border, background and shadow; `secondary` uses a tinted background; `bare` is transparent, without a border, shadow, hover fill or container focus ring. Size and padding keep their existing settings.
+
+`bare` preserves the disabled state and `aria-invalid`; [FormField](/components/form-field) can display the error message. Action buttons keep their own hover and keyboard focus feedback.
 
 <Demo name="input/variants" />
 
@@ -64,7 +66,7 @@ Inside a [FormField](/components/form-field) the label points at the input throu
 
 ## Behaviour {#behavior}
 
-- The fill darkens on hover, an accent ring grows from the edge on focus, and the border and ring turn to the danger colour when invalid.
+- For `primary` and `secondary`, the fill darkens on hover, an accent ring appears on focus, and the border and ring use the danger colour when invalid. `bare` omits these visual states.
 - The clear button only appears with content and when not disabled; clicking it does not blur the text area.
 - Clicking an adornment focuses the text area, placing the caret at the start for a leading one and at the end for a trailing one.
 - Adornments, the clear button and the spinner all transition in and out.
@@ -79,16 +81,16 @@ Inside a [FormField](/components/form-field) the label points at the input throu
 
 ### Props {#props}
 
-| Prop         | Type                       | Default     | Description                          |
-| ------------ | -------------------------- | ----------- | ------------------------------------ |
-| `modelValue` | `string`                   | —           | The text                             |
-| `clearable`  | `boolean`                  | `false`     | Whether the clear button is shown    |
-| `loading`    | `boolean`                  | `false`     | Whether the spinner is shown         |
-| `variant`    | `'primary' \| 'secondary'` | `'primary'` | Variant                              |
-| `size`       | `'sm' \| 'md' \| 'lg'`     | `'md'`      | Size                                 |
-| `invalid`    | `boolean`                  | `false`     | Whether validation failed            |
-| `disabled`   | `boolean`                  | `false`     | Whether the field is disabled        |
-| `class`      | `string`                   | —           | Classes appended to the root element |
+| Prop         | Type                                 | Default     | Description                          |
+| ------------ | ------------------------------------ | ----------- | ------------------------------------ |
+| `modelValue` | `string`                             | —           | The text                             |
+| `clearable`  | `boolean`                            | `false`     | Whether the clear button is shown    |
+| `loading`    | `boolean`                            | `false`     | Whether the spinner is shown         |
+| `variant`    | `'primary' \| 'secondary' \| 'bare'` | `'primary'` | Variant                              |
+| `size`       | `'sm' \| 'md' \| 'lg'`               | `'md'`      | Size                                 |
+| `invalid`    | `boolean`                            | `false`     | Whether validation failed            |
+| `disabled`   | `boolean`                            | `false`     | Whether the field is disabled        |
+| `class`      | `string`                             | —           | Classes appended to the root element |
 
 ### Slots {#slots}
 

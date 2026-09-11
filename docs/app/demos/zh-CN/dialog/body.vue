@@ -46,12 +46,12 @@
               </Stack>
               <Textarea
                 v-model="content"
-                variant="secondary"
+                variant="bare"
                 :autosize="{ minRows: 5 }"
                 :invalid="overLimit"
                 aria-label="动态正文"
                 placeholder="分享你的发现、推荐或此刻的想法…"
-                class="rounded-none border-0 [--hn-field-bg:transparent] [--hn-textarea-px:0px]"
+                class="[--hn-textarea-px:0px]"
               />
               <Stack v-if="attached" class="relative">
                 <Image src="/sample.webp" alt="示例图片" class="aspect-video w-full rounded-md" />

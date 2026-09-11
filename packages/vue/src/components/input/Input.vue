@@ -1,13 +1,13 @@
 <script setup lang="ts">
   import { shallowRef } from 'vue'
   import InputBase from './InputBase.vue'
-  import type { InputVariants } from './input.variants'
+  import type { TextInputVariants } from './input.variants'
 
   defineOptions({ name: 'HnInput', inheritAttrs: false })
 
   const props = defineProps<{
-    variant?: InputVariants['variant']
-    size?: InputVariants['size']
+    variant?: TextInputVariants['variant']
+    size?: TextInputVariants['size']
     clearable?: boolean
     loading?: boolean
     disabled?: boolean
