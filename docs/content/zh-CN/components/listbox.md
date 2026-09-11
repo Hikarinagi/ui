@@ -54,6 +54,12 @@ import { Listbox } from '@hina-ui/vue'
 
 <Demo name="listbox/variants" />
 
+### 内边距 {#padding}
+
+`padded` 默认为 `true`，设为 `false` 可去掉内部列表外围的 4px 留白，与 `variant` 独立。选项和分组标题自身的内边距不变。`class` 仍用于根容器。
+
+<Demo name="listbox/padding" />
+
 ### 状态 {#states}
 
 `disabled` 禁用整个列表，选项上的 `disabled` 只禁用该项。
@@ -86,6 +92,7 @@ import { Listbox } from '@hina-ui/vue'
 | `options`    | `SelectItems`                                         | —           | 选项，类型与 `Select` 相同 |
 | `multiple`   | `boolean`                                             | `false`     | 是否多选                   |
 | `maxHeight`  | `string`                                              | `'20rem'`   | 列表的最大高度             |
+| `padded`     | `boolean`                                             | `true`      | 是否保留内部列表外围留白   |
 | `variant`    | `'primary' \| 'secondary' \| 'bare'`                  | `'primary'` | 形态                       |
 | `disabled`   | `boolean`                                             | `false`     | 是否禁用                   |
 | `class`      | `string`                                              | —           | 追加至根元素的类名         |

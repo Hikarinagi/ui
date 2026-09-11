@@ -18,7 +18,11 @@ export const listbox = tv({
 })
 
 export const listboxContent = tv({
-  base: 'flex flex-col p-1 outline-none',
+  base: 'flex flex-col outline-none',
+  variants: {
+    padded: { true: 'p-1', false: 'p-0' },
+  },
+  defaultVariants: { padded: true },
 })
 
 export type ListboxVariants = VariantProps<typeof listbox>

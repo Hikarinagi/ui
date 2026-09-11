@@ -54,6 +54,12 @@ The `option` slot customises each row.
 
 <Demo name="listbox/variants" />
 
+### Padding {#padding}
+
+`padded` defaults to `true`. Set it to `false` to remove the inner list's 4px surrounding padding, independently of `variant`. Each option and group label keeps its own padding. `class` continues to style the root container.
+
+<Demo name="listbox/padding" />
+
 ### States {#states}
 
 `disabled` disables the whole list, and `disabled` on an option disables that option only.
@@ -80,15 +86,16 @@ Inside a [FormField](/components/form-field) the label is linked to the list thr
 
 ### Props {#props}
 
-| Prop         | Type                                                  | Default     | Description                              |
-| ------------ | ----------------------------------------------------- | ----------- | ---------------------------------------- |
-| `modelValue` | `string \| number \| null \| Array<string \| number>` | —           | The chosen value, an array when multiple |
-| `options`    | `SelectItems`                                         | —           | The items, same type as `Select`         |
-| `multiple`   | `boolean`                                             | `false`     | Whether several can be chosen            |
-| `maxHeight`  | `string`                                              | `'20rem'`   | Maximum height of the list               |
-| `variant`    | `'primary' \| 'secondary' \| 'bare'`                  | `'primary'` | Variant                                  |
-| `disabled`   | `boolean`                                             | `false`     | Whether the list is disabled             |
-| `class`      | `string`                                              | —           | Classes appended to the root element     |
+| Prop         | Type                                                  | Default     | Description                               |
+| ------------ | ----------------------------------------------------- | ----------- | ----------------------------------------- |
+| `modelValue` | `string \| number \| null \| Array<string \| number>` | —           | The chosen value, an array when multiple  |
+| `options`    | `SelectItems`                                         | —           | The items, same type as `Select`          |
+| `multiple`   | `boolean`                                             | `false`     | Whether several can be chosen             |
+| `maxHeight`  | `string`                                              | `'20rem'`   | Maximum height of the list                |
+| `padded`     | `boolean`                                             | `true`      | Keep the inner list's surrounding padding |
+| `variant`    | `'primary' \| 'secondary' \| 'bare'`                  | `'primary'` | Variant                                   |
+| `disabled`   | `boolean`                                             | `false`     | Whether the list is disabled              |
+| `class`      | `string`                                              | —           | Classes appended to the root element      |
 
 ### Slots {#slots}
 

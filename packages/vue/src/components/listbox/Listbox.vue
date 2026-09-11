@@ -23,11 +23,12 @@
       options: SelectItems
       multiple?: boolean
       maxHeight?: string
+      padded?: boolean
       variant?: ListboxVariants['variant']
       disabled?: boolean
       class?: string
     }>(),
-    { maxHeight: '20rem' },
+    { maxHeight: '20rem', padded: true },
   )
 
   const model = defineModel<string | number | null | Array<string | number>>()
@@ -55,7 +56,7 @@
     :class="cn(listbox({ variant: props.variant }), props.class)"
   >
     <ScrollArea :style="{ maxHeight: props.maxHeight }">
-      <ListboxContent v-bind="$attrs" :class="listboxContent()">
+      <ListboxContent v-bind="$attrs" :class="listboxContent({ padded: props.padded })">
         <template
           v-for="item in props.options"
           :key="isOptionGroup(item) ? item.label : item.value"

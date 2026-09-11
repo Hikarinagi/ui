@@ -69,3 +69,54 @@ describe('Listbox embedded layout', () => {
     expect(w.emitted('update:modelValue')).toHaveLength(1)
   })
 })
+
+describe('Listbox content padding', () => {
+  for (const density of ['comfortable', 'compact']) {
+    for (const variant of ['primary', 'secondary', 'bare']) {
+      it(`${variant} / ${density}: removes internal padding without shifting or narrowing the list`, async () => {
+        const { w, host } = build({ variant })
+        host.dataset.density = density
+        const list = w.get('[role="listbox"]').element
+        const row = w.get('[role="option"]').element
+        const groupLabel = w.get('[role="group"]').element.firstElementChild!
+        const before = rect(row)
+        const left = rect(w.element).left
+        const width = rect(w.element).width
+        expect(getComputedStyle(list).padding).toBe('4px')
+        const rowPadding = getComputedStyle(row).padding
+        const labelPadding = getComputedStyle(groupLabel).padding
+        await w.setProps({ padded: false })
+        expect(getComputedStyle(list).padding).toBe('0px')
+        close(rect(w.element).left, left)
+        close(rect(w.element).width, width)
+        close(rect(row).left, before.left - 4)
+        close(rect(row).width, before.width + 8)
+        expect(getComputedStyle(row).padding).toBe(rowPadding)
+        expect(getComputedStyle(groupLabel).padding).toBe(labelPadding)
+        expect(host.scrollWidth).toBe(host.clientWidth)
+        await w.setProps({ padded: true })
+        close(rect(row).left, before.left)
+        close(rect(row).width, before.width)
+      })
+    }
+  }
+
+  it('an unpadded bare list still respects maxHeight and scrolls to the keyboard highlight', async () => {
+    const { w } = build({
+      variant: 'bare',
+      padded: false,
+      maxHeight: '8rem',
+      options: Array.from({ length: 25 }, (_, i) => ({ value: i, label: `Option ${i}` })),
+    })
+    const viewport = await vi.waitFor(() => {
+      const el = w.find('[data-overlayscrollbars-viewport]')
+      expect(el.exists()).toBe(true)
+      return el.element as HTMLElement
+    })
+    close(rect(w.element).height, 128)
+    ;(w.get('[role="listbox"]').element as HTMLElement).focus()
+    for (let i = 0; i < 12; i++) await userEvent.keyboard('{ArrowDown}')
+    await vi.waitFor(() => expect(viewport.scrollTop).toBeGreaterThan(0))
+    expect(viewport.scrollHeight).toBeGreaterThan(viewport.clientHeight)
+  })
+})
