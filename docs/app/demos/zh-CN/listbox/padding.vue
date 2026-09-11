@@ -2,10 +2,10 @@
   import { ref } from 'vue'
   import { Card, Listbox, Stack, Switch } from '@hina-ui/vue'
   const padded = ref(false)
-  const selected = ref('reading')
+  const selected = ref('a')
   const options = [
-    { value: 'reading', label: '在读' },
-    { label: '归档', options: [{ value: 'finished', label: '已读' }] },
+    { value: 'a', label: '选项 A' },
+    { label: '分组', options: [{ value: 'b', label: '选项 B' }] },
   ]
 </script>
 <template>
@@ -17,7 +17,7 @@
         :options="options"
         variant="bare"
         :padded="padded"
-        aria-label="阅读状态"
+        aria-label="列表外围留白"
       />
     </Card>
   </Stack>

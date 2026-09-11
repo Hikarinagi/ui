@@ -44,11 +44,11 @@ The `option` slot receives `{ option, selected }` to customise each row.
 
 `#trailing="{ option, selected }"` replaces the entire trailing area. Without this slot the existing check indicator and its reserved space remain. When the slot is provided, an empty result intentionally removes the tail, including its gap; it does not restore the default indicator. Use `<template #trailing />` to omit it for every row, or conditional content to omit it for individual options.
 
-The example switches a usage count to a check when selected; the All topics row omits trailing content. Custom tails can grow beyond 16px. Both slots receive the same selection state for grouped and plain options, single and multiple selection.
+Custom trailing content determines its own width. The example uses `selected` to switch between a Tag and a check icon, and returns empty content for some options. The `option` and `trailing` slots receive the same selection state for grouped and plain options, single and multiple selection.
 
 <Demo name="listbox/trailing" />
 
-Keep trailing content informational. Place actions such as Create topic next to the Listbox in the surrounding panel; hiding an option's indicator does not make it an action or prevent selection.
+Custom trailing content does not change selection behaviour.
 
 ### Scrolling {#scroll}
 
@@ -58,9 +58,9 @@ Keep trailing content informational. Place actions such as Create topic next to 
 
 ### Variants {#variants}
 
-`primary` sits directly on the page background with a border and shadow; `secondary` sits inside a surface such as a card, with only a tinted fill.
+`primary` has a background, border and shadow; `secondary` has only a tinted background.
 
-`bare` removes the root background, border, shadow and corner radius when the surrounding Card, Sheet or Popover already supplies a surface. Option styling and scrolling remain available.
+`bare` removes the root background, border, shadow and corner radius. Option styling and scrolling remain available.
 
 <Demo name="listbox/variants" />
 
