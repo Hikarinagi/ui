@@ -36,9 +36,19 @@ import { Listbox } from '@hina-ui/vue'
 
 ### 定制内容 {#custom}
 
-`option` 插槽定制每一项的内容。
+`option` 插槽接收 `{ option, selected }`，定制每一项的内容。
 
 <Demo name="listbox/custom" />
+
+### 尾部内容 {#trailing}
+
+`#trailing="{ option, selected }"` 接管整个行尾区域。未提供此插槽时，保留原有的勾选指示器和占位；提供后若返回空内容，该行不再保留尾部与间距，也不会恢复默认指示器。可用 `<template #trailing />` 清除所有行的尾部，或用条件渲染只清除部分行。
+
+示例在未选中时显示使用次数，选中后在相同位置显示勾；“全部话题”一行不显示尾部。自定义尾部可超过 16px。两个插槽获取相同的选中状态，支持普通选项、分组选项、单选与多选。
+
+<Demo name="listbox/trailing" />
+
+尾部用于展示信息。“创建话题”等动作可以放在外层面板中、与 Listbox 并列；隐藏选项的指示器不会阻止该选项被选中，也不会将它变为动作项。
 
 ### 滚动 {#scroll}
 
@@ -99,9 +109,10 @@ import { Listbox } from '@hina-ui/vue'
 
 ### 插槽 {#slots}
 
-| 插槽     | 参数                       | 说明         |
-| -------- | -------------------------- | ------------ |
-| `option` | `{ option: SelectOption }` | 每一项的内容 |
+| 插槽       | 参数                                          | 说明                       |
+| ---------- | --------------------------------------------- | -------------------------- |
+| `option`   | `{ option: SelectOption; selected: boolean }` | 每一项的内容               |
+| `trailing` | `{ option: SelectOption; selected: boolean }` | 整个行尾区域，空内容不占位 |
 
 ### 事件 {#events}
 

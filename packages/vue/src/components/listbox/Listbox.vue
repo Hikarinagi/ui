@@ -1,11 +1,9 @@
 <script setup lang="ts">
-  import { Check } from '@lucide/vue'
   import {
     ListboxContent,
     ListboxGroup,
     ListboxGroupLabel,
     ListboxItem,
-    ListboxItemIndicator,
     ListboxRoot,
   } from 'reka-ui'
   import { cn } from '../../lib/cn'
@@ -14,6 +12,7 @@
   import ScrollArea from '../scroll-area/ScrollArea.vue'
   import { selectEmpty, selectItem, selectLabel } from '../select/select.variants'
   import { isOptionGroup, type SelectItems, type SelectOption } from '../select/types'
+  import ListboxOptionContent from './ListboxOptionContent.vue'
   import { listbox, listboxContent, type ListboxVariants } from './listbox.variants'
 
   defineOptions({ name: 'HnListbox', inheritAttrs: false })
@@ -33,7 +32,10 @@
 
   const model = defineModel<string | number | null | Array<string | number>>()
 
-  defineSlots<{ option(props: { option: SelectOption }): unknown }>()
+  const slots = defineSlots<{
+    option(props: { option: SelectOption; selected: boolean }): unknown
+    trailing(props: { option: SelectOption; selected: boolean }): unknown
+  }>()
 
   const t = useUiLocale()
 
@@ -70,31 +72,25 @@
               :disabled="option.disabled"
               :class="selectItem()"
             >
-              <span class="min-w-0 flex-1">
-                <slot name="option" :option="option">
-                  <span class="block truncate">{{ option.label }}</span>
-                  <span v-if="option.description" class="text-muted block truncate text-xs">
-                    {{ option.description }}
-                  </span>
-                </slot>
-              </span>
-              <span class="flex size-4 shrink-0 items-center justify-center">
-                <ListboxItemIndicator><Check /></ListboxItemIndicator>
-              </span>
+              <ListboxOptionContent :option="option">
+                <template v-if="slots.option" #option="slotProps">
+                  <slot name="option" v-bind="slotProps" />
+                </template>
+                <template v-if="slots.trailing" #trailing="slotProps">
+                  <slot name="trailing" v-bind="slotProps" />
+                </template>
+              </ListboxOptionContent>
             </ListboxItem>
           </ListboxGroup>
           <ListboxItem v-else :value="item.value" :disabled="item.disabled" :class="selectItem()">
-            <span class="min-w-0 flex-1">
-              <slot name="option" :option="item">
-                <span class="block truncate">{{ item.label }}</span>
-                <span v-if="item.description" class="text-muted block truncate text-xs">
-                  {{ item.description }}
-                </span>
-              </slot>
-            </span>
-            <span class="flex size-4 shrink-0 items-center justify-center">
-              <ListboxItemIndicator><Check /></ListboxItemIndicator>
-            </span>
+            <ListboxOptionContent :option="item">
+              <template v-if="slots.option" #option="slotProps">
+                <slot name="option" v-bind="slotProps" />
+              </template>
+              <template v-if="slots.trailing" #trailing="slotProps">
+                <slot name="trailing" v-bind="slotProps" />
+              </template>
+            </ListboxOptionContent>
           </ListboxItem>
         </template>
         <div v-if="props.options.length === 0" :class="selectEmpty()">{{ t.select.empty }}</div>

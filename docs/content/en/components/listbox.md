@@ -36,9 +36,19 @@ A group carries a `label` and its `options`, and can be mixed with plain options
 
 ### Custom content {#custom}
 
-The `option` slot customises each row.
+The `option` slot receives `{ option, selected }` to customise each row.
 
 <Demo name="listbox/custom" />
+
+### Trailing content {#trailing}
+
+`#trailing="{ option, selected }"` replaces the entire trailing area. Without this slot the existing check indicator and its reserved space remain. When the slot is provided, an empty result intentionally removes the tail, including its gap; it does not restore the default indicator. Use `<template #trailing />` to omit it for every row, or conditional content to omit it for individual options.
+
+The example switches a usage count to a check when selected; the All topics row omits trailing content. Custom tails can grow beyond 16px. Both slots receive the same selection state for grouped and plain options, single and multiple selection.
+
+<Demo name="listbox/trailing" />
+
+Keep trailing content informational. Place actions such as Create topic next to the Listbox in the surrounding panel; hiding an option's indicator does not make it an action or prevent selection.
 
 ### Scrolling {#scroll}
 
@@ -99,9 +109,10 @@ Inside a [FormField](/components/form-field) the label is linked to the list thr
 
 ### Slots {#slots}
 
-| Slot     | Payload                    | Description         |
-| -------- | -------------------------- | ------------------- |
-| `option` | `{ option: SelectOption }` | Content of each row |
+| Slot       | Payload                                       | Description                                           |
+| ---------- | --------------------------------------------- | ----------------------------------------------------- |
+| `option`   | `{ option: SelectOption; selected: boolean }` | Content of each row                                   |
+| `trailing` | `{ option: SelectOption; selected: boolean }` | Entire trailing area; empty content removes its space |
 
 ### Events {#events}
 
