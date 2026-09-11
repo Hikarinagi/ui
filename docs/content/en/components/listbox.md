@@ -44,7 +44,7 @@ The `option` slot receives `{ option, selected }` to customise each row.
 
 `#trailing="{ option, selected }"` replaces the entire trailing area. Without this slot the existing check indicator and its reserved space remain. When the slot is provided, an empty result intentionally removes the tail, including its gap; it does not restore the default indicator. Use `<template #trailing />` to omit it for every row, or conditional content to omit it for individual options.
 
-Custom trailing content determines its own width. The example uses `selected` to switch between a Tag and a check icon, and returns empty content for some options. The `option` and `trailing` slots receive the same selection state for grouped and plain options, single and multiple selection.
+Custom trailing content determines its own width. The example uses `selected` to switch between a [Tag](/components/tag) and a check icon, and returns empty content for some options. The `option` and `trailing` slots receive the same selection state for grouped and plain options, single and multiple selection.
 
 <Demo name="listbox/trailing" />
 

@@ -44,7 +44,7 @@ import { Listbox } from '@hina-ui/vue'
 
 `#trailing="{ option, selected }"` 接管整个行尾区域。未提供此插槽时，保留原有的勾选指示器和占位；提供后若返回空内容，该行不再保留尾部与间距，也不会恢复默认指示器。可用 `<template #trailing />` 清除所有行的尾部，或用条件渲染只清除部分行。
 
-自定义尾部的宽度由内容决定。示例通过 `selected` 在 Tag 与勾选图标之间切换，并对部分选项返回空内容。`option` 与 `trailing` 获取相同的选中状态，支持普通选项、分组选项、单选与多选。
+自定义尾部的宽度由内容决定。示例通过 `selected` 在 [Tag](/components/tag) 与勾选图标之间切换，并对部分选项返回空内容。`option` 与 `trailing` 获取相同的选中状态，支持普通选项、分组选项、单选与多选。
 
 <Demo name="listbox/trailing" />
 
