@@ -54,6 +54,7 @@ function mountSelect(props: Record<string, unknown> = {}) {
       },
     },
     attrs: { 'aria-label': '类型' },
+    global: { stubs: { transition: false } },
     attachTo: attach(),
   })
   mounted.push(w)
@@ -136,6 +137,7 @@ describe('select · 与 Input 同一副输入面', () => {
       const input = mount(Input, {
         props: { size },
         attrs: { 'aria-label': size },
+        global: { stubs: { transition: false } },
         attachTo: attach(),
       })
       mounted.push(input)
@@ -263,7 +265,7 @@ describe('select · 清除', () => {
     async action => {
       const { w, trigger, host, value } = mountSelect({ modelValue: 'ln', clearable: true })
       const clear = host.querySelector<HTMLButtonElement>('[data-hn-select-clear]')!
-      expect(clear.parentElement).toBe(trigger.parentElement)
+      expect(clear.parentElement!.parentElement).toBe(trigger.parentElement)
       expect(host.querySelector('button button')).toBeNull()
       if (action === 'pointer') {
         await userEvent.click(clear)
@@ -281,7 +283,7 @@ describe('select · 清除', () => {
       expect(document.activeElement).toBe(trigger)
       expect(listbox()).toBeNull()
       expect(trigger.hasAttribute('data-placeholder')).toBe(true)
-      expect(host.querySelector('[data-hn-select-clear]')).toBeNull()
+      await vi.waitFor(() => expect(host.querySelector('[data-hn-select-clear]')).toBeNull())
       await userEvent.keyboard('{Enter}')
       await vi.waitFor(() => expect(listbox()).toBeTruthy())
       await userEvent.click(optionsOf()[0]!)
@@ -299,14 +301,14 @@ describe('select · 清除', () => {
     expect(value.value).toBeNull()
     for (const modelValue of [null, undefined, '']) {
       await w.setProps({ modelValue })
-      expect(host.querySelector('[data-hn-select-clear]')).toBeNull()
+      await vi.waitFor(() => expect(host.querySelector('[data-hn-select-clear]')).toBeNull())
     }
     await w.setProps({ modelValue: 'missing' })
     expect(host.querySelector('[data-hn-select-clear]')).not.toBeNull()
     await w.setProps({ clearable: false })
-    expect(host.querySelector('[data-hn-select-clear]')).toBeNull()
+    await vi.waitFor(() => expect(host.querySelector('[data-hn-select-clear]')).toBeNull())
     await w.setProps({ clearable: true, disabled: true })
-    expect(host.querySelector('[data-hn-select-clear]')).toBeNull()
+    await vi.waitFor(() => expect(host.querySelector('[data-hn-select-clear]')).toBeNull())
     expect(host.querySelector<HTMLButtonElement>('[data-hn-select-trigger]')!.disabled).toBe(true)
   })
 
@@ -322,13 +324,14 @@ describe('select · 清除', () => {
           default: () =>
             h(Select, { options, modelValue: 'ln', clearable: true, 'aria-label': '类型' }),
         },
+        global: { stubs: { transition: false } },
         attachTo: attach(),
       })
       mounted.push(w)
       const host = w.get('[data-hn-select]').element as HTMLElement
       const trigger = w.get('[data-hn-select-trigger]').element as HTMLButtonElement
       expect(trigger.disabled).toBe(true)
-      expect(host.querySelector('[data-hn-select-clear]')).toBeNull()
+      await vi.waitFor(() => expect(host.querySelector('[data-hn-select-clear]')).toBeNull())
       await w.setProps({ disabled: false })
       expect(trigger.disabled).toBe(false)
       expect(host.querySelector('[data-hn-select-clear]')).not.toBeNull()
@@ -350,6 +353,7 @@ describe('select · 清除', () => {
         default: () =>
           h(Select, { options, modelValue: 'ln', clearable: true, 'aria-label': '类型' }),
       },
+      global: { stubs: { transition: false } },
       attachTo: attach(),
     })
     mounted.push(w)
@@ -377,6 +381,62 @@ describe('select · 清除', () => {
       expect(box.width).toBeCloseTo(root.width, 1)
       expect(box.left).toBeCloseTo(root.left, 1)
     })
+  })
+
+  it('清除图标缩放淡入淡出，退场期间原位保留且长占位文字不侵占图标空间', async () => {
+    const { w, host, trigger, value } = mountSelect({
+      clearable: true,
+      placeholder: '这是一段超过输入框宽度的占位文字，用来确认清除图标退场时文字仍然截断',
+    })
+    const text = trigger.firstElementChild as HTMLElement
+    const mid = (el: HTMLElement) => {
+      const style = getComputedStyle(el)
+      expect(Number(style.opacity)).toBeGreaterThan(0)
+      expect(Number(style.opacity)).toBeLessThan(1)
+      expect(parseFloat(style.scale)).toBeGreaterThan(0.9)
+      expect(parseFloat(style.scale)).toBeLessThan(1)
+    }
+    await w.setProps({ modelValue: 'ln' })
+    const clear = host.querySelector<HTMLButtonElement>('[data-hn-select-clear]')!
+    const slot = clear.parentElement!
+    await vi.waitFor(() => mid(slot))
+    await vi.waitFor(() => expect(getComputedStyle(slot).opacity).toBe('1'))
+    const left = slot.offsetLeft
+    const reserved = getComputedStyle(text).paddingInlineEnd
+    expect(parseFloat(reserved)).toBeGreaterThan(0)
+
+    await userEvent.click(clear)
+    expect(value.value).toBeNull()
+    await vi.waitFor(() => mid(slot))
+    expect(slot.offsetLeft).toBe(left)
+    expect(getComputedStyle(text).paddingInlineEnd).toBe(reserved)
+    expect(slot.inert).toBe(true)
+    expect(document.activeElement).toBe(trigger)
+    expect(trigger.getAttribute('aria-expanded')).toBe('false')
+    await vi.waitFor(() => expect(slot.isConnected).toBe(false))
+    await vi.waitFor(() => expect(getComputedStyle(text).paddingInlineEnd).toBe('0px'))
+
+    await w.setProps({ modelValue: 'gal' })
+    const next = host.querySelector<HTMLButtonElement>('[data-hn-select-clear]')!
+    await vi.waitFor(() => mid(next.parentElement!))
+    await vi.waitFor(() => expect(getComputedStyle(next.parentElement!).opacity).toBe('1'))
+    expect(next.parentElement!.inert).toBe(false)
+  })
+
+  it('退场未结束时重新赋值，清除按钮恢复交互，再清空后不残留图标或让位', async () => {
+    const { w, host, trigger } = mountSelect({ modelValue: 'ln', clearable: true })
+    const old = host.querySelector<HTMLButtonElement>('[data-hn-select-clear]')!.parentElement!
+    await w.setProps({ modelValue: null })
+    await vi.waitFor(() => expect(Number(getComputedStyle(old).opacity)).toBeLessThan(1))
+    expect(old.isConnected).toBe(true)
+    await w.setProps({ modelValue: 'gal' })
+    const clear = host.querySelector<HTMLButtonElement>('[data-hn-select-clear]')!
+    await vi.waitFor(() => expect(getComputedStyle(clear.parentElement!).opacity).toBe('1'))
+    expect(clear.parentElement!.inert).toBe(false)
+    expect(host.querySelectorAll('[data-hn-select-clear]')).toHaveLength(1)
+    await userEvent.click(clear)
+    await vi.waitFor(() => expect(host.querySelector('[data-hn-select-clear]')).toBeNull())
+    expect(getComputedStyle(trigger.firstElementChild!).paddingInlineEnd).toBe('0px')
   })
 
   it('原生表单清除后提交空值并重新触发 required 校验', async () => {

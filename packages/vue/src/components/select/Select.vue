@@ -9,6 +9,7 @@
   import { useFieldControl } from '../form-field/context'
   import { injectInputGroup } from '../input-group/context'
   import {
+    inputActionSlot,
     inputAdornment,
     inputEmbedded,
     inputHost,
@@ -48,6 +49,7 @@
   const group = injectInputGroup()
   const direction = useDirection()
   const keyboard = ref(false)
+  const clearLeaving = ref(false)
   const host = shallowRef<HTMLElement | null>(null)
   const trigger = shallowRef<{ $el: HTMLElement } | null>(null)
 
@@ -66,6 +68,17 @@
   const clearing = computed(
     () => !!props.clearable && model.value != null && model.value !== '' && !disabled.value,
   )
+
+  function beforeClearEnter(element: Element) {
+    clearLeaving.value = false
+    element.removeAttribute('inert')
+  }
+
+  function beforeClearLeave(element: Element) {
+    clearLeaving.value = true
+    // A leaving v-if branch no longer receives prop updates.
+    element.setAttribute('inert', '')
+  }
 
   function clear() {
     if (disabled.value || model.value == null || model.value === '') return
@@ -110,7 +123,11 @@
         @pointerdown="keyboard = false"
         :class="selectButton()"
       >
-        <span :class="cn('min-w-0 flex-1 truncate', clearing && 'pe-[var(--hn-input-h)]')">
+        <span
+          :class="
+            cn('min-w-0 flex-1 truncate', (clearing || clearLeaving) && 'pe-[var(--hn-input-h)]')
+          "
+        >
           <template v-if="selected">
             <slot name="value" :option="selected">{{ selected.label }}</slot>
           </template>
@@ -120,15 +137,25 @@
           <DisclosureIcon />
         </span>
       </SelectTrigger>
-      <InputAction
-        v-if="clearing"
-        data-hn-select-clear
-        :label="t.common.clear"
-        class="absolute inset-y-0 end-[var(--hn-input-h)]"
-        @click="clear"
+      <Transition
+        enter-active-class="hn-transition-base"
+        enter-from-class="scale-90 opacity-0"
+        leave-active-class="hn-transition"
+        leave-to-class="scale-90 opacity-0"
+        @before-enter="beforeClearEnter"
+        @before-leave="beforeClearLeave"
+        @after-leave="clearLeaving = false"
+        @leave-cancelled="clearLeaving = false"
       >
-        <X />
-      </InputAction>
+        <span
+          v-if="clearing"
+          :class="cn(inputActionSlot(), 'absolute inset-y-0 end-[var(--hn-input-h)]')"
+        >
+          <InputAction data-hn-select-clear :label="t.common.clear" @click="clear">
+            <X />
+          </InputAction>
+        </span>
+      </Transition>
     </div>
     <SelectList :options="props.options" :keyboard="keyboard">
       <template #option="slotProps">
