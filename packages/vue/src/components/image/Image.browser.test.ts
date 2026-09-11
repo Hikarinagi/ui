@@ -189,3 +189,26 @@ it('等待淡入开始时换源,上一张图片的动画不会提前揭示新图
   finishDecode!()
   await vi.waitFor(() => expect(getComputedStyle(img).opacity).toBe('1'))
 })
+
+it.each([
+  { preview: false, class: undefined, width: 262 },
+  { preview: true, class: undefined, width: 262 },
+  { preview: true, class: 'w-40', width: 160 },
+])('加载前后保持容器尺寸 preview=$preview class=$class', async props => {
+  const host = attach()
+  host.style.width = '262px'
+  const w = mount(Image, {
+    props: { src: PIXEL, alt: '封面', ratio: 0.707, preview: props.preview, class: props.class },
+    attachTo: host,
+  })
+  mounted.push(w)
+  const img = w.find('img').element as HTMLImageElement
+  expect(img.naturalWidth).toBe(0)
+  const before = w.element.getBoundingClientRect()
+  expect(before.width).toBe(props.width)
+  expect(before.height).toBeCloseTo(props.width / 0.707, 1)
+  await vi.waitFor(() => expect(img.naturalWidth).toBeGreaterThan(0))
+  const after = w.element.getBoundingClientRect()
+  expect(after.width).toBe(before.width)
+  expect(after.height).toBe(before.height)
+})

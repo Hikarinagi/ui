@@ -1,5 +1,14 @@
 import { tv, type VariantProps } from '../../lib/tv'
 
+export const imageRoot = tv({
+  base: 'relative block w-full overflow-hidden',
+  variants: {
+    preview: {
+      true: 'hn-focus-ring cursor-zoom-in',
+    },
+  },
+})
+
 export const image = tv({
   base: 'relative z-10 block size-full',
   variants: {

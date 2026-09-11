@@ -6,7 +6,7 @@
   import Skeleton from '../skeleton/Skeleton.vue'
   import Lightbox from '../lightbox/Lightbox.vue'
   import type { LightboxItem } from '../lightbox/types'
-  import { image, type ImageVariants } from './image.variants'
+  import { image, imageRoot, type ImageVariants } from './image.variants'
   import { useImage } from './composables/useImage'
   import { useImageGroup } from './context'
   import { useImageResolver } from './resolver'
@@ -93,13 +93,7 @@
     ref="rootEl"
     :as="props.preview ? 'button' : 'span'"
     :type="props.preview ? 'button' : undefined"
-    :class="
-      cn(
-        'relative block overflow-hidden',
-        props.preview && 'hn-focus-ring cursor-zoom-in',
-        props.class,
-      )
-    "
+    :class="cn(imageRoot({ preview: !!props.preview }), props.class)"
     :style="props.ratio ? { aspectRatio: String(props.ratio) } : undefined"
     @click="openPreview"
   >
