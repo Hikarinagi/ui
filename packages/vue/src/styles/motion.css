@@ -5,8 +5,20 @@
 }
 
 @keyframes hn-skeleton {
-  50% {
-    background-color: var(--hn-bg-inset);
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes hn-skeleton-rtl {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
   }
 }
 

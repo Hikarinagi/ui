@@ -32,8 +32,8 @@ The shape is whatever the classes say: a rounded rectangle for an image, `rounde
 
 ## Behaviour {#behavior}
 
-- The fill breathes between two neighbouring surface steps, slowing at each end, one pass every 2.2 seconds.
-- Under `prefers-reduced-motion` the breathing stops and the placeholder stays still.
+- A gradient wave sweeps across a fixed fill every 1.2 seconds by default, from left to right. The direction reverses in RTL layouts.
+- Under `prefers-reduced-motion` the wave stops and the placeholder stays still.
 - With `loading` false the component renders its slot and nothing else — no wrapper element is left behind.
 
 ## Accessibility {#a11y}
