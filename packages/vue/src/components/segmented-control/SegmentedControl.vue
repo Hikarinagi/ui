@@ -71,7 +71,12 @@
       :aria-label="slots.option ? option.label : undefined"
       :class="segmentedItem({ size: props.size, block: props.block })"
     >
-      <Highlight v-if="option.value === current" :id="highlightId" :class="segmentedThumb()" />
+      <Highlight
+        v-if="option.value === current"
+        :id="highlightId"
+        :axis="props.orientation === 'vertical' ? 'y' : 'x'"
+        :class="segmentedThumb()"
+      />
       <Ripple />
       <slot name="option" :option="option">{{ option.label }}</slot>
     </ToggleGroupItem>

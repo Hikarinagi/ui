@@ -74,14 +74,19 @@
   }
 }
 
+@utility hn-pre-content {
+  padding: 1em 1.25em;
+}
+
 @utility hn-pre {
+  @apply hn-pre-content;
   font-family: var(--hn-font-mono);
   background-color: var(--hn-bg-inset);
   border-radius: var(--hn-radius-lg);
-  padding: 1em 1.25em;
 
   &:focus-visible,
-  &:has(> [data-overlayscrollbars-initialize]:focus-visible) {
+  &:has(> [data-overlayscrollbars-initialize]:focus-visible),
+  &:has(> [data-overlayscrollbars-initialize] > [data-overlayscrollbars-contents]:focus-visible) {
     outline: var(--hn-focus-ring-width) solid var(--hn-focus-ring);
     outline-offset: var(--hn-focus-ring-offset);
   }
@@ -144,7 +149,7 @@
   & ol,
   & dl,
   & blockquote,
-  & pre,
+  & pre:not(:where(.hn-pre-content)),
   & table,
   & figure {
     margin-block: 0.75em 0;
@@ -228,7 +233,7 @@
     @apply hn-code;
   }
 
-  & pre {
+  & pre:not(:where(.hn-pre-content)) {
     @apply hn-pre;
     overflow-x: auto;
   }

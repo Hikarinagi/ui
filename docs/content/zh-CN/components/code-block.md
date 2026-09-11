@@ -44,6 +44,16 @@ import { CodeBlock } from '@hina-ui/vue'
 
 <Demo name="code-block/overflow" />
 
+### 高度 {#height}
+
+使用 `class` 或 `style` 设置 `height`，超出高度的代码在内部纵向滚动。长行仍可横向滚动，角标和复制按钮固定在右上角。
+
+<Demo name="code-block/height" />
+
+设置 `max-height` 可以限制最大高度。内容较少时保持自然高度，超出上限后才出现纵向滚动。
+
+<Demo name="code-block/max-height" />
+
 ### 预先着色 {#prerendered}
 
 `html` 属性接受已经着色好的 HTML。传入之后组件不再运行着色，直接呈现该内容，`code` 仍用于复制。

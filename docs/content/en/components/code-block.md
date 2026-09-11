@@ -44,6 +44,16 @@ Code does not wrap. Anything wider than the block scrolls horizontally inside it
 
 <Demo name="code-block/overflow" />
 
+### Height {#height}
+
+Set `height` through `class` or `style` to scroll overflowing code vertically. Long lines still scroll horizontally, while the badge and copy button stay in the top corner.
+
+<Demo name="code-block/height" />
+
+Set `max-height` to limit the height. Short content keeps its natural height; vertical scrolling starts when the content exceeds the limit.
+
+<Demo name="code-block/max-height" />
+
 ### Pre-highlighted code {#prerendered}
 
 The `html` property accepts markup that has already been highlighted. Once given, the component skips highlighting and renders that markup directly, while `code` is still used for copying.

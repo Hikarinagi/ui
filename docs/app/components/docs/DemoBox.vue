@@ -58,7 +58,10 @@
         :lang="props.lang"
         :html="props.html"
         :class="
-          cn('[&_.hn-pre]:rounded-none [&_.hn-pre]:border-0', collapsible && '[&_.hn-pre]:pb-14')
+          cn(
+            '[&_.hn-pre]:rounded-none [&_.hn-pre]:border-0',
+            collapsible && '[&_.hn-pre-content]:pb-14',
+          )
         "
       />
     </Motion>

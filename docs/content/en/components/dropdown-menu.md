@@ -76,6 +76,22 @@ Wrap a set of mutually exclusive options in `DropdownMenuRadioGroup`, and the cu
 
 <Demo name="dropdown-menu/controlled" />
 
+### External anchor {#anchor}
+
+`anchor` accepts `HTMLElement | null`. Omit the default slot and control visibility with `v-model:open`. The menu waits for its anchor. Changing the anchor while open updates positioning; clearing it on close preserves the exit position.
+
+When both the default slot and `anchor` are provided, the slot controls triggering and `anchor` controls positioning. The caller manages click and keyboard behavior, `aria-haspopup="menu"`, and `aria-expanded` on the external element. Keyboard navigation inside the menu stays the same. Positioning follows the same rules as [Popover](/components/popover#anchor).
+
+<Demo name="dropdown-menu/anchor" />
+
+### Modality and focus {#modal}
+
+`modal` defaults to `true`, locking page scrolling and restricting outside interaction while open. With `:modal="false"`, the page remains scrollable and interactive. Clicking outside still closes the menu.
+
+Without a default trigger, closing restores the element focused before opening; the anchor is only used for positioning. If the caller has already moved focus outside, the previous element is not focused again. Call `event.preventDefault()` in `closeAutoFocus` to cancel focus restoration, or in `interactOutside` and `escapeKeyDown` to prevent the corresponding dismissal.
+
+Use `label` or `aria-label` to name the menu. `aria-describedby` and `data-*` attributes are forwarded to the menu panel.
+
 ### Unavailable items {#disabled}
 
 An item with `disabled` cannot be clicked and is skipped while moving through the menu with the keyboard.
@@ -84,11 +100,11 @@ An item with `disabled` cannot be clicked and is skipped while moving through th
 
 ## Behaviour {#behavior}
 
-- The page is locked from scrolling while the menu is open.
+- In the default modal mode, the page is locked from scrolling while the menu is open.
 - The trigger keeps its pressed ink for as long as the menu is open.
 - Arrow keys move between items and wrap around, typing jumps to a matching item, Enter selects, and Escape closes the menu and returns focus to the trigger. The right arrow key opens a submenu and the left arrow key closes it.
 - Choosing an ordinary item or a radio item closes the menu; ticking a checkbox item leaves it open.
-- Clicking outside closes the menu, and that click does not reach the element underneath.
+- In the default modal mode, clicking outside closes the menu without passing the click to the element underneath.
 
 ## Accessibility {#a11y}
 
@@ -101,19 +117,30 @@ An item with `disabled` cannot be clicked and is skipped while moving through th
 
 ### DropdownMenu {#props}
 
-| Prop         | Type                                     | Default    | Description                          |
-| ------------ | ---------------------------------------- | ---------- | ------------------------------------ |
-| `open`       | `boolean`                                | —          | Whether it is open; supports v-model |
-| `label`      | `string`                                 | —          | Accessible name of the menu          |
-| `side`       | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | Which way it opens                   |
-| `align`      | `'start' \| 'center' \| 'end'`           | `'center'` | How it lines up with the trigger     |
-| `sideOffset` | `number`                                 | `8`        | Distance from the trigger            |
-| `class`      | `string`                                 | —          | Classes appended to the panel        |
+| Prop         | Type                                     | Default    | Description                                     |
+| ------------ | ---------------------------------------- | ---------- | ----------------------------------------------- |
+| `open`       | `boolean`                                | —          | Whether it is open; supports v-model            |
+| `label`      | `string`                                 | —          | Accessible name of the menu                     |
+| `anchor`     | `HTMLElement \| null`                    | —          | External positioning element                    |
+| `modal`      | `boolean`                                | `true`     | Restrict outside interaction and lock scrolling |
+| `dir`        | `'ltr' \| 'rtl'`                         | Inherited  | Menu direction                                  |
+| `side`       | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | Which way it opens                              |
+| `align`      | `'start' \| 'center' \| 'end'`           | `'center'` | How it lines up with the trigger                |
+| `sideOffset` | `number`                                 | `8`        | Distance from the trigger                       |
+| `class`      | `string`                                 | —          | Classes appended to the panel                   |
 
-| Slot      | Description |
-| --------- | ----------- |
-| `default` | The trigger |
-| `content` | The items   |
+| Slot      | Description      |
+| --------- | ---------------- |
+| `default` | Optional trigger |
+| `content` | The items        |
+
+| Event                | Argument                                       | Description                                                      |
+| -------------------- | ---------------------------------------------- | ---------------------------------------------------------------- |
+| `closeAutoFocus`     | `Event`                                        | Before restoring focus on close; can be prevented                |
+| `escapeKeyDown`      | `KeyboardEvent`                                | Escape key; dismissal can be prevented                           |
+| `pointerDownOutside` | `PointerDownOutsideEvent`                      | Outside pointer down; dismissal can be prevented                 |
+| `focusOutside`       | `FocusOutsideEvent`                            | Focus moves outside; dismissal can be prevented                  |
+| `interactOutside`    | `PointerDownOutsideEvent \| FocusOutsideEvent` | Outside pointer or focus interaction; dismissal can be prevented |
 
 ### DropdownMenuItem {#item}
 

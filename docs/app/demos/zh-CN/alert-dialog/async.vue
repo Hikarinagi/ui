@@ -9,10 +9,12 @@
     status.value = ''
     await new Promise(resolve => setTimeout(resolve, 1000))
     if (fail.value) {
-      status.value = '归档失败，请稍后再试。'
-      throw new Error('archive failed')
+      throw new Error('归档失败，请稍后再试。')
     }
     status.value = '已归档。'
+  }
+  function handleError(error: unknown) {
+    status.value = error instanceof Error ? error.message : String(error)
   }
 </script>
 
@@ -24,6 +26,7 @@
       description="归档后项目变为只读，可以随时恢复。"
       confirm-text="归档"
       @confirm="archive"
+      @error="handleError"
     >
       <Button variant="outline" tone="neutral">归档项目</Button>
       <template #content>

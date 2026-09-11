@@ -22,7 +22,11 @@
     </Inline>
 
     <Grid :cols="1" gap="none" class="border-line relative isolate rounded-lg border p-1">
-      <Highlight :style="{ gridRow: span }" class="bg-accent-soft col-start-1 -z-10 rounded-md" />
+      <Highlight
+        axis="y"
+        :style="{ gridRow: span }"
+        class="bg-accent-soft col-start-1 -z-10 rounded-md"
+      />
       <Text
         v-for="(row, index) in rows"
         :key="row"

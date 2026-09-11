@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  import { ref } from 'vue'
   import {
     AlertDialogCancel,
     AlertDialogContent,
@@ -17,6 +16,14 @@
   import { dialogCard, dialogWrapper } from '../dialog/dialog.variants'
   import Heading from '../heading/Heading.vue'
   import Text from '../text/Text.vue'
+  import { useAlertDialogConfirm } from './composables/useAlertDialogConfirm'
+  import { useConfirmDelay } from './composables/useConfirmDelay'
+  import {
+    alertDialogHeader,
+    alertDialogContent,
+    alertDialogActions,
+    alertDialogCountdown,
+  } from './alert-dialog.variants'
 
   defineOptions({ name: 'HnAlertDialog' })
 
@@ -25,6 +32,7 @@
       title: string
       description?: string
       confirmText?: string
+      confirmDelay?: number
       cancelText?: string
       tone?: 'accent' | 'danger'
       size?: 'sm' | 'md'
@@ -32,31 +40,19 @@
       onConfirm?: () => unknown
       class?: string
     }>(),
-    { tone: 'accent', size: 'sm' },
+    { tone: 'accent', size: 'sm', confirmDelay: 0 },
   )
-  const emit = defineEmits<{ cancel: [] }>()
+  const emit = defineEmits<{ cancel: []; error: [error: unknown] }>()
 
   const open = defineModel<boolean>('open')
-  const busy = ref(false)
   const t = useUiLocale()
-
-  function guard(event: Event) {
-    if (busy.value) event.preventDefault()
-  }
-
-  async function confirm() {
-    if (busy.value) return
-    const result = props.onConfirm?.()
-    if (result instanceof Promise) {
-      busy.value = true
-      try {
-        await result
-      } finally {
-        busy.value = false
-      }
-    }
-    open.value = false
-  }
+  const remaining = useConfirmDelay(open, () => props.confirmDelay)
+  const { busy, guard, confirm } = useAlertDialogConfirm(
+    props,
+    open,
+    error => emit('error', error),
+    () => remaining.value > 0,
+  )
 </script>
 
 <template>
@@ -66,14 +62,7 @@
     </AlertDialogTrigger>
     <AlertDialogPortal>
       <AlertDialogOverlay class="hn-scrim" />
-      <div
-        :class="
-          cn(
-            'pointer-events-none fixed inset-0 z-(--hn-z-overlay) grid',
-            dialogWrapper({ placement: props.placement ?? 'auto' }),
-          )
-        "
-      >
+      <div :class="dialogWrapper({ placement: props.placement ?? 'auto' })">
         <AlertDialogContent as-child @escape-key-down="guard">
           <Card
             :padded="false"
@@ -81,14 +70,12 @@
             :aria-busy="busy || undefined"
             :class="
               cn(
-                'pointer-events-auto flex w-full flex-col gap-4 shadow-lg outline-none',
-                'py-(--hn-panel-p)',
                 dialogCard({ placement: props.placement ?? 'auto', size: props.size }),
                 props.class,
               )
             "
           >
-            <div class="flex min-w-0 flex-col gap-1.5 px-(--hn-panel-p)">
+            <div :class="alertDialogHeader()">
               <AlertDialogTitle as-child>
                 <Heading :level="2" size="lg">{{ props.title }}</Heading>
               </AlertDialogTitle>
@@ -96,17 +83,18 @@
                 <Text tone="muted">{{ props.description }}</Text>
               </AlertDialogDescription>
             </div>
-            <div v-if="$slots.content" class="px-(--hn-panel-p)">
+            <div v-if="$slots.content" :class="alertDialogContent()">
               <slot name="content" />
             </div>
-            <div class="flex justify-end gap-(--hn-inline-gap) px-(--hn-panel-p)">
+            <div :class="alertDialogActions()">
               <AlertDialogCancel as-child>
                 <Button variant="soft" tone="neutral" :disabled="busy" @click="emit('cancel')">
                   {{ props.cancelText ?? t.common.cancel }}
                 </Button>
               </AlertDialogCancel>
-              <Button :tone="props.tone" :loading="busy" @click="confirm">
+              <Button :tone="props.tone" :loading="busy" :disabled="remaining > 0" @click="confirm">
                 {{ props.confirmText ?? t.common.confirm }}
+                <span v-if="remaining > 0" :class="alertDialogCountdown()">({{ remaining }})</span>
               </Button>
             </div>
           </Card>

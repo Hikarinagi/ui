@@ -1,21 +1,21 @@
 <script setup lang="ts">
-  import { computed } from 'vue'
   import { Motion } from 'motion-v'
   import { cn } from '../../lib/cn'
-  import { TRANSITION, prefersReducedMotion } from '../../motion'
+  import { useHighlightMotion } from './composables/useHighlightMotion'
 
   defineOptions({ name: 'HnHighlight' })
 
   const props = withDefaults(
     defineProps<{
       id?: string
+      axis?: 'x' | 'y' | 'both'
       as?: 'div' | 'li'
       class?: string
     }>(),
-    { id: undefined, as: 'div' },
+    { id: undefined, axis: 'both', as: 'div' },
   )
 
-  const transition = computed(() => (prefersReducedMotion() ? { duration: 0 } : TRANSITION.layout))
+  const { transition, transformTemplate } = useHighlightMotion(() => props.axis)
 </script>
 
 <template>
@@ -26,6 +26,7 @@
     aria-hidden="true"
     data-hn-highlight
     :transition="transition"
+    :transform-template="transformTemplate"
     :class="cn('pointer-events-none', props.class)"
   />
 </template>

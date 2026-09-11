@@ -1,5 +1,5 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest'
-import { userEvent } from '@vitest/browser/context'
+import { userEvent } from 'vitest/browser'
 import { mount } from '@vue/test-utils'
 import CodeBlock from './CodeBlock.vue'
 import Prose from '../prose/Prose.vue'
@@ -28,9 +28,14 @@ describe('codeblock 与 prose pre 同源', () => {
 
     const blockBox = getComputedStyle(block.find('.hn-pre').element)
     const proseBox = getComputedStyle(prose.find('pre').element)
-    for (const p of ['backgroundColor', 'borderRadius', 'paddingTop', 'fontFamily'] as const) {
+    for (const p of ['backgroundColor', 'borderRadius', 'fontFamily'] as const) {
       expect(blockBox[p], p).toBe(proseBox[p])
     }
+
+    const blockContent = getComputedStyle(block.find('pre').element)
+    expect(blockContent.paddingTop).toBe(proseBox.paddingTop)
+    expect(blockContent.paddingInlineStart).toBe(proseBox.paddingInlineStart)
+    expect(blockBox.paddingTop).toBe('0px')
 
     const blockCode = getComputedStyle(block.find('code').element)
     const proseCode = getComputedStyle(prose.find('code').element)
@@ -81,7 +86,7 @@ describe('着色随主题翻转', () => {
 describe('复制交互', () => {
   it('padding 对称;角落透明不遮滚动阴影', () => {
     const w = mount(CodeBlock, { props: { code: 'const x = 1', lang: 'ts' }, attachTo: attach() })
-    const pre = w.find('.hn-pre').element
+    const pre = w.find('pre').element
     const cs = getComputedStyle(pre)
     expect(cs.paddingRight).toBe(cs.paddingLeft)
     const corner = w.find('div.absolute.top-2').element

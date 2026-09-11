@@ -26,7 +26,12 @@
     :disabled="props.disabled"
     :class="cn(tabsTrigger({ variant, size, orientation }), props.class)"
   >
-    <Highlight v-if="active" :id="highlightId" :class="tabsHighlight({ variant, orientation })" />
+    <Highlight
+      v-if="active"
+      :id="highlightId"
+      :axis="orientation === 'vertical' ? 'y' : 'x'"
+      :class="tabsHighlight({ variant, orientation })"
+    />
     <Ripple />
     <slot />
   </TabsTrigger>

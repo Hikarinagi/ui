@@ -28,9 +28,19 @@ The alert dialog asks one question: `title` is the question, `description` spell
 
 <Demo name="alert-dialog/danger" />
 
+### Confirmation countdown {#countdown}
+
+`confirmDelay` sets the wait before confirmation in seconds and defaults to `0`. Each opening starts a new countdown. The confirm button is disabled and shows the remaining seconds, then returns to its original label and enabled state. Cancel and Esc remain available while waiting.
+
+Changing `confirmDelay` while open restarts the countdown with the new value; setting it to `0` removes the wait immediately. Positive fractions round up. Non-positive or non-finite values are treated as `0`. A failed confirmation can be retried immediately.
+
+<Demo name="alert-dialog/countdown" />
+
 ### Asynchronous confirm {#async}
 
-When the `confirm` handler returns a Promise the dialog waits for it before closing: the confirm button shows a loading indicator, and Cancel and Esc are unavailable meanwhile. If the handler throws, the dialog stays open so the outcome is seen in place.
+Pass the confirmation handler through `onConfirm` or `@confirm`. When it returns a Promise or PromiseLike, the dialog waits for completion before closing. The confirm button shows a loading indicator, and Cancel and Esc are unavailable while pending.
+
+The component catches synchronous throws and asynchronous rejections and emits the original reason through `error`. The dialog stays open and the buttons become available for retry. Use `@error` to update an error message.
 
 <Demo name="alert-dialog/async" />
 
@@ -42,7 +52,7 @@ When the `confirm` handler returns a Promise the dialog waits for it before clos
 
 ### Size and placement {#placement}
 
-`size` defaults to `sm`, 384 pixels wide, and `md` is 448; `placement` works as in Dialog, centered on wide screens and docked to the bottom on narrow ones when unset.
+`size` defaults to `sm`, 384 pixels wide, and `md` is 448; `placement` works as in [Dialog](/components/dialog), centered on wide screens and docked to the bottom on narrow ones when unset.
 
 <Demo name="alert-dialog/placement" />
 
@@ -51,7 +61,7 @@ When the `confirm` handler returns a Promise the dialog waits for it before clos
 - Focus lands on the Cancel button when the dialog opens, so an accidental Enter does nothing; focus returns to the trigger on close.
 - Clicking the scrim does not close it; Esc closes it and counts as cancel.
 - The page stops scrolling and focus is trapped inside the panel while it is open.
-- When the confirm handler returns a Promise the dialog stays busy until it settles and then closes; a thrown error keeps it open.
+- When the confirm handler returns a Promise the dialog stays busy until it settles. Success closes it; failure emits `error` and keeps it open.
 
 ## Accessibility {#a11y}
 
@@ -63,17 +73,19 @@ When the `confirm` handler returns a Promise the dialog waits for it before clos
 
 ### Props {#props}
 
-| Prop          | Type                   | Default    | Description                                  |
-| ------------- | ---------------------- | ---------- | -------------------------------------------- |
-| `title`       | `string`               | —          | Required. The question                       |
-| `description` | `string`               | —          | Supporting text                              |
-| `confirmText` | `string`               | locale     | Text of the confirm button                   |
-| `cancelText`  | `string`               | locale     | Text of the cancel button                    |
-| `tone`        | `'accent' \| 'danger'` | `'accent'` | Tone of the confirm button                   |
-| `size`        | `'sm' \| 'md'`         | `'sm'`     | Maximum width of the panel                   |
-| `placement`   | `'center' \| 'bottom'` | —          | Follows the screen width when unset          |
-| `open`        | `boolean`              | —          | Whether it is open, supports two-way binding |
-| `class`       | `string`               | —          | Classes appended to the panel                |
+| Prop           | Type                   | Default    | Description                                               |
+| -------------- | ---------------------- | ---------- | --------------------------------------------------------- |
+| `title`        | `string`               | —          | Required. The question                                    |
+| `description`  | `string`               | —          | Supporting text                                           |
+| `confirmText`  | `string`               | locale     | Text of the confirm button                                |
+| `confirmDelay` | `number`               | `0`        | Seconds to wait before confirmation on each opening       |
+| `cancelText`   | `string`               | locale     | Text of the cancel button                                 |
+| `tone`         | `'accent' \| 'danger'` | `'accent'` | Tone of the confirm button                                |
+| `size`         | `'sm' \| 'md'`         | `'sm'`     | Maximum width of the panel                                |
+| `placement`    | `'center' \| 'bottom'` | —          | Follows the screen width when unset                       |
+| `onConfirm`    | `() => unknown`        | —          | Confirmation handler; may return a Promise or PromiseLike |
+| `open`         | `boolean`              | —          | Whether it is open, supports two-way binding              |
+| `class`        | `string`               | —          | Classes appended to the panel                             |
 
 ### Slots {#slots}
 
@@ -84,7 +96,8 @@ When the `confirm` handler returns a Promise the dialog waits for it before clos
 
 ### Events {#events}
 
-| Event     | Payload | Description                                                |
-| --------- | ------- | ---------------------------------------------------------- |
-| `confirm` | —       | Confirm was clicked; a Promise from the handler is awaited |
-| `cancel`  | —       | Cancel was clicked                                         |
+| Event     | Payload   | Description                                                |
+| --------- | --------- | ---------------------------------------------------------- |
+| `confirm` | —         | Confirm was clicked; a Promise from the handler is awaited |
+| `cancel`  | —         | Cancel was clicked                                         |
+| `error`   | `unknown` | Original confirmation failure; keeps the dialog open       |
