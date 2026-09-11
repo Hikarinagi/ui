@@ -4,6 +4,7 @@ export function useAlertDialogConfirm(
   props: { onConfirm?: () => unknown },
   open: Ref<boolean | undefined>,
   onError: (error: unknown) => void,
+  blocked: () => boolean = () => false,
 ) {
   const busy = ref(false)
 
@@ -12,7 +13,7 @@ export function useAlertDialogConfirm(
   }
 
   async function confirm() {
-    if (busy.value) return
+    if (!open.value || busy.value || blocked()) return
     busy.value = true
     try {
       await props.onConfirm?.()

@@ -11,3 +11,7 @@ export const alertDialogContent = tv({
 export const alertDialogActions = tv({
   base: 'flex justify-end gap-(--hn-inline-gap) px-(--hn-panel-p)',
 })
+
+export const alertDialogCountdown = tv({
+  base: 'tabular-nums',
+})

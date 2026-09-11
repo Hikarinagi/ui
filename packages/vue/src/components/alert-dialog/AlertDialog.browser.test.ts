@@ -1,7 +1,7 @@
 import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest'
 import { userEvent } from 'vitest/browser'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { defineComponent, h, ref, type Ref } from 'vue'
+import { defineComponent, h, reactive, ref, type Ref } from 'vue'
 import AlertDialog from './AlertDialog.vue'
 import Button from '../button/Button.vue'
 import '../../../test/browser.css'
@@ -206,5 +206,71 @@ describe('AlertDialog', () => {
     await userEvent.click(button('取消'))
     await vi.waitFor(() => expect(panel()).toBeNull())
     expect(open.value).toBe(false)
+  })
+  it('倒计时禁用确认，到期后可提交，失败后重试无需再次等待', async () => {
+    const failure = new Error('失败')
+    const onConfirm = vi.fn().mockRejectedValueOnce(failure)
+    const onError = vi.fn()
+    const w = harness({ confirmDelay: 2, onConfirm, onError, confirmText: '提交' })
+    await openIt(w)
+    const confirm = panel()!.querySelectorAll('button')[1]!
+    expect(confirm.textContent).toContain('(2)')
+    expect(confirm.disabled).toBe(true)
+    expect(button('取消').disabled).toBe(false)
+    confirm.click()
+    expect(onConfirm).not.toHaveBeenCalled()
+    await vi.waitFor(() => expect(confirm.textContent).toContain('(1)'), { timeout: 1500 })
+    expect(confirm.disabled).toBe(true)
+    await vi.waitFor(() => expect(confirm.disabled).toBe(false), { timeout: 1500 })
+    expect(confirm.textContent!.trim()).toBe('提交')
+    expect(onConfirm).not.toHaveBeenCalled()
+    await userEvent.click(confirm)
+    await vi.waitFor(() => expect(onError).toHaveBeenCalledExactlyOnceWith(failure))
+    expect(confirm.disabled).toBe(false)
+    expect(confirm.textContent!.trim()).toBe('提交')
+    await userEvent.click(confirm)
+    await vi.waitFor(() => expect(panel()).toBeNull())
+    expect(onConfirm).toHaveBeenCalledTimes(2)
+  })
+
+  it('等待期间取消和 Esc 可用，每次重新打开都会重置倒计时', async () => {
+    const onCancel = vi.fn()
+    const onConfirm = vi.fn()
+    const w = harness({ confirmDelay: 5, onCancel, onConfirm })
+    await openIt(w)
+    const confirm = panel()!.querySelectorAll('button')[1]!
+    await userEvent.click(button('取消'))
+    expect(confirm.disabled).toBe(true)
+    expect(confirm.textContent).toContain('(5)')
+    confirm.click()
+    expect(onConfirm).not.toHaveBeenCalled()
+    await vi.waitFor(() => expect(panel()).toBeNull())
+    expect(onCancel).toHaveBeenCalledOnce()
+    await openIt(w)
+    expect(panel()!.querySelectorAll('button')[1]!.textContent).toContain('(5)')
+    await userEvent.keyboard('{Escape}')
+    await vi.waitFor(() => expect(panel()).toBeNull())
+    await openIt(w)
+    expect(panel()!.querySelectorAll('button')[1]!.textContent).toContain('(5)')
+  })
+
+  it('受控初始打开也会等待，修改 confirmDelay 会更新禁用状态', async () => {
+    const props = reactive({ confirmDelay: 3 })
+    const open = ref(true)
+    harness(props, open, { trigger: false })
+    await vi.waitFor(() => expect(panel()).toBeTruthy())
+    const confirm = panel()!.querySelectorAll('button')[1]!
+    expect(confirm.disabled).toBe(true)
+    expect(confirm.textContent).toContain('(3)')
+    props.confirmDelay = 0
+    await vi.waitFor(() => expect(confirm.disabled).toBe(false))
+    props.confirmDelay = 4
+    await vi.waitFor(() => expect(confirm.textContent).toContain('(4)'))
+    expect(confirm.disabled).toBe(true)
+    open.value = false
+    await vi.waitFor(() => expect(panel()).toBeNull())
+    open.value = true
+    await vi.waitFor(() => expect(panel()).toBeTruthy())
+    expect(panel()!.querySelectorAll('button')[1]!.textContent).toContain('(4)')
   })
 })

@@ -28,6 +28,14 @@ The alert dialog asks one question: `title` is the question, `description` spell
 
 <Demo name="alert-dialog/danger" />
 
+### Confirmation countdown {#countdown}
+
+`confirmDelay` sets the wait before confirmation in seconds and defaults to `0`. Each opening starts a new countdown. The confirm button is disabled and shows the remaining seconds, then returns to its original label and enabled state. Cancel and Esc remain available while waiting.
+
+Changing `confirmDelay` while open restarts the countdown with the new value; setting it to `0` removes the wait immediately. Positive fractions round up. Non-positive or non-finite values are treated as `0`. A failed confirmation can be retried immediately.
+
+<Demo name="alert-dialog/countdown" />
+
 ### Asynchronous confirm {#async}
 
 Pass the confirmation handler through `onConfirm` or `@confirm`. When it returns a Promise or PromiseLike, the dialog waits for completion before closing. The confirm button shows a loading indicator, and Cancel and Esc are unavailable while pending.
@@ -65,18 +73,19 @@ The component catches synchronous throws and asynchronous rejections and emits t
 
 ### Props {#props}
 
-| Prop          | Type                   | Default    | Description                                               |
-| ------------- | ---------------------- | ---------- | --------------------------------------------------------- |
-| `title`       | `string`               | —          | Required. The question                                    |
-| `description` | `string`               | —          | Supporting text                                           |
-| `confirmText` | `string`               | locale     | Text of the confirm button                                |
-| `cancelText`  | `string`               | locale     | Text of the cancel button                                 |
-| `tone`        | `'accent' \| 'danger'` | `'accent'` | Tone of the confirm button                                |
-| `size`        | `'sm' \| 'md'`         | `'sm'`     | Maximum width of the panel                                |
-| `placement`   | `'center' \| 'bottom'` | —          | Follows the screen width when unset                       |
-| `onConfirm`   | `() => unknown`        | —          | Confirmation handler; may return a Promise or PromiseLike |
-| `open`        | `boolean`              | —          | Whether it is open, supports two-way binding              |
-| `class`       | `string`               | —          | Classes appended to the panel                             |
+| Prop           | Type                   | Default    | Description                                               |
+| -------------- | ---------------------- | ---------- | --------------------------------------------------------- |
+| `title`        | `string`               | —          | Required. The question                                    |
+| `description`  | `string`               | —          | Supporting text                                           |
+| `confirmText`  | `string`               | locale     | Text of the confirm button                                |
+| `confirmDelay` | `number`               | `0`        | Seconds to wait before confirmation on each opening       |
+| `cancelText`   | `string`               | locale     | Text of the cancel button                                 |
+| `tone`         | `'accent' \| 'danger'` | `'accent'` | Tone of the confirm button                                |
+| `size`         | `'sm' \| 'md'`         | `'sm'`     | Maximum width of the panel                                |
+| `placement`    | `'center' \| 'bottom'` | —          | Follows the screen width when unset                       |
+| `onConfirm`    | `() => unknown`        | —          | Confirmation handler; may return a Promise or PromiseLike |
+| `open`         | `boolean`              | —          | Whether it is open, supports two-way binding              |
+| `class`        | `string`               | —          | Classes appended to the panel                             |
 
 ### Slots {#slots}
 

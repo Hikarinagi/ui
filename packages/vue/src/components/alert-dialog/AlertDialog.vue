@@ -17,10 +17,12 @@
   import Heading from '../heading/Heading.vue'
   import Text from '../text/Text.vue'
   import { useAlertDialogConfirm } from './composables/useAlertDialogConfirm'
+  import { useConfirmDelay } from './composables/useConfirmDelay'
   import {
     alertDialogHeader,
     alertDialogContent,
     alertDialogActions,
+    alertDialogCountdown,
   } from './alert-dialog.variants'
 
   defineOptions({ name: 'HnAlertDialog' })
@@ -30,6 +32,7 @@
       title: string
       description?: string
       confirmText?: string
+      confirmDelay?: number
       cancelText?: string
       tone?: 'accent' | 'danger'
       size?: 'sm' | 'md'
@@ -37,13 +40,19 @@
       onConfirm?: () => unknown
       class?: string
     }>(),
-    { tone: 'accent', size: 'sm' },
+    { tone: 'accent', size: 'sm', confirmDelay: 0 },
   )
   const emit = defineEmits<{ cancel: []; error: [error: unknown] }>()
 
   const open = defineModel<boolean>('open')
   const t = useUiLocale()
-  const { busy, guard, confirm } = useAlertDialogConfirm(props, open, error => emit('error', error))
+  const remaining = useConfirmDelay(open, () => props.confirmDelay)
+  const { busy, guard, confirm } = useAlertDialogConfirm(
+    props,
+    open,
+    error => emit('error', error),
+    () => remaining.value > 0,
+  )
 </script>
 
 <template>
@@ -83,8 +92,9 @@
                   {{ props.cancelText ?? t.common.cancel }}
                 </Button>
               </AlertDialogCancel>
-              <Button :tone="props.tone" :loading="busy" @click="confirm">
+              <Button :tone="props.tone" :loading="busy" :disabled="remaining > 0" @click="confirm">
                 {{ props.confirmText ?? t.common.confirm }}
+                <span v-if="remaining > 0" :class="alertDialogCountdown()">({{ remaining }})</span>
               </Button>
             </div>
           </Card>

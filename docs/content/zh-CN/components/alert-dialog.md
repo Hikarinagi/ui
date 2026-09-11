@@ -28,6 +28,14 @@ import { AlertDialog } from '@hina-ui/vue'
 
 <Demo name="alert-dialog/danger" />
 
+### 确认倒计时 {#countdown}
+
+`confirmDelay` 指定确认前的等待秒数，默认为 `0`。每次打开时重新计时，期间确认按钮禁用并显示剩余秒数；结束后恢复原文案与可点击状态，取消和 Esc 在等待期间仍可用。
+
+打开期间修改 `confirmDelay` 会按新值重新计时，设为 `0` 立即解除等待。正小数向上取整，非正数或非有限值按 `0` 处理。确认失败后可以直接重试。
+
+<Demo name="alert-dialog/countdown" />
+
 ### 异步确认 {#async}
 
 `onConfirm` 接收确认处理函数，也可以通过 `@confirm` 传入。返回 Promise 或 PromiseLike 时，对话框等待其完成再关闭：期间「确定」显示加载指示，「取消」与 Esc 都不可用。
@@ -65,18 +73,19 @@ import { AlertDialog } from '@hina-ui/vue'
 
 ### Props {#props}
 
-| 属性          | 类型                   | 默认值     | 说明                                        |
-| ------------- | ---------------------- | ---------- | ------------------------------------------- |
-| `title`       | `string`               | —          | 必填。问题本身                              |
-| `description` | `string`               | —          | 补充说明                                    |
-| `confirmText` | `string`               | 当前语言   | 「确定」按钮的文字                          |
-| `cancelText`  | `string`               | 当前语言   | 「取消」按钮的文字                          |
-| `tone`        | `'accent' \| 'danger'` | `'accent'` | 「确定」按钮的色调                          |
-| `size`        | `'sm' \| 'md'`         | `'sm'`     | 面板的最大宽度                              |
-| `placement`   | `'center' \| 'bottom'` | —          | 不设置时随屏幕宽度变化                      |
-| `onConfirm`   | `() => unknown`        | —          | 确认处理函数，可返回 Promise 或 PromiseLike |
-| `open`        | `boolean`              | —          | 是否打开，支持双向绑定                      |
-| `class`       | `string`               | —          | 追加至面板的类名                            |
+| 属性           | 类型                   | 默认值     | 说明                                        |
+| -------------- | ---------------------- | ---------- | ------------------------------------------- |
+| `title`        | `string`               | —          | 必填。问题本身                              |
+| `description`  | `string`               | —          | 补充说明                                    |
+| `confirmText`  | `string`               | 当前语言   | 「确定」按钮的文字                          |
+| `confirmDelay` | `number`               | `0`        | 每次打开后的确认等待秒数                    |
+| `cancelText`   | `string`               | 当前语言   | 「取消」按钮的文字                          |
+| `tone`         | `'accent' \| 'danger'` | `'accent'` | 「确定」按钮的色调                          |
+| `size`         | `'sm' \| 'md'`         | `'sm'`     | 面板的最大宽度                              |
+| `placement`    | `'center' \| 'bottom'` | —          | 不设置时随屏幕宽度变化                      |
+| `onConfirm`    | `() => unknown`        | —          | 确认处理函数，可返回 Promise 或 PromiseLike |
+| `open`         | `boolean`              | —          | 是否打开，支持双向绑定                      |
+| `class`        | `string`               | —          | 追加至面板的类名                            |
 
 ### 插槽 {#slots}
 
