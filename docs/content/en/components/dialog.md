@@ -30,6 +30,18 @@ The `icon` slot displays a decorative icon before the title. The `title` slot re
 
 <Demo name="dialog/title" />
 
+### Hidden header {#header}
+
+`header` defaults to `true`. Set it to `false` to hide the entire header and its close button while retaining the content and footer layout. The required `title` and any provided description remain visually hidden for assistive technology. The `icon` and `title` slots are not rendered in this mode.
+
+<Demo name="dialog/header" />
+
+### Close button {#closable}
+
+`closable` defaults to `true`. Set it to `false` to hide only the close button. Escape and clicks on the scrim still close the dialog; `locked` controls these two behaviours. The header's close button is always omitted when `header` is `false`.
+
+<Demo name="dialog/closable" />
+
 ### Sizes {#sizes}
 
 `size` sets the maximum width of the panel: 384, 448 and 576 pixels.
@@ -56,7 +68,7 @@ Content past the available height scrolls inside the `content` slot while the ti
 
 ### Locked {#locked}
 
-With `locked`, neither Escape nor a click on the scrim closes the dialog, and the close button is disabled but still shown. Use it to keep a submission from being interrupted. Closing through `open` still works.
+With `locked`, neither Escape nor a click on the scrim closes the dialog, and a rendered close button becomes disabled. Closing through `open` still works.
 
 <Demo name="dialog/locked" />
 
@@ -64,7 +76,7 @@ With `locked`, neither Escape nor a click on the scrim closes the dialog, and th
 
 - The page is locked from scrolling while the dialog is open, focus is trapped inside the panel, and it returns to the trigger on close.
 - Escape or a click on the scrim closes the dialog; `locked` disables both.
-- The body is a ScrollArea, so its scrollbar matches every other scrolling region in the project.
+- The body uses [ScrollArea](/components/scroll-area).
 
 ## Accessibility {#a11y}
 
@@ -76,15 +88,17 @@ With `locked`, neither Escape nor a click on the scrim closes the dialog, and th
 
 ### Dialog {#props}
 
-| Prop          | Type                   | Default | Description                           |
-| ------------- | ---------------------- | ------- | ------------------------------------- |
-| `title`       | `string`               | —       | Required. The dialog title            |
-| `description` | `string`               | —       | The line under the title              |
-| `size`        | `'sm' \| 'md' \| 'lg'` | `'md'`  | Maximum width of the panel            |
-| `placement`   | `'center' \| 'bottom'` | —       | Follows the screen width when omitted |
-| `locked`      | `boolean`              | `false` | Whether the user is kept from closing |
-| `open`        | `boolean`              | —       | Whether it is open; supports v-model  |
-| `class`       | `string`               | —       | Classes appended to the panel         |
+| Prop          | Type                   | Default | Description                             |
+| ------------- | ---------------------- | ------- | --------------------------------------- |
+| `title`       | `string`               | —       | Required. The dialog title              |
+| `description` | `string`               | —       | The line under the title                |
+| `size`        | `'sm' \| 'md' \| 'lg'` | `'md'`  | Maximum width of the panel              |
+| `placement`   | `'center' \| 'bottom'` | —       | Follows the screen width when omitted   |
+| `header`      | `boolean`              | `true`  | Show the header and its close button    |
+| `closable`    | `boolean`              | `true`  | Show the close button within the header |
+| `locked`      | `boolean`              | `false` | Whether the user is kept from closing   |
+| `open`        | `boolean`              | —       | Whether it is open; supports v-model    |
+| `class`       | `string`               | —       | Classes appended to the panel           |
 
 | Slot      | Payload     | Description                               |
 | --------- | ----------- | ----------------------------------------- |

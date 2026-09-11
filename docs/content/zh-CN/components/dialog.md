@@ -30,6 +30,18 @@ import { Dialog } from '@hina-ui/vue'
 
 <Demo name="dialog/title" />
 
+### 隐藏头部 {#header}
+
+`header` 默认为 `true`。设为 `false` 后不显示整个头部及其中的关闭按钮，正文与页脚保留原有布局。`title` 仍必填，标题与提供的说明会以视觉隐藏的形式保留，供辅助技术读取；此时不渲染 `icon` 和 `title` 插槽。
+
+<Demo name="dialog/header" />
+
+### 关闭按钮 {#closable}
+
+`closable` 默认为 `true`。设为 `false` 只隐藏关闭按钮，按 Esc 和点击遮罩仍可关闭；`locked` 控制这两种关闭行为。`:header="false"` 时始终不显示头部内的关闭按钮。
+
+<Demo name="dialog/closable" />
+
 ### 尺寸 {#sizes}
 
 `size` 设置面板的最大宽度，三档分别为 384、448 和 576 像素。
@@ -56,7 +68,7 @@ import { Dialog } from '@hina-ui/vue'
 
 ### 锁定 {#locked}
 
-设置 `locked` 后，按 Esc 和点击遮罩都不再关闭对话框，关闭按钮变为不可用，但仍然显示。用它避免提交过程被中断。此时通过 `open` 关闭仍然有效。
+设置 `locked` 后，按 Esc 和点击遮罩都不再关闭对话框，已显示的关闭按钮变为不可用。此时通过 `open` 关闭仍然有效。
 
 <Demo name="dialog/locked" />
 
@@ -64,7 +76,7 @@ import { Dialog } from '@hina-ui/vue'
 
 - 对话框打开期间页面停止滚动，焦点被限制在面板内部，关闭后回到触发器。
 - 按 Esc 或点击遮罩关闭对话框，`locked` 会同时禁用这两种方式。
-- 正文区域是 ScrollArea，滚动条与项目中其他滚动区域一致。
+- 正文区域使用 [ScrollArea](/components/scroll-area)。
 
 ## 无障碍 {#a11y}
 
@@ -76,15 +88,17 @@ import { Dialog } from '@hina-ui/vue'
 
 ### Dialog {#props}
 
-| 属性          | 类型                   | 默认值  | 说明                   |
-| ------------- | ---------------------- | ------- | ---------------------- |
-| `title`       | `string`               | —       | 必填。对话框标题       |
-| `description` | `string`               | —       | 标题下面的说明         |
-| `size`        | `'sm' \| 'md' \| 'lg'` | `'md'`  | 面板的最大宽度         |
-| `placement`   | `'center' \| 'bottom'` | —       | 不设置时随屏幕宽度变化 |
-| `locked`      | `boolean`              | `false` | 是否禁止用户关闭       |
-| `open`        | `boolean`              | —       | 是否打开，支持双向绑定 |
-| `class`       | `string`               | —       | 追加到面板上的类名     |
+| 属性          | 类型                   | 默认值  | 说明                         |
+| ------------- | ---------------------- | ------- | ---------------------------- |
+| `title`       | `string`               | —       | 必填。对话框标题             |
+| `description` | `string`               | —       | 标题下面的说明               |
+| `size`        | `'sm' \| 'md' \| 'lg'` | `'md'`  | 面板的最大宽度               |
+| `placement`   | `'center' \| 'bottom'` | —       | 不设置时随屏幕宽度变化       |
+| `header`      | `boolean`              | `true`  | 是否显示头部及其中的关闭按钮 |
+| `closable`    | `boolean`              | `true`  | 是否显示头部内的关闭按钮     |
+| `locked`      | `boolean`              | `false` | 是否禁止用户关闭             |
+| `open`        | `boolean`              | —       | 是否打开，支持双向绑定       |
+| `class`       | `string`               | —       | 追加到面板上的类名           |
 
 | 插槽      | 参数        | 说明                          |
 | --------- | ----------- | ----------------------------- |

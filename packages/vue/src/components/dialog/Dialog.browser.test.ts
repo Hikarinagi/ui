@@ -1,7 +1,7 @@
 import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest'
 import { page, userEvent } from '@vitest/browser/context'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { defineComponent, h, ref, type Ref, type VNodeChild } from 'vue'
+import { defineComponent, h, reactive, ref, type Ref, type VNodeChild } from 'vue'
 import Dialog from './Dialog.vue'
 import Button from '../button/Button.vue'
 import '../../../test/browser.css'
@@ -259,5 +259,93 @@ describe('dialog · 标题插槽', () => {
     await expect
       .element(page.getByRole('dialog', { name: '更新后的标题', exact: true }))
       .toBeVisible()
+  })
+})
+
+describe('dialog · 头部显示', () => {
+  it('无 header 时保留隐藏名称与说明，正文从正常内边距开始，没有头部或关闭按钮占位', async () => {
+    const w = harness({ header: false }, undefined, undefined, {
+      icon: () => h('span', '不应显示的图标'),
+      title: () => h('span', '不应显示的标题'),
+      footer: ({ close }) => h(Button, { onClick: close }, () => '关闭正文'),
+    })
+    const trigger = w.find('button').element as HTMLElement
+    await userEvent.click(trigger)
+    await vi.waitFor(() => expect(panel()).toBeTruthy())
+    const root = panel()!
+    const label = document.getElementById(root.getAttribute('aria-labelledby')!)!
+    const description = document.getElementById(root.getAttribute('aria-describedby')!)!
+    expect(label.textContent).toBe('删除条目')
+    expect(description.textContent?.trim()).toBe('此操作不可撤销。')
+    expect(getComputedStyle(label).position).toBe('absolute')
+    expect(getComputedStyle(label).width).toBe('1px')
+    expect(getComputedStyle(description).position).toBe('absolute')
+    expect(root.querySelector('[aria-label="关闭"]')).toBeNull()
+    expect(root.textContent).not.toContain('不应显示')
+    await expect.element(page.getByRole('dialog', { name: '删除条目', exact: true })).toBeVisible()
+    const area = root.querySelector('.hn-scroll-area')!
+    await vi.waitFor(() => {
+      const offset = area.getBoundingClientRect().top - root.getBoundingClientRect().top
+      expect(
+        Math.abs(offset - root.clientTop - parseFloat(getComputedStyle(root).paddingTop)),
+      ).toBeLessThan(1)
+    })
+    await userEvent.click(page.getByRole('button', { name: '关闭正文' }))
+    await vi.waitFor(() => expect(panel()).toBeNull())
+    expect(document.activeElement).toBe(trigger)
+  })
+
+  it.each([false, true])('closable=false 隐藏按钮，Esc 和点外只受 locked=%s 控制', async locked => {
+    const open = ref(false)
+    const w = harness({ closable: false, locked }, open)
+    const trigger = w.find('button').element as HTMLElement
+    await userEvent.click(trigger)
+    await vi.waitFor(() => expect(panel()).toBeTruthy())
+    expect(panel()!.querySelector('[aria-label="关闭"]')).toBeNull()
+    expect(getComputedStyle(panel()!.querySelector('h2')!).position).not.toBe('absolute')
+    await userEvent.keyboard('{Escape}')
+    if (locked) {
+      expect(open.value).toBe(true)
+    } else {
+      await vi.waitFor(() => expect(panel()).toBeNull())
+      await userEvent.click(trigger)
+      await vi.waitFor(() => expect(panel()).toBeTruthy())
+    }
+    await userEvent.click(scrim()!, { force: true, position: { x: 4, y: 4 } })
+    await vi.waitFor(() => expect(open.value).toBe(locked))
+    if (locked) {
+      open.value = false
+      await vi.waitFor(() => expect(panel()).toBeNull())
+    }
+  })
+
+  it('动态显示头部和说明时关联始终有效，无说明时不留下悬空 aria-describedby', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    try {
+      const props = reactive({
+        header: false,
+        closable: false,
+        description: undefined as string | undefined,
+      })
+      const w = harness(props)
+      await userEvent.click(w.find('button').element as HTMLElement)
+      await vi.waitFor(() => expect(panel()).toBeTruthy())
+      expect(panel()!.hasAttribute('aria-describedby')).toBe(false)
+      expect(warn).not.toHaveBeenCalled()
+      props.description = '新的说明'
+      await vi.waitFor(() => {
+        expect(
+          document.getElementById(panel()!.getAttribute('aria-describedby')!)?.textContent?.trim(),
+        ).toBe('新的说明')
+      })
+      props.header = true
+      props.closable = true
+      await vi.waitFor(() => expect(panel()!.querySelector('[aria-label="关闭"]')).toBeTruthy())
+      expect(getComputedStyle(panel()!.querySelector('h2')!).position).not.toBe('absolute')
+      props.description = undefined
+      await vi.waitFor(() => expect(panel()!.hasAttribute('aria-describedby')).toBe(false))
+    } finally {
+      warn.mockRestore()
+    }
   })
 })

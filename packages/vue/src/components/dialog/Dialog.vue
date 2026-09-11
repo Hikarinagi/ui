@@ -25,10 +25,12 @@
       description?: string
       size?: 'sm' | 'md' | 'lg'
       placement?: 'center' | 'bottom'
+      header?: boolean
+      closable?: boolean
       locked?: boolean
       class?: string
     }>(),
-    { size: 'md', locked: false },
+    { size: 'md', header: true, closable: true, locked: false },
   )
 
   const slots = defineSlots<{
@@ -67,6 +69,7 @@
       >
         <DialogContent as-child @escape-key-down="guard" @interact-outside="guard">
           <Card
+            v-bind="props.description ? {} : { 'aria-describedby': undefined }"
             :padded="false"
             :class="
               cn(
@@ -77,7 +80,10 @@
               )
             "
           >
-            <div class="flex shrink-0 items-start justify-between gap-4 px-(--hn-panel-p)">
+            <div
+              v-if="props.header"
+              class="flex shrink-0 items-start justify-between gap-4 px-(--hn-panel-p)"
+            >
               <div class="flex min-w-0 flex-col gap-1.5">
                 <div class="flex min-w-0 items-center gap-2">
                   <span
@@ -97,10 +103,18 @@
                   <Text tone="muted">{{ props.description }}</Text>
                 </DialogDescription>
               </div>
-              <DialogClose as-child>
+              <DialogClose v-if="props.closable" as-child>
                 <CloseButton :disabled="props.locked" class="-mt-1.5 -me-1.5 shrink-0" />
               </DialogClose>
             </div>
+            <template v-else>
+              <DialogTitle as-child>
+                <Heading :level="2" class="sr-only">{{ props.title }}</Heading>
+              </DialogTitle>
+              <DialogDescription v-if="props.description" class="sr-only">
+                {{ props.description }}
+              </DialogDescription>
+            </template>
             <ScrollArea v-if="$slots.content" class="min-h-0">
               <div class="px-(--hn-panel-p) py-1">
                 <slot name="content" :close="close" />
