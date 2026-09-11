@@ -5,6 +5,7 @@ export const dialogWrapper = tv({
   variants: {
     placement: {
       center: 'place-items-center p-4',
+      top: 'items-start justify-items-center p-4',
       bottom: 'items-end justify-items-center p-4',
       auto: 'place-items-center p-4 max-sm:items-end max-sm:justify-items-stretch',
     },
@@ -17,6 +18,7 @@ export const dialogCard = tv({
   variants: {
     placement: {
       center: 'hn-anim-modal',
+      top: 'hn-anim-sheet-top',
       bottom: 'hn-anim-sheet-bottom',
       auto: 'hn-anim-modal max-sm:hn-anim-sheet-bottom max-sm:max-w-none',
     },

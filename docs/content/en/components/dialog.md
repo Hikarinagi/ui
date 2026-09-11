@@ -72,7 +72,7 @@ In this mode, `header`, `closable`, and the `icon`, `title`, `content` and `foot
 
 ### Placement {#placement}
 
-Without `placement`, the dialog is centred on a wide screen and sits along the bottom at full width on a narrow one. `center` and `bottom` each lock one of those shapes.
+Without `placement`, the dialog is centred on a wide screen and sits along the bottom at the available width on a narrow one. `center` always centres it, `top` aligns it to the top, and `bottom` aligns it to the bottom. `top` slides in from above and sits 1rem from the top with at least 1rem of space at the sides. Its width remains controlled by `size` and constrained by the viewport.
 
 <Demo name="dialog/placement" />
 
@@ -115,7 +115,7 @@ With `locked`, neither Escape nor a click on the scrim closes the dialog, and a 
 | `title`       | `string`                                | —       | Required. The dialog title              |
 | `description` | `string`                                | —       | The line under the title                |
 | `size`        | `'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'` | `'md'`  | Maximum width of the panel              |
-| `placement`   | `'center' \| 'bottom'`                  | —       | Follows the screen width when omitted   |
+| `placement`   | `'center' \| 'top' \| 'bottom'`         | —       | Follows the screen width when omitted   |
 | `header`      | `boolean`                               | `true`  | Show the header and its close button    |
 | `closable`    | `boolean`                               | `true`  | Show the close button within the header |
 | `locked`      | `boolean`                               | `false` | Whether the user is kept from closing   |

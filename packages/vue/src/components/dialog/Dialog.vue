@@ -24,7 +24,7 @@
       title: string
       description?: string
       size?: DialogVariants['size']
-      placement?: 'center' | 'bottom'
+      placement?: 'center' | 'top' | 'bottom'
       header?: boolean
       closable?: boolean
       locked?: boolean

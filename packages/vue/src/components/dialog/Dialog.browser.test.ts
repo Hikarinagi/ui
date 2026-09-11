@@ -218,6 +218,54 @@ describe('dialog · 大面积浮层', () => {
     )
   })
 
+  it('placement=top 从顶部滑入，内容增高后仍贴顶，正文滚动且头脚保留在视口内', async () => {
+    await page.viewport(1024, 720)
+    const tall = ref(false)
+    const w = harness({ placement: 'top' }, undefined, () =>
+      h('div', { style: { height: tall.value ? '200vh' : '20px' } }, '动态正文'),
+    )
+    const trigger = w.find('button').element as HTMLElement
+    await userEvent.click(trigger)
+    await vi.waitFor(() => expect(panel()).toBeTruthy())
+    const root = panel()!
+    const style = getComputedStyle(root)
+    expect(style.animationName).toBe('hn-sheet-in')
+    expect(style.getPropertyValue('--hn-sheet-y').trim()).toBe('-100%')
+    expect(style.borderTopLeftRadius).toBe('8px')
+    expect(style.borderBottomLeftRadius).toBe('8px')
+    await vi.waitFor(() => expect(Math.round(root.getBoundingClientRect().top)).toBe(16))
+    const shortHeight = root.getBoundingClientRect().height
+
+    tall.value = true
+    await vi.waitFor(() => {
+      const rect = root.getBoundingClientRect()
+      expect(Math.round(rect.top)).toBe(16)
+      expect(rect.height).toBeGreaterThan(shortHeight)
+      expect(rect.height).toBeLessThanOrEqual(688)
+      expect(rect.bottom).toBeLessThanOrEqual(704)
+    })
+    const area = root.querySelector('.hn-scroll-area')!
+    let scroller: HTMLElement | undefined
+    await vi.waitFor(() => {
+      scroller = [...area.querySelectorAll<HTMLElement>('*')].find(
+        el =>
+          ['auto', 'scroll'].includes(getComputedStyle(el).overflowY) &&
+          el.scrollHeight > el.clientHeight + 1,
+      )
+      expect(scroller).toBeTruthy()
+    })
+    const heading = root.querySelector('h2')!
+    const headingTop = heading.getBoundingClientRect().top
+    scroller!.scrollTop = 200
+    expect(scroller!.scrollTop).toBe(200)
+    expect(heading.getBoundingClientRect().top).toBe(headingTop)
+    const footerButton = [...root.querySelectorAll('button')].at(-1)!
+    expect(footerButton.getBoundingClientRect().bottom).toBeLessThanOrEqual(704)
+    await userEvent.keyboard('{Escape}')
+    await vi.waitFor(() => expect(panel()).toBeNull())
+    expect(document.activeElement).toBe(trigger)
+  })
+
   it('placement 未指定:窄屏自动贴底全宽,宽屏居中', async () => {
     await page.viewport(430, 780)
     const w = harness()
@@ -478,7 +526,7 @@ describe('dialog · 自定义 body', () => {
 })
 
 describe('dialog · 宽度边界', () => {
-  it.each([undefined, 'center', 'bottom'] as const)(
+  it.each([undefined, 'center', 'top', 'bottom'] as const)(
     '2xl 在窄屏 placement=%s 时仍保留视口留白',
     async placement => {
       await page.viewport(430, 780)

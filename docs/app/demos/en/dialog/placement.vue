@@ -10,6 +10,12 @@
         <Text>Stays centred at every screen width.</Text>
       </template>
     </Dialog>
+    <Dialog title="Along the top" placement="top">
+      <Button variant="outline" tone="neutral">top</Button>
+      <template #content>
+        <Text>Slides in from above with space at the top, including on narrow screens.</Text>
+      </template>
+    </Dialog>
     <Dialog title="Along the bottom" placement="bottom">
       <Button variant="outline" tone="neutral">bottom</Button>
       <template #content>

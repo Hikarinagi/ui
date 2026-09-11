@@ -72,7 +72,7 @@ import { Dialog } from '@hina-ui/vue'
 
 ### 位置 {#placement}
 
-不设置 `placement` 时，宽屏上对话框居中，窄屏上贴底并占满宽度。`center` 和 `bottom` 各自锁定其中一种形态。
+不设置 `placement` 时，宽屏上对话框居中，窄屏上贴底并占满可用宽度。`center` 始终居中，`top` 始终贴顶，`bottom` 始终贴底。`top` 从顶部滑入，距顶部 1rem，两侧至少保留 1rem 留白，宽度仍由 `size` 控制并受视口限制。
 
 <Demo name="dialog/placement" />
 
@@ -115,7 +115,7 @@ import { Dialog } from '@hina-ui/vue'
 | `title`       | `string`                                | —       | 必填。对话框标题             |
 | `description` | `string`                                | —       | 标题下面的说明               |
 | `size`        | `'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'` | `'md'`  | 面板的最大宽度               |
-| `placement`   | `'center' \| 'bottom'`                  | —       | 不设置时随屏幕宽度变化       |
+| `placement`   | `'center' \| 'top' \| 'bottom'`         | —       | 不设置时随屏幕宽度变化       |
 | `header`      | `boolean`                               | `true`  | 是否显示头部及其中的关闭按钮 |
 | `closable`    | `boolean`                               | `true`  | 是否显示头部内的关闭按钮     |
 | `locked`      | `boolean`                               | `false` | 是否禁止用户关闭             |

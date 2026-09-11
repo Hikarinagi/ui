@@ -10,6 +10,12 @@
         <Text>任何屏幕宽度下都居中显示。</Text>
       </template>
     </Dialog>
+    <Dialog title="贴顶" placement="top">
+      <Button variant="outline" tone="neutral">top</Button>
+      <template #content>
+        <Text>从顶部滑入，保留顶部留白，窄屏上也保持贴顶。</Text>
+      </template>
+    </Dialog>
     <Dialog title="贴底" placement="bottom">
       <Button variant="outline" tone="neutral">bottom</Button>
       <template #content>
