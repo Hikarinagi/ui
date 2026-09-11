@@ -186,8 +186,6 @@ function expectFixedPoint(
 }
 
 async function settled() {
-  // The stage drops arrow keys until the enter animation resolves, and that
-  // lands after the transform reads back as none.
   await vi.waitFor(() => expect(dialog()?.getAttribute('data-hn-phase')).toBe('open'), {
     timeout: 3000,
   })

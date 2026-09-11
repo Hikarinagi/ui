@@ -157,7 +157,6 @@
         <DisclosureIcon />
       </span>
     </SelectTrigger>
-    <!-- Reka 2.10 BubbleSelect assigns arrays to select.value, which loses multiple values. -->
     <VisuallyHidden v-if="props.name" as-child>
       <select
         v-model="model"

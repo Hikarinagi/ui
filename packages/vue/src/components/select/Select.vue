@@ -76,7 +76,6 @@
 
   function beforeClearLeave(element: Element) {
     clearLeaving.value = true
-    // A leaving v-if branch no longer receives prop updates.
     element.setAttribute('inert', '')
   }
 

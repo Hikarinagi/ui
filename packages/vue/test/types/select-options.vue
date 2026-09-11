@@ -30,96 +30,66 @@
     <template #option="{ option }">
       {{ expectTypeOf(option).toEqualTypeOf(flat[0]!) }}
       {{ option.count.toFixed() }} {{ option.avatar.toUpperCase() }}
-      <span>
-        <!-- @vue-expect-error -->
-        {{ option.missing }}
-      </span>
+      {{ expectTypeOf(option).not.toHaveProperty('missing') }}
     </template>
     <template #value="{ option }">
       {{ expectTypeOf(option).toEqualTypeOf(flat[0]!) }}
       {{ option.count.toFixed() }} {{ option.avatar.toUpperCase() }}
-      <span>
-        <!-- @vue-expect-error -->
-        {{ option.missing }}
-      </span>
+      {{ expectTypeOf(option).not.toHaveProperty('missing') }}
     </template>
   </Select>
   <MultiSelect :options="mixed">
     <template #option="{ option }">
       {{ expectTypeOf(option).toEqualTypeOf(flat[0]!) }}
       {{ option.count.toFixed() }} {{ option.avatar.toUpperCase() }}
-      <span>
-        <!-- @vue-expect-error -->
-        {{ option.missing }}
-      </span>
+      {{ expectTypeOf(option).not.toHaveProperty('missing') }}
     </template>
   </MultiSelect>
   <Combobox :options="mixed">
     <template #option="{ option }">
       {{ expectTypeOf(option).toEqualTypeOf(flat[0]!) }}
       {{ option.count.toFixed() }} {{ option.avatar.toUpperCase() }}
-      <span>
-        <!-- @vue-expect-error -->
-        {{ option.missing }}
-      </span>
+      {{ expectTypeOf(option).not.toHaveProperty('missing') }}
     </template>
   </Combobox>
   <MultiCombobox :options="mixed">
     <template #option="{ option }">
       {{ expectTypeOf(option).toEqualTypeOf(flat[0]!) }}
       {{ option.count.toFixed() }} {{ option.avatar.toUpperCase() }}
-      <span>
-        <!-- @vue-expect-error -->
-        {{ option.missing }}
-      </span>
+      {{ expectTypeOf(option).not.toHaveProperty('missing') }}
     </template>
   </MultiCombobox>
   <Listbox :options="mixed">
     <template #option="{ option }">
       {{ expectTypeOf(option).toEqualTypeOf(flat[0]!) }}
       {{ option.count.toFixed() }} {{ option.avatar.toUpperCase() }}
-      <span>
-        <!-- @vue-expect-error -->
-        {{ option.missing }}
-      </span>
+      {{ expectTypeOf(option).not.toHaveProperty('missing') }}
     </template>
     <template #trailing="{ option }">
       {{ expectTypeOf(option).toEqualTypeOf(flat[0]!) }}
       {{ option.count.toFixed() }} {{ option.avatar.toUpperCase() }}
-      <span>
-        <!-- @vue-expect-error -->
-        {{ option.missing }}
-      </span>
+      {{ expectTypeOf(option).not.toHaveProperty('missing') }}
     </template>
   </Listbox>
   <CheckboxGroup :options="flat">
     <template #option="{ option }">
       {{ expectTypeOf(option).toEqualTypeOf(flat[0]!) }}
       {{ option.count.toFixed() }} {{ option.avatar.toUpperCase() }}
-      <span>
-        <!-- @vue-expect-error -->
-        {{ option.missing }}
-      </span>
+      {{ expectTypeOf(option).not.toHaveProperty('missing') }}
     </template>
   </CheckboxGroup>
   <RadioGroup :options="flat">
     <template #option="{ option }">
       {{ expectTypeOf(option).toEqualTypeOf(flat[0]!) }}
       {{ option.count.toFixed() }} {{ option.avatar.toUpperCase() }}
-      <span>
-        <!-- @vue-expect-error -->
-        {{ option.missing }}
-      </span>
+      {{ expectTypeOf(option).not.toHaveProperty('missing') }}
     </template>
   </RadioGroup>
   <SegmentedControl :options="flat">
     <template #option="{ option }">
       {{ expectTypeOf(option).toEqualTypeOf(flat[0]!) }}
       {{ option.count.toFixed() }} {{ option.avatar.toUpperCase() }}
-      <span>
-        <!-- @vue-expect-error -->
-        {{ option.missing }}
-      </span>
+      {{ expectTypeOf(option).not.toHaveProperty('missing') }}
     </template>
   </SegmentedControl>
   <Select :options="groups">
