@@ -1,5 +1,5 @@
 import { computed, nextTick, shallowRef, watch, type Ref } from 'vue'
-import type { DropdownMenuContentEmits } from 'reka-ui'
+import { useForwardExpose, type DropdownMenuContentEmits } from 'reka-ui'
 
 export function useAnchoredOverlay(
   props: { anchor?: HTMLElement | null; modal: boolean },
@@ -10,10 +10,7 @@ export function useAnchoredOverlay(
   ) => void,
   openAutoFocus?: (event: Event) => void,
 ) {
-  const trigger = shallowRef<{ $el: HTMLElement } | null>(null)
-  const triggerElement = computed(() =>
-    trigger.value?.$el?.nodeType === 1 ? trigger.value.$el : undefined,
-  )
+  const { forwardRef: trigger, currentElement: triggerElement } = useForwardExpose()
   const retainedAnchor = shallowRef<HTMLElement>()
   const reference = computed(
     () =>

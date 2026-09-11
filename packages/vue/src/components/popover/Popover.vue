@@ -44,7 +44,7 @@
   <PopoverRoot v-model:open="visible" :modal="props.modal">
     <PopoverTrigger
       v-if="$slots.default"
-      ref="trigger"
+      :ref="trigger"
       as-child
       :style="{ transformOrigin: pressOrigin }"
     >
