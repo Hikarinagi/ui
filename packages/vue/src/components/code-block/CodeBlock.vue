@@ -1,12 +1,17 @@
 <script setup lang="ts">
-  import { computed, onMounted, shallowRef, watch } from 'vue'
-  import type { ThemedToken } from 'shiki/core'
+  import { computed } from 'vue'
   import { cn } from '../../lib/cn'
-  import { devWarn } from '../../lib/dev'
   import { useUiLocale } from '../../locale'
   import CopyButton from '../copy-button/CopyButton.vue'
   import ScrollArea from '../scroll-area/ScrollArea.vue'
-  import { tokenize } from './highlighter'
+  import { useCodeHighlight } from './composables/useCodeHighlight'
+  import {
+    codeBlock,
+    codeBlockArea,
+    codeBlockContent,
+    codeBlockActions,
+    codeBlockLabel,
+  } from './code-block.variants'
 
   defineOptions({ name: 'HnCodeBlock' })
 
@@ -25,38 +30,18 @@
   const t = useUiLocale()
   const tag = computed(() => props.label ?? props.lang)
 
-  const tokens = shallowRef<ThemedToken[][] | null>(null)
-
-  onMounted(() => {
-    watch(
-      () => [props.code, props.lang, props.html] as const,
-      async ([code, lang, html]) => {
-        if (html || !lang) {
-          tokens.value = null
-          return
-        }
-        try {
-          const result = await tokenize(code, lang)
-          if (code === props.code && lang === props.lang) tokens.value = result
-        } catch (error) {
-          tokens.value = null
-          devWarn('CodeBlock', `着色管线失败,已退回素文本(lang="${lang}"):${String(error)}`, lang)
-        }
-      },
-      { immediate: true },
-    )
-  })
+  const tokens = useCodeHighlight(props)
 </script>
 
 <template>
-  <div :data-lang="props.lang" :class="cn('relative', props.class)">
-    <ScrollArea direction="horizontal" focusable :label="tag" class="hn-pre">
+  <div :data-lang="props.lang" :class="cn(codeBlock(), props.class)">
+    <ScrollArea direction="both" focusable :label="tag" :class="codeBlockArea()">
       <pre
-        class="m-0"
+        :class="codeBlockContent()"
       ><code v-if="props.html" v-html="props.html"></code><code v-else-if="tokens"><template v-for="(line, i) of tokens" :key="i">{{ i ? '\n' : '' }}<span v-for="(tk, j) of line" :key="j" :style="tk.htmlStyle">{{ tk.content }}</span></template></code><code v-else>{{ code }}</code></pre>
     </ScrollArea>
-    <div class="absolute top-2 end-2 flex items-center gap-2">
-      <span v-if="tag" class="text-faint font-mono text-xs select-none">{{ tag }}</span>
+    <div :class="codeBlockActions()">
+      <span v-if="tag" :class="codeBlockLabel()">{{ tag }}</span>
       <CopyButton v-if="copyable" :text="props.code" :label="t.codeblock.copy" />
     </div>
   </div>
