@@ -16,7 +16,7 @@ links:
 import { Dialog } from '@hina-ui/vue'
 ```
 
-`title` is required and `description` is the line under it. The default slot is the trigger, the `content` slot is the body, and the `footer` slot holds the actions. Both slots receive a `close` method.
+`title` is required and `description` is the line under it. The default slot is the trigger, the `content` slot is the body, and the `footer` slot holds the actions. The `content`, `footer` and `body` slots receive a `close` method; `body` replaces the entire interior layout.
 
 <Demo name="dialog/basic" />
 
@@ -42,6 +42,14 @@ The `icon` slot displays a decorative icon before the title. The `title` slot re
 
 <Demo name="dialog/closable" />
 
+### Custom panel content {#body}
+
+`#body="{ close }"` replaces the entire panel interior, including the default header, content and footer. The component adds no inner padding, section gaps or [ScrollArea](/components/scroll-area) wrapper; the slot controls its own padding and scrolling. An empty slot does not restore the default layout.
+
+In this mode, `header`, `closable`, and the `icon`, `title`, `content` and `footer` slots do not affect rendering. The required `title` and any provided description remain visually hidden. Size, placement, the scrim, focus containment and `locked` still apply. The slot's `close()` method can close the dialog programmatically.
+
+<Demo name="dialog/body" />
+
 ### Sizes {#sizes}
 
 `size` sets the maximum width of the panel: 384, 448 and 576 pixels.
@@ -56,7 +64,7 @@ Without `placement`, the dialog is centred on a wide screen and sits along the b
 
 ### Long content {#scroll}
 
-Content past the available height scrolls inside the `content` slot while the title and footer stay put. The panel itself never runs past the viewport.
+In the default layout, content past the available height scrolls inside the `content` slot while the title and footer stay put. The panel itself never runs past the viewport.
 
 <Demo name="dialog/scroll" />
 
@@ -76,12 +84,12 @@ With `locked`, neither Escape nor a click on the scrim closes the dialog, and a 
 
 - The page is locked from scrolling while the dialog is open, focus is trapped inside the panel, and it returns to the trigger on close.
 - Escape or a click on the scrim closes the dialog; `locked` disables both.
-- The body uses [ScrollArea](/components/scroll-area).
+- The default body uses [ScrollArea](/components/scroll-area).
 
 ## Accessibility {#a11y}
 
 - The panel is a `role="dialog"`, with `title` and `description` wired to `aria-labelledby` and `aria-describedby`.
-- The title renders as an `<h2>`, below the page heading level.
+- The title renders as an `<h2>`. Hiding the header or providing `body` retains a visually hidden title generated from the `title` prop.
 - The close button carries an accessible name taken from the current language.
 
 ## API {#api}
@@ -100,10 +108,11 @@ With `locked`, neither Escape nor a click on the scrim closes the dialog, and a 
 | `open`        | `boolean`              | —       | Whether it is open; supports v-model    |
 | `class`       | `string`               | —       | Classes appended to the panel           |
 
-| Slot      | Payload     | Description                               |
-| --------- | ----------- | ----------------------------------------- |
-| `default` | —           | The trigger; omit it to render none       |
-| `icon`    | —           | Decorative icon before the title          |
-| `title`   | —           | Title content; defaults to the title prop |
-| `content` | `{ close }` | The body, scrolling when it is too tall   |
-| `footer`  | `{ close }` | The actions along the bottom              |
+| Slot      | Payload     | Description                                                      |
+| --------- | ----------- | ---------------------------------------------------------------- |
+| `default` | —           | The trigger; omit it to render none                              |
+| `icon`    | —           | Decorative icon before the title                                 |
+| `title`   | —           | Title content; defaults to the title prop                        |
+| `body`    | `{ close }` | Entire interior; replaces the default header, content and footer |
+| `content` | `{ close }` | The body, scrolling when it is too tall                          |
+| `footer`  | `{ close }` | The actions along the bottom                                     |

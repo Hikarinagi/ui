@@ -16,7 +16,7 @@ links:
 import { Dialog } from '@hina-ui/vue'
 ```
 
-`title` 必填，`description` 是标题下面的一行说明。默认插槽是触发器，`content` 插槽是正文，`footer` 插槽是底部的操作按钮。两个插槽都会收到 `close` 方法。
+`title` 必填，`description` 是标题下面的一行说明。默认插槽是触发器，`content` 插槽是正文，`footer` 插槽是底部的操作按钮。`content`、`footer` 和接管整个内部布局的 `body` 插槽都会收到 `close` 方法。
 
 <Demo name="dialog/basic" />
 
@@ -42,6 +42,14 @@ import { Dialog } from '@hina-ui/vue'
 
 <Demo name="dialog/closable" />
 
+### 自定义面板内容 {#body}
+
+`#body="{ close }"` 接管整个面板内部，替换默认头部、正文和页脚。组件不再添加内部留白、区域间距或 [ScrollArea](/components/scroll-area) 包装；内边距与滚动由插槽内容控制。提供空插槽也不会恢复默认布局。
+
+此时 `header`、`closable` 以及 `icon`、`title`、`content`、`footer` 插槽不参与渲染。`title` 仍必填，标题与提供的说明以视觉隐藏的形式保留。尺寸、位置、遮罩、焦点约束和 `locked` 继续生效，插槽中的 `close()` 可程序化关闭弹窗。
+
+<Demo name="dialog/body" />
+
 ### 尺寸 {#sizes}
 
 `size` 设置面板的最大宽度，三档分别为 384、448 和 576 像素。
@@ -56,7 +64,7 @@ import { Dialog } from '@hina-ui/vue'
 
 ### 长内容 {#scroll}
 
-超出可用高度的内容在 `content` 插槽内部滚动，标题和页脚保持不动。面板本身不会超出视口。
+默认布局中，超出可用高度的内容在 `content` 插槽内部滚动，标题和页脚保持不动。面板本身不会超出视口。
 
 <Demo name="dialog/scroll" />
 
@@ -76,12 +84,12 @@ import { Dialog } from '@hina-ui/vue'
 
 - 对话框打开期间页面停止滚动，焦点被限制在面板内部，关闭后回到触发器。
 - 按 Esc 或点击遮罩关闭对话框，`locked` 会同时禁用这两种方式。
-- 正文区域使用 [ScrollArea](/components/scroll-area)。
+- 默认正文区域使用 [ScrollArea](/components/scroll-area)。
 
 ## 无障碍 {#a11y}
 
 - 面板是 `role="dialog"`，`title` 和 `description` 分别关联到 `aria-labelledby` 和 `aria-describedby`。
-- 标题渲染为 `<h2>`，位于页面标题层级之下。
+- 标题渲染为 `<h2>`；隐藏头部或提供 `body` 时，保留由 `title` 属性生成的视觉隐藏标题。
 - 关闭按钮带有无障碍名称，文字取自当前语言。
 
 ## API {#api}
@@ -100,10 +108,11 @@ import { Dialog } from '@hina-ui/vue'
 | `open`        | `boolean`              | —       | 是否打开，支持双向绑定       |
 | `class`       | `string`               | —       | 追加到面板上的类名           |
 
-| 插槽      | 参数        | 说明                          |
-| --------- | ----------- | ----------------------------- |
-| `default` | —           | 触发器，省略时不渲染          |
-| `icon`    | —           | 标题前的装饰图标              |
-| `title`   | —           | 标题内容，默认显示 title 属性 |
-| `content` | `{ close }` | 正文，过高时在内部滚动        |
-| `footer`  | `{ close }` | 底部的操作按钮                |
+| 插槽      | 参数        | 说明                                   |
+| --------- | ----------- | -------------------------------------- |
+| `default` | —           | 触发器，省略时不渲染                   |
+| `icon`    | —           | 标题前的装饰图标                       |
+| `title`   | —           | 标题内容，默认显示 title 属性          |
+| `body`    | `{ close }` | 整个面板内部，替换默认头部、正文和页脚 |
+| `content` | `{ close }` | 正文，过高时在内部滚动                 |
+| `footer`  | `{ close }` | 底部的操作按钮                         |

@@ -34,11 +34,12 @@
   )
 
   const slots = defineSlots<{
-    default(): unknown
-    icon(): unknown
-    title(): unknown
-    content(props: { close: () => void }): unknown
-    footer(props: { close: () => void }): unknown
+    default?(): unknown
+    icon?(): unknown
+    title?(): unknown
+    body?(props: { close: () => void }): unknown
+    content?(props: { close: () => void }): unknown
+    footer?(props: { close: () => void }): unknown
   }>()
 
   function guard(e: Event) {
@@ -73,41 +74,15 @@
             :padded="false"
             :class="
               cn(
-                'pointer-events-auto flex w-full flex-col gap-4 shadow-lg outline-none',
-                'max-h-[calc(100dvh-2rem)] py-(--hn-panel-p)',
+                'pointer-events-auto flex w-full flex-col shadow-lg outline-none',
+                'max-h-[calc(100dvh-2rem)]',
+                !slots.body && 'gap-4 py-(--hn-panel-p)',
                 dialogCard({ placement: props.placement ?? 'auto', size: props.size }),
                 props.class,
               )
             "
           >
-            <div
-              v-if="props.header"
-              class="flex shrink-0 items-start justify-between gap-4 px-(--hn-panel-p)"
-            >
-              <div class="flex min-w-0 flex-col gap-1.5">
-                <div class="flex min-w-0 items-center gap-2">
-                  <span
-                    v-if="slots.icon"
-                    class="text-muted flex shrink-0 [&_svg]:size-5"
-                    aria-hidden="true"
-                  >
-                    <slot name="icon" />
-                  </span>
-                  <DialogTitle as-child>
-                    <Heading :level="2" size="lg" class="min-w-0">
-                      <slot name="title">{{ props.title }}</slot>
-                    </Heading>
-                  </DialogTitle>
-                </div>
-                <DialogDescription v-if="props.description" as-child>
-                  <Text tone="muted">{{ props.description }}</Text>
-                </DialogDescription>
-              </div>
-              <DialogClose v-if="props.closable" as-child>
-                <CloseButton :disabled="props.locked" class="-mt-1.5 -me-1.5 shrink-0" />
-              </DialogClose>
-            </div>
-            <template v-else>
+            <template v-if="!props.header || slots.body">
               <DialogTitle as-child>
                 <Heading :level="2" class="sr-only">{{ props.title }}</Heading>
               </DialogTitle>
@@ -115,17 +90,47 @@
                 {{ props.description }}
               </DialogDescription>
             </template>
-            <ScrollArea v-if="$slots.content" class="min-h-0">
-              <div class="px-(--hn-panel-p) py-1">
-                <slot name="content" :close="close" />
+            <slot v-if="slots.body" name="body" :close="close" />
+            <template v-else>
+              <div
+                v-if="props.header"
+                class="flex shrink-0 items-start justify-between gap-4 px-(--hn-panel-p)"
+              >
+                <div class="flex min-w-0 flex-col gap-1.5">
+                  <div class="flex min-w-0 items-center gap-2">
+                    <span
+                      v-if="slots.icon"
+                      class="text-muted flex shrink-0 [&_svg]:size-5"
+                      aria-hidden="true"
+                    >
+                      <slot name="icon" />
+                    </span>
+                    <DialogTitle as-child>
+                      <Heading :level="2" size="lg" class="min-w-0">
+                        <slot name="title">{{ props.title }}</slot>
+                      </Heading>
+                    </DialogTitle>
+                  </div>
+                  <DialogDescription v-if="props.description" as-child>
+                    <Text tone="muted">{{ props.description }}</Text>
+                  </DialogDescription>
+                </div>
+                <DialogClose v-if="props.closable" as-child>
+                  <CloseButton :disabled="props.locked" class="-mt-1.5 -me-1.5 shrink-0" />
+                </DialogClose>
               </div>
-            </ScrollArea>
-            <div
-              v-if="$slots.footer"
-              class="flex shrink-0 justify-end gap-(--hn-inline-gap) px-(--hn-panel-p)"
-            >
-              <slot name="footer" :close="close" />
-            </div>
+              <ScrollArea v-if="$slots.content" class="min-h-0">
+                <div class="px-(--hn-panel-p) py-1">
+                  <slot name="content" :close="close" />
+                </div>
+              </ScrollArea>
+              <div
+                v-if="$slots.footer"
+                class="flex shrink-0 justify-end gap-(--hn-inline-gap) px-(--hn-panel-p)"
+              >
+                <slot name="footer" :close="close" />
+              </div>
+            </template>
           </Card>
         </DialogContent>
       </div>

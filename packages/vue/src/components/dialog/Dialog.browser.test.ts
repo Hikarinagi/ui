@@ -1,7 +1,15 @@
 import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest'
 import { page, userEvent } from '@vitest/browser/context'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { defineComponent, h, reactive, ref, type Ref, type VNodeChild } from 'vue'
+import {
+  createCommentVNode,
+  defineComponent,
+  h,
+  reactive,
+  ref,
+  type Ref,
+  type VNodeChild,
+} from 'vue'
 import Dialog from './Dialog.vue'
 import Button from '../button/Button.vue'
 import '../../../test/browser.css'
@@ -20,6 +28,7 @@ afterEach(() => {
 type DialogSlots = Partial<{
   icon: () => VNodeChild
   title: () => VNodeChild
+  body: (props: { close: () => void }) => VNodeChild
   content: (props: { close: () => void }) => VNodeChild
   footer: (props: { close: () => void }) => VNodeChild
 }>
@@ -347,5 +356,116 @@ describe('dialog · 头部显示', () => {
     } finally {
       warn.mockRestore()
     }
+  })
+})
+
+describe('dialog · 自定义 body', () => {
+  it('接管内部布局且没有额外留白或滚动包装，保留名称、焦点约束与关闭回焦', async () => {
+    await page.viewport(1024, 480)
+    const w = harness({}, undefined, undefined, {
+      title: () => h('span', '被替换的标题'),
+      body: ({ close }) =>
+        h(
+          'section',
+          {
+            'data-test-body': '',
+            style: 'height:700px;min-height:0;display:flex;flex-direction:column',
+          },
+          [
+            h('button', { 'data-test-first': '', style: 'flex-shrink:0' }, '首个按钮'),
+            h(
+              'div',
+              { 'data-test-scroll': '', style: 'overflow:auto;min-height:0' },
+              h('div', { style: 'height:1200px' }, '自定义正文'),
+            ),
+            h(
+              'button',
+              { 'data-test-last': '', style: 'flex-shrink:0', onClick: close },
+              '关闭正文',
+            ),
+          ],
+        ),
+    })
+    const trigger = w.find('button').element as HTMLElement
+    await userEvent.click(trigger)
+    await vi.waitFor(() => expect(panel()).toBeTruthy())
+    const root = panel()!
+    expect(root.textContent).not.toContain('被替换的标题')
+    expect(root.textContent).not.toContain('确认删除')
+    expect(root.textContent).not.toContain('正文内容')
+    expect(root.querySelector('[aria-label="关闭"]')).toBeNull()
+    expect(root.querySelector('.hn-scroll-area')).toBeNull()
+    expect(getComputedStyle(root).padding).toBe('0px')
+    expect(parseFloat(getComputedStyle(root).rowGap) || 0).toBe(0)
+    await expect.element(page.getByRole('dialog', { name: '删除条目', exact: true })).toBeVisible()
+    expect(
+      getComputedStyle(document.getElementById(root.getAttribute('aria-labelledby')!)!).position,
+    ).toBe('absolute')
+    const body = root.querySelector('[data-test-body]')!
+    const scroll = root.querySelector('[data-test-scroll]')!
+    await vi.waitFor(() => {
+      expect(
+        Math.abs(
+          body.getBoundingClientRect().left - root.getBoundingClientRect().left - root.clientLeft,
+        ),
+      ).toBeLessThan(1)
+      expect(
+        Math.abs(
+          body.getBoundingClientRect().top - root.getBoundingClientRect().top - root.clientTop,
+        ),
+      ).toBeLessThan(1)
+      expect(root.getBoundingClientRect().height).toBeLessThanOrEqual(448)
+      expect(scroll.scrollHeight).toBeGreaterThan(scroll.clientHeight)
+    })
+    scroll.scrollTop = 100
+    expect(scroll.scrollTop).toBe(100)
+    const first = root.querySelector('[data-test-first]') as HTMLElement
+    const last = root.querySelector('[data-test-last]') as HTMLElement
+    first.focus()
+    await userEvent.keyboard('{Shift>}{Tab}{/Shift}')
+    expect(document.activeElement).toBe(last)
+    await userEvent.keyboard('{Tab}')
+    expect(document.activeElement).toBe(first)
+    await userEvent.click(last)
+    await vi.waitFor(() => expect(panel()).toBeNull())
+    expect(document.activeElement).toBe(trigger)
+    expect(document.body.style.overflow).toBe('')
+  })
+
+  it('locked 阻止 body 模式的 Esc 与点外关闭，但插槽 close 仍可关闭', async () => {
+    const open = ref(false)
+    const w = harness({ locked: true }, open, undefined, {
+      body: ({ close }) => h(Button, { onClick: close }, () => '程序关闭'),
+    })
+    await userEvent.click(w.find('button').element as HTMLElement)
+    await vi.waitFor(() => expect(panel()).toBeTruthy())
+    await userEvent.keyboard('{Escape}')
+    expect(open.value).toBe(true)
+    await userEvent.click(scrim()!, { force: true, position: { x: 4, y: 4 } })
+    expect(open.value).toBe(true)
+    await userEvent.click(page.getByRole('button', { name: '程序关闭' }))
+    await vi.waitFor(() => expect(open.value).toBe(false))
+  })
+
+  it('空 body 不回退默认布局，动态添加或移除插槽不会重建弹窗', async () => {
+    const slots = reactive<DialogSlots>({ body: () => createCommentVNode('empty') })
+    const w = harness({}, undefined, undefined, slots)
+    await userEvent.click(w.find('button').element as HTMLElement)
+    await vi.waitFor(() => expect(panel()).toBeTruthy())
+    const root = panel()!
+    expect(root.querySelector('.hn-scroll-area')).toBeNull()
+    expect(root.textContent).not.toContain('正文内容')
+    slots.body = () => h('p', '新的 body')
+    await vi.waitFor(() => expect(root.textContent).toContain('新的 body'))
+    delete slots.body
+    await vi.waitFor(() => expect(root.textContent).toContain('正文内容'))
+    expect(panel()).toBe(root)
+    expect(root.querySelector('[aria-label="关闭"]')).toBeTruthy()
+    expect(getComputedStyle(root.querySelector('h2')!).position).not.toBe('absolute')
+    slots.body = () => h('p', '再次接管')
+    await vi.waitFor(() => expect(root.textContent).toContain('再次接管'))
+    expect(root.querySelector('.hn-scroll-area')).toBeNull()
+    expect(getComputedStyle(root).padding).toBe('0px')
+    expect(panel()).toBe(root)
   })
 })
