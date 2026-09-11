@@ -48,6 +48,8 @@ The `icon` slot displays a decorative icon before the title. The `title` slot re
 
 In this mode, `header`, `closable`, and the `icon`, `title`, `content` and `footer` slots do not affect rendering. The required `title` and any provided description remain visually hidden. Size, placement, the scrim, focus containment and `locked` still apply. The slot's `close()` method can close the dialog programmatically.
 
+The example places actions at the top and keeps a toolbar at the bottom. [Textarea](/components/textarea) grows with its content, while [ScrollArea](/components/scroll-area) controls scrolling in the middle.
+
 <Demo name="dialog/body" />
 
 ### Sizes {#sizes}

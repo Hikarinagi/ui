@@ -48,6 +48,8 @@ import { Dialog } from '@hina-ui/vue'
 
 此时 `header`、`closable` 以及 `icon`、`title`、`content`、`footer` 插槽不参与渲染。`title` 仍必填，标题与提供的说明以视觉隐藏的形式保留。尺寸、位置、遮罩、焦点约束和 `locked` 继续生效，插槽中的 `close()` 可程序化关闭弹窗。
 
+示例在顶部排列操作按钮，底部固定工具栏，中间由 [Textarea](/components/textarea) 自适应内容高度，并由 [ScrollArea](/components/scroll-area) 控制整体滚动。
+
 <Demo name="dialog/body" />
 
 ### 尺寸 {#sizes}
