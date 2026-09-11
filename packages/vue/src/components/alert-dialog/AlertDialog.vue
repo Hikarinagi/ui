@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import {
     AlertDialogCancel,
-    AlertDialogContent,
     AlertDialogDescription,
     AlertDialogOverlay,
     AlertDialogPortal,
@@ -12,6 +11,7 @@
   import { useOverlayPortal } from '../../lib/overlay-portal'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
+  import ModalContent from '../dialog/ModalContent.vue'
   import Button from '../button/Button.vue'
   import Card from '../card/Card.vue'
   import { dialogCard, dialogWrapper } from '../dialog/dialog.variants'
@@ -65,7 +65,7 @@
     <AlertDialogPortal v-if="present">
       <AlertDialogOverlay class="hn-scrim" />
       <div :class="dialogWrapper({ placement: props.placement ?? 'auto' })">
-        <AlertDialogContent as-child @escape-key-down="guard">
+        <ModalContent alert as-child @escape-key-down="guard">
           <Card
             ref="content"
             :padded="false"
@@ -101,7 +101,7 @@
               </Button>
             </div>
           </Card>
-        </AlertDialogContent>
+        </ModalContent>
       </div>
     </AlertDialogPortal>
   </AlertDialogRoot>

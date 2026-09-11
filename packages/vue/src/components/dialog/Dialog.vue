@@ -4,11 +4,11 @@
     DialogTrigger,
     DialogPortal,
     DialogOverlay,
-    DialogContent,
     DialogTitle,
     DialogDescription,
     DialogClose,
   } from 'reka-ui'
+  import ModalContent from './ModalContent.vue'
   import CloseButton from '../close-button/CloseButton.vue'
   import Card from '../card/Card.vue'
   import ScrollArea from '../scroll-area/ScrollArea.vue'
@@ -63,7 +63,7 @@
     <DialogPortal v-if="present">
       <DialogOverlay class="hn-scrim" />
       <div :class="dialogWrapper({ placement: props.placement ?? 'auto' })">
-        <DialogContent as-child @escape-key-down="guard" @interact-outside="guard">
+        <ModalContent as-child @escape-key-down="guard" @interact-outside="guard">
           <Card
             ref="content"
             v-bind="props.description ? {} : { 'aria-describedby': undefined }"
@@ -130,7 +130,7 @@
               </div>
             </template>
           </Card>
-        </DialogContent>
+        </ModalContent>
       </div>
     </DialogPortal>
   </DialogRoot>
