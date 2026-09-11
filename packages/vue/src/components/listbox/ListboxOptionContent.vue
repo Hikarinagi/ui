@@ -1,13 +1,13 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends SelectOption = SelectOption">
   import { Check } from '@lucide/vue'
   import { injectListboxItemContext, ListboxItemIndicator } from 'reka-ui'
   import type { SelectOption } from '../select/types'
 
   defineOptions({ name: 'HnListboxOptionContent', inheritAttrs: false })
-  const props = defineProps<{ option: SelectOption }>()
+  const props = defineProps<{ option: T }>()
   const slots = defineSlots<{
-    option(props: { option: SelectOption; selected: boolean }): unknown
-    trailing(props: { option: SelectOption; selected: boolean }): unknown
+    option?(props: { option: T; selected: boolean }): unknown
+    trailing?(props: { option: T; selected: boolean }): unknown
   }>()
   const { isSelected: selected } = injectListboxItemContext()
 </script>

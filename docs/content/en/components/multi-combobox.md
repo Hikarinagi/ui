@@ -16,7 +16,7 @@ links:
 import { MultiCombobox } from '@hina-ui/vue'
 ```
 
-The multi combobox is the multi-value form of `Combobox`: type in the field to narrow the list, pick several items, and the chosen ones sit as chips before the text input, wrapping when they no longer fit. `v-model` binds an array of chosen values and `options` has the same type as `Select`. Attributes it does not declare land on the inner text input, so name it with `aria-label` or `aria-labelledby`.
+The multi combobox is the multi-value form of `Combobox`: type in the field to narrow the list, pick several items, and the chosen ones sit as chips before the text input, wrapping when they no longer fit. `v-model` binds an array of chosen values and `options` uses the types defined by [Select](/components/select#types). Attributes it does not declare land on the inner text input, so name it with `aria-label` or `aria-labelledby`.
 
 <Demo name="multi-combobox/basic" />
 
@@ -33,6 +33,8 @@ The example below queries a live search endpoint: `ignoreFilter` turns off local
 ### Custom content {#custom}
 
 The `option` slot customises each row in the list, for example with a cover and an id.
+
+The complete option type is inferred from `options`. Slot parameters preserve additional fields and their types; `v-model` still binds to an array of option values. See [Select](/components/select#types) for the type definitions.
 
 <Demo name="multi-combobox/custom" />
 
@@ -78,10 +80,12 @@ Inside a [FormField](/components/form-field) the label points at the input, and 
 
 ### Props {#props}
 
+`T extends SelectOption` is inferred from `options` and defaults to `SelectOption`.
+
 | Prop           | Type                       | Default     | Description                                       |
 | -------------- | -------------------------- | ----------- | ------------------------------------------------- |
 | `modelValue`   | `Array<string \| number>`  | `[]`        | The chosen values                                 |
-| `options`      | `SelectItems`              | —           | The items, same type as `Select`                  |
+| `options`      | `SelectItems<T>`           | —           | The items, see [Select](/components/select#types) |
 | `placeholder`  | `string`                   | locale pack | Placeholder of the input while nothing is chosen  |
 | `search`       | `string`                   | `''`        | Text in the input; `v-model:search`               |
 | `ignoreFilter` | `boolean`                  | `false`     | Whether to skip local filtering for remote search |
@@ -97,9 +101,9 @@ Inside a [FormField](/components/form-field) the label points at the input, and 
 
 ### Slots {#slots}
 
-| Slot     | Payload                    | Description                     |
-| -------- | -------------------------- | ------------------------------- |
-| `option` | `{ option: SelectOption }` | Content of each row in the list |
+| Slot     | Payload         | Description                     |
+| -------- | --------------- | ------------------------------- |
+| `option` | `{ option: T }` | Content of each row in the list |
 
 ### Events {#events}
 

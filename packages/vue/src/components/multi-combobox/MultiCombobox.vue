@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends SelectOption = SelectOption">
   import { computed, reactive, ref, shallowRef, watch } from 'vue'
   import { ComboboxAnchor, ComboboxInput, ComboboxRoot, ComboboxTrigger } from 'reka-ui'
   import { cn } from '../../lib/cn'
@@ -32,7 +32,7 @@
 
   const props = withDefaults(
     defineProps<{
-      options: SelectItems
+      options: SelectItems<T>
       placeholder?: string
       ignoreFilter?: boolean
       loading?: boolean
@@ -52,7 +52,7 @@
   const search = defineModel<string>('search', { default: '' })
   const open = defineModel<boolean>('open', { default: false })
 
-  defineSlots<{ option(props: { option: SelectOption }): unknown }>()
+  defineSlots<{ option?(props: { option: T }): unknown }>()
 
   const t = useUiLocale()
   const keyboard = ref(false)

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends SelectOption = SelectOption">
   import { computed, ref, shallowRef } from 'vue'
   import { SelectRoot, SelectTrigger, useDirection } from 'reka-ui'
   import { cn } from '../../lib/cn'
@@ -21,7 +21,7 @@
   defineOptions({ name: 'HnSelect', inheritAttrs: false })
 
   const props = defineProps<{
-    options: SelectItems
+    options: SelectItems<T>
     placeholder?: string
     clearable?: boolean
     name?: string
@@ -40,8 +40,8 @@
   const open = defineModel<boolean>('open', { default: false })
 
   defineSlots<{
-    value(props: { option: SelectOption }): unknown
-    option(props: { option: SelectOption }): unknown
+    value?(props: { option: T }): unknown
+    option?(props: { option: T }): unknown
   }>()
 
   const t = useUiLocale()

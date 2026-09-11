@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends SelectOption = SelectOption">
   import { CheckboxGroupRoot } from 'reka-ui'
   import { cn } from '../../lib/cn'
   import { shieldFormField, useFieldControl } from '../form-field/context'
@@ -14,7 +14,7 @@
   defineOptions({ name: 'HnCheckboxGroup' })
 
   const props = defineProps<{
-    options: SelectOption[]
+    options: T[]
     orientation?: CheckboxGroupVariants['orientation']
     size?: CheckboxVariants['size']
     controlPlacement?: CheckboxVariants['controlPlacement']
@@ -32,7 +32,7 @@
   })
   shieldFormField()
 
-  defineSlots<{ option(props: { option: SelectOption }): unknown }>()
+  defineSlots<{ option?(props: { option: T }): unknown }>()
 </script>
 
 <template>

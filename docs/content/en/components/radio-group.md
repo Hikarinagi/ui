@@ -58,6 +58,8 @@ For RTL, pass `dir="rtl"` to the group or configure Reka's direction provider.
 
 The `option` slot customises each label.
 
+The complete option type is inferred from `options`. Slot parameters preserve additional fields and their types; `v-model` still binds to `value`. See [Select](/components/select#types) for the type definitions.
+
 <Demo name="radio-group/custom" />
 
 ### In a form {#form}
@@ -80,23 +82,25 @@ Inside a [FormField](/components/form-field) the label is linked to the whole gr
 
 ### Props {#props}
 
-| Prop               | Type                         | Default      | Description                                      |
-| ------------------ | ---------------------------- | ------------ | ------------------------------------------------ |
-| `modelValue`       | `string \| number \| null`   | —            | The chosen value                                 |
-| `options`          | `SelectOption[]`             | —            | The items, same type as `Select`                 |
-| `orientation`      | `'vertical' \| 'horizontal'` | `'vertical'` | Layout direction                                 |
-| `size`             | `'sm' \| 'md' \| 'lg'`       | `'md'`       | Size of every radio                              |
-| `controlPlacement` | `'start' \| 'end'`           | `'start'`    | Position of the control relative to its text     |
-| `block`            | `boolean`                    | `false`      | Fill the group; horizontal items share the width |
-| `disabled`         | `boolean`                    | `false`      | Whether the whole group is disabled              |
-| `invalid`          | `boolean`                    | `false`      | Whether the group failed validation              |
-| `class`            | `string`                     | —            | Classes appended to the root element             |
+`T extends SelectOption` is inferred from `options` and defaults to `SelectOption`.
+
+| Prop               | Type                         | Default      | Description                                       |
+| ------------------ | ---------------------------- | ------------ | ------------------------------------------------- |
+| `modelValue`       | `string \| number \| null`   | —            | The chosen value                                  |
+| `options`          | `T[]`                        | —            | The items, see [Select](/components/select#types) |
+| `orientation`      | `'vertical' \| 'horizontal'` | `'vertical'` | Layout direction                                  |
+| `size`             | `'sm' \| 'md' \| 'lg'`       | `'md'`       | Size of every radio                               |
+| `controlPlacement` | `'start' \| 'end'`           | `'start'`    | Position of the control relative to its text      |
+| `block`            | `boolean`                    | `false`      | Fill the group; horizontal items share the width  |
+| `disabled`         | `boolean`                    | `false`      | Whether the whole group is disabled               |
+| `invalid`          | `boolean`                    | `false`      | Whether the group failed validation               |
+| `class`            | `string`                     | —            | Classes appended to the root element              |
 
 ### Slots {#slots}
 
-| Slot     | Payload                    | Description        |
-| -------- | -------------------------- | ------------------ |
-| `option` | `{ option: SelectOption }` | Label of each item |
+| Slot     | Payload         | Description        |
+| -------- | --------------- | ------------------ |
+| `option` | `{ option: T }` | Label of each item |
 
 ### Events {#events}
 

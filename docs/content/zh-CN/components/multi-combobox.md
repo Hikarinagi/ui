@@ -16,7 +16,7 @@ links:
 import { MultiCombobox } from '@hina-ui/vue'
 ```
 
-多选组合框是 `Combobox` 的多值形态：在同一个输入面里输入文字缩小范围，从列表中选择多项，已选项以标签排在输入区前面，放不下时换行。`v-model` 绑定选中值的数组，`options` 的类型与 `Select` 相同。未声明的属性都会传给内部的文本输入，请用 `aria-label` 或者 `aria-labelledby` 命名。
+多选组合框是 `Combobox` 的多值形态：在同一个输入面里输入文字缩小范围，从列表中选择多项，已选项以标签排在输入区前面，放不下时换行。`v-model` 绑定选中值的数组，`options` 的类型见 [Select](/components/select#types)。未声明的属性都会传给内部的文本输入，请用 `aria-label` 或者 `aria-labelledby` 命名。
 
 <Demo name="multi-combobox/basic" />
 
@@ -33,6 +33,8 @@ import { MultiCombobox } from '@hina-ui/vue'
 ### 定制内容 {#custom}
 
 `option` 插槽定制列表中每一项的内容，例如加上封面与编号。
+
+组件从 `options` 推断完整选项类型，插槽中的 `option` 保留额外字段及其类型；`v-model` 仍绑定选项的 `value` 数组。类型定义见 [Select](/components/select#types)。
 
 <Demo name="multi-combobox/custom" />
 
@@ -78,28 +80,30 @@ import { MultiCombobox } from '@hina-ui/vue'
 
 ### Props {#props}
 
-| 属性           | 类型                       | 默认值      | 说明                                 |
-| -------------- | -------------------------- | ----------- | ------------------------------------ |
-| `modelValue`   | `Array<string \| number>`  | `[]`        | 选中的值                             |
-| `options`      | `SelectItems`              | —           | 选项，类型与 `Select` 相同           |
-| `placeholder`  | `string`                   | 语言包      | 无已选项时输入区的占位文字           |
-| `search`       | `string`                   | `''`        | 输入区的文字，支持 `v-model:search`  |
-| `ignoreFilter` | `boolean`                  | `false`     | 是否关闭本地筛选，交给调用方远程搜索 |
-| `loading`      | `boolean`                  | `false`     | 是否把展开箭头换成加载指示器         |
-| `clearable`    | `boolean`                  | `false`     | 是否显示清空全部的按钮               |
-| `name`         | `string`                   | —           | 表单字段名                           |
-| `open`         | `boolean`                  | `false`     | 浮层是否打开，支持 `v-model:open`    |
-| `variant`      | `'primary' \| 'secondary'` | `'primary'` | 形态                                 |
-| `size`         | `'sm' \| 'md' \| 'lg'`     | `'md'`      | 尺寸                                 |
-| `disabled`     | `boolean`                  | `false`     | 是否禁用                             |
-| `invalid`      | `boolean`                  | `false`     | 是否处于校验未通过状态               |
-| `class`        | `string`                   | —           | 追加至根元素的类名                   |
+`T extends SelectOption` 从 `options` 推断，默认是 `SelectOption`。
+
+| 属性           | 类型                       | 默认值      | 说明                                            |
+| -------------- | -------------------------- | ----------- | ----------------------------------------------- |
+| `modelValue`   | `Array<string \| number>`  | `[]`        | 选中的值                                        |
+| `options`      | `SelectItems<T>`           | —           | 选项，类型见 [Select](/components/select#types) |
+| `placeholder`  | `string`                   | 语言包      | 无已选项时输入区的占位文字                      |
+| `search`       | `string`                   | `''`        | 输入区的文字，支持 `v-model:search`             |
+| `ignoreFilter` | `boolean`                  | `false`     | 是否关闭本地筛选，交给调用方远程搜索            |
+| `loading`      | `boolean`                  | `false`     | 是否把展开箭头换成加载指示器                    |
+| `clearable`    | `boolean`                  | `false`     | 是否显示清空全部的按钮                          |
+| `name`         | `string`                   | —           | 表单字段名                                      |
+| `open`         | `boolean`                  | `false`     | 浮层是否打开，支持 `v-model:open`               |
+| `variant`      | `'primary' \| 'secondary'` | `'primary'` | 形态                                            |
+| `size`         | `'sm' \| 'md' \| 'lg'`     | `'md'`      | 尺寸                                            |
+| `disabled`     | `boolean`                  | `false`     | 是否禁用                                        |
+| `invalid`      | `boolean`                  | `false`     | 是否处于校验未通过状态                          |
+| `class`        | `string`                   | —           | 追加至根元素的类名                              |
 
 ### 插槽 {#slots}
 
-| 插槽     | 参数                       | 说明               |
-| -------- | -------------------------- | ------------------ |
-| `option` | `{ option: SelectOption }` | 列表中每一项的内容 |
+| 插槽     | 参数            | 说明               |
+| -------- | --------------- | ------------------ |
+| `option` | `{ option: T }` | 列表中每一项的内容 |
 
 ### 事件 {#events}
 

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends SelectOption = SelectOption">
   import { RadioGroupItem, RadioGroupRoot } from 'reka-ui'
   import { cn } from '../../lib/cn'
   import { useFieldControl } from '../form-field/context'
@@ -22,7 +22,7 @@
   defineOptions({ name: 'HnRadioGroup' })
 
   const props = defineProps<{
-    options: SelectOption[]
+    options: T[]
     orientation?: CheckboxGroupVariants['orientation']
     size?: CheckboxVariants['size']
     controlPlacement?: CheckboxVariants['controlPlacement']
@@ -39,7 +39,7 @@
     disabled: () => props.disabled,
   })
 
-  defineSlots<{ option(props: { option: SelectOption }): unknown }>()
+  defineSlots<{ option?(props: { option: T }): unknown }>()
 </script>
 
 <template>

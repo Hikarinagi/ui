@@ -38,6 +38,8 @@ import { Listbox } from '@hina-ui/vue'
 
 `option` 插槽接收 `{ option, selected }`，定制每一项的内容。
 
+组件从 `options` 推断完整选项类型，插槽中的 `option` 保留额外字段及其类型；`v-model` 仍绑定选项的 `value`，多选时为数组。类型定义见 [Select](/components/select#types)。
+
 <Demo name="listbox/custom" />
 
 ### 尾部内容 {#trailing}
@@ -96,23 +98,25 @@ import { Listbox } from '@hina-ui/vue'
 
 ### Props {#props}
 
-| 属性         | 类型                                                  | 默认值      | 说明                       |
-| ------------ | ----------------------------------------------------- | ----------- | -------------------------- |
-| `modelValue` | `string \| number \| null \| Array<string \| number>` | —           | 选中的值，多选时为数组     |
-| `options`    | `SelectItems`                                         | —           | 选项，类型与 `Select` 相同 |
-| `multiple`   | `boolean`                                             | `false`     | 是否多选                   |
-| `maxHeight`  | `string`                                              | `'20rem'`   | 列表的最大高度             |
-| `padded`     | `boolean`                                             | `true`      | 是否保留内部列表外围留白   |
-| `variant`    | `'primary' \| 'secondary' \| 'bare'`                  | `'primary'` | 形态                       |
-| `disabled`   | `boolean`                                             | `false`     | 是否禁用                   |
-| `class`      | `string`                                              | —           | 追加至根元素的类名         |
+`T extends SelectOption` 从 `options` 推断，默认是 `SelectOption`。
+
+| 属性         | 类型                                                  | 默认值      | 说明                                            |
+| ------------ | ----------------------------------------------------- | ----------- | ----------------------------------------------- |
+| `modelValue` | `string \| number \| null \| Array<string \| number>` | —           | 选中的值，多选时为数组                          |
+| `options`    | `SelectItems<T>`                                      | —           | 选项，类型见 [Select](/components/select#types) |
+| `multiple`   | `boolean`                                             | `false`     | 是否多选                                        |
+| `maxHeight`  | `string`                                              | `'20rem'`   | 列表的最大高度                                  |
+| `padded`     | `boolean`                                             | `true`      | 是否保留内部列表外围留白                        |
+| `variant`    | `'primary' \| 'secondary' \| 'bare'`                  | `'primary'` | 形态                                            |
+| `disabled`   | `boolean`                                             | `false`     | 是否禁用                                        |
+| `class`      | `string`                                              | —           | 追加至根元素的类名                              |
 
 ### 插槽 {#slots}
 
-| 插槽       | 参数                                          | 说明                       |
-| ---------- | --------------------------------------------- | -------------------------- |
-| `option`   | `{ option: SelectOption; selected: boolean }` | 每一项的内容               |
-| `trailing` | `{ option: SelectOption; selected: boolean }` | 整个行尾区域，空内容不占位 |
+| 插槽       | 参数                               | 说明                       |
+| ---------- | ---------------------------------- | -------------------------- |
+| `option`   | `{ option: T; selected: boolean }` | 每一项的内容               |
+| `trailing` | `{ option: T; selected: boolean }` | 整个行尾区域，空内容不占位 |
 
 ### 事件 {#events}
 

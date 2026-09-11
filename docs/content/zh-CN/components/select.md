@@ -16,7 +16,7 @@ links:
 import { Select } from '@hina-ui/vue'
 ```
 
-下拉选择框由触发器与浮层列表组成。`options` 提供选项，`v-model` 绑定选中的值。每个选项是 `{ value, label }`，可以附带 `description` 与 `disabled`；带 `options` 字段的项是分组。触发器与输入框共用同一副输入面。
+下拉选择框由触发器与浮层列表组成。`options` 提供选项，`v-model` 绑定选中的值。每个选项是 `{ value, label }`，可以附带 `description` 与 `disabled`；带 `options` 且不带 `value` 的项是分组。触发器与输入框共用同一副输入面。
 
 <Demo name="select/basic" />
 
@@ -37,6 +37,8 @@ import { Select } from '@hina-ui/vue'
 ### 定制内容 {#custom}
 
 `option` 插槽定制列表中每一项的内容，`value` 插槽定制触发器里显示的内容，两者都能拿到当前选项。
+
+组件从 `options` 推断完整选项类型，插槽中的 `option` 保留额外字段及其类型；`v-model` 仍绑定 `value`。可用 `SelectOption<{ icon: Component }>` 声明额外字段，示例直接通过 `option.icon` 读取图标。
 
 <Demo name="select/custom" />
 
@@ -80,10 +82,12 @@ import { Select } from '@hina-ui/vue'
 
 ### Props {#props}
 
+`T extends SelectOption` 从 `options` 推断，默认是 `SelectOption`。
+
 | 属性           | 类型                       | 默认值      | 说明                              |
 | -------------- | -------------------------- | ----------- | --------------------------------- |
 | `modelValue`   | `string \| number \| null` | —           | 选中的值                          |
-| `options`      | `SelectItems`              | —           | 选项，见下方类型                  |
+| `options`      | `SelectItems<T>`           | —           | 选项，见下方类型                  |
 | `clearable`    | `boolean`                  | `false`     | 是否显示清除按钮                  |
 | `placeholder`  | `string`                   | 语言包      | 无值时显示的文字                  |
 | `open`         | `boolean`                  | `false`     | 浮层是否打开，支持 `v-model:open` |
@@ -98,10 +102,10 @@ import { Select } from '@hina-ui/vue'
 
 ### 插槽 {#slots}
 
-| 插槽     | 参数                       | 说明               |
-| -------- | -------------------------- | ------------------ |
-| `value`  | `{ option: SelectOption }` | 触发器里显示的内容 |
-| `option` | `{ option: SelectOption }` | 列表中每一项的内容 |
+| 插槽     | 参数            | 说明               |
+| -------- | --------------- | ------------------ |
+| `value`  | `{ option: T }` | 触发器里显示的内容 |
+| `option` | `{ option: T }` | 列表中每一项的内容 |
 
 ### 事件 {#events}
 
@@ -114,17 +118,17 @@ import { Select } from '@hina-ui/vue'
 ### 类型 {#types}
 
 ```ts
-interface SelectOption {
+type SelectOption<T extends object = object> = {
   value: string | number
   label: string
   description?: string
   disabled?: boolean
-}
+} & T
 
-interface SelectOptionGroup {
+interface SelectOptionGroup<T extends SelectOption = SelectOption> {
   label: string
-  options: SelectOption[]
+  options: T[]
 }
 
-type SelectItems = Array<SelectOption | SelectOptionGroup>
+type SelectItems<T extends SelectOption = SelectOption> = Array<T | SelectOptionGroup<T>>
 ```

@@ -16,7 +16,7 @@ links:
 import { RadioGroup } from '@hina-ui/vue'
 ```
 
-单选框组按 `options` 渲染一列单选框，`v-model` 绑定选中的值，选项的类型与 `Select` 相同。未声明的属性都会传给根元素，应当用 `aria-label` 或者 `aria-labelledby` 给整组命名。单选框只以组的形式提供，没有单独的 `Radio`。
+单选框组按 `options` 渲染一列单选框，`v-model` 绑定选中的值，选项的类型见 [Select](/components/select#types)。未声明的属性都会传给根元素，应当用 `aria-label` 或者 `aria-labelledby` 给整组命名。单选框只以组的形式提供，没有单独的 `Radio`。
 
 <Demo name="radio-group/basic" />
 
@@ -58,6 +58,8 @@ RTL 布局请向组传入 `dir="rtl"`，或通过 Reka 的方向提供器配置�
 
 `option` 插槽定制每一项的文字。
 
+组件从 `options` 推断完整选项类型，插槽中的 `option` 保留额外字段及其类型；`v-model` 仍绑定 `value`。类型定义见 [Select](/components/select#types)。
+
 <Demo name="radio-group/custom" />
 
 ### 在表单中 {#form}
@@ -80,23 +82,25 @@ RTL 布局请向组传入 `dir="rtl"`，或通过 Reka 的方向提供器配置�
 
 ### Props {#props}
 
-| 属性               | 类型                         | 默认值       | 说明                       |
-| ------------------ | ---------------------------- | ------------ | -------------------------- |
-| `modelValue`       | `string \| number \| null`   | —            | 选中的值                   |
-| `options`          | `SelectOption[]`             | —            | 选项，类型与 `Select` 相同 |
-| `orientation`      | `'vertical' \| 'horizontal'` | `'vertical'` | 排列方向                   |
-| `size`             | `'sm' \| 'md' \| 'lg'`       | `'md'`       | 每个单选框的尺寸           |
-| `controlPlacement` | `'start' \| 'end'`           | `'start'`    | 控件相对于文案的位置       |
-| `block`            | `boolean`                    | `false`      | 整组撑满，横向选项等分宽度 |
-| `disabled`         | `boolean`                    | `false`      | 是否禁用整组               |
-| `invalid`          | `boolean`                    | `false`      | 是否处于校验未通过状态     |
-| `class`            | `string`                     | —            | 追加至根元素的类名         |
+`T extends SelectOption` 从 `options` 推断，默认是 `SelectOption`。
+
+| 属性               | 类型                         | 默认值       | 说明                                            |
+| ------------------ | ---------------------------- | ------------ | ----------------------------------------------- |
+| `modelValue`       | `string \| number \| null`   | —            | 选中的值                                        |
+| `options`          | `T[]`                        | —            | 选项，类型见 [Select](/components/select#types) |
+| `orientation`      | `'vertical' \| 'horizontal'` | `'vertical'` | 排列方向                                        |
+| `size`             | `'sm' \| 'md' \| 'lg'`       | `'md'`       | 每个单选框的尺寸                                |
+| `controlPlacement` | `'start' \| 'end'`           | `'start'`    | 控件相对于文案的位置                            |
+| `block`            | `boolean`                    | `false`      | 整组撑满，横向选项等分宽度                      |
+| `disabled`         | `boolean`                    | `false`      | 是否禁用整组                                    |
+| `invalid`          | `boolean`                    | `false`      | 是否处于校验未通过状态                          |
+| `class`            | `string`                     | —            | 追加至根元素的类名                              |
 
 ### 插槽 {#slots}
 
-| 插槽     | 参数                       | 说明         |
-| -------- | -------------------------- | ------------ |
-| `option` | `{ option: SelectOption }` | 每一项的文字 |
+| 插槽     | 参数            | 说明         |
+| -------- | --------------- | ------------ |
+| `option` | `{ option: T }` | 每一项的文字 |
 
 ### 事件 {#events}
 

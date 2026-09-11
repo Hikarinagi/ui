@@ -16,7 +16,7 @@ links:
 import { SegmentedControl } from '@hina-ui/vue'
 ```
 
-分段控制器把几个并列的选项排成一行，任何时刻恰有一项被选中，选中项由一块滑块标示。`options` 的类型与 `Select` 相同，`v-model` 绑定选中项的值；未绑定值时默认选中第一个可用项。未声明的属性都会传给根元素，请用 `aria-label` 或者 `aria-labelledby` 为整组命名。
+分段控制器把几个并列的选项排成一行，任何时刻恰有一项被选中，选中项由一块滑块标示。`options` 的类型见 [Select](/components/select#types)，`v-model` 绑定选中项的值；未绑定值时默认选中第一个可用项。未声明的属性都会传给根元素，请用 `aria-label` 或者 `aria-labelledby` 为整组命名。
 
 <Demo name="segmented-control/basic" />
 
@@ -27,6 +27,8 @@ import { SegmentedControl } from '@hina-ui/vue'
 ### 自定义内容 {#custom}
 
 `#option` 插槽替换每一项的内容。只放图标时，项的名称仍取 `label`，读屏软件照常读出。
+
+组件从 `options` 推断完整选项类型，插槽中的 `option` 保留额外字段及其类型；`v-model` 仍绑定 `value`。类型定义见 [Select](/components/select#types)。
 
 <Demo name="segmented-control/custom" />
 
@@ -75,21 +77,23 @@ import { SegmentedControl } from '@hina-ui/vue'
 
 ### Props {#props}
 
-| 属性          | 类型                         | 默认值           | 说明                       |
-| ------------- | ---------------------------- | ---------------- | -------------------------- |
-| `modelValue`  | `string \| number`           | 第一个可用项的值 | 选中项的值                 |
-| `options`     | `SelectOption[]`             | —                | 选项，类型与 `Select` 相同 |
-| `size`        | `'sm' \| 'md' \| 'lg'`       | `'md'`           | 尺寸                       |
-| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'`   | 排列方向                   |
-| `block`       | `boolean`                    | `false`          | 是否占满父元素宽度         |
-| `disabled`    | `boolean`                    | `false`          | 是否禁用整组               |
-| `class`       | `string`                     | —                | 追加至根元素的类名         |
+`T extends SelectOption` 从 `options` 推断，默认是 `SelectOption`。
+
+| 属性          | 类型                         | 默认值           | 说明                                            |
+| ------------- | ---------------------------- | ---------------- | ----------------------------------------------- |
+| `modelValue`  | `string \| number`           | 第一个可用项的值 | 选中项的值                                      |
+| `options`     | `T[]`                        | —                | 选项，类型见 [Select](/components/select#types) |
+| `size`        | `'sm' \| 'md' \| 'lg'`       | `'md'`           | 尺寸                                            |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'`   | 排列方向                                        |
+| `block`       | `boolean`                    | `false`          | 是否占满父元素宽度                              |
+| `disabled`    | `boolean`                    | `false`          | 是否禁用整组                                    |
+| `class`       | `string`                     | —                | 追加至根元素的类名                              |
 
 ### 插槽 {#slots}
 
-| 插槽     | 参数                       | 说明         |
-| -------- | -------------------------- | ------------ |
-| `option` | `{ option: SelectOption }` | 每一项的内容 |
+| 插槽     | 参数            | 说明         |
+| -------- | --------------- | ------------ |
+| `option` | `{ option: T }` | 每一项的内容 |
 
 ### 事件 {#events}
 

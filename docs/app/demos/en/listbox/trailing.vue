@@ -5,16 +5,15 @@
 
   const value = ref('a')
   const options = [
-    { value: 'a', label: 'Option A' },
+    { count: 128, value: 'a', label: 'Option A' },
     {
       label: 'Group',
       options: [
-        { value: 'b', label: 'Option B' },
-        { value: 'c', label: 'Option C' },
+        { count: 2048, value: 'b', label: 'Option B' },
+        { count: null, value: 'c', label: 'Option C' },
       ],
     },
   ]
-  const counts: Record<string, number> = { a: 128, b: 2048 }
 </script>
 
 <template>
@@ -31,14 +30,14 @@
       </template>
       <template #trailing="{ option, selected }">
         <Text
-          v-if="option.value !== 'c'"
+          v-if="option.count != null"
           as="span"
           size="xs"
           tone="muted"
           class="flex min-w-4 shrink-0 items-center justify-end"
         >
           <Check v-if="selected" aria-hidden="true" />
-          <Tag v-else tone="accent">{{ counts[option.value] }}</Tag>
+          <Tag v-else tone="accent">{{ option.count }}</Tag>
         </Text>
       </template>
     </Listbox>

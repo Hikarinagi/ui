@@ -38,6 +38,8 @@ A group carries a `label` and its `options`, and can be mixed with plain options
 
 The `option` slot receives `{ option, selected }` to customise each row.
 
+The complete option type is inferred from `options`. Slot parameters preserve additional fields and their types; `v-model` still binds to option values. See [Select](/components/select#types) for the type definitions.
+
 <Demo name="listbox/custom" />
 
 ### Trailing content {#trailing}
@@ -96,23 +98,25 @@ Inside a [FormField](/components/form-field) the label is linked to the list thr
 
 ### Props {#props}
 
-| Prop         | Type                                                  | Default     | Description                               |
-| ------------ | ----------------------------------------------------- | ----------- | ----------------------------------------- |
-| `modelValue` | `string \| number \| null \| Array<string \| number>` | —           | The chosen value, an array when multiple  |
-| `options`    | `SelectItems`                                         | —           | The items, same type as `Select`          |
-| `multiple`   | `boolean`                                             | `false`     | Whether several can be chosen             |
-| `maxHeight`  | `string`                                              | `'20rem'`   | Maximum height of the list                |
-| `padded`     | `boolean`                                             | `true`      | Keep the inner list's surrounding padding |
-| `variant`    | `'primary' \| 'secondary' \| 'bare'`                  | `'primary'` | Variant                                   |
-| `disabled`   | `boolean`                                             | `false`     | Whether the list is disabled              |
-| `class`      | `string`                                              | —           | Classes appended to the root element      |
+`T extends SelectOption` is inferred from `options` and defaults to `SelectOption`.
+
+| Prop         | Type                                                  | Default     | Description                                       |
+| ------------ | ----------------------------------------------------- | ----------- | ------------------------------------------------- |
+| `modelValue` | `string \| number \| null \| Array<string \| number>` | —           | The chosen value, an array when multiple          |
+| `options`    | `SelectItems<T>`                                      | —           | The items, see [Select](/components/select#types) |
+| `multiple`   | `boolean`                                             | `false`     | Whether several can be chosen                     |
+| `maxHeight`  | `string`                                              | `'20rem'`   | Maximum height of the list                        |
+| `padded`     | `boolean`                                             | `true`      | Keep the inner list's surrounding padding         |
+| `variant`    | `'primary' \| 'secondary' \| 'bare'`                  | `'primary'` | Variant                                           |
+| `disabled`   | `boolean`                                             | `false`     | Whether the list is disabled                      |
+| `class`      | `string`                                              | —           | Classes appended to the root element              |
 
 ### Slots {#slots}
 
-| Slot       | Payload                                       | Description                                           |
-| ---------- | --------------------------------------------- | ----------------------------------------------------- |
-| `option`   | `{ option: SelectOption; selected: boolean }` | Content of each row                                   |
-| `trailing` | `{ option: SelectOption; selected: boolean }` | Entire trailing area; empty content removes its space |
+| Slot       | Payload                            | Description                                           |
+| ---------- | ---------------------------------- | ----------------------------------------------------- |
+| `option`   | `{ option: T; selected: boolean }` | Content of each row                                   |
+| `trailing` | `{ option: T; selected: boolean }` | Entire trailing area; empty content removes its space |
 
 ### Events {#events}
 

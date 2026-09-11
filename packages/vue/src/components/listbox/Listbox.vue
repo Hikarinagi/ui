@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends SelectOption = SelectOption">
   import {
     ListboxContent,
     ListboxGroup,
@@ -19,7 +19,7 @@
 
   const props = withDefaults(
     defineProps<{
-      options: SelectItems
+      options: SelectItems<T>
       multiple?: boolean
       maxHeight?: string
       padded?: boolean
@@ -33,8 +33,8 @@
   const model = defineModel<string | number | null | Array<string | number>>()
 
   const slots = defineSlots<{
-    option(props: { option: SelectOption; selected: boolean }): unknown
-    trailing(props: { option: SelectOption; selected: boolean }): unknown
+    option?(props: { option: T; selected: boolean }): unknown
+    trailing?(props: { option: T; selected: boolean }): unknown
   }>()
 
   const t = useUiLocale()

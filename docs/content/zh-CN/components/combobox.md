@@ -20,6 +20,8 @@ import { Combobox } from '@hina-ui/vue'
 
 <Demo name="combobox/basic" />
 
+组件从 `options` 推断完整选项类型，插槽中的 `option` 保留额外字段及其类型；`v-model` 仍绑定 `value`。类型定义见 [Select](/components/select#types)。
+
 ## 示例 {#examples}
 
 ### 分组 {#groups}
@@ -81,26 +83,28 @@ import { Combobox } from '@hina-ui/vue'
 
 ### Props {#props}
 
-| 属性           | 类型                       | 默认值      | 说明                                  |
-| -------------- | -------------------------- | ----------- | ------------------------------------- |
-| `modelValue`   | `string \| number \| null` | —           | 选中的值                              |
-| `options`      | `SelectItems`              | —           | 选项，类型与 `Select` 相同            |
-| `search`       | `string`                   | `''`        | 当前输入的文字，支持 `v-model:search` |
-| `placeholder`  | `string`                   | 语言包      | 无值时显示的文字                      |
-| `ignoreFilter` | `boolean`                  | `false`     | 是否交由调用方筛选                    |
-| `clearable`    | `boolean`                  | `false`     | 是否显示清除按钮                      |
-| `open`         | `boolean`                  | `false`     | 浮层是否打开，支持 `v-model:open`     |
-| `variant`      | `'primary' \| 'secondary'` | `'primary'` | 形态                                  |
-| `size`         | `'sm' \| 'md' \| 'lg'`     | `'md'`      | 尺寸                                  |
-| `invalid`      | `boolean`                  | `false`     | 是否校验未通过                        |
-| `disabled`     | `boolean`                  | `false`     | 是否禁用                              |
-| `class`        | `string`                   | —           | 追加至根元素的类名                    |
+`T extends SelectOption` 从 `options` 推断，默认是 `SelectOption`。
+
+| 属性           | 类型                       | 默认值      | 说明                                            |
+| -------------- | -------------------------- | ----------- | ----------------------------------------------- |
+| `modelValue`   | `string \| number \| null` | —           | 选中的值                                        |
+| `options`      | `SelectItems<T>`           | —           | 选项，类型见 [Select](/components/select#types) |
+| `search`       | `string`                   | `''`        | 当前输入的文字，支持 `v-model:search`           |
+| `placeholder`  | `string`                   | 语言包      | 无值时显示的文字                                |
+| `ignoreFilter` | `boolean`                  | `false`     | 是否交由调用方筛选                              |
+| `clearable`    | `boolean`                  | `false`     | 是否显示清除按钮                                |
+| `open`         | `boolean`                  | `false`     | 浮层是否打开，支持 `v-model:open`               |
+| `variant`      | `'primary' \| 'secondary'` | `'primary'` | 形态                                            |
+| `size`         | `'sm' \| 'md' \| 'lg'`     | `'md'`      | 尺寸                                            |
+| `invalid`      | `boolean`                  | `false`     | 是否校验未通过                                  |
+| `disabled`     | `boolean`                  | `false`     | 是否禁用                                        |
+| `class`        | `string`                   | —           | 追加至根元素的类名                              |
 
 ### 插槽 {#slots}
 
-| 插槽     | 参数                       | 说明               |
-| -------- | -------------------------- | ------------------ |
-| `option` | `{ option: SelectOption }` | 列表中每一项的内容 |
+| 插槽     | 参数            | 说明               |
+| -------- | --------------- | ------------------ |
+| `option` | `{ option: T }` | 列表中每一项的内容 |
 
 ### 事件 {#events}
 
