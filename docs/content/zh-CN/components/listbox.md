@@ -50,6 +50,8 @@ import { Listbox } from '@hina-ui/vue'
 
 `primary` 直接放在页面底色上，带边框与阴影；`secondary` 放在卡片等表面内，只有一层浅色底。
 
+`bare` 去除根容器的背景、边框、阴影和圆角，适合由外层 Card、Sheet 或 Popover 提供表面的场景。选项样式与滚动行为仍然保留。
+
 <Demo name="listbox/variants" />
 
 ### 状态 {#states}
@@ -84,7 +86,7 @@ import { Listbox } from '@hina-ui/vue'
 | `options`    | `SelectItems`                                         | —           | 选项，类型与 `Select` 相同 |
 | `multiple`   | `boolean`                                             | `false`     | 是否多选                   |
 | `maxHeight`  | `string`                                              | `'20rem'`   | 列表的最大高度             |
-| `variant`    | `'primary' \| 'secondary'`                            | `'primary'` | 形态                       |
+| `variant`    | `'primary' \| 'secondary' \| 'bare'`                  | `'primary'` | 形态                       |
 | `disabled`   | `boolean`                                             | `false`     | 是否禁用                   |
 | `class`      | `string`                                              | —           | 追加至根元素的类名         |
 

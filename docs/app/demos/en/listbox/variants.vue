@@ -18,5 +18,13 @@
         aria-label="Inside a card"
       />
     </Card>
+    <Card :padded="false">
+      <Listbox
+        variant="bare"
+        :options="options"
+        model-value="gal"
+        aria-label="Embedded without its own surface"
+      />
+    </Card>
   </Stack>
 </template>

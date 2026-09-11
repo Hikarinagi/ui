@@ -9,6 +9,7 @@ export const listbox = tv({
     variant: {
       primary: 'border-line bg-surface border shadow-sm',
       secondary: 'bg-inset',
+      bare: 'rounded-none border-0 bg-transparent shadow-none',
     },
   },
   defaultVariants: {

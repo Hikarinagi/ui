@@ -50,6 +50,8 @@ The `option` slot customises each row.
 
 `primary` sits directly on the page background with a border and shadow; `secondary` sits inside a surface such as a card, with only a tinted fill.
 
+`bare` removes the root background, border, shadow and corner radius when the surrounding Card, Sheet or Popover already supplies a surface. Option styling and scrolling remain available.
+
 <Demo name="listbox/variants" />
 
 ### States {#states}
@@ -84,7 +86,7 @@ Inside a [FormField](/components/form-field) the label is linked to the list thr
 | `options`    | `SelectItems`                                         | —           | The items, same type as `Select`         |
 | `multiple`   | `boolean`                                             | `false`     | Whether several can be chosen            |
 | `maxHeight`  | `string`                                              | `'20rem'`   | Maximum height of the list               |
-| `variant`    | `'primary' \| 'secondary'`                            | `'primary'` | Variant                                  |
+| `variant`    | `'primary' \| 'secondary' \| 'bare'`                  | `'primary'` | Variant                                  |
 | `disabled`   | `boolean`                                             | `false`     | Whether the list is disabled             |
 | `class`      | `string`                                              | —           | Classes appended to the root element     |
 

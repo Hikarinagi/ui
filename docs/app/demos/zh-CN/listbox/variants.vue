@@ -18,5 +18,13 @@
         aria-label="卡片内的列表框"
       />
     </Card>
+    <Card :padded="false">
+      <Listbox
+        variant="bare"
+        :options="options"
+        model-value="gal"
+        aria-label="直接嵌入卡片的列表框"
+      />
+    </Card>
   </Stack>
 </template>
