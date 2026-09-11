@@ -1,5 +1,27 @@
 # @hina-ui/vue
 
+## 1.2.0
+
+### Minor Changes
+
+- 384e415: Add variant="bare" to Input, Textarea, SearchInput, PasswordInput, NumberInput and InputGroup. Bare inputs render without a background, border, shadow, hover fill or container focus ring, while preserving size, padding, disabled state, validation semantics and action-button feedback. InputGroup and NumberInput also omit their internal dividers. Textarea keeps its row sizing and autosize behaviour when the border is removed.
+- 2a74da4: Add `variant="bare"` to Listbox. The bare root has no background, border, shadow or corner radius, while option styling, selection and scrolling are preserved. The default remains `primary`.
+- 124c96f: Add clearable to Select. The clear button resets the value to null, emits clear and restores focus to the trigger without opening the list. The trigger and clear action are separate native buttons within one field surface, preserving keyboard access, field sizing and native form validation.
+- cc1ad5d: Add a Listbox `trailing` slot receiving `{ option, selected }` and expose `selected` to the existing `option` slot. Custom trailing content replaces the complete indicator area and can use its natural width; empty content removes both the indicator space and adjacent gap. Without the slot, the existing indicator remains. Grouped and plain options share the same rendering and selection state.
+- 5d5e858: Add a body slot to Dialog that replaces the default header, content and footer without internal padding, gaps or a ScrollArea wrapper. The slot receives close and controls its own layout and scrolling. A visually hidden title and optional description preserve accessible naming, while size, placement, focus containment, scroll locking and dismissal behaviour remain managed by Dialog.
+- 4dfb9be: Add xl (42rem) and 2xl (56rem) sizes to Dialog. Existing sizes and the md default are unchanged. Custom max-width classes continue to override the preset while preserving viewport constraints and responsive placement.
+- 7da17e5: Add header and closable props to Dialog, both enabled by default. Hiding the header preserves a visually hidden accessible title and description. Hiding the close button does not disable Escape or outside-click dismissal; locked continues to control those behaviours. Omit aria-describedby when no description is provided.
+- 34419be: Add icon and title slots to Dialog. Icons are decorative, while custom title content preserves heading semantics and the dialog's accessible name. The title prop remains the default title content.
+- 802b480: Add placement="top" to Dialog. The panel stays aligned to the top on all screen widths, slides in from above and retains the existing viewport spacing, width constraints and internal scrolling behaviour.
+- d72e95e: Make SelectOption extensible with typed extra fields and preserve complete option types through SelectItems, groups, Select, MultiSelect, Combobox, MultiCombobox, Listbox, CheckboxGroup, RadioGroup and SegmentedControl. Their slots now infer business fields directly from options, including Select's value slot and Listbox's trailing slot. Values still use string or number IDs. Group detection now distinguishes groups from options that carry their own options metadata.
+- 8e604e6: Add a `padded` prop to Listbox, defaulting to `true`. Set it to `false` to remove the inner list's surrounding padding without changing row padding, group label padding, root width or scrolling. Padding is independent of the surface variant.
+
+### Patch Changes
+
+- b579d55: Keep component sources and tests comment-free. Preserve template type checks with explicit assertions and configure the SSR test environment in Vitest instead of source directives.
+- 44b280b: Animate Select's clear button with the same scale and opacity transitions as other input controls. Keep its position and text spacing until the leave transition finishes, and disable the action while it exits.
+- 91ed07d: Keep component SFCs focused on composition: move Select transition state, Textarea sizing and caret scrolling, MultiCombobox selection state, AvatarGroup child traversal, ImageGroup registration and ordering, and shared collapse measurements into TypeScript modules. Centralize Select and Dialog layout variants without changing their public APIs or interaction behavior.
+
 ## 1.1.0
 
 ### Minor Changes
