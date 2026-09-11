@@ -1,5 +1,5 @@
 import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest'
-import { userEvent } from '@vitest/browser/context'
+import { userEvent } from 'vitest/browser'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { defineComponent, h, ref, type Ref } from 'vue'
 import AlertDialog from './AlertDialog.vue'
@@ -20,7 +20,7 @@ afterEach(() => {
 function harness(
   props: Record<string, unknown> = {},
   open?: Ref<boolean>,
-  options: { trigger?: boolean; quiet?: boolean } = {},
+  options: { trigger?: boolean } = {},
 ) {
   const host = document.createElement('div')
   document.body.appendChild(host)
@@ -51,7 +51,6 @@ function harness(
     }),
     {
       attachTo: host,
-      global: options.quiet ? { config: { errorHandler: () => {} } } : undefined,
     },
   )
   mounted.push(w)
@@ -135,15 +134,56 @@ describe('AlertDialog', () => {
     await vi.waitFor(() => expect(panel()).toBeNull())
   })
 
-  it('处理函数失败时保持打开并退出忙碌', async () => {
-    const onConfirm = vi.fn(() => Promise.reject(new Error('失败')))
-    const w = harness({ onConfirm }, undefined, { quiet: true })
+  it.each(['throw', 'reject'] as const)('%s 失败保持打开、发出 error，之后可以重试', async mode => {
+    const error = new Error('失败')
+    const onError = vi.fn()
+    const onConfirm = vi.fn().mockImplementationOnce(() => {
+      if (mode === 'throw') throw error
+      return Promise.reject(error)
+    })
+    const w = harness({ onConfirm, onError })
     await openIt(w)
     await userEvent.click(button('确定'))
-    await settle(300)
+    await vi.waitFor(() => expect(onError).toHaveBeenCalledExactlyOnceWith(error))
     expect(panel()).toBeTruthy()
     expect(panel()!.getAttribute('aria-busy')).toBeNull()
     expect(button('取消').disabled).toBe(false)
+    expect(button('确定').disabled).toBe(false)
+    await userEvent.click(button('确定'))
+    await vi.waitFor(() => expect(panel()).toBeNull())
+    expect(onConfirm).toHaveBeenCalledTimes(2)
+  })
+
+  it('没有 error 监听器也会处理确认失败，不交给全局错误处理', async () => {
+    const onConfirm = vi.fn(() => Promise.reject('失败'))
+    const w = harness({ onConfirm })
+    await openIt(w)
+    await userEvent.click(button('确定'))
+    await vi.waitFor(() => expect(onConfirm).toHaveBeenCalledOnce())
+    await settle()
+    expect(panel()).toBeTruthy()
+    expect(button('取消').disabled).toBe(false)
+    await userEvent.click(button('取消'))
+    await vi.waitFor(() => expect(panel()).toBeNull())
+  })
+
+  it('PromiseLike 也会等待，等待期间重复点击不会再次执行', async () => {
+    let finish!: () => void
+    const onConfirm = vi.fn(() => ({
+      then(resolve: () => void) {
+        finish = resolve
+      },
+    }))
+    const w = harness({ onConfirm })
+    await openIt(w)
+    const confirm = button('确定')
+    await userEvent.click(confirm)
+    await vi.waitFor(() => expect(confirm.disabled).toBe(true))
+    confirm.click()
+    expect(onConfirm).toHaveBeenCalledOnce()
+    expect(panel()!.getAttribute('aria-busy')).toBe('true')
+    finish()
+    await vi.waitFor(() => expect(panel()).toBeNull())
   })
 
   it('tone 为 danger 时确定钮换成危险色', async () => {

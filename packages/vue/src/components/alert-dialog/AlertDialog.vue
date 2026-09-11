@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  import { ref } from 'vue'
   import {
     AlertDialogCancel,
     AlertDialogContent,
@@ -17,6 +16,12 @@
   import { dialogCard, dialogWrapper } from '../dialog/dialog.variants'
   import Heading from '../heading/Heading.vue'
   import Text from '../text/Text.vue'
+  import { useAlertDialogConfirm } from './composables/useAlertDialogConfirm'
+  import {
+    alertDialogHeader,
+    alertDialogContent,
+    alertDialogActions,
+  } from './alert-dialog.variants'
 
   defineOptions({ name: 'HnAlertDialog' })
 
@@ -34,29 +39,11 @@
     }>(),
     { tone: 'accent', size: 'sm' },
   )
-  const emit = defineEmits<{ cancel: [] }>()
+  const emit = defineEmits<{ cancel: []; error: [error: unknown] }>()
 
   const open = defineModel<boolean>('open')
-  const busy = ref(false)
   const t = useUiLocale()
-
-  function guard(event: Event) {
-    if (busy.value) event.preventDefault()
-  }
-
-  async function confirm() {
-    if (busy.value) return
-    const result = props.onConfirm?.()
-    if (result instanceof Promise) {
-      busy.value = true
-      try {
-        await result
-      } finally {
-        busy.value = false
-      }
-    }
-    open.value = false
-  }
+  const { busy, guard, confirm } = useAlertDialogConfirm(props, open, error => emit('error', error))
 </script>
 
 <template>
@@ -66,14 +53,7 @@
     </AlertDialogTrigger>
     <AlertDialogPortal>
       <AlertDialogOverlay class="hn-scrim" />
-      <div
-        :class="
-          cn(
-            'pointer-events-none fixed inset-0 z-(--hn-z-overlay) grid',
-            dialogWrapper({ placement: props.placement ?? 'auto' }),
-          )
-        "
-      >
+      <div :class="dialogWrapper({ placement: props.placement ?? 'auto' })">
         <AlertDialogContent as-child @escape-key-down="guard">
           <Card
             :padded="false"
@@ -81,14 +61,12 @@
             :aria-busy="busy || undefined"
             :class="
               cn(
-                'pointer-events-auto flex w-full flex-col gap-4 shadow-lg outline-none',
-                'py-(--hn-panel-p)',
                 dialogCard({ placement: props.placement ?? 'auto', size: props.size }),
                 props.class,
               )
             "
           >
-            <div class="flex min-w-0 flex-col gap-1.5 px-(--hn-panel-p)">
+            <div :class="alertDialogHeader()">
               <AlertDialogTitle as-child>
                 <Heading :level="2" size="lg">{{ props.title }}</Heading>
               </AlertDialogTitle>
@@ -96,10 +74,10 @@
                 <Text tone="muted">{{ props.description }}</Text>
               </AlertDialogDescription>
             </div>
-            <div v-if="$slots.content" class="px-(--hn-panel-p)">
+            <div v-if="$slots.content" :class="alertDialogContent()">
               <slot name="content" />
             </div>
-            <div class="flex justify-end gap-(--hn-inline-gap) px-(--hn-panel-p)">
+            <div :class="alertDialogActions()">
               <AlertDialogCancel as-child>
                 <Button variant="soft" tone="neutral" :disabled="busy" @click="emit('cancel')">
                   {{ props.cancelText ?? t.common.cancel }}

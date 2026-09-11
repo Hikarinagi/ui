@@ -9,10 +9,12 @@
     status.value = ''
     await new Promise(resolve => setTimeout(resolve, 1000))
     if (fail.value) {
-      status.value = 'Archiving failed, please try again later.'
-      throw new Error('archive failed')
+      throw new Error('Archiving failed, please try again later.')
     }
     status.value = 'Archived.'
+  }
+  function handleError(error: unknown) {
+    status.value = error instanceof Error ? error.message : String(error)
   }
 </script>
 
@@ -24,6 +26,7 @@
       description="An archived project becomes read-only and can be restored at any time."
       confirm-text="Archive"
       @confirm="archive"
+      @error="handleError"
     >
       <Button variant="outline" tone="neutral">Archive project</Button>
       <template #content>
