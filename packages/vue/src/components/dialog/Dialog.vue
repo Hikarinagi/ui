@@ -14,6 +14,7 @@
   import ScrollArea from '../scroll-area/ScrollArea.vue'
   import Heading from '../heading/Heading.vue'
   import Text from '../text/Text.vue'
+  import { useOverlayPortal } from '../../lib/overlay-portal'
   import { cn } from '../../lib/cn'
   import { dialogWrapper, dialogCard, type DialogVariants } from './dialog.variants'
 
@@ -47,6 +48,7 @@
   }
 
   const open = defineModel<boolean>('open')
+  const { content, present } = useOverlayPortal(open)
 
   function close() {
     open.value = false
@@ -58,11 +60,12 @@
     <DialogTrigger v-if="$slots.default" as-child>
       <slot />
     </DialogTrigger>
-    <DialogPortal>
+    <DialogPortal v-if="present">
       <DialogOverlay class="hn-scrim" />
       <div :class="dialogWrapper({ placement: props.placement ?? 'auto' })">
         <DialogContent as-child @escape-key-down="guard" @interact-outside="guard">
           <Card
+            ref="content"
             v-bind="props.description ? {} : { 'aria-describedby': undefined }"
             :padded="false"
             :class="
