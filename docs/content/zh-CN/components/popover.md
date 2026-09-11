@@ -40,6 +40,24 @@ import { Popover } from '@hina-ui/vue'
 
 <Demo name="popover/controlled" />
 
+### 外部锚点 {#anchor}
+
+`anchor` 接受 `HTMLElement | null`。设置后可以省略默认插槽，通过 `v-model:open` 控制开关。锚点尚未就绪时面板不显示；打开期间更换锚点会更新位置，关闭时清空锚点会保留退场位置。
+
+同时提供默认插槽与 `anchor` 时，插槽负责触发，`anchor` 负责定位。外部元素的点击与键盘行为、`aria-haspopup` 和 `aria-expanded` 由调用方设置。
+
+<Demo name="popover/anchor" />
+
+### 模态 {#modal}
+
+`modal` 默认为 `true`，打开时锁定页面滚动并限制外部交互。设置 `:modal="false"` 后，页面可以继续滚动和交互，点击外部仍会关闭面板。
+
+### 焦点与关闭 {#focus}
+
+`openAutoFocus`、`closeAutoFocus` 可以通过 `event.preventDefault()` 取消默认聚焦。没有默认触发器时，关闭后恢复打开前的焦点；锚点仅用于定位。调用方已经将焦点移到面板外时，不会再次恢复旧焦点。
+
+通过 `interactOutside` 可以取消外部点击或焦点移出引起的关闭，`escapeKeyDown` 可以取消 Esc 关闭。`aria-label`、`aria-describedby` 和 `data-*` 属性会传给面板。
+
 ### 自定义内边距 {#padded}
 
 面板默认带内边距。内容需要延伸到边缘时设置 `padded="false"`，由内容自行安排留白。
@@ -54,16 +72,16 @@ import { Popover } from '@hina-ui/vue'
 
 ## 行为 {#behavior}
 
-- 面板打开期间，页面停止滚动。
+- 默认模态下，面板打开期间页面停止滚动。
 - 触发器在面板打开期间保持按下时的样式。
 - 面板打开后焦点移入面板，按 Esc 关闭并把焦点交还给触发器。
-- 点击面板外部关闭面板，这次点击不会传到下层的元素上。
+- 默认模态下，点击面板外部关闭面板，这次点击不会传到下层的元素上。
 
 ## 无障碍 {#a11y}
 
 - 触发器带有 `aria-haspopup="dialog"` 和 `aria-expanded`，面板是 `role="dialog"`。
 - 面板中的标题、说明和表单控件都按普通页面内容处理，屏幕阅读器逐项播报。
-- 面板关闭后焦点回到触发器。
+- 没有默认触发器时，通过 `aria-label` 为面板提供名称；关闭后默认恢复打开前的焦点。
 
 ## API {#api}
 
@@ -72,6 +90,8 @@ import { Popover } from '@hina-ui/vue'
 | 属性         | 类型                                     | 默认值     | 说明                   |
 | ------------ | ---------------------------------------- | ---------- | ---------------------- |
 | `open`       | `boolean`                                | —          | 是否打开，支持双向绑定 |
+| `anchor`     | `HTMLElement \| null`                    | —          | 外部定位元素           |
+| `modal`      | `boolean`                                | `true`     | 是否限制外部交互并锁滚 |
 | `side`       | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | 朝哪个方向浮出         |
 | `align`      | `'start' \| 'center' \| 'end'`           | `'center'` | 与触发器的对齐方式     |
 | `sideOffset` | `number`                                 | `8`        | 与触发器的距离         |
@@ -80,5 +100,14 @@ import { Popover } from '@hina-ui/vue'
 
 | 插槽      | 说明         |
 | --------- | ------------ |
-| `default` | 触发器       |
+| `default` | 可选触发器   |
 | `content` | 面板中的内容 |
+
+| 事件                 | 参数                                           | 说明                                 |
+| -------------------- | ---------------------------------------------- | ------------------------------------ |
+| `openAutoFocus`      | `Event`                                        | 打开时聚焦前触发，可取消             |
+| `closeAutoFocus`     | `Event`                                        | 关闭时恢复焦点前触发，可取消         |
+| `escapeKeyDown`      | `KeyboardEvent`                                | 按 Esc 时触发，可取消关闭            |
+| `pointerDownOutside` | `PointerDownOutsideEvent`                      | 外部按下时触发，可取消关闭           |
+| `focusOutside`       | `FocusOutsideEvent`                            | 焦点移到外部时触发，可取消关闭       |
+| `interactOutside`    | `PointerDownOutsideEvent \| FocusOutsideEvent` | 外部按下或焦点移出时触发，可取消关闭 |
