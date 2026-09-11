@@ -22,6 +22,12 @@ The select pairs a trigger with a floating list. `options` supplies the items an
 
 ## Examples {#examples}
 
+### Clear {#clearable}
+
+`clearable` shows a clear button when a value is set and the field is enabled. Activating it sets `v-model` to `null` and emits `clear`. Focus returns to the trigger and the list stays closed.
+
+<Demo name="select/clearable" />
+
 ### Groups {#groups}
 
 A group carries a `label` and its `options`, and can be mixed with plain options.
@@ -78,6 +84,7 @@ Inside a [FormField](/components/form-field) the label points at the trigger, an
 | -------------- | -------------------------- | ----------- | ---------------------------------------- |
 | `modelValue`   | `string \| number \| null` | —           | The chosen value                         |
 | `options`      | `SelectItems`              | —           | The items, see the types below           |
+| `clearable`    | `boolean`                  | `false`     | Whether the clear button is shown        |
 | `placeholder`  | `string`                   | locale pack | Text shown when nothing is chosen        |
 | `open`         | `boolean`                  | `false`     | Whether the list is open; `v-model:open` |
 | `variant`      | `'primary' \| 'secondary'` | `'primary'` | Variant                                  |
@@ -87,7 +94,7 @@ Inside a [FormField](/components/form-field) the label points at the trigger, an
 | `required`     | `boolean`                  | `false`     | Require a selection when `name` is set   |
 | `autocomplete` | `string`                   | —           | Native form autofill hint                |
 | `disabled`     | `boolean`                  | `false`     | Whether the select is disabled           |
-| `class`        | `string`                   | —           | Classes appended to the trigger          |
+| `class`        | `string`                   | —           | Classes appended to the root element     |
 
 ### Slots {#slots}
 
@@ -98,10 +105,11 @@ Inside a [FormField](/components/form-field) the label points at the trigger, an
 
 ### Events {#events}
 
-| Event               | Payload                   | Description               |
-| ------------------- | ------------------------- | ------------------------- |
-| `update:modelValue` | `value: string \| number` | The chosen value changed  |
-| `update:open`       | `open: boolean`           | The list opened or closed |
+| Event               | Payload                           | Description               |
+| ------------------- | --------------------------------- | ------------------------- |
+| `update:modelValue` | `value: string \| number \| null` | The chosen value changed  |
+| `update:open`       | `open: boolean`                   | The list opened or closed |
+| `clear`             | —                                 | The selection was cleared |
 
 ### Types {#types}
 

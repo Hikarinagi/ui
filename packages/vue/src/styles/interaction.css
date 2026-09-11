@@ -155,7 +155,7 @@
   }
 
   &:focus-visible,
-  &:has(:is(input, textarea, [data-hn-segment]):focus-visible) {
+  &:has(:is(input, textarea, [data-hn-segment], [data-hn-select-trigger]):focus-visible) {
     --hn-field-ring-w: 2px;
   }
 
@@ -170,7 +170,9 @@
   }
 
   &[data-invalid]:focus-visible,
-  &[data-invalid]:has(:is(input, textarea, [data-hn-segment]):focus-visible) {
+  &[data-invalid]:has(
+      :is(input, textarea, [data-hn-segment], [data-hn-select-trigger]):focus-visible
+    ) {
     --hn-field-ring-w: 1px;
   }
 }

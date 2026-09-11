@@ -9,6 +9,14 @@ export const selectTrigger = tv({
   ],
 })
 
+export const selectButton = tv({
+  base: [
+    'group/hn-disclosure flex h-full min-w-0 flex-1 cursor-pointer items-center bg-transparent ps-[var(--hn-input-px)] pe-0 text-start text-inherit outline-none [font:inherit]',
+    'data-placeholder:text-faint data-placeholder:font-normal disabled:cursor-not-allowed',
+    '[&_svg]:size-[var(--hn-input-icon)] [&_svg]:shrink-0',
+  ],
+})
+
 export const selectContent = tv({
   base: [
     'hn-anim-pop z-(--hn-z-overlay) flex w-[var(--reka-select-trigger-width)] min-w-40 flex-col overflow-hidden shadow-md outline-none',

@@ -14,17 +14,17 @@ const options = [
   { value: 'manga', label: '漫画', disabled: true },
 ]
 
-const triggerOf = (w: ReturnType<typeof mount>) => w.find('[data-hn-select]')
+const triggerOf = (w: ReturnType<typeof mount>) => w.find('[data-hn-select-trigger]')
 
 describe('触发器', () => {
   it('触发器就是输入面宿主，role=combobox，attrs 透传到触发器', () => {
     const w = triggerOf(mount(Select, { props: { options }, attrs: { 'aria-label': '类型' } }))
-    expect(w.attributes('data-hn-select')).toBe('')
+    expect(w.attributes('data-hn-select-trigger')).toBe('')
     expect(w.attributes('role')).toBe('combobox')
     expect(w.attributes('aria-label')).toBe('类型')
-    expect(w.classes()).toContain('hn-field')
+    expect(w.element.parentElement!.classList.contains('hn-field')).toBe(true)
     expect(w.classes()).toContain('group/hn-disclosure')
-    expect(w.classes().join(' ')).toContain('control-h-md')
+    expect(w.element.parentElement!.className).toContain('control-h-md')
   })
 
   it('无值时显示占位并标 data-placeholder，默认占位来自语言包；有值时显示选项文字', async () => {
@@ -47,14 +47,17 @@ describe('触发器', () => {
   })
 
   it('双形态与档位类与 Input 同源', () => {
-    expect(triggerOf(mount(Select, { props: { options } })).classes()).toContain(
+    expect(mount(Select, { props: { options } }).find('[data-hn-select]').classes()).toContain(
       '[--hn-field-shadow:var(--hn-shadow-sm)]',
     )
     expect(
-      triggerOf(mount(Select, { props: { options, variant: 'secondary' } })).classes(),
+      mount(Select, { props: { options, variant: 'secondary' } })
+        .find('[data-hn-select]')
+        .classes(),
     ).toContain('border-transparent')
     expect(
-      triggerOf(mount(Select, { props: { options, size: 'lg' } }))
+      mount(Select, { props: { options, size: 'lg' } })
+        .find('[data-hn-select]')
         .classes()
         .join(' '),
     ).toContain('control-h-lg')
@@ -62,7 +65,7 @@ describe('触发器', () => {
 
   it('invalid 落 data-invalid 与 aria-invalid；disabled 禁用触发器', () => {
     const invalid = triggerOf(mount(Select, { props: { options, invalid: true } }))
-    expect(invalid.attributes('data-invalid')).toBe('')
+    expect(invalid.element.parentElement!.hasAttribute('data-invalid')).toBe(true)
     expect(invalid.attributes('aria-invalid')).toBe('true')
     const disabled = triggerOf(mount(Select, { props: { options, disabled: true } }))
     expect((disabled.element as HTMLButtonElement).disabled).toBe(true)

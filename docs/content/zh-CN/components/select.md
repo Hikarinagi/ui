@@ -22,6 +22,12 @@ import { Select } from '@hina-ui/vue'
 
 ## 示例 {#examples}
 
+### 清除 {#clearable}
+
+`clearable` 在有值且未禁用时显示清除按钮。点击后将 `v-model` 设为 `null` 并触发 `clear`，焦点回到触发器，列表保持关闭。
+
+<Demo name="select/clearable" />
+
 ### 分组 {#groups}
 
 分组项带 `label` 与 `options`，可以与普通选项混排。
@@ -78,6 +84,7 @@ import { Select } from '@hina-ui/vue'
 | -------------- | -------------------------- | ----------- | --------------------------------- |
 | `modelValue`   | `string \| number \| null` | —           | 选中的值                          |
 | `options`      | `SelectItems`              | —           | 选项，见下方类型                  |
+| `clearable`    | `boolean`                  | `false`     | 是否显示清除按钮                  |
 | `placeholder`  | `string`                   | 语言包      | 无值时显示的文字                  |
 | `open`         | `boolean`                  | `false`     | 浮层是否打开，支持 `v-model:open` |
 | `variant`      | `'primary' \| 'secondary'` | `'primary'` | 形态                              |
@@ -87,7 +94,7 @@ import { Select } from '@hina-ui/vue'
 | `required`     | `boolean`                  | `false`     | 设置 `name` 后启用原生必填校验    |
 | `autocomplete` | `string`                   | —           | 原生表单自动填充提示              |
 | `disabled`     | `boolean`                  | `false`     | 是否禁用                          |
-| `class`        | `string`                   | —           | 追加至触发器的类名                |
+| `class`        | `string`                   | —           | 追加至根元素的类名                |
 
 ### 插槽 {#slots}
 
@@ -98,10 +105,11 @@ import { Select } from '@hina-ui/vue'
 
 ### 事件 {#events}
 
-| 事件                | 参数                      | 说明         |
-| ------------------- | ------------------------- | ------------ |
-| `update:modelValue` | `value: string \| number` | 选中值变化   |
-| `update:open`       | `open: boolean`           | 浮层开合变化 |
+| 事件                | 参数                              | 说明         |
+| ------------------- | --------------------------------- | ------------ |
+| `update:modelValue` | `value: string \| number \| null` | 选中值变化   |
+| `update:open`       | `open: boolean`                   | 浮层开合变化 |
+| `clear`             | —                                 | 清除选中值   |
 
 ### 类型 {#types}
 
