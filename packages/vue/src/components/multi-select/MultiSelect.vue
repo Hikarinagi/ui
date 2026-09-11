@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends SelectOption = SelectOption">
   import { computed, ref } from 'vue'
   import { SelectRoot, SelectTrigger } from 'reka-ui'
   import { cn } from '../../lib/cn'
@@ -25,7 +25,7 @@
 
   const props = withDefaults(
     defineProps<{
-      options: SelectItems
+      options: SelectItems<T>
       placeholder?: string
       name?: string
       required?: boolean
@@ -45,7 +45,7 @@
   const model = defineModel<Array<string | number>>({ default: () => [] })
   const open = defineModel<boolean>('open', { default: false })
 
-  defineSlots<{ option(props: { option: SelectOption }): unknown }>()
+  defineSlots<{ option?(props: { option: T }): unknown }>()
 
   const t = useUiLocale()
   const group = injectInputGroup()
@@ -157,7 +157,6 @@
         <DisclosureIcon />
       </span>
     </SelectTrigger>
-    <!-- Reka 2.10 BubbleSelect assigns arrays to select.value, which loses multiple values. -->
     <VisuallyHidden v-if="props.name" as-child>
       <select
         v-model="model"

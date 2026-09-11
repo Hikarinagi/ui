@@ -5,7 +5,7 @@
 <template>
   <Inline align="center" class="gap-6">
     <Dialog
-      v-for="size in ['sm', 'md', 'lg'] as const"
+      v-for="size in ['sm', 'md', 'lg', 'xl', '2xl'] as const"
       :key="size"
       :size="size"
       :title="`Size ${size}`"

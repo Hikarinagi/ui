@@ -1,7 +1,15 @@
 import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest'
 import { page, userEvent } from '@vitest/browser/context'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { defineComponent, h, ref, type Ref } from 'vue'
+import {
+  createCommentVNode,
+  defineComponent,
+  h,
+  reactive,
+  ref,
+  type Ref,
+  type VNodeChild,
+} from 'vue'
 import Dialog from './Dialog.vue'
 import Button from '../button/Button.vue'
 import '../../../test/browser.css'
@@ -17,10 +25,19 @@ afterEach(() => {
   mounted = []
 })
 
+type DialogSlots = Partial<{
+  icon: () => VNodeChild
+  title: () => VNodeChild
+  body: (props: { close: () => void }) => VNodeChild
+  content: (props: { close: () => void }) => VNodeChild
+  footer: (props: { close: () => void }) => VNodeChild
+}>
+
 function harness(
   dialogProps: Record<string, unknown> = {},
   open?: Ref<boolean>,
   content: () => ReturnType<typeof h> = () => h('p', '正文内容'),
+  slots: DialogSlots = {},
 ) {
   const host = document.createElement('div')
   document.body.appendChild(host)
@@ -43,6 +60,7 @@ function harness(
             default: () => h(Button, { variant: 'outline', tone: 'neutral' }, () => '打开'),
             content,
             footer: () => h(Button, { tone: 'danger' }, () => '确认删除'),
+            ...slots,
           }),
         )
       },
@@ -170,12 +188,19 @@ describe('dialog · 大面积浮层', () => {
     await vi.waitFor(() => expect(panel()).toBeNull())
   })
 
-  it('size 三档:lg 拿到 576px 上限', async () => {
-    await page.viewport(1024, 720)
-    const w = harness({ size: 'lg' })
+  it.each([
+    ['sm', 384],
+    ['md', 448],
+    ['lg', 576],
+    ['xl', 672],
+    ['2xl', 896],
+  ] as const)('size=%s 最大宽度为 %s px', async (size, pixels) => {
+    await page.viewport(1280, 720)
+    const w = harness({ size })
     await userEvent.click(w.find('button').element as HTMLElement)
     await vi.waitFor(() => expect(panel()).toBeTruthy())
-    expect(getComputedStyle(panel()!).maxWidth).toBe('576px')
+    expect(getComputedStyle(panel()!).maxWidth).toBe(pixels + 'px')
+    await vi.waitFor(() => expect(Math.round(panel()!.getBoundingClientRect().width)).toBe(pixels))
   })
 
   it('placement 显式 bottom:浮底留白、四角圆角保留、sheet 动画', async () => {
@@ -191,6 +216,54 @@ describe('dialog · 大面积浮层', () => {
     await vi.waitFor(() =>
       expect(Math.round(panel()!.getBoundingClientRect().bottom)).toBe(window.innerHeight - 16),
     )
+  })
+
+  it('placement=top 从顶部滑入，内容增高后仍贴顶，正文滚动且头脚保留在视口内', async () => {
+    await page.viewport(1024, 720)
+    const tall = ref(false)
+    const w = harness({ placement: 'top' }, undefined, () =>
+      h('div', { style: { height: tall.value ? '200vh' : '20px' } }, '动态正文'),
+    )
+    const trigger = w.find('button').element as HTMLElement
+    await userEvent.click(trigger)
+    await vi.waitFor(() => expect(panel()).toBeTruthy())
+    const root = panel()!
+    const style = getComputedStyle(root)
+    expect(style.animationName).toBe('hn-sheet-in')
+    expect(style.getPropertyValue('--hn-sheet-y').trim()).toBe('-100%')
+    expect(style.borderTopLeftRadius).toBe('8px')
+    expect(style.borderBottomLeftRadius).toBe('8px')
+    await vi.waitFor(() => expect(Math.round(root.getBoundingClientRect().top)).toBe(16))
+    const shortHeight = root.getBoundingClientRect().height
+
+    tall.value = true
+    await vi.waitFor(() => {
+      const rect = root.getBoundingClientRect()
+      expect(Math.round(rect.top)).toBe(16)
+      expect(rect.height).toBeGreaterThan(shortHeight)
+      expect(rect.height).toBeLessThanOrEqual(688)
+      expect(rect.bottom).toBeLessThanOrEqual(704)
+    })
+    const area = root.querySelector('.hn-scroll-area')!
+    let scroller: HTMLElement | undefined
+    await vi.waitFor(() => {
+      scroller = [...area.querySelectorAll<HTMLElement>('*')].find(
+        el =>
+          ['auto', 'scroll'].includes(getComputedStyle(el).overflowY) &&
+          el.scrollHeight > el.clientHeight + 1,
+      )
+      expect(scroller).toBeTruthy()
+    })
+    const heading = root.querySelector('h2')!
+    const headingTop = heading.getBoundingClientRect().top
+    scroller!.scrollTop = 200
+    expect(scroller!.scrollTop).toBe(200)
+    expect(heading.getBoundingClientRect().top).toBe(headingTop)
+    const footerButton = [...root.querySelectorAll('button')].at(-1)!
+    expect(footerButton.getBoundingClientRect().bottom).toBeLessThanOrEqual(704)
+    await userEvent.keyboard('{Escape}')
+    await vi.waitFor(() => expect(panel()).toBeNull())
+    expect(document.activeElement).toBe(trigger)
   })
 
   it('placement 未指定:窄屏自动贴底全宽,宽屏居中', async () => {
@@ -226,5 +299,260 @@ describe('dialog · 大面积浮层', () => {
     open.value = false
     await w.vm.$forceUpdate()
     await vi.waitFor(() => expect(panel()).toBeNull())
+  })
+})
+
+describe('dialog · 标题插槽', () => {
+  it('自定义标题关联到弹窗名称，装饰图标不参与命名，标题可响应更新', async () => {
+    const title = ref('自定义标题')
+    const w = harness({}, undefined, undefined, {
+      icon: () => h('svg', { 'data-test-icon': '', viewBox: '0 0 24 24' }, h('title', '装饰图标')),
+      title: () => h('span', title.value),
+    })
+    await userEvent.click(w.find('button').element as HTMLElement)
+    await vi.waitFor(() => expect(panel()).toBeTruthy())
+    const label = document.getElementById(panel()!.getAttribute('aria-labelledby')!)!
+    expect(label.tagName).toBe('H2')
+    expect(label.textContent).toBe('自定义标题')
+    expect(panel()!.querySelector('[data-test-icon]')!.closest('[aria-hidden="true"]')).toBeTruthy()
+    await expect
+      .element(page.getByRole('dialog', { name: '自定义标题', exact: true }))
+      .toBeVisible()
+    title.value = '更新后的标题'
+    await vi.waitFor(() => expect(label.textContent).toBe('更新后的标题'))
+    await expect
+      .element(page.getByRole('dialog', { name: '更新后的标题', exact: true }))
+      .toBeVisible()
+  })
+})
+
+describe('dialog · 头部显示', () => {
+  it('无 header 时保留隐藏名称与说明，正文从正常内边距开始，没有头部或关闭按钮占位', async () => {
+    const w = harness({ header: false }, undefined, undefined, {
+      icon: () => h('span', '不应显示的图标'),
+      title: () => h('span', '不应显示的标题'),
+      footer: ({ close }) => h(Button, { onClick: close }, () => '关闭正文'),
+    })
+    const trigger = w.find('button').element as HTMLElement
+    await userEvent.click(trigger)
+    await vi.waitFor(() => expect(panel()).toBeTruthy())
+    const root = panel()!
+    const label = document.getElementById(root.getAttribute('aria-labelledby')!)!
+    const description = document.getElementById(root.getAttribute('aria-describedby')!)!
+    expect(label.textContent).toBe('删除条目')
+    expect(description.textContent?.trim()).toBe('此操作不可撤销。')
+    expect(getComputedStyle(label).position).toBe('absolute')
+    expect(getComputedStyle(label).width).toBe('1px')
+    expect(getComputedStyle(description).position).toBe('absolute')
+    expect(root.querySelector('[aria-label="关闭"]')).toBeNull()
+    expect(root.textContent).not.toContain('不应显示')
+    await expect.element(page.getByRole('dialog', { name: '删除条目', exact: true })).toBeVisible()
+    const area = root.querySelector('.hn-scroll-area')!
+    await vi.waitFor(() => {
+      const offset = area.getBoundingClientRect().top - root.getBoundingClientRect().top
+      expect(
+        Math.abs(offset - root.clientTop - parseFloat(getComputedStyle(root).paddingTop)),
+      ).toBeLessThan(1)
+    })
+    await userEvent.click(page.getByRole('button', { name: '关闭正文' }))
+    await vi.waitFor(() => expect(panel()).toBeNull())
+    expect(document.activeElement).toBe(trigger)
+  })
+
+  it.each([false, true])('closable=false 隐藏按钮，Esc 和点外只受 locked=%s 控制', async locked => {
+    const open = ref(false)
+    const w = harness({ closable: false, locked }, open)
+    const trigger = w.find('button').element as HTMLElement
+    await userEvent.click(trigger)
+    await vi.waitFor(() => expect(panel()).toBeTruthy())
+    expect(panel()!.querySelector('[aria-label="关闭"]')).toBeNull()
+    expect(getComputedStyle(panel()!.querySelector('h2')!).position).not.toBe('absolute')
+    await userEvent.keyboard('{Escape}')
+    if (locked) {
+      expect(open.value).toBe(true)
+    } else {
+      await vi.waitFor(() => expect(panel()).toBeNull())
+      await userEvent.click(trigger)
+      await vi.waitFor(() => expect(panel()).toBeTruthy())
+    }
+    await userEvent.click(scrim()!, { force: true, position: { x: 4, y: 4 } })
+    await vi.waitFor(() => expect(open.value).toBe(locked))
+    if (locked) {
+      open.value = false
+      await vi.waitFor(() => expect(panel()).toBeNull())
+    }
+  })
+
+  it('动态显示头部和说明时关联始终有效，无说明时不留下悬空 aria-describedby', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    try {
+      const props = reactive({
+        header: false,
+        closable: false,
+        description: undefined as string | undefined,
+      })
+      const w = harness(props)
+      await userEvent.click(w.find('button').element as HTMLElement)
+      await vi.waitFor(() => expect(panel()).toBeTruthy())
+      expect(panel()!.hasAttribute('aria-describedby')).toBe(false)
+      expect(warn).not.toHaveBeenCalled()
+      props.description = '新的说明'
+      await vi.waitFor(() => {
+        expect(
+          document.getElementById(panel()!.getAttribute('aria-describedby')!)?.textContent?.trim(),
+        ).toBe('新的说明')
+      })
+      props.header = true
+      props.closable = true
+      await vi.waitFor(() => expect(panel()!.querySelector('[aria-label="关闭"]')).toBeTruthy())
+      expect(getComputedStyle(panel()!.querySelector('h2')!).position).not.toBe('absolute')
+      props.description = undefined
+      await vi.waitFor(() => expect(panel()!.hasAttribute('aria-describedby')).toBe(false))
+    } finally {
+      warn.mockRestore()
+    }
+  })
+})
+
+describe('dialog · 自定义 body', () => {
+  it('接管内部布局且没有额外留白或滚动包装，保留名称、焦点约束与关闭回焦', async () => {
+    await page.viewport(1024, 480)
+    const w = harness({}, undefined, undefined, {
+      title: () => h('span', '被替换的标题'),
+      body: ({ close }) =>
+        h(
+          'section',
+          {
+            'data-test-body': '',
+            style: 'height:700px;min-height:0;display:flex;flex-direction:column',
+          },
+          [
+            h('button', { 'data-test-first': '', style: 'flex-shrink:0' }, '首个按钮'),
+            h(
+              'div',
+              { 'data-test-scroll': '', style: 'overflow:auto;min-height:0' },
+              h('div', { style: 'height:1200px' }, '自定义正文'),
+            ),
+            h(
+              'button',
+              { 'data-test-last': '', style: 'flex-shrink:0', onClick: close },
+              '关闭正文',
+            ),
+          ],
+        ),
+    })
+    const trigger = w.find('button').element as HTMLElement
+    await userEvent.click(trigger)
+    await vi.waitFor(() => expect(panel()).toBeTruthy())
+    const root = panel()!
+    expect(root.textContent).not.toContain('被替换的标题')
+    expect(root.textContent).not.toContain('确认删除')
+    expect(root.textContent).not.toContain('正文内容')
+    expect(root.querySelector('[aria-label="关闭"]')).toBeNull()
+    expect(root.querySelector('.hn-scroll-area')).toBeNull()
+    expect(getComputedStyle(root).padding).toBe('0px')
+    expect(parseFloat(getComputedStyle(root).rowGap) || 0).toBe(0)
+    await expect.element(page.getByRole('dialog', { name: '删除条目', exact: true })).toBeVisible()
+    expect(
+      getComputedStyle(document.getElementById(root.getAttribute('aria-labelledby')!)!).position,
+    ).toBe('absolute')
+    const body = root.querySelector('[data-test-body]')!
+    const scroll = root.querySelector('[data-test-scroll]')!
+    await vi.waitFor(() => {
+      expect(
+        Math.abs(
+          body.getBoundingClientRect().left - root.getBoundingClientRect().left - root.clientLeft,
+        ),
+      ).toBeLessThan(1)
+      expect(
+        Math.abs(
+          body.getBoundingClientRect().top - root.getBoundingClientRect().top - root.clientTop,
+        ),
+      ).toBeLessThan(1)
+      expect(root.getBoundingClientRect().height).toBeLessThanOrEqual(448)
+      expect(scroll.scrollHeight).toBeGreaterThan(scroll.clientHeight)
+    })
+    scroll.scrollTop = 100
+    expect(scroll.scrollTop).toBe(100)
+    const first = root.querySelector('[data-test-first]') as HTMLElement
+    const last = root.querySelector('[data-test-last]') as HTMLElement
+    first.focus()
+    await userEvent.keyboard('{Shift>}{Tab}{/Shift}')
+    expect(document.activeElement).toBe(last)
+    await userEvent.keyboard('{Tab}')
+    expect(document.activeElement).toBe(first)
+    await userEvent.click(last)
+    await vi.waitFor(() => expect(panel()).toBeNull())
+    expect(document.activeElement).toBe(trigger)
+    expect(document.body.style.overflow).toBe('')
+  })
+
+  it('locked 阻止 body 模式的 Esc 与点外关闭，但插槽 close 仍可关闭', async () => {
+    const open = ref(false)
+    const w = harness({ locked: true }, open, undefined, {
+      body: ({ close }) => h(Button, { onClick: close }, () => '程序关闭'),
+    })
+    await userEvent.click(w.find('button').element as HTMLElement)
+    await vi.waitFor(() => expect(panel()).toBeTruthy())
+    await userEvent.keyboard('{Escape}')
+    expect(open.value).toBe(true)
+    await userEvent.click(scrim()!, { force: true, position: { x: 4, y: 4 } })
+    expect(open.value).toBe(true)
+    await userEvent.click(page.getByRole('button', { name: '程序关闭' }))
+    await vi.waitFor(() => expect(open.value).toBe(false))
+  })
+
+  it('空 body 不回退默认布局，动态添加或移除插槽不会重建弹窗', async () => {
+    const slots = reactive<DialogSlots>({ body: () => createCommentVNode('empty') })
+    const w = harness({}, undefined, undefined, slots)
+    await userEvent.click(w.find('button').element as HTMLElement)
+    await vi.waitFor(() => expect(panel()).toBeTruthy())
+    const root = panel()!
+    expect(root.querySelector('.hn-scroll-area')).toBeNull()
+    expect(root.textContent).not.toContain('正文内容')
+    slots.body = () => h('p', '新的 body')
+    await vi.waitFor(() => expect(root.textContent).toContain('新的 body'))
+    delete slots.body
+    await vi.waitFor(() => expect(root.textContent).toContain('正文内容'))
+    expect(panel()).toBe(root)
+    expect(root.querySelector('[aria-label="关闭"]')).toBeTruthy()
+    expect(getComputedStyle(root.querySelector('h2')!).position).not.toBe('absolute')
+    slots.body = () => h('p', '再次接管')
+    await vi.waitFor(() => expect(root.textContent).toContain('再次接管'))
+    expect(root.querySelector('.hn-scroll-area')).toBeNull()
+    expect(getComputedStyle(root).padding).toBe('0px')
+    expect(panel()).toBe(root)
+  })
+})
+
+describe('dialog · 宽度边界', () => {
+  it.each([undefined, 'center', 'top', 'bottom'] as const)(
+    '2xl 在窄屏 placement=%s 时仍保留视口留白',
+    async placement => {
+      await page.viewport(430, 780)
+      const w = harness({ size: '2xl', placement })
+      await userEvent.click(w.find('button').element as HTMLElement)
+      await vi.waitFor(() => expect(panel()).toBeTruthy())
+      await vi.waitFor(() => {
+        const rect = panel()!.getBoundingClientRect()
+        expect(Math.round(rect.width)).toBe(398)
+        expect(Math.round(rect.left)).toBe(16)
+        expect(Math.round(rect.right)).toBe(414)
+      })
+    },
+  )
+
+  it.each([
+    ['max-w-[40rem]', 640],
+    ['max-w-[52rem]', 832],
+  ] as const)('class=%s 可覆盖大尺寸预设且不破坏窄屏宽度', async (className, pixels) => {
+    await page.viewport(1280, 720)
+    const w = harness({ size: '2xl', class: className })
+    await userEvent.click(w.find('button').element as HTMLElement)
+    await vi.waitFor(() => expect(panel()).toBeTruthy())
+    expect(getComputedStyle(panel()!).maxWidth).toBe(pixels + 'px')
+    await vi.waitFor(() => expect(Math.round(panel()!.getBoundingClientRect().width)).toBe(pixels))
+    await page.viewport(430, 780)
+    await vi.waitFor(() => expect(Math.round(panel()!.getBoundingClientRect().width)).toBe(398))
   })
 })

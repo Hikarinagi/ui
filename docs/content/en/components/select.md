@@ -16,11 +16,17 @@ links:
 import { Select } from '@hina-ui/vue'
 ```
 
-The select pairs a trigger with a floating list. `options` supplies the items and `v-model` binds the chosen value. Each option is `{ value, label }`, optionally with `description` and `disabled`; an item with an `options` field is a group. The trigger shares the input's field surface.
+The select pairs a trigger with a floating list. `options` supplies the items and `v-model` binds the chosen value. Each option is `{ value, label }`, optionally with `description` and `disabled`; an item with `options` and no `value` is a group. The trigger shares the input's field surface.
 
 <Demo name="select/basic" />
 
 ## Examples {#examples}
+
+### Clear {#clearable}
+
+`clearable` shows a clear button when a value is set and the field is enabled. Activating it sets `v-model` to `null` and emits `clear`. Focus returns to the trigger and the list stays closed.
+
+<Demo name="select/clearable" />
 
 ### Groups {#groups}
 
@@ -31,6 +37,8 @@ A group carries a `label` and its `options`, and can be mixed with plain options
 ### Custom content {#custom}
 
 The `option` slot customises each row in the list and the `value` slot customises what the trigger shows; both receive the current option.
+
+The complete option type is inferred from `options`. Slot parameters preserve additional fields and their types; `v-model` still binds to `value`. Use `SelectOption<{ icon: Component }>` to declare extra fields; the example reads the icon directly from `option.icon`.
 
 <Demo name="select/custom" />
 
@@ -74,10 +82,13 @@ Inside a [FormField](/components/form-field) the label points at the trigger, an
 
 ### Props {#props}
 
+`T extends SelectOption` is inferred from `options` and defaults to `SelectOption`.
+
 | Prop           | Type                       | Default     | Description                              |
 | -------------- | -------------------------- | ----------- | ---------------------------------------- |
 | `modelValue`   | `string \| number \| null` | —           | The chosen value                         |
-| `options`      | `SelectItems`              | —           | The items, see the types below           |
+| `options`      | `SelectItems<T>`           | —           | The items, see the types below           |
+| `clearable`    | `boolean`                  | `false`     | Whether the clear button is shown        |
 | `placeholder`  | `string`                   | locale pack | Text shown when nothing is chosen        |
 | `open`         | `boolean`                  | `false`     | Whether the list is open; `v-model:open` |
 | `variant`      | `'primary' \| 'secondary'` | `'primary'` | Variant                                  |
@@ -87,36 +98,37 @@ Inside a [FormField](/components/form-field) the label points at the trigger, an
 | `required`     | `boolean`                  | `false`     | Require a selection when `name` is set   |
 | `autocomplete` | `string`                   | —           | Native form autofill hint                |
 | `disabled`     | `boolean`                  | `false`     | Whether the select is disabled           |
-| `class`        | `string`                   | —           | Classes appended to the trigger          |
+| `class`        | `string`                   | —           | Classes appended to the root element     |
 
 ### Slots {#slots}
 
-| Slot     | Payload                    | Description                     |
-| -------- | -------------------------- | ------------------------------- |
-| `value`  | `{ option: SelectOption }` | Content shown in the trigger    |
-| `option` | `{ option: SelectOption }` | Content of each row in the list |
+| Slot     | Payload         | Description                     |
+| -------- | --------------- | ------------------------------- |
+| `value`  | `{ option: T }` | Content shown in the trigger    |
+| `option` | `{ option: T }` | Content of each row in the list |
 
 ### Events {#events}
 
-| Event               | Payload                   | Description               |
-| ------------------- | ------------------------- | ------------------------- |
-| `update:modelValue` | `value: string \| number` | The chosen value changed  |
-| `update:open`       | `open: boolean`           | The list opened or closed |
+| Event               | Payload                           | Description               |
+| ------------------- | --------------------------------- | ------------------------- |
+| `update:modelValue` | `value: string \| number \| null` | The chosen value changed  |
+| `update:open`       | `open: boolean`                   | The list opened or closed |
+| `clear`             | —                                 | The selection was cleared |
 
 ### Types {#types}
 
 ```ts
-interface SelectOption {
+type SelectOption<T extends object = object> = {
   value: string | number
   label: string
   description?: string
   disabled?: boolean
-}
+} & T
 
-interface SelectOptionGroup {
+interface SelectOptionGroup<T extends SelectOption = SelectOption> {
   label: string
-  options: SelectOption[]
+  options: T[]
 }
 
-type SelectItems = Array<SelectOption | SelectOptionGroup>
+type SelectItems<T extends SelectOption = SelectOption> = Array<T | SelectOptionGroup<T>>
 ```

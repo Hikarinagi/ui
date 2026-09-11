@@ -2,14 +2,14 @@ import { tv, type VariantProps } from '../../lib/tv'
 
 export const inputHost = tv({
   base: [
-    'group/hn-field hn-field text-fg flex w-full min-w-0 cursor-text items-stretch overflow-hidden rounded-md border font-medium',
+    'group/hn-field text-fg flex w-full min-w-0 cursor-text items-stretch overflow-hidden rounded-md border font-medium',
     'data-disabled:cursor-not-allowed data-disabled:opacity-50',
   ],
   variants: {
     variant: {
       primary:
-        'border-line [--hn-field-bg:var(--hn-surface)] [--hn-field-shadow:var(--hn-shadow-sm)]',
-      secondary: 'border-transparent [--hn-field-bg:var(--hn-bg-inset)]',
+        'hn-field border-line [--hn-field-bg:var(--hn-surface)] [--hn-field-shadow:var(--hn-shadow-sm)]',
+      secondary: 'hn-field border-transparent [--hn-field-bg:var(--hn-bg-inset)]',
     },
     size: {
       sm: 'h-[var(--hn-control-h-sm)] text-sm [--hn-input-h:var(--hn-control-h-sm)] [--hn-input-px:var(--hn-control-px-sm)] [--hn-input-icon:0.875rem]',
@@ -20,6 +20,15 @@ export const inputHost = tv({
   defaultVariants: {
     variant: 'primary',
     size: 'md',
+  },
+})
+
+export const textInputHost = tv({
+  extend: inputHost,
+  variants: {
+    variant: {
+      bare: 'rounded-none border-0 bg-transparent shadow-none outline-none',
+    },
   },
 })
 
@@ -62,6 +71,7 @@ export const inputActionSlot = tv({
 })
 
 export type InputVariants = VariantProps<typeof inputHost>
+export type TextInputVariants = VariantProps<typeof textInputHost>
 
 export const inputEmbedded = tv({
   base: [

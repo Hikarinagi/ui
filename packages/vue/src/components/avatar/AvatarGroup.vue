@@ -1,7 +1,8 @@
 <script setup lang="ts">
-  import { computed, useSlots, Fragment, type VNode } from 'vue'
+  import { computed, useSlots } from 'vue'
   import { cn } from '../../lib/cn'
   import Avatar from './Avatar.vue'
+  import { flattenChildren } from './utils/children'
   import type { AvatarVariants } from './avatar.variants'
   import { avatarGroupItem } from './avatar-group.variants'
   import { provideAvatarGroup } from './context'
@@ -16,13 +17,7 @@
 
   const slots = useSlots()
 
-  function flatten(nodes: VNode[] | undefined): VNode[] {
-    return (nodes ?? []).flatMap(node =>
-      node.type === Fragment ? flatten(node.children as VNode[]) : [node],
-    )
-  }
-
-  const children = computed(() => flatten(slots.default?.()))
+  const children = computed(() => flattenChildren(slots.default?.()))
   const visible = computed(() =>
     props.max && props.max > 0 ? children.value.slice(0, props.max) : children.value,
   )

@@ -34,7 +34,9 @@ import { PasswordInput } from '@hina-ui/vue'
 
 ### 形态 {#variants}
 
-`primary` 直接放在页面底色上，带边框与阴影；`secondary` 放在卡片等表面内，只有一层浅色底。
+`primary` 带边框、背景与阴影；`secondary` 使用浅色背景；`bare` 背景透明，不绘制边框、阴影、悬停底色或容器聚焦环，尺寸与内边距仍由原有设置控制。
+
+`bare` 保留禁用状态与 `aria-invalid`；错误信息可由 [FormField](/components/form-field) 显示。附属按钮保留自身的悬停与键盘聚焦反馈。
 
 <Demo name="password-input/variants" />
 
@@ -54,7 +56,7 @@ import { PasswordInput } from '@hina-ui/vue'
 
 - 点击切换按钮不会让输入区失焦，切换后可以继续输入。
 - 切换只改变显示方式，不改变值。
-- 悬停、聚焦、错误与禁用的表现与输入框相同。
+- 悬停、聚焦、错误与禁用的表现与 [Input](/components/input) 相同。
 
 ## 无障碍 {#a11y}
 
@@ -65,15 +67,15 @@ import { PasswordInput } from '@hina-ui/vue'
 
 ### Props {#props}
 
-| 属性         | 类型                       | 默认值      | 说明                                 |
-| ------------ | -------------------------- | ----------- | ------------------------------------ |
-| `modelValue` | `string`                   | —           | 文本                                 |
-| `visible`    | `boolean`                  | `false`     | 是否显示明文，支持 `v-model:visible` |
-| `variant`    | `'primary' \| 'secondary'` | `'primary'` | 形态                                 |
-| `size`       | `'sm' \| 'md' \| 'lg'`     | `'md'`      | 尺寸                                 |
-| `invalid`    | `boolean`                  | `false`     | 是否校验未通过                       |
-| `disabled`   | `boolean`                  | `false`     | 是否禁用                             |
-| `class`      | `string`                   | —           | 追加至根元素的类名                   |
+| 属性         | 类型                                 | 默认值      | 说明                                 |
+| ------------ | ------------------------------------ | ----------- | ------------------------------------ |
+| `modelValue` | `string`                             | —           | 文本                                 |
+| `visible`    | `boolean`                            | `false`     | 是否显示明文，支持 `v-model:visible` |
+| `variant`    | `'primary' \| 'secondary' \| 'bare'` | `'primary'` | 形态                                 |
+| `size`       | `'sm' \| 'md' \| 'lg'`               | `'md'`      | 尺寸                                 |
+| `invalid`    | `boolean`                            | `false`     | 是否校验未通过                       |
+| `disabled`   | `boolean`                            | `false`     | 是否禁用                             |
+| `class`      | `string`                             | —           | 追加至根元素的类名                   |
 
 | 事件                | 参数               | 说明       |
 | ------------------- | ------------------ | ---------- |

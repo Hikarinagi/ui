@@ -20,6 +20,8 @@ The combobox pairs a text field with a floating list and shares its option data 
 
 <Demo name="combobox/basic" />
 
+The complete option type is inferred from `options`. Slot parameters preserve additional fields and their types; `v-model` still binds to `value`. See [Select](/components/select#types) for the type definitions.
+
 ## Examples {#examples}
 
 ### Groups {#groups}
@@ -81,26 +83,28 @@ Inside a [FormField](/components/form-field) the label points at the input, and 
 
 ### Props {#props}
 
-| Prop           | Type                       | Default     | Description                              |
-| -------------- | -------------------------- | ----------- | ---------------------------------------- |
-| `modelValue`   | `string \| number \| null` | —           | The chosen value                         |
-| `options`      | `SelectItems`              | —           | The items, same type as `Select`         |
-| `search`       | `string`                   | `''`        | The current text; `v-model:search`       |
-| `placeholder`  | `string`                   | locale pack | Text shown when nothing is chosen        |
-| `ignoreFilter` | `boolean`                  | `false`     | Whether filtering is left to the caller  |
-| `clearable`    | `boolean`                  | `false`     | Whether the clear button is shown        |
-| `open`         | `boolean`                  | `false`     | Whether the list is open; `v-model:open` |
-| `variant`      | `'primary' \| 'secondary'` | `'primary'` | Variant                                  |
-| `size`         | `'sm' \| 'md' \| 'lg'`     | `'md'`      | Size                                     |
-| `invalid`      | `boolean`                  | `false`     | Whether validation failed                |
-| `disabled`     | `boolean`                  | `false`     | Whether the combobox is disabled         |
-| `class`        | `string`                   | —           | Classes appended to the root element     |
+`T extends SelectOption` is inferred from `options` and defaults to `SelectOption`.
+
+| Prop           | Type                       | Default     | Description                                       |
+| -------------- | -------------------------- | ----------- | ------------------------------------------------- |
+| `modelValue`   | `string \| number \| null` | —           | The chosen value                                  |
+| `options`      | `SelectItems<T>`           | —           | The items, see [Select](/components/select#types) |
+| `search`       | `string`                   | `''`        | The current text; `v-model:search`                |
+| `placeholder`  | `string`                   | locale pack | Text shown when nothing is chosen                 |
+| `ignoreFilter` | `boolean`                  | `false`     | Whether filtering is left to the caller           |
+| `clearable`    | `boolean`                  | `false`     | Whether the clear button is shown                 |
+| `open`         | `boolean`                  | `false`     | Whether the list is open; `v-model:open`          |
+| `variant`      | `'primary' \| 'secondary'` | `'primary'` | Variant                                           |
+| `size`         | `'sm' \| 'md' \| 'lg'`     | `'md'`      | Size                                              |
+| `invalid`      | `boolean`                  | `false`     | Whether validation failed                         |
+| `disabled`     | `boolean`                  | `false`     | Whether the combobox is disabled                  |
+| `class`        | `string`                   | —           | Classes appended to the root element              |
 
 ### Slots {#slots}
 
-| Slot     | Payload                    | Description                     |
-| -------- | -------------------------- | ------------------------------- |
-| `option` | `{ option: SelectOption }` | Content of each row in the list |
+| Slot     | Payload         | Description                     |
+| -------- | --------------- | ------------------------------- |
+| `option` | `{ option: T }` | Content of each row in the list |
 
 ### Events {#events}
 

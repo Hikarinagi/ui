@@ -38,6 +38,8 @@ The trigger keeps a fixed height, so only the first `maxVisible` chips show and 
 
 The `option` slot customises each row in the list.
 
+The complete option type is inferred from `options`. Slot parameters preserve additional fields and their types; `v-model` still binds to an array of option values. See [Select](/components/select#types) for the type definitions.
+
 <Demo name="multi-select/custom" />
 
 ### Clearable {#clearable}
@@ -88,28 +90,30 @@ Inside a [FormField](/components/form-field) the label points at the trigger, an
 
 ### Props {#props}
 
-| Prop           | Type                       | Default     | Description                              |
-| -------------- | -------------------------- | ----------- | ---------------------------------------- |
-| `modelValue`   | `Array<string \| number>`  | `[]`        | The chosen values                        |
-| `options`      | `SelectItems`              | —           | The items, same type as `Select`         |
-| `placeholder`  | `string`                   | locale pack | Text shown when nothing is chosen        |
-| `maxVisible`   | `number`                   | `2`         | Maximum chips shown in the trigger       |
-| `clearable`    | `boolean`                  | `false`     | Whether the clear-all button is shown    |
-| `open`         | `boolean`                  | `false`     | Whether the list is open; `v-model:open` |
-| `variant`      | `'primary' \| 'secondary'` | `'primary'` | Variant                                  |
-| `size`         | `'sm' \| 'md' \| 'lg'`     | `'md'`      | Size                                     |
-| `invalid`      | `boolean`                  | `false`     | Whether validation failed                |
-| `name`         | `string`                   | —           | Native form field name                   |
-| `required`     | `boolean`                  | `false`     | Require a selection when `name` is set   |
-| `autocomplete` | `string`                   | —           | Native form autofill hint                |
-| `disabled`     | `boolean`                  | `false`     | Whether the control is disabled          |
-| `class`        | `string`                   | —           | Classes appended to the trigger          |
+`T extends SelectOption` is inferred from `options` and defaults to `SelectOption`.
+
+| Prop           | Type                       | Default     | Description                                       |
+| -------------- | -------------------------- | ----------- | ------------------------------------------------- |
+| `modelValue`   | `Array<string \| number>`  | `[]`        | The chosen values                                 |
+| `options`      | `SelectItems<T>`           | —           | The items, see [Select](/components/select#types) |
+| `placeholder`  | `string`                   | locale pack | Text shown when nothing is chosen                 |
+| `maxVisible`   | `number`                   | `2`         | Maximum chips shown in the trigger                |
+| `clearable`    | `boolean`                  | `false`     | Whether the clear-all button is shown             |
+| `open`         | `boolean`                  | `false`     | Whether the list is open; `v-model:open`          |
+| `variant`      | `'primary' \| 'secondary'` | `'primary'` | Variant                                           |
+| `size`         | `'sm' \| 'md' \| 'lg'`     | `'md'`      | Size                                              |
+| `invalid`      | `boolean`                  | `false`     | Whether validation failed                         |
+| `name`         | `string`                   | —           | Native form field name                            |
+| `required`     | `boolean`                  | `false`     | Require a selection when `name` is set            |
+| `autocomplete` | `string`                   | —           | Native form autofill hint                         |
+| `disabled`     | `boolean`                  | `false`     | Whether the control is disabled                   |
+| `class`        | `string`                   | —           | Classes appended to the trigger                   |
 
 ### Slots {#slots}
 
-| Slot     | Payload                    | Description                     |
-| -------- | -------------------------- | ------------------------------- |
-| `option` | `{ option: SelectOption }` | Content of each row in the list |
+| Slot     | Payload         | Description                     |
+| -------- | --------------- | ------------------------------- |
+| `option` | `{ option: T }` | Content of each row in the list |
 
 ### Events {#events}
 

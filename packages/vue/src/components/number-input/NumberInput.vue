@@ -16,8 +16,8 @@
   import {
     inputControl,
     inputEmbedded,
-    inputHost,
-    type InputVariants,
+    textInputHost,
+    type TextInputVariants,
   } from '../input/input.variants'
   import { numberInputStep, numberInputStepper } from './number-input.variants'
 
@@ -34,8 +34,8 @@
       formatOptions?: Intl.NumberFormatOptions
       locale?: string
       controls?: boolean
-      variant?: InputVariants['variant']
-      size?: InputVariants['size']
+      variant?: TextInputVariants['variant']
+      size?: TextInputVariants['size']
       disabled?: boolean
       readonly?: boolean
       invalid?: boolean
@@ -47,6 +47,7 @@
 
   const t = useUiLocale()
   const group = injectInputGroup()
+  const divided = computed(() => (group ? group.variant?.value : props.variant) !== 'bare')
   const size = computed(() => (group ? group.size.value : props.size))
   const {
     id: fieldId,
@@ -83,7 +84,7 @@
     :data-disabled="disabled ? '' : undefined"
     :class="
       cn(
-        group ? inputEmbedded() : inputHost({ variant: props.variant, size: props.size }),
+        group ? inputEmbedded() : textInputHost({ variant: props.variant, size: props.size }),
         props.class,
       )
     "
@@ -95,13 +96,13 @@
       :aria-describedby="describedBy"
       :class="cn(inputControl(), 'tabular-nums')"
     />
-    <div v-if="props.controls" :class="numberInputStepper({ size })">
+    <div v-if="props.controls" :class="numberInputStepper({ size, divided })">
       <NumberFieldIncrement :aria-label="t.numberInput.increase" :class="numberInputStep()">
         <ChevronUp />
       </NumberFieldIncrement>
       <NumberFieldDecrement
         :aria-label="t.numberInput.decrease"
-        :class="numberInputStep({ divided: true })"
+        :class="numberInputStep({ divided })"
       >
         <ChevronDown />
       </NumberFieldDecrement>

@@ -34,7 +34,9 @@ import { InputGroup, InputGroupAddon } from '@hina-ui/vue'
 
 ### 形态 {#variants}
 
-`primary` 直接放在页面底色上，带边框与阴影；`secondary` 放在卡片等表面内，只有一层浅色底。
+`primary` 带边框、背景与阴影；`secondary` 使用浅色背景；`bare` 背景透明，不绘制边框、阴影、悬停底色或容器聚焦环，尺寸与内边距仍由原有设置控制。
+
+`bare` 保留禁用状态与 `aria-invalid`；错误信息可由 [FormField](/components/form-field) 显示。组内分隔线也会隐藏，按钮保留自身的交互反馈。
 
 <Demo name="input-group/variants" />
 
@@ -58,10 +60,10 @@ import { InputGroup, InputGroupAddon } from '@hina-ui/vue'
 
 ## 行为 {#behavior}
 
-- 聚焦组内任一输入区时，整个组长出聚焦环。
+- `primary` 与 `secondary` 聚焦组内任一输入区时，整个组显示聚焦环。
 - 点击附属段会让相邻的输入区聚焦，前缀把光标放到开头，后缀放到末尾。按钮不受影响。
 - 组内按钮键盘聚焦时轮廓向内收，不会被组的边缘裁掉。
-- 悬停、错误与禁用的表现与输入框相同。
+- 悬停、错误与禁用的表现与 [Input](/components/input) 相同。
 
 ## 无障碍 {#a11y}
 
@@ -71,13 +73,13 @@ import { InputGroup, InputGroupAddon } from '@hina-ui/vue'
 
 ### InputGroup {#input-group}
 
-| 属性       | 类型                       | 默认值      | 说明               |
-| ---------- | -------------------------- | ----------- | ------------------ |
-| `variant`  | `'primary' \| 'secondary'` | `'primary'` | 形态               |
-| `size`     | `'sm' \| 'md' \| 'lg'`     | `'md'`      | 尺寸               |
-| `invalid`  | `boolean`                  | `false`     | 是否校验未通过     |
-| `disabled` | `boolean`                  | `false`     | 是否禁用           |
-| `class`    | `string`                   | —           | 追加至根元素的类名 |
+| 属性       | 类型                                 | 默认值      | 说明               |
+| ---------- | ------------------------------------ | ----------- | ------------------ |
+| `variant`  | `'primary' \| 'secondary' \| 'bare'` | `'primary'` | 形态               |
+| `size`     | `'sm' \| 'md' \| 'lg'`               | `'md'`      | 尺寸               |
+| `invalid`  | `boolean`                            | `false`     | 是否校验未通过     |
+| `disabled` | `boolean`                            | `false`     | 是否禁用           |
+| `class`    | `string`                             | —           | 追加至根元素的类名 |
 
 ### InputGroupAddon {#input-group-addon}
 

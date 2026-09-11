@@ -1,7 +1,8 @@
 import { inject, provide, type ComputedRef, type InjectionKey } from 'vue'
-import type { InputVariants } from '../input/input.variants'
+import type { InputVariants, TextInputVariants } from '../input/input.variants'
 
 export interface InputGroupContext {
+  variant?: ComputedRef<TextInputVariants['variant']>
   size: ComputedRef<InputVariants['size']>
   disabled: ComputedRef<boolean>
   invalid: ComputedRef<boolean>

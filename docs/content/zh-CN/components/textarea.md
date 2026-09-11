@@ -34,7 +34,9 @@ import { Textarea } from '@hina-ui/vue'
 
 ### 形态 {#variants}
 
-`primary` 直接放在页面底色上，带边框与阴影；`secondary` 放在卡片等表面内，只有一层浅色底。
+`primary` 带边框、背景与阴影；`secondary` 使用浅色背景；`bare` 背景透明，不绘制边框、阴影、悬停底色或容器聚焦环，尺寸与内边距仍由原有设置控制。
+
+`bare` 保留禁用状态与 `aria-invalid`；错误信息可由 [FormField](/components/form-field) 显示。
 
 <Demo name="textarea/variants" />
 
@@ -52,9 +54,9 @@ import { Textarea } from '@hina-ui/vue'
 
 ## 行为 {#behavior}
 
-- 悬停、聚焦、错误与禁用的表现与输入框相同。
+- 悬停、聚焦、错误与禁用的表现与 [Input](/components/input) 相同。
 - 自动高度在输入与 `v-model` 变化时重新计算，行数下限默认取 `rows`。
-- 内容超出可见行数时在框内滚动，滚动条与 ScrollArea 相同。
+- 内容超出可见行数时在框内滚动，滚动条与 [ScrollArea](/components/scroll-area) 相同。
 - 点击框内文字之外的空白也会聚焦。
 
 ## 无障碍 {#a11y}
@@ -69,7 +71,7 @@ import { Textarea } from '@hina-ui/vue'
 
 | 属性       | 类型                                                | 默认值       | 说明                             |
 | ---------- | --------------------------------------------------- | ------------ | -------------------------------- |
-| `variant`  | `'primary' \| 'secondary'`                          | `'primary'`  | 形态                             |
+| `variant`  | `'primary' \| 'secondary' \| 'bare'`                | `'primary'`  | 形态                             |
 | `size`     | `'sm' \| 'md' \| 'lg'`                              | `'md'`       | 尺寸                             |
 | `rows`     | `number`                                            | `3`          | 行数                             |
 | `autosize` | `boolean \| { minRows?: number; maxRows?: number }` | `false`      | 是否随内容调整高度               |

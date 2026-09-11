@@ -36,9 +36,21 @@ A group carries a `label` and its `options`, and can be mixed with plain options
 
 ### Custom content {#custom}
 
-The `option` slot customises each row.
+The `option` slot receives `{ option, selected }` to customise each row.
+
+The complete option type is inferred from `options`. Slot parameters preserve additional fields and their types; `v-model` still binds to option values. See [Select](/components/select#types) for the type definitions.
 
 <Demo name="listbox/custom" />
+
+### Trailing content {#trailing}
+
+`#trailing="{ option, selected }"` replaces the entire trailing area. Without this slot the existing check indicator and its reserved space remain. When the slot is provided, an empty result intentionally removes the tail, including its gap; it does not restore the default indicator. Use `<template #trailing />` to omit it for every row, or conditional content to omit it for individual options.
+
+Custom trailing content determines its own width. The example uses `selected` to switch between a [Tag](/components/tag) and a check icon, and returns empty content for some options. The `option` and `trailing` slots receive the same selection state for grouped and plain options, single and multiple selection.
+
+<Demo name="listbox/trailing" />
+
+Custom trailing content does not change selection behaviour.
 
 ### Scrolling {#scroll}
 
@@ -48,9 +60,17 @@ The `option` slot customises each row.
 
 ### Variants {#variants}
 
-`primary` sits directly on the page background with a border and shadow; `secondary` sits inside a surface such as a card, with only a tinted fill.
+`primary` has a background, border and shadow; `secondary` has only a tinted background.
+
+`bare` removes the root background, border, shadow and corner radius. Option styling and scrolling remain available.
 
 <Demo name="listbox/variants" />
+
+### Padding {#padding}
+
+`padded` defaults to `true`. Set it to `false` to remove the inner list's 4px surrounding padding, independently of `variant`. Each option and group label keeps its own padding. `class` continues to style the root container.
+
+<Demo name="listbox/padding" />
 
 ### States {#states}
 
@@ -78,21 +98,25 @@ Inside a [FormField](/components/form-field) the label is linked to the list thr
 
 ### Props {#props}
 
-| Prop         | Type                                                  | Default     | Description                              |
-| ------------ | ----------------------------------------------------- | ----------- | ---------------------------------------- |
-| `modelValue` | `string \| number \| null \| Array<string \| number>` | —           | The chosen value, an array when multiple |
-| `options`    | `SelectItems`                                         | —           | The items, same type as `Select`         |
-| `multiple`   | `boolean`                                             | `false`     | Whether several can be chosen            |
-| `maxHeight`  | `string`                                              | `'20rem'`   | Maximum height of the list               |
-| `variant`    | `'primary' \| 'secondary'`                            | `'primary'` | Variant                                  |
-| `disabled`   | `boolean`                                             | `false`     | Whether the list is disabled             |
-| `class`      | `string`                                              | —           | Classes appended to the root element     |
+`T extends SelectOption` is inferred from `options` and defaults to `SelectOption`.
+
+| Prop         | Type                                                  | Default     | Description                                       |
+| ------------ | ----------------------------------------------------- | ----------- | ------------------------------------------------- |
+| `modelValue` | `string \| number \| null \| Array<string \| number>` | —           | The chosen value, an array when multiple          |
+| `options`    | `SelectItems<T>`                                      | —           | The items, see [Select](/components/select#types) |
+| `multiple`   | `boolean`                                             | `false`     | Whether several can be chosen                     |
+| `maxHeight`  | `string`                                              | `'20rem'`   | Maximum height of the list                        |
+| `padded`     | `boolean`                                             | `true`      | Keep the inner list's surrounding padding         |
+| `variant`    | `'primary' \| 'secondary' \| 'bare'`                  | `'primary'` | Variant                                           |
+| `disabled`   | `boolean`                                             | `false`     | Whether the list is disabled                      |
+| `class`      | `string`                                              | —           | Classes appended to the root element              |
 
 ### Slots {#slots}
 
-| Slot     | Payload                    | Description         |
-| -------- | -------------------------- | ------------------- |
-| `option` | `{ option: SelectOption }` | Content of each row |
+| Slot       | Payload                            | Description                                           |
+| ---------- | ---------------------------------- | ----------------------------------------------------- |
+| `option`   | `{ option: T; selected: boolean }` | Content of each row                                   |
+| `trailing` | `{ option: T; selected: boolean }` | Entire trailing area; empty content removes its space |
 
 ### Events {#events}
 

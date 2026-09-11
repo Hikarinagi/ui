@@ -1,4 +1,10 @@
-import { getCurrentInstance, onBeforeUpdate, onMounted } from 'vue'
+import {
+  getCurrentInstance,
+  onBeforeUpdate,
+  onMounted,
+  shallowRef,
+  type ComponentPublicInstance,
+} from 'vue'
 
 export type CollapseAxis = 'y' | 'x'
 
@@ -42,4 +48,18 @@ export function useCollapseHooks(axis: CollapseAxis = 'y') {
   onBeforeUpdate(remember)
 
   return collapseHooks(axis, () => parent)
+}
+
+export function useCollapseGap() {
+  const content = shallowRef<ComponentPublicInstance | null>(null)
+
+  function measure() {
+    const el = content.value?.$el as Element | undefined
+    if (el instanceof Element) writeCollapseGap(el, el.parentElement)
+  }
+
+  onMounted(measure)
+  onBeforeUpdate(measure)
+
+  return content
 }

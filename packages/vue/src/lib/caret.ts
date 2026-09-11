@@ -22,10 +22,6 @@ const MIRRORED = [
   'border-left-width',
 ]
 
-/**
- * 量出 textarea 光标所在行的顶边（相对 textarea 自身的边框盒）。
- * 原生没有光标几何 API，只能用同排版的镜像块把光标前的文字排一遍。
- */
 export function caretTop(node: HTMLTextAreaElement, at = node.selectionEnd): number {
   const style = getComputedStyle(node)
   const mirror = node.ownerDocument.createElement('div')

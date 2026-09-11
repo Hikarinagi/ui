@@ -38,6 +38,8 @@ import { MultiSelect } from '@hina-ui/vue'
 
 `option` 插槽定制列表中每一项的内容。
 
+组件从 `options` 推断完整选项类型，插槽中的 `option` 保留额外字段及其类型；`v-model` 仍绑定选项的 `value` 数组。类型定义见 [Select](/components/select#types)。
+
 <Demo name="multi-select/custom" />
 
 ### 可清除 {#clearable}
@@ -88,28 +90,30 @@ import { MultiSelect } from '@hina-ui/vue'
 
 ### Props {#props}
 
-| 属性           | 类型                       | 默认值      | 说明                              |
-| -------------- | -------------------------- | ----------- | --------------------------------- |
-| `modelValue`   | `Array<string \| number>`  | `[]`        | 选中的值                          |
-| `options`      | `SelectItems`              | —           | 选项，类型与 `Select` 相同        |
-| `placeholder`  | `string`                   | 语言包      | 无值时显示的文字                  |
-| `maxVisible`   | `number`                   | `2`         | 触发器里最多显示的标签数          |
-| `clearable`    | `boolean`                  | `false`     | 是否显示清空全部的按钮            |
-| `open`         | `boolean`                  | `false`     | 浮层是否打开，支持 `v-model:open` |
-| `variant`      | `'primary' \| 'secondary'` | `'primary'` | 形态                              |
-| `size`         | `'sm' \| 'md' \| 'lg'`     | `'md'`      | 尺寸                              |
-| `invalid`      | `boolean`                  | `false`     | 是否校验未通过                    |
-| `name`         | `string`                   | —           | 原生表单字段名                    |
-| `required`     | `boolean`                  | `false`     | 设置 `name` 后启用原生必填校验    |
-| `autocomplete` | `string`                   | —           | 原生表单自动填充提示              |
-| `disabled`     | `boolean`                  | `false`     | 是否禁用                          |
-| `class`        | `string`                   | —           | 追加至触发器的类名                |
+`T extends SelectOption` 从 `options` 推断，默认是 `SelectOption`。
+
+| 属性           | 类型                       | 默认值      | 说明                                            |
+| -------------- | -------------------------- | ----------- | ----------------------------------------------- |
+| `modelValue`   | `Array<string \| number>`  | `[]`        | 选中的值                                        |
+| `options`      | `SelectItems<T>`           | —           | 选项，类型见 [Select](/components/select#types) |
+| `placeholder`  | `string`                   | 语言包      | 无值时显示的文字                                |
+| `maxVisible`   | `number`                   | `2`         | 触发器里最多显示的标签数                        |
+| `clearable`    | `boolean`                  | `false`     | 是否显示清空全部的按钮                          |
+| `open`         | `boolean`                  | `false`     | 浮层是否打开，支持 `v-model:open`               |
+| `variant`      | `'primary' \| 'secondary'` | `'primary'` | 形态                                            |
+| `size`         | `'sm' \| 'md' \| 'lg'`     | `'md'`      | 尺寸                                            |
+| `invalid`      | `boolean`                  | `false`     | 是否校验未通过                                  |
+| `name`         | `string`                   | —           | 原生表单字段名                                  |
+| `required`     | `boolean`                  | `false`     | 设置 `name` 后启用原生必填校验                  |
+| `autocomplete` | `string`                   | —           | 原生表单自动填充提示                            |
+| `disabled`     | `boolean`                  | `false`     | 是否禁用                                        |
+| `class`        | `string`                   | —           | 追加至触发器的类名                              |
 
 ### 插槽 {#slots}
 
-| 插槽     | 参数                       | 说明               |
-| -------- | -------------------------- | ------------------ |
-| `option` | `{ option: SelectOption }` | 列表中每一项的内容 |
+| 插槽     | 参数            | 说明               |
+| -------- | --------------- | ------------------ |
+| `option` | `{ option: T }` | 列表中每一项的内容 |
 
 ### 事件 {#events}
 

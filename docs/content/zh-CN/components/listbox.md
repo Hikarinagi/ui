@@ -36,9 +36,21 @@ import { Listbox } from '@hina-ui/vue'
 
 ### 定制内容 {#custom}
 
-`option` 插槽定制每一项的内容。
+`option` 插槽接收 `{ option, selected }`，定制每一项的内容。
+
+组件从 `options` 推断完整选项类型，插槽中的 `option` 保留额外字段及其类型；`v-model` 仍绑定选项的 `value`，多选时为数组。类型定义见 [Select](/components/select#types)。
 
 <Demo name="listbox/custom" />
+
+### 尾部内容 {#trailing}
+
+`#trailing="{ option, selected }"` 接管整个行尾区域。未提供此插槽时，保留原有的勾选指示器和占位；提供后若返回空内容，该行不再保留尾部与间距，也不会恢复默认指示器。可用 `<template #trailing />` 清除所有行的尾部，或用条件渲染只清除部分行。
+
+自定义尾部的宽度由内容决定。示例通过 `selected` 在 [Tag](/components/tag) 与勾选图标之间切换，并对部分选项返回空内容。`option` 与 `trailing` 获取相同的选中状态，支持普通选项、分组选项、单选与多选。
+
+<Demo name="listbox/trailing" />
+
+自定义尾部不改变选项的选择行为。
 
 ### 滚动 {#scroll}
 
@@ -48,9 +60,17 @@ import { Listbox } from '@hina-ui/vue'
 
 ### 形态 {#variants}
 
-`primary` 直接放在页面底色上，带边框与阴影；`secondary` 放在卡片等表面内，只有一层浅色底。
+`primary` 带背景、边框与阴影；`secondary` 只有浅色背景。
+
+`bare` 去除根容器的背景、边框、阴影和圆角。选项样式与滚动行为仍然保留。
 
 <Demo name="listbox/variants" />
+
+### 内边距 {#padding}
+
+`padded` 默认为 `true`，设为 `false` 可去掉内部列表外围的 4px 留白，与 `variant` 独立。选项和分组标题自身的内边距不变。`class` 仍用于根容器。
+
+<Demo name="listbox/padding" />
 
 ### 状态 {#states}
 
@@ -78,21 +98,25 @@ import { Listbox } from '@hina-ui/vue'
 
 ### Props {#props}
 
-| 属性         | 类型                                                  | 默认值      | 说明                       |
-| ------------ | ----------------------------------------------------- | ----------- | -------------------------- |
-| `modelValue` | `string \| number \| null \| Array<string \| number>` | —           | 选中的值，多选时为数组     |
-| `options`    | `SelectItems`                                         | —           | 选项，类型与 `Select` 相同 |
-| `multiple`   | `boolean`                                             | `false`     | 是否多选                   |
-| `maxHeight`  | `string`                                              | `'20rem'`   | 列表的最大高度             |
-| `variant`    | `'primary' \| 'secondary'`                            | `'primary'` | 形态                       |
-| `disabled`   | `boolean`                                             | `false`     | 是否禁用                   |
-| `class`      | `string`                                              | —           | 追加至根元素的类名         |
+`T extends SelectOption` 从 `options` 推断，默认是 `SelectOption`。
+
+| 属性         | 类型                                                  | 默认值      | 说明                                            |
+| ------------ | ----------------------------------------------------- | ----------- | ----------------------------------------------- |
+| `modelValue` | `string \| number \| null \| Array<string \| number>` | —           | 选中的值，多选时为数组                          |
+| `options`    | `SelectItems<T>`                                      | —           | 选项，类型见 [Select](/components/select#types) |
+| `multiple`   | `boolean`                                             | `false`     | 是否多选                                        |
+| `maxHeight`  | `string`                                              | `'20rem'`   | 列表的最大高度                                  |
+| `padded`     | `boolean`                                             | `true`      | 是否保留内部列表外围留白                        |
+| `variant`    | `'primary' \| 'secondary' \| 'bare'`                  | `'primary'` | 形态                                            |
+| `disabled`   | `boolean`                                             | `false`     | 是否禁用                                        |
+| `class`      | `string`                                              | —           | 追加至根元素的类名                              |
 
 ### 插槽 {#slots}
 
-| 插槽     | 参数                       | 说明         |
-| -------- | -------------------------- | ------------ |
-| `option` | `{ option: SelectOption }` | 每一项的内容 |
+| 插槽       | 参数                               | 说明                       |
+| ---------- | ---------------------------------- | -------------------------- |
+| `option`   | `{ option: T; selected: boolean }` | 每一项的内容               |
+| `trailing` | `{ option: T; selected: boolean }` | 整个行尾区域，空内容不占位 |
 
 ### 事件 {#events}
 

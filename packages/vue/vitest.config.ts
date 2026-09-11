@@ -8,9 +8,26 @@ export default defineConfig({
     alias: { '@hina-ui/vue': fileURLToPath(new URL('./src', import.meta.url)) },
   },
   test: {
-    environment: 'happy-dom',
-    include: ['src/**/*.test.ts', 'test/**/*.test.ts'],
-    exclude: ['**/node_modules/**', '**/*.browser.test.ts'],
-    globals: false,
+    projects: [
+      {
+        extends: true,
+        test: {
+          name: 'unit',
+          environment: 'happy-dom',
+          include: ['src/**/*.test.ts', 'test/**/*.test.ts'],
+          exclude: ['**/node_modules/**', '**/*.browser.test.ts', '**/*.ssr.test.ts'],
+          globals: false,
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: 'ssr',
+          environment: 'node',
+          include: ['src/**/*.ssr.test.ts'],
+          globals: false,
+        },
+      },
+    ],
   },
 })

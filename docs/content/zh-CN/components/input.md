@@ -46,7 +46,9 @@ import { Input } from '@hina-ui/vue'
 
 ### 形态 {#variants}
 
-`primary` 直接放在页面底色上，带边框与阴影；`secondary` 放在卡片等表面内，只有一层浅色底。
+`primary` 带边框、背景与阴影；`secondary` 使用浅色背景；`bare` 背景透明，不绘制边框、阴影、悬停底色或容器聚焦环，尺寸与内边距仍由原有设置控制。
+
+`bare` 保留禁用状态与 `aria-invalid`；错误信息可由 [FormField](/components/form-field) 显示。附属按钮保留自身的悬停与键盘聚焦反馈。
 
 <Demo name="input/variants" />
 
@@ -64,7 +66,7 @@ import { Input } from '@hina-ui/vue'
 
 ## 行为 {#behavior}
 
-- 悬停时填充加深，聚焦时边缘长出强调色环，校验未通过时边框与环变为危险色。
+- `primary` 与 `secondary` 悬停时填充加深，聚焦时显示强调色环，校验未通过时边框与环变为危险色；`bare` 不绘制这些外观。
 - 清除按钮只在有内容且未禁用时出现，点击后不会让输入区失焦。
 - 点击附属内容会聚焦输入区，起始处的把光标放到开头，末尾的放到末尾。
 - 附属内容、清除按钮与加载指示器的出现与消失都有过渡。
@@ -79,16 +81,16 @@ import { Input } from '@hina-ui/vue'
 
 ### Props {#props}
 
-| 属性         | 类型                       | 默认值      | 说明               |
-| ------------ | -------------------------- | ----------- | ------------------ |
-| `modelValue` | `string`                   | —           | 文本               |
-| `clearable`  | `boolean`                  | `false`     | 是否显示清除按钮   |
-| `loading`    | `boolean`                  | `false`     | 是否显示加载指示器 |
-| `variant`    | `'primary' \| 'secondary'` | `'primary'` | 形态               |
-| `size`       | `'sm' \| 'md' \| 'lg'`     | `'md'`      | 尺寸               |
-| `invalid`    | `boolean`                  | `false`     | 是否校验未通过     |
-| `disabled`   | `boolean`                  | `false`     | 是否禁用           |
-| `class`      | `string`                   | —           | 追加至根元素的类名 |
+| 属性         | 类型                                 | 默认值      | 说明               |
+| ------------ | ------------------------------------ | ----------- | ------------------ |
+| `modelValue` | `string`                             | —           | 文本               |
+| `clearable`  | `boolean`                            | `false`     | 是否显示清除按钮   |
+| `loading`    | `boolean`                            | `false`     | 是否显示加载指示器 |
+| `variant`    | `'primary' \| 'secondary' \| 'bare'` | `'primary'` | 形态               |
+| `size`       | `'sm' \| 'md' \| 'lg'`               | `'md'`      | 尺寸               |
+| `invalid`    | `boolean`                            | `false`     | 是否校验未通过     |
+| `disabled`   | `boolean`                            | `false`     | 是否禁用           |
+| `class`      | `string`                             | —           | 追加至根元素的类名 |
 
 ### 插槽 {#slots}
 

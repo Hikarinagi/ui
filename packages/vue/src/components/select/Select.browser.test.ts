@@ -1,7 +1,11 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
 import { userEvent } from '@vitest/browser/context'
 import { flushPromises, mount, type VueWrapper } from '@vue/test-utils'
-import { ref } from 'vue'
+import { h, ref } from 'vue'
+import { ConfigProvider } from 'reka-ui'
+import InputGroup from '../input-group/InputGroup.vue'
+import FormField from '../form-field/FormField.vue'
+import { expectNoA11yViolations } from '../../../test/axe'
 import Select from './Select.vue'
 import Input from '../input/Input.vue'
 import '../../../test/browser.css'
@@ -50,10 +54,16 @@ function mountSelect(props: Record<string, unknown> = {}) {
       },
     },
     attrs: { 'aria-label': '类型' },
+    global: { stubs: { transition: false } },
     attachTo: attach(),
   })
   mounted.push(w)
-  return { w, trigger: w.find('[data-hn-select]').element as HTMLButtonElement, value }
+  return {
+    w,
+    trigger: w.find('[data-hn-select-trigger]').element as HTMLButtonElement,
+    host: w.find('[data-hn-select]').element as HTMLElement,
+    value,
+  }
 }
 
 const listbox = () => document.querySelector('[role="listbox"]') as HTMLElement | null
@@ -61,14 +71,14 @@ const optionsOf = () => Array.from(document.querySelectorAll('[role="option"]'))
 
 describe('select · 打开与选择', () => {
   it('点击打开 listbox，浮层贴触发器宽度，选项按分组渲染；点选后回写并关闭', async () => {
-    const { trigger, value } = mountSelect()
+    const { trigger, host, value } = mountSelect()
     await userEvent.click(trigger)
     await vi.waitFor(() => expect(listbox()).toBeTruthy())
     expect(trigger.getAttribute('aria-expanded')).toBe('true')
     const content = document.querySelector('[data-hn-select-content]') as HTMLElement
     await vi.waitFor(() =>
       expect(Math.round(content.getBoundingClientRect().width)).toBe(
-        Math.round(trigger.getBoundingClientRect().width),
+        Math.round(host.getBoundingClientRect().width),
       ),
     )
     expect(content.classList.contains('hn-anim-pop')).toBe(true)
@@ -127,21 +137,22 @@ describe('select · 与 Input 同一副输入面', () => {
       const input = mount(Input, {
         props: { size },
         attrs: { 'aria-label': size },
+        global: { stubs: { transition: false } },
         attachTo: attach(),
       })
       mounted.push(input)
-      const { trigger } = mountSelect({ size })
-      expect(trigger.offsetHeight).toBe((input.element as HTMLElement).offsetHeight)
+      const { host } = mountSelect({ size })
+      expect(host.offsetHeight).toBe((input.element as HTMLElement).offsetHeight)
     }
   })
 
-  it('键盘聚焦时环长在触发器自身上', async () => {
-    const { trigger } = mountSelect()
-    const rest = getComputedStyle(trigger).boxShadow
+  it('键盘聚焦触发器时环落在完整输入面上', async () => {
+    const { trigger, host } = mountSelect()
+    const rest = getComputedStyle(host).boxShadow
     await userEvent.keyboard('{Tab}')
     await vi.waitFor(() => expect(document.activeElement).toBe(trigger))
     await vi.waitFor(() =>
-      expect(getComputedStyle(trigger).boxShadow).toBe(
+      expect(getComputedStyle(host).boxShadow).toBe(
         rest.replace('0px 0px 0px 0px', '0px 0px 0px 2px'),
       ),
     )
@@ -150,17 +161,17 @@ describe('select · 与 Input 同一副输入面', () => {
 
 describe('select · 点选后的 hover', () => {
   it('触发器是按钮型宿主：点选后焦点回来、环亮着，hover 仍落墨，与 Button 同款', async () => {
-    const { trigger, value } = mountSelect()
-    const rest = getComputedStyle(trigger).backgroundColor
+    const { trigger, host, value } = mountSelect()
+    const rest = getComputedStyle(host).backgroundColor
     await userEvent.click(trigger)
     await vi.waitFor(() => expect(listbox()).toBeTruthy())
     await userEvent.click(optionsOf()[1]!)
     await vi.waitFor(() => expect(value.value).toBe('ln'))
     await vi.waitFor(() => expect(document.activeElement).toBe(trigger))
     await userEvent.hover(trigger)
-    await vi.waitFor(() => expect(getComputedStyle(trigger).backgroundColor).not.toBe(rest))
+    await vi.waitFor(() => expect(getComputedStyle(host).backgroundColor).not.toBe(rest))
     await userEvent.unhover(trigger)
-    await vi.waitFor(() => expect(getComputedStyle(trigger).backgroundColor).toBe(rest))
+    await vi.waitFor(() => expect(getComputedStyle(host).backgroundColor).toBe(rest))
 
     const before = document.createElement('button')
     document.body.prepend(before)
@@ -168,7 +179,7 @@ describe('select · 点选后的 hover', () => {
     await userEvent.keyboard('{Tab}')
     await vi.waitFor(() => expect(trigger.matches(':focus-visible')).toBe(true))
     await userEvent.hover(trigger)
-    await vi.waitFor(() => expect(getComputedStyle(trigger).backgroundColor).not.toBe(rest))
+    await vi.waitFor(() => expect(getComputedStyle(host).backgroundColor).not.toBe(rest))
   })
 })
 
@@ -235,8 +246,8 @@ describe('原生表单', () => {
     })
     await flushPromises()
     expect(new FormData(form).get('kind')).toBe('ln')
-    expect(w.find('[data-hn-select]').attributes('aria-required')).toBe('true')
-    expect(w.find('[data-hn-select]').attributes('name')).toBeUndefined()
+    expect(w.find('[data-hn-select-trigger]').attributes('aria-required')).toBe('true')
+    expect(w.find('[data-hn-select-trigger]').attributes('name')).toBeUndefined()
     expect(w.get('select').attributes('autocomplete')).toBe('off')
     expect(form.checkValidity()).toBe(true)
     await w.setProps({ modelValue: null })
@@ -245,5 +256,212 @@ describe('原生表单', () => {
     expect(new FormData(form).has('kind')).toBe(false)
     expect(form.checkValidity()).toBe(true)
     w.unmount()
+  })
+})
+
+describe('select · 清除', () => {
+  it.each(['pointer', 'Enter', 'Space'])(
+    '%s 清除后回写 null、恢复焦点且不打开列表',
+    async action => {
+      const { w, trigger, host, value } = mountSelect({ modelValue: 'ln', clearable: true })
+      const clear = host.querySelector<HTMLButtonElement>('[data-hn-select-clear]')!
+      expect(clear.parentElement!.parentElement).toBe(trigger.parentElement)
+      expect(host.querySelector('button button')).toBeNull()
+      if (action === 'pointer') {
+        await userEvent.click(clear)
+      } else {
+        trigger.focus()
+        await userEvent.tab()
+        expect(document.activeElement).toBe(clear)
+        expect(getComputedStyle(clear).outlineStyle).toBe('solid')
+        await userEvent.keyboard(action === 'Space' ? ' ' : '{Enter}')
+      }
+      await vi.waitFor(() => expect(value.value).toBeNull())
+      expect(w.emitted('clear')).toEqual([[]])
+      expect(w.emitted('update:modelValue')).toEqual([[null]])
+      expect(w.emitted('update:open')).toBeUndefined()
+      expect(document.activeElement).toBe(trigger)
+      expect(listbox()).toBeNull()
+      expect(trigger.hasAttribute('data-placeholder')).toBe(true)
+      await vi.waitFor(() => expect(host.querySelector('[data-hn-select-clear]')).toBeNull())
+      await userEvent.keyboard('{Enter}')
+      await vi.waitFor(() => expect(listbox()).toBeTruthy())
+      await userEvent.click(optionsOf()[0]!)
+      await vi.waitFor(() => expect(value.value).toBe('gal'))
+    },
+  )
+
+  it('0 和已不在 options 中的值可以清除；空值、未开启与禁用时不显示', async () => {
+    const { w, host, value } = mountSelect({
+      modelValue: 0,
+      clearable: true,
+      options: [{ value: 0, label: '零' }],
+    })
+    await userEvent.click(host.querySelector<HTMLButtonElement>('[data-hn-select-clear]')!)
+    expect(value.value).toBeNull()
+    for (const modelValue of [null, undefined, '']) {
+      await w.setProps({ modelValue })
+      await vi.waitFor(() => expect(host.querySelector('[data-hn-select-clear]')).toBeNull())
+    }
+    await w.setProps({ modelValue: 'missing' })
+    expect(host.querySelector('[data-hn-select-clear]')).not.toBeNull()
+    await w.setProps({ clearable: false })
+    await vi.waitFor(() => expect(host.querySelector('[data-hn-select-clear]')).toBeNull())
+    await w.setProps({ clearable: true, disabled: true })
+    await vi.waitFor(() => expect(host.querySelector('[data-hn-select-clear]')).toBeNull())
+    expect(host.querySelector<HTMLButtonElement>('[data-hn-select-trigger]')!.disabled).toBe(true)
+  })
+
+  it.each([InputGroup, FormField])(
+    '继承外层禁用状态，标签、错误关联与清除按钮语义正确',
+    async Parent => {
+      const w = mount(Parent, {
+        props: {
+          disabled: true,
+          ...(Parent === FormField ? { label: '类型', error: '请选择' } : {}),
+        },
+        slots: {
+          default: () =>
+            h(Select, { options, modelValue: 'ln', clearable: true, 'aria-label': '类型' }),
+        },
+        global: { stubs: { transition: false } },
+        attachTo: attach(),
+      })
+      mounted.push(w)
+      const host = w.get('[data-hn-select]').element as HTMLElement
+      const trigger = w.get('[data-hn-select-trigger]').element as HTMLButtonElement
+      expect(trigger.disabled).toBe(true)
+      await vi.waitFor(() => expect(host.querySelector('[data-hn-select-clear]')).toBeNull())
+      await w.setProps({ disabled: false })
+      expect(trigger.disabled).toBe(false)
+      expect(host.querySelector('[data-hn-select-clear]')).not.toBeNull()
+      if (Parent === FormField) {
+        expect(w.get('label').attributes('for')).toBe(trigger.id)
+        expect(trigger.getAttribute('aria-invalid')).toBe('true')
+        expect(
+          document.getElementById(trigger.getAttribute('aria-describedby')!)?.textContent,
+        ).toBe('请选择')
+      }
+      await expectNoA11yViolations(w.element)
+    },
+  )
+
+  it.each(['ltr', 'rtl'])('%s 下清除按钮位于文字与箭头之间，浮层仍对齐整个输入面', async dir => {
+    const w = mount(ConfigProvider, {
+      props: { dir: dir as 'ltr' | 'rtl' },
+      slots: {
+        default: () =>
+          h(Select, { options, modelValue: 'ln', clearable: true, 'aria-label': '类型' }),
+      },
+      global: { stubs: { transition: false } },
+      attachTo: attach(),
+    })
+    mounted.push(w)
+    const host = w.get('[data-hn-select]').element as HTMLElement
+    const trigger = w.get('[data-hn-select-trigger]').element as HTMLButtonElement
+    const clear = host.querySelector<HTMLButtonElement>('[data-hn-select-clear]')!
+    const text = trigger.firstElementChild!.getBoundingClientRect()
+    const arrow = trigger.lastElementChild!.getBoundingClientRect()
+    const action = clear.getBoundingClientRect()
+    const root = host.getBoundingClientRect()
+    expect(action.height).toBe(host.clientHeight)
+    if (dir === 'ltr') {
+      expect(action.right).toBeCloseTo(arrow.left, 1)
+      expect(action.left).toBeGreaterThan(text.left)
+    } else {
+      const a = clear.getBoundingClientRect()
+      const icon = trigger.lastElementChild!.getBoundingClientRect()
+      expect(a.left).toBeCloseTo(icon.right, 1)
+    }
+    expect(action.width).toBeGreaterThan(0)
+    await userEvent.click(trigger)
+    await vi.waitFor(() => expect(listbox()).toBeTruthy())
+    await vi.waitFor(() => {
+      const box = document.querySelector('[data-hn-select-content]')!.getBoundingClientRect()
+      expect(box.width).toBeCloseTo(root.width, 1)
+      expect(box.left).toBeCloseTo(root.left, 1)
+    })
+  })
+
+  it('清除图标缩放淡入淡出，退场期间原位保留且长占位文字不侵占图标空间', async () => {
+    const { w, host, trigger, value } = mountSelect({
+      clearable: true,
+      placeholder: '这是一段超过输入框宽度的占位文字，用来确认清除图标退场时文字仍然截断',
+    })
+    const text = trigger.firstElementChild as HTMLElement
+    const mid = (el: HTMLElement) => {
+      const style = getComputedStyle(el)
+      expect(Number(style.opacity)).toBeGreaterThan(0)
+      expect(Number(style.opacity)).toBeLessThan(1)
+      expect(parseFloat(style.scale)).toBeGreaterThan(0.9)
+      expect(parseFloat(style.scale)).toBeLessThan(1)
+    }
+    await w.setProps({ modelValue: 'ln' })
+    const clear = host.querySelector<HTMLButtonElement>('[data-hn-select-clear]')!
+    const slot = clear.parentElement!
+    await vi.waitFor(() => mid(slot))
+    await vi.waitFor(() => expect(getComputedStyle(slot).opacity).toBe('1'))
+    const left = slot.offsetLeft
+    const reserved = getComputedStyle(text).paddingInlineEnd
+    expect(parseFloat(reserved)).toBeGreaterThan(0)
+
+    await userEvent.click(clear)
+    expect(value.value).toBeNull()
+    await vi.waitFor(() => mid(slot))
+    expect(slot.offsetLeft).toBe(left)
+    expect(getComputedStyle(text).paddingInlineEnd).toBe(reserved)
+    expect(slot.inert).toBe(true)
+    expect(document.activeElement).toBe(trigger)
+    expect(trigger.getAttribute('aria-expanded')).toBe('false')
+    await vi.waitFor(() => expect(slot.isConnected).toBe(false))
+    await vi.waitFor(() => expect(getComputedStyle(text).paddingInlineEnd).toBe('0px'))
+
+    await w.setProps({ modelValue: 'gal' })
+    const next = host.querySelector<HTMLButtonElement>('[data-hn-select-clear]')!
+    await vi.waitFor(() => mid(next.parentElement!))
+    await vi.waitFor(() => expect(getComputedStyle(next.parentElement!).opacity).toBe('1'))
+    expect(next.parentElement!.inert).toBe(false)
+  })
+
+  it('退场未结束时重新赋值，清除按钮恢复交互，再清空后不残留图标或让位', async () => {
+    const { w, host, trigger } = mountSelect({ modelValue: 'ln', clearable: true })
+    const old = host.querySelector<HTMLButtonElement>('[data-hn-select-clear]')!.parentElement!
+    await w.setProps({ modelValue: null })
+    await vi.waitFor(() => expect(Number(getComputedStyle(old).opacity)).toBeLessThan(1))
+    expect(old.isConnected).toBe(true)
+    await w.setProps({ modelValue: 'gal' })
+    const clear = host.querySelector<HTMLButtonElement>('[data-hn-select-clear]')!
+    await vi.waitFor(() => expect(getComputedStyle(clear.parentElement!).opacity).toBe('1'))
+    expect(clear.parentElement!.inert).toBe(false)
+    expect(host.querySelectorAll('[data-hn-select-clear]')).toHaveLength(1)
+    await userEvent.click(clear)
+    await vi.waitFor(() => expect(host.querySelector('[data-hn-select-clear]')).toBeNull())
+    expect(getComputedStyle(trigger.firstElementChild!).paddingInlineEnd).toBe('0px')
+  })
+
+  it('原生表单清除后提交空值并重新触发 required 校验', async () => {
+    const form = document.createElement('form')
+    document.body.appendChild(form)
+    const w = mount(Select, {
+      props: {
+        options,
+        modelValue: 'ln',
+        clearable: true,
+        name: 'kind',
+        required: true,
+        'onUpdate:modelValue': (modelValue?: string | number | null) => w.setProps({ modelValue }),
+      },
+      attrs: { 'aria-label': '类型' },
+      attachTo: form,
+    })
+    mounted.push(w)
+    await flushPromises()
+    expect(new FormData(form).get('kind')).toBe('ln')
+    expect(form.checkValidity()).toBe(true)
+    await userEvent.click(w.get('[data-hn-select-clear]').element)
+    await vi.waitFor(() => expect(new FormData(form).get('kind')).toBe(''))
+    expect(form.checkValidity()).toBe(false)
+    expect(w.emitted('clear')).toEqual([[]])
+    expect(listbox()).toBeNull()
   })
 })

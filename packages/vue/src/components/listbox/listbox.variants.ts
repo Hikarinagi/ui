@@ -9,6 +9,7 @@ export const listbox = tv({
     variant: {
       primary: 'border-line bg-surface border shadow-sm',
       secondary: 'bg-inset',
+      bare: 'rounded-none border-0 bg-transparent shadow-none',
     },
   },
   defaultVariants: {
@@ -17,7 +18,11 @@ export const listbox = tv({
 })
 
 export const listboxContent = tv({
-  base: 'flex flex-col p-1 outline-none',
+  base: 'flex flex-col outline-none',
+  variants: {
+    padded: { true: 'p-1', false: 'p-0' },
+  },
+  defaultVariants: { padded: true },
 })
 
 export type ListboxVariants = VariantProps<typeof listbox>

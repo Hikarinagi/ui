@@ -16,7 +16,7 @@ links:
 import { SegmentedControl } from '@hina-ui/vue'
 ```
 
-A segmented control lays a few peer options in a row; exactly one is selected at any time, and a sliding thumb marks it. `options` has the same type as `Select`, `v-model` binds the selected value, and with no bound value the first enabled option is selected. Attributes it does not declare land on the root, so name the group with `aria-label` or `aria-labelledby`.
+A segmented control lays a few peer options in a row; exactly one is selected at any time, and a sliding thumb marks it. `options` uses the types defined by [Select](/components/select#types), `v-model` binds the selected value, and with no bound value the first enabled option is selected. Attributes it does not declare land on the root, so name the group with `aria-label` or `aria-labelledby`.
 
 <Demo name="segmented-control/basic" />
 
@@ -27,6 +27,8 @@ It expresses the same choice as `RadioGroup`; the difference is the occasion. Us
 ### Custom content {#custom}
 
 The `#option` slot replaces the content of every item. With icons only, each item is still named by its `label`, so screen readers read it as usual.
+
+The complete option type is inferred from `options`. Slot parameters preserve additional fields and their types; `v-model` still binds to `value`. See [Select](/components/select#types) for the type definitions.
 
 <Demo name="segmented-control/custom" />
 
@@ -75,21 +77,23 @@ Inside a [FormField](/components/form-field) the label is linked to the whole gr
 
 ### Props {#props}
 
-| Prop          | Type                         | Default                    | Description                          |
-| ------------- | ---------------------------- | -------------------------- | ------------------------------------ |
-| `modelValue`  | `string \| number`           | value of the first enabled | The selected value                   |
-| `options`     | `SelectOption[]`             | —                          | The items, same type as `Select`     |
-| `size`        | `'sm' \| 'md' \| 'lg'`       | `'md'`                     | Size                                 |
-| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'`             | Layout direction                     |
-| `block`       | `boolean`                    | `false`                    | Whether to fill the parent width     |
-| `disabled`    | `boolean`                    | `false`                    | Whether the whole group is disabled  |
-| `class`       | `string`                     | —                          | Classes appended to the root element |
+`T extends SelectOption` is inferred from `options` and defaults to `SelectOption`.
+
+| Prop          | Type                         | Default                    | Description                                       |
+| ------------- | ---------------------------- | -------------------------- | ------------------------------------------------- |
+| `modelValue`  | `string \| number`           | value of the first enabled | The selected value                                |
+| `options`     | `T[]`                        | —                          | The items, see [Select](/components/select#types) |
+| `size`        | `'sm' \| 'md' \| 'lg'`       | `'md'`                     | Size                                              |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'`             | Layout direction                                  |
+| `block`       | `boolean`                    | `false`                    | Whether to fill the parent width                  |
+| `disabled`    | `boolean`                    | `false`                    | Whether the whole group is disabled               |
+| `class`       | `string`                     | —                          | Classes appended to the root element              |
 
 ### Slots {#slots}
 
-| Slot     | Payload                    | Description          |
-| -------- | -------------------------- | -------------------- |
-| `option` | `{ option: SelectOption }` | Content of each item |
+| Slot     | Payload         | Description          |
+| -------- | --------------- | -------------------- |
+| `option` | `{ option: T }` | Content of each item |
 
 ### Events {#events}
 

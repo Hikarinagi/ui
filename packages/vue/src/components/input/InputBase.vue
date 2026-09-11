@@ -14,15 +14,15 @@
     inputAdornment,
     inputControl,
     inputEmbedded,
-    inputHost,
-    type InputVariants,
+    textInputHost,
+    type TextInputVariants,
   } from './input.variants'
 
   defineOptions({ name: 'HnInputBase', inheritAttrs: false })
 
   const props = defineProps<{
-    variant?: InputVariants['variant']
-    size?: InputVariants['size']
+    variant?: TextInputVariants['variant']
+    size?: TextInputVariants['size']
     clearable?: boolean
     loading?: boolean
     disabled?: boolean
@@ -70,7 +70,7 @@
     :aria-busy="props.loading || undefined"
     :class="
       cn(
-        group ? inputEmbedded() : inputHost({ variant: props.variant, size: props.size }),
+        group ? inputEmbedded() : textInputHost({ variant: props.variant, size: props.size }),
         props.class,
       )
     "

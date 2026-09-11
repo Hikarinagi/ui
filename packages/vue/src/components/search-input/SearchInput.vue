@@ -2,14 +2,14 @@
   import { Search } from '@lucide/vue'
   import { cn } from '../../lib/cn'
   import InputBase from '../input/InputBase.vue'
-  import type { InputVariants } from '../input/input.variants'
+  import type { TextInputVariants } from '../input/input.variants'
 
   defineOptions({ name: 'HnSearchInput', inheritAttrs: false })
 
   const props = withDefaults(
     defineProps<{
-      variant?: InputVariants['variant']
-      size?: InputVariants['size']
+      variant?: TextInputVariants['variant']
+      size?: TextInputVariants['size']
       clearable?: boolean
       loading?: boolean
       disabled?: boolean

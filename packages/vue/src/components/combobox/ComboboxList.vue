@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends SelectOption = SelectOption">
   import { Check } from '@lucide/vue'
   import {
     ComboboxContent,
@@ -19,11 +19,11 @@
 
   defineOptions({ name: 'HnComboboxList' })
 
-  const props = defineProps<{ options: SelectItems; keyboard?: boolean }>()
+  const props = defineProps<{ options: SelectItems<T>; keyboard?: boolean }>()
 
   const fresh = ref(false)
 
-  defineSlots<{ option(props: { option: SelectOption }): unknown }>()
+  defineSlots<{ option?(props: { option: T }): unknown }>()
 
   const t = useUiLocale()
 </script>

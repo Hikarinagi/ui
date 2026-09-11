@@ -37,7 +37,6 @@ export type ScrollRecord = Record<string, number>
 
 export interface ScrollRestorerPorts {
   getViewport: () => HTMLElement | null
-  /** Where the first-paint script left the scroller, read once and cleared. */
   takeFirstPaintTop: () => number | undefined
   readState: () => unknown
   writeState: (state: Record<string, unknown>) => void
@@ -110,10 +109,6 @@ export function createScrollRestorer(key: string, ports: ScrollRestorerPorts): S
       const firstPaintTop = ports.takeFirstPaintTop()
 
       if (initial) {
-        // The first-paint script already put the scroller where this entry
-        // wants it, so anything else means the reader moved it while the page
-        // was still hydrating — the wheel listener that would have cancelled a
-        // restore is only attached from here on.
         if (saved === undefined) return
         const el = ports.getViewport()
         if (firstPaintTop !== undefined && el && el.scrollTop !== firstPaintTop) return

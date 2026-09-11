@@ -1,10 +1,19 @@
 import { tv } from '../../lib/tv'
+import { inputActionSlot } from '../input/input.variants'
 
 export const selectTrigger = tv({
   base: [
     'group/hn-disclosure cursor-pointer items-center ps-[var(--hn-input-px)] pe-0 text-start',
     'data-placeholder:text-faint data-placeholder:font-normal',
     'disabled:cursor-not-allowed disabled:opacity-50',
+    '[&_svg]:size-[var(--hn-input-icon)] [&_svg]:shrink-0',
+  ],
+})
+
+export const selectButton = tv({
+  base: [
+    'group/hn-disclosure flex h-full min-w-0 flex-1 cursor-pointer items-center bg-transparent ps-[var(--hn-input-px)] pe-0 text-start text-inherit outline-none [font:inherit]',
+    'data-placeholder:text-faint data-placeholder:font-normal disabled:cursor-not-allowed',
     '[&_svg]:size-[var(--hn-input-icon)] [&_svg]:shrink-0',
   ],
 })
@@ -39,4 +48,19 @@ export const selectEmpty = tv({
 
 export const selectListBody = tv({
   base: 'flex flex-col p-1',
+})
+
+export const selectHost = tv({
+  base: 'relative cursor-pointer',
+})
+
+export const selectValue = tv({
+  base: 'min-w-0 flex-1 truncate',
+  variants: {
+    clearing: { true: 'pe-[var(--hn-input-h)]' },
+  },
+})
+
+export const selectClearSlot = tv({
+  base: [inputActionSlot(), 'absolute inset-y-0 end-[var(--hn-input-h)]'],
 })

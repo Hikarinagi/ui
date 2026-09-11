@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends SelectOption = SelectOption">
   import { ToggleGroupItem, ToggleGroupRoot, type AcceptableValue } from 'reka-ui'
   import { computed, useId, useSlots } from 'vue'
   import { cn } from '../../lib/cn'
@@ -18,7 +18,7 @@
 
   const props = withDefaults(
     defineProps<{
-      options: SelectOption[]
+      options: T[]
       size?: SegmentedItemVariants['size']
       orientation?: SegmentedControlVariants['orientation']
       block?: boolean
@@ -30,7 +30,7 @@
 
   const model = defineModel<string | number>()
 
-  defineSlots<{ option(props: { option: SelectOption }): unknown }>()
+  defineSlots<{ option?(props: { option: T }): unknown }>()
 
   const slots = useSlots()
 

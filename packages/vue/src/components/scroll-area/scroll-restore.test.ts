@@ -453,8 +453,6 @@ describe('firstPaintRestoreScript', () => {
       el.dispatchEvent(new Event('scroll'))
       expect(notice().style.marginTop).toBe('-320px')
 
-      // overlayscrollbars moves the content into its own viewport, which drops
-      // the root back to scrollTop 0 and would otherwise reset the offset.
       Object.defineProperty(el, 'scrollHeight', { value: 900, configurable: true })
       el.scrollTop = 0
       el.dispatchEvent(new Event('scroll'))
