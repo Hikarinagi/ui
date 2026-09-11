@@ -60,24 +60,19 @@
     </DialogTrigger>
     <DialogPortal>
       <DialogOverlay class="hn-scrim" />
-      <div
-        :class="
-          cn(
-            'pointer-events-none fixed inset-0 z-(--hn-z-overlay) grid',
-            dialogWrapper({ placement: props.placement ?? 'auto' }),
-          )
-        "
-      >
+      <div :class="dialogWrapper({ placement: props.placement ?? 'auto' })">
         <DialogContent as-child @escape-key-down="guard" @interact-outside="guard">
           <Card
             v-bind="props.description ? {} : { 'aria-describedby': undefined }"
             :padded="false"
             :class="
               cn(
-                'pointer-events-auto flex w-full flex-col shadow-lg outline-none',
-                'max-h-[calc(100dvh-2rem)]',
-                !slots.body && 'gap-4 py-(--hn-panel-p)',
-                dialogCard({ placement: props.placement ?? 'auto', size: props.size }),
+                dialogCard({
+                  placement: props.placement ?? 'auto',
+                  size: props.size,
+                  padded: !slots.body,
+                  fitViewport: true,
+                }),
                 props.class,
               )
             "

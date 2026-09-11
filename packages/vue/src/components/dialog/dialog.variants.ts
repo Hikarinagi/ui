@@ -1,7 +1,7 @@
 import { tv, type VariantProps } from '../../lib/tv'
 
 export const dialogWrapper = tv({
-  base: '',
+  base: 'pointer-events-none fixed inset-0 z-(--hn-z-overlay) grid',
   variants: {
     placement: {
       center: 'place-items-center p-4',
@@ -14,8 +14,10 @@ export const dialogWrapper = tv({
 })
 
 export const dialogCard = tv({
-  base: '',
+  base: 'pointer-events-auto flex w-full flex-col shadow-lg outline-none',
   variants: {
+    padded: { true: 'gap-4 py-(--hn-panel-p)' },
+    fitViewport: { true: 'max-h-[calc(100dvh-2rem)]' },
     placement: {
       center: 'hn-anim-modal',
       top: 'hn-anim-sheet-top',
@@ -30,7 +32,7 @@ export const dialogCard = tv({
       '2xl': 'max-w-4xl',
     },
   },
-  defaultVariants: { placement: 'auto', size: 'md' },
+  defaultVariants: { placement: 'auto', size: 'md', padded: true },
 })
 
 export type DialogVariants = VariantProps<typeof dialogCard>

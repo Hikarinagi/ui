@@ -1,9 +1,8 @@
 <script setup lang="ts" generic="T extends SelectOption = SelectOption">
-  import { computed, reactive, ref, shallowRef, watch } from 'vue'
+  import { computed } from 'vue'
   import { ComboboxAnchor, ComboboxInput, ComboboxRoot, ComboboxTrigger } from 'reka-ui'
   import { cn } from '../../lib/cn'
   import { useFieldControl } from '../form-field/context'
-  import { focusFieldFrom } from '../../lib/field-focus'
   import { useUiLocale } from '../../locale'
   import { buttonIconBox } from '../button/button.variants'
   import IconSlot from '../button/IconSlot.vue'
@@ -19,7 +18,8 @@
     inputIndicator,
     type InputVariants,
   } from '../input/input.variants'
-  import { flattenOptions, type SelectItems, type SelectOption } from '../select/types'
+  import type { SelectItems, SelectOption } from '../select/types'
+  import { useMultiCombobox } from './composables/useMultiCombobox'
   import {
     tagsInputChip,
     tagsInputControl,
@@ -55,8 +55,6 @@
   defineSlots<{ option?(props: { option: T }): unknown }>()
 
   const t = useUiLocale()
-  const keyboard = ref(false)
-  const input = shallowRef<{ $el: HTMLInputElement } | null>(null)
 
   const {
     id: fieldId,
@@ -68,52 +66,16 @@
     disabled: () => props.disabled,
   })
 
-  const labels = reactive(new Map<string | number, string>())
-  watch(
-    () => props.options,
-    options => {
-      for (const option of flattenOptions(options)) labels.set(option.value, option.label)
-    },
-    { immediate: true, deep: true },
-  )
-
-  const selected = computed(() =>
-    model.value.map(value => ({ value, label: labels.get(value) ?? String(value) })),
-  )
+  const { selected, keyboard, input, remove, clear, onHostClick, onInputKeydown } =
+    useMultiCombobox({
+      options: () => props.options,
+      model,
+      open,
+      disabled: () => disabled.value,
+      onClear: () => emit('clear'),
+    })
   const chipSize = computed(() => (props.size === 'sm' ? 'sm' : 'md'))
   const clearing = computed(() => props.clearable && selected.value.length > 0 && !disabled.value)
-
-  watch(open, value => {
-    if (!value) keyboard.value = false
-  })
-
-  function remove(value: string | number) {
-    if (disabled.value) return
-    model.value = model.value.filter(item => item !== value)
-  }
-
-  function clear() {
-    if (!model.value.length) return
-    model.value = []
-    emit('clear')
-    input.value?.$el.focus()
-  }
-
-  function onHostClick(event: MouseEvent) {
-    const focused = focusFieldFrom(event.currentTarget as HTMLElement, event.target as HTMLElement)
-    if (focused && !open.value) open.value = true
-  }
-
-  function onInputKeydown(event: KeyboardEvent) {
-    keyboard.value = true
-    if (
-      event.key !== 'Backspace' ||
-      (event.target as HTMLInputElement).value !== '' ||
-      !model.value.length
-    )
-      return
-    model.value = model.value.slice(0, -1)
-  }
 </script>
 
 <template>

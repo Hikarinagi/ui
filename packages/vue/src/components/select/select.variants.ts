@@ -1,4 +1,5 @@
 import { tv } from '../../lib/tv'
+import { inputActionSlot } from '../input/input.variants'
 
 export const selectTrigger = tv({
   base: [
@@ -47,4 +48,19 @@ export const selectEmpty = tv({
 
 export const selectListBody = tv({
   base: 'flex flex-col p-1',
+})
+
+export const selectHost = tv({
+  base: 'relative cursor-pointer',
+})
+
+export const selectValue = tv({
+  base: 'min-w-0 flex-1 truncate',
+  variants: {
+    clearing: { true: 'pe-[var(--hn-input-h)]' },
+  },
+})
+
+export const selectClearSlot = tv({
+  base: [inputActionSlot(), 'absolute inset-y-0 end-[var(--hn-input-h)]'],
 })
