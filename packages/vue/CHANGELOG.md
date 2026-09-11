@@ -1,5 +1,20 @@
 # @hina-ui/vue
 
+## 1.3.0
+
+### Minor Changes
+
+- 3920ea8: Add an optional confirmDelay in seconds to AlertDialog. Show the remaining time on the disabled confirm button, restart the countdown on each opening, and allow cancellation while waiting.
+- 6fc603a: Add external HTMLElement anchors and optional triggers to DropdownMenu. Expose modal and cancellable focus-restoration and dismissal events, forward panel accessibility attributes, and preserve menu keyboard navigation and exit positioning.
+- 3b903e3: Add external HTMLElement anchors and optional triggers to Popover. Expose modal and cancellable focus and dismissal events, forward panel accessibility attributes, and preserve positioning through exit transitions.
+
+### Patch Changes
+
+- 3ad480c: Catch synchronous and asynchronous AlertDialog confirmation failures internally, keep the dialog open for retry, and emit an error event with the original reason. Await PromiseLike results and prevent duplicate confirmation while pending.
+- 451054d: Fix CodeBlock scrolling when height or max-height is set through class or style. Move code padding inside the scrolling content so edge shadows meet the viewport, preserve fixed copy controls, and prevent Prose from adding another code-block surface or scroll container.
+- 13ac5f9: Fix Highlight animating across the perpendicular axis when its container moves. Add an axis prop for translation, and apply the matching direction in Tabs, SegmentedControl, Anchor, and lightbox thumbnails while preserving size transitions.
+- b2c72ad: Fix focusable ScrollArea keyboard scrolling by moving its tab stop and accessible region to the actual viewport after initialization. Preserve existing focus during enhancement and keep CodeBlock focus outlines visible.
+
 ## 1.2.0
 
 ### Minor Changes
