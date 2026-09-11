@@ -1,10 +1,14 @@
 import { computed, nextTick, shallowRef, watch, type Ref } from 'vue'
-import type { PopoverContentEmits } from 'reka-ui'
+import type { DropdownMenuContentEmits } from 'reka-ui'
 
 export function useAnchoredOverlay(
   props: { anchor?: HTMLElement | null; modal: boolean },
   open: Ref<boolean | undefined>,
-  emit: <K extends keyof PopoverContentEmits>(event: K, ...args: PopoverContentEmits[K]) => void,
+  emit: <K extends keyof DropdownMenuContentEmits>(
+    event: K,
+    ...args: DropdownMenuContentEmits[K]
+  ) => void,
+  openAutoFocus?: (event: Event) => void,
 ) {
   const trigger = shallowRef<{ $el: HTMLElement } | null>(null)
   const triggerElement = computed(() =>
@@ -12,7 +16,11 @@ export function useAnchoredOverlay(
   )
   const retainedAnchor = shallowRef<HTMLElement>()
   const reference = computed(
-    () => props.anchor ?? (open.value && triggerElement.value ? undefined : retainedAnchor.value),
+    () =>
+      props.anchor ??
+      (open.value
+        ? (triggerElement.value ?? retainedAnchor.value)
+        : (retainedAnchor.value ?? triggerElement.value)),
   )
   const visible = computed({
     get: () => !!open.value && !!(props.anchor || triggerElement.value),
@@ -41,12 +49,16 @@ export function useAnchoredOverlay(
     }
   }
 
-  const onOpenAutoFocus = once((event: Event) => {
-    const panel = event.target as HTMLElement
-    previousFocus = panel.ownerDocument.activeElement as HTMLElement | null
-    interactedOutside = false
-    emit('openAutoFocus', event)
-  })
+  watch(
+    visible,
+    active => {
+      if (!active) return
+      const document = props.anchor?.ownerDocument ?? triggerElement.value?.ownerDocument
+      previousFocus = document?.activeElement as HTMLElement | null
+      interactedOutside = false
+    },
+    { immediate: true, flush: 'sync' },
+  )
 
   const onCloseAutoFocus = once((event: Event) => {
     emit('closeAutoFocus', event)
@@ -68,7 +80,7 @@ export function useAnchoredOverlay(
     })
   })
 
-  const onInteractOutside = once((event: PopoverContentEmits['interactOutside'][0]) => {
+  const onInteractOutside = once((event: DropdownMenuContentEmits['interactOutside'][0]) => {
     if (!triggerElement.value && props.anchor?.contains(event.target as Node))
       event.preventDefault()
     emit('interactOutside', event)
@@ -83,13 +95,13 @@ export function useAnchoredOverlay(
     reference,
     visible,
     events: {
-      onOpenAutoFocus,
+      ...(openAutoFocus ? { onOpenAutoFocus: once(openAutoFocus) } : {}),
       onCloseAutoFocus,
       onInteractOutside,
-      onPointerDownOutside: once((event: PopoverContentEmits['pointerDownOutside'][0]) =>
+      onPointerDownOutside: once((event: DropdownMenuContentEmits['pointerDownOutside'][0]) =>
         emit('pointerDownOutside', event),
       ),
-      onFocusOutside: once((event: PopoverContentEmits['focusOutside'][0]) =>
+      onFocusOutside: once((event: DropdownMenuContentEmits['focusOutside'][0]) =>
         emit('focusOutside', event),
       ),
       onEscapeKeyDown: once((event: KeyboardEvent) => emit('escapeKeyDown', event)),

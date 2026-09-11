@@ -5,24 +5,32 @@
     DropdownMenuTrigger,
     DropdownMenuPortal,
     DropdownMenuContent,
+    type DropdownMenuContentEmits,
   } from 'reka-ui'
+  import { useAnchoredOverlay } from '../../lib/anchored-overlay'
   import Card from '../card/Card.vue'
   import { cn } from '../../lib/cn'
 
-  defineOptions({ name: 'HnDropdownMenu' })
+  defineOptions({ name: 'HnDropdownMenu', inheritAttrs: false })
 
   const props = withDefaults(
     defineProps<{
       label?: string
+      anchor?: HTMLElement | null
+      modal?: boolean
+      dir?: 'ltr' | 'rtl'
       side?: 'top' | 'right' | 'bottom' | 'left'
       align?: 'start' | 'center' | 'end'
       sideOffset?: number
       class?: string
     }>(),
-    { side: 'bottom', align: 'center', sideOffset: 8 },
+    { side: 'bottom', align: 'center', sideOffset: 8, modal: true },
   )
 
   const open = defineModel<boolean>('open')
+  const emit = defineEmits<DropdownMenuContentEmits>()
+  defineSlots<{ default?(): unknown; content?(): unknown }>()
+  const { trigger, reference, visible, events } = useAnchoredOverlay(props, open, emit)
 
   const pressOrigin = computed(() => {
     if (props.side === 'left') return 'right'
@@ -34,8 +42,10 @@
 </script>
 
 <template>
-  <DropdownMenuRoot v-model:open="open" modal>
+  <DropdownMenuRoot v-model:open="visible" :modal="props.modal" :dir="props.dir">
     <DropdownMenuTrigger
+      v-if="$slots.default"
+      ref="trigger"
       as-child
       class="group/hn-disclosure"
       :style="{ transformOrigin: pressOrigin }"
@@ -44,8 +54,10 @@
     </DropdownMenuTrigger>
     <DropdownMenuPortal>
       <DropdownMenuContent
+        v-if="reference"
+        v-bind="{ 'aria-label': props.label, ...$attrs, ...events }"
+        :reference="reference"
         as-child
-        :aria-label="props.label"
         :side="props.side"
         :align="props.align"
         :side-offset="props.sideOffset"

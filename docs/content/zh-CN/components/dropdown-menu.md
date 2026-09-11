@@ -76,6 +76,22 @@ import { DropdownMenu, DropdownMenuItem } from '@hina-ui/vue'
 
 <Demo name="dropdown-menu/controlled" />
 
+### 外部锚点 {#anchor}
+
+`anchor` 接受 `HTMLElement | null`，可省略默认插槽并使用 `v-model:open` 控制开关。锚点未就绪时菜单不显示；打开期间可以更换锚点，关闭时清空锚点会保留退场位置。
+
+同时提供默认插槽与 `anchor` 时，插槽负责触发，`anchor` 负责定位。外部元素的点击与键盘行为、`aria-haspopup="menu"` 和 `aria-expanded` 由调用方设置，菜单内部的键盘导航保持不变。外部定位规则与 [Popover](/components/popover#anchor) 一致。
+
+<Demo name="dropdown-menu/anchor" />
+
+### 模态与焦点 {#modal}
+
+`modal` 默认为 `true`，展开期间锁滚并限制外部交互；设置 `:modal="false"` 后，页面可继续滚动和交互，点击外部仍会关闭菜单。
+
+没有默认触发器时，关闭后恢复打开前的焦点，锚点仅负责定位；调用方已经将焦点移到菜单外时，不会恢复旧焦点。`closeAutoFocus` 可以取消焦点恢复，`interactOutside` 和 `escapeKeyDown` 可以取消对应的关闭行为。调用 `event.preventDefault()` 即可取消。
+
+通过 `label` 或 `aria-label` 为菜单提供名称，`aria-describedby` 和 `data-*` 属性会传给菜单面板。
+
 ### 不可用的条目 {#disabled}
 
 设置 `disabled` 的条目不可点击，用键盘在条目间移动时也会跳过它。
@@ -84,11 +100,11 @@ import { DropdownMenu, DropdownMenuItem } from '@hina-ui/vue'
 
 ## 行为 {#behavior}
 
-- 菜单展开期间页面停止滚动。
+- 默认模态下，菜单展开期间页面停止滚动。
 - 触发器在菜单展开期间保持按下时的样式。
 - 方向键在条目间移动，到首尾时循环；输入文字跳到匹配的条目；回车选中当前条目；Esc 收起菜单并把焦点交还给触发器。子菜单用向右方向键展开，向左方向键收起。
 - 选中普通条目或单选项后菜单收起，选中多选项后菜单保持展开。
-- 点击菜单以外的区域时菜单收起，这次点击不会传到下层的元素上。
+- 默认模态下，点击菜单以外的区域时菜单收起，这次点击不会传到下层的元素上。
 
 ## 无障碍 {#a11y}
 
@@ -105,6 +121,9 @@ import { DropdownMenu, DropdownMenuItem } from '@hina-ui/vue'
 | ------------ | ---------------------------------------- | ---------- | ---------------------- |
 | `open`       | `boolean`                                | —          | 是否展开，支持双向绑定 |
 | `label`      | `string`                                 | —          | 菜单的无障碍名称       |
+| `anchor`     | `HTMLElement \| null`                    | —          | 外部定位元素           |
+| `modal`      | `boolean`                                | `true`     | 是否限制外部交互并锁滚 |
+| `dir`        | `'ltr' \| 'rtl'`                         | 跟随配置   | 菜单方向               |
 | `side`       | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | 展开方向               |
 | `align`      | `'start' \| 'center' \| 'end'`           | `'center'` | 与触发器的对齐方式     |
 | `sideOffset` | `number`                                 | `8`        | 与触发器的距离         |
@@ -112,8 +131,16 @@ import { DropdownMenu, DropdownMenuItem } from '@hina-ui/vue'
 
 | 插槽      | 说明         |
 | --------- | ------------ |
-| `default` | 触发器       |
+| `default` | 可选触发器   |
 | `content` | 菜单中的条目 |
+
+| 事件                 | 参数                                           | 说明                                 |
+| -------------------- | ---------------------------------------------- | ------------------------------------ |
+| `closeAutoFocus`     | `Event`                                        | 关闭时恢复焦点前触发，可取消         |
+| `escapeKeyDown`      | `KeyboardEvent`                                | 按 Esc 时触发，可取消关闭            |
+| `pointerDownOutside` | `PointerDownOutsideEvent`                      | 外部按下时触发，可取消关闭           |
+| `focusOutside`       | `FocusOutsideEvent`                            | 焦点移到外部时触发，可取消关闭       |
+| `interactOutside`    | `PointerDownOutsideEvent \| FocusOutsideEvent` | 外部按下或焦点移出时触发，可取消关闭 |
 
 ### DropdownMenuItem {#item}
 

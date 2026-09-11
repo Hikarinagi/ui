@@ -24,7 +24,9 @@
   const open = defineModel<boolean>('open')
   const emit = defineEmits<PopoverContentEmits>()
   defineSlots<{ default?(): unknown; content?(): unknown }>()
-  const { trigger, reference, visible, events } = useAnchoredOverlay(props, open, emit)
+  const { trigger, reference, visible, events } = useAnchoredOverlay(props, open, emit, event =>
+    emit('openAutoFocus', event),
+  )
 
   const pressOrigin = computed(() => {
     if (props.side === 'left') return 'right'
