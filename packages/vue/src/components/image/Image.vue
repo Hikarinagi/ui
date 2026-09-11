@@ -114,8 +114,8 @@
       :draggable="props.draggable"
       :class="
         cn(
-          image({ fit: props.fit }),
-          props.lazy ? !revealed && 'opacity-0' : 'relative z-10',
+          image({ fit: props.fit, lazy: props.lazy }),
+          props.lazy && !revealed && 'opacity-0',
           props.imageClass,
         )
       "

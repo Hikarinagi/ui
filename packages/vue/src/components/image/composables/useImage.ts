@@ -75,7 +75,7 @@ export function useImage(
     const style = getComputedStyle(el)
     try {
       return el.animate(frames, {
-        duration: Number.parseFloat(style.getPropertyValue('--hn-duration-base')) || 0,
+        duration: Number.parseFloat(style.getPropertyValue('--hn-duration-fast')) || 0,
         easing: style.getPropertyValue('--hn-ease-enter').trim() || 'linear',
         fill: 'forwards',
       })
@@ -89,16 +89,19 @@ export function useImage(
   }
 
   async function reveal() {
-    revealed.value = true
-
     if (!props.lazy) {
+      revealed.value = true
       skeletonMounted.value = false
       return
     }
 
+    const img = imageEl.value
+    const at = src.value
     await nextTick()
     await afterPaint()
+    if (imageEl.value !== img || src.value !== at) return
 
+    revealed.value = true
     const layer = skeletonEl.value
     const anim = layer && play(layer, [{ opacity: 1 }, { opacity: 0 }])
     if (!anim) {
