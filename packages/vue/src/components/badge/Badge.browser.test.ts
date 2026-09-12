@@ -1,7 +1,9 @@
 import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest'
+import { userEvent } from '@vitest/browser/context'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { h } from 'vue'
 import Badge from './Badge.vue'
+import Button from '../button/Button.vue'
 import '../../../test/browser.css'
 
 let mounted: VueWrapper[] = []
@@ -89,4 +91,34 @@ describe('badge · 锚定徽标', () => {
     expect(w.findAll('span').length).toBe(before)
     await vi.waitFor(() => expect(w.findAll('span').length).toBe(before - 1), { timeout: 1500 })
   })
+})
+
+it.each([false, true])('角标覆盖的按钮区域仍能点击，bare=%s', async bare => {
+  const onClick = vi.fn()
+  const w = mount(Badge, {
+    props: { content: 5, bare },
+    global: { stubs: { transition: false } },
+    slots: {
+      default: () =>
+        h(Button, { onClick, ripple: false, class: 'size-10 rounded-none p-0' }, () => '通知'),
+      ...(bare ? { content: () => h('span', { class: 'inline-flex size-4' }, '5') } : {}),
+    },
+    attachTo: attach(),
+  })
+  mounted.push(w)
+  const button = w.find('button').element
+  const pill = w.element.lastElementChild as HTMLElement
+  const hostRect = button.getBoundingClientRect()
+  const pillRect = pill.getBoundingClientRect()
+  expect(pillRect.width).toBeGreaterThan(0)
+  expect(pillRect.height).toBeGreaterThan(0)
+  const rootRect = w.element.getBoundingClientRect()
+  const x = (Math.max(hostRect.left, pillRect.left) + Math.min(hostRect.right, pillRect.right)) / 2
+  const y = (Math.max(hostRect.top, pillRect.top) + Math.min(hostRect.bottom, pillRect.bottom)) / 2
+  const target = document.elementFromPoint(x, y)
+
+  await userEvent.click(w.element, { position: { x: x - rootRect.left, y: y - rootRect.top } })
+
+  expect(onClick).toHaveBeenCalledOnce()
+  expect(button.contains(target)).toBe(true)
 })
