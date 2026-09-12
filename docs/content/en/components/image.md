@@ -78,8 +78,8 @@ Put several pictures inside an `ImageGroup` and opening any of them lets you mov
 
 ## Behaviour {#behavior}
 
+- Preview transitions preserve rounded corners from the image and its clipping ancestors. Each picture uses the corners that meet its clipping boundaries.
 - The outer box fills its container width by default, with or without `preview`. An explicit width class overrides this default.
-
 - Lazy by default: an intersection observer watches the box, and the address is only attached once the picture comes within `rootMargin` of the viewport, which defaults to 200 pixels.
 - On the server the observer has not run yet, so a lazy picture is rendered without an address. Turn `lazy` off and `eager` on for first-screen pictures.
 - The skeleton covers the whole box, including the space left empty by `contain`. Once decoded, the picture fades in above it over 300ms while the skeleton fades out over 200ms, both with ease-out easing.

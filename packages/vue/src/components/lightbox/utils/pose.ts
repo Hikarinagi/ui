@@ -1,4 +1,5 @@
 import type { ImageVariants } from '../../image/image.variants'
+import type { Corners } from './clip'
 import { fitSize, rotatedSize, type Size } from './zoom'
 
 export interface Rect {
@@ -21,7 +22,7 @@ export const REST_POSE: Pose = {
   y: 0,
   scale: 1,
   rotate: 0,
-  clipPath: 'inset(0px 0px 0px 0px round 0px)',
+  clipPath: 'inset(0px 0px 0px 0px round 0px 0px 0px 0px / 0px 0px 0px 0px)',
 }
 export const TRAVEL_SPRING = { type: 'spring', visualDuration: 0.3, bounce: 0 } as const
 export const RETURN_SPRING = { ...TRAVEL_SPRING, visualDuration: 0.22 } as const
@@ -79,23 +80,40 @@ export function openPose(
   box: Rect,
   natural: Size,
   fit?: ImageVariants['fit'],
-  radius = 0,
+  radius: number | Corners = 0,
+  clipBox = box,
 ): Pose {
   const rendered = renderedRect(box, natural, fit)
   if (frame.width <= 0 || frame.height <= 0 || rendered.width <= 0) return REST_POSE
   const scale = rendered.width / frame.width
-  const visible = intersect(box, rendered)
+  const visible = intersect(intersect(box, clipBox), rendered)
   const top = (visible.y - rendered.y) / scale
   const left = (visible.x - rendered.x) / scale
   const right = (rendered.x + rendered.width - visible.x - visible.width) / scale
   const bottom = (rendered.y + rendered.height - visible.y - visible.height) / scale
-  const corner = Math.max(0, radius) / scale
+  const corners =
+    typeof radius === 'number'
+      ? Array.from({ length: 4 }, () => ({ x: radius, y: radius }))
+      : radius
+  const leftEdge = Math.abs(visible.x - clipBox.x) <= 0.5
+  const topEdge = Math.abs(visible.y - clipBox.y) <= 0.5
+  const rightEdge = Math.abs(visible.x + visible.width - clipBox.x - clipBox.width) <= 0.5
+  const bottomEdge = Math.abs(visible.y + visible.height - clipBox.y - clipBox.height) <= 0.5
+  const touches = [
+    leftEdge && topEdge,
+    rightEdge && topEdge,
+    rightEdge && bottomEdge,
+    leftEdge && bottomEdge,
+  ]
+  const clipped = corners.map((corner, index) => (touches[index] ? corner : { x: 0, y: 0 }))
+  const horizontal = clipped.map(corner => px(Math.max(0, corner.x) / scale)).join(' ')
+  const vertical = clipped.map(corner => px(Math.max(0, corner.y) / scale)).join(' ')
   return {
     x: rendered.x + rendered.width / 2 - (frame.x + frame.width / 2),
     y: rendered.y + rendered.height / 2 - (frame.y + frame.height / 2),
     scale,
     rotate: 0,
-    clipPath: `inset(${px(top)} ${px(right)} ${px(bottom)} ${px(left)} round ${px(corner)})`,
+    clipPath: `inset(${px(top)} ${px(right)} ${px(bottom)} ${px(left)} round ${horizontal} / ${vertical})`,
   }
 }
 
@@ -104,14 +122,6 @@ export function baseScale(frame: Size, stage: Size, rotation: number): number {
   if (visual.width <= 0 || visual.height <= 0) return 1
   if (rotation % 180 === 0) return 1
   return Math.min(stage.width / visual.width, stage.height / visual.height)
-}
-
-export function radiusOf(el: Element | null | undefined): number {
-  for (let node = el, depth = 0; node && depth < 2; node = node.parentElement, depth += 1) {
-    const value = Number.parseFloat(getComputedStyle(node).borderTopLeftRadius)
-    if (value > 0) return value
-  }
-  return 0
 }
 
 export function dismissProgress(offsetY: number, stageHeight: number): number {
