@@ -266,20 +266,43 @@
 }
 
 @utility hn-skeleton {
-  background-color: var(--hn-bg-subtle);
+  position: relative;
+  overflow: hidden;
+  background-color: var(--hn-skeleton-bg);
   border-radius: var(--hn-radius-md);
   color: transparent;
   cursor: default;
   pointer-events: none;
   user-select: none;
-  animation: hn-skeleton var(--hn-skeleton-duration) var(--hn-ease-move) infinite;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      rgb(255 255 255 / 0),
+      var(--hn-skeleton-wave),
+      rgb(255 255 255 / 0)
+    );
+    animation: hn-skeleton var(--hn-skeleton-duration) var(--hn-ease-move) infinite;
+  }
+
+  &:dir(rtl)::after {
+    animation-name: hn-skeleton-rtl;
+  }
 
   & * {
     visibility: hidden;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    animation: none;
+    &::after,
+    &:dir(rtl)::after {
+      animation: none;
+    }
   }
 }
 

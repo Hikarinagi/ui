@@ -1,12 +1,12 @@
 <script setup lang="ts">
-  import { computed, onBeforeUnmount, shallowRef, useId, watch } from 'vue'
+  import { computed, onBeforeUnmount, shallowRef, useId, watch, type StyleValue } from 'vue'
   import { Primitive } from 'reka-ui'
   import { cn } from '../../lib/cn'
   import { useRequiredLabel } from '../../lib/a11y'
   import Skeleton from '../skeleton/Skeleton.vue'
   import Lightbox from '../lightbox/Lightbox.vue'
   import type { LightboxItem } from '../lightbox/types'
-  import { image, type ImageVariants } from './image.variants'
+  import { image, imageRoot, type ImageVariants } from './image.variants'
   import { useImage } from './composables/useImage'
   import { useImageGroup } from './context'
   import { useImageResolver } from './resolver'
@@ -27,7 +27,9 @@
       preview?: boolean | string
       draggable?: boolean
       class?: string
+      style?: StyleValue
       imageClass?: string
+      imageStyle?: StyleValue
     }>(),
     {
       alt: '',
@@ -93,20 +95,15 @@
     ref="rootEl"
     :as="props.preview ? 'button' : 'span'"
     :type="props.preview ? 'button' : undefined"
-    :class="
-      cn(
-        'relative block overflow-hidden',
-        props.preview && 'hn-focus-ring cursor-zoom-in',
-        props.class,
-      )
-    "
-    :style="props.ratio ? { aspectRatio: String(props.ratio) } : undefined"
+    :class="cn(imageRoot({ preview: !!props.preview }), props.class)"
+    :style="[props.ratio ? { aspectRatio: String(props.ratio) } : undefined, props.style]"
     @click="openPreview"
   >
     <img
       v-if="showImage"
       ref="imageEl"
       v-bind="$attrs"
+      :style="props.imageStyle"
       :src="src"
       :alt="props.alt"
       :decoding="props.eager ? 'sync' : 'async'"
@@ -114,8 +111,8 @@
       :draggable="props.draggable"
       :class="
         cn(
-          image({ fit: props.fit }),
-          props.lazy ? !revealed && 'opacity-0' : 'relative z-10',
+          image({ fit: props.fit, lazy: props.lazy }),
+          props.lazy && !revealed && 'opacity-0',
           props.imageClass,
         )
       "

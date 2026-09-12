@@ -26,6 +26,12 @@ The picture waits until it comes near the viewport, with a skeleton holding the 
 
 <Demo name="image/ratio" />
 
+### Container and image styles {#styles}
+
+`class` and `style` apply to the outer box; `imageClass` and `imageStyle` apply to the inner `img`. `style` accepts strings, objects and arrays. Its `aspectRatio` overrides `ratio`.
+
+<Demo name="image/styles" />
+
 ### Fit {#fit}
 
 `fit` decides how the picture fills its box; the default is `cover`.
@@ -64,6 +70,8 @@ The small and large pictures can be two renditions: the resolver addresses each 
 
 <Demo name="image/preview" />
 
+Use [Lightbox](/components/lightbox) to control a preview independently.
+
 ### Groups {#group}
 
 Put several pictures inside an `ImageGroup` and opening any of them lets you move through the whole set, in the order they appear on the page. With `loop` on, paging wraps around at both ends.
@@ -72,10 +80,12 @@ Put several pictures inside an `ImageGroup` and opening any of them lets you mov
 
 ## Behaviour {#behavior}
 
+- Preview transitions preserve rounded corners from the image and its clipping ancestors. Each picture uses the corners that meet its clipping boundaries.
+- The outer box fills its container width by default, with or without `preview`. An explicit width class overrides this default.
 - Lazy by default: an intersection observer watches the box, and the address is only attached once the picture comes within `rootMargin` of the viewport, which defaults to 200 pixels.
 - On the server the observer has not run yet, so a lazy picture is rendered without an address. Turn `lazy` off and `eager` on for first-screen pictures.
-- The skeleton covers the whole box, including the space `contain` and friends leave empty. Once the picture is decoded it appears underneath, and only then does the skeleton fade away.
-- A lazy picture is not painted while the skeleton is up, so the skeleton's edge never lets the picture bleed through.
+- The skeleton covers the whole box, including the space left empty by `contain`. Once decoded, the picture fades in above it over 300ms while the skeleton fades out over 200ms, both with ease-out easing.
+- A lazy picture stays transparent until its fade begins. Disabling the skeleton keeps the picture's fade-in.
 - A picture with `lazy` off sits above the skeleton and appears as soon as the browser has painted it, without waiting for script; the skeleton beneath it is dropped outright, with no fade.
 - Where the browser has no intersection observer, the picture loads as soon as the component mounts rather than being held back forever.
 - Attributes that are not props land on the `img` element, so `sizes`, `srcset` and the like work as usual.
@@ -112,7 +122,9 @@ Put several pictures inside an `ImageGroup` and opening any of them lets you mov
 | `preview`    | `boolean \| string`                                        | `false`   | Opens for a closer look; an address becomes the large source |
 | `draggable`  | `boolean`                                                  | —         | Whether the picture can be dragged                           |
 | `class`      | `string`                                                   | —         | Classes appended to the box                                  |
+| `style`      | `StyleValue`                                               | —         | Inline styles for the outer box                              |
 | `imageClass` | `string`                                                   | —         | Classes appended to the `img`                                |
+| `imageStyle` | `StyleValue`                                               | —         | Inline styles for the `img`                                  |
 
 | Event   | Payload                   | Description                  |
 | ------- | ------------------------- | ---------------------------- |

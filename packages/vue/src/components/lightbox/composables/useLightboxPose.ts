@@ -1,5 +1,6 @@
 import type { useLightboxFrames } from './useLightboxFrames'
-import { openPose, radiusOf, type Pose, type Rect } from '../utils/pose'
+import { openPose, type Pose, type Rect } from '../utils/pose'
+import { clipOf } from '../utils/clip'
 import type { LightboxItem } from '../types'
 
 export function useLightboxPose(
@@ -28,7 +29,9 @@ export function useLightboxPose(
     const box = sourceBox()
     const natural = frames.naturalOf(item)
     if (!box || !natural) return null
-    return openPose(frames.frameOf(item), box, natural, item?.fit, radiusOf(item?.source?.()))
+    const clip = clipOf(item?.source?.(), box)
+    if (clip.rect.width <= 0 || clip.rect.height <= 0) return null
+    return openPose(frames.frameOf(item), box, natural, item?.fit, clip.corners, clip.rect)
   }
 
   return { fromSource }

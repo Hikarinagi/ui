@@ -4,6 +4,7 @@
   import PopoverContent from './PopoverContent.vue'
   import { useAnchoredOverlay } from '../../lib/anchored-overlay'
   import Card from '../card/Card.vue'
+  import { useOverlayPortal } from '../../lib/overlay-portal'
   import { cn } from '../../lib/cn'
 
   defineOptions({ name: 'HnPopover', inheritAttrs: false })
@@ -28,6 +29,8 @@
     emit('openAutoFocus', event),
   )
 
+  const { content, present } = useOverlayPortal(visible)
+
   const pressOrigin = computed(() => {
     if (props.side === 'left') return 'right'
     if (props.side === 'right') return 'left'
@@ -41,13 +44,13 @@
   <PopoverRoot v-model:open="visible" :modal="props.modal">
     <PopoverTrigger
       v-if="$slots.default"
-      ref="trigger"
+      :ref="trigger"
       as-child
       :style="{ transformOrigin: pressOrigin }"
     >
       <slot />
     </PopoverTrigger>
-    <PopoverPortal>
+    <PopoverPortal v-if="present">
       <PopoverContent
         v-bind="{ ...$attrs, ...events }"
         :reference="reference"
@@ -57,6 +60,7 @@
         :side-offset="props.sideOffset"
       >
         <Card
+          ref="content"
           :padded="props.padded"
           :class="cn('hn-anim-pop z-(--hn-z-overlay) max-w-sm shadow-md outline-none', props.class)"
         >

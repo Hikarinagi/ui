@@ -5,7 +5,7 @@ export function useWheelRedirect(
   enabled: () => boolean,
 ) {
   function onWheel(event: WheelEvent) {
-    if (!enabled()) return
+    if (event.defaultPrevented || !enabled()) return
     const el = viewport.value
     if (!el) return
     if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return

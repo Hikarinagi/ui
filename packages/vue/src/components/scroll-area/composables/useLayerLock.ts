@@ -13,10 +13,6 @@ const useBodyPointerLock = createSharedComposable(() => {
   return locked
 })
 
-function block(event: Event) {
-  event.preventDefault()
-}
-
 export function useLayerLock(viewport: ShallowRef<HTMLElement | undefined>) {
   const locked = useBodyPointerLock()
   let release: (() => void) | undefined
@@ -25,12 +21,15 @@ export function useLayerLock(viewport: ShallowRef<HTMLElement | undefined>) {
     release?.()
     release = undefined
     const el = viewport.value
-    if (!el || !locked.value || getComputedStyle(el).pointerEvents !== 'none') return
-    el.addEventListener('wheel', block, { passive: false })
-    el.addEventListener('touchmove', block, { passive: false })
+    if (!el || !locked.value) return
+    const block = (event: Event) => {
+      if (getComputedStyle(el).pointerEvents === 'none') event.preventDefault()
+    }
+    el.addEventListener('wheel', block, { passive: false, capture: true })
+    el.addEventListener('touchmove', block, { passive: false, capture: true })
     release = () => {
-      el.removeEventListener('wheel', block)
-      el.removeEventListener('touchmove', block)
+      el.removeEventListener('wheel', block, true)
+      el.removeEventListener('touchmove', block, true)
     }
   }
 

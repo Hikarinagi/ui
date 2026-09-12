@@ -267,6 +267,12 @@ export const components: DocsComponent[] = [
     category: 'forms',
   },
   { label: 'Kbd', to: '/components/kbd', i18n: 'components.kbd', category: 'typography' },
+  {
+    label: 'Lightbox',
+    to: '/components/lightbox',
+    i18n: 'components.lightbox',
+    category: 'overlays',
+  },
   { label: 'Link', to: '/components/link', i18n: 'components.link', category: 'typography' },
   { label: 'List', to: '/components/list', i18n: 'components.list', category: 'typography' },
   { label: 'Listbox', to: '/components/listbox', i18n: 'components.listbox', category: 'forms' },

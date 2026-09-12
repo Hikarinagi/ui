@@ -1,6 +1,6 @@
 import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { defineComponent, h } from 'vue'
+import { defineComponent, h, ref } from 'vue'
 import Image from './Image.vue'
 import '../../../test/browser.css'
 
@@ -13,6 +13,7 @@ beforeEach(() => {
 afterEach(() => {
   mounted.forEach(w => w.unmount())
   mounted = []
+  vi.restoreAllMocks()
 })
 
 const PIXEL = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='
@@ -30,7 +31,7 @@ function mountImage(props: Record<string, unknown>) {
 }
 
 describe('image · 加载', () => {
-  it('懒加载时骨架盖在图片之上,contain 的留白处也被盖住', () => {
+  it('懒加载时骨架铺满外框,图片在其上层淡入', () => {
     const w = mountImage({ src: PIXEL, fit: 'contain', ratio: 2, class: 'w-40' })
     const img = w.find('img').element as HTMLElement
     const layer = (w.element.querySelector('.hn-skeleton') as HTMLElement).parentElement!
@@ -41,7 +42,8 @@ describe('image · 加载', () => {
     expect(Math.round(box.height)).toBe(Math.round(host.height))
 
     expect(getComputedStyle(layer).position).toBe('absolute')
-    expect(getComputedStyle(img).position).toBe('static')
+    expect(getComputedStyle(img).position).toBe('relative')
+    expect(getComputedStyle(img).zIndex).toBe('10')
   })
 
   it('首屏图压在骨架上层,不等脚本就能显示', () => {
@@ -116,4 +118,116 @@ describe('image · 懒加载', () => {
     const w = mountBelowFold({ lazy: false })
     expect(w.find('img').attributes('src')).toBe(PIXEL)
   })
+})
+
+it.each([true, false])('懒加载图片淡入,独立于骨架是否开启 skeleton=%s', async skeleton => {
+  const w = mountImage({ src: PIXEL, skeleton, class: 'h-20 w-20' })
+  const img = w.find('img').element as HTMLImageElement
+  let imageFade: Animation | undefined
+  let skeletonFade: Animation | undefined
+  await vi.waitFor(() => {
+    imageFade = img.getAnimations().find(animation => animation instanceof CSSTransition)
+    expect(imageFade).toBeTruthy()
+    imageFade!.pause()
+    if (skeleton) {
+      const layer = w.element.querySelector('.hn-skeleton')?.parentElement
+      skeletonFade = layer?.getAnimations()[0]
+      expect(skeletonFade).toBeTruthy()
+      skeletonFade!.pause()
+    }
+  })
+  expect(imageFade!.effect!.getTiming().duration).toBe(300)
+  imageFade!.currentTime = 100
+  expect(Number(getComputedStyle(img).opacity)).toBeGreaterThan(0)
+  expect(Number(getComputedStyle(img).opacity)).toBeLessThan(1)
+  if (skeletonFade) {
+    expect(skeletonFade.effect!.getTiming().duration).toBe(200)
+    skeletonFade.currentTime = 100
+    const layer = w.element.querySelector('.hn-skeleton')!.parentElement!
+    expect(Number(getComputedStyle(layer).opacity)).toBeGreaterThan(0)
+    expect(Number(getComputedStyle(layer).opacity)).toBeLessThan(1)
+    skeletonFade.finish()
+  }
+  imageFade!.finish()
+  await vi.waitFor(() => expect(w.element.querySelector('.hn-skeleton')).toBeNull())
+  expect(getComputedStyle(img).opacity).toBe('1')
+})
+
+it('等待淡入开始时换源,上一张图片的动画不会提前揭示新图', async () => {
+  let finishDecode: (() => void) | undefined
+  vi.spyOn(HTMLImageElement.prototype, 'decode').mockImplementation(function (
+    this: HTMLImageElement,
+  ) {
+    return this.src.endsWith('#second')
+      ? new Promise<void>(resolve => {
+          finishDecode = resolve
+        })
+      : Promise.resolve()
+  })
+  const src = ref(PIXEL)
+  const w = mount(
+    {
+      setup: () => () =>
+        h(Image, {
+          src: src.value,
+          class: 'h-20 w-20',
+          onLoad: () => {
+            src.value = PIXEL + '#second'
+          },
+        }),
+    },
+    { attachTo: attach() },
+  )
+  mounted.push(w)
+  await vi.waitFor(() => expect(finishDecode).toBeTypeOf('function'))
+  await new Promise<void>(resolve =>
+    requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+  )
+  const img = w.find('img').element as HTMLImageElement
+  expect(getComputedStyle(img).opacity).toBe('0')
+  expect(w.element.querySelector('.hn-skeleton')).not.toBeNull()
+  finishDecode!()
+  await vi.waitFor(() => expect(getComputedStyle(img).opacity).toBe('1'))
+})
+
+it.each([
+  { preview: false, class: undefined, width: 262 },
+  { preview: true, class: undefined, width: 262 },
+  { preview: true, class: 'w-40', width: 160 },
+])('加载前后保持容器尺寸 preview=$preview class=$class', async props => {
+  const host = attach()
+  host.style.width = '262px'
+  const w = mount(Image, {
+    props: { src: PIXEL, alt: '封面', ratio: 0.707, preview: props.preview, class: props.class },
+    attachTo: host,
+  })
+  mounted.push(w)
+  const img = w.find('img').element as HTMLImageElement
+  expect(img.naturalWidth).toBe(0)
+  const before = w.element.getBoundingClientRect()
+  expect(before.width).toBe(props.width)
+  expect(before.height).toBeCloseTo(props.width / 0.707, 1)
+  await vi.waitFor(() => expect(img.naturalWidth).toBeGreaterThan(0))
+  const after = w.element.getBoundingClientRect()
+  expect(after.width).toBe(before.width)
+  expect(after.height).toBe(before.height)
+})
+
+it.each([true, false])('style 给外框和骨架定框 preview=%s', async preview => {
+  const w = mountImage({
+    src: PIXEL,
+    alt: '定框图片',
+    preview,
+    style: { width: '160px', height: '90px' },
+    imageStyle: { objectPosition: 'left top' },
+  })
+  const before = w.element.getBoundingClientRect()
+  const skeleton = w.element.querySelector('.hn-skeleton')!.getBoundingClientRect()
+  expect([before.width, before.height]).toEqual([160, 90])
+  expect([skeleton.width, skeleton.height]).toEqual([160, 90])
+  const img = w.find('img').element as HTMLImageElement
+  await vi.waitFor(() => expect(img.naturalWidth).toBeGreaterThan(0))
+  const after = w.element.getBoundingClientRect()
+  expect([after.width, after.height]).toEqual([160, 90])
+  expect(getComputedStyle(img).objectPosition).toBe('0% 0%')
 })

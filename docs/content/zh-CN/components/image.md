@@ -26,6 +26,12 @@ import { Image } from '@hina-ui/vue'
 
 <Demo name="image/ratio" />
 
+### 外框与图片样式 {#styles}
+
+`class`、`style` 设置外框，`imageClass`、`imageStyle` 设置内部的 `img`。`style` 支持字符串、对象和数组；其中的 `aspectRatio` 会覆盖 `ratio`。
+
+<Demo name="image/styles" />
+
 ### 填充方式 {#fit}
 
 `fit` 决定图片如何填满外框，默认为 `cover`。
@@ -64,6 +70,8 @@ import { Image } from '@hina-ui/vue'
 
 <Demo name="image/preview" />
 
+需要独立控制预览时，可以直接使用 [Lightbox](/components/lightbox)。
+
 ### 分组 {#group}
 
 把多张图片放进 `ImageGroup`，点击任意一张后可以在整组之间切换，顺序与页面上的顺序一致。开启 `loop` 后翻页首尾相接。
@@ -72,10 +80,12 @@ import { Image } from '@hina-ui/vue'
 
 ## 行为 {#behavior}
 
+- 预览的开关动画保留图片及外层裁剪容器的圆角；多图布局按每张图片实际接触的裁剪边界分别计算四角。
+- 外框默认撑满容器宽度，开启或关闭 `preview` 时一致；显式宽度类名可以覆盖默认值。
 - 默认懒加载：交叉观察器观察外框，图片距视口不足 `rootMargin` 时才带上地址开始请求，该值默认为 200 像素。
 - 服务端渲染阶段观察器尚未介入，懒加载的图片先不带地址。首屏图片应当关闭 `lazy` 并开启 `eager`。
-- 骨架盖在图片之上并铺满外框，`fit` 为 `contain` 时留出的空白同样被覆盖。图片解码完成之后骨架才淡出。
-- 懒加载的图片在骨架期间不绘制，因此骨架边缘不会透出图片。
+- 骨架铺满外框，`fit` 为 `contain` 时留出的空白同样被覆盖。图片解码完成后，在骨架上层以 300ms 淡入，骨架同时以 200ms 淡出，两者均使用 ease-out 曲线。
+- 懒加载的图片在淡入开始前保持透明；关闭骨架后，图片仍然淡入。
 - 关闭 `lazy` 的图片位于骨架上层，浏览器完成绘制即可见，无需等待脚本；其下方的骨架直接移除，不做淡出。
 - 浏览器不支持交叉观察器时，组件挂载后立即加载，不会使图片始终无法显示。
 - 组件未声明的其余特性会落到 `img` 上，因此 `sizes`、`srcset` 之类照常可用。
@@ -112,7 +122,9 @@ import { Image } from '@hina-ui/vue'
 | `preview`    | `boolean \| string`                                        | `false`   | 是否可以点击放大查看，传入字符串时作为大图地址 |
 | `draggable`  | `boolean`                                                  | —         | 图片是否可拖拽                                 |
 | `class`      | `string`                                                   | —         | 追加至外框的类名                               |
+| `style`      | `StyleValue`                                               | —         | 外框的内联样式                                 |
 | `imageClass` | `string`                                                   | —         | 追加至 `img` 的类名                            |
+| `imageStyle` | `StyleValue`                                               | —         | `img` 的内联样式                               |
 
 | 事件    | 参数                      | 说明               |
 | ------- | ------------------------- | ------------------ |

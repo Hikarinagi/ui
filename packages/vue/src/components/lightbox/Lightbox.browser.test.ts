@@ -823,3 +823,40 @@ describe('lightbox · 分组与翻页', () => {
     await vi.waitFor(() => expect(dialog()).toBeNull(), { timeout: 2000 })
   })
 })
+
+it.each(['div', 'figure'])('开关灯箱时保留外层 %s 的圆角形变', async tag => {
+  const w = mount(
+    {
+      setup: () => () =>
+        h(
+          tag,
+          {
+            style: 'width:192px;height:128px;overflow:hidden;border-radius:16px',
+          },
+          h(
+            'div',
+            { style: 'width:100%;height:100%' },
+            h(Image, {
+              src: picture(400, 200),
+              alt: '圆角图片',
+              preview: true,
+              lazy: false,
+              class: 'size-full',
+            }),
+          ),
+        ),
+    },
+    { attachTo: document.body },
+  )
+  mounted.push(w)
+  const img = w.find('img').element as HTMLImageElement
+  await vi.waitFor(() => expect(img.naturalWidth).toBe(400))
+  await open(w.find('button').element)
+  const corner = () =>
+    Number.parseFloat(getComputedStyle(frame()!).clipPath.match(/round ([\d.]+)/)?.[1] ?? '0')
+  await vi.waitFor(() => expect(corner()).toBeGreaterThan(0))
+  await vi.waitFor(() => expect(dialog()?.dataset.hnPhase).toBe('open'))
+  await userEvent.keyboard('{Escape}')
+  await vi.waitFor(() => expect(corner()).toBeGreaterThan(0))
+  await vi.waitFor(() => expect(dialog()).toBeNull())
+})

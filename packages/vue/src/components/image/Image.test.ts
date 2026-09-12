@@ -233,3 +233,34 @@ describe('预览', () => {
     warn.mockRestore()
   })
 })
+
+describe('样式归属', () => {
+  it.each([
+    { style: { width: '160px', height: '90px' } },
+    { style: 'width: 160px; height: 90px' },
+    { style: [{ width: '160px' }, { height: '90px' }] },
+  ])('外框接收 style,图片接收 imageStyle: $style', ({ style }) => {
+    const w = mount(Image, {
+      props: {
+        src: '/a.webp',
+        lazy: false,
+        style,
+        imageStyle: { objectPosition: 'left top' },
+      },
+      attrs: { sizes: '160px' },
+    })
+    expect((w.element as HTMLElement).style.width).toBe('160px')
+    expect((w.element as HTMLElement).style.height).toBe('90px')
+    expect((w.element as HTMLElement).style.objectPosition).toBe('')
+    expect((w.find('img').element as HTMLElement).style.width).toBe('')
+    expect((w.find('img').element as HTMLElement).style.objectPosition).toBe('left top')
+    expect(w.find('img').attributes('sizes')).toBe('160px')
+  })
+
+  it('显式 style 可以覆盖 ratio,清除覆盖后恢复比例', async () => {
+    const w = mount(Image, { props: { ratio: 1, style: { aspectRatio: '2' } } })
+    expect((w.element as HTMLElement).style.aspectRatio).toBe('2 / 1')
+    await w.setProps({ style: undefined })
+    expect((w.element as HTMLElement).style.aspectRatio).toBe('1 / 1')
+  })
+})

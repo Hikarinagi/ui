@@ -354,7 +354,8 @@
     "select": "从列表中选择一项",
     "skeleton": "内容加载期间保持其形状的占位块",
     "slider": "在数值范围内拖动取值",
-    "image": "懒加载、撑住位置并在失败时回退的图片"
+    "image": "懒加载、撑住位置并在失败时回退的图片",
+    "lightbox": "独立控制打开状态和图片序列的全屏预览"
   },
   "names": {
     "accordion": "折叠列表",
@@ -409,6 +410,7 @@
     "hover-card": "悬停卡片",
     "icon-button": "图标按钮",
     "image": "图片",
+    "lightbox": "图片预览",
     "indicator": "状态点",
     "inline": "行内排列",
     "input": "输入框",

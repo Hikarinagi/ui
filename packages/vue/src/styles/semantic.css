@@ -72,6 +72,8 @@
     0 40px 80px -24px rgb(0 0 0 / 0.16);
 
   --hn-scroll-shadow: rgb(0 0 0 / 0.1);
+  --hn-skeleton-bg: var(--color-neutral-200);
+  --hn-skeleton-wave: rgb(255 255 255 / 0.4);
 
   --hn-z-overlay: 100;
   --hn-z-toast: 110;
@@ -146,6 +148,8 @@
     0 32px 64px -16px rgb(0 0 0 / 0.55);
 
   --hn-scroll-shadow: rgb(0 0 0 / 0.5);
+  --hn-skeleton-bg: rgb(255 255 255 / 0.06);
+  --hn-skeleton-wave: rgb(255 255 255 / 0.04);
 }
 
 :root {
@@ -202,7 +206,7 @@
   --hn-travel-md: 10px;
   --hn-stagger: 24ms;
   --hn-spin-duration: 700ms;
-  --hn-skeleton-duration: 2200ms;
+  --hn-skeleton-duration: 1200ms;
   --hn-ripple-in: 75ms;
   --hn-ripple-out: 375ms;
   --hn-pulse-duration: 1500ms;

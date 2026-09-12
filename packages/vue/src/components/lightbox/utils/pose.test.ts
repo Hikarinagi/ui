@@ -68,13 +68,17 @@ describe('openPose', () => {
     expect(pose.scale).toBeCloseTo(0.4)
     expect(pose.x).toBeCloseTo(-300)
     expect(pose.y).toBeCloseTo(-200)
-    expect(pose.clipPath).toBe('inset(0px 250px 0px 250px round 0px)')
+    expect(pose.clipPath).toBe('inset(0px 250px 0px 250px round 0px 0px 0px 0px / 0px 0px 0px 0px)')
   })
 
   it('缩略图的圆角按缩放比放大后写进裁切,静止姿态圆角为零', () => {
     const pose = openPose(frame, box, natural, 'cover', 8)
-    expect(pose.clipPath).toBe('inset(0px 250px 0px 250px round 20px)')
-    expect(REST_POSE.clipPath).toBe('inset(0px 0px 0px 0px round 0px)')
+    expect(pose.clipPath).toBe(
+      'inset(0px 250px 0px 250px round 20px 20px 20px 20px / 20px 20px 20px 20px)',
+    )
+    expect(REST_POSE.clipPath).toBe(
+      'inset(0px 0px 0px 0px round 0px 0px 0px 0px / 0px 0px 0px 0px)',
+    )
   })
 
   it('变换后可见区域与缩略图盒子重合', () => {
@@ -94,7 +98,12 @@ describe('openPose', () => {
   it('contain 缩略图不裁切', () => {
     const pose = openPose(frame, box, natural, 'contain')
     expect(pose.scale).toBeCloseTo(0.2)
-    expect(pose.clipPath).toBe('inset(0px 0px 0px 0px round 0px)')
+    expect(pose.clipPath).toBe('inset(0px 0px 0px 0px round 0px 0px 0px 0px / 0px 0px 0px 0px)')
+  })
+
+  it('contain 留白使图片远离圆角时不裁圆角', () => {
+    const pose = openPose(frame, box, natural, 'contain', 16)
+    expect(pose.clipPath).toBe(REST_POSE.clipPath)
   })
 
   it('缩略图与舞台盒子重合时是静止姿态', () => {

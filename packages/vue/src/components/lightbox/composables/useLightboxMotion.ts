@@ -84,7 +84,9 @@ export function useLightboxMotion(stageHeight: () => number, restScale: () => nu
   function leave(to: Pose | null): Promise<void> {
     stop()
     const t = to ? timing(RETURN_SPRING) : transition('exit')
-    const travel = to ? poseTo(to, t) : [animate(scale, FADE_POSE.scale, t), animate(opacity, 0, t)]
+    const travel = to
+      ? poseTo(to, t)
+      : [animate(scale, Math.min(scale.get(), FADE_POSE.scale), t), animate(opacity, 0, t)]
     return settle([...travel, animate(presence, 0, t)])
   }
 

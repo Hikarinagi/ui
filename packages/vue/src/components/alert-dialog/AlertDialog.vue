@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import {
     AlertDialogCancel,
-    AlertDialogContent,
     AlertDialogDescription,
     AlertDialogOverlay,
     AlertDialogPortal,
@@ -9,8 +8,10 @@
     AlertDialogTitle,
     AlertDialogTrigger,
   } from 'reka-ui'
+  import { useOverlayPortal } from '../../lib/overlay-portal'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
+  import ModalContent from '../dialog/ModalContent.vue'
   import Button from '../button/Button.vue'
   import Card from '../card/Card.vue'
   import { dialogCard, dialogWrapper } from '../dialog/dialog.variants'
@@ -45,6 +46,7 @@
   const emit = defineEmits<{ cancel: []; error: [error: unknown] }>()
 
   const open = defineModel<boolean>('open')
+  const { content, present } = useOverlayPortal(open)
   const t = useUiLocale()
   const remaining = useConfirmDelay(open, () => props.confirmDelay)
   const { busy, guard, confirm } = useAlertDialogConfirm(
@@ -60,11 +62,12 @@
     <AlertDialogTrigger v-if="$slots.default" as-child>
       <slot />
     </AlertDialogTrigger>
-    <AlertDialogPortal>
+    <AlertDialogPortal v-if="present">
       <AlertDialogOverlay class="hn-scrim" />
       <div :class="dialogWrapper({ placement: props.placement ?? 'auto' })">
-        <AlertDialogContent as-child @escape-key-down="guard">
+        <ModalContent alert as-child @escape-key-down="guard">
           <Card
+            ref="content"
             :padded="false"
             data-hn-alert-dialog
             :aria-busy="busy || undefined"
@@ -98,7 +101,7 @@
               </Button>
             </div>
           </Card>
-        </AlertDialogContent>
+        </ModalContent>
       </div>
     </AlertDialogPortal>
   </AlertDialogRoot>

@@ -45,7 +45,7 @@
   <DropdownMenuRoot v-model:open="visible" :modal="props.modal" :dir="props.dir">
     <DropdownMenuTrigger
       v-if="$slots.default"
-      ref="trigger"
+      :ref="trigger"
       as-child
       class="group/hn-disclosure"
       :style="{ transformOrigin: pressOrigin }"
