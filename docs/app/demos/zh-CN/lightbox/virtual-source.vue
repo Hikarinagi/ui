@@ -25,7 +25,7 @@
     tone="neutral"
     :ripple="false"
     aria-label="预览背景图片"
-    class="h-36 w-64 cursor-zoom-in rounded-none bg-cover bg-center p-0"
+    class="h-36 w-64 cursor-zoom-in rounded-none border-0 bg-cover bg-center bg-no-repeat p-0"
     :style="{ backgroundImage: 'url(/sample.webp)' }"
     @click="show"
   />

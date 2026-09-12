@@ -26,7 +26,7 @@
     tone="neutral"
     :ripple="false"
     aria-label="Open image preview"
-    class="h-auto w-64 cursor-zoom-in overflow-hidden rounded-xl p-0"
+    class="h-auto w-64 cursor-zoom-in overflow-hidden rounded-xl border-0 p-0"
     @click="show"
   >
     <Image
