@@ -72,6 +72,16 @@ The small and large pictures can be two renditions: the resolver addresses each 
 
 Use [Lightbox](/components/lightbox) to control a preview independently.
 
+### Preview dimensions {#preview-size}
+
+Use `previewSize` to provide the final preview image’s intrinsic pixel dimensions. When `preview` resolves to a separate image, the dimensions describe that larger image; otherwise they describe the current image. The initial fit and zoom limit are known before opening, so the preview expands directly to its final size and loading the larger image only replaces its pixels.
+
+Both dimensions must be finite positive numbers. Valid explicit dimensions take precedence over decoded dimensions. Omitted or invalid values keep automatic sizing. `previewSize` only affects the preview; `class`, `style` and `ratio` still control the picture’s outer box on the page.
+
+The example compares automatic and supplied dimensions using the same 320 × 180 thumbnail and 1200 × 675 larger image.
+
+<Demo name="image/preview-size" />
+
 ### Groups {#group}
 
 Put several pictures inside an `ImageGroup` and opening any of them lets you move through the whole set, in the order they appear on the page. With `loop` on, paging wraps around at both ends.
@@ -108,23 +118,24 @@ Put several pictures inside an `ImageGroup` and opening any of them lets you mov
 
 ## API {#api}
 
-| Prop         | Type                                                       | Default   | Description                                                  |
-| ------------ | ---------------------------------------------------------- | --------- | ------------------------------------------------------------ |
-| `src`        | `string`                                                   | —         | The address, passed through the resolver                     |
-| `alt`        | `string`                                                   | `''`      | Alternative text                                             |
-| `fallback`   | `string`                                                   | —         | Loaded when `src` fails                                      |
-| `fit`        | `'cover' \| 'contain' \| 'fill' \| 'none' \| 'scale-down'` | `'cover'` | How the picture fills its box                                |
-| `ratio`      | `number`                                                   | —         | Width divided by height, reserved in advance                 |
-| `lazy`       | `boolean`                                                  | `true`    | Wait until it nears the viewport                             |
-| `rootMargin` | `string`                                                   | `'200px'` | How early loading starts                                     |
-| `skeleton`   | `boolean`                                                  | `true`    | Whether a skeleton shows while loading                       |
-| `eager`      | `boolean`                                                  | `false`   | Request at high priority, decode in sync                     |
-| `preview`    | `boolean \| string`                                        | `false`   | Opens for a closer look; an address becomes the large source |
-| `draggable`  | `boolean`                                                  | —         | Whether the picture can be dragged                           |
-| `class`      | `string`                                                   | —         | Classes appended to the box                                  |
-| `style`      | `StyleValue`                                               | —         | Inline styles for the outer box                              |
-| `imageClass` | `string`                                                   | —         | Classes appended to the `img`                                |
-| `imageStyle` | `StyleValue`                                               | —         | Inline styles for the `img`                                  |
+| Prop          | Type                                                       | Default   | Description                                                                       |
+| ------------- | ---------------------------------------------------------- | --------- | --------------------------------------------------------------------------------- |
+| `src`         | `string`                                                   | —         | The address, passed through the resolver                                          |
+| `alt`         | `string`                                                   | `''`      | Alternative text                                                                  |
+| `fallback`    | `string`                                                   | —         | Loaded when `src` fails                                                           |
+| `fit`         | `'cover' \| 'contain' \| 'fill' \| 'none' \| 'scale-down'` | `'cover'` | How the picture fills its box                                                     |
+| `ratio`       | `number`                                                   | —         | Width divided by height, reserved in advance                                      |
+| `lazy`        | `boolean`                                                  | `true`    | Wait until it nears the viewport                                                  |
+| `rootMargin`  | `string`                                                   | `'200px'` | How early loading starts                                                          |
+| `skeleton`    | `boolean`                                                  | `true`    | Whether a skeleton shows while loading                                            |
+| `eager`       | `boolean`                                                  | `false`   | Request at high priority, decode in sync                                          |
+| `preview`     | `boolean \| string`                                        | `false`   | Opens for a closer look; an address becomes the large source                      |
+| `previewSize` | `{ width: number; height: number }`                        | —         | Intrinsic dimensions of the final preview image; both must be finite and positive |
+| `draggable`   | `boolean`                                                  | —         | Whether the picture can be dragged                                                |
+| `class`       | `string`                                                   | —         | Classes appended to the box                                                       |
+| `style`       | `StyleValue`                                               | —         | Inline styles for the outer box                                                   |
+| `imageClass`  | `string`                                                   | —         | Classes appended to the `img`                                                     |
+| `imageStyle`  | `StyleValue`                                               | —         | Inline styles for the `img`                                                       |
 
 | Event   | Payload                   | Description                  |
 | ------- | ------------------------- | ---------------------------- |

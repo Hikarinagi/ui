@@ -3,6 +3,18 @@ import type { LightboxItem } from '../types'
 import { fitRect, type Rect } from '../utils/pose'
 import type { Size } from '../utils/zoom'
 
+function previewSizeOf(item: LightboxItem | undefined): Size | undefined {
+  const size = item?.previewSize
+  if (
+    size &&
+    Number.isFinite(size.width) &&
+    size.width > 0 &&
+    Number.isFinite(size.height) &&
+    size.height > 0
+  )
+    return size
+}
+
 export function useLightboxFrames(items: () => LightboxItem[]) {
   const stage = shallowRef<Size>({ width: 0, height: 0 })
   const naturals = reactive(new Map<string, Size & { src: string }>())
@@ -50,7 +62,7 @@ export function useLightboxFrames(items: () => LightboxItem[]) {
       }
     }
     const item = current?.()
-    if (!item || naturalOf(item)) return
+    if (!item || previewSizeOf(item) || naturalOf(item)) return
     const img = new Image()
     loader = img
     const { id, src } = item
@@ -102,6 +114,8 @@ export function useLightboxFrames(items: () => LightboxItem[]) {
 
   function displayOf(item: LightboxItem | undefined): Size | undefined {
     if (!item) return
+    const size = previewSizeOf(item)
+    if (size) return size
     const preview = previews.get(item.id)
     return preview?.src === item.src && preview.preview === item.preview ? preview : naturalOf(item)
   }

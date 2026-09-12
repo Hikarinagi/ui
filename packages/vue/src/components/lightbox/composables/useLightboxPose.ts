@@ -16,7 +16,7 @@ export function useLightboxPose(
     const natural =
       el?.naturalWidth && el.naturalHeight
         ? { width: el.naturalWidth, height: el.naturalHeight }
-        : frames.naturalOf(item)
+        : (frames.naturalOf(item) ?? frames.displayOf(item))
     if (!box || !natural) return null
     const stage = frames.stage.value
     if (

@@ -1,8 +1,10 @@
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import { page, userEvent } from '@vitest/browser/context'
 import { mount, type VueWrapper } from '@vue/test-utils'
+import { h } from 'vue'
 import Lightbox from './Lightbox.vue'
 import Image from '../image/Image.vue'
+import ImageGroup from '../image/ImageGroup.vue'
 import '../../../test/browser.css'
 
 let wrapper: VueWrapper | undefined
@@ -263,4 +265,130 @@ it('独立灯箱的来源缩略图与 src 不同时,按 src 的真实尺寸缩�
     await nextFrame()
   }
   expect(leaving.at(-1)!.width).toBeCloseTo(100, 0)
+})
+
+it.each(['Image', 'ImageGroup'])(
+  '%s 的 previewSize 让开场直接到最终尺寸,高清替换时大小和缩放保持稳定',
+  async component => {
+    const small = picture(320, 180)
+    const large = picture(1920, 1080)
+    let release!: () => void
+    const gate = new Promise<void>(resolve => {
+      release = resolve
+    })
+    const decode = HTMLImageElement.prototype.decode
+    vi.spyOn(HTMLImageElement.prototype, 'decode').mockImplementation(function (
+      this: HTMLImageElement,
+    ) {
+      const pending = decode.call(this)
+      return this.src === large ? pending.then(() => gate) : pending
+    })
+    const props = {
+      src: small,
+      preview: large,
+      previewSize: { width: 1920, height: 1080 },
+      alt: '已知尺寸',
+      lazy: false,
+      style: { width: '160px', height: '90px' },
+    }
+    wrapper =
+      component === 'Image'
+        ? mount(Image, { props, attachTo: document.body })
+        : mount(ImageGroup, { slots: { default: () => h(Image, props) }, attachTo: document.body })
+    await vi.waitFor(() =>
+      expect((wrapper!.find('img').element as HTMLImageElement).naturalWidth).toBe(320),
+    )
+    const trigger = wrapper.find('button').element
+    const source = trigger.getBoundingClientRect()
+    expect(source.width).toBe(160)
+    expect(source.height).toBe(90)
+    expect(wrapper.find('img').attributes('previewsize')).toBeUndefined()
+    await userEvent.click(trigger)
+    const entering: DOMRect[] = []
+    while (dialog()?.dataset.hnPhase !== 'open') {
+      if (dialog()) entering.push(frame().getBoundingClientRect())
+      await nextFrame()
+    }
+    expect(Math.min(...entering.map(rect => rect.width))).toBeLessThan(240)
+    expect(width()).toBeGreaterThan(1000)
+    expect(frame().querySelectorAll('img')).toHaveLength(1)
+    const initial = frame().getBoundingClientRect()
+    await userEvent.click(tool('原始尺寸'))
+    await nearWidth(1920)
+    const samples: DOMRect[] = []
+    let sampling = true
+    const sample = () => {
+      if (!sampling) return
+      samples.push(frame().getBoundingClientRect())
+      requestAnimationFrame(sample)
+    }
+    requestAnimationFrame(sample)
+    release()
+    await vi.waitFor(() => expect(frame().querySelectorAll('img')).toHaveLength(2))
+    for (let count = 0; count < 20; count++) await nextFrame()
+    sampling = false
+    expect(samples.length).toBeGreaterThan(10)
+    expect(samples.every(rect => Math.abs(rect.width - 1920) < 1)).toBe(true)
+    wheel(-10000)
+    await nearWidth(3840)
+    await userEvent.click(tool('适应窗口'))
+    await nearWidth(initial.width)
+    await userEvent.keyboard('{Escape}')
+    const leaving: DOMRect[] = []
+    while (dialog()) {
+      leaving.push(frame().getBoundingClientRect())
+      await nextFrame()
+    }
+    expect(leaving.at(-1)!.width).toBeCloseTo(source.width, 0)
+    expect(leaving.at(-1)!.height).toBeCloseTo(source.height, 0)
+  },
+)
+
+it.each([false, true])('独立灯箱有 previewSize 时不等待 src 解码,矩形来源=%s', async virtual => {
+  const src = picture(1920, 1080)
+  const bounds = { x: 80, y: 60, width: 160, height: 90 }
+  const pending = vi
+    .spyOn(HTMLImageElement.prototype, 'decode')
+    .mockImplementation(() => new Promise(() => {}))
+  wrapper = mount(Lightbox, {
+    props: {
+      open: true,
+      items: [
+        {
+          id: 'known',
+          src,
+          previewSize: { width: 1920, height: 1080 },
+          alt: '已知尺寸',
+          source: virtual ? () => bounds : undefined,
+        },
+      ],
+    },
+    attachTo: document.body,
+  })
+  const entering: DOMRect[] = []
+  while (dialog()?.dataset.hnPhase !== 'open') {
+    if (dialog()) entering.push(frame().getBoundingClientRect())
+    await nextFrame()
+  }
+  expect(pending).not.toHaveBeenCalled()
+  expect(width()).toBeGreaterThan(1000)
+  if (virtual) {
+    expect(
+      Math.min(...entering.map(rect => Math.hypot(rect.x - bounds.x, rect.y - bounds.y))),
+    ).toBeLessThan(8)
+    expect(Math.min(...entering.map(rect => rect.width))).toBeLessThan(200)
+  }
+  await userEvent.click(tool('原始尺寸'))
+  await nearWidth(1920)
+  await userEvent.keyboard('{Escape}')
+  const leaving: DOMRect[] = []
+  while (dialog()) {
+    leaving.push(frame().getBoundingClientRect())
+    await nextFrame()
+  }
+  if (virtual) {
+    const last = leaving.at(-1)!
+    expect(last.width).toBeCloseTo(bounds.width, 0)
+    expect(Math.hypot(last.x - bounds.x, last.y - bounds.y)).toBeLessThan(4)
+  }
 })

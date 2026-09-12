@@ -72,6 +72,16 @@ import { Image } from '@hina-ui/vue'
 
 需要独立控制预览时，可以直接使用 [Lightbox](/components/lightbox)。
 
+### 预览原始尺寸 {#preview-size}
+
+通过 `previewSize` 提供最终预览图片的原始像素宽高。存在独立的 `preview` 地址时，尺寸对应解析后的大图；否则对应当前图片。组件据此提前计算初始适配尺寸和缩放上限，打开时一次展开到位，大图加载完成后只替换画质。
+
+宽高必须同时是有限正数。有效的显式尺寸始终优先于加载结果；未传入或无效时，继续自动获取尺寸。`previewSize` 只影响预览，页面外框仍由 `class`、`style` 和 `ratio` 控制。
+
+下例对比自动获取尺寸与预先提供尺寸，两张图片使用同一份 320 × 180 缩略图和 1200 × 675 大图。
+
+<Demo name="image/preview-size" />
+
 ### 分组 {#group}
 
 把多张图片放进 `ImageGroup`，点击任意一张后可以在整组之间切换，顺序与页面上的顺序一致。开启 `loop` 后翻页首尾相接。
@@ -108,23 +118,24 @@ import { Image } from '@hina-ui/vue'
 
 ## API {#api}
 
-| 属性         | 类型                                                       | 默认值    | 说明                                           |
-| ------------ | ---------------------------------------------------------- | --------- | ---------------------------------------------- |
-| `src`        | `string`                                                   | —         | 图片地址，会经过解析器                         |
-| `alt`        | `string`                                                   | `''`      | 替代文本                                       |
-| `fallback`   | `string`                                                   | —         | `src` 失败后改用的地址                         |
-| `fit`        | `'cover' \| 'contain' \| 'fill' \| 'none' \| 'scale-down'` | `'cover'` | 图片如何填满外框                               |
-| `ratio`      | `number`                                                   | —         | 宽除以高，提前占位                             |
-| `lazy`       | `boolean`                                                  | `true`    | 是否等接近视口再加载                           |
-| `rootMargin` | `string`                                                   | `'200px'` | 提前多少距离开始加载                           |
-| `skeleton`   | `boolean`                                                  | `true`    | 加载期间是否显示骨架                           |
-| `eager`      | `boolean`                                                  | `false`   | 高优先级请求并同步解码                         |
-| `preview`    | `boolean \| string`                                        | `false`   | 是否可以点击放大查看，传入字符串时作为大图地址 |
-| `draggable`  | `boolean`                                                  | —         | 图片是否可拖拽                                 |
-| `class`      | `string`                                                   | —         | 追加至外框的类名                               |
-| `style`      | `StyleValue`                                               | —         | 外框的内联样式                                 |
-| `imageClass` | `string`                                                   | —         | 追加至 `img` 的类名                            |
-| `imageStyle` | `StyleValue`                                               | —         | `img` 的内联样式                               |
+| 属性          | 类型                                                       | 默认值    | 说明                                           |
+| ------------- | ---------------------------------------------------------- | --------- | ---------------------------------------------- |
+| `src`         | `string`                                                   | —         | 图片地址，会经过解析器                         |
+| `alt`         | `string`                                                   | `''`      | 替代文本                                       |
+| `fallback`    | `string`                                                   | —         | `src` 失败后改用的地址                         |
+| `fit`         | `'cover' \| 'contain' \| 'fill' \| 'none' \| 'scale-down'` | `'cover'` | 图片如何填满外框                               |
+| `ratio`       | `number`                                                   | —         | 宽除以高，提前占位                             |
+| `lazy`        | `boolean`                                                  | `true`    | 是否等接近视口再加载                           |
+| `rootMargin`  | `string`                                                   | `'200px'` | 提前多少距离开始加载                           |
+| `skeleton`    | `boolean`                                                  | `true`    | 加载期间是否显示骨架                           |
+| `eager`       | `boolean`                                                  | `false`   | 高优先级请求并同步解码                         |
+| `preview`     | `boolean \| string`                                        | `false`   | 是否可以点击放大查看，传入字符串时作为大图地址 |
+| `previewSize` | `{ width: number; height: number }`                        | —         | 最终预览图片的原始像素尺寸，宽高须为有限正数   |
+| `draggable`   | `boolean`                                                  | —         | 图片是否可拖拽                                 |
+| `class`       | `string`                                                   | —         | 追加至外框的类名                               |
+| `style`       | `StyleValue`                                               | —         | 外框的内联样式                                 |
+| `imageClass`  | `string`                                                   | —         | 追加至 `img` 的类名                            |
+| `imageStyle`  | `StyleValue`                                               | —         | `img` 的内联样式                               |
 
 | 事件    | 参数                      | 说明               |
 | ------- | ------------------------- | ------------------ |
