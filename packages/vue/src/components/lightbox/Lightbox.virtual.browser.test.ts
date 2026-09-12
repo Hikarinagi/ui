@@ -82,7 +82,7 @@ it.each(['Escape', '下滑'])('首次打开 blob 从矩形展开,%s关闭时回�
   ).toBeLessThan(8)
   expect(Math.min(...enter.map(rect => rect.width))).toBeLessThan(200)
   expect(frame()!.querySelector('img')!.naturalWidth).toBe(400)
-  expect(frame()!.getBoundingClientRect().width).toBeCloseTo(1024, 0)
+  expect(frame()!.getBoundingClientRect().width).toBeCloseTo(400, 0)
   bounds = { x: 280, y: 160, width: 160, height: 80 }
   if (method === 'Escape') {
     await userEvent.keyboard('{Escape}')
@@ -176,7 +176,7 @@ it('解码期间换图,从最新条目的矩形和尺寸展开', async () => {
   await vi.waitFor(() => {
     expect(dialog()?.dataset.hnPhase).toBe('open')
     expect(frame()!.querySelector('img')!.src).toBe(second)
-    expect(frame()!.getBoundingClientRect().width).toBeCloseTo(384, 0)
+    expect(frame()!.getBoundingClientRect().width).toBeCloseTo(200, 0)
   })
   expect(pending).toHaveBeenCalledTimes(2)
   await userEvent.keyboard('{Escape}')
@@ -185,7 +185,7 @@ it('解码期间换图,从最新条目的矩形和尺寸展开', async () => {
   await wrapper.setProps({ items: [item(first)], open: true })
   await vi.waitFor(() => {
     expect(dialog()?.dataset.hnPhase).toBe('open')
-    expect(frame()!.getBoundingClientRect().width).toBeCloseTo(1024, 0)
+    expect(frame()!.getBoundingClientRect().width).toBeCloseTo(400, 0)
   })
   expect(pending).toHaveBeenCalledTimes(3)
 })

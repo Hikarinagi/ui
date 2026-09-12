@@ -77,6 +77,7 @@ export interface UiMessages {
     zoomIn: string
     zoomOut: string
     resetZoom: string
+    actualSize: string
     rotate: string
     download: string
     loadingLarge: string

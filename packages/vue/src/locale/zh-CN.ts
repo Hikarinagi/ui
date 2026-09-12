@@ -78,7 +78,8 @@ export const zhCN: UiMessages = {
   lightbox: {
     zoomIn: '放大',
     zoomOut: '缩小',
-    resetZoom: '恢复原始大小',
+    resetZoom: '适应窗口',
+    actualSize: '原始尺寸',
     rotate: '旋转',
     download: '下载',
     loadingLarge: '正在加载原图',

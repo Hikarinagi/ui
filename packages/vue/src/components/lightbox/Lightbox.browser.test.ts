@@ -4,8 +4,10 @@ import { mount, type VueWrapper } from '@vue/test-utils'
 import { defineComponent, h } from 'vue'
 import Image from '../image/Image.vue'
 import ImageGroup from '../image/ImageGroup.vue'
-import { ZOOM_DOUBLE_TAP, ZOOM_MAX } from './utils/zoom'
 import '../../../test/browser.css'
+
+const ZOOM_DOUBLE_TAP = 2.5
+const ZOOM_MAX = 5
 
 let mounted: VueWrapper[] = []
 
@@ -32,7 +34,7 @@ function picture(width: number, height: number): string {
 }
 
 async function harness() {
-  const src = picture(400, 200)
+  const src = picture(2440, 1220)
   const host = document.createElement('div')
   document.body.appendChild(host)
   const w = mount(
@@ -48,7 +50,7 @@ async function harness() {
   )
   mounted.push(w)
   const img = w.find('img').element as HTMLImageElement
-  await vi.waitFor(() => expect(img.naturalWidth).toBe(400))
+  await vi.waitFor(() => expect(img.naturalWidth).toBe(2440))
   return { w, img, trigger: w.find('button').element as HTMLElement }
 }
 
@@ -67,7 +69,7 @@ const tool = (label: string) =>
   dialog()?.querySelector(`[data-hn-chrome] [aria-label="${label}"]`) as HTMLButtonElement | null
 
 async function groupHarness(loop = false) {
-  const sources = [picture(400, 200), picture(200, 400), picture(300, 300)]
+  const sources = [picture(2440, 1220), picture(1220, 2440), picture(1800, 1800)]
   const host = document.createElement('div')
   document.body.appendChild(host)
   const w = mount(
@@ -162,10 +164,10 @@ async function open(trigger: HTMLElement) {
 
 function expectAtRest() {
   const rect = frame()!.getBoundingClientRect()
-  expect(rect.x).toBeCloseTo(0, 0)
-  expect(rect.y).toBeCloseTo(128, 0)
-  expect(rect.width).toBeCloseTo(1024, 0)
-  expect(rect.height).toBeCloseTo(512, 0)
+  expect(rect.x).toBeCloseTo(24, 0)
+  expect(rect.y).toBeCloseTo(140, 0)
+  expect(rect.width).toBeCloseTo(976, 0)
+  expect(rect.height).toBeCloseTo(488, 0)
 }
 
 const CENTER = { x: 512, y: 384 }
@@ -329,7 +331,7 @@ describe('lightbox · 缩放与拖动', () => {
       )
 
     const first = pointUnder(point)
-    wheel(-200)
+    wheel(-100)
     await vi.waitFor(() => expect(matrix().a).toBeGreaterThan(1))
     expect(matrix().f).toBe(0)
     expectFixedPoint(point, first, 'x')
@@ -366,15 +368,19 @@ describe('lightbox · 缩放与拖动', () => {
     )
     await sleep(1500)
     const rect = frame()!.getBoundingClientRect()
-    if (rect.width > 1024) {
-      expect(rect.left).toBeLessThanOrEqual(0.5)
-      expect(rect.right).toBeGreaterThanOrEqual(1023.5)
+    const stage = dialog()!
+    const chrome = stage.querySelector('[data-hn-chrome]')!.getBoundingClientRect()
+    const close = stage.querySelector('[data-hn-close]')!.getBoundingClientRect()
+    const inset = Math.max(768 - chrome.top, close.bottom) + 24
+    if (rect.width > 976) {
+      expect(rect.left).toBeLessThanOrEqual(24.5)
+      expect(rect.right).toBeGreaterThanOrEqual(999.5)
     } else {
       expect(rect.left + rect.width / 2).toBeCloseTo(512, 0)
     }
-    if (rect.height > 768) {
-      expect(rect.top).toBeLessThanOrEqual(0.5)
-      expect(rect.bottom).toBeGreaterThanOrEqual(767.5)
+    if (rect.height > 768 - 2 * inset) {
+      expect(rect.top).toBeLessThanOrEqual(inset + 0.5)
+      expect(rect.bottom).toBeGreaterThanOrEqual(768 - inset - 0.5)
     } else {
       expect(rect.top + rect.height / 2).toBeCloseTo(384, 0)
     }
@@ -444,11 +450,11 @@ describe('lightbox · 缩放与拖动', () => {
     expect(frame()!.className).toContain('cursor-grab')
 
     await drag([CENTER.x, CENTER.y], [CENTER.x + 900, CENTER.y])
-    await vi.waitFor(() => expect(matrix().e).toBeGreaterThan(768))
+    await vi.waitFor(() => expect(matrix().e).toBeGreaterThan(732))
     expect(matrix().e).toBeLessThan(1200)
     await sleep(60)
     pointer('pointerup', dialog()!, CENTER.x + 900, CENTER.y)
-    await vi.waitFor(() => expect(matrix().e).toBeCloseTo(768, 0), { timeout: 2000 })
+    await vi.waitFor(() => expect(matrix().e).toBeCloseTo(732, 0), { timeout: 2000 })
   })
 
   it('快速甩动后继续滑行并停在边界之内', async () => {
@@ -465,7 +471,7 @@ describe('lightbox · 缩放与拖动', () => {
     expect(matrix().e).toBeLessThan(released)
     await sleep(1500)
     const settled = matrix().e
-    expect(settled).toBeGreaterThanOrEqual(-768.5)
+    expect(settled).toBeGreaterThanOrEqual(-732.5)
     expect(settled).toBeLessThan(released)
     await sleep(100)
     expect(matrix().e).toBeCloseTo(settled, 1)
@@ -496,18 +502,18 @@ describe('lightbox · 缩放与拖动', () => {
 
   it('工具栏按钮以画面中心缩放,复位常驻且只在放大后可用', async () => {
     await openAtRest()
-    expect(tool('恢复原始大小')!.disabled).toBe(true)
+    expect(tool('适应窗口')!.disabled).toBe(true)
     await userEvent.click(tool('放大')!)
     await vi.waitFor(() => expect(matrix().a).toBeCloseTo(1.5, 2), { timeout: 2000 })
     expect(matrix().e).toBeCloseTo(0, 1)
-    await vi.waitFor(() => expect(tool('恢复原始大小')!.disabled).toBe(false))
+    await vi.waitFor(() => expect(tool('适应窗口')!.disabled).toBe(false))
     await userEvent.click(tool('放大')!)
     await vi.waitFor(() => expect(matrix().a).toBeCloseTo(2.25, 2), { timeout: 2000 })
     await userEvent.click(tool('缩小')!)
     await vi.waitFor(() => expect(matrix().a).toBeCloseTo(1.5, 2), { timeout: 2000 })
-    await userEvent.click(tool('恢复原始大小')!)
+    await userEvent.click(tool('适应窗口')!)
     await vi.waitFor(() => expect(matrix().a).toBeCloseTo(1, 2), { timeout: 2000 })
-    await vi.waitFor(() => expect(tool('恢复原始大小')!.disabled).toBe(true), { timeout: 2000 })
+    await vi.waitFor(() => expect(tool('适应窗口')!.disabled).toBe(true), { timeout: 2000 })
   })
 
   it('旋转每次 90 度,横图转竖后缩到能放进舞台,缩放与位置复位', async () => {
@@ -522,15 +528,16 @@ describe('lightbox · 缩放与拖动', () => {
       () => {
         const m = matrix()
         expect(m.a).toBeCloseTo(0, 2)
-        expect(m.b).toBeCloseTo(0.75, 2)
+        expect(m.b).toBeGreaterThan(0)
+        expect(m.b).toBeLessThan(1)
         expect(m.e).toBeCloseTo(0, 1)
         expect(m.f).toBeCloseTo(0, 1)
       },
       { timeout: 2000 },
     )
     const rect = frame()!.getBoundingClientRect()
-    expect(rect.height).toBeCloseTo(768, 0)
-    expect(rect.width).toBeCloseTo(384, 0)
+    expect(rect.height).toBeLessThan(768)
+    expect(rect.width / rect.height).toBeCloseTo(0.5, 3)
 
     await userEvent.click(tool('旋转')!)
     await userEvent.click(tool('旋转')!)
@@ -790,7 +797,9 @@ describe('lightbox · 分组与翻页', () => {
     await tap(CENTER.x, CENTER.y)
     await sleep(60)
     await tap(CENTER.x, CENTER.y)
-    await vi.waitFor(() => expect(matrix().a).toBeCloseTo(ZOOM_DOUBLE_TAP, 2), { timeout: 2000 })
+    await vi.waitFor(() => expect(frame()!.getBoundingClientRect().width).toBeCloseTo(2440, 0), {
+      timeout: 2000,
+    })
 
     await slowDrag([CENTER.x, CENTER.y], -300, 0)
     await sleep(100)

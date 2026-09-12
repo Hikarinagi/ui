@@ -12,10 +12,19 @@ import {
 } from './pose'
 
 const stage = { width: 1000, height: 800 }
-const natural = { width: 400, height: 200 }
+const natural = { width: 4000, height: 2000 }
 const box = { x: 100, y: 100, width: 200, height: 200 }
 
 describe('fitRect', () => {
+  it('小图在预留空间后的区域里居中,不放大', () => {
+    expect(fitRect({ width: 100, height: 50 }, { x: 24, y: 80, width: 952, height: 640 })).toEqual({
+      x: 450,
+      y: 375,
+      width: 100,
+      height: 50,
+    })
+  })
+
   it('贴合后的盒子在舞台中居中', () => {
     expect(fitRect(natural, stage)).toEqual({ x: 0, y: 150, width: 1000, height: 500 })
   })

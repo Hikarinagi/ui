@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
   OVERSHOOT,
-  ZOOM_DOUBLE_TAP,
   ZOOM_MAX,
   ZOOM_MIN,
   ZOOM_STEP,
@@ -18,6 +17,7 @@ import {
   stepZoom,
   wheelZoom,
   zoomAbout,
+  zoomLevels,
 } from './zoom'
 
 const stage = { width: 1000, height: 800 }
@@ -45,8 +45,8 @@ describe('fitSize', () => {
     expect(fitSize({ width: 1000, height: 2000 }, stage)).toEqual({ width: 400, height: 800 })
   })
 
-  it('小图同样撑满舞台,盒子只由宽高比决定', () => {
-    expect(fitSize({ width: 100, height: 50 }, stage)).toEqual({ width: 1000, height: 500 })
+  it('小图保留原始尺寸', () => {
+    expect(fitSize({ width: 100, height: 50 }, stage)).toEqual({ width: 100, height: 50 })
   })
 
   it('旋转 90 度后按旋转后的盒子贴合', () => {
@@ -171,7 +171,7 @@ describe('elasticOffset', () => {
 describe('elasticZoom 与 clampZoom', () => {
   it('范围内原样返回', () => {
     expect(elasticZoom(1)).toBeCloseTo(1)
-    expect(elasticZoom(3)).toBeCloseTo(3)
+    expect(elasticZoom(1.5)).toBeCloseTo(1.5)
     expect(elasticZoom(ZOOM_MAX)).toBeCloseTo(ZOOM_MAX)
   })
 
@@ -188,7 +188,7 @@ describe('elasticZoom 与 clampZoom', () => {
   })
 
   it('上下越界在比例上对称', () => {
-    expect(elasticZoom(12) / ZOOM_MAX).toBeCloseTo(ZOOM_MIN / elasticZoom(0.5))
+    expect(elasticZoom(ZOOM_MAX * 2) / ZOOM_MAX).toBeCloseTo(ZOOM_MIN / elasticZoom(0.5))
   })
 
   it('clampZoom 夹回范围', () => {
@@ -222,15 +222,48 @@ describe('wheelZoom', () => {
 
 describe('doubleTapZoom 与 stepZoom', () => {
   it('原始大小双击放大到规格倍数,任何放大态双击回到原始', () => {
-    expect(doubleTapZoom(ZOOM_MIN)).toBe(ZOOM_DOUBLE_TAP)
-    expect(doubleTapZoom(ZOOM_DOUBLE_TAP)).toBe(ZOOM_MIN)
-    expect(doubleTapZoom(4)).toBe(ZOOM_MIN)
+    expect(doubleTapZoom(ZOOM_MIN, 2.5)).toBe(2.5)
+    expect(doubleTapZoom(2.5, 2.5)).toBe(ZOOM_MIN)
+    expect(doubleTapZoom(4, 2.5)).toBe(ZOOM_MIN)
   })
 
   it('按钮每次乘除固定步长并在边界停住', () => {
     expect(stepZoom(1, 1)).toBeCloseTo(ZOOM_STEP)
-    expect(stepZoom(ZOOM_STEP, 1)).toBeCloseTo(ZOOM_STEP * ZOOM_STEP)
+    expect(stepZoom(ZOOM_STEP, 1, 6)).toBeCloseTo(ZOOM_STEP * ZOOM_STEP)
     expect(stepZoom(5, 1)).toBe(ZOOM_MAX)
     expect(stepZoom(1.2, -1)).toBe(ZOOM_MIN)
+  })
+})
+
+describe('zoomLevels', () => {
+  it('小图初始与原始尺寸一致,仍能手动放大到原图两倍', () => {
+    expect(zoomLevels({ width: 100, height: 50 }, { width: 100, height: 50 }, stage)).toEqual({
+      original: 1,
+      secondary: 1,
+      max: 2,
+    })
+  })
+
+  it('普通照片双击回到原始尺寸,上限不随视口初始缩小而降低', () => {
+    expect(zoomLevels({ width: 4000, height: 3000 }, { width: 800, height: 600 }, stage)).toEqual({
+      original: 5,
+      secondary: 5,
+      max: 10,
+    })
+  })
+
+  it('长图双击适配宽度,全景双击适配高度,均不超过原始尺寸', () => {
+    const phone = { width: 360, height: 600 }
+    expect(zoomLevels({ width: 1000, height: 12000 }, { width: 50, height: 600 }, phone)).toEqual({
+      original: 20,
+      secondary: 7.2,
+      max: 40,
+    })
+    expect(
+      zoomLevels({ width: 12000, height: 1000 }, { width: 360, height: 30 }, phone).secondary,
+    ).toBe(20)
+    expect(
+      zoomLevels({ width: 100, height: 1200 }, { width: 50, height: 600 }, phone).secondary,
+    ).toBe(2)
   })
 })

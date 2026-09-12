@@ -36,11 +36,23 @@ The example uses a [Button](/components/button) background image and returns the
 
 <Demo name="lightbox/virtual-source" />
 
+## Sizing and zoom {#zoom}
+
+Images initially fit within the available area without exceeding their intrinsic size. The available area reserves space for the close button, toolbar and thumbnails, and is recalculated when the window changes size.
+
+Double tapping switches between the initial and intrinsic sizes. Panoramas wider than 2:1 first fit the available height; tall images taller than 2:1 first fit the available width. Both are capped at intrinsic size. Use “Actual size” in the toolbar to go directly to 100%, or “Fit to window” to restore the initial fit.
+
+Wheel, pinch and toolbar zoom can reach twice the intrinsic image size. The corresponding toolbar buttons are disabled at each limit. When a small image already appears at intrinsic size, double tapping does not enlarge it further; toolbar and gesture zoom remain available.
+
+This example uses [Image](/components/image) and [ImageGroup](/components/image#group) to display images with different intrinsic dimensions.
+
+<Demo name="lightbox/zoom" />
+
 ## Behaviour {#behavior}
 
 - `src` and `preview` are used as provided, including regular image addresses and valid blob URLs.
 - `source` is optional. A visible source image supplies the position and clipping shape for opening and closing. Without a source, the preview opens with a fade and a small scale transition.
-- `preview` can supply a larger image that replaces `src` once loaded.
+- `preview` supplies an optional larger image. Once decoded, its dimensions determine the initial fit and zoom limit. Size changes animate after any opening transition finishes. If loading fails, `src` remains in use.
 - Zooming, panning, rotation, downloading and paging behave like [Image previews](/components/image#preview).
 - The caller owns blob URLs and should keep them valid while the preview uses them.
 - The component exposes controlled state. An application can connect imperative calls through shared state and a mounted preview component.

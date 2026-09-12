@@ -78,7 +78,8 @@ export const enUS: UiMessages = {
   lightbox: {
     zoomIn: 'Zoom in',
     zoomOut: 'Zoom out',
-    resetZoom: 'Reset zoom',
+    resetZoom: 'Fit to window',
+    actualSize: 'Actual size',
     rotate: 'Rotate',
     download: 'Download',
     loadingLarge: 'Loading HD',

@@ -1,7 +1,7 @@
 import { reactive } from 'vue'
 import type { useLightboxFrames } from './useLightboxFrames'
 import { baseScale } from '../utils/pose'
-import { rotatedSize } from '../utils/zoom'
+import { rotatedSize, zoomLevels } from '../utils/zoom'
 import type { LightboxItem } from '../types'
 
 export function useLightboxRotation(
@@ -15,17 +15,27 @@ export function useLightboxRotation(
   }
 
   function baseOf(item: LightboxItem | undefined): number {
-    return baseScale(frames.frameOf(item), frames.stage.value, rotationOf(item) % 360)
+    const frame = frames.frameOf(item)
+    return baseScale(
+      frame,
+      frames.area.value,
+      rotationOf(item) % 360,
+      frames.displayOf(item) ?? frame,
+    )
   }
 
   function geometry() {
     const item = current()
     const base = baseOf(item)
     const visual = rotatedSize(frames.frameOf(item), rotationOf(item) % 360)
+    const fit = { width: visual.width * base, height: visual.height * base }
+    const natural = rotatedSize(frames.displayOf(item) ?? fit, rotationOf(item) % 360)
     return {
-      fit: { width: visual.width * base, height: visual.height * base },
-      stage: frames.stage.value,
+      fit,
+      frame: frames.frameOf(item),
+      stage: frames.area.value,
       base,
+      ...zoomLevels(natural, fit, frames.area.value),
     }
   }
 

@@ -6,6 +6,7 @@ export const LARGE_HINT_DELAY_MS = 800
 export function useLightboxLarge(item: () => LightboxItem | undefined, active: () => boolean) {
   const src = shallowRef<string>()
   const ready = shallowRef(false)
+  const image = shallowRef<HTMLImageElement>()
   const waiting = shallowRef(false)
   let loader: HTMLImageElement | null = null
   let timer: ReturnType<typeof setTimeout> | null = null
@@ -17,6 +18,7 @@ export function useLightboxLarge(item: () => LightboxItem | undefined, active: (
     timer = null
     src.value = undefined
     ready.value = false
+    image.value = undefined
     waiting.value = false
   }
 
@@ -36,6 +38,7 @@ export function useLightboxLarge(item: () => LightboxItem | undefined, active: (
       if (timer) clearTimeout(timer)
       timer = null
       waiting.value = false
+      image.value = img
       ready.value = true
     }
     const decode = typeof img.decode === 'function' ? img.decode() : Promise.resolve()
@@ -58,5 +61,5 @@ export function useLightboxLarge(item: () => LightboxItem | undefined, active: (
 
   onBeforeUnmount(reset)
 
-  return { src, ready, waiting }
+  return { src, ready, waiting, image }
 }

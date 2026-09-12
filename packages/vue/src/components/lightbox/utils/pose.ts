@@ -35,11 +35,15 @@ function px(value: number): string {
   return `${Math.round(value * 100) / 100}px`
 }
 
-export function fitRect(natural: Size, stage: Size, rotation = 0): Rect {
+export function fitRect(
+  natural: Size,
+  stage: Size & Partial<Pick<Rect, 'x' | 'y'>>,
+  rotation = 0,
+): Rect {
   const size = fitSize(natural, stage, rotation)
   return {
-    x: (stage.width - size.width) / 2,
-    y: (stage.height - size.height) / 2,
+    x: (stage.x ?? 0) + (stage.width - size.width) / 2,
+    y: (stage.y ?? 0) + (stage.height - size.height) / 2,
     width: size.width,
     height: size.height,
   }
@@ -117,11 +121,14 @@ export function openPose(
   }
 }
 
-export function baseScale(frame: Size, stage: Size, rotation: number): number {
+export function baseScale(frame: Size, stage: Size, rotation: number, natural: Size): number {
   const visual = rotatedSize(frame, rotation)
   if (visual.width <= 0 || visual.height <= 0) return 1
-  if (rotation % 180 === 0) return 1
-  return Math.min(stage.width / visual.width, stage.height / visual.height)
+  return Math.min(
+    stage.width / visual.width,
+    stage.height / visual.height,
+    natural.width / frame.width,
+  )
 }
 
 export function dismissProgress(offsetY: number, stageHeight: number): number {

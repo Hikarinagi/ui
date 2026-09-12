@@ -123,7 +123,7 @@ it.each(['Escape', '下滑'])(
     }
     expect(Math.min(...rects.map(rect => gap(rect, origin)))).toBeLessThan(8)
     expect(Math.min(...rects.map(rect => rect.width))).toBeLessThan(200)
-    expect(frame()!.getBoundingClientRect().width).toBeCloseTo(1024, 0)
+    expect(frame()!.getBoundingClientRect().width).toBeCloseTo(400, 0)
     expect(rounded).toBe(true)
     source.style.left = '280px'
     source.style.top = '160px'

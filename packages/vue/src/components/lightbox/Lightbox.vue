@@ -2,7 +2,6 @@
   import { computed, onMounted, shallowRef, watch } from 'vue'
   import { DialogRoot, DialogPortal, DialogContent, DialogTitle, useBodyScrollLock } from 'reka-ui'
   import { Motion } from 'motion-v'
-  import { useEventListener } from '@vueuse/core'
   import { cn } from '../../lib/cn'
   import VisuallyHidden from '../visually-hidden/VisuallyHidden.vue'
   import LightboxStrip from './LightboxStrip.vue'
@@ -17,6 +16,8 @@
   import { useLightboxPhase } from './composables/useLightboxPhase'
   import { useLightboxHint } from './composables/useLightboxHint'
   import { useLightboxSlides } from './composables/useLightboxSlides'
+  import { lightboxStage } from './lightbox.variants'
+  import { useLightboxLayout } from './composables/useLightboxLayout'
   import { useLightboxRotation } from './composables/useLightboxRotation'
   import { clampIndex } from './utils/paging'
   import { saveImage } from './utils/download'
@@ -57,9 +58,10 @@
     loop: () => !!props.loop,
   })
 
-  function measure() {
+  function measure(force = false) {
+    const width = frames.stage.value.width
     frames.measure(stageEl.value)
-    paging.sync()
+    if (force || width !== frames.stage.value.width) paging.sync()
   }
 
   const phase = useLightboxPhase({
@@ -72,7 +74,7 @@
       rotation.clear()
       return frames.read(() => current.value)
     },
-    layout: measure,
+    layout: () => measure(true),
   })
 
   const close = phase.close
@@ -93,6 +95,16 @@
     () => current.value,
     () => mounted.value,
   )
+
+  const layout = useLightboxLayout({
+    stage: () => stageEl.value,
+    current: () => current.value,
+    frames,
+    large,
+    phase,
+    zoom,
+    measure,
+  })
 
   const hint = useLightboxHint({ motion, frames, paging, current: () => current.value })
 
@@ -137,10 +149,6 @@
     if (open.value) void phase.show()
   })
 
-  useEventListener('resize', () => {
-    if (mounted.value) measure()
-  })
-
   function onEscape(event: Event) {
     event.preventDefault()
     void close()
@@ -173,7 +181,7 @@
   const currentClass = computed(() =>
     cn(
       'absolute will-change-transform',
-      !zoom.zoomed.value && 'cursor-zoom-in',
+      !zoom.zoomed.value && (zoom.canToggle.value ? 'cursor-zoom-in' : 'cursor-default'),
       zoom.zoomed.value && (gesture.mode.value === 'pan' ? 'cursor-grabbing' : 'cursor-grab'),
     ),
   )
@@ -191,12 +199,7 @@
         <div
           ref="stageEl"
           :data-hn-phase="phase.current()"
-          :class="
-            cn(
-              'dark fixed inset-0 z-(--hn-z-overlay) touch-none outline-none select-none',
-              props.class,
-            )
-          "
+          :class="cn(lightboxStage(), props.class)"
           @pointerdown="gesture.onPointerdown"
           @pointermove="gesture.onPointermove"
           @pointerup="gesture.onPointerup"
@@ -220,7 +223,7 @@
             :transition="motion.transition('base')"
             :large-src="large.src.value"
             :large-ready="large.ready.value"
-            @learn="frames.learn"
+            @learn="layout.learn"
           />
           <DialogTitle as-child>
             <VisuallyHidden>{{ current?.alt }}</VisuallyHidden>
@@ -229,6 +232,8 @@
             :items="props.items"
             :index="index"
             :zoomed="zoom.zoomed.value"
+            :can-zoom-in="zoom.canZoomIn.value"
+            :at-original="zoom.atOriginal.value"
             :waiting="large.waiting.value"
             :loop="looping"
             :hint="hint"
@@ -239,6 +244,7 @@
             @zoom-in="zoom.step(1)"
             @zoom-out="zoom.step(-1)"
             @reset="zoom.reset()"
+            @original="zoom.original()"
             @rotate="rotate"
             @download="download"
           />

@@ -12,7 +12,11 @@ export function useLightboxPose(
     const item = current()
     const source = item?.source?.()
     const box = sourceRect(source)
-    const natural = frames.naturalOf(item)
+    const el = source && 'getBoundingClientRect' in source ? source : undefined
+    const natural =
+      el?.naturalWidth && el.naturalHeight
+        ? { width: el.naturalWidth, height: el.naturalHeight }
+        : frames.naturalOf(item)
     if (!box || !natural) return null
     const stage = frames.stage.value
     if (
@@ -23,7 +27,6 @@ export function useLightboxPose(
     ) {
       return null
     }
-    const el = source && 'getBoundingClientRect' in source ? source : undefined
     const clip = clipOf(el, box)
     if (clip.rect.width <= 0 || clip.rect.height <= 0) return null
     return openPose(frames.frameOf(item), box, natural, item?.fit, clip.corners, clip.rect)

@@ -16,6 +16,8 @@
     items: LightboxItem[]
     index: number
     zoomed: boolean
+    canZoomIn: boolean
+    atOriginal: boolean
     waiting: boolean
     loop: boolean
     presence: MotionValue<number>
@@ -29,6 +31,7 @@
     zoomIn: []
     zoomOut: []
     reset: []
+    original: []
     rotate: []
     download: []
   }>()
@@ -88,7 +91,7 @@
       <ChevronRight />
     </IconButton>
   </Motion>
-  <Motion class="absolute end-4 top-4" :style="{ opacity: props.presence }">
+  <Motion data-hn-close class="absolute end-4 top-4" :style="{ opacity: props.presence }">
     <DialogClose as-child>
       <CloseButton size="md" />
     </DialogClose>
@@ -102,10 +105,13 @@
       :items="props.items"
       :index="props.index"
       :zoomed="props.zoomed"
+      :can-zoom-in="props.canZoomIn"
+      :at-original="props.atOriginal"
       @select="emit('select', $event)"
       @zoom-in="emit('zoomIn')"
       @zoom-out="emit('zoomOut')"
       @reset="emit('reset')"
+      @original="emit('original')"
       @rotate="emit('rotate')"
       @download="emit('download')"
     />
