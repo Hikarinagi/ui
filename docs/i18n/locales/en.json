@@ -354,6 +354,7 @@
     "select": "Picks one item from a list",
     "skeleton": "A placeholder that holds the shape of loading content",
     "slider": "Picks a number within a range by dragging",
-    "image": "An image that loads lazily and falls back when it fails"
+    "image": "An image that loads lazily and falls back when it fails",
+    "lightbox": "A full-screen image preview with controlled visibility and selection"
   }
 }

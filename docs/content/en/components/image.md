@@ -70,6 +70,8 @@ The small and large pictures can be two renditions: the resolver addresses each 
 
 <Demo name="image/preview" />
 
+Use [Lightbox](/components/lightbox) to control a preview independently.
+
 ### Groups {#group}
 
 Put several pictures inside an `ImageGroup` and opening any of them lets you move through the whole set, in the order they appear on the page. With `loop` on, paging wraps around at both ends.

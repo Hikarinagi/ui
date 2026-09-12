@@ -70,6 +70,8 @@ import { Image } from '@hina-ui/vue'
 
 <Demo name="image/preview" />
 
+需要独立控制预览时，可以直接使用 [Lightbox](/components/lightbox)。
+
 ### 分组 {#group}
 
 把多张图片放进 `ImageGroup`，点击任意一张后可以在整组之间切换，顺序与页面上的顺序一致。开启 `loop` 后翻页首尾相接。
