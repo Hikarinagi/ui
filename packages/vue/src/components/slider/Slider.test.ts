@@ -90,6 +90,16 @@ describe('结构', () => {
 })
 
 describe('服务端渲染', () => {
+  it('显式 RTL 在服务端同步外层与轨道方向', async () => {
+    const html = await renderToString(
+      createSSRApp({
+        render: () => h(Slider, { modelValue: 25, dir: 'rtl' }),
+      }),
+    )
+    expect(html.match(/dir="rtl"/g)).toHaveLength(2)
+    expect(html).toContain('right:calc(')
+  })
+
   it('首屏就有拇指与填充：位置由根上的进度变量决定，不等水合', async () => {
     const html = await renderToString(
       createSSRApp(

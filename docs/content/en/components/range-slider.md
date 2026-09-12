@@ -16,15 +16,23 @@ links:
 import { RangeSlider } from '@hina-ui/vue'
 ```
 
-The range slider has two thumbs; `v-model` binds a `[start, end]` pair and the fill covers the span between them. Track, thumbs and value labels are the same as `Slider`. Attributes it does not declare land on the root, so name the group with `aria-label` or `aria-labelledby`; the thumbs carry "Minimum" and "Maximum" names of their own.
+The range slider has two thumbs; `v-model` binds a `[start, end]` pair and the fill covers the span between them. Track, thumbs and value labels are the same as [Slider](/components/slider). Attributes it does not declare land on the root, so name the group with `aria-label` or `aria-labelledby`; the thumbs carry "Minimum" and "Maximum" names of their own.
 
 <Demo name="range-slider/basic" />
 
 ## Examples {#examples}
 
+### Direction {#direction}
+
+`dir` accepts `ltr` or `rtl` and takes precedence over Reka's global direction configuration. Without either setting, it inherits `dir` from the surrounding elements. Direction changes update the track, thumbs, marks and labels together.
+
+In RTL, the minimum is on the right and the maximum on the left. ArrowRight decreases the value, ArrowLeft increases it, and Home / End still move to the minimum / maximum.
+
+<Demo name="range-slider/direction" />
+
 ### Marks {#marks}
 
-`marks` works as in `Slider`; `step` decides where the thumbs land.
+`marks` works as in [Slider](/components/slider); `step` decides where the thumbs land.
 
 <Demo name="range-slider/marks" />
 
@@ -36,7 +44,7 @@ The range slider has two thumbs; `v-model` binds a `[start, end]` pair and the f
 
 ### Value labels {#label}
 
-Each thumb has its own value label; `label` and `format` work as in `Slider`.
+Each thumb has its own value label; `label` and `format` work as in [Slider](/components/slider).
 
 <Demo name="range-slider/label" />
 
@@ -74,6 +82,7 @@ Inside a [FormField](/components/form-field) the label is linked to the slider g
 | `min`        | `number`                                   | `0`          | Minimum                                    |
 | `max`        | `number`                                   | `100`        | Maximum                                    |
 | `step`       | `number`                                   | `1`          | Step                                       |
+| `dir`        | `'ltr' \| 'rtl'`                           | —            | Direction; inherited when omitted          |
 | `minSteps`   | `number`                                   | `0`          | Minimum number of steps between the thumbs |
 | `marks`      | `Array<{ value: number; label?: string }>` | —            | Ticks                                      |
 | `label`      | `'auto' \| 'always' \| 'none'`             | `'auto'`     | How the value labels show                  |

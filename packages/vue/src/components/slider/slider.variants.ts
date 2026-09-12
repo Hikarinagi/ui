@@ -18,6 +18,7 @@ export const sliderRoot = tv({
   base: [
     'bg-line-strong relative flex h-[var(--hn-slider-h)] w-full cursor-pointer touch-none rounded-full select-none',
     'data-disabled:pointer-events-none',
+    '[&[dir=rtl]>[role=slider]]:[--reka-slider-thumb-transform:translateX(50%)]',
   ],
 })
 
