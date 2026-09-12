@@ -70,7 +70,7 @@
     pose: pose.fromSource,
     prepare: () => {
       rotation.clear()
-      frames.read()
+      return frames.read(() => current.value)
     },
     layout: measure,
   })

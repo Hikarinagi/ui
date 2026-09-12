@@ -26,6 +26,16 @@ import { Lightbox, type LightboxItem } from '@hina-ui/vue'
 
 <Demo name="lightbox/source" />
 
+## 矩形来源 {#virtual-source}
+
+`source` 也可以返回视口坐标系中的 `{ x, y, width, height }`，单位为 CSS 像素，无需 `<img>` 节点。已有的矩形数据可直接通过 `source: () => bounds` 传入。
+
+首次打开时会先解码 `src`，取得图片内在尺寸后再从矩形展开。关闭时重新调用 `source`，使用返回的最新矩形；如果来源已经不可见，返回 `null` 或 `undefined` 即可改为淡出。组件会忽略零尺寸、非有限数值和完全处于视口外的矩形。
+
+下例用 [Button](/components/button) 的背景图片演示，回调返回按钮的 `DOMRect`。
+
+<Demo name="lightbox/virtual-source" />
+
 ## 行为 {#behavior}
 
 - `src` 和 `preview` 按原样使用，支持普通图片地址和有效的 blob URL。
@@ -53,11 +63,19 @@ import { Lightbox, type LightboxItem } from '@hina-ui/vue'
 
 ### LightboxItem {#item}
 
-| 字段      | 类型                                          | 说明                                       |
-| --------- | --------------------------------------------- | ------------------------------------------ |
-| `id`      | `string`                                      | 稳定且唯一的条目标识，不同图片使用不同标识 |
-| `src`     | `string`                                      | 图片地址                                   |
-| `alt`     | `string`                                      | 图片说明和预览层名称                       |
-| `preview` | `string`                                      | 可选的大图地址                             |
-| `fit`     | `ImageVariants['fit']`                        | 来源图片的填充方式，用于计算展开动画       |
-| `source`  | `() => HTMLImageElement \| null \| undefined` | 可选的来源图片获取函数                     |
+| 字段      | 类型                                        | 说明                                       |
+| --------- | ------------------------------------------- | ------------------------------------------ |
+| `id`      | `string`                                    | 稳定且唯一的条目标识，不同图片使用不同标识 |
+| `src`     | `string`                                    | 图片地址                                   |
+| `alt`     | `string`                                    | 图片说明和预览层名称                       |
+| `preview` | `string`                                    | 可选的大图地址                             |
+| `fit`     | `ImageVariants['fit']`                      | 来源图片的填充方式，用于计算展开动画       |
+| `source`  | `() => LightboxSource \| null \| undefined` | 可选的来源图片或矩形获取函数               |
+
+### LightboxSource {#source-type}
+
+从包根导出的类型，支持以下两种来源。
+
+```ts
+type LightboxSource = HTMLImageElement | { x: number; y: number; width: number; height: number }
+```

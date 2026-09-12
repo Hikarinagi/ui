@@ -1,4 +1,7 @@
 import type { ImageVariants } from '../image/image.variants'
+import type { Rect } from './utils/pose'
+
+export type LightboxSource = HTMLImageElement | Rect
 
 export interface LightboxItem {
   id: string
@@ -6,5 +9,5 @@ export interface LightboxItem {
   preview?: string
   alt: string
   fit?: ImageVariants['fit']
-  source?: () => HTMLImageElement | null | undefined
+  source?: () => LightboxSource | null | undefined
 }

@@ -26,6 +26,16 @@ The example wraps [Image](/components/image) in a [Button](/components/button) a
 
 <Demo name="lightbox/source" />
 
+## Rectangle source {#virtual-source}
+
+`source` can also return `{ x, y, width, height }` in viewport coordinates, measured in CSS pixels. No `<img>` element is required. Pass existing bounds directly with `source: () => bounds`.
+
+On the first opening, the component decodes `src` to obtain its intrinsic dimensions before expanding from the rectangle. Closing calls `source` again to read the latest bounds. Return `null` or `undefined` when the source is no longer visible to fade out instead. Rectangles with zero size, non-finite values or no intersection with the viewport are ignored.
+
+The example uses a [Button](/components/button) background image and returns the button's `DOMRect`.
+
+<Demo name="lightbox/virtual-source" />
+
 ## Behaviour {#behavior}
 
 - `src` and `preview` are used as provided, including regular image addresses and valid blob URLs.
@@ -53,11 +63,19 @@ The example wraps [Image](/components/image) in a [Button](/components/button) a
 
 ### LightboxItem {#item}
 
-| Field     | Type                                          | Description                                                              |
-| --------- | --------------------------------------------- | ------------------------------------------------------------------------ |
-| `id`      | `string`                                      | Stable, unique identifier; use distinct identifiers for different images |
-| `src`     | `string`                                      | Image address                                                            |
-| `alt`     | `string`                                      | Image description and dialog name                                        |
-| `preview` | `string`                                      | Optional larger image address                                            |
-| `fit`     | `ImageVariants['fit']`                        | Source image fit, used to calculate the opening transition               |
-| `source`  | `() => HTMLImageElement \| null \| undefined` | Optional function returning the source image                             |
+| Field     | Type                                        | Description                                                              |
+| --------- | ------------------------------------------- | ------------------------------------------------------------------------ |
+| `id`      | `string`                                    | Stable, unique identifier; use distinct identifiers for different images |
+| `src`     | `string`                                    | Image address                                                            |
+| `alt`     | `string`                                    | Image description and dialog name                                        |
+| `preview` | `string`                                    | Optional larger image address                                            |
+| `fit`     | `ImageVariants['fit']`                      | Source image fit, used to calculate the opening transition               |
+| `source`  | `() => LightboxSource \| null \| undefined` | Optional function returning a source image or rectangle                  |
+
+### LightboxSource {#source-type}
+
+Exported from the package root, with two supported source forms.
+
+```ts
+type LightboxSource = HTMLImageElement | { x: number; y: number; width: number; height: number }
+```
