@@ -26,6 +26,12 @@ import { Image } from '@hina-ui/vue'
 
 <Demo name="image/ratio" />
 
+### 外框与图片样式 {#styles}
+
+`class`、`style` 设置外框，`imageClass`、`imageStyle` 设置内部的 `img`。`style` 支持字符串、对象和数组；其中的 `aspectRatio` 会覆盖 `ratio`。
+
+<Demo name="image/styles" />
+
 ### 填充方式 {#fit}
 
 `fit` 决定图片如何填满外框，默认为 `cover`。
@@ -114,7 +120,9 @@ import { Image } from '@hina-ui/vue'
 | `preview`    | `boolean \| string`                                        | `false`   | 是否可以点击放大查看，传入字符串时作为大图地址 |
 | `draggable`  | `boolean`                                                  | —         | 图片是否可拖拽                                 |
 | `class`      | `string`                                                   | —         | 追加至外框的类名                               |
+| `style`      | `StyleValue`                                               | —         | 外框的内联样式                                 |
 | `imageClass` | `string`                                                   | —         | 追加至 `img` 的类名                            |
+| `imageStyle` | `StyleValue`                                               | —         | `img` 的内联样式                               |
 
 | 事件    | 参数                      | 说明               |
 | ------- | ------------------------- | ------------------ |

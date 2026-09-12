@@ -26,6 +26,12 @@ The picture waits until it comes near the viewport, with a skeleton holding the 
 
 <Demo name="image/ratio" />
 
+### Container and image styles {#styles}
+
+`class` and `style` apply to the outer box; `imageClass` and `imageStyle` apply to the inner `img`. `style` accepts strings, objects and arrays. Its `aspectRatio` overrides `ratio`.
+
+<Demo name="image/styles" />
+
 ### Fit {#fit}
 
 `fit` decides how the picture fills its box; the default is `cover`.
@@ -114,7 +120,9 @@ Put several pictures inside an `ImageGroup` and opening any of them lets you mov
 | `preview`    | `boolean \| string`                                        | `false`   | Opens for a closer look; an address becomes the large source |
 | `draggable`  | `boolean`                                                  | —         | Whether the picture can be dragged                           |
 | `class`      | `string`                                                   | —         | Classes appended to the box                                  |
+| `style`      | `StyleValue`                                               | —         | Inline styles for the outer box                              |
 | `imageClass` | `string`                                                   | —         | Classes appended to the `img`                                |
+| `imageStyle` | `StyleValue`                                               | —         | Inline styles for the `img`                                  |
 
 | Event   | Payload                   | Description                  |
 | ------- | ------------------------- | ---------------------------- |

@@ -212,3 +212,22 @@ it.each([
   expect(after.width).toBe(before.width)
   expect(after.height).toBe(before.height)
 })
+
+it.each([true, false])('style 给外框和骨架定框 preview=%s', async preview => {
+  const w = mountImage({
+    src: PIXEL,
+    alt: '定框图片',
+    preview,
+    style: { width: '160px', height: '90px' },
+    imageStyle: { objectPosition: 'left top' },
+  })
+  const before = w.element.getBoundingClientRect()
+  const skeleton = w.element.querySelector('.hn-skeleton')!.getBoundingClientRect()
+  expect([before.width, before.height]).toEqual([160, 90])
+  expect([skeleton.width, skeleton.height]).toEqual([160, 90])
+  const img = w.find('img').element as HTMLImageElement
+  await vi.waitFor(() => expect(img.naturalWidth).toBeGreaterThan(0))
+  const after = w.element.getBoundingClientRect()
+  expect([after.width, after.height]).toEqual([160, 90])
+  expect(getComputedStyle(img).objectPosition).toBe('0% 0%')
+})
