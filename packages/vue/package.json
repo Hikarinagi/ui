@@ -1,6 +1,6 @@
 {
   "name": "@hina-ui/vue",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "An elegant, restrained Vue 3 component library built on Reka UI and Tailwind CSS v4.",
   "keywords": [
     "vue",
