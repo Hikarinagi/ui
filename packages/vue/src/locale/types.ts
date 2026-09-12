@@ -93,6 +93,9 @@ export interface UiMessages {
     show: string
     hide: string
   }
+  treeSelect: {
+    search: string
+  }
   combobox: {
     placeholder: string
     toggle: string

@@ -95,6 +95,9 @@ export const enUS: UiMessages = {
     show: 'Show password',
     hide: 'Hide password',
   },
+  treeSelect: {
+    search: 'Search nodes',
+  },
   combobox: {
     placeholder: 'Type or choose',
     toggle: 'Show options',

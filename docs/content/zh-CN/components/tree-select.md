@@ -16,7 +16,7 @@ links:
 import { TreeSelect } from '@hina-ui/vue'
 ```
 
-树形选择框的触发器与 `Select` 相同，浮层里是可以逐层展开的树。`items` 提供节点，每个节点是 `{ value, label }`，带 `children` 的节点可以展开；`v-model` 绑定选中节点的值，任何一级的节点都可以选中。
+树形选择框的触发器与 [Select](/components/select) 相同，浮层里是可以逐层展开的树。`items` 提供节点，每个节点是 `{ value, label }`，带 `children` 的节点可以展开；`v-model` 绑定选中节点的值，任何一级的节点都可以选中。
 
 <Demo name="tree-select/basic" />
 
@@ -27,6 +27,14 @@ import { TreeSelect } from '@hina-ui/vue'
 `defaultExpanded` 列出打开时默认展开的节点。已选节点所在的路径总会自动展开。
 
 <Demo name="tree-select/expanded" />
+
+### 搜索 {#search}
+
+`searchable` 在浮层顶部显示搜索框，按节点的 `label` 过滤，忽略大小写及重音差异。匹配节点的祖先路径会保留并展开，其他节点隐藏；清空搜索恢复搜索前的展开状态，已选值保持不变。
+
+`v-model:search` 绑定搜索文本，`searchPlaceholder` 设置搜索框提示文字。关闭浮层时清空搜索。搜索框中按 ↓ 或 ↑ 进入树的首个或末个可用节点，在首个节点按 ↑ 返回搜索框；Esc 先清空非空搜索，再次按下关闭浮层。
+
+<Demo name="tree-select/search" />
 
 ### 定制内容 {#custom}
 
@@ -74,18 +82,21 @@ import { TreeSelect } from '@hina-ui/vue'
 
 ### Props {#props}
 
-| 属性              | 类型                       | 默认值      | 说明                              |
-| ----------------- | -------------------------- | ----------- | --------------------------------- |
-| `modelValue`      | `string \| number \| null` | —           | 选中节点的值                      |
-| `items`           | `TreeSelectNode[]`         | —           | 节点，见下方类型                  |
-| `placeholder`     | `string`                   | 语言包      | 无值时显示的文字                  |
-| `defaultExpanded` | `Array<string \| number>`  | `[]`        | 打开时默认展开的节点              |
-| `open`            | `boolean`                  | `false`     | 浮层是否打开，支持 `v-model:open` |
-| `variant`         | `'primary' \| 'secondary'` | `'primary'` | 形态                              |
-| `size`            | `'sm' \| 'md' \| 'lg'`     | `'md'`      | 尺寸                              |
-| `invalid`         | `boolean`                  | `false`     | 是否校验未通过                    |
-| `disabled`        | `boolean`                  | `false`     | 是否禁用                          |
-| `class`           | `string`                   | —           | 追加至触发器的类名                |
+| 属性                | 类型                       | 默认值      | 说明                              |
+| ------------------- | -------------------------- | ----------- | --------------------------------- |
+| `modelValue`        | `string \| number \| null` | —           | 选中节点的值                      |
+| `items`             | `TreeSelectNode[]`         | —           | 节点，见下方类型                  |
+| `placeholder`       | `string`                   | 语言包      | 无值时显示的文字                  |
+| `searchable`        | `boolean`                  | `false`     | 显示搜索框并启用节点过滤          |
+| `search`            | `string`                   | `''`        | 搜索文本，支持 `v-model:search`   |
+| `searchPlaceholder` | `string`                   | 语言包      | 搜索框提示文字与无障碍名称        |
+| `defaultExpanded`   | `Array<string \| number>`  | `[]`        | 打开时默认展开的节点              |
+| `open`              | `boolean`                  | `false`     | 浮层是否打开，支持 `v-model:open` |
+| `variant`           | `'primary' \| 'secondary'` | `'primary'` | 形态                              |
+| `size`              | `'sm' \| 'md' \| 'lg'`     | `'md'`      | 尺寸                              |
+| `invalid`           | `boolean`                  | `false`     | 是否校验未通过                    |
+| `disabled`          | `boolean`                  | `false`     | 是否禁用                          |
+| `class`             | `string`                   | —           | 追加至触发器的类名                |
 
 ### 插槽 {#slots}
 
@@ -99,6 +110,7 @@ import { TreeSelect } from '@hina-ui/vue'
 | ------------------- | ------------------------- | ------------ |
 | `update:modelValue` | `value: string \| number` | 选中值变化   |
 | `update:open`       | `open: boolean`           | 浮层开合变化 |
+| `update:search`     | `search: string`          | 搜索文本变化 |
 
 ### 类型 {#types}
 
