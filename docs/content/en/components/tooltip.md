@@ -13,18 +13,26 @@ links:
 ## Usage {#usage}
 
 ```ts
-import { Tooltip } from '@hina-ui/vue'
+import { Tooltip, vTooltip } from '@hina-ui/vue'
 ```
 
 The default slot is the trigger and the `content` prop is the text of the tooltip. It appears on pointer hover or keyboard focus, and goes away when the pointer leaves or Escape is pressed.
 
 <Demo name="tooltip/basic" />
 
-An icon button carries a tooltip of its own: `label` serves as both the accessible name and the tooltip text, so there is no need to wrap one.
+[IconButton](/components/icon-button) carries a tooltip of its own: `label` serves as both the accessible name and the tooltip text, so there is no need to wrap one.
 
-Tooltip needs a `TooltipProvider` above it, and `AppShell` already includes one. Without a provider the component renders only the trigger.
+Tooltip needs a `TooltipProvider` above it, and [AppShell](/components/app-shell) already includes one. Without a provider the component renders only the trigger.
 
 ## Examples {#examples}
+
+### Directive {#directive}
+
+Import `vTooltip` to apply `v-tooltip` directly to an existing element. A string binds the text; an object accepts `content`, `side`, `align`, `sideOffset`, `disabled` and `class`. Changes update the tooltip. An empty string, `null`, `undefined` or `false` hides it.
+
+The directive shares `TooltipProvider` delay and skip-delay state, styling, positioning and keyboard focus behaviour with the component. It preserves existing `aria-describedby` values and removes its popup and listeners when the element unmounts. Text is rendered as plain text; use the component's `content` slot for rich content.
+
+<Demo name="tooltip/directive" />
 
 ### Placement {#placement}
 
@@ -52,7 +60,7 @@ The `content` slot takes more than text, a shortcut for instance. A line past th
 
 ### Controlled {#controlled}
 
-With `open` set, visibility is up to the caller and hover and keyboard focus no longer apply; a controlled tooltip repositions every frame, so it can follow a moving trigger, which is how the `Slider` value label works.
+With `open` set, visibility is up to the caller and hover and keyboard focus no longer apply; a controlled tooltip repositions every frame, so it can follow a moving trigger, which is how the [Slider](/components/slider) value label works.
 
 <Demo name="tooltip/controlled" />
 
@@ -70,7 +78,7 @@ With `disabled`, no overlay is built and only the trigger is rendered.
 ## Accessibility {#a11y}
 
 - The trigger carries `aria-describedby` pointing at the tooltip, so a screen reader reads it after the trigger itself.
-- The tooltip takes no focus and is not in the tab order. Interactive content belongs in a Popover instead.
+- The tooltip takes no focus and is not in the tab order. Interactive content belongs in a [Popover](/components/popover) instead.
 
 ## API {#api}
 
@@ -90,6 +98,12 @@ With `disabled`, no overlay is built and only the trigger is rendered.
 | --------- | ------------------------------------ |
 | `default` | The trigger                          |
 | `content` | Tooltip content, overrides `content` |
+
+### vTooltip {#directive-api}
+
+Import `vTooltip` locally to use `v-tooltip` in a template, or register it globally with `app.directive('tooltip', vTooltip)`. An ancestor `TooltipProvider` is required. Native elements and components rendering a single element can be hosts.
+
+`TooltipDirectiveValue` is `string | TooltipDirectiveOptions | null | undefined | false`. `TooltipDirectiveOptions` requires `content: string` and accepts the Tooltip properties above except `open`.
 
 ### TooltipProvider {#provider}
 

@@ -206,6 +206,8 @@ export { default as BreadcrumbItem } from './components/breadcrumb/BreadcrumbIte
 export { default as BreadcrumbSeparator } from './components/breadcrumb/BreadcrumbSeparator.vue'
 export { default as TooltipProvider } from './components/tooltip/TooltipProvider.vue'
 export { default as Tooltip } from './components/tooltip/Tooltip.vue'
+export { vTooltip } from './components/tooltip/directive'
+export type { TooltipDirectiveOptions, TooltipDirectiveValue } from './components/tooltip/types'
 export { default as Popover } from './components/popover/Popover.vue'
 export { default as DropdownMenu } from './components/dropdown-menu/DropdownMenu.vue'
 export { default as DropdownMenuItem } from './components/dropdown-menu/DropdownMenuItem.vue'
