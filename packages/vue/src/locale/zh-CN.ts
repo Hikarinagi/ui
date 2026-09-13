@@ -16,6 +16,16 @@ export const zhCN: UiMessages = {
     next: '下一条',
   },
   pagination: {
+    rangeLabel: (from, to, total) =>
+      total ? String(from) + '–' + to + ' / 共 ' + total + ' 条' : '共 0 条',
+    pageCountLabel: (page, count) => '第 ' + page + ' / ' + count + ' 页',
+    pageSizeLabel: '每页条数',
+    pageSizeOption: n => String(n) + ' / 页',
+    jumpLabel: '跳至页码',
+    previousPagesLabel: n => '向前跳 ' + n + ' 页',
+    nextPagesLabel: n => '向后跳 ' + n + ' 页',
+    choosePage: '选择页码',
+    choosePageHint: '按向下或向上箭头选择页码',
     navLabel: '翻页',
     prev: '上一页',
     next: '下一页',

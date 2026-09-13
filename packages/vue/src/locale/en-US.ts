@@ -16,6 +16,16 @@ export const enUS: UiMessages = {
     next: 'Next notice',
   },
   pagination: {
+    rangeLabel: (from, to, total) =>
+      total ? String(from) + '–' + to + ' of ' + total + ' items' : '0 items',
+    pageCountLabel: (page, count) => 'Page ' + page + ' of ' + count,
+    pageSizeLabel: 'Items per page',
+    pageSizeOption: n => String(n) + ' / page',
+    jumpLabel: 'Go to page',
+    previousPagesLabel: n => 'Go back ' + n + ' pages',
+    nextPagesLabel: n => 'Go forward ' + n + ' pages',
+    choosePage: 'Choose a page',
+    choosePageHint: 'Press ArrowDown or ArrowUp to choose a page',
     navLabel: 'Pagination',
     prev: 'Previous page',
     next: 'Next page',

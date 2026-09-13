@@ -25,8 +25,8 @@ const action = (wrapper: VueWrapper, name: string) =>
 describe('Pagination', () => {
   it('renders a named navigation landmark, selected page and disabled boundary controls', () => {
     const w = render({ showFirstLast: true })
-    expect(w.element.tagName).toBe('NAV')
-    expect(w.attributes('aria-label')).toBe(zhCN.pagination.navLabel)
+    expect(w.find('nav').exists()).toBe(true)
+    expect(w.find('nav').attributes('aria-label')).toBe(zhCN.pagination.navLabel)
     expect(w.find('[aria-current="page"]').text()).toBe('1')
     expect(action(w, 'first').attributes('disabled')).toBeDefined()
     expect(action(w, 'prev').attributes('disabled')).toBeDefined()
@@ -35,7 +35,9 @@ describe('Pagination', () => {
     expect(w.find('[data-type="page"]').attributes('aria-label')).toBe(zhCN.pagination.pageLabel(1))
     expect(w.findAll('button').every(button => button.attributes('type') === 'button')).toBe(true)
     expect(
-      w.findAll('[data-type="ellipsis"]').every(node => node.attributes('aria-hidden') === 'true'),
+      w
+        .findAll('[data-type="ellipsis"]')
+        .every(node => node.attributes('aria-haspopup') === 'dialog'),
     ).toBe(true)
   })
 
@@ -110,7 +112,7 @@ describe('Pagination', () => {
       { attachTo: document.body },
     )
     mounted.push(w)
-    expect(w.attributes('aria-label')).toBe('Results pages')
+    expect(w.find('nav').attributes('aria-label')).toBe('Results pages')
     expect(action(w, 'last').attributes('aria-label')).toBe(enUS.pagination.last)
     expect(w.find('[aria-current="page"]').attributes('aria-label')).toBe(
       enUS.pagination.pageLabel(10),

@@ -1,104 +1,118 @@
 <script setup lang="ts">
-  import { PaginationRoot, PaginationList, PaginationListItem, PaginationEllipsis } from 'reka-ui'
-  import { MoreHorizontal } from '@lucide/vue'
+  import { computed } from 'vue'
+  import { PaginationRoot } from 'reka-ui'
   import { cn } from '../../lib/cn'
   import { useDirection } from '../../lib/useDirection'
   import { useUiLocale } from '../../locale'
-  import Button from '../button/Button.vue'
-  import type { ButtonVariants } from '../button/button.variants'
-  import PaginationControl from './PaginationControl.vue'
+  import LoadingOverlay from '../loading-overlay/LoadingOverlay.vue'
+  import PaginationContent from './PaginationContent.vue'
+  import PaginationInfo from './PaginationInfo.vue'
+  import PaginationSize from './PaginationSize.vue'
+  import PaginationJump from './PaginationJump.vue'
+  import { providePagination } from './context'
   import { usePagination } from './composables/usePagination'
-  import { pagination, paginationList, paginationItem } from './pagination.variants'
+  import { pagination } from './pagination.variants'
+  import type { PaginationChange, PaginationState } from './types'
 
   defineOptions({ name: 'HnPagination', inheritAttrs: false })
-
   const props = withDefaults(
     defineProps<{
       total: number
-      pageSize?: number
+      itemCount?: number
       siblingCount?: number
       showEdges?: boolean
       showFirstLast?: boolean
-      size?: ButtonVariants['size']
+      showInfo?: boolean
+      showJump?: boolean
+      hideSinglePage?: boolean
+      pageSizeOptions?: number[]
+      pending?: boolean
+      align?: 'start' | 'center' | 'end' | 'between'
+      size?: 'sm' | 'md' | 'lg'
       disabled?: boolean
       dir?: 'ltr' | 'rtl'
       label?: string
       class?: string
     }>(),
-    { pageSize: 10, siblingCount: 1, showEdges: true },
+    { siblingCount: 1, showEdges: true, size: 'md', align: 'start' },
   )
-
   const model = defineModel<number>({ default: 1 })
+  const sizeModel = defineModel<number>('pageSize', { default: 10 })
+  const emit = defineEmits<{ change: [value: PaginationChange] }>()
   defineSlots<{
+    default?(state: PaginationState): unknown
+    list?(state: PaginationState): unknown
     page?(props: { page: number; selected: boolean }): unknown
-    ellipsis?(): unknown
+    ellipsis?(props: { side: 'prev' | 'next'; expanded: boolean }): unknown
   }>()
-
   const t = useUiLocale()
   const { root, direction, rootDirection } = useDirection(() => props.dir)
-  const { total, pageSize, siblingCount, page, update } = usePagination(props, model)
+  const { total, pageSize, siblingCount, page, state, blocked, sizes, update, resize } =
+    usePagination(props, model, sizeModel, value => emit('change', value))
+  providePagination({
+    state,
+    blocked,
+    siblingCount,
+    update,
+    resize,
+    direction,
+    size: computed(() => props.size),
+    showFirstLast: computed(() => props.showFirstLast),
+    options: computed(() =>
+      sizes.value.map(value => ({ value, label: t.value.pagination.pageSizeOption(value) })),
+    ),
+  })
 </script>
 
 <template>
-  <PaginationRoot
-    :page="page"
-    :total="total"
-    :items-per-page="pageSize"
-    :sibling-count="siblingCount"
-    :show-edges="props.showEdges"
-    :disabled="props.disabled"
-    as-child
-    @update:page="update"
+  <div
+    ref="root"
+    v-bind="$attrs"
+    data-hn-pagination
+    :dir="rootDirection"
+    :aria-busy="props.pending || undefined"
+    :class="cn('max-w-full', $slots.list && 'flex min-h-0 flex-col gap-3', props.class)"
   >
-    <nav
-      ref="root"
-      :aria-label="props.label ?? t.pagination.navLabel"
-      v-bind="$attrs"
-      data-hn-pagination
-      :dir="rootDirection"
-      :data-disabled="props.disabled ? '' : undefined"
-      :class="cn(pagination(), props.class)"
+    <div v-if="$slots.list" class="relative min-h-0 flex-auto">
+      <div :inert="props.pending || undefined"><slot name="list" v-bind="state" /></div>
+      <LoadingOverlay :visible="props.pending" />
+    </div>
+    <PaginationRoot
+      v-if="!props.hideSinglePage || state.pageCount > 1"
+      :page="page"
+      :total="total"
+      :items-per-page="pageSize"
+      :sibling-count="siblingCount"
+      :show-edges="props.showEdges"
+      :disabled="blocked"
+      as-child
+      @update:page="update"
     >
-      <PaginationList v-slot="{ items }" as="ul" :class="paginationList()">
-        <li v-if="props.showFirstLast">
-          <PaginationControl action="first" :size="props.size" :dir="direction" />
-        </li>
-        <li>
-          <PaginationControl action="prev" :size="props.size" :dir="direction" />
-        </li>
-        <li
-          v-for="(item, index) in items"
-          :key="item.type === 'page' ? item.value : 'ellipsis-' + index"
-        >
-          <PaginationListItem v-if="item.type === 'page'" :value="item.value" as-child>
-            <Button
-              :variant="item.value === page ? 'solid' : 'ghost'"
-              :tone="item.value === page ? 'accent' : 'neutral'"
-              :size="props.size"
-              :aria-label="t.pagination.pageLabel(item.value)"
-              :class="paginationItem({ size: props.size })"
-            >
-              <slot name="page" :page="item.value" :selected="item.value === page">
-                {{ item.value }}
-              </slot>
-            </Button>
-          </PaginationListItem>
-          <PaginationEllipsis
-            v-else
-            as="span"
-            aria-hidden="true"
-            class="text-muted flex items-center justify-center px-1"
+      <nav
+        :aria-label="props.label ?? t.pagination.navLabel"
+        :inert="props.pending || undefined"
+        :data-disabled="blocked ? '' : undefined"
+        :class="pagination({ align: props.align })"
+      >
+        <slot v-bind="state">
+          <PaginationInfo v-if="props.showInfo" />
+          <PaginationContent>
+            <template v-if="$slots.page" #page="slotProps">
+              <slot name="page" v-bind="slotProps" />
+            </template>
+            <template v-if="$slots.ellipsis" #ellipsis="slotProps">
+              <slot name="ellipsis" v-bind="slotProps" />
+            </template>
+          </PaginationContent>
+          <div
+            v-if="props.pageSizeOptions?.length || props.showJump"
+            class="flex max-w-full flex-wrap items-center gap-3"
           >
-            <slot name="ellipsis"><MoreHorizontal class="size-4" /></slot>
-          </PaginationEllipsis>
-        </li>
-        <li>
-          <PaginationControl action="next" :size="props.size" :dir="direction" />
-        </li>
-        <li v-if="props.showFirstLast">
-          <PaginationControl action="last" :size="props.size" :dir="direction" />
-        </li>
-      </PaginationList>
-    </nav>
-  </PaginationRoot>
+            <PaginationSize v-if="props.pageSizeOptions?.length" />
+            <PaginationJump v-if="props.showJump" />
+          </div>
+        </slot>
+      </nav>
+    </PaginationRoot>
+  </div>
 </template>

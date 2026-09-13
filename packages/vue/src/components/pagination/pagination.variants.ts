@@ -1,11 +1,19 @@
 import { tv } from '../../lib/tv'
 
 export const pagination = tv({
-  base: 'max-w-full',
+  base: 'flex w-full shrink-0 flex-wrap items-center gap-x-4 gap-y-3',
+  variants: {
+    align: {
+      start: 'justify-start',
+      center: 'justify-center',
+      end: 'justify-end',
+      between: 'justify-between',
+    },
+  },
 })
 
 export const paginationList = tv({
-  base: 'flex flex-wrap items-center gap-1',
+  base: 'relative isolate flex max-w-full flex-wrap items-center gap-1',
 })
 
 export const paginationItem = tv({
@@ -16,10 +24,9 @@ export const paginationItem = tv({
       md: 'min-w-[var(--hn-control-h-md)]',
       lg: 'min-w-[var(--hn-control-h-lg)]',
     },
+    selected: { true: 'bg-accent text-accent-on' },
   },
   defaultVariants: { size: 'md' },
 })
 
-export const paginationArrow = tv({
-  variants: { dir: { ltr: '', rtl: 'rotate-180' } },
-})
+export const paginationArrow = tv({ variants: { dir: { ltr: '', rtl: 'rotate-180' } } })

@@ -14,6 +14,15 @@ export interface UiMessages {
     next: string
   }
   pagination: {
+    rangeLabel: (from: number, to: number, total: number) => string
+    pageCountLabel: (page: number, count: number) => string
+    pageSizeLabel: string
+    pageSizeOption: (n: number) => string
+    jumpLabel: string
+    previousPagesLabel: (n: number) => string
+    nextPagesLabel: (n: number) => string
+    choosePage: string
+    choosePageHint: string
     navLabel: string
     prev: string
     next: string

@@ -146,7 +146,7 @@ describe('Pagination interactions', () => {
       { attachTo: document.body },
     )
     mounted.push(w)
-    expect(w.find('nav').attributes('dir')).toBe('rtl')
+    expect(w.find('[data-hn-pagination]').attributes('dir')).toBe('rtl')
     const next = action(w, 'next')
     expect(next.querySelector('svg')?.classList.contains('rotate-180')).toBe(true)
     await userEvent.click(next)
