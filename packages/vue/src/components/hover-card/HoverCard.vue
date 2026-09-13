@@ -54,6 +54,7 @@
           <Card
             :ref="contentRef"
             data-hn-hover-card
+            :inert="!open"
             :padded="props.padded"
             :class="
               cn('hn-anim-pop z-(--hn-z-overlay) max-w-sm shadow-md outline-none', props.class)

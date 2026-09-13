@@ -54,6 +54,7 @@ This example uses [Button](/components/button) to bind pointer and keyboard focu
 
 - Opens after the pointer rests for `openDelay` and closes `closeDelay` after it leaves; moving into the card keeps it open.
 - Focusing the slotted trigger opens after `openDelay`; moving focus away closes after `closeDelay`.
+- Returning during the close delay cancels closing. Once the exit animation starts, the content is no longer interactive and hovering its previous area does not reopen it.
 - A click outside the card or Esc closes it as well.
 - The card does not stop the page from scrolling, and the rest of the page stays interactive.
 - Touch does not open it.
