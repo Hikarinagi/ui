@@ -32,9 +32,11 @@
         :aria-label="t.pagination.pageLabel(item.value)"
         :class="paginationItem({ size, selected: item.value === state.page })"
       >
-        <slot name="page" :page="item.value" :selected="item.value === state.page">
-          {{ item.value }}
-        </slot>
+        <span class="min-w-0 truncate" :title="String(item.value)">
+          <slot name="page" :page="item.value" :selected="item.value === state.page">
+            {{ item.value }}
+          </slot>
+        </span>
       </Button>
     </PaginationListItem>
     <PaginationEllipsis

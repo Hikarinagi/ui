@@ -80,7 +80,7 @@ import { Pagination } from '@hina-ui/vue'
 
 ### 尺寸 {#sizes}
 
-`size` 为 `sm`、`md` 或 `lg`，沿用 [Button](/components/button) 的尺寸。位数较多的页码会按内容扩宽。
+`size` 为 `sm`、`md` 或 `lg`，沿用 [Button](/components/button) 的高度。页码按钮保持等宽等高，随密度设置调整，不会被内容撑宽。超长内容截断显示，悬停页码可查看完整数值。
 
 <Demo name="pagination/sizes" />
 

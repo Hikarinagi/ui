@@ -87,22 +87,55 @@ describe('Pagination interactions', () => {
     expect(selected(w)).toBe('6')
   })
 
-  it.each(['sm', 'md', 'lg'] as const)(
-    'uses Button dimensions for size %s and allows longer page numbers',
-    size => {
-      const w = render({ size, modelValue: 1000, total: 12000 })
-      const button = mount(Button, {
-        props: { size },
-        slots: { default: () => 'Button' },
-        attachTo: document.body,
-      })
-      mounted.push(button)
-      const current = w.find('[aria-current="page"]').element as HTMLElement
-      expect(current.offsetHeight).toBe((button.element as HTMLElement).offsetHeight)
-      expect(current.scrollWidth).toBeLessThanOrEqual(current.clientWidth)
-      expect(getComputedStyle(current).backgroundColor).not.toBe('rgba(0, 0, 0, 0)')
-    },
-  )
+  it.each(
+    (['comfortable', 'compact'] as const).flatMap(density =>
+      (['sm', 'md', 'lg'] as const).map(size => ({ density, size })),
+    ),
+  )('keeps page buttons square in $density density at size $size', async ({ density, size }) => {
+    const w = render({ size, modelValue: 2, total: 12000, showFirstLast: true })
+    const host = w.element as HTMLElement
+    host.dataset.density = density
+    const button = mount(Button, {
+      props: { size, iconOnly: true, 'aria-label': 'Reference' },
+      slots: { default: () => 'A' },
+      attachTo: host,
+    })
+    mounted.push(button)
+    const side = (button.element as HTMLElement).offsetHeight
+    for (const value of [2, 12, 123, 1000]) {
+      await w.setProps({ modelValue: value })
+      for (const item of w.findAll('[data-hn-pagination-content] button')) {
+        const element = item.element as HTMLElement
+        expect(element.offsetWidth).toBe(side)
+        expect(element.offsetHeight).toBe(side)
+        expect(element.scrollWidth).toBeLessThanOrEqual(element.clientWidth)
+      }
+      const current = w.get('[aria-current="page"]')
+      expect(current.text()).toBe(String(value))
+      expect(current.attributes('aria-label')).toBe(`第 ${value} 页`)
+      expect(getComputedStyle(current.element).backgroundColor).not.toBe('rgba(0, 0, 0, 0)')
+    }
+    const page = w.get('[aria-current="page"]').element as HTMLElement
+    expect(page.querySelector('[title="1000"]')).toBeTruthy()
+  })
+
+  it('contains long custom page content without widening or covering adjacent buttons', () => {
+    const w = mount(Pagination, {
+      props: { total: 50, modelValue: 2 },
+      slots: { page: ({ page }: { page: number }) => h('span', `Custom page ${page}`) },
+      attachTo: document.body,
+    })
+    mounted.push(w)
+    const buttons = w.findAll('[data-type="page"]')
+    for (const button of buttons) {
+      const element = button.element as HTMLElement
+      expect(element.offsetWidth).toBe(element.offsetHeight)
+      expect(element.scrollWidth).toBeLessThanOrEqual(element.clientWidth)
+    }
+    const first = buttons[0]!.element.getBoundingClientRect()
+    const second = buttons[1]!.element.getBoundingClientRect()
+    expect(first.right).toBeLessThan(second.left)
+  })
 
   it('inherits and dynamically changes DOM direction, with explicit direction taking precedence', async () => {
     const host = document.createElement('div')

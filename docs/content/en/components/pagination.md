@@ -80,7 +80,7 @@ A temporary total of `0` while loading does not overwrite the bound page. Out-of
 
 ### Sizes {#sizes}
 
-`size` accepts `sm`, `md` or `lg`, using [Button](/components/button) dimensions. Longer page numbers expand to fit their content.
+`size` accepts `sm`, `md` or `lg`, using [Button](/components/button) heights. Page buttons stay square, adapt to the density setting, and do not expand with their content. Long content is truncated; hover a page label to see its full number.
 
 <Demo name="pagination/sizes" />
 

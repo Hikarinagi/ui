@@ -17,12 +17,12 @@ export const paginationList = tv({
 })
 
 export const paginationItem = tv({
-  base: 'tabular-nums',
+  base: 'min-w-0 px-0 tabular-nums [&>span]:min-w-0',
   variants: {
     size: {
-      sm: 'min-w-[var(--hn-control-h-sm)]',
-      md: 'min-w-[var(--hn-control-h-md)]',
-      lg: 'min-w-[var(--hn-control-h-lg)]',
+      sm: 'size-[var(--hn-control-h-sm)]',
+      md: 'size-[var(--hn-control-h-md)]',
+      lg: 'size-[var(--hn-control-h-lg)]',
     },
     selected: { true: 'bg-accent text-accent-on' },
   },
