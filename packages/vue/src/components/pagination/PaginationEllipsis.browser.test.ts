@@ -10,6 +10,11 @@ let mounted: VueWrapper[] = []
 beforeEach(async () => {
   document.body.innerHTML = ''
   await page.viewport(1100, 720)
+  const park = document.createElement('div')
+  park.style.cssText = 'position: fixed; left: 0; top: 0; width: 1px; height: 1px'
+  document.body.append(park)
+  await userEvent.hover(park)
+  park.remove()
 })
 afterEach(() => {
   mounted.forEach(wrapper => wrapper.unmount())

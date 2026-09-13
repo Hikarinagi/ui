@@ -12,7 +12,7 @@ import {
 import { useEventListener } from '@vueuse/core'
 import { usePaginationContext } from '../context'
 import { paginationRanges } from '../utils/ranges'
-import { inPaginationCorridor } from '../utils/pointer'
+import { inPointerCorridor } from '../../../lib/pointer-corridor'
 import type { PaginationEntry, PaginationRange, PaginationSide } from '../types'
 
 export function usePaginationEllipsis(
@@ -115,7 +115,7 @@ export function usePaginationEllipsis(
     if (!open.value) return
     const a = source.value?.getBoundingClientRect()
     const b = panel.value?.getBoundingClientRect()
-    if (a && b && inPaginationCorridor({ x: event.clientX, y: event.clientY }, a, b)) return
+    if (a && b && inPointerCorridor({ x: event.clientX, y: event.clientY }, a, b)) return
     clearTimeout(closing)
     closing = setTimeout(() => close(), 100)
   }
@@ -234,7 +234,7 @@ export function usePaginationEllipsis(
       if (source.value?.contains(target) || panel.value?.contains(target)) return keep()
       const a = source.value?.getBoundingClientRect()
       const b = panel.value?.getBoundingClientRect()
-      if (a && b && inPaginationCorridor({ x: pointer.clientX, y: pointer.clientY }, a, b))
+      if (a && b && inPointerCorridor({ x: pointer.clientX, y: pointer.clientY }, a, b))
         return keep()
       leave(pointer)
     },

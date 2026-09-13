@@ -2,7 +2,7 @@ type Point = { x: number; y: number }
 const cross = (a: Point, b: Point, c: Point) =>
   (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x)
 
-export function inPaginationCorridor(point: Point, first: DOMRect, second: DOMRect) {
+export function inPointerCorridor(point: Point, first: DOMRect, second: DOMRect) {
   const points = [first, second]
     .flatMap(rect => [
       { x: rect.left - 6, y: rect.top - 6 },
