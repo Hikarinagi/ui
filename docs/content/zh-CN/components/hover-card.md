@@ -48,6 +48,8 @@ import { HoverCard } from '@hina-ui/vue'
 
 示例使用 [Button](/components/button) 绑定指针和键盘焦点事件。
 
+退场期间仍跟随页面上有效的锚点；锚点清空或移除后，使用最后的位置完成退场。
+
 <Demo name="hover-card/anchor" />
 
 ## 行为 {#behavior}

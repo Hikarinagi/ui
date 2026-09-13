@@ -48,6 +48,8 @@ An external anchor does not open the card automatically. Setting `open = true` o
 
 This example uses [Button](/components/button) to bind pointer and keyboard focus events.
 
+During exit, the card continues to follow a connected anchor. If the anchor is cleared or removed, it finishes exiting at the last recorded position.
+
 <Demo name="hover-card/anchor" />
 
 ## Behavior {#behavior}

@@ -18,16 +18,13 @@ export function useHoverCardAnchor(props: HoverCardAnchorOptions) {
   const panel = computed(() =>
     props.external ? (content.value?.$el as HTMLElement | undefined) : undefined,
   )
+  const liveAnchor = shallowRef<HTMLElement>()
   const retained = shallowRef<{
     getBoundingClientRect: () => DOMRect
     contextElement: HTMLElement
   }>()
   const reference = computed(() =>
-    props.external
-      ? root.open.value && anchor.value?.isConnected
-        ? anchor.value
-        : retained.value
-      : undefined,
+    props.external ? (liveAnchor.value ?? retained.value) : undefined,
   )
   let timer: ReturnType<typeof setTimeout> | undefined
   let tracking = false
@@ -82,7 +79,12 @@ export function useHoverCardAnchor(props: HoverCardAnchorOptions) {
 
   function measure() {
     const element = anchor.value
-    if (!element?.isConnected) return dismiss()
+    if (!element?.isConnected) {
+      liveAnchor.value = undefined
+      if (root.open.value) dismiss()
+      return
+    }
+    liveAnchor.value = element
     const rect = element.getBoundingClientRect()
     const previous = retained.value?.getBoundingClientRect()
     if (
@@ -102,18 +104,19 @@ export function useHoverCardAnchor(props: HoverCardAnchorOptions) {
   root.onDismiss = () => (props.external ? dismiss() : original.onDismiss())
 
   watch(
-    [anchor, root.open],
-    ([element, open], previous) => {
+    [anchor, root.open, present],
+    ([element, , mounted], previous) => {
       cancel()
       tracking = false
       pause()
-      if (!props.external) return
+      if (!props.external || !mounted) {
+        liveAnchor.value = undefined
+        return
+      }
       if (element !== previous?.[0]) {
         root.hasSelectionRef.value = false
         root.isPointerDownOnContentRef.value = false
       }
-      if (!open) return
-      if (!element?.isConnected) return dismiss()
       measure()
       resume()
     },

@@ -9,6 +9,7 @@ let mounted: VueWrapper[] = []
 beforeEach(async () => {
   document.body.innerHTML = ''
   await page.viewport(1000, 700)
+  window.scrollTo(0, 0)
 })
 afterEach(() => {
   mounted.forEach(w => w.unmount())
@@ -99,6 +100,36 @@ async function visible() {
 const center = (element: HTMLElement) => {
   const rect = element.getBoundingClientRect()
   return rect.left + rect.width / 2
+}
+
+function scrollable(w: VueWrapper, target: 'page' | 'container') {
+  const root = w.element as HTMLElement
+  if (target === 'page') {
+    root.style.height = '1600px'
+    return document.documentElement
+  }
+  root.style.cssText = 'position:relative;width:1000px;height:500px;overflow:auto'
+  const spacer = document.createElement('div')
+  spacer.style.height = '1600px'
+  root.appendChild(spacer)
+  return root
+}
+
+async function pauseExit() {
+  await vi.waitFor(() => expect(panel()?.dataset.state).toBe('closed'), { interval: 5 })
+  const card = panel()!
+  const animations = card.getAnimations()
+  expect(animations.length).toBeGreaterThan(0)
+  animations.forEach(animation => animation.pause())
+  return { card, positioner: card.parentElement!, animations }
+}
+
+async function aligned(positioner: HTMLElement, anchor: HTMLElement) {
+  await vi.waitFor(() =>
+    expect(
+      Math.abs(positioner.getBoundingClientRect().top - anchor.getBoundingClientRect().bottom - 8),
+    ).toBeLessThan(1),
+  )
 }
 
 describe('HoverCard external anchor', () => {
@@ -289,6 +320,56 @@ describe('HoverCard external anchor', () => {
     document.dispatchEvent(new Event('scroll'))
     await vi.waitFor(() => expect(open.value).toBe(false))
   })
+
+  it.each(['page', 'container'] as const)(
+    'follows the connected anchor throughout exit while the %s scrolls',
+    async target => {
+      const { w, a, anchor, open, update } = render()
+      const scroller = scrollable(w, target)
+      anchor.value = a
+      open.value = true
+      await visible()
+      scroller.scrollTop = 40
+      const { card, positioner, animations } = await pauseExit()
+      expect(open.value).toBe(false)
+      expect(card.inert).toBe(true)
+      await aligned(positioner, a)
+      scroller.scrollTop = 80
+      await aligned(positioner, a)
+      expect(panel()).toBe(card)
+      expect(update.mock.calls).toEqual([[false]])
+      animations.forEach(animation => animation.play())
+      await vi.waitFor(() => expect(panel()).toBeNull())
+      const measure = vi.spyOn(a, 'getBoundingClientRect')
+      await settle(80)
+      expect(measure).not.toHaveBeenCalled()
+    },
+  )
+
+  it.each(['clear', 'remove'])(
+    'retains the latest position when the anchor is invalidated by %s during exit',
+    async kind => {
+      const { w, a, anchor, open } = render()
+      const scroller = scrollable(w, 'container')
+      anchor.value = a
+      open.value = true
+      await visible()
+      scroller.scrollTop = 40
+      const { positioner, animations } = await pauseExit()
+      await aligned(positioner, a)
+      scroller.scrollTop = 80
+      await aligned(positioner, a)
+      await settle(40)
+      const transform = getComputedStyle(positioner).transform
+      if (kind === 'clear') anchor.value = null
+      else a.remove()
+      await settle(60)
+      expect(getComputedStyle(positioner).transform).toBe(transform)
+      expect(open.value).toBe(false)
+      animations.forEach(animation => animation.play())
+      await vi.waitFor(() => expect(panel()).toBeNull())
+    },
+  )
 
   it('retains the slotted trigger when an anchor is also supplied', async () => {
     const { b } = render()
