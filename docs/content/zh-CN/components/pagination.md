@@ -80,9 +80,15 @@ import { Pagination } from '@hina-ui/vue'
 
 ### 尺寸 {#sizes}
 
-`size` 为 `sm`、`md` 或 `lg`，沿用 [Button](/components/button) 的高度。页码按钮保持等宽等高，随密度设置调整，不会被内容撑宽。超长内容截断显示，悬停页码可查看完整数值。
+`size` 为 `sm`、`md` 或 `lg`，沿用 [Button](/components/button) 的高度。页码按钮保持等宽等高，随密度设置调整，不会被内容撑宽。超长内容截断显示。
 
 <Demo name="pagination/sizes" />
+
+### 内容截断 {#truncation}
+
+页码内容实际截断时，悬停或键盘聚焦按钮会通过 [Tooltip](/components/tooltip) 显示完整文本，支持自定义的 `#page` 内容。需要外层有 [TooltipProvider](/components/tooltip#provider)，[AppShell](/components/app-shell) 已包含。
+
+<Demo name="pagination/truncation" />
 
 ### 状态 {#states}
 

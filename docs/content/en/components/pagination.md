@@ -80,9 +80,15 @@ A temporary total of `0` while loading does not overwrite the bound page. Out-of
 
 ### Sizes {#sizes}
 
-`size` accepts `sm`, `md` or `lg`, using [Button](/components/button) heights. Page buttons stay square, adapt to the density setting, and do not expand with their content. Long content is truncated; hover a page label to see its full number.
+`size` accepts `sm`, `md` or `lg`, using the same heights as [Button](/components/button). Page buttons stay square across density settings. Long content is truncated without widening the buttons.
 
 <Demo name="pagination/sizes" />
+
+### Truncated content {#truncation}
+
+When page content is truncated, hovering or focusing the button with a keyboard shows the full text in a [Tooltip](/components/tooltip), including custom `#page` content. An outer [TooltipProvider](/components/tooltip#provider) is required; [AppShell](/components/app-shell) includes one.
+
+<Demo name="pagination/truncation" />
 
 ### States {#states}
 

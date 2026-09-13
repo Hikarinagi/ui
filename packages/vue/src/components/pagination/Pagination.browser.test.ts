@@ -116,7 +116,7 @@ describe('Pagination interactions', () => {
       expect(getComputedStyle(current.element).backgroundColor).not.toBe('rgba(0, 0, 0, 0)')
     }
     const page = w.get('[aria-current="page"]').element as HTMLElement
-    expect(page.querySelector('[title="1000"]')).toBeTruthy()
+    expect(page.querySelector('[title]')).toBeNull()
   })
 
   it('contains long custom page content without widening or covering adjacent buttons', () => {

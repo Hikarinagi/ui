@@ -1,19 +1,15 @@
 <script setup lang="ts">
   import { toRef } from 'vue'
-  import { PaginationListItem } from 'reka-ui'
-  import Button from '../button/Button.vue'
-  import { useUiLocale } from '../../locale'
   import { usePaginationContext } from './context'
   import PaginationControl from './PaginationControl.vue'
+  import PaginationPage from './PaginationPage.vue'
   import PaginationEllipsis from './PaginationEllipsis.vue'
   import PaginationPopup from './PaginationPopup.vue'
-  import { paginationItem } from './pagination.variants'
   import { usePaginationEllipsis } from './composables/usePaginationEllipsis'
   import type { PaginationEntry } from './types'
   defineOptions({ name: 'HnPaginationPages' })
   const props = defineProps<{ items: PaginationEntry[]; host?: HTMLElement }>()
-  const { state, size, direction, showFirstLast } = usePaginationContext()
-  const t = useUiLocale()
+  const { size, direction, showFirstLast } = usePaginationContext()
   const ellipsis = usePaginationEllipsis(toRef(props, 'host'), () => props.items)
 </script>
 
@@ -24,21 +20,11 @@
     v-for="(item, index) in props.items"
     :key="item.type === 'page' ? item.value : 'ellipsis-' + (index === 1 ? 'prev' : 'next')"
   >
-    <PaginationListItem v-if="item.type === 'page'" :value="item.value" as-child>
-      <Button
-        variant="ghost"
-        tone="neutral"
-        :size="size"
-        :aria-label="t.pagination.pageLabel(item.value)"
-        :class="paginationItem({ size, selected: item.value === state.page })"
-      >
-        <span class="min-w-0 truncate" :title="String(item.value)">
-          <slot name="page" :page="item.value" :selected="item.value === state.page">
-            {{ item.value }}
-          </slot>
-        </span>
-      </Button>
-    </PaginationListItem>
+    <PaginationPage v-if="item.type === 'page'" :page="item.value">
+      <template v-if="$slots.page" #default="slotProps">
+        <slot name="page" v-bind="slotProps" />
+      </template>
+    </PaginationPage>
     <PaginationEllipsis
       v-else-if="
         ellipsis.ranges.value.find(range => range.side === (index === 1 ? 'prev' : 'next'))
