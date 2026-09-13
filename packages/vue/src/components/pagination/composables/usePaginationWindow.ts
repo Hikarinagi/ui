@@ -10,14 +10,16 @@ export function usePaginationWindow(controller: PaginationEllipsisController) {
   const top = ref(0)
   const height = ref(224)
   const rowHeight = ref(36)
+  const rowGap = ref(0)
+  const rowStep = computed(() => rowHeight.value + rowGap.value)
   const activePage = ref(1)
   const range = controller.displayRange
   const count = computed(() => (range.value ? range.value.to - range.value.from + 1 : 0))
-  const extent = computed(() => count.value * rowHeight.value)
+  const extent = computed(() => Math.max(0, count.value * rowStep.value - rowGap.value))
   const rows = computed(() => {
     if (!range.value) return []
-    const start = Math.max(0, Math.floor(top.value / rowHeight.value) - 3)
-    const end = Math.min(count.value, start + Math.ceil(height.value / rowHeight.value) + 7)
+    const start = Math.max(0, Math.floor(top.value / rowStep.value) - 3)
+    const end = Math.min(count.value, start + Math.ceil(height.value / rowStep.value) + 7)
     const values = Array.from(
       { length: Math.max(0, end - start) },
       (_, i) => start + i + range.value!.from,
@@ -28,15 +30,16 @@ export function usePaginationWindow(controller: PaginationEllipsisController) {
       !values.includes(activePage.value)
     )
       values.push(activePage.value)
-    return values.map(page => ({ page, top: (page - range.value!.from) * rowHeight.value }))
+    return values.map(page => ({ page, top: (page - range.value!.from) * rowStep.value }))
   })
 
   function measure() {
     if (viewport.value) height.value = viewport.value.clientHeight || 224
     const button = rowsHost.value?.querySelector<HTMLElement>('[data-hn-pagination-choice]')
-    if (button)
-      rowHeight.value =
-        button.offsetHeight + (Number.parseFloat(getComputedStyle(rowsHost.value!).rowGap) || 0)
+    if (button) {
+      rowHeight.value = button.offsetHeight
+      rowGap.value = Number.parseFloat(getComputedStyle(rowsHost.value!).rowGap) || 0
+    }
   }
 
   async function focusPage(page: number) {
@@ -44,7 +47,7 @@ export function usePaginationWindow(controller: PaginationEllipsisController) {
     activePage.value = Math.min(range.value.to, Math.max(range.value.from, page))
     const element = viewport.value
     if (element) {
-      const offset = (activePage.value - range.value.from) * rowHeight.value
+      const offset = (activePage.value - range.value.from) * rowStep.value
       if (offset < element.scrollTop) element.scrollTop = offset
       else if (offset + rowHeight.value > element.scrollTop + element.clientHeight)
         element.scrollTop = offset + rowHeight.value - element.clientHeight
@@ -58,7 +61,7 @@ export function usePaginationWindow(controller: PaginationEllipsisController) {
 
   function keydown(event: KeyboardEvent) {
     if (!range.value) return
-    const step = Math.max(1, Math.floor(height.value / rowHeight.value))
+    const step = Math.max(1, Math.floor(height.value / rowStep.value))
     const targets: Record<string, number> = {
       ArrowDown: activePage.value + 1,
       ArrowUp: activePage.value - 1,

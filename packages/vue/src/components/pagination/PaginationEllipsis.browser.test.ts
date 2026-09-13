@@ -192,6 +192,33 @@ describe('Pagination ellipsis', () => {
     expect(popup()?.dataset.state).toBe('open')
   })
 
+  it.each(['sm', 'md', 'lg'] as const)(
+    'keeps top and bottom popup spacing equal at size %s',
+    async size => {
+      const w = render({ total: 90, modelValue: 5, size })
+      await hover(w)
+      const panel = popup()!
+      await Promise.all(panel.getAnimations().map(animation => animation.finished))
+      const bounds = panel.getBoundingClientRect()
+      const top = choice(2).getBoundingClientRect().top - bounds.top
+      const bottom = bounds.bottom - choice(3).getBoundingClientRect().bottom
+      expect(bottom).toBeCloseTo(top)
+      const viewport = panel.querySelector<HTMLElement>('[data-overlayscrollbars-viewport]')!
+      expect(viewport.scrollHeight).toBe(viewport.clientHeight)
+
+      await w.setProps({ total: 10000, modelValue: 500 })
+      trigger(w).focus()
+      await userEvent.keyboard('{ArrowUp}')
+      await vi.waitFor(() => expect(document.activeElement).toBe(choice(498)))
+      await vi.waitFor(() => {
+        const bottom =
+          panel.getBoundingClientRect().bottom - choice(498).getBoundingClientRect().bottom
+        expect(bottom).toBeCloseTo(top)
+        expect(viewport.scrollHeight - viewport.clientHeight - viewport.scrollTop).toBeLessThan(1)
+      })
+    },
+  )
+
   it('allows a slow mouse crossing of the trigger-to-popup gap', async () => {
     const w = render()
     await hover(w)
