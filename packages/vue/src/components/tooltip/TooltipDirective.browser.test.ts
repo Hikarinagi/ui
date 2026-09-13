@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { userEvent } from 'vitest/browser'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { defineComponent, h, ref, Teleport, withDirectives } from 'vue'
+import { defineComponent, h, nextTick, ref, Teleport, withDirectives } from 'vue'
 import { vTooltip } from './directive'
 import type { TooltipDirectiveValue } from './types'
 import TooltipProvider from './TooltipProvider.vue'
@@ -98,6 +98,41 @@ describe('tooltip directive', () => {
     expect(target.getAttribute('aria-describedby')).toBe('existing')
   })
 
+  it.each(['directive', 'component'])(
+    'closes the %s tooltip when the pointer leaves for plain content',
+    async kind => {
+      const { w, target } = harness()
+      const trigger = kind === 'directive' ? target : w.find('#component').element
+      await userEvent.hover(trigger)
+      await vi.waitFor(() => expect(tip()).toBeTruthy())
+      const outside = w.find('#existing').element
+      await userEvent.hover(outside)
+      await userEvent.hover(outside, { position: { x: 1, y: 1 } })
+      await vi.waitFor(() => expect(bubble()).toBeNull())
+      if (kind === 'directive') expect(target.getAttribute('aria-describedby')).toBe('existing')
+    },
+  )
+
+  it('closes after leaving the hoverable content and still works after re-enabling', async () => {
+    const { w, target, value } = harness()
+    for (const disabled of [false, true]) {
+      if (disabled) {
+        value.value = { content: '说明', disabled: true }
+        await nextTick()
+        await vi.waitFor(() => expect(bubble()).toBeNull())
+        value.value = '说明'
+      }
+      await userEvent.hover(target)
+      await vi.waitFor(() => expect(bubble()).toBeTruthy())
+      await userEvent.hover(bubble()!)
+      expect(tip()?.textContent).toBe('说明')
+      const outside = w.find('#existing').element
+      await userEvent.hover(outside)
+      await userEvent.hover(outside, { position: { x: 1, y: 1 } })
+      await vi.waitFor(() => expect(bubble()).toBeNull())
+    }
+  })
+
   it('updates options and descriptions while open, and closes when disabled or empty', async () => {
     const { target, value, description } = harness({ content: '最初', side: 'top' })
     await userEvent.hover(target)
@@ -144,6 +179,9 @@ describe('tooltip directive', () => {
     expect(tip()).toBeNull()
     await vi.waitFor(() => expect(tip()?.textContent).toBe('延迟'))
     const directiveId = tip()!.id
+    const outside = w.find('#existing').element
+    await userEvent.hover(outside)
+    await userEvent.hover(outside, { position: { x: 1, y: 1 } })
     await userEvent.hover(w.find('#component').element)
     await vi.waitFor(() => expect(tip()?.textContent).toBe('组件提示'), { timeout: 250 })
     expect(tip()!.id).not.toBe(directiveId)

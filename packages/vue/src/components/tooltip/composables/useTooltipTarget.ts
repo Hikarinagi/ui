@@ -1,4 +1,4 @@
-import { onScopeDispose, watch } from 'vue'
+import { onScopeDispose, watch, watchPostEffect } from 'vue'
 import { useEventListener } from '@vueuse/core'
 import { injectTooltipProviderContext, injectTooltipRootContext } from 'reka-ui'
 
@@ -11,6 +11,11 @@ export function useTooltipTarget(
 ) {
   const root = injectTooltipRootContext()
   const provider = injectTooltipProviderContext()
+
+  watchPostEffect(() => {
+    if (root.trigger.value !== target) root.onTriggerChange(target)
+  })
+
   const contentId = root.contentId
   const graceAttribute = 'data-grace-area-trigger'
   const previousGrace = target.getAttribute(graceAttribute)

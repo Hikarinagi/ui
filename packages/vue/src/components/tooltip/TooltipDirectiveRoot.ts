@@ -21,9 +21,8 @@ const TooltipTarget = defineComponent({
     const ExternalTarget = defineComponent({
       name: 'HnTooltipElement',
       inheritAttrs: false,
-      setup(_, { attrs, expose }) {
+      setup(_, { attrs }) {
         useTooltipTarget(props.target, attrs, () => props.revision)
-        expose({ $el: props.target })
         return () => null
       },
     })
