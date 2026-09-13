@@ -38,6 +38,8 @@ Click an ellipsis with a mouse to skip `2 × siblingCount + 1` pages in that dir
 
 Both ellipses share one popup. Switching sides updates its position and range; repeated skips refresh the open range. The popup flips when space is limited. Long ranges scroll and only render choices near the visible area.
 
+During exit, the popup continues to follow its trigger. If the trigger is removed, the popup finishes exiting at its last position.
+
 <Demo name="pagination/ellipsis" />
 
 ### Optional controls {#controls}

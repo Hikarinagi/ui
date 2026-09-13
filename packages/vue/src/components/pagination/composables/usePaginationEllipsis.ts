@@ -9,7 +9,7 @@ import {
   type ComponentPublicInstance,
   type Ref,
 } from 'vue'
-import { useEventListener } from '@vueuse/core'
+import { useEventListener, useRafFn } from '@vueuse/core'
 import { usePaginationContext } from '../context'
 import { paginationRanges } from '../utils/ranges'
 import { inPointerCorridor } from '../../../lib/pointer-corridor'
@@ -37,7 +37,6 @@ export function usePaginationEllipsis(
   const triggers = new Map<PaginationSide, HTMLElement>()
   let opening: ReturnType<typeof setTimeout> | undefined
   let closing: ReturnType<typeof setTimeout> | undefined
-  let frame: number | undefined
   let mode: 'mouse' | 'keyboard' | 'touch' = 'keyboard'
   let lastInput = 'keyboard'
   let restore = false
@@ -52,7 +51,7 @@ export function usePaginationEllipsis(
 
   function measure() {
     const element = source.value
-    if (!open.value || !element?.isConnected) return
+    if (!element?.isConnected) return
     const next = element.getBoundingClientRect()
     const old = rect.value
     if (
@@ -63,13 +62,17 @@ export function usePaginationEllipsis(
       next.height !== old.height
     )
       rect.value = next
-    frame = element.ownerDocument.defaultView?.requestAnimationFrame(measure)
   }
+
+  const { pause, resume } = useRafFn(measure, { immediate: false })
+  watch(
+    () => open.value || !!panel.value,
+    present => (present ? resume() : pause()),
+    { flush: 'post' },
+  )
 
   function close(returnFocus = false) {
     cancel()
-    if (frame !== undefined) source.value?.ownerDocument.defaultView?.cancelAnimationFrame(frame)
-    frame = undefined
     restore = returnFocus
     open.value = false
     focusRequest.value = undefined
@@ -88,8 +91,6 @@ export function usePaginationEllipsis(
     restore = false
     open.value = true
     suppressed = false
-    if (frame !== undefined) trigger.ownerDocument.defaultView?.cancelAnimationFrame(frame)
-    measure()
     if (edge) focusRequest.value = { edge }
   }
 
@@ -239,10 +240,7 @@ export function usePaginationEllipsis(
       leave(pointer)
     },
   )
-  onScopeDispose(() => {
-    cancel()
-    if (frame !== undefined) source.value?.ownerDocument.defaultView?.cancelAnimationFrame(frame)
-  })
+  onScopeDispose(cancel)
   return {
     id,
     open,
