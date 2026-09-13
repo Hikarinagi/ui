@@ -10,19 +10,25 @@ describe('HoverCard SSR', () => {
         render: () =>
           h(
             HoverCard,
-            {},
+            { positionerClass: 'positioner-only' },
             { default: () => h('a', { href: '#' }, 'Trigger'), content: () => 'Content' },
           ),
       }),
     )
     expect(html).toContain('Trigger')
+    expect(html).not.toContain('positioner-only')
     expect(html).not.toContain('data-hn-hover-card')
   })
 
   it('allows an empty trigger slot and a null external anchor during server rendering', async () => {
     const html = await renderToString(
       createSSRApp({
-        render: () => h(HoverCard, { anchor: null, open: true }, { content: () => 'Content' }),
+        render: () =>
+          h(
+            HoverCard,
+            { anchor: null, open: true, positionerClass: 'positioner-only' },
+            { content: () => 'Content' },
+          ),
       }),
     )
     expect(html).not.toContain('data-hn-hover-card')

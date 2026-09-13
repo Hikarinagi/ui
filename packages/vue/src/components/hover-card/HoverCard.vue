@@ -16,6 +16,7 @@
       closeDelay?: number
       padded?: boolean
       class?: string
+      positionerClass?: string
     }>(),
     {
       side: 'bottom',
@@ -42,6 +43,7 @@
       :anchor="props.anchor"
       :external="!$slots.default"
       :close-delay="props.closeDelay"
+      :positioner-class="props.positionerClass"
     >
       <HoverCardPortal v-if="present">
         <HoverCardContent

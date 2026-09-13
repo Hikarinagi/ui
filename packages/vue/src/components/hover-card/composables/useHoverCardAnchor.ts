@@ -2,12 +2,14 @@ import { computed, onScopeDispose, shallowRef, watch, type ComponentPublicInstan
 import { useEventListener, useRafFn } from '@vueuse/core'
 import { injectHoverCardRootContext } from 'reka-ui'
 import { useOverlayPortal } from '../../../lib/overlay-portal'
+import { useOverlayPositionerClass } from '../../../lib/overlay-positioner'
 import { inPointerCorridor } from '../../../lib/pointer-corridor'
 
 interface HoverCardAnchorOptions {
   anchor?: HTMLElement | null
   external: boolean
   closeDelay: number
+  positionerClass?: string
 }
 
 export function useHoverCardAnchor(props: HoverCardAnchorOptions) {
@@ -15,6 +17,7 @@ export function useHoverCardAnchor(props: HoverCardAnchorOptions) {
   const original = { onOpen: root.onOpen, onClose: root.onClose, onDismiss: root.onDismiss }
   const anchor = computed(() => (props.external ? (props.anchor ?? undefined) : undefined))
   const { content, present } = useOverlayPortal(root.open)
+  useOverlayPositionerClass(content, () => props.positionerClass)
   const panel = computed(() =>
     props.external ? (content.value?.$el as HTMLElement | undefined) : undefined,
   )

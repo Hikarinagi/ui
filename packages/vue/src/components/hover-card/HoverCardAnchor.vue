@@ -6,6 +6,7 @@
     anchor?: HTMLElement | null
     external: boolean
     closeDelay: number
+    positionerClass?: string
   }>()
   const { reference, contentRef, present } = useHoverCardAnchor(props)
 </script>

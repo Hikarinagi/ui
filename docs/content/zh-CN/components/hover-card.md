@@ -52,6 +52,14 @@ import { HoverCard } from '@hina-ui/vue'
 
 <Demo name="hover-card/anchor" />
 
+### 定位层样式 {#positioner}
+
+`positionerClass` 为外层定位节点追加类名，`class` 仍作用于内层卡片。可以使用 utility 或全局 CSS 类定义移动过渡，与卡片的入退场动画分别控制。
+
+示例在卡片已打开且切换锚点时启用 `hn-transition-base`，首次打开和关闭时移除移动过渡；减少动态效果偏好下不播放移动动画。触发器使用 [Button](/components/button)。
+
+<Demo name="hover-card/movement" />
+
 ## 行为 {#behavior}
 
 - 指针停留 `openDelay` 后浮出，移开 `closeDelay` 后收回；移进卡片内保持打开。
@@ -70,17 +78,18 @@ import { HoverCard } from '@hina-ui/vue'
 
 ### Props {#props}
 
-| 属性         | 类型                                     | 默认值     | 说明                             |
-| ------------ | ---------------------------------------- | ---------- | -------------------------------- |
-| `anchor`     | `HTMLElement \| null`                    | —          | 外部定位元素，默认插槽为空时使用 |
-| `side`       | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | 浮出的方向                       |
-| `align`      | `'start' \| 'center' \| 'end'`           | `'center'` | 与触发器的对齐方式               |
-| `sideOffset` | `number`                                 | `8`        | 与触发器的距离，像素             |
-| `openDelay`  | `number`                                 | `300`      | 停留多久后浮出，毫秒             |
-| `closeDelay` | `number`                                 | `150`      | 移开多久后收回，毫秒             |
-| `padded`     | `boolean`                                | `true`     | 卡片是否带内边距                 |
-| `open`       | `boolean`                                | —          | 是否打开，支持双向绑定           |
-| `class`      | `string`                                 | —          | 追加至卡片的类名                 |
+| 属性              | 类型                                     | 默认值     | 说明                             |
+| ----------------- | ---------------------------------------- | ---------- | -------------------------------- |
+| `anchor`          | `HTMLElement \| null`                    | —          | 外部定位元素，默认插槽为空时使用 |
+| `side`            | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | 浮出的方向                       |
+| `align`           | `'start' \| 'center' \| 'end'`           | `'center'` | 与触发器的对齐方式               |
+| `sideOffset`      | `number`                                 | `8`        | 与触发器的距离，像素             |
+| `openDelay`       | `number`                                 | `300`      | 停留多久后浮出，毫秒             |
+| `closeDelay`      | `number`                                 | `150`      | 移开多久后收回，毫秒             |
+| `padded`          | `boolean`                                | `true`     | 卡片是否带内边距                 |
+| `open`            | `boolean`                                | —          | 是否打开，支持双向绑定           |
+| `class`           | `string`                                 | —          | 追加至卡片的类名                 |
+| `positionerClass` | `string`                                 | —          | 追加至外层定位节点的类名         |
 
 ### 插槽 {#slots}
 

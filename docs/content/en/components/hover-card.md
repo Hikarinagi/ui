@@ -52,6 +52,14 @@ During exit, the card continues to follow a connected anchor. If the anchor is c
 
 <Demo name="hover-card/anchor" />
 
+### Positioner styling {#positioner}
+
+`positionerClass` adds classes to the outer positioning element, while `class` still applies to the inner card. Use utilities or global CSS classes to define movement transitions separately from the card's enter and exit animations.
+
+This example enables `hn-transition-base` when switching anchors while the card is open. It removes the movement transition on initial opening and closing, and disables it when reduced motion is preferred. The triggers use [Button](/components/button).
+
+<Demo name="hover-card/movement" />
+
 ## Behavior {#behavior}
 
 - Opens after the pointer rests for `openDelay` and closes `closeDelay` after it leaves; moving into the card keeps it open.
@@ -70,17 +78,18 @@ During exit, the card continues to follow a connected anchor. If the anchor is c
 
 ### Props {#props}
 
-| Prop         | Type                                     | Default    | Description                                                 |
-| ------------ | ---------------------------------------- | ---------- | ----------------------------------------------------------- |
-| `anchor`     | `HTMLElement \| null`                    | —          | External positioning element when the default slot is empty |
-| `side`       | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | Side the card floats out on                                 |
-| `align`      | `'start' \| 'center' \| 'end'`           | `'center'` | Alignment against the trigger                               |
-| `sideOffset` | `number`                                 | `8`        | Distance from the trigger in pixels                         |
-| `openDelay`  | `number`                                 | `300`      | Rest time before opening, in milliseconds                   |
-| `closeDelay` | `number`                                 | `150`      | Delay after leaving before closing, in ms                   |
-| `padded`     | `boolean`                                | `true`     | Whether the card has padding                                |
-| `open`       | `boolean`                                | —          | Whether it is open, supports two-way binding                |
-| `class`      | `string`                                 | —          | Classes appended to the card                                |
+| Prop              | Type                                     | Default    | Description                                                 |
+| ----------------- | ---------------------------------------- | ---------- | ----------------------------------------------------------- |
+| `anchor`          | `HTMLElement \| null`                    | —          | External positioning element when the default slot is empty |
+| `side`            | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | Side the card floats out on                                 |
+| `align`           | `'start' \| 'center' \| 'end'`           | `'center'` | Alignment against the trigger                               |
+| `sideOffset`      | `number`                                 | `8`        | Distance from the trigger in pixels                         |
+| `openDelay`       | `number`                                 | `300`      | Rest time before opening, in milliseconds                   |
+| `closeDelay`      | `number`                                 | `150`      | Delay after leaving before closing, in ms                   |
+| `padded`          | `boolean`                                | `true`     | Whether the card has padding                                |
+| `open`            | `boolean`                                | —          | Whether it is open, supports two-way binding                |
+| `class`           | `string`                                 | —          | Classes appended to the card                                |
+| `positionerClass` | `string`                                 | —          | Classes added to the outer positioning element              |
 
 ### Slots {#slots}
 
