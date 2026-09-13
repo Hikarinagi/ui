@@ -1,7 +1,7 @@
 import { computed, shallowRef, watchEffect } from 'vue'
 import { injectConfigProviderContext, type Direction } from 'reka-ui'
 
-export function useSliderDirection(dir: () => Direction | undefined) {
+export function useDirection(dir: () => Direction | undefined) {
   const root = shallowRef<HTMLElement>()
   const context = injectConfigProviderContext(null)
   const inherited = shallowRef<Direction>('ltr')

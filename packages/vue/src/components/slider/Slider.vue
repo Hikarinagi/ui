@@ -5,7 +5,7 @@
   import { useFieldControl } from '../form-field/context'
   import { useUiLocale } from '../../locale'
   import { useSliderChrome } from './composables/useSliderChrome'
-  import { useSliderDirection } from './composables/useSliderDirection'
+  import { useDirection } from '../../lib/useDirection'
   import SliderHandle from './SliderHandle.vue'
   import SliderMarks from './SliderMarks.vue'
   import {
@@ -38,7 +38,7 @@
 
   const model = defineModel<number>()
 
-  const { root, direction, rootDirection } = useSliderDirection(() => props.dir)
+  const { root, direction, rootDirection } = useDirection(() => props.dir)
   const t = useUiLocale()
   const { labelledBy, invalid, disabled, describedBy } = useFieldControl({
     disabled: () => props.disabled,
