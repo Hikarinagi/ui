@@ -18,6 +18,8 @@ import { Pagination } from '@hina-ui/vue'
 
 Bind the current page with `v-model`, starting at `1`. `total` is the item count and `page-size` is the number of items per page. Page and navigation buttons update the current page.
 
+By default, Pagination displays page numbers, previous and next buttons, and interactive ellipses. Information, the size selector and the page input are optional.
+
 <Demo name="pagination/basic" />
 
 ## Examples {#examples}
@@ -38,7 +40,7 @@ Both ellipses share one popup. Switching sides updates its position and range; r
 
 <Demo name="pagination/ellipsis" />
 
-### Information, page size and jump {#controls}
+### Optional controls {#controls}
 
 `show-info` displays the item range, total count and page count. Set `item-count` to the actual number of items shown on the current page. Otherwise the range uses `page-size`, capped at the total count.
 

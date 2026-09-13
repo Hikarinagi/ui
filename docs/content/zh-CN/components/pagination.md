@@ -18,6 +18,8 @@ import { Pagination } from '@hina-ui/vue'
 
 用 `v-model` 绑定当前页，从 `1` 开始。`total` 是总条数，`page-size` 是每页条数，页数由二者计算。点击页码或翻页按钮会更新当前页。
 
+默认只显示页码、前后翻页按钮和交互省略号。信息区、条数选择器与跳页输入框按需开启。
+
 <Demo name="pagination/basic" />
 
 ## 示例 {#examples}
@@ -38,7 +40,7 @@ import { Pagination } from '@hina-ui/vue'
 
 <Demo name="pagination/ellipsis" />
 
-### 信息、条数与跳页 {#controls}
+### 可选控件 {#controls}
 
 `show-info` 显示条目范围、总条数和当前页数。`item-count` 可指定当前页实际展示的条数；未设置时按 `page-size` 计算，并限制到总条数以内。
 

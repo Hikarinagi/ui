@@ -6,5 +6,5 @@
 </script>
 
 <template>
-  <Pagination v-model="page" :total="246" show-info show-jump />
+  <Pagination v-model="page" :total="246" />
 </template>
