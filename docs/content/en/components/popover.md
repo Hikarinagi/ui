@@ -42,11 +42,25 @@ The default slot is the trigger and the `content` slot is what floats out. Click
 
 ### External anchor {#anchor}
 
-`anchor` accepts `HTMLElement | null`. Set it to omit the default slot and control visibility with `v-model:open`. The panel waits until the anchor is available. Changing the anchor while open updates the position; clearing it on close preserves the exit position.
+`anchor` accepts `OverlayAnchor | null`. Set it to omit the default slot and control visibility with `v-model:open`. The panel waits until the anchor is available. Changing the anchor while open updates the position; clearing it on close preserves the exit position.
 
 When both the default slot and `anchor` are provided, the slot controls triggering and `anchor` controls positioning. The caller manages click and keyboard behavior, `aria-haspopup`, and `aria-expanded` on external elements.
 
 <Demo name="popover/anchor" />
+
+### Virtual anchors and continuous tracking {#virtual-anchor}
+
+`anchor` also accepts an object with `getBoundingClientRect()` returning a rectangle in viewport coordinates. Import `OverlayAnchor` from the package root. The callback must return the latest coordinates; the object itself does not need to be replaced.
+
+The optional `contextElement` identifies the element associated with those coordinates, allowing scroll ancestors and clipping boundaries to be detected. It does not become a trigger or extend the overlay's interaction area.
+
+`updatePositionStrategy` defaults to `'optimized'`, updating on scrolling, resizing, and layout changes. Set it to `'always'` to check the rectangle every frame while mounted, including coordinate changes without DOM events. The strategy can change while open. Tracking continues throughout exit; clearing the anchor or removing its context element preserves the last position. Measurement stops after unmount.
+
+To preserve external focus, set `:modal="false"` and use `@open-auto-focus.prevent`.
+
+The example opens with [Button](/components/button) and uses [ScrollArea](/components/scroll-area) as its scroll container. The panel follows changing coordinates and container scrolling.
+
+<Demo name="popover/virtual-anchor" />
 
 ### Modality {#modal}
 
@@ -88,16 +102,17 @@ The trigger is not limited to a button; any element that can take focus will do.
 
 ### Popover {#props}
 
-| Prop         | Type                                     | Default    | Description                                     |
-| ------------ | ---------------------------------------- | ---------- | ----------------------------------------------- |
-| `open`       | `boolean`                                | —          | Whether it is open; supports v-model            |
-| `anchor`     | `HTMLElement \| null`                    | —          | External positioning element                    |
-| `modal`      | `boolean`                                | `true`     | Restrict outside interaction and lock scrolling |
-| `side`       | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | Which way it floats out                         |
-| `align`      | `'start' \| 'center' \| 'end'`           | `'center'` | How it lines up with the trigger                |
-| `sideOffset` | `number`                                 | `8`        | Distance from the trigger                       |
-| `padded`     | `boolean`                                | `true`     | Whether the panel is padded                     |
-| `class`      | `string`                                 | —          | Classes appended to the panel                   |
+| Prop                     | Type                                     | Default       | Description                                     |
+| ------------------------ | ---------------------------------------- | ------------- | ----------------------------------------------- |
+| `open`                   | `boolean`                                | —             | Whether it is open; supports v-model            |
+| `anchor`                 | `OverlayAnchor \| null`                  | —             | Positioning element or virtual anchor           |
+| `updatePositionStrategy` | `'optimized' \| 'always'`                | `'optimized'` | Position update strategy                        |
+| `modal`                  | `boolean`                                | `true`        | Restrict outside interaction and lock scrolling |
+| `side`                   | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'`    | Which way it floats out                         |
+| `align`                  | `'start' \| 'center' \| 'end'`           | `'center'`    | How it lines up with the trigger                |
+| `sideOffset`             | `number`                                 | `8`           | Distance from the trigger                       |
+| `padded`                 | `boolean`                                | `true`        | Whether the panel is padded                     |
+| `class`                  | `string`                                 | —             | Classes appended to the panel                   |
 
 | Slot      | Description       |
 | --------- | ----------------- |

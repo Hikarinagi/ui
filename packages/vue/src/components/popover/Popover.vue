@@ -1,17 +1,18 @@
 <script setup lang="ts">
+  import type { OverlayAnchor, OverlayPositionStrategy } from '../../lib/overlay-anchor'
   import { computed } from 'vue'
   import { PopoverRoot, PopoverTrigger, PopoverPortal, type PopoverContentEmits } from 'reka-ui'
   import PopoverContent from './PopoverContent.vue'
   import { useAnchoredOverlay } from '../../lib/anchored-overlay'
   import Card from '../card/Card.vue'
-  import { useOverlayPortal } from '../../lib/overlay-portal'
   import { cn } from '../../lib/cn'
 
   defineOptions({ name: 'HnPopover', inheritAttrs: false })
 
   const props = withDefaults(
     defineProps<{
-      anchor?: HTMLElement | null
+      anchor?: OverlayAnchor | null
+      updatePositionStrategy?: OverlayPositionStrategy
       modal?: boolean
       side?: 'top' | 'right' | 'bottom' | 'left'
       align?: 'start' | 'center' | 'end'
@@ -19,17 +20,25 @@
       padded?: boolean
       class?: string
     }>(),
-    { side: 'bottom', align: 'center', sideOffset: 8, padded: true, modal: true },
+    {
+      updatePositionStrategy: 'optimized',
+      side: 'bottom',
+      align: 'center',
+      sideOffset: 8,
+      padded: true,
+      modal: true,
+    },
   )
 
   const open = defineModel<boolean>('open')
   const emit = defineEmits<PopoverContentEmits>()
   defineSlots<{ default?(): unknown; content?(): unknown }>()
-  const { trigger, reference, visible, events } = useAnchoredOverlay(props, open, emit, event =>
-    emit('openAutoFocus', event),
+  const { trigger, content, present, reference, visible, events } = useAnchoredOverlay(
+    props,
+    open,
+    emit,
+    event => emit('openAutoFocus', event),
   )
-
-  const { content, present } = useOverlayPortal(visible)
 
   const pressOrigin = computed(() => {
     if (props.side === 'left') return 'right'
@@ -54,6 +63,7 @@
       <PopoverContent
         v-bind="{ ...$attrs, ...events }"
         :reference="reference"
+        :update-position-strategy="props.updatePositionStrategy"
         as-child
         :side="props.side"
         :align="props.align"

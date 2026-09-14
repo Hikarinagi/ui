@@ -52,6 +52,20 @@ import { HoverCard } from '@hina-ui/vue'
 
 <Demo name="hover-card/anchor" />
 
+### 虚拟锚点与持续跟随 {#virtual-anchor}
+
+`anchor` 也接受带 `getBoundingClientRect()` 的对象，返回视口坐标中的矩形。`OverlayAnchor` 类型可从包根导入；回调需要返回最新坐标，同一个对象不必反复替换。
+
+可选的 `contextElement` 指定坐标所属的元素，用于识别滚动祖先和裁剪边界；它不会成为触发器，也不会扩大浮层的交互区域。
+
+`updatePositionStrategy` 默认是 `'optimized'`，在滚动、尺寸和布局变化时更新位置。设置为 `'always'` 后，挂载期间逐帧检查矩形，持续跟随仅有坐标变化的锚点。可以在打开期间切换策略。退场期间继续跟随，锚点清空或所属元素移除后保留最后的位置，卸载后停止测量。
+
+虚拟锚点没有悬停区域，开关由 `v-model:open` 控制；指针移开和祖先滚动不会关闭卡片，点击外部或按 Esc 仍会关闭。元素锚点的悬停、延迟关闭和滚动关闭行为不变。
+
+示例用 [Button](/components/button) 打开面板，并用 [ScrollArea](/components/scroll-area) 提供滚动容器。面板同时跟随坐标变化和容器滚动。
+
+<Demo name="hover-card/virtual-anchor" />
+
 ### 定位层样式 {#positioner}
 
 `positionerClass` 为外层定位节点追加类名，`class` 仍作用于内层卡片。可以使用 utility 或全局 CSS 类定义移动过渡，与卡片的入退场动画分别控制。
@@ -78,18 +92,19 @@ import { HoverCard } from '@hina-ui/vue'
 
 ### Props {#props}
 
-| 属性              | 类型                                     | 默认值     | 说明                             |
-| ----------------- | ---------------------------------------- | ---------- | -------------------------------- |
-| `anchor`          | `HTMLElement \| null`                    | —          | 外部定位元素，默认插槽为空时使用 |
-| `side`            | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | 浮出的方向                       |
-| `align`           | `'start' \| 'center' \| 'end'`           | `'center'` | 与触发器的对齐方式               |
-| `sideOffset`      | `number`                                 | `8`        | 与触发器的距离，像素             |
-| `openDelay`       | `number`                                 | `300`      | 停留多久后浮出，毫秒             |
-| `closeDelay`      | `number`                                 | `150`      | 移开多久后收回，毫秒             |
-| `padded`          | `boolean`                                | `true`     | 卡片是否带内边距                 |
-| `open`            | `boolean`                                | —          | 是否打开，支持双向绑定           |
-| `class`           | `string`                                 | —          | 追加至卡片的类名                 |
-| `positionerClass` | `string`                                 | —          | 追加至外层定位节点的类名         |
+| 属性                     | 类型                                     | 默认值        | 说明                                   |
+| ------------------------ | ---------------------------------------- | ------------- | -------------------------------------- |
+| `anchor`                 | `OverlayAnchor \| null`                  | —             | 定位元素或虚拟锚点，默认插槽为空时使用 |
+| `updatePositionStrategy` | `'optimized' \| 'always'`                | `'optimized'` | 定位更新策略                           |
+| `side`                   | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'`    | 浮出的方向                             |
+| `align`                  | `'start' \| 'center' \| 'end'`           | `'center'`    | 与触发器的对齐方式                     |
+| `sideOffset`             | `number`                                 | `8`           | 与触发器的距离，像素                   |
+| `openDelay`              | `number`                                 | `300`         | 停留多久后浮出，毫秒                   |
+| `closeDelay`             | `number`                                 | `150`         | 移开多久后收回，毫秒                   |
+| `padded`                 | `boolean`                                | `true`        | 卡片是否带内边距                       |
+| `open`                   | `boolean`                                | —             | 是否打开，支持双向绑定                 |
+| `class`                  | `string`                                 | —             | 追加至卡片的类名                       |
+| `positionerClass`        | `string`                                 | —             | 追加至外层定位节点的类名               |
 
 ### 插槽 {#slots}
 

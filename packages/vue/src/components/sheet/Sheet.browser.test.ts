@@ -1,7 +1,8 @@
 import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest'
-import { page, userEvent } from '@vitest/browser/context'
+import { page, userEvent } from 'vitest/browser'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { defineComponent, h, ref, type Ref } from 'vue'
+import { defineComponent, h, nextTick, reactive, ref, type Ref } from 'vue'
+import { expectNoA11yViolations } from '../../../test/axe'
 import Sheet from './Sheet.vue'
 import Button from '../button/Button.vue'
 import '../../../test/browser.css'
@@ -17,7 +18,7 @@ afterEach(() => {
   mounted = []
 })
 
-function harness(props: Record<string, unknown> = {}, open?: Ref<boolean>) {
+function harness(props: Record<string, unknown> = {}, open?: Ref<boolean>, contentHeight = 160) {
   const host = document.createElement('div')
   document.body.appendChild(host)
   const w = mount(
@@ -37,7 +38,7 @@ function harness(props: Record<string, unknown> = {}, open?: Ref<boolean>) {
           { style: 'padding: 40px' },
           h(Sheet, bound, {
             default: () => h(Button, { variant: 'outline', tone: 'neutral' }, () => '打开'),
-            content: () => h('div', { style: 'height: 160px' }, '正文'),
+            content: () => h('div', { style: `height: ${contentHeight}px` }, '正文'),
           }),
         )
       },
@@ -114,6 +115,100 @@ describe('Sheet', () => {
     expect(close).toBeTruthy()
     await userEvent.click(close)
     await vi.waitFor(() => expect(panel()).toBeNull())
+  })
+
+  it.each([true, false])(
+    'header=false、handle=%s 时保留无障碍名称并去掉标题栏占位',
+    async handle => {
+      await page.viewport(414, 800)
+      const w = harness({ header: false, handle })
+      await openIt(w)
+      const el = panel()!
+      const title = document.getElementById(el.getAttribute('aria-labelledby')!)!
+      const description = document.getElementById(el.getAttribute('aria-describedby')!)!
+      expect(title.textContent).toBe('分享到')
+      expect(description.textContent).toBe('选择一个去处。')
+      expect(getComputedStyle(title).position).toBe('absolute')
+      expect(getComputedStyle(description).position).toBe('absolute')
+      expect(el.querySelector('[aria-label="关闭"]')).toBeNull()
+      expect(el.querySelectorAll('h2')).toHaveLength(1)
+      const content = el.querySelector<HTMLElement>('[data-overlayscrollbars]')!
+      expect(content).not.toBeNull()
+      const style = getComputedStyle(el)
+      if (handle) {
+        const handle = grip().querySelector<HTMLElement>('[aria-hidden]')!
+        expect(grip().getBoundingClientRect().height).toBeCloseTo(
+          handle.getBoundingClientRect().height,
+          0,
+        )
+        expect(
+          content.getBoundingClientRect().top - grip().getBoundingClientRect().bottom,
+        ).toBeCloseTo(parseFloat(style.rowGap), 0)
+      } else {
+        expect(el.querySelector('[data-hn-sheet-grip]')).toBeNull()
+        expect(content.getBoundingClientRect().top - el.getBoundingClientRect().top).toBeCloseTo(
+          parseFloat(style.paddingTop) + parseFloat(style.borderTopWidth),
+          0,
+        )
+      }
+      await expectNoA11yViolations(el)
+      await userEvent.keyboard('{Escape}')
+      await vi.waitFor(() => expect(panel()).toBeNull())
+      expect(document.activeElement).toBe(w.find('button').element)
+    },
+  )
+
+  it('隐藏标题栏后把手仍可拖动关闭，locked 仍禁止拖动关闭', async () => {
+    await page.viewport(414, 800)
+    const open = ref(false)
+    const props = reactive({ header: false, locked: false })
+    const w = harness(props, open)
+    await openIt(w)
+    await drag(600, 760, 6, 40)
+    await vi.waitFor(() => expect(panel()).toBeNull())
+    expect(open.value).toBe(false)
+    props.locked = true
+    await nextTick()
+    await openIt(w)
+    await drag(600, 760, 6, 40)
+    expect(panel()!.style.transform).toBe('')
+    expect(open.value).toBe(true)
+    open.value = false
+    await vi.waitFor(() => expect(panel()).toBeNull())
+  })
+
+  it('隐藏标题栏且没有说明时不留下悬空的 aria-describedby', async () => {
+    const w = harness({ header: false, handle: false, description: undefined })
+    await openIt(w)
+    expect(panel()!.hasAttribute('aria-describedby')).toBe(false)
+    await expectNoA11yViolations(panel()!)
+  })
+
+  it('打开期间切换标题栏不重建面板，保留正文滚动位置和有效的名称关联', async () => {
+    const props = reactive({ handle: false, header: true })
+    const w = harness(props, undefined, 800)
+    await openIt(w)
+    const el = panel()!
+    const viewport = el.querySelector<HTMLElement>('[data-overlayscrollbars-viewport]')!
+    el.style.maxHeight = '200px'
+    viewport.scrollTop = 30
+    await vi.waitFor(() => expect(viewport.scrollTop).toBeGreaterThan(0))
+    const scrollTop = viewport.scrollTop
+    props.header = false
+    await nextTick()
+    expect(panel()).toBe(el)
+    expect(viewport.scrollTop).toBe(scrollTop)
+    expect(document.getElementById(el.getAttribute('aria-labelledby')!)!.className).toContain(
+      'sr-only',
+    )
+    expect(el.querySelector('[data-hn-sheet-grip]')).toBeNull()
+    props.header = true
+    await nextTick()
+    expect(panel()).toBe(el)
+    expect(document.getElementById(el.getAttribute('aria-labelledby')!)!.className).not.toContain(
+      'sr-only',
+    )
+    expect(el.querySelector('[aria-label="关闭"]')).not.toBeNull()
   })
 
   it('拖一小段松手弹回，拖过三成或者快速下滑则关闭，退场从松手位置接着走', async () => {

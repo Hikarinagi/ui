@@ -14,8 +14,9 @@
   import ScrollArea from '../scroll-area/ScrollArea.vue'
   import Heading from '../heading/Heading.vue'
   import Text from '../text/Text.vue'
+  import { useOverlayPortal } from '../../lib/overlay-portal'
+  import { useScrollViewport } from '../../lib/scroll-viewport'
   import { cn } from '../../lib/cn'
-  import { useUiLocale } from '../../locale'
   import { drawerCard } from './drawer.variants'
 
   defineOptions({ name: 'HnDrawer' })
@@ -26,18 +27,32 @@
       description?: string
       side?: 'start' | 'end'
       size?: 'sm' | 'md' | 'lg'
+      header?: boolean
+      closable?: boolean
       locked?: boolean
       class?: string
     }>(),
-    { side: 'end', size: 'md', locked: false },
+    { side: 'end', size: 'md', header: true, closable: true, locked: false },
   )
+
+  const slots = defineSlots<{
+    default?(): unknown
+    icon?(): unknown
+    title?(): unknown
+    body?(props: { close: () => void }): unknown
+    content?(props: { close: () => void }): unknown
+    footer?(props: { close: () => void }): unknown
+  }>()
 
   function guard(e: Event) {
     if (props.locked) e.preventDefault()
   }
 
+  const { scrollArea, viewport } = useScrollViewport()
+  defineExpose({ viewport })
+
   const open = defineModel<boolean>('open')
-  const t = useUiLocale()
+  const { content, present } = useOverlayPortal(open)
 
   function close() {
     open.value = false
@@ -49,45 +64,67 @@
     <DialogTrigger v-if="$slots.default" as-child>
       <slot />
     </DialogTrigger>
-    <DialogPortal>
+    <DialogPortal v-if="present">
       <DialogOverlay class="hn-scrim" />
       <DialogContent as-child @escape-key-down="guard" @interact-outside="guard">
         <Card
+          ref="content"
+          v-bind="props.description ? {} : { 'aria-describedby': undefined }"
           :data-hn-side="props.side"
           :padded="false"
           :class="
-            cn(
-              'hn-anim-drawer pointer-events-auto fixed inset-y-0 z-(--hn-z-overlay) flex flex-col gap-4',
-              'max-w-[calc(100vw-3rem)] rounded-none py-(--hn-panel-p) shadow-lg outline-none',
-              drawerCard({ side: props.side, size: props.size }),
-              props.class,
-            )
+            cn(drawerCard({ side: props.side, size: props.size, padded: !slots.body }), props.class)
           "
         >
-          <div class="flex shrink-0 items-start justify-between gap-4 px-(--hn-panel-p)">
-            <div class="flex min-w-0 flex-col gap-1.5">
-              <DialogTitle as-child>
-                <Heading :level="2" size="lg">{{ props.title }}</Heading>
-              </DialogTitle>
-              <DialogDescription v-if="props.description" as-child>
-                <Text tone="muted">{{ props.description }}</Text>
-              </DialogDescription>
+          <template v-if="!props.header || slots.body">
+            <DialogTitle as-child>
+              <Heading :level="2" class="sr-only">{{ props.title }}</Heading>
+            </DialogTitle>
+            <DialogDescription v-if="props.description" class="sr-only">
+              {{ props.description }}
+            </DialogDescription>
+          </template>
+          <slot v-if="slots.body" name="body" :close="close" />
+          <template v-else>
+            <div
+              v-if="props.header"
+              class="flex shrink-0 items-start justify-between gap-4 px-(--hn-panel-p)"
+            >
+              <div class="flex min-w-0 flex-col gap-1.5">
+                <div class="flex min-w-0 items-center gap-2">
+                  <span
+                    v-if="slots.icon"
+                    class="text-muted flex shrink-0 [&_svg]:size-5"
+                    aria-hidden="true"
+                  >
+                    <slot name="icon" />
+                  </span>
+                  <DialogTitle as-child>
+                    <Heading :level="2" size="lg" class="min-w-0">
+                      <slot name="title">{{ props.title }}</slot>
+                    </Heading>
+                  </DialogTitle>
+                </div>
+                <DialogDescription v-if="props.description" as-child>
+                  <Text tone="muted">{{ props.description }}</Text>
+                </DialogDescription>
+              </div>
+              <DialogClose v-if="props.closable" as-child>
+                <CloseButton :disabled="props.locked" class="-mt-1.5 -me-1.5 shrink-0" />
+              </DialogClose>
             </div>
-            <DialogClose as-child>
-              <CloseButton :disabled="props.locked" class="-mt-1.5 -me-1.5 shrink-0" />
-            </DialogClose>
-          </div>
-          <ScrollArea v-if="$slots.content" class="min-h-0 grow">
-            <div class="px-(--hn-panel-p) py-1">
-              <slot name="content" :close="close" />
+            <ScrollArea v-if="$slots.content" ref="scrollArea" class="min-h-0 grow">
+              <div class="px-(--hn-panel-p) py-1">
+                <slot name="content" :close="close" />
+              </div>
+            </ScrollArea>
+            <div
+              v-if="$slots.footer"
+              class="flex shrink-0 justify-end gap-(--hn-inline-gap) px-(--hn-panel-p)"
+            >
+              <slot name="footer" :close="close" />
             </div>
-          </ScrollArea>
-          <div
-            v-if="$slots.footer"
-            class="flex shrink-0 justify-end gap-(--hn-inline-gap) px-(--hn-panel-p)"
-          >
-            <slot name="footer" :close="close" />
-          </div>
+          </template>
         </Card>
       </DialogContent>
     </DialogPortal>

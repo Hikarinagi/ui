@@ -214,6 +214,7 @@ export { default as TooltipProvider } from './components/tooltip/TooltipProvider
 export { default as Tooltip } from './components/tooltip/Tooltip.vue'
 export { vTooltip } from './components/tooltip/directive'
 export type { TooltipDirectiveOptions, TooltipDirectiveValue } from './components/tooltip/types'
+export type { OverlayAnchor, OverlayPositionStrategy } from './lib/overlay-anchor'
 export { default as Popover } from './components/popover/Popover.vue'
 export { default as DropdownMenu } from './components/dropdown-menu/DropdownMenu.vue'
 export { default as DropdownMenuItem } from './components/dropdown-menu/DropdownMenuItem.vue'

@@ -78,11 +78,25 @@ Wrap a set of mutually exclusive options in `DropdownMenuRadioGroup`, and the cu
 
 ### External anchor {#anchor}
 
-`anchor` accepts `HTMLElement | null`. Omit the default slot and control visibility with `v-model:open`. The menu waits for its anchor. Changing the anchor while open updates positioning; clearing it on close preserves the exit position.
+`anchor` accepts `OverlayAnchor | null`. Omit the default slot and control visibility with `v-model:open`. The menu waits for its anchor. Changing the anchor while open updates positioning; clearing it on close preserves the exit position.
 
 When both the default slot and `anchor` are provided, the slot controls triggering and `anchor` controls positioning. The caller manages click and keyboard behavior, `aria-haspopup="menu"`, and `aria-expanded` on the external element. Keyboard navigation inside the menu stays the same. Positioning follows the same rules as [Popover](/components/popover#anchor).
 
 <Demo name="dropdown-menu/anchor" />
+
+### Virtual anchors and continuous tracking {#virtual-anchor}
+
+`anchor` also accepts an object with `getBoundingClientRect()` returning a rectangle in viewport coordinates. Import `OverlayAnchor` from the package root. The callback must return the latest coordinates; the object itself does not need to be replaced.
+
+The optional `contextElement` identifies the element associated with those coordinates, allowing scroll ancestors and clipping boundaries to be detected. It does not become a trigger or extend the overlay's interaction area.
+
+`updatePositionStrategy` defaults to `'optimized'`, updating on scrolling, resizing, and layout changes. Set it to `'always'` to check the rectangle every frame while mounted, including coordinate changes without DOM events. The strategy can change while open. Tracking continues throughout exit; clearing the anchor or removing its context element preserves the last position. Measurement stops after unmount.
+
+Virtual anchors only change positioning. The menu retains automatic focus, arrow-key navigation, and item selection. Use [Popover](/components/popover#virtual-anchor) for free-form content that needs to preserve external focus.
+
+The example opens with [Button](/components/button) and uses [ScrollArea](/components/scroll-area) as its scroll container. The panel follows changing coordinates and container scrolling.
+
+<Demo name="dropdown-menu/virtual-anchor" />
 
 ### Modality and focus {#modal}
 
@@ -117,17 +131,18 @@ An item with `disabled` cannot be clicked and is skipped while moving through th
 
 ### DropdownMenu {#props}
 
-| Prop         | Type                                     | Default    | Description                                     |
-| ------------ | ---------------------------------------- | ---------- | ----------------------------------------------- |
-| `open`       | `boolean`                                | —          | Whether it is open; supports v-model            |
-| `label`      | `string`                                 | —          | Accessible name of the menu                     |
-| `anchor`     | `HTMLElement \| null`                    | —          | External positioning element                    |
-| `modal`      | `boolean`                                | `true`     | Restrict outside interaction and lock scrolling |
-| `dir`        | `'ltr' \| 'rtl'`                         | Inherited  | Menu direction                                  |
-| `side`       | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | Which way it opens                              |
-| `align`      | `'start' \| 'center' \| 'end'`           | `'center'` | How it lines up with the trigger                |
-| `sideOffset` | `number`                                 | `8`        | Distance from the trigger                       |
-| `class`      | `string`                                 | —          | Classes appended to the panel                   |
+| Prop                     | Type                                     | Default       | Description                                     |
+| ------------------------ | ---------------------------------------- | ------------- | ----------------------------------------------- |
+| `open`                   | `boolean`                                | —             | Whether it is open; supports v-model            |
+| `label`                  | `string`                                 | —             | Accessible name of the menu                     |
+| `anchor`                 | `OverlayAnchor \| null`                  | —             | Positioning element or virtual anchor           |
+| `updatePositionStrategy` | `'optimized' \| 'always'`                | `'optimized'` | Position update strategy                        |
+| `modal`                  | `boolean`                                | `true`        | Restrict outside interaction and lock scrolling |
+| `dir`                    | `'ltr' \| 'rtl'`                         | Inherited     | Menu direction                                  |
+| `side`                   | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'`    | Which way it opens                              |
+| `align`                  | `'start' \| 'center' \| 'end'`           | `'center'`    | How it lines up with the trigger                |
+| `sideOffset`             | `number`                                 | `8`           | Distance from the trigger                       |
+| `class`                  | `string`                                 | —             | Classes appended to the panel                   |
 
 | Slot      | Description      |
 | --------- | ---------------- |

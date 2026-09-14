@@ -15,6 +15,7 @@
   import Heading from '../heading/Heading.vue'
   import Text from '../text/Text.vue'
   import { useOverlayPortal } from '../../lib/overlay-portal'
+  import { useScrollViewport } from '../../lib/scroll-viewport'
   import { cn } from '../../lib/cn'
   import { dialogWrapper, dialogCard, type DialogVariants } from './dialog.variants'
 
@@ -46,6 +47,9 @@
   function guard(e: Event) {
     if (props.locked) e.preventDefault()
   }
+
+  const { scrollArea, viewport } = useScrollViewport()
+  defineExpose({ viewport })
 
   const open = defineModel<boolean>('open')
   const { content, present } = useOverlayPortal(open)
@@ -117,7 +121,7 @@
                   <CloseButton :disabled="props.locked" class="-mt-1.5 -me-1.5 shrink-0" />
                 </DialogClose>
               </div>
-              <ScrollArea v-if="$slots.content" class="min-h-0">
+              <ScrollArea v-if="$slots.content" ref="scrollArea" class="min-h-0">
                 <div class="px-(--hn-panel-p) py-1">
                   <slot name="content" :close="close" />
                 </div>

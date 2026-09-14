@@ -42,11 +42,25 @@ import { Popover } from '@hina-ui/vue'
 
 ### 外部锚点 {#anchor}
 
-`anchor` 接受 `HTMLElement | null`。设置后可以省略默认插槽，通过 `v-model:open` 控制开关。锚点尚未就绪时面板不显示；打开期间更换锚点会更新位置，关闭时清空锚点会保留退场位置。
+`anchor` 接受 `OverlayAnchor | null`。设置后可以省略默认插槽，通过 `v-model:open` 控制开关。锚点尚未就绪时面板不显示；打开期间更换锚点会更新位置，关闭时清空锚点会保留退场位置。
 
 同时提供默认插槽与 `anchor` 时，插槽负责触发，`anchor` 负责定位。外部元素的点击与键盘行为、`aria-haspopup` 和 `aria-expanded` 由调用方设置。
 
 <Demo name="popover/anchor" />
+
+### 虚拟锚点与持续跟随 {#virtual-anchor}
+
+`anchor` 也接受带 `getBoundingClientRect()` 的对象，返回视口坐标中的矩形。`OverlayAnchor` 类型可从包根导入；回调需要返回最新坐标，同一个对象不必反复替换。
+
+可选的 `contextElement` 指定坐标所属的元素，用于识别滚动祖先和裁剪边界；它不会成为触发器，也不会扩大浮层的交互区域。
+
+`updatePositionStrategy` 默认是 `'optimized'`，在滚动、尺寸和布局变化时更新位置。设置为 `'always'` 后，挂载期间逐帧检查矩形，持续跟随仅有坐标变化的锚点。可以在打开期间切换策略。退场期间继续跟随，锚点清空或所属元素移除后保留最后的位置，卸载后停止测量。
+
+需要保持外部焦点时，设置 `:modal="false"` 并使用 `@open-auto-focus.prevent`。
+
+示例用 [Button](/components/button) 打开面板，并用 [ScrollArea](/components/scroll-area) 提供滚动容器。面板同时跟随坐标变化和容器滚动。
+
+<Demo name="popover/virtual-anchor" />
 
 ### 模态 {#modal}
 
@@ -87,16 +101,17 @@ import { Popover } from '@hina-ui/vue'
 
 ### Popover {#props}
 
-| 属性         | 类型                                     | 默认值     | 说明                   |
-| ------------ | ---------------------------------------- | ---------- | ---------------------- |
-| `open`       | `boolean`                                | —          | 是否打开，支持双向绑定 |
-| `anchor`     | `HTMLElement \| null`                    | —          | 外部定位元素           |
-| `modal`      | `boolean`                                | `true`     | 是否限制外部交互并锁滚 |
-| `side`       | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | 朝哪个方向浮出         |
-| `align`      | `'start' \| 'center' \| 'end'`           | `'center'` | 与触发器的对齐方式     |
-| `sideOffset` | `number`                                 | `8`        | 与触发器的距离         |
-| `padded`     | `boolean`                                | `true`     | 面板是否带内边距       |
-| `class`      | `string`                                 | —          | 追加到面板上的类名     |
+| 属性                     | 类型                                     | 默认值        | 说明                   |
+| ------------------------ | ---------------------------------------- | ------------- | ---------------------- |
+| `open`                   | `boolean`                                | —             | 是否打开，支持双向绑定 |
+| `anchor`                 | `OverlayAnchor \| null`                  | —             | 定位元素或虚拟锚点     |
+| `updatePositionStrategy` | `'optimized' \| 'always'`                | `'optimized'` | 定位更新策略           |
+| `modal`                  | `boolean`                                | `true`        | 是否限制外部交互并锁滚 |
+| `side`                   | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'`    | 朝哪个方向浮出         |
+| `align`                  | `'start' \| 'center' \| 'end'`           | `'center'`    | 与触发器的对齐方式     |
+| `sideOffset`             | `number`                                 | `8`           | 与触发器的距离         |
+| `padded`                 | `boolean`                                | `true`        | 面板是否带内边距       |
+| `class`                  | `string`                                 | —             | 追加到面板上的类名     |
 
 | 插槽      | 说明         |
 | --------- | ------------ |

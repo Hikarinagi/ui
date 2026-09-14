@@ -78,11 +78,25 @@ import { DropdownMenu, DropdownMenuItem } from '@hina-ui/vue'
 
 ### 外部锚点 {#anchor}
 
-`anchor` 接受 `HTMLElement | null`，可省略默认插槽并使用 `v-model:open` 控制开关。锚点未就绪时菜单不显示；打开期间可以更换锚点，关闭时清空锚点会保留退场位置。
+`anchor` 接受 `OverlayAnchor | null`，可省略默认插槽并使用 `v-model:open` 控制开关。锚点未就绪时菜单不显示；打开期间可以更换锚点，关闭时清空锚点会保留退场位置。
 
 同时提供默认插槽与 `anchor` 时，插槽负责触发，`anchor` 负责定位。外部元素的点击与键盘行为、`aria-haspopup="menu"` 和 `aria-expanded` 由调用方设置，菜单内部的键盘导航保持不变。外部定位规则与 [Popover](/components/popover#anchor) 一致。
 
 <Demo name="dropdown-menu/anchor" />
+
+### 虚拟锚点与持续跟随 {#virtual-anchor}
+
+`anchor` 也接受带 `getBoundingClientRect()` 的对象，返回视口坐标中的矩形。`OverlayAnchor` 类型可从包根导入；回调需要返回最新坐标，同一个对象不必反复替换。
+
+可选的 `contextElement` 指定坐标所属的元素，用于识别滚动祖先和裁剪边界；它不会成为触发器，也不会扩大浮层的交互区域。
+
+`updatePositionStrategy` 默认是 `'optimized'`，在滚动、尺寸和布局变化时更新位置。设置为 `'always'` 后，挂载期间逐帧检查矩形，持续跟随仅有坐标变化的锚点。可以在打开期间切换策略。退场期间继续跟随，锚点清空或所属元素移除后保留最后的位置，卸载后停止测量。
+
+虚拟锚点只改变定位，菜单仍保留自动聚焦、方向键导航和条目选择行为。需要保持外部焦点的自由内容可使用 [Popover](/components/popover#virtual-anchor)。
+
+示例用 [Button](/components/button) 打开面板，并用 [ScrollArea](/components/scroll-area) 提供滚动容器。面板同时跟随坐标变化和容器滚动。
+
+<Demo name="dropdown-menu/virtual-anchor" />
 
 ### 模态与焦点 {#modal}
 
@@ -117,17 +131,18 @@ import { DropdownMenu, DropdownMenuItem } from '@hina-ui/vue'
 
 ### DropdownMenu {#props}
 
-| 属性         | 类型                                     | 默认值     | 说明                   |
-| ------------ | ---------------------------------------- | ---------- | ---------------------- |
-| `open`       | `boolean`                                | —          | 是否展开，支持双向绑定 |
-| `label`      | `string`                                 | —          | 菜单的无障碍名称       |
-| `anchor`     | `HTMLElement \| null`                    | —          | 外部定位元素           |
-| `modal`      | `boolean`                                | `true`     | 是否限制外部交互并锁滚 |
-| `dir`        | `'ltr' \| 'rtl'`                         | 跟随配置   | 菜单方向               |
-| `side`       | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | 展开方向               |
-| `align`      | `'start' \| 'center' \| 'end'`           | `'center'` | 与触发器的对齐方式     |
-| `sideOffset` | `number`                                 | `8`        | 与触发器的距离         |
-| `class`      | `string`                                 | —          | 追加至菜单面板的类名   |
+| 属性                     | 类型                                     | 默认值        | 说明                   |
+| ------------------------ | ---------------------------------------- | ------------- | ---------------------- |
+| `open`                   | `boolean`                                | —             | 是否展开，支持双向绑定 |
+| `label`                  | `string`                                 | —             | 菜单的无障碍名称       |
+| `anchor`                 | `OverlayAnchor \| null`                  | —             | 定位元素或虚拟锚点     |
+| `updatePositionStrategy` | `'optimized' \| 'always'`                | `'optimized'` | 定位更新策略           |
+| `modal`                  | `boolean`                                | `true`        | 是否限制外部交互并锁滚 |
+| `dir`                    | `'ltr' \| 'rtl'`                         | 跟随配置      | 菜单方向               |
+| `side`                   | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'`    | 展开方向               |
+| `align`                  | `'start' \| 'center' \| 'end'`           | `'center'`    | 与触发器的对齐方式     |
+| `sideOffset`             | `number`                                 | `8`           | 与触发器的距离         |
+| `class`                  | `string`                                 | —             | 追加至菜单面板的类名   |
 
 | 插槽      | 说明         |
 | --------- | ------------ |
