@@ -1,5 +1,35 @@
 # @hina-ui/vue
 
+## 1.4.0
+
+### Minor Changes
+
+- 1d2b055: Add an external anchor to HoverCard so multiple trigger elements can share one controlled card. Preserve hover transit, delayed closing and stable exit positioning, clean up listeners and timers when switching anchors, and close when the anchor is cleared or removed.
+- 18052c6: Add `positionerClass` to HoverCard for styling the outer positioning element independently of the card content. This enables custom movement transitions when switching external anchors while preserving the existing enter and exit animations.
+- f0aef8c: Add optional previewSize metadata to Image and LightboxItem. Known intrinsic dimensions determine the initial preview fit and zoom limits before loading, keeping the frame stable when the larger image arrives and allowing rectangle-source transitions to start without waiting for decoding. Invalid or omitted dimensions retain automatic sizing.
+- ba56696: Expand Pagination with a bound page size, size selector, page input, range information, composable controls, pending list overlay and single-page hiding. Emit one coherent change payload per effective update.
+  
+  Add interactive ellipses with group skipping, scrollable omitted-page choices, mouse, touch and keyboard interaction, bounded rendering for large ranges, stable positioning through exit and focus restoration. Support RTL throughout.
+- 1aa57ca: Add Pagination with controlled page selection, page ranges and ellipses, optional first and last controls, size and disabled states, and custom page content. It supports RTL and keeps the current page within bounds when totals or page sizes change.
+- 1587748: Add the v-tooltip directive for existing elements, with reactive text, placement and disabled options. It shares Tooltip styling and provider delays, preserves existing descriptions, and removes its listeners and popup when the element unmounts.
+- a10bbbd: Add optional TreeSelect search with ancestor-preserving filtering, a controlled search value, and keyboard navigation between the search field and tree. Clearing search restores the previous expansion state without changing the selection.
+
+### Patch Changes
+
+- b352b3a: Make Badge overlays ignore pointer events by default so they no longer block clicks on the host beneath them, including bare badges and custom content.
+- 4a3514b: Prevent HoverCard from reopening when the pointer enters its content during the exit animation. Exiting content is no longer interactive, while returning during the close delay and reopening from the trigger remain supported.
+- 2a5d3b6: Keep HoverCard aligned with its external anchor while scrolling during the exit animation. Fall back to the latest recorded position when the anchor is cleared or removed, and stop tracking once the card has unmounted.
+- 4da6c24: Isolate Image's internal stacking order so the image and skeleton no longer cover sibling overlay controls or intercept their clicks.
+- a579c18: Remove the transparent button borders from the Lightbox source demos and disable background image repetition to prevent one-pixel edge artifacts.
+- 499c97d: Fit image previews within the available area without enlarging small images. Base zoom targets and limits on intrinsic image dimensions, add actual-size and fit-to-window controls, and adapt tall and panoramic images to the available width or height. Reserve space for controls and smoothly update sizing when higher-resolution previews load or the viewport changes, while preserving source transitions and paging gestures.
+- 0d6557c: Allow LightboxItem.source to return a viewport rectangle as well as an image element, and export the LightboxSource type. Decode images before opening from a virtual source so first-time blob previews expand from the supplied bounds and return to the latest bounds on close.
+- 83c26e6: Keep Pagination ellipsis popups aligned with their triggers throughout exit animations, including scrolling and layout changes. Retain the latest position if a trigger is removed, and stop tracking once the popup unmounts.
+- 3166ee2: Remove the trailing row gap from Pagination ellipsis popups so the top and bottom spacing match. Keep virtual list height and keyboard scrolling aligned with the actual item bounds.
+- 96f0b71: Keep Pagination page buttons square at every size and density by removing text-button padding and fixing their width to their height. Long page labels and custom content no longer widen the buttons; overflowing content is truncated while the complete page number remains available through its accessible name.
+- f79856d: Replace Pagination's native hover titles with Tooltip hints for content that is actually truncated. Show the full page label, including custom text, on hover or keyboard focus when a TooltipProvider is present. Update hints when content or dimensions change and dismiss them when pagination is disabled or pending.
+- 46dc0ac: Fix RTL support in Slider and RangeSlider. Add dir configuration with inherited direction support, keep pointer and keyboard interactions consistent with the track, and align thumbs, fill and mark labels across sizes and direction changes.
+- 2c8663c: Fix v-tooltip remaining open after the pointer leaves its trigger or content. Keep the hover boundary associated with the actual host element, including after disabling and re-enabling the directive.
+
 ## 1.3.1
 
 ### Patch Changes
