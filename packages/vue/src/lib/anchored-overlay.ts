@@ -1,8 +1,21 @@
-import { computed, nextTick, shallowRef, watch, type Ref } from 'vue'
+import { computed, nextTick, watch, type Ref } from 'vue'
+import { defaultDocument } from '@vueuse/core'
+import { useOverlayPortal } from './overlay-portal'
+import {
+  overlayAnchorContext,
+  overlayAnchorElement,
+  useOverlayAnchor,
+  type OverlayAnchor,
+  type OverlayPositionStrategy,
+} from './overlay-anchor'
 import { useForwardExpose, type DropdownMenuContentEmits } from 'reka-ui'
 
 export function useAnchoredOverlay(
-  props: { anchor?: HTMLElement | null; modal: boolean },
+  props: {
+    anchor?: OverlayAnchor | null
+    modal: boolean
+    updatePositionStrategy: OverlayPositionStrategy
+  },
   open: Ref<boolean | undefined>,
   emit: <K extends keyof DropdownMenuContentEmits>(
     event: K,
@@ -11,14 +24,6 @@ export function useAnchoredOverlay(
   openAutoFocus?: (event: Event) => void,
 ) {
   const { forwardRef: trigger, currentElement: triggerElement } = useForwardExpose()
-  const retainedAnchor = shallowRef<HTMLElement>()
-  const reference = computed(
-    () =>
-      props.anchor ??
-      (open.value
-        ? (triggerElement.value ?? retainedAnchor.value)
-        : (retainedAnchor.value ?? triggerElement.value)),
-  )
   const visible = computed({
     get: () => !!open.value && !!(props.anchor || triggerElement.value),
     set: value => {
@@ -26,12 +31,12 @@ export function useAnchoredOverlay(
     },
   })
 
-  watch(
-    () => props.anchor,
-    anchor => {
-      if (anchor) retainedAnchor.value = anchor
-    },
-    { immediate: true, flush: 'sync' },
+  const { content, present } = useOverlayPortal(visible)
+  const reference = useOverlayAnchor(
+    () => props.anchor ?? triggerElement.value,
+    visible,
+    present,
+    () => props.updatePositionStrategy,
   )
 
   let previousFocus: HTMLElement | null = null
@@ -50,7 +55,10 @@ export function useAnchoredOverlay(
     visible,
     active => {
       if (!active) return
-      const document = props.anchor?.ownerDocument ?? triggerElement.value?.ownerDocument
+      const document =
+        overlayAnchorContext(props.anchor)?.ownerDocument ??
+        triggerElement.value?.ownerDocument ??
+        defaultDocument
       previousFocus = document?.activeElement as HTMLElement | null
       interactedOutside = false
     },
@@ -73,12 +81,11 @@ export function useAnchoredOverlay(
         (active === panel.ownerDocument.body || panel.contains(active))
       )
         target.focus({ preventScroll: true })
-      if (!visible.value) retainedAnchor.value = undefined
     })
   })
 
   const onInteractOutside = once((event: DropdownMenuContentEmits['interactOutside'][0]) => {
-    if (!triggerElement.value && props.anchor?.contains(event.target as Node))
+    if (!triggerElement.value && overlayAnchorElement(props.anchor)?.contains(event.target as Node))
       event.preventDefault()
     emit('interactOutside', event)
     const original = event.detail.originalEvent
@@ -89,6 +96,8 @@ export function useAnchoredOverlay(
 
   return {
     trigger,
+    content,
+    present,
     reference,
     visible,
     events: {

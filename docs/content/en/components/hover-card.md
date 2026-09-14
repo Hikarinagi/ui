@@ -52,6 +52,20 @@ During exit, the card continues to follow a connected anchor. If the anchor is c
 
 <Demo name="hover-card/anchor" />
 
+### Virtual anchors and continuous tracking {#virtual-anchor}
+
+`anchor` also accepts an object with `getBoundingClientRect()` returning a rectangle in viewport coordinates. Import `OverlayAnchor` from the package root. The callback must return the latest coordinates; the object itself does not need to be replaced.
+
+The optional `contextElement` identifies the element associated with those coordinates, allowing scroll ancestors and clipping boundaries to be detected. It does not become a trigger or extend the overlay's interaction area.
+
+`updatePositionStrategy` defaults to `'optimized'`, updating on scrolling, resizing, and layout changes. Set it to `'always'` to check the rectangle every frame while mounted, including coordinate changes without DOM events. The strategy can change while open. Tracking continues throughout exit; clearing the anchor or removing its context element preserves the last position. Measurement stops after unmount.
+
+Virtual anchors have no hover area. Control visibility with `v-model:open`; pointer departure and ancestor scrolling do not close the card, while outside clicks and Escape still do. Element anchors retain their hover, close-delay, and scroll-dismissal behavior.
+
+The example opens with [Button](/components/button) and uses [ScrollArea](/components/scroll-area) as its scroll container. The panel follows changing coordinates and container scrolling.
+
+<Demo name="hover-card/virtual-anchor" />
+
 ### Positioner styling {#positioner}
 
 `positionerClass` adds classes to the outer positioning element, while `class` still applies to the inner card. Use utilities or global CSS classes to define movement transitions separately from the card's enter and exit animations.
@@ -78,18 +92,19 @@ This example enables `hn-transition-base` when switching anchors while the card 
 
 ### Props {#props}
 
-| Prop              | Type                                     | Default    | Description                                                 |
-| ----------------- | ---------------------------------------- | ---------- | ----------------------------------------------------------- |
-| `anchor`          | `HTMLElement \| null`                    | —          | External positioning element when the default slot is empty |
-| `side`            | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | Side the card floats out on                                 |
-| `align`           | `'start' \| 'center' \| 'end'`           | `'center'` | Alignment against the trigger                               |
-| `sideOffset`      | `number`                                 | `8`        | Distance from the trigger in pixels                         |
-| `openDelay`       | `number`                                 | `300`      | Rest time before opening, in milliseconds                   |
-| `closeDelay`      | `number`                                 | `150`      | Delay after leaving before closing, in ms                   |
-| `padded`          | `boolean`                                | `true`     | Whether the card has padding                                |
-| `open`            | `boolean`                                | —          | Whether it is open, supports two-way binding                |
-| `class`           | `string`                                 | —          | Classes appended to the card                                |
-| `positionerClass` | `string`                                 | —          | Classes added to the outer positioning element              |
+| Prop                     | Type                                     | Default       | Description                                                          |
+| ------------------------ | ---------------------------------------- | ------------- | -------------------------------------------------------------------- |
+| `anchor`                 | `OverlayAnchor \| null`                  | —             | Positioning element or virtual anchor when the default slot is empty |
+| `updatePositionStrategy` | `'optimized' \| 'always'`                | `'optimized'` | Position update strategy                                             |
+| `side`                   | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'`    | Side the card floats out on                                          |
+| `align`                  | `'start' \| 'center' \| 'end'`           | `'center'`    | Alignment against the trigger                                        |
+| `sideOffset`             | `number`                                 | `8`           | Distance from the trigger in pixels                                  |
+| `openDelay`              | `number`                                 | `300`         | Rest time before opening, in milliseconds                            |
+| `closeDelay`             | `number`                                 | `150`         | Delay after leaving before closing, in ms                            |
+| `padded`                 | `boolean`                                | `true`        | Whether the card has padding                                         |
+| `open`                   | `boolean`                                | —             | Whether it is open, supports two-way binding                         |
+| `class`                  | `string`                                 | —             | Classes appended to the card                                         |
+| `positionerClass`        | `string`                                 | —             | Classes added to the outer positioning element                       |
 
 ### Slots {#slots}
 

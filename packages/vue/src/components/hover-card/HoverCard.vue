@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import type { OverlayAnchor, OverlayPositionStrategy } from '../../lib/overlay-anchor'
   import { HoverCardContent, HoverCardPortal, HoverCardRoot, HoverCardTrigger } from 'reka-ui'
   import { cn } from '../../lib/cn'
   import Card from '../card/Card.vue'
@@ -8,7 +9,8 @@
 
   const props = withDefaults(
     defineProps<{
-      anchor?: HTMLElement | null
+      anchor?: OverlayAnchor | null
+      updatePositionStrategy?: OverlayPositionStrategy
       side?: 'top' | 'right' | 'bottom' | 'left'
       align?: 'start' | 'center' | 'end'
       sideOffset?: number
@@ -19,6 +21,7 @@
       positionerClass?: string
     }>(),
     {
+      updatePositionStrategy: 'optimized',
       side: 'bottom',
       align: 'center',
       sideOffset: 8,
@@ -41,6 +44,7 @@
     <HoverCardAnchor
       v-slot="{ reference, contentRef, present }"
       :anchor="props.anchor"
+      :update-position-strategy="props.updatePositionStrategy"
       :external="!$slots.default"
       :close-delay="props.closeDelay"
       :positioner-class="props.positionerClass"
@@ -48,6 +52,7 @@
       <HoverCardPortal v-if="present">
         <HoverCardContent
           :reference="reference"
+          :update-position-strategy="props.updatePositionStrategy"
           as-child
           :side="props.side"
           :align="props.align"

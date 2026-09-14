@@ -1,9 +1,11 @@
 <script setup lang="ts">
+  import type { OverlayAnchor, OverlayPositionStrategy } from '../../lib/overlay-anchor'
   import { useHoverCardAnchor } from './composables/useHoverCardAnchor'
 
   defineOptions({ name: 'HnHoverCardAnchor' })
   const props = defineProps<{
-    anchor?: HTMLElement | null
+    anchor?: OverlayAnchor | null
+    updatePositionStrategy: OverlayPositionStrategy
     external: boolean
     closeDelay: number
     positionerClass?: string

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import type { OverlayAnchor, OverlayPositionStrategy } from '../../lib/overlay-anchor'
   import { computed } from 'vue'
   import {
     DropdownMenuRoot,
@@ -16,7 +17,8 @@
   const props = withDefaults(
     defineProps<{
       label?: string
-      anchor?: HTMLElement | null
+      anchor?: OverlayAnchor | null
+      updatePositionStrategy?: OverlayPositionStrategy
       modal?: boolean
       dir?: 'ltr' | 'rtl'
       side?: 'top' | 'right' | 'bottom' | 'left'
@@ -24,13 +26,23 @@
       sideOffset?: number
       class?: string
     }>(),
-    { side: 'bottom', align: 'center', sideOffset: 8, modal: true },
+    {
+      updatePositionStrategy: 'optimized',
+      side: 'bottom',
+      align: 'center',
+      sideOffset: 8,
+      modal: true,
+    },
   )
 
   const open = defineModel<boolean>('open')
   const emit = defineEmits<DropdownMenuContentEmits>()
   defineSlots<{ default?(): unknown; content?(): unknown }>()
-  const { trigger, reference, visible, events } = useAnchoredOverlay(props, open, emit)
+  const { trigger, content, present, reference, visible, events } = useAnchoredOverlay(
+    props,
+    open,
+    emit,
+  )
 
   const pressOrigin = computed(() => {
     if (props.side === 'left') return 'right'
@@ -52,17 +64,18 @@
     >
       <slot />
     </DropdownMenuTrigger>
-    <DropdownMenuPortal>
+    <DropdownMenuPortal v-if="present">
       <DropdownMenuContent
-        v-if="reference"
         v-bind="{ 'aria-label': props.label, ...$attrs, ...events }"
         :reference="reference"
+        :update-position-strategy="props.updatePositionStrategy"
         as-child
         :side="props.side"
         :align="props.align"
         :side-offset="props.sideOffset"
       >
         <Card
+          ref="content"
           :padded="false"
           :class="
             cn(
