@@ -117,29 +117,36 @@ describe('Pagination truncated labels', () => {
     await vi.waitFor(() => expect(bubble()).toBeNull())
   })
 
-  it('rechecks dimensions and dismisses an open hint without replacing the button', async () => {
-    const { pagination, target, outside, setProps } = await render({ modelValue: 100 })
-    await userEvent.hover(target)
-    await vi.waitFor(() => expect(tip()?.textContent).toBe('100'))
-    target.focus()
-    await setProps({ size: 'lg' })
-    expect(label(target).scrollWidth).toBeLessThanOrEqual(label(target).clientWidth)
-    await vi.waitFor(() => expect(bubble()).toBeNull())
-    expect(pagination.get('[aria-current="page"]').element).toBe(target)
-    expect(document.activeElement).toBe(target)
-    await userEvent.hover(outside)
-    await setProps({ size: 'md' })
-    await userEvent.hover(target)
-    await new Promise(resolve => setTimeout(resolve, 120))
-    expect(tip()).toBeNull()
-    await userEvent.hover(outside)
-    ;(pagination.element as HTMLElement).dataset.density = 'compact'
-    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))
-    expect(label(target).scrollWidth).toBeGreaterThan(label(target).clientWidth)
-    await userEvent.hover(target)
-    await vi.waitFor(() => expect(tip()?.textContent).toBe('100'))
-    expect(pagination.get('[aria-current="page"]').element).toBe(target)
-  })
+  it.each(['inherit', 'sans-serif', 'monospace'])(
+    'rechecks dimensions without replacing the button with %s text',
+    async fontFamily => {
+      const { pagination, target, outside, setProps } = await render({
+        modelValue: 100,
+        style: { fontFamily },
+      })
+      await userEvent.hover(target)
+      await vi.waitFor(() => expect(tip()?.textContent).toBe('100'))
+      target.focus()
+      await setProps({ size: 'lg' })
+      expect(label(target).scrollWidth).toBeLessThanOrEqual(label(target).clientWidth)
+      await vi.waitFor(() => expect(bubble()).toBeNull())
+      expect(pagination.get('[aria-current="page"]').element).toBe(target)
+      expect(document.activeElement).toBe(target)
+      await userEvent.hover(outside)
+      await setProps({ size: 'md' })
+      await userEvent.hover(target)
+      await new Promise(resolve => setTimeout(resolve, 120))
+      const overflowing = label(target).scrollWidth > label(target).clientWidth
+      expect(tip()?.textContent ?? null).toBe(overflowing ? '100' : null)
+      await userEvent.hover(outside)
+      ;(pagination.element as HTMLElement).dataset.density = 'compact'
+      await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))
+      expect(label(target).scrollWidth).toBeGreaterThan(label(target).clientWidth)
+      await userEvent.hover(target)
+      await vi.waitFor(() => expect(tip()?.textContent).toBe('100'))
+      expect(pagination.get('[aria-current="page"]').element).toBe(target)
+    },
+  )
 
   it('tracks custom slot text, including updates that leave the button size unchanged', async () => {
     const { target, text, outside } = await render({ total: 50, modelValue: 2 }, { text: 'II' })
