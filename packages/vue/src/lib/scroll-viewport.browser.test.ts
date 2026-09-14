@@ -145,17 +145,20 @@ describe.each(Object.keys(components))('%s content viewport', kind => {
   })
 })
 
-it('Dialog body bypasses the built-in viewport even when it includes a custom ScrollArea', async () => {
-  const demo = render('Dialog')
-  demo.open.value = true
-  const viewport = await demo.ready()
-  demo.body.value = true
-  await vi.waitFor(() => expect(demo.modal.value?.viewport).toBeUndefined())
-  expect(viewport.isConnected).toBe(false)
-  await vi.waitFor(() =>
-    expect(demo.panel()!.querySelector('[data-overlayscrollbars-viewport]')).not.toBeNull(),
-  )
-  expect(demo.modal.value?.viewport).toBeUndefined()
-  demo.body.value = false
-  expect(await demo.ready()).not.toBe(viewport)
-})
+it.each(Object.keys(components))(
+  '%s body bypasses the built-in viewport even when it includes a custom ScrollArea',
+  async kind => {
+    const demo = render(kind)
+    demo.open.value = true
+    const viewport = await demo.ready()
+    demo.body.value = true
+    await vi.waitFor(() => expect(demo.modal.value?.viewport).toBeUndefined())
+    expect(viewport.isConnected).toBe(false)
+    await vi.waitFor(() =>
+      expect(demo.panel()!.querySelector('[data-overlayscrollbars-viewport]')).not.toBeNull(),
+    )
+    expect(demo.modal.value?.viewport).toBeUndefined()
+    demo.body.value = false
+    expect(await demo.ready()).not.toBe(viewport)
+  },
+)
