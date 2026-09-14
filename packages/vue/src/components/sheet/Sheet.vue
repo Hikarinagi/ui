@@ -10,6 +10,7 @@
     DialogTitle,
     DialogTrigger,
   } from 'reka-ui'
+  import { useScrollViewport } from '../../lib/scroll-viewport'
   import { cn } from '../../lib/cn'
   import Card from '../card/Card.vue'
   import CloseButton from '../close-button/CloseButton.vue'
@@ -32,6 +33,9 @@
     }>(),
     { header: true, handle: true, locked: false },
   )
+
+  const { scrollArea, viewport } = useScrollViewport()
+  defineExpose({ viewport })
 
   const open = defineModel<boolean>('open')
   const panel = shallowRef<{ $el: HTMLElement } | null>(null)
@@ -112,7 +116,7 @@
               </DialogClose>
             </div>
           </div>
-          <ScrollArea v-if="$slots.content" class="min-h-0 grow">
+          <ScrollArea v-if="$slots.content" ref="scrollArea" class="min-h-0 grow">
             <div class="px-(--hn-panel-p) py-1">
               <slot name="content" :close="close" />
             </div>

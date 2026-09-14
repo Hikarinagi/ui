@@ -28,6 +28,16 @@ Content taller than the available height scrolls inside the `content` slot while
 
 <Demo name="sheet/scroll" />
 
+### Scroll viewport {#viewport}
+
+Use the component ref's `viewport` to access the actual scrollable element of its built-in [ScrollArea](/components/scroll-area). Read `scrollTop`, call `scrollTo()`, or pass it to scroll listeners and observers.
+
+`viewport` has type `HTMLElement | undefined`. It is `undefined` before the content scroll area initializes, without a `content` slot, and after content unmounts. It remains available during exit and updates to a new element on reopening. Watch `() => modal.value?.viewport` to act when ready or attach listeners, and remove listeners in the watch cleanup callback.
+
+The example uses [Button](/components/button) to scroll with `viewport.scrollTo()`.
+
+<Demo name="sheet/viewport" />
+
 ### Controlled {#controlled}
 
 `open` supports two-way binding. Without a default slot no trigger is rendered and the sheet can only be opened from outside.
@@ -90,3 +100,9 @@ The example calls `close` from a footer [Button](/components/button).
 | default   | —       | The trigger        |
 | `content` | `close` | The body           |
 | `footer`  | `close` | The action buttons |
+
+### Exposed instance {#expose}
+
+| Property   | Type                       | Description                                                                                                                                       |
+| ---------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `viewport` | `HTMLElement \| undefined` | Actual scrollable element of the built-in [ScrollArea](/components/scroll-area); available after initialization and cleared when content unmounts |

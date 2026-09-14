@@ -48,6 +48,16 @@ Content past the available height scrolls inside the `content` slot while the ti
 
 <Demo name="drawer/scroll" />
 
+### Scroll viewport {#viewport}
+
+Use the component ref's `viewport` to access the actual scrollable element of its built-in [ScrollArea](/components/scroll-area). Read `scrollTop`, call `scrollTo()`, or pass it to scroll listeners and observers.
+
+`viewport` has type `HTMLElement | undefined`. It is `undefined` before the content scroll area initializes, without a `content` slot, and after content unmounts. It remains available during exit and updates to a new element on reopening. Watch `() => modal.value?.viewport` to act when ready or attach listeners, and remove listeners in the watch cleanup callback.
+
+The example uses [Button](/components/button) to scroll with `viewport.scrollTo()`.
+
+<Demo name="drawer/viewport" />
+
 ### Controlled {#controlled}
 
 `open` supports two-way binding. Leaving out the default slot renders no trigger, so the drawer can only be opened from outside.
@@ -91,3 +101,9 @@ With `locked`, neither Escape nor a click on the scrim closes the drawer, and th
 | `default` | —           | The trigger; omit it to render none     |
 | `content` | `{ close }` | The body, scrolling when it is too tall |
 | `footer`  | `{ close }` | The actions along the bottom            |
+
+### Exposed instance {#expose}
+
+| Property   | Type                       | Description                                                                                                                                       |
+| ---------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `viewport` | `HTMLElement \| undefined` | Actual scrollable element of the built-in [ScrollArea](/components/scroll-area); available after initialization and cleared when content unmounts |

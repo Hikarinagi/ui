@@ -84,6 +84,18 @@ In the default layout, content past the available height scrolls inside the `con
 
 <Demo name="dialog/scroll" />
 
+### Scroll viewport {#viewport}
+
+Use the component ref's `viewport` to access the actual scrollable element of its built-in [ScrollArea](/components/scroll-area). Read `scrollTop`, call `scrollTo()`, or pass it to scroll listeners and observers.
+
+`viewport` has type `HTMLElement | undefined`. It is `undefined` before the content scroll area initializes, without a `content` slot, and after content unmounts. It remains available during exit and updates to a new element on reopening. Watch `() => modal.value?.viewport` to act when ready or attach listeners, and remove listeners in the watch cleanup callback.
+
+The `body` slot replaces the built-in scroll area, so `viewport` is `undefined`. Reference any custom scroll area directly.
+
+The example uses [Button](/components/button) to scroll with `viewport.scrollTo()`.
+
+<Demo name="dialog/viewport" />
+
 ### Controlled {#controlled}
 
 `open` supports two-way binding. Leaving out the default slot renders no trigger, so the dialog can only be opened from outside.
@@ -132,3 +144,9 @@ With `locked`, neither Escape nor a click on the scrim closes the dialog, and a 
 | `body`    | `{ close }` | Entire interior; replaces the default header, content and footer |
 | `content` | `{ close }` | The body, scrolling when it is too tall                          |
 | `footer`  | `{ close }` | The actions along the bottom                                     |
+
+### Exposed instance {#expose}
+
+| Property   | Type                       | Description                                                                                                                                       |
+| ---------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `viewport` | `HTMLElement \| undefined` | Actual scrollable element of the built-in [ScrollArea](/components/scroll-area); available after initialization and cleared when content unmounts |

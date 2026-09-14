@@ -84,6 +84,18 @@ import { Dialog } from '@hina-ui/vue'
 
 <Demo name="dialog/scroll" />
 
+### 滚动容器 {#viewport}
+
+通过组件 ref 的 `viewport` 获取正文内置 [ScrollArea](/components/scroll-area) 的实际滚动元素。可以读取 `scrollTop`、调用 `scrollTo()`，或将它交给滚动监听、观察器。
+
+`viewport` 的类型为 `HTMLElement | undefined`。正文滚动区域初始化完成前、没有 `content` 插槽或内容卸载后为 `undefined`；退场期间仍返回当前元素，再次打开时更新为新的元素。需要在可用时执行操作或绑定监听，可监听 `() => modal.value?.viewport`，并在监听清理函数中解除绑定。
+
+使用 `body` 插槽时，内置滚动区域被替换，`viewport` 为 `undefined`；自定义滚动区域由调用方自行引用。
+
+示例中的 [Button](/components/button) 通过 `viewport.scrollTo()` 控制滚动。
+
+<Demo name="dialog/viewport" />
+
 ### 受控 {#controlled}
 
 `open` 支持双向绑定。省略默认插槽时不渲染触发器，对话框只能从外部打开。
@@ -132,3 +144,9 @@ import { Dialog } from '@hina-ui/vue'
 | `body`    | `{ close }` | 整个面板内部，替换默认头部、正文和页脚 |
 | `content` | `{ close }` | 正文，过高时在内部滚动                 |
 | `footer`  | `{ close }` | 底部的操作按钮                         |
+
+### 实例 {#expose}
+
+| 属性       | 类型                       | 说明                                                                                            |
+| ---------- | -------------------------- | ----------------------------------------------------------------------------------------------- |
+| `viewport` | `HTMLElement \| undefined` | 正文内置 [ScrollArea](/components/scroll-area) 的实际滚动元素，初始化完成后可用，内容卸载后清空 |
