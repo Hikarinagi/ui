@@ -62,6 +62,8 @@ export { default as CommandPalette } from './components/command-palette/CommandP
 export type { CommandItem, CommandGroup, CommandItems } from './components/command-palette/types'
 export { default as Listbox } from './components/listbox/Listbox.vue'
 export type { ListboxVariants } from './components/listbox/listbox.variants'
+export { default as Tree } from './components/tree/Tree.vue'
+export type { TreeNode, TreeNodeSlot, TreeValue } from './components/tree/types'
 export { default as TreeSelect } from './components/tree-select/TreeSelect.vue'
 export type { TreeSelectNode } from './components/tree-select/types'
 export { default as Checkbox } from './components/checkbox/Checkbox.vue'

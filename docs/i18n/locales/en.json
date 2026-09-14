@@ -316,6 +316,7 @@
     "popover": "A small panel that floats out on click",
     "popconfirm": "A confirmation bubble that floats out next to its trigger",
     "tooltip": "A short note shown on hover or focus",
+    "tree": "An expandable tree with cascading checkbox selection",
     "tree-select": "Picks one item from a tree",
     "dialog": "A modal dialog that interrupts the current task",
     "drawer": "A modal panel that slides in from the screen edge",

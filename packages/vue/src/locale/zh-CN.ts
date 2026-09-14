@@ -105,6 +105,7 @@ export const zhCN: UiMessages = {
     show: '显示密码',
     hide: '隐藏密码',
   },
+  tree: { empty: '暂无节点' },
   treeSelect: {
     search: '搜索节点',
   },

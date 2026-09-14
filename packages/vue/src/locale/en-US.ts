@@ -105,6 +105,7 @@ export const enUS: UiMessages = {
     show: 'Show password',
     hide: 'Hide password',
   },
+  tree: { empty: 'No nodes' },
   treeSelect: {
     search: 'Search nodes',
   },
