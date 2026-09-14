@@ -1,5 +1,18 @@
 # @hina-ui/vue
 
+## 1.5.0
+
+### Minor Changes
+
+- 74f7a8b: Expose the built-in content scroll viewport on Sheet, Drawer, and Dialog component refs as `viewport: HTMLElement | undefined`. The element becomes available after ScrollArea initialization, remains available during exit, clears when content unmounts, and updates when reopened. Dialog with a custom `body` slot does not expose a built-in viewport.
+- c077db3: Add virtual anchors and an explicit `updatePositionStrategy` to Popover, DropdownMenu, and HoverCard, with public `OverlayAnchor` and `OverlayPositionStrategy` types. Support continuous coordinate tracking through exit, retain the last position when an anchor is cleared or detached, and stop measurement after unmount. Virtual HoverCard anchors remain open during scrolling and pointer departure, with visibility controlled by `v-model:open`, outside clicks, and Escape.
+- 124153b: Add icon, title, and body slots to Sheet and Drawer with the same semantics as Dialog. Add Drawer header visibility and a closable option for both panels while preserving their default behavior. Custom body content controls layout and scrolling; Sheet handles remain independently configurable. Keep accessible titles and descriptions when the visible header is replaced or hidden, and expose no built-in viewport in body mode.
+- 04e214d: Add a `header` option to Sheet, matching Dialog. Hiding the header removes the visible title, description, and header close button while preserving the accessible name and description. The handle remains independently configurable; disabling both removes the top drag region without leaving an empty header gap.
+
+### Patch Changes
+
+- 297da6b: Fix Sheet and Drawer stacking in component mount order instead of opening order. Mount each portal when opened and retain it until content finishes exiting, so a later-opened panel and its scrim appear above earlier overlays. Preserve exit animations, content when reopened during exit, and custom portal targets.
+
 ## 1.4.0
 
 ### Minor Changes
