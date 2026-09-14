@@ -86,6 +86,7 @@ describe('range-slider · 几何', () => {
 describe('range-slider · 交互', () => {
   it('Tab 依次落在两个拇指上，方向键只动持焦的那个；每个拇指各有自己的取值标签', async () => {
     const { value, thumbs, root } = mountRange({ step: 5 })
+    await userEvent.unhover(root)
     const before = document.createElement('button')
     document.body.prepend(before)
     before.focus()

@@ -1,4 +1,4 @@
-import { onBeforeUnmount, shallowRef } from 'vue'
+import { computed, onBeforeUnmount, shallowRef } from 'vue'
 import { animate } from 'motion-v'
 import { prefersReducedMotion, type TransitionName } from '../../../motion'
 import type { useLightboxMotion } from './useLightboxMotion'
@@ -6,6 +6,7 @@ import { FLING, TRACKPAD_INTENSITY } from '../utils/gesture'
 import {
   WHEEL_INTENSITY,
   ZOOM_MIN,
+  ZOOM_EPSILON,
   clampOffset,
   clampZoom,
   doubleTapZoom,
@@ -30,16 +31,28 @@ export interface PinchStart {
 
 export function useLightboxZoom(
   motion: ReturnType<typeof useLightboxMotion>,
-  geometry: () => { fit: Size; stage: Size; base: number },
+  geometry: () => {
+    fit: Size
+    frame: Size
+    stage: Size
+    base: number
+    original: number
+    secondary: number
+    max: number
+  },
 ) {
   const { x, y, scale } = motion
-  const zoomed = shallowRef(false)
+  const raw = shallowRef(scale.get())
   const unsubscribe = scale.on('change', value => {
-    zoomed.value = isZoomed(value / geometry().base)
+    raw.value = value
   })
   onBeforeUnmount(unsubscribe)
 
-  const zoom = () => scale.get() / geometry().base
+  const zoom = () => raw.value / geometry().base
+  const zoomed = computed(() => isZoomed(zoom()))
+  const canZoomIn = computed(() => zoom() < geometry().max - ZOOM_EPSILON)
+  const canToggle = computed(() => geometry().secondary > ZOOM_MIN + ZOOM_EPSILON)
+  const atOriginal = computed(() => Math.abs(zoom() - geometry().original) < ZOOM_EPSILON)
   const offset = (): Point => ({ x: x.get(), y: y.get() })
 
   function bounds(level = zoom()): Bounds {
@@ -57,7 +70,7 @@ export function useLightboxZoom(
   }
 
   function target(level: number, focal: Point): { level: number; offset: Point } {
-    const clamped = clampZoom(level)
+    const clamped = clampZoom(level, ZOOM_MIN, geometry().max)
     if (!isZoomed(clamped)) return { level: ZOOM_MIN, offset: { x: 0, y: 0 } }
     return {
       level: clamped,
@@ -74,7 +87,7 @@ export function useLightboxZoom(
   }
 
   function step(direction: 1 | -1) {
-    zoomTo(stepZoom(zoom(), direction), { x: 0, y: 0 })
+    zoomTo(stepZoom(zoom(), direction, geometry().max), { x: 0, y: 0 })
   }
 
   function reset() {
@@ -88,17 +101,41 @@ export function useLightboxZoom(
   }
 
   function doubleTap(focal: Point) {
-    zoomTo(doubleTapZoom(zoom()), focal)
+    zoomTo(doubleTapZoom(zoom(), geometry().secondary), focal)
   }
 
   function pinch(start: PinchStart, mid: Point, ratio: number) {
-    const level = elasticZoom(start.zoom * ratio)
+    const level = elasticZoom(start.zoom * ratio, ZOOM_MIN, geometry().max)
     const about = zoomAbout(start.offset, start.zoom, level, start.mid)
     place(level, { x: about.x + mid.x - start.mid.x, y: about.y + mid.y - start.mid.y })
   }
 
   function settle(focal: Point) {
     zoomTo(zoom(), focal, 'press')
+  }
+
+  function reflow(update: () => void) {
+    const before = geometry()
+    const wasZoomed = isZoomed(zoom())
+    const currentScale = scale.get()
+    update()
+    const after = geometry()
+    if (before.frame.width <= 0 || after.frame.width <= 0) return
+    if (
+      before.frame.width === after.frame.width &&
+      before.frame.height === after.frame.height &&
+      before.base === after.base &&
+      before.stage.width === after.stage.width &&
+      before.stage.height === after.stage.height
+    )
+      return
+    scale.stop()
+    scale.set((currentScale * before.frame.width) / after.frame.width)
+    zoomTo(wasZoomed ? zoom() : ZOOM_MIN, { x: 0, y: 0 })
+  }
+
+  function original() {
+    zoomTo(geometry().original, { x: 0, y: 0 })
   }
 
   function pan(origin: Point, delta: Point) {
@@ -133,6 +170,11 @@ export function useLightboxZoom(
 
   return {
     zoomed,
+    canZoomIn,
+    canToggle,
+    atOriginal,
+    original,
+    reflow,
     zoom,
     isZoomed: () => isZoomed(zoom()),
     zoomTo,

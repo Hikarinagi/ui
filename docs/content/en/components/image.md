@@ -72,6 +72,16 @@ The small and large pictures can be two renditions: the resolver addresses each 
 
 Use [Lightbox](/components/lightbox) to control a preview independently.
 
+### Preview dimensions {#preview-size}
+
+Use `previewSize` to provide the final preview image’s intrinsic pixel dimensions. When `preview` resolves to a separate image, the dimensions describe that larger image; otherwise they describe the current image. The initial fit and zoom limit are known before opening, so the preview expands directly to its final size and loading the larger image only replaces its pixels.
+
+Both dimensions must be finite positive numbers. Valid explicit dimensions take precedence over decoded dimensions. Omitted or invalid values keep automatic sizing. `previewSize` only affects the preview; `class`, `style` and `ratio` still control the picture’s outer box on the page.
+
+The example compares automatic and supplied dimensions using the same 320 × 180 thumbnail and 1200 × 675 larger image.
+
+<Demo name="image/preview-size" />
+
 ### Groups {#group}
 
 Put several pictures inside an `ImageGroup` and opening any of them lets you move through the whole set, in the order they appear on the page. With `loop` on, paging wraps around at both ends.
@@ -92,7 +102,7 @@ Put several pictures inside an `ImageGroup` and opening any of them lets you mov
 - Changing `src` resets the fallback, so a new picture starts from its own address rather than the previous fallback.
 - While the preview is open the page cannot scroll and focus stays inside the preview; closing returns focus to the picture.
 - Dragging down moves the picture with the finger and shrinks it while the page shows through the background; letting go before it has travelled far enough springs it back.
-- Pinching zooms around the midpoint of the two fingers, the wheel zooms around the pointer, and a double tap zooms to 2.5× under the finger; another double tap returns to the original size. Zoom tops out at 6×; pinching past either limit gets heavier the further it goes, and springs back on release.
+- Pinching zooms around the midpoint of the fingers and the wheel zooms around the pointer. Small images are not enlarged on open; double-tap targets depend on image dimensions, and manual zoom reaches twice the intrinsic size. See [Lightbox sizing and zoom](/components/lightbox#zoom). Pinching beyond either limit meets increasing resistance and springs back on release.
 - The picture can only be dragged around once zoomed in. Dragging past an edge meets resistance and springs back; a quick flick keeps the picture gliding to a stop, bouncing off the edges. When zoomed, dragging down only pans and never closes.
 - Turning the page resets the previous picture's zoom, position and rotation; when pictures are added to or removed from the page, the group in the preview follows. With a single picture, or once you reach either end, dragging meets resistance and springs back.
 - Only the current picture fetches its large rendition; moving on abandons it, so the whole set is never pulled down at once.
@@ -108,23 +118,24 @@ Put several pictures inside an `ImageGroup` and opening any of them lets you mov
 
 ## API {#api}
 
-| Prop         | Type                                                       | Default   | Description                                                  |
-| ------------ | ---------------------------------------------------------- | --------- | ------------------------------------------------------------ |
-| `src`        | `string`                                                   | —         | The address, passed through the resolver                     |
-| `alt`        | `string`                                                   | `''`      | Alternative text                                             |
-| `fallback`   | `string`                                                   | —         | Loaded when `src` fails                                      |
-| `fit`        | `'cover' \| 'contain' \| 'fill' \| 'none' \| 'scale-down'` | `'cover'` | How the picture fills its box                                |
-| `ratio`      | `number`                                                   | —         | Width divided by height, reserved in advance                 |
-| `lazy`       | `boolean`                                                  | `true`    | Wait until it nears the viewport                             |
-| `rootMargin` | `string`                                                   | `'200px'` | How early loading starts                                     |
-| `skeleton`   | `boolean`                                                  | `true`    | Whether a skeleton shows while loading                       |
-| `eager`      | `boolean`                                                  | `false`   | Request at high priority, decode in sync                     |
-| `preview`    | `boolean \| string`                                        | `false`   | Opens for a closer look; an address becomes the large source |
-| `draggable`  | `boolean`                                                  | —         | Whether the picture can be dragged                           |
-| `class`      | `string`                                                   | —         | Classes appended to the box                                  |
-| `style`      | `StyleValue`                                               | —         | Inline styles for the outer box                              |
-| `imageClass` | `string`                                                   | —         | Classes appended to the `img`                                |
-| `imageStyle` | `StyleValue`                                               | —         | Inline styles for the `img`                                  |
+| Prop          | Type                                                       | Default   | Description                                                                       |
+| ------------- | ---------------------------------------------------------- | --------- | --------------------------------------------------------------------------------- |
+| `src`         | `string`                                                   | —         | The address, passed through the resolver                                          |
+| `alt`         | `string`                                                   | `''`      | Alternative text                                                                  |
+| `fallback`    | `string`                                                   | —         | Loaded when `src` fails                                                           |
+| `fit`         | `'cover' \| 'contain' \| 'fill' \| 'none' \| 'scale-down'` | `'cover'` | How the picture fills its box                                                     |
+| `ratio`       | `number`                                                   | —         | Width divided by height, reserved in advance                                      |
+| `lazy`        | `boolean`                                                  | `true`    | Wait until it nears the viewport                                                  |
+| `rootMargin`  | `string`                                                   | `'200px'` | How early loading starts                                                          |
+| `skeleton`    | `boolean`                                                  | `true`    | Whether a skeleton shows while loading                                            |
+| `eager`       | `boolean`                                                  | `false`   | Request at high priority, decode in sync                                          |
+| `preview`     | `boolean \| string`                                        | `false`   | Opens for a closer look; an address becomes the large source                      |
+| `previewSize` | `{ width: number; height: number }`                        | —         | Intrinsic dimensions of the final preview image; both must be finite and positive |
+| `draggable`   | `boolean`                                                  | —         | Whether the picture can be dragged                                                |
+| `class`       | `string`                                                   | —         | Classes appended to the box                                                       |
+| `style`       | `StyleValue`                                               | —         | Inline styles for the outer box                                                   |
+| `imageClass`  | `string`                                                   | —         | Classes appended to the `img`                                                     |
+| `imageStyle`  | `StyleValue`                                               | —         | Inline styles for the `img`                                                       |
 
 | Event   | Payload                   | Description                  |
 | ------- | ------------------------- | ---------------------------- |

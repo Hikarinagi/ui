@@ -36,6 +36,7 @@ function merge(base: UiMessages, patch: PartialUiMessages): UiMessages {
     chip: { ...base.chip, ...patch.chip },
     numberInput: { ...base.numberInput, ...patch.numberInput },
     passwordInput: { ...base.passwordInput, ...patch.passwordInput },
+    treeSelect: { ...base.treeSelect, ...patch.treeSelect },
     combobox: { ...base.combobox, ...patch.combobox },
     slider: { ...base.slider, ...patch.slider },
     pinInput: { ...base.pinInput, ...patch.pinInput },

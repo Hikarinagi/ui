@@ -1,5 +1,5 @@
 import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest'
-import { userEvent } from '@vitest/browser/context'
+import { userEvent } from 'vitest/browser'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { defineComponent, h, ref, type Ref } from 'vue'
 import HoverCard from './HoverCard.vue'
@@ -89,7 +89,7 @@ describe('HoverCard', () => {
     await vi.waitFor(() => expect(panel()).toBeNull())
   })
 
-  it('键盘聚焦触发器立即打开，焦点离开即收回', async () => {
+  it('键盘聚焦触发器后打开，焦点离开后收回', async () => {
     const w = harness({ openDelay: 100, closeDelay: 50 })
     expect(w.find('a').exists()).toBe(true)
     await userEvent.keyboard('{Tab}')

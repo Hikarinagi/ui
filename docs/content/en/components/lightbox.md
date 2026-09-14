@@ -26,11 +26,43 @@ The example wraps [Image](/components/image) in a [Button](/components/button) a
 
 <Demo name="lightbox/source" />
 
+## Rectangle source {#virtual-source}
+
+`source` can also return `{ x, y, width, height }` in viewport coordinates, measured in CSS pixels. No `<img>` element is required. Pass existing bounds directly with `source: () => bounds`.
+
+A valid `previewSize` lets the preview expand from the rectangle immediately. Otherwise, the first opening decodes `src` to obtain its intrinsic dimensions. Closing calls `source` again to read the latest bounds. Return `null` or `undefined` when the source is no longer visible to fade out instead. Rectangles with zero size, non-finite values or no intersection with the viewport are ignored.
+
+The example uses a [Button](/components/button) background image and returns the button's `DOMRect`.
+
+<Demo name="lightbox/virtual-source" />
+
+## Sizing and zoom {#zoom}
+
+Images initially fit within the available area without exceeding their intrinsic size. The available area reserves space for the close button, toolbar and thumbnails, and is recalculated when the window changes size.
+
+Double tapping switches between the initial and intrinsic sizes. Panoramas wider than 2:1 first fit the available height; tall images taller than 2:1 first fit the available width. Both are capped at intrinsic size. Use “Actual size” in the toolbar to go directly to 100%, or “Fit to window” to restore the initial fit.
+
+Wheel, pinch and toolbar zoom can reach twice the intrinsic image size. The corresponding toolbar buttons are disabled at each limit. When a small image already appears at intrinsic size, double tapping does not enlarge it further; toolbar and gesture zoom remain available.
+
+This example uses [Image](/components/image) and [ImageGroup](/components/image#group) to display images with different intrinsic dimensions.
+
+<Demo name="lightbox/zoom" />
+
+## Preview dimensions {#preview-size}
+
+Set `previewSize: { width, height }` on an item to supply the final preview image’s intrinsic pixel dimensions. They describe `preview` when a separate larger image is provided, or `src` otherwise. Both dimensions must be finite and positive; omitted or invalid values retain automatic sizing.
+
+Valid explicit dimensions determine the initial fit and zoom limit and are not replaced by decoded dimensions. Loading the larger image only replaces its pixels. Rectangle-source transitions can also start without waiting for decoding. These dimensions do not change the position or size returned by `source`.
+
+The example wraps [Image](/components/image) in a [Button](/components/button) for its rectangle source and supplies the preview dimensions on the item. [Image](/components/image#preview-size) also accepts the same prop.
+
+<Demo name="lightbox/preview-size" />
+
 ## Behaviour {#behavior}
 
 - `src` and `preview` are used as provided, including regular image addresses and valid blob URLs.
 - `source` is optional. A visible source image supplies the position and clipping shape for opening and closing. Without a source, the preview opens with a fade and a small scale transition.
-- `preview` can supply a larger image that replaces `src` once loaded.
+- `preview` supplies an optional larger image. Without a valid `previewSize`, its decoded dimensions determine the initial fit and zoom limit. Size changes animate after any opening transition finishes. If loading fails, `src` remains in use.
 - Zooming, panning, rotation, downloading and paging behave like [Image previews](/components/image#preview).
 - The caller owns blob URLs and should keep them valid while the preview uses them.
 - The component exposes controlled state. An application can connect imperative calls through shared state and a mounted preview component.
@@ -53,11 +85,20 @@ The example wraps [Image](/components/image) in a [Button](/components/button) a
 
 ### LightboxItem {#item}
 
-| Field     | Type                                          | Description                                                              |
-| --------- | --------------------------------------------- | ------------------------------------------------------------------------ |
-| `id`      | `string`                                      | Stable, unique identifier; use distinct identifiers for different images |
-| `src`     | `string`                                      | Image address                                                            |
-| `alt`     | `string`                                      | Image description and dialog name                                        |
-| `preview` | `string`                                      | Optional larger image address                                            |
-| `fit`     | `ImageVariants['fit']`                        | Source image fit, used to calculate the opening transition               |
-| `source`  | `() => HTMLImageElement \| null \| undefined` | Optional function returning the source image                             |
+| Field         | Type                                        | Description                                                                       |
+| ------------- | ------------------------------------------- | --------------------------------------------------------------------------------- |
+| `id`          | `string`                                    | Stable, unique identifier; use distinct identifiers for different images          |
+| `src`         | `string`                                    | Image address                                                                     |
+| `alt`         | `string`                                    | Image description and dialog name                                                 |
+| `preview`     | `string`                                    | Optional larger image address                                                     |
+| `previewSize` | `{ width: number; height: number }`         | Intrinsic dimensions of the final preview image; both must be finite and positive |
+| `fit`         | `ImageVariants['fit']`                      | Source image fit, used to calculate the opening transition                        |
+| `source`      | `() => LightboxSource \| null \| undefined` | Optional function returning a source image or rectangle                           |
+
+### LightboxSource {#source-type}
+
+Exported from the package root, with two supported source forms.
+
+```ts
+type LightboxSource = HTMLImageElement | { x: number; y: number; width: number; height: number }
+```

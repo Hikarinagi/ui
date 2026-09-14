@@ -1,4 +1,4 @@
-import { nextTick, shallowRef, type Ref } from 'vue'
+import { nextTick, onScopeDispose, shallowRef, type Ref } from 'vue'
 import type { useLightboxMotion } from './useLightboxMotion'
 import type { Pose } from '../utils/pose'
 
@@ -10,7 +10,7 @@ export function useLightboxPhase(options: {
   locked: Ref<boolean>
   motion: ReturnType<typeof useLightboxMotion>
   pose: () => Pose | null
-  prepare: () => void
+  prepare: () => void | Promise<void>
   layout: () => void
 }) {
   const { motion } = options
@@ -21,10 +21,13 @@ export function useLightboxPhase(options: {
     if (phase.value !== 'closed') return
     phase.value = 'entering'
     const run = ++generation
-    options.prepare()
+    const preparing = options.prepare()
+    if (preparing) await preparing
+    if (run !== generation) return
     options.mounted.value = true
     options.locked.value = true
     await nextTick()
+    if (run !== generation) return
     options.layout()
     await motion.enter(options.pose())
     if (run === generation) phase.value = 'open'
@@ -42,7 +45,7 @@ export function useLightboxPhase(options: {
     if (phase.value === 'closed' || phase.value === 'closing') return
     phase.value = 'closing'
     const run = ++generation
-    await motion.leave(options.pose())
+    if (options.mounted.value) await motion.leave(options.pose())
     if (run !== generation) return
     phase.value = 'closed'
     options.mounted.value = false
@@ -54,6 +57,11 @@ export function useLightboxPhase(options: {
     if (phase.value === 'entering') void close()
     else if (phase.value === 'closing') void reopen()
   }
+
+  onScopeDispose(() => {
+    generation++
+    motion.stop()
+  })
 
   return { current: () => phase.value, show, close, reopen, interrupt }
 }

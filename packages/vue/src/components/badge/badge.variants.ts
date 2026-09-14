@@ -2,7 +2,7 @@ import { tv, type VariantProps } from '../../lib/tv'
 
 export const badge = tv({
   base: [
-    'absolute z-[1] inline-flex items-center justify-center rounded-full will-change-transform',
+    'pointer-events-none absolute z-[1] inline-flex items-center justify-center rounded-full will-change-transform',
     'font-medium leading-none whitespace-nowrap select-none',
   ],
   variants: {

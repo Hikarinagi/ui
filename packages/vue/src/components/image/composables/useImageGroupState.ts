@@ -10,7 +10,15 @@ export function useImageGroupState() {
   function byDom(a: LightboxItem, b: LightboxItem): number {
     const first = a.source?.()
     const second = b.source?.()
-    if (!first || !second || first === second) return 0
+    if (
+      !first ||
+      !second ||
+      first === second ||
+      !('compareDocumentPosition' in first) ||
+      !('compareDocumentPosition' in second)
+    ) {
+      return 0
+    }
     return first.compareDocumentPosition(second) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1
   }
 

@@ -326,6 +326,12 @@ export const components: DocsComponent[] = [
     category: 'forms',
   },
   { label: 'Page', to: '/components/page', i18n: 'components.page', category: 'shell' },
+  {
+    label: 'Pagination',
+    to: '/components/pagination',
+    i18n: 'components.pagination',
+    category: 'data',
+  },
   { label: 'Panel', to: '/components/panel', i18n: 'components.panel', category: 'display' },
   {
     label: 'PasswordInput',

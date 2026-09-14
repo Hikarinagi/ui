@@ -28,6 +28,14 @@ import { Slider } from '@hina-ui/vue'
 
 <Demo name="slider/step" />
 
+### 方向 {#direction}
+
+`dir` 支持 `ltr` 和 `rtl`，优先于 Reka 的全局方向配置；未配置时继承外层元素的 `dir`。切换方向会同步更新轨道、拇指、刻度点与刻度文字。
+
+RTL 下最小值在右、最大值在左；右方向键减小数值，左方向键增大数值，Home / End 仍分别跳到最小值与最大值。
+
+<Demo name="slider/direction" />
+
 ### 刻度 {#marks}
 
 `marks` 在轨道上放刻度点，带 `label` 的刻度在下方显示文字。
@@ -36,13 +44,13 @@ import { Slider } from '@hina-ui/vue'
 
 ### 取值标签 {#label}
 
-取值标签是一个 `Tooltip`，以拇指为触发器，随拇指移动，接近视口边缘时会翻转到另一侧。默认在悬停、聚焦与拖动时显示当前值；`label` 为 `always` 时始终显示，为 `none` 时不显示。`format` 定制显示的文字，默认按当前语言格式化数字。与 `IconButton` 的提示相同，它依赖应用中的 `TooltipProvider`，缺少时不显示。
+取值标签是一个 [Tooltip](/components/tooltip)，以拇指为触发器，随拇指移动，接近视口边缘时会翻转到另一侧。默认在悬停、聚焦与拖动时显示当前值；`label` 为 `always` 时始终显示，为 `none` 时不显示。`format` 定制显示的文字，默认按当前语言格式化数字。与 [IconButton](/components/icon-button) 的提示相同，它依赖应用中的 [TooltipProvider](/components/tooltip#provider)，缺少时不显示。
 
 <Demo name="slider/label" />
 
 ### 尺寸 {#sizes}
 
-`size` 有 `sm`、`md`、`lg` 三档，轨道高 20、24、28 像素，拇指 12、16、20 像素，与 `Switch` 相同。
+`size` 有 `sm`、`md`、`lg` 三档，轨道高 20、24、28 像素，拇指 12、16、20 像素，与 [Switch](/components/switch) 相同。
 
 <Demo name="slider/sizes" />
 
@@ -85,6 +93,7 @@ import { Slider } from '@hina-ui/vue'
 | `min`        | `number`                                   | `0`      | 最小值                           |
 | `max`        | `number`                                   | `100`    | 最大值                           |
 | `step`       | `number`                                   | `1`      | 步长                             |
+| `dir`        | `'ltr' \| 'rtl'`                           | —        | 方向，未指定时继承               |
 | `marks`      | `Array<{ value: number; label?: string }>` | —        | 刻度                             |
 | `label`      | `'auto' \| 'always' \| 'none'`             | `'auto'` | 取值标签的显示方式               |
 | `format`     | `(value: number) => string`                | —        | 取值标签的文字，默认按语言格式化 |

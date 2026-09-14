@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { computed, ref, watch } from 'vue'
+  import { useId } from 'vue'
   import { Check } from '@lucide/vue'
   import {
     PopoverContent,
@@ -29,7 +29,9 @@
     treeSelectRow,
     treeSelectToggle,
   } from './tree-select.variants'
-  import { findNode, pathTo, type TreeSelectNode } from './types'
+  import type { TreeSelectNode } from './types'
+  import TreeSelectSearch from './TreeSelectSearch.vue'
+  import { useTreeSelect } from './composables/useTreeSelect'
 
   defineOptions({ name: 'HnTreeSelect', inheritAttrs: false })
 
@@ -37,6 +39,8 @@
     defineProps<{
       items: TreeSelectNode[]
       placeholder?: string
+      searchable?: boolean
+      searchPlaceholder?: string
       defaultExpanded?: Array<string | number>
       variant?: InputVariants['variant']
       size?: InputVariants['size']
@@ -49,6 +53,9 @@
 
   const model = defineModel<string | number | null>()
   const open = defineModel<boolean>('open', { default: false })
+  const search = defineModel<string>('search', { default: '' })
+  const treeId = useId()
+  const triggerId = useId()
 
   defineSlots<{ node(props: { node: TreeSelectNode }): unknown }>()
 
@@ -60,82 +67,102 @@
     invalid,
     disabled,
     describedBy,
+    labelledBy,
   } = useFieldControl({
     invalid: () => props.invalid || !!group?.invalid.value,
     disabled: () => props.disabled || !!group?.disabled.value,
   })
-  const selected = computed(() => findNode(props.items, model.value))
-  const expanded = ref<string[]>([])
-
-  watch(
-    open,
-    isOpen => {
-      if (!isOpen) return
-      const path = pathTo(props.items, model.value) ?? []
-      expanded.value = Array.from(
-        new Set([...props.defaultExpanded, ...path].map(value => String(value))),
-      )
-    },
-    { immediate: true },
-  )
-
-  function key(node: TreeSelectNode) {
-    return String(node.value)
-  }
-
-  function choose(node: TreeSelectNode | undefined) {
-    if (!node || node.disabled) return
-    model.value = node.value
-    open.value = false
-  }
-
-  function keepRowClick(event: CustomEvent<{ originalEvent: Event }>) {
-    if (event.detail.originalEvent.type === 'click') event.preventDefault()
-  }
+  const {
+    selected,
+    items,
+    expanded,
+    input,
+    tree,
+    getChildren,
+    key,
+    choose,
+    keepRowClick,
+    focusSearch,
+    clearSearch,
+    onEscape,
+    onSearchKeydown,
+    onTreeKeydown,
+  } = useTreeSelect(props, model, open, search)
 </script>
 
 <template>
   <PopoverRoot v-model:open="open" modal>
-    <PopoverTrigger
-      v-bind="$attrs"
-      :id="fieldId"
-      :aria-describedby="describedBy"
-      data-hn-tree-select
-      role="combobox"
-      :aria-expanded="open"
-      :disabled="disabled"
-      :data-placeholder="selected ? undefined : ''"
-      :data-invalid="invalid ? '' : undefined"
-      :data-disabled="disabled ? '' : undefined"
-      :aria-invalid="invalid || undefined"
-      :class="
-        cn(
-          group ? inputEmbedded() : inputHost({ variant: props.variant, size: props.size }),
-          selectTrigger(),
-          props.class,
-        )
-      "
-    >
-      <span class="min-w-0 flex-1 truncate">
-        {{ selected ? selected.label : (props.placeholder ?? t.select.placeholder) }}
-      </span>
-      <span :class="inputAdornment()">
-        <DisclosureIcon />
-      </span>
+    <PopoverTrigger as-child>
+      <button
+        type="button"
+        v-bind="$attrs"
+        :id="fieldId ?? triggerId"
+        :aria-describedby="describedBy"
+        data-hn-tree-select
+        role="combobox"
+        :aria-expanded="open"
+        :disabled="disabled"
+        :data-placeholder="selected ? undefined : ''"
+        :data-invalid="invalid ? '' : undefined"
+        :data-disabled="disabled ? '' : undefined"
+        :aria-invalid="invalid || undefined"
+        :class="
+          cn(
+            group ? inputEmbedded() : inputHost({ variant: props.variant, size: props.size }),
+            selectTrigger(),
+            props.class,
+          )
+        "
+      >
+        <span class="min-w-0 flex-1 truncate">
+          {{ selected ? selected.label : (props.placeholder ?? t.select.placeholder) }}
+        </span>
+        <span :class="inputAdornment()">
+          <DisclosureIcon />
+        </span>
+      </button>
     </PopoverTrigger>
     <PopoverPortal>
-      <PopoverContent as-child align="start" :side-offset="8">
-        <Card :padded="false" data-hn-tree-select-content :class="treeSelectContent()">
+      <PopoverContent
+        as-child
+        align="start"
+        :side-offset="8"
+        @open-auto-focus="focusSearch"
+        @escape-key-down="onEscape"
+      >
+        <Card
+          :padded="false"
+          data-hn-tree-select-content
+          :aria-label="$attrs['aria-label'] as string | undefined"
+          :aria-labelledby="
+            labelledBy ?? ($attrs['aria-label'] ? undefined : (fieldId ?? triggerId))
+          "
+          :class="treeSelectContent()"
+        >
+          <TreeSelectSearch
+            v-if="props.searchable"
+            ref="input"
+            v-model="search"
+            :placeholder="props.searchPlaceholder ?? t.treeSelect.search"
+            :controls="treeId"
+            @clear="clearSearch"
+            @keydown="onSearchKeydown"
+          />
           <ScrollArea :class="treeSelectList()">
             <TreeRoot
+              :id="treeId"
+              ref="tree"
               v-slot="{ flattenItems }"
               v-model:expanded="expanded"
-              :items="props.items"
+              :items="items"
               :get-key="key"
-              :get-children="node => node.children"
+              :get-children="getChildren"
               :model-value="selected"
+              :aria-label="$attrs['aria-label'] as string | undefined"
+              :aria-labelledby="labelledBy"
               class="flex flex-col p-1 outline-none"
               @update:model-value="choose"
+              @keydown.capture="onTreeKeydown"
             >
               <TreeItem
                 v-for="item in flattenItems"
@@ -169,7 +196,9 @@
                   <Check v-if="isSelected" />
                 </span>
               </TreeItem>
-              <div v-if="props.items.length === 0" :class="selectEmpty()">{{ t.select.empty }}</div>
+              <li v-if="items.length === 0" role="none" :class="selectEmpty()">
+                <span role="status">{{ t.select.empty }}</span>
+              </li>
             </TreeRoot>
           </ScrollArea>
         </Card>

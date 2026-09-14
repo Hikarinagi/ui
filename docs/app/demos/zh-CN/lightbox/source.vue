@@ -26,7 +26,7 @@
     tone="neutral"
     :ripple="false"
     aria-label="打开图片预览"
-    class="h-auto w-64 cursor-zoom-in overflow-hidden rounded-xl p-0"
+    class="h-auto w-64 cursor-zoom-in overflow-hidden rounded-xl border-0 p-0"
     @click="show"
   >
     <Image src="/sample.webp" alt="夏日午后的坡道" :ratio="16 / 9" :lazy="false" class="w-64" />

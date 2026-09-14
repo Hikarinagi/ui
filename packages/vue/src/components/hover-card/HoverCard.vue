@@ -2,11 +2,13 @@
   import { HoverCardContent, HoverCardPortal, HoverCardRoot, HoverCardTrigger } from 'reka-ui'
   import { cn } from '../../lib/cn'
   import Card from '../card/Card.vue'
+  import HoverCardAnchor from './HoverCardAnchor.vue'
 
   defineOptions({ name: 'HnHoverCard' })
 
   const props = withDefaults(
     defineProps<{
+      anchor?: HTMLElement | null
       side?: 'top' | 'right' | 'bottom' | 'left'
       align?: 'start' | 'center' | 'end'
       sideOffset?: number
@@ -14,6 +16,7 @@
       closeDelay?: number
       padded?: boolean
       class?: string
+      positionerClass?: string
     }>(),
     {
       side: 'bottom',
@@ -25,29 +28,44 @@
     },
   )
 
+  defineSlots<{ default?(): unknown; content?(): unknown }>()
+
   const open = defineModel<boolean>('open')
 </script>
 
 <template>
   <HoverCardRoot v-model:open="open" :open-delay="props.openDelay" :close-delay="props.closeDelay">
-    <HoverCardTrigger as-child>
+    <HoverCardTrigger v-if="$slots.default" as-child>
       <slot />
     </HoverCardTrigger>
-    <HoverCardPortal>
-      <HoverCardContent
-        as-child
-        :side="props.side"
-        :align="props.align"
-        :side-offset="props.sideOffset"
-      >
-        <Card
-          data-hn-hover-card
-          :padded="props.padded"
-          :class="cn('hn-anim-pop z-(--hn-z-overlay) max-w-sm shadow-md outline-none', props.class)"
+    <HoverCardAnchor
+      v-slot="{ reference, contentRef, present }"
+      :anchor="props.anchor"
+      :external="!$slots.default"
+      :close-delay="props.closeDelay"
+      :positioner-class="props.positionerClass"
+    >
+      <HoverCardPortal v-if="present">
+        <HoverCardContent
+          :reference="reference"
+          as-child
+          :side="props.side"
+          :align="props.align"
+          :side-offset="props.sideOffset"
         >
-          <slot name="content" />
-        </Card>
-      </HoverCardContent>
-    </HoverCardPortal>
+          <Card
+            :ref="contentRef"
+            data-hn-hover-card
+            :inert="!open"
+            :padded="props.padded"
+            :class="
+              cn('hn-anim-pop z-(--hn-z-overlay) max-w-sm shadow-md outline-none', props.class)
+            "
+          >
+            <slot name="content" />
+          </Card>
+        </HoverCardContent>
+      </HoverCardPortal>
+    </HoverCardAnchor>
   </HoverCardRoot>
 </template>

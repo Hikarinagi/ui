@@ -16,15 +16,23 @@ links:
 import { RangeSlider } from '@hina-ui/vue'
 ```
 
-范围滑块有两个拇指，`v-model` 绑定 `[起点, 终点]` 的二元数组，填充覆盖两个拇指之间的一段。轨道、拇指、取值标签与 `Slider` 相同。未声明的属性都会传给根元素，应当用 `aria-label` 或者 `aria-labelledby` 给整组命名；两个拇指各自带有「最小值」「最大值」的名称。
+范围滑块有两个拇指，`v-model` 绑定 `[起点, 终点]` 的二元数组，填充覆盖两个拇指之间的一段。轨道、拇指、取值标签与 [Slider](/components/slider) 相同。未声明的属性都会传给根元素，应当用 `aria-label` 或者 `aria-labelledby` 给整组命名；两个拇指各自带有「最小值」「最大值」的名称。
 
 <Demo name="range-slider/basic" />
 
 ## 示例 {#examples}
 
+### 方向 {#direction}
+
+`dir` 支持 `ltr` 和 `rtl`，优先于 Reka 的全局方向配置；未配置时继承外层元素的 `dir`。切换方向会同步更新轨道、拇指、刻度点与刻度文字。
+
+RTL 下最小值在右、最大值在左；右方向键减小数值，左方向键增大数值，Home / End 仍分别跳到最小值与最大值。
+
+<Demo name="range-slider/direction" />
+
 ### 刻度 {#marks}
 
-`marks` 与 `Slider` 相同，`step` 决定拇指的落点。
+`marks` 与 [Slider](/components/slider) 相同，`step` 决定拇指的落点。
 
 <Demo name="range-slider/marks" />
 
@@ -36,7 +44,7 @@ import { RangeSlider } from '@hina-ui/vue'
 
 ### 取值标签 {#label}
 
-每个拇指各有一个取值标签，`label` 与 `format` 的用法与 `Slider` 相同。
+每个拇指各有一个取值标签，`label` 与 `format` 的用法与 [Slider](/components/slider) 相同。
 
 <Demo name="range-slider/label" />
 
@@ -74,6 +82,7 @@ import { RangeSlider } from '@hina-ui/vue'
 | `min`        | `number`                                   | `0`          | 最小值                     |
 | `max`        | `number`                                   | `100`        | 最大值                     |
 | `step`       | `number`                                   | `1`          | 步长                       |
+| `dir`        | `'ltr' \| 'rtl'`                           | —            | 方向，未指定时继承         |
 | `minSteps`   | `number`                                   | `0`          | 两个拇指之间至少相隔的步数 |
 | `marks`      | `Array<{ value: number; label?: string }>` | —            | 刻度                       |
 | `label`      | `'auto' \| 'always' \| 'none'`             | `'auto'`     | 取值标签的显示方式         |

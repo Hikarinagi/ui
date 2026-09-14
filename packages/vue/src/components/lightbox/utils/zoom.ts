@@ -16,8 +16,7 @@ export interface Bounds {
 }
 
 export const ZOOM_MIN = 1
-export const ZOOM_MAX = 6
-export const ZOOM_DOUBLE_TAP = 2.5
+export const ZOOM_MAX = 2
 export const ZOOM_STEP = 1.5
 export const OVERSHOOT = 0.55
 export const WHEEL_INTENSITY = 0.002
@@ -36,7 +35,7 @@ export function rotatedSize(size: Size, rotation: number): Size {
 export function fitSize(natural: Size, stage: Size, rotation = 0): Size {
   const upright = rotatedSize(natural, rotation)
   if (upright.width <= 0 || upright.height <= 0) return { width: 0, height: 0 }
-  const scale = Math.min(stage.width / upright.width, stage.height / upright.height)
+  const scale = Math.min(1, stage.width / upright.width, stage.height / upright.height)
   return { width: upright.width * scale, height: upright.height * scale }
 }
 
@@ -104,10 +103,25 @@ export function wheelZoom(zoom: number, deltaY: number, intensity = WHEEL_INTENS
   return zoom * Math.exp(-deltaY * intensity)
 }
 
-export function doubleTapZoom(zoom: number): number {
-  return isZoomed(zoom) ? ZOOM_MIN : ZOOM_DOUBLE_TAP
+export function zoomLevels(natural: Size, fit: Size, stage: Size) {
+  const original = fit.width > 0 ? Math.max(ZOOM_MIN, natural.width / fit.width) : ZOOM_MIN
+  const secondary =
+    natural.height > natural.width * 2
+      ? Math.min(original, stage.width / fit.width)
+      : natural.width > natural.height * 2
+        ? Math.min(original, stage.height / fit.height)
+        : original
+  return {
+    original,
+    secondary: Number.isFinite(secondary) ? Math.max(ZOOM_MIN, secondary) : ZOOM_MIN,
+    max: original * ZOOM_MAX,
+  }
 }
 
-export function stepZoom(zoom: number, direction: 1 | -1): number {
-  return clampZoom(zoom * ZOOM_STEP ** direction)
+export function doubleTapZoom(zoom: number, secondary: number): number {
+  return isZoomed(zoom) ? ZOOM_MIN : secondary
+}
+
+export function stepZoom(zoom: number, direction: 1 | -1, max = ZOOM_MAX): number {
+  return clampZoom(zoom * ZOOM_STEP ** direction, ZOOM_MIN, max)
 }

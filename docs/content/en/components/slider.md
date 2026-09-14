@@ -28,6 +28,14 @@ The slider picks a number between `min` and `max`, bound with `v-model`. The val
 
 <Demo name="slider/step" />
 
+### Direction {#direction}
+
+`dir` accepts `ltr` or `rtl` and takes precedence over Reka's global direction configuration. Without either setting, it inherits `dir` from the surrounding elements. Direction changes update the track, thumbs, marks and labels together.
+
+In RTL, the minimum is on the right and the maximum on the left. ArrowRight decreases the value, ArrowLeft increases it, and Home / End still move to the minimum / maximum.
+
+<Demo name="slider/direction" />
+
 ### Marks {#marks}
 
 `marks` places ticks on the track; a mark with a `label` shows its text underneath.
@@ -36,13 +44,13 @@ The slider picks a number between `min` and `max`, bound with `v-model`. The val
 
 ### Value label {#label}
 
-The value label is a `Tooltip` with the thumb as its trigger: it follows the thumb and flips to the other side near the viewport edge. By default the current value shows on hover, focus and while dragging; `label="always"` keeps it visible and `label="none"` removes it. `format` customises the text, which defaults to the number formatted for the current language. Like the `IconButton` hint it needs a `TooltipProvider` in the app, and stays hidden without one.
+The value label is a [Tooltip](/components/tooltip) with the thumb as its trigger: it follows the thumb and flips to the other side near the viewport edge. By default the current value shows on hover, focus and while dragging; `label="always"` keeps it visible and `label="none"` removes it. `format` customises the text, which defaults to the number formatted for the current language. Like the [IconButton](/components/icon-button) hint it needs a [TooltipProvider](/components/tooltip#provider) in the app, and stays hidden without one.
 
 <Demo name="slider/label" />
 
 ### Sizes {#sizes}
 
-`size` is `sm`, `md` or `lg`; the track is 20, 24 or 28 pixels tall and the thumb 12, 16 or 20, the same as `Switch`.
+`size` is `sm`, `md` or `lg`; the track is 20, 24 or 28 pixels tall and the thumb 12, 16 or 20, the same as [Switch](/components/switch).
 
 <Demo name="slider/sizes" />
 
@@ -85,6 +93,7 @@ Inside a [FormField](/components/form-field) the label is linked to the thumb th
 | `min`        | `number`                                   | `0`      | Minimum                                              |
 | `max`        | `number`                                   | `100`    | Maximum                                              |
 | `step`       | `number`                                   | `1`      | Step                                                 |
+| `dir`        | `'ltr' \| 'rtl'`                           | —        | Direction; inherited when omitted                    |
 | `marks`      | `Array<{ value: number; label?: string }>` | —        | Ticks                                                |
 | `label`      | `'auto' \| 'always' \| 'none'`             | `'auto'` | How the value label shows                            |
 | `format`     | `(value: number) => string`                | —        | Text of the value label, locale-formatted by default |

@@ -5,6 +5,7 @@
   import { useFieldControl } from '../form-field/context'
   import { useUiLocale } from '../../locale'
   import { useSliderChrome } from './composables/useSliderChrome'
+  import { useDirection } from '../../lib/useDirection'
   import SliderHandle from './SliderHandle.vue'
   import SliderMarks from './SliderMarks.vue'
   import {
@@ -22,6 +23,7 @@
       min?: number
       max?: number
       step?: number
+      dir?: 'ltr' | 'rtl'
       marks?: Array<{ value: number; label?: string }>
       label?: 'auto' | 'always' | 'none'
       format?: (value: number) => string
@@ -36,6 +38,7 @@
 
   const model = defineModel<number>()
 
+  const { root, direction, rootDirection } = useDirection(() => props.dir)
   const t = useUiLocale()
   const { labelledBy, invalid, disabled, describedBy } = useFieldControl({
     disabled: () => props.disabled,
@@ -60,8 +63,10 @@
 
 <template>
   <span
+    ref="root"
     data-hn-slider
     data-hn-state-group
+    :dir="rootDirection"
     :data-disabled="disabled ? '' : undefined"
     :data-dragging="dragging ? '' : undefined"
     :style="position"
@@ -70,6 +75,7 @@
     v-on="listeners"
   >
     <SliderRoot
+      :dir="direction"
       :model-value="values"
       :min="props.min"
       :max="props.max"

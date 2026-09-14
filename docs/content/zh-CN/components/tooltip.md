@@ -13,18 +13,26 @@ links:
 ## 用法 {#usage}
 
 ```ts
-import { Tooltip } from '@hina-ui/vue'
+import { Tooltip, vTooltip } from '@hina-ui/vue'
 ```
 
 默认插槽是触发器，`content` 属性是提示的文字。指针悬停或键盘聚焦时显示，指针移开或按 Esc 时隐藏。
 
 <Demo name="tooltip/basic" />
 
-图标按钮自带提示：`label` 既是无障碍名称，也是提示文字，不需要再包一层 Tooltip。
+[IconButton](/components/icon-button) 自带提示：`label` 既是无障碍名称，也是提示文字，不需要再包一层 Tooltip。
 
-Tooltip 需要外层有 `TooltipProvider`，`AppShell` 已经包含了一个。没有 Provider 时，组件只渲染触发器。
+Tooltip 需要外层有 `TooltipProvider`，[AppShell](/components/app-shell) 已经包含了一个。没有 Provider 时，组件只渲染触发器。
 
 ## 示例 {#examples}
+
+### 指令 {#directive}
+
+导入 `vTooltip` 后，可以直接在已有元素上使用 `v-tooltip`。字符串绑定提示文字；对象绑定 `content`、`side`、`align`、`sideOffset`、`disabled` 和 `class`。绑定值变化时提示同步更新，空字符串、`null`、`undefined` 或 `false` 隐藏提示。
+
+指令与组件共享 `TooltipProvider` 的延迟和跳过延迟状态，沿用相同的样式、定位与键盘焦点规则。它保留元素已有的 `aria-describedby`，元素卸载时移除提示及事件监听。提示文字作为纯文本渲染；需要富内容时使用组件的 `content` 插槽。
+
+<Demo name="tooltip/directive" />
 
 ### 位置 {#placement}
 
@@ -52,7 +60,7 @@ Tooltip 需要外层有 `TooltipProvider`，`AppShell` 已经包含了一个。�
 
 ### 受控 {#controlled}
 
-传入 `open` 后，显示与隐藏由调用方决定，悬停与键盘焦点不再起作用；受控时提示的定位改为逐帧更新，可以跟随移动中的触发器，`Slider` 的取值标签即采用这种方式。
+传入 `open` 后，显示与隐藏由调用方决定，悬停与键盘焦点不再起作用；受控时提示的定位改为逐帧更新，可以跟随移动中的触发器，[Slider](/components/slider) 的取值标签即采用这种方式。
 
 <Demo name="tooltip/controlled" />
 
@@ -70,7 +78,7 @@ Tooltip 需要外层有 `TooltipProvider`，`AppShell` 已经包含了一个。�
 ## 无障碍 {#a11y}
 
 - 触发器的 `aria-describedby` 指向提示，屏幕阅读器读完触发器后会读出提示。
-- 提示不获得焦点，也不在 Tab 顺序中。需要交互的内容应放在 Popover 里。
+- 提示不获得焦点，也不在 Tab 顺序中。需要交互的内容应放在 [Popover](/components/popover) 里。
 
 ## API {#api}
 
@@ -90,6 +98,12 @@ Tooltip 需要外层有 `TooltipProvider`，`AppShell` 已经包含了一个。�
 | --------- | -------------------------- |
 | `default` | 触发器                     |
 | `content` | 提示的内容，优先于同名属性 |
+
+### vTooltip {#directive-api}
+
+局部导入 `vTooltip` 即可在模板中使用 `v-tooltip`；也可以通过 `app.directive('tooltip', vTooltip)` 全局注册。需要外层有 `TooltipProvider`。原生元素与渲染为单一元素的组件都可以作为宿主。
+
+`TooltipDirectiveValue` 为 `string | TooltipDirectiveOptions | null | undefined | false`。`TooltipDirectiveOptions` 必须包含 `content: string`，其他字段与上方 Tooltip 属性相同，不包含 `open`。
 
 ### TooltipProvider {#provider}
 

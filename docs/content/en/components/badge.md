@@ -14,7 +14,7 @@ links:
 import { Badge } from '@hina-ui/vue'
 ```
 
-The host element goes in the default slot and `content` is pinned to its corner. The component only positions and renders the badge; the host itself is untouched.
+The host element goes in the default slot and `content` is pinned to its corner. The component only positions and renders the badge; the host itself is untouched. The badge ignores pointer events by default, so the host remains interactive where the badge overlaps it.
 
 <Demo name="badge/basic" />
 

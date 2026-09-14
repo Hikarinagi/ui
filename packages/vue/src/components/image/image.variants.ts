@@ -1,7 +1,7 @@
 import { tv, type VariantProps } from '../../lib/tv'
 
 export const imageRoot = tv({
-  base: 'relative block w-full overflow-hidden',
+  base: 'relative isolate block w-full overflow-hidden',
   variants: {
     preview: {
       true: 'hn-focus-ring cursor-zoom-in',

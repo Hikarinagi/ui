@@ -25,6 +25,7 @@
       skeleton?: boolean
       eager?: boolean
       preview?: boolean | string
+      previewSize?: LightboxItem['previewSize']
       draggable?: boolean
       class?: string
       style?: StyleValue
@@ -64,6 +65,7 @@
       typeof props.preview === 'string' ? props.preview : (props.src ?? ''),
       'preview',
     ),
+    previewSize: props.previewSize,
     alt: props.alt,
     fit: props.fit,
     source: () => imageEl.value,

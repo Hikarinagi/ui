@@ -14,6 +14,15 @@ export interface UiMessages {
     next: string
   }
   pagination: {
+    rangeLabel: (from: number, to: number, total: number) => string
+    pageCountLabel: (page: number, count: number) => string
+    pageSizeLabel: string
+    pageSizeOption: (n: number) => string
+    jumpLabel: string
+    previousPagesLabel: (n: number) => string
+    nextPagesLabel: (n: number) => string
+    choosePage: string
+    choosePageHint: string
     navLabel: string
     prev: string
     next: string
@@ -77,6 +86,7 @@ export interface UiMessages {
     zoomIn: string
     zoomOut: string
     resetZoom: string
+    actualSize: string
     rotate: string
     download: string
     loadingLarge: string
@@ -91,6 +101,9 @@ export interface UiMessages {
   passwordInput: {
     show: string
     hide: string
+  }
+  treeSelect: {
+    search: string
   }
   combobox: {
     placeholder: string

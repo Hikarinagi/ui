@@ -1,9 +1,11 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
 import { userEvent } from '@vitest/browser/context'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { ref } from 'vue'
+import { defineComponent, h, ref } from 'vue'
+import FormField from '../form-field/FormField.vue'
 import TreeSelect from './TreeSelect.vue'
 import Input from '../input/Input.vue'
+import { zhCN } from '../../locale'
 import '../../../test/browser.css'
 
 let mounted: VueWrapper[] = []
@@ -135,5 +137,116 @@ describe('tree-select · 与 Input 同一副输入面', () => {
       const { trigger } = mountTree({ size })
       expect(trigger.offsetHeight).toBe((input.element as HTMLElement).offsetHeight)
     }
+  })
+})
+
+const searchbox = () => document.querySelector('[role="searchbox"]') as HTMLInputElement
+
+describe('tree-select · search', () => {
+  it('focuses search, retains matching ancestors and restores expansion without clearing selection', async () => {
+    const { trigger, value } = mountTree({ searchable: true, modelValue: 'osaka' })
+    await userEvent.click(trigger)
+    await vi.waitFor(() => expect(document.activeElement).toBe(searchbox()))
+    expect(labels()).toEqual(['日本', '东京', '大阪', '中国'])
+    await userEvent.fill(searchbox(), '涩谷')
+    await vi.waitFor(() => expect(labels()).toEqual(['日本', '东京', '涩谷']))
+    expect(value.value).toBe('osaka')
+    expect(trigger.textContent?.trim()).toBe('大阪')
+    await userEvent.keyboard('{Escape}')
+    await vi.waitFor(() => expect(labels()).toEqual(['日本', '东京', '大阪', '中国']))
+    expect(searchbox().value).toBe('')
+    expect(document.activeElement).toBe(searchbox())
+    await userEvent.keyboard('{Escape}')
+    await vi.waitFor(() => expect(tree()).toBeNull())
+    expect(document.activeElement).toBe(trigger)
+  })
+
+  it('moves between input and tree with arrow keys and chooses filtered nodes', async () => {
+    const { trigger, value } = mountTree({ searchable: true })
+    await userEvent.click(trigger)
+    await vi.waitFor(() => expect(searchbox()).toBeTruthy())
+    await userEvent.fill(searchbox(), '涩谷')
+    await userEvent.keyboard('{ArrowDown}')
+    await vi.waitFor(() => expect(document.activeElement).toBe(rows()[0]))
+    await userEvent.keyboard('{ArrowUp}')
+    expect(document.activeElement).toBe(searchbox())
+    await userEvent.keyboard('{ArrowUp}')
+    await vi.waitFor(() => expect(document.activeElement).toBe(rows()[2]))
+    await userEvent.keyboard('{Enter}')
+    await vi.waitFor(() => expect(value.value).toBe('shibuya'))
+    await vi.waitFor(() => expect(tree()).toBeNull())
+    await userEvent.click(trigger)
+    await vi.waitFor(() => expect(searchbox()?.value).toBe(''))
+    expect(labels()).toEqual(['日本', '东京', '涩谷', '大阪', '中国'])
+  })
+
+  it('updates controlled search, handles empty results and clears from the action button', async () => {
+    const { w, trigger, value } = mountTree({ searchable: true, searchPlaceholder: '查找节点' })
+    await userEvent.click(trigger)
+    await vi.waitFor(() => expect(searchbox()).toBeTruthy())
+    await w.setProps({ search: '不存在' })
+    await vi.waitFor(() => expect(labels()).toEqual([]))
+    expect(document.querySelector('[role="status"]')?.textContent).toBe('无匹配项')
+    expect(searchbox().getAttribute('aria-label')).toBe('查找节点')
+    await userEvent.keyboard('{ArrowDown}')
+    expect(document.activeElement).toBe(searchbox())
+    const clear = document.querySelector('[aria-label="' + zhCN.common.clear + '"]') as HTMLElement
+    expect(clear.getAttribute('type')).toBe('button')
+    await userEvent.click(clear)
+    await vi.waitFor(() => expect(labels()).toEqual(['日本', '中国']))
+    expect(w.emitted('update:search')?.at(-1)).toEqual([''])
+    expect(value.value).toBeUndefined()
+  })
+
+  it('filters case and accents, updates items and skips disabled matching nodes', async () => {
+    const { w, trigger, value } = mountTree({
+      searchable: true,
+      items: [
+        { value: 'a', label: 'Café', disabled: true },
+        { value: 'b', label: 'Cafe noir' },
+      ],
+    })
+    await userEvent.click(trigger)
+    await vi.waitFor(() => expect(searchbox()).toBeTruthy())
+    await userEvent.fill(searchbox(), ' CAFE ')
+    await vi.waitFor(() => expect(labels()).toEqual(['Café', 'Cafe noir']))
+    await w.setProps({
+      items: [
+        { value: 'a', label: 'Café', disabled: true },
+        { value: 'c', label: 'Cafe blanc' },
+      ],
+    })
+    await vi.waitFor(() => expect(labels()).toEqual(['Café', 'Cafe blanc']))
+    await userEvent.keyboard('{ArrowDown}')
+    await vi.waitFor(() => expect(document.activeElement).toBe(rows()[1]))
+    await userEvent.keyboard('{Enter}')
+    await vi.waitFor(() => expect(value.value).toBe('c'))
+  })
+
+  it('keeps the outer FormField label and description associated with the trigger', async () => {
+    const w = mount(
+      defineComponent({
+        setup: () => () =>
+          h(
+            FormField,
+            { label: '地区', description: '选择一个节点' },
+            {
+              default: () => h(TreeSelect, { items, searchable: true }),
+            },
+          ),
+      }),
+      { attachTo: attach() },
+    )
+    mounted.push(w)
+    const trigger = w.find('[data-hn-tree-select]').element as HTMLElement
+    const id = trigger.id
+    await userEvent.click(trigger)
+    await vi.waitFor(() => expect(searchbox()).toBeTruthy())
+    expect(w.find('label').attributes('for')).toBe(id)
+    expect(searchbox().id).not.toBe(id)
+    expect(searchbox().hasAttribute('aria-describedby')).toBe(false)
+    expect(tree()?.getAttribute('aria-labelledby')).toBe(w.find('label').attributes('id'))
+    expect(searchbox().getAttribute('aria-controls')).toBe(tree()?.id)
+    expect(document.querySelectorAll('[id="' + id + '"]')).toHaveLength(1)
   })
 })

@@ -1,5 +1,6 @@
 import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest'
 import { mount, type VueWrapper } from '@vue/test-utils'
+import { page, userEvent } from '@vitest/browser/context'
 import { defineComponent, h, ref } from 'vue'
 import Image from './Image.vue'
 import '../../../test/browser.css'
@@ -230,4 +231,45 @@ it.each([true, false])('style 给外框和骨架定框 preview=%s', async previe
   const after = w.element.getBoundingClientRect()
   expect([after.width, after.height]).toEqual([160, 90])
   expect(getComputedStyle(img).objectPosition).toBe('0% 0%')
+})
+
+it.each([
+  { lazy: true, preview: false },
+  { lazy: true, preview: true },
+  { lazy: false, preview: false },
+  { lazy: false, preview: true },
+])('图片不遮挡外部兄弟按钮 lazy=$lazy preview=$preview', async props => {
+  await page.viewport(1024, 768)
+  const click = vi.fn()
+  const w = mount(
+    {
+      setup: () => () =>
+        h('div', { class: 'relative h-24 w-40' }, [
+          h(Image, { src: PIXEL, alt: '封面', class: 'size-full', ...props }),
+          h(
+            'button',
+            {
+              type: 'button',
+              'data-image-action': '',
+              class: 'absolute top-1 right-1 size-8 bg-surface',
+              onClick: click,
+            },
+            '删除',
+          ),
+        ]),
+    },
+    { attachTo: attach() },
+  )
+  mounted.push(w)
+  const img = w.find('img').element as HTMLImageElement
+  await vi.waitFor(() => {
+    expect(img.naturalWidth).toBeGreaterThan(0)
+    expect(getComputedStyle(img).opacity).toBe('1')
+  })
+  const action = w.find('[data-image-action]').element as HTMLButtonElement
+  const rect = action.getBoundingClientRect()
+  expect(document.elementFromPoint(rect.x + rect.width / 2, rect.y + rect.height / 2)).toBe(action)
+  await userEvent.click(action)
+  expect(click).toHaveBeenCalledOnce()
+  expect(document.querySelector('[role="dialog"]')).toBeNull()
 })
