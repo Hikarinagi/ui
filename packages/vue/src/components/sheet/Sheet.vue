@@ -11,7 +11,6 @@
     DialogTrigger,
   } from 'reka-ui'
   import { cn } from '../../lib/cn'
-  import { useUiLocale } from '../../locale'
   import Card from '../card/Card.vue'
   import CloseButton from '../close-button/CloseButton.vue'
   import Heading from '../heading/Heading.vue'
@@ -26,15 +25,15 @@
     defineProps<{
       title: string
       description?: string
+      header?: boolean
       handle?: boolean
       locked?: boolean
       class?: string
     }>(),
-    { handle: true, locked: false },
+    { header: true, handle: true, locked: false },
   )
 
   const open = defineModel<boolean>('open')
-  const t = useUiLocale()
   const panel = shallowRef<{ $el: HTMLElement } | null>(null)
 
   const { dragging, offset, onPointerDown } = useDragToDismiss(() => panel.value?.$el ?? null, {
@@ -68,13 +67,23 @@
       <DialogContent as-child @escape-key-down="guard" @interact-outside="guard">
         <Card
           ref="panel"
+          v-bind="props.description ? {} : { 'aria-describedby': undefined }"
           data-hn-sheet
           :data-dragging="dragging ? '' : undefined"
           :padded="false"
           :style="style"
-          :class="cn(sheetPanel(), props.class)"
+          :class="cn(sheetPanel({ grip: props.header || props.handle }), props.class)"
         >
+          <template v-if="!props.header">
+            <DialogTitle as-child>
+              <Heading :level="2" class="sr-only">{{ props.title }}</Heading>
+            </DialogTitle>
+            <DialogDescription v-if="props.description" class="sr-only">
+              {{ props.description }}
+            </DialogDescription>
+          </template>
           <div
+            v-if="props.header || props.handle"
             data-hn-sheet-grip
             :data-dragging="dragging ? '' : undefined"
             :class="sheetGrip()"
@@ -84,9 +93,12 @@
               v-if="props.handle"
               aria-hidden="true"
               :data-disabled="props.locked ? '' : undefined"
-              :class="sheetHandle()"
+              :class="sheetHandle({ header: props.header })"
             />
-            <div class="flex items-start justify-between gap-4 px-(--hn-panel-p)">
+            <div
+              v-if="props.header"
+              class="flex items-start justify-between gap-4 px-(--hn-panel-p)"
+            >
               <div class="flex min-w-0 flex-col gap-1.5">
                 <DialogTitle as-child>
                   <Heading :level="2" size="lg">{{ props.title }}</Heading>

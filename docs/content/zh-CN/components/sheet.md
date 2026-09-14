@@ -42,9 +42,19 @@ import { Sheet } from '@hina-ui/vue'
 
 ### 去掉把手 {#handle}
 
-`handle` 设为 `false` 不显示顶部的把手，改为在右上角显示关闭按钮；标题区域仍然可以拖动。
+`handle` 设为 `false` 不显示顶部的把手；标题栏可见时，右上角改为显示关闭按钮，标题区域仍然可以拖动。
 
 <Demo name="sheet/handle" />
+
+### 隐藏标题栏 {#header}
+
+与 [Dialog](/components/dialog) 一样，设置 `:header="false"` 隐藏标题栏，包括标题、说明和栏内的关闭按钮。`title` 仍然必填，与 `description` 一起保留为辅助技术可读的隐藏内容。
+
+`handle` 独立控制把手。隐藏标题栏后，保留的把手仍可拖动关闭；同时设置 `:handle="false"` 时不渲染顶部拖动区域，正文从正常内边距开始。此时可通过 Esc、遮罩，或插槽的 `close` 方法关闭，`locked` 的规则不变。
+
+示例通过页脚的 [Button](/components/button) 调用 `close`。
+
+<Demo name="sheet/header" />
 
 ## 行为 {#behavior}
 
@@ -56,21 +66,22 @@ import { Sheet } from '@hina-ui/vue'
 ## 无障碍 {#a11y}
 
 - 面板是 `role="dialog"`，`title` 与 `description` 分别关联到 `aria-labelledby` 与 `aria-describedby`。
-- 把手只是视觉提示，对辅助技术隐藏；没有把手时的关闭按钮带有语言包给出的名称。
+- 把手只是视觉提示，对辅助技术隐藏；标题栏可见且没有把手时，关闭按钮带有语言包给出的名称。
 - 拖动是触屏与鼠标的快捷方式，键盘用户通过 Esc 关闭，页脚里的按钮也可以调用 `close`。
 
 ## API {#api}
 
 ### Props {#props}
 
-| 属性          | 类型      | 默认值  | 说明                                     |
-| ------------- | --------- | ------- | ---------------------------------------- |
-| `title`       | `string`  | —       | 必填。面板标题                           |
-| `description` | `string`  | —       | 标题下面的说明                           |
-| `handle`      | `boolean` | `true`  | 是否显示顶部的把手；关闭时改显示关闭按钮 |
-| `locked`      | `boolean` | `false` | 是否禁止用户关闭                         |
-| `open`        | `boolean` | —       | 是否打开，支持双向绑定                   |
-| `class`       | `string`  | —       | 追加至面板的类名                         |
+| 属性          | 类型      | 默认值  | 说明                                         |
+| ------------- | --------- | ------- | -------------------------------------------- |
+| `title`       | `string`  | —       | 必填。面板标题                               |
+| `description` | `string`  | —       | 标题下面的说明                               |
+| `header`      | `boolean` | `true`  | 是否显示标题栏，隐藏时仍保留无障碍名称与说明 |
+| `handle`      | `boolean` | `true`  | 是否显示把手；关闭按钮仅在标题栏可见时显示   |
+| `locked`      | `boolean` | `false` | 是否禁止用户关闭                             |
+| `open`        | `boolean` | —       | 是否打开，支持双向绑定                       |
+| `class`       | `string`  | —       | 追加至面板的类名                             |
 
 ### 插槽 {#slots}
 

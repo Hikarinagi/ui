@@ -42,9 +42,19 @@ With `locked`, dragging, Esc and clicking the scrim no longer close the sheet, a
 
 ### Without the handle {#handle}
 
-`handle` set to `false` hides the handle at the top and shows a close button in the corner instead; the title area can still be dragged.
+`handle` set to `false` hides the handle. When the header is visible, a close button appears in its corner and the title area can still be dragged.
 
 <Demo name="sheet/handle" />
+
+### Hidden header {#header}
+
+As with [Dialog](/components/dialog), set `:header="false"` to hide the header, including its title, description, and close button. `title` is still required; it and `description` remain available to assistive technology as visually hidden content.
+
+`handle` controls the handle independently. With the header hidden, the remaining handle still supports drag-to-dismiss. Also setting `:handle="false"` removes the top drag region, so content starts at the regular padding. Esc, the scrim, and the slots' `close` method can still close the sheet; `locked` keeps its existing behavior.
+
+The example calls `close` from a footer [Button](/components/button).
+
+<Demo name="sheet/header" />
 
 ## Behavior {#behavior}
 
@@ -56,21 +66,22 @@ With `locked`, dragging, Esc and clicking the scrim no longer close the sheet, a
 ## Accessibility {#a11y}
 
 - The panel is `role="dialog"`, with `title` and `description` linked through `aria-labelledby` and `aria-describedby`.
-- The handle is a visual hint hidden from assistive technology; the close button shown without a handle carries a localized name.
+- The handle is a visual hint hidden from assistive technology; the close button shown with a visible header and no handle carries a localized name.
 - Dragging is a shortcut for touch and mouse; keyboard users close it with Esc, and a footer button can call `close`.
 
 ## API {#api}
 
 ### Props {#props}
 
-| Prop          | Type      | Default | Description                                                       |
-| ------------- | --------- | ------- | ----------------------------------------------------------------- |
-| `title`       | `string`  | —       | Required. Title of the sheet                                      |
-| `description` | `string`  | —       | Line under the title                                              |
-| `handle`      | `boolean` | `true`  | Whether the handle shows; a close button takes its place when off |
-| `locked`      | `boolean` | `false` | Whether the user is kept from closing it                          |
-| `open`        | `boolean` | —       | Whether it is open, supports two-way binding                      |
-| `class`       | `string`  | —       | Classes appended to the panel                                     |
+| Prop          | Type      | Default | Description                                                               |
+| ------------- | --------- | ------- | ------------------------------------------------------------------------- |
+| `title`       | `string`  | —       | Required. Title of the sheet                                              |
+| `description` | `string`  | —       | Line under the title                                                      |
+| `header`      | `boolean` | `true`  | Show the header; keep the accessible name and description when hidden     |
+| `handle`      | `boolean` | `true`  | Show the handle; the close button only appears when the header is visible |
+| `locked`      | `boolean` | `false` | Whether the user is kept from closing it                                  |
+| `open`        | `boolean` | —       | Whether it is open, supports two-way binding                              |
+| `class`       | `string`  | —       | Classes appended to the panel                                             |
 
 ### Slots {#slots}
 
