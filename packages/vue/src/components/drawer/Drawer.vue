@@ -14,6 +14,7 @@
   import ScrollArea from '../scroll-area/ScrollArea.vue'
   import Heading from '../heading/Heading.vue'
   import Text from '../text/Text.vue'
+  import { useOverlayPortal } from '../../lib/overlay-portal'
   import { useScrollViewport } from '../../lib/scroll-viewport'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
@@ -41,6 +42,7 @@
   defineExpose({ viewport })
 
   const open = defineModel<boolean>('open')
+  const { content, present } = useOverlayPortal(open)
   const t = useUiLocale()
 
   function close() {
@@ -53,10 +55,11 @@
     <DialogTrigger v-if="$slots.default" as-child>
       <slot />
     </DialogTrigger>
-    <DialogPortal>
+    <DialogPortal v-if="present">
       <DialogOverlay class="hn-scrim" />
       <DialogContent as-child @escape-key-down="guard" @interact-outside="guard">
         <Card
+          ref="content"
           :data-hn-side="props.side"
           :padded="false"
           :class="

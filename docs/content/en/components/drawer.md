@@ -72,6 +72,7 @@ With `locked`, neither Escape nor a click on the scrim closes the drawer, and th
 
 ## Behaviour {#behavior}
 
+- Overlays stack in opening order, with the latest above earlier overlays, regardless of component mount order. Closing preserves the full exit animation before removing the overlay.
 - The page is locked from scrolling while the drawer is open, focus is trapped inside the panel, and it returns to the trigger on close.
 - Escape or a click on the scrim closes the drawer; `locked` disables both.
 - The body is a ScrollArea, so its scrollbar matches every other scrolling region in the project.

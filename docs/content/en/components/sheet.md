@@ -68,6 +68,7 @@ The example calls `close` from a footer [Button](/components/button).
 
 ## Behavior {#behavior}
 
+- Overlays stack in opening order, with the latest above earlier overlays, regardless of component mount order. Closing preserves the full exit animation before removing the overlay.
 - The sheet slides in from the bottom edge, centered with a maximum width on wide screens and full width on narrow ones, leaving room for the device's safe area at the bottom.
 - Dragging starts only on the handle and the title area, leaving the body to scrolling; on release the sheet keeps sliding out from where it was let go when it has travelled more than three tenths of its height or fast enough, and snaps back otherwise.
 - The page stops scrolling while it is open, focus is trapped inside, and focus returns to the trigger on close.

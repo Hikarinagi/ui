@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { computed, shallowRef } from 'vue'
+  import { computed } from 'vue'
   import {
     DialogClose,
     DialogContent,
@@ -10,6 +10,7 @@
     DialogTitle,
     DialogTrigger,
   } from 'reka-ui'
+  import { useOverlayPortal } from '../../lib/overlay-portal'
   import { useScrollViewport } from '../../lib/scroll-viewport'
   import { cn } from '../../lib/cn'
   import Card from '../card/Card.vue'
@@ -38,7 +39,7 @@
   defineExpose({ viewport })
 
   const open = defineModel<boolean>('open')
-  const panel = shallowRef<{ $el: HTMLElement } | null>(null)
+  const { content: panel, present } = useOverlayPortal(open)
 
   const { dragging, offset, onPointerDown } = useDragToDismiss(() => panel.value?.$el ?? null, {
     enabled: () => !props.locked,
@@ -66,7 +67,7 @@
     <DialogTrigger v-if="$slots.default" as-child>
       <slot />
     </DialogTrigger>
-    <DialogPortal>
+    <DialogPortal v-if="present">
       <DialogOverlay class="hn-scrim" />
       <DialogContent as-child @escape-key-down="guard" @interact-outside="guard">
         <Card
