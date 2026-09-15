@@ -22,9 +22,13 @@ import { DataTable, type DataTableColumn } from '@hina-ui/vue'
 
 ### 单元格 {#cells}
 
-`cell-key` 替换指定列的内容，`cell` 作为公共后备。插槽提供带类型的原始 `row`、`column`、`value`、稳定的 `key`、源数组中的 `index`、`depth`，以及选择、展开的方法。`field` 可指定其他字段，`accessor` 优先级更高。`format` 只影响显示。首个示例使用 [Tag](/components/tag)。
+`cell-key` 替换指定列的内容，`cell` 作为公共后备。插槽提供带类型的原始 `row`、`column`、`value`、稳定的 `key`、源数组中的 `index`、`depth`，以及选择、展开的方法。`field` 可指定其他字段，`accessor` 优先级更高。`format` 只影响显示。专属 `cell-key` 的优先级高于通用 `cell`。
 
 `align` 同时作用于表头与单元格。`rowClickable` 支持点击、Enter 和 Space，并触发 `rowClick`；单元格内的交互控件保留自己的行为。`rowContextmenu` 提供原始行和事件，自定义菜单时由调用方执行 `event.preventDefault()`。
+
+名称列通过 `#cell-name` 组合 [Avatar](/components/avatar) 与两行 [Text](/components/text)，状态列通过 `#cell-status` 渲染 [Tag](/components/tag)。通用 `#cell` 根据 `column.key` 为数量列组合 [Progress](/components/progress) 与数值。插槽替换单元格内容，外围单元格、对齐与排序仍由 DataTable 管理。
+
+<Demo name="data-table/cells" />
 
 ### 排序 {#sorting}
 

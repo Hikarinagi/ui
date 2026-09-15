@@ -22,9 +22,13 @@ Columns, slots, callbacks and the instance API retain the original row type. Sup
 
 ### Cells {#cells}
 
-`cell-key` replaces one column's content; `cell` is the shared fallback. They receive the original typed `row`, `column`, `value`, stable `key`, source `index`, `depth` and selection/expansion helpers. `field` reads another field and `accessor` takes precedence. `format` affects display only. The first example uses [Tag](/components/tag).
+`cell-key` replaces one column's content; `cell` is the shared fallback. They receive the original typed `row`, `column`, `value`, stable `key`, source `index`, `depth` and selection/expansion helpers. `field` reads another field and `accessor` takes precedence. `format` affects display only. A dedicated `cell-key` slot takes precedence over the shared `cell` slot.
 
 `align` applies to headers and cells. `rowClickable` emits `rowClick` for click, Enter and Space; actions inside cells keep their own behavior. `rowContextmenu` forwards the original row and event; call `event.preventDefault()` when providing a custom menu.
+
+The name column uses `#cell-name` to combine [Avatar](/components/avatar) with two lines of [Text](/components/text), while `#cell-status` renders [Tag](/components/tag). The shared `#cell` slot checks `column.key` to combine [Progress](/components/progress) with the count. Slots replace cell content; DataTable retains the surrounding cells, alignment and sorting.
+
+<Demo name="data-table/cells" />
 
 ### Sorting {#sorting}
 
