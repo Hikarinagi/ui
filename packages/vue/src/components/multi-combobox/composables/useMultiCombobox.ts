@@ -1,9 +1,11 @@
-import { computed, reactive, ref, shallowRef, watch, type Ref } from 'vue'
+import { computed, ref, shallowRef, watch, type Ref } from 'vue'
 import { focusFieldFrom } from '../../../lib/field-focus'
-import { flattenOptions, type SelectItems, type SelectOption } from '../../select/types'
+import type { SelectItems, SelectOption } from '../../select/types'
+import { useOptionLabels } from '../../combobox/composables/useOptionLabels'
 
 interface MultiComboboxOptions<T extends SelectOption> {
   options: () => SelectItems<T>
+  selectedOptions: () => T[] | undefined
   model: Ref<Array<string | number>>
   open: Ref<boolean>
   disabled: () => boolean
@@ -14,14 +16,7 @@ export function useMultiCombobox<T extends SelectOption>(options: MultiComboboxO
   const { model, open } = options
   const keyboard = ref(false)
   const input = shallowRef<{ $el: HTMLInputElement } | null>(null)
-  const labels = reactive(new Map<string | number, string>())
-  watch(
-    options.options,
-    options => {
-      for (const option of flattenOptions(options)) labels.set(option.value, option.label)
-    },
-    { immediate: true, deep: true },
-  )
+  const labels = useOptionLabels(options.options, options.selectedOptions)
 
   const selected = computed(() =>
     model.value.map(value => ({ value, label: labels.get(value) ?? String(value) })),

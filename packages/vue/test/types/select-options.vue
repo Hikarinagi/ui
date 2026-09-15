@@ -45,14 +45,14 @@
       {{ expectTypeOf(option).not.toHaveProperty('missing') }}
     </template>
   </MultiSelect>
-  <Combobox :options="mixed">
+  <Combobox :options="mixed" :selected-option="flat[0]">
     <template #option="{ option }">
       {{ expectTypeOf(option).toEqualTypeOf(flat[0]!) }}
       {{ option.count.toFixed() }} {{ option.avatar.toUpperCase() }}
       {{ expectTypeOf(option).not.toHaveProperty('missing') }}
     </template>
   </Combobox>
-  <MultiCombobox :options="mixed">
+  <MultiCombobox :options="mixed" :selected-options="flat">
     <template #option="{ option }">
       {{ expectTypeOf(option).toEqualTypeOf(flat[0]!) }}
       {{ option.count.toFixed() }} {{ option.avatar.toUpperCase() }}
@@ -98,5 +98,11 @@
   <Select :options="empty">
     <template #value="{ option }">{{ expectTypeOf(option).toEqualTypeOf(flat[0]!) }}</template>
   </Select>
+  <Combobox :options="[]" :selected-option="flat[0]">
+    <template #option="{ option }">{{ expectTypeOf(option).toEqualTypeOf(flat[0]!) }}</template>
+  </Combobox>
+  <MultiCombobox :options="[]" :selected-options="flat">
+    <template #option="{ option }">{{ expectTypeOf(option).toEqualTypeOf(flat[0]!) }}</template>
+  </MultiCombobox>
   <Select :options="[{ value: 'plain', label: 'Plain' }]" />
 </template>

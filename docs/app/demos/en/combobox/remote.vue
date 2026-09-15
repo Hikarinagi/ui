@@ -3,13 +3,13 @@
   import { Combobox, Stack, Text } from '@hina-ui/vue'
 
   const all = [
-    { value: 'hasekura', label: 'Isuna Hasekura' },
     { value: 'hikari', label: 'Hikari' },
     { value: 'nagi', label: 'Nagi' },
     { value: 'shion', label: 'Shion' },
     { value: 'kanade', label: 'Kanade' },
   ]
-  const character = ref<string | null>(null)
+  const selectedOption = { value: 'hasekura', label: 'Isuna Hasekura' }
+  const character = ref<string | null>(selectedOption.value)
   const search = ref('')
   const options = computed(() =>
     search.value ? all.filter(item => item.label.includes(search.value)) : all,
@@ -22,10 +22,11 @@
       v-model="character"
       v-model:search="search"
       :options="options"
+      :selected-option="selectedOption"
       ignore-filter
       placeholder="Search characters"
       aria-label="Character"
     />
-    <Text tone="muted">Search: {{ search || 'none' }}</Text>
+    <Text tone="muted">Results: {{ options.length }} · Value: {{ character ?? 'none' }}</Text>
   </Stack>
 </template>

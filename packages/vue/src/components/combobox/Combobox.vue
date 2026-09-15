@@ -25,6 +25,7 @@
 
   const props = defineProps<{
     options: SelectItems<T>
+    selectedOption?: T | null
     placeholder?: string
     ignoreFilter?: boolean
     clearable?: boolean
@@ -61,6 +62,7 @@
 
   const { keyboard, input, displayValue, clear, onInput, onHostClick } = useCombobox({
     options: () => props.options,
+    selectedOption: () => props.selectedOption,
     model,
     search,
     open,

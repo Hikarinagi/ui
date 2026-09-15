@@ -1,9 +1,11 @@
-import { ref, shallowRef, watch, type Ref } from 'vue'
+import { computed, ref, shallowRef, watch, type Ref } from 'vue'
 import { focusFieldFrom } from '../../../lib/field-focus'
-import { flattenOptions, type SelectItems, type SelectOption } from '../../select/types'
+import type { SelectItems, SelectOption } from '../../select/types'
+import { useOptionLabels } from './useOptionLabels'
 
 interface ComboboxOptions<T extends SelectOption> {
   options: () => SelectItems<T>
+  selectedOption: () => T | null | undefined
   model: Ref<string | number | null | undefined>
   search: Ref<string>
   open: Ref<boolean>
@@ -13,11 +15,17 @@ interface ComboboxOptions<T extends SelectOption> {
 
 export function useCombobox<T extends SelectOption>(options: ComboboxOptions<T>) {
   const { model, search, open } = options
+  const labels = useOptionLabels(options.options, () => {
+    const option = options.selectedOption()
+    return option ? [option] : []
+  })
+  const label = computed(() => displayValue(model.value))
+  const editing = ref(false)
   const keyboard = ref(false)
   const input = shallowRef<{ $el: HTMLInputElement } | null>(null)
 
   function displayValue(value: string | number | null | undefined) {
-    return flattenOptions(options.options()).find(option => option.value === value)?.label ?? ''
+    return value == null ? '' : (labels.get(value) ?? '')
   }
 
   function clear() {
@@ -28,7 +36,9 @@ export function useCombobox<T extends SelectOption>(options: ComboboxOptions<T>)
   }
 
   function onInput(event: Event) {
-    if (options.disabled() || (event as InputEvent).isComposing) return
+    if (options.disabled()) return
+    editing.value = true
+    if ((event as InputEvent).isComposing) return
     if ((event.target as HTMLInputElement).value === '' && model.value != null) model.value = null
   }
 
@@ -37,7 +47,16 @@ export function useCombobox<T extends SelectOption>(options: ComboboxOptions<T>)
   }
 
   watch(open, value => {
-    if (!value) keyboard.value = false
+    if (!value) {
+      keyboard.value = false
+      editing.value = false
+    }
+  })
+
+  watch(model, () => (editing.value = false), { flush: 'sync' })
+
+  watch(label, value => {
+    if (!editing.value) search.value = value
   })
 
   return { keyboard, input, displayValue, clear, onInput, onHostClick }

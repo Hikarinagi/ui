@@ -99,3 +99,27 @@ describe('无障碍', () => {
     await expectNoA11yViolations(w.element)
   })
 })
+
+describe('回填资料', () => {
+  it('按 value 区分数字与字符串，支持异步资料且不改变外部选中值', async () => {
+    const w = mount(MultiCombobox, { props: { options: [], modelValue: [0, '0'] } })
+    expect(chipsOf(w)).toEqual(['0', '0'])
+    await w.setProps({
+      selectedOptions: [
+        { value: 0, label: 'Number' },
+        { value: '0', label: 'String' },
+        { value: 9, label: 'Unselected' },
+      ],
+    })
+    expect(chipsOf(w)).toEqual(['Number', 'String'])
+    expect(w.emitted('update:modelValue')).toBeUndefined()
+    await w.setProps({ modelValue: ['0'] })
+    expect(chipsOf(w)).toEqual(['String'])
+    w.unmount()
+    const remounted = mount(MultiCombobox, {
+      props: { options: [], modelValue: [0], selectedOptions: [{ value: 0, label: 'Number' }] },
+    })
+    expect(chipsOf(remounted)).toEqual(['Number'])
+    remounted.unmount()
+  })
+})

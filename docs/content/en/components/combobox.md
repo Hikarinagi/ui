@@ -32,7 +32,9 @@ A group carries a `label` and its `options`; groups left empty by the filter are
 
 ### Remote data {#remote}
 
-With `ignoreFilter` set the component stops filtering on its own; `v-model:search` exposes the current text so the caller decides the `options`. Use it for server-side search.
+`ignoreFilter` disables local filtering, and `v-model:search` provides the input text. Pass the search results directly to `options`; the dropdown renders only those results.
+
+`selectedOption` supplies the selected item separately. Its `value` must match `v-model` to provide the displayed name; it neither adds a candidate nor changes the selection. Names are remembered when results are replaced or cleared. Asynchronously supplied or updated names are reflected without overwriting an active search; closing the list restores the latest name. When both sources contain the same value, `selectedOption` takes precedence for the displayed selection name.
 
 <Demo name="combobox/remote" />
 
@@ -83,22 +85,23 @@ Inside a [FormField](/components/form-field) the label points at the input, and 
 
 ### Props {#props}
 
-`T extends SelectOption` is inferred from `options` and defaults to `SelectOption`.
+`T extends SelectOption` is inferred from `options` and `selectedOption`, and defaults to `SelectOption`.
 
-| Prop           | Type                       | Default     | Description                                       |
-| -------------- | -------------------------- | ----------- | ------------------------------------------------- |
-| `modelValue`   | `string \| number \| null` | —           | The chosen value                                  |
-| `options`      | `SelectItems<T>`           | —           | The items, see [Select](/components/select#types) |
-| `search`       | `string`                   | `''`        | The current text; `v-model:search`                |
-| `placeholder`  | `string`                   | locale pack | Text shown when nothing is chosen                 |
-| `ignoreFilter` | `boolean`                  | `false`     | Whether filtering is left to the caller           |
-| `clearable`    | `boolean`                  | `false`     | Whether the clear button is shown                 |
-| `open`         | `boolean`                  | `false`     | Whether the list is open; `v-model:open`          |
-| `variant`      | `'primary' \| 'secondary'` | `'primary'` | Variant                                           |
-| `size`         | `'sm' \| 'md' \| 'lg'`     | `'md'`      | Size                                              |
-| `invalid`      | `boolean`                  | `false`     | Whether validation failed                         |
-| `disabled`     | `boolean`                  | `false`     | Whether the combobox is disabled                  |
-| `class`        | `string`                   | —           | Classes appended to the root element              |
+| Prop             | Type                       | Default     | Description                                                    |
+| ---------------- | -------------------------- | ----------- | -------------------------------------------------------------- |
+| `modelValue`     | `string \| number \| null` | —           | The chosen value                                               |
+| `options`        | `SelectItems<T>`           | —           | The items, see [Select](/components/select#types)              |
+| `selectedOption` | `T \| null`                | —           | Selected item data for display only; not added to the dropdown |
+| `search`         | `string`                   | `''`        | The current text; `v-model:search`                             |
+| `placeholder`    | `string`                   | locale pack | Text shown when nothing is chosen                              |
+| `ignoreFilter`   | `boolean`                  | `false`     | Whether filtering is left to the caller                        |
+| `clearable`      | `boolean`                  | `false`     | Whether the clear button is shown                              |
+| `open`           | `boolean`                  | `false`     | Whether the list is open; `v-model:open`                       |
+| `variant`        | `'primary' \| 'secondary'` | `'primary'` | Variant                                                        |
+| `size`           | `'sm' \| 'md' \| 'lg'`     | `'md'`      | Size                                                           |
+| `invalid`        | `boolean`                  | `false`     | Whether validation failed                                      |
+| `disabled`       | `boolean`                  | `false`     | Whether the combobox is disabled                               |
+| `class`          | `string`                   | —           | Classes appended to the root element                           |
 
 ### Slots {#slots}
 

@@ -35,6 +35,7 @@ const options = [
 interface State {
   modelValue?: Array<string | number>
   options: typeof options
+  selectedOptions?: typeof options
   search?: string
   size?: 'sm' | 'md' | 'lg'
   ignoreFilter?: boolean
@@ -210,5 +211,66 @@ describe('multi-combobox · 与输入面同一副尺寸', () => {
     expect(rows.size).toBeGreaterThan(1)
     expect(mid(host.querySelector('button[aria-label="清除"]')!)).toBeCloseTo(mid(host), 1)
     expect(mid(host.querySelector('button[aria-label="展开选项"]')!)).toBeCloseTo(mid(host), 1)
+  })
+})
+
+describe('multi-combobox · 独立选中项资料', () => {
+  it('30 个已有标签不混入 5 条搜索结果，空结果与后续搜索也不丢名称', async () => {
+    const saved = Array.from({ length: 30 }, (_, i) => ({ value: i + 1, label: `Tag ${i + 1}` }))
+    const results = Array.from({ length: 5 }, (_, i) => ({
+      value: i + 101,
+      label: `Result ${i + 1}`,
+    }))
+    const { state, input, chips } = mountMulti({
+      modelValue: saved.map(option => option.value),
+      selectedOptions: saved,
+      options: results,
+      ignoreFilter: true,
+      clearable: true,
+    })
+    const chipLabels = () => chips().map(chip => chip.textContent?.trim())
+    expect(chipLabels()).toEqual(saved.map(option => option.label))
+    await userEvent.click(input)
+    await userEvent.keyboard('result')
+    await vi.waitFor(() =>
+      expect(optionsOf().map(option => option.textContent?.trim())).toEqual(
+        results.map(option => option.label),
+      ),
+    )
+    state.options = []
+    await vi.waitFor(() => expect(optionsOf()).toHaveLength(0))
+    expect(chipLabels()).toEqual(saved.map(option => option.label))
+    state.options = results
+    await vi.waitFor(() => expect(optionsOf()).toHaveLength(5))
+    await userEvent.click(optionsOf()[0]!)
+    await vi.waitFor(() =>
+      expect(state.modelValue).toEqual([...saved.map(option => option.value), 101]),
+    )
+    state.options = []
+    await vi.waitFor(() => expect(optionsOf()).toHaveLength(0))
+    expect(chipLabels()).toEqual([...saved.map(option => option.label), 'Result 1'])
+    await userEvent.click(chips()[0]!.querySelector('button')!)
+    await vi.waitFor(() => expect(chips()).toHaveLength(30))
+    expect(state.modelValue).not.toContain(1)
+    await userEvent.click(document.querySelector('[data-hn-multi-combobox-clear] button')!)
+    await vi.waitFor(() => expect(chips()).toHaveLength(0))
+    expect(state.modelValue).toEqual([])
+    expect(state.selectedOptions).toHaveLength(30)
+  })
+
+  it('搜索命中已选值时按结果显示一项并保持勾选，不重复也不隐藏', async () => {
+    const { state, input, chips } = mountMulti({
+      modelValue: [1],
+      options: [{ value: 1, label: 'Candidate' }],
+      selectedOptions: [{ value: 1, label: 'Saved name' }],
+      ignoreFilter: true,
+    })
+    await userEvent.click(input)
+    await vi.waitFor(() => expect(optionsOf()).toHaveLength(1))
+    expect(optionsOf()[0]!.getAttribute('aria-selected')).toBe('true')
+    expect(chips()[0]!.textContent?.trim()).toBe('Saved name')
+    state.selectedOptions![0]!.label = 'Updated name'
+    await vi.waitFor(() => expect(chips()[0]!.textContent?.trim()).toBe('Updated name'))
+    expect(optionsOf()[0]!.textContent?.trim()).toBe('Candidate')
   })
 })

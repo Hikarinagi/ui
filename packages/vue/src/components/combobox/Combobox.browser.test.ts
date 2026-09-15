@@ -260,3 +260,65 @@ describe('combobox · 远程结果替换', () => {
     expect(w.emitted('update:modelValue')).toBeUndefined()
   })
 })
+
+describe('combobox · 独立选中项资料', () => {
+  it('回填资料只提供名称，候选列表完全来自 options，空结果也保留名称', async () => {
+    const { w, input, value } = mountBox({
+      options: [],
+      selectedOption: { value: 0, label: 'Zero' },
+      modelValue: 0,
+      ignoreFilter: true,
+    })
+    await vi.waitFor(() => expect(input.value).toBe('Zero'))
+    await userEvent.click(input)
+    await vi.waitFor(() => expect(listbox()).not.toBeNull())
+    expect(labels()).toEqual([])
+    await w.setProps({ options: [{ value: 'new', label: 'New result' }] })
+    await vi.waitFor(() => expect(labels()).toEqual(['New result']))
+    await userEvent.keyboard('{Control>}a{/Control}missing')
+    await w.setProps({ options: [] })
+    await vi.waitFor(() => expect(labels()).toEqual([]))
+    await userEvent.keyboard('{Escape}')
+    await vi.waitFor(() => expect(input.value).toBe('Zero'))
+    expect(value.value).toBe(0)
+    expect(w.emitted('update:modelValue')).toBeUndefined()
+  })
+
+  it('异步回填和名称更新同步显示；输入中的搜索词不被覆盖，关闭后恢复最新名称', async () => {
+    const { w, input, value } = mountBox({ options: [], modelValue: 'saved', ignoreFilter: true })
+    await w.setProps({ selectedOption: { value: 'saved', label: 'Saved label' } })
+    await vi.waitFor(() => expect(input.value).toBe('Saved label'))
+    await w.setProps({ selectedOption: { value: 'saved', label: 'Renamed' } })
+    await vi.waitFor(() => expect(input.value).toBe('Renamed'))
+    await userEvent.click(input)
+    await userEvent.keyboard('{Control>}a{/Control}query')
+    await w.setProps({ selectedOption: { value: 'saved', label: 'Latest name' } })
+    expect(input.value).toBe('query')
+    await userEvent.keyboard('{Escape}')
+    await vi.waitFor(() => expect(input.value).toBe('Latest name'))
+    expect(value.value).toBe('saved')
+  })
+
+  it('新选中的搜索结果在移出候选列表后仍保留名称，清除不会被回填资料重新选中', async () => {
+    const { w, host, input, value } = mountBox({
+      options: [{ value: 'new', label: 'New result' }],
+      selectedOption: { value: 'saved', label: 'Saved label' },
+      modelValue: 'saved',
+      ignoreFilter: true,
+      clearable: true,
+    })
+    await userEvent.click(input)
+    await vi.waitFor(() => expect(labels()).toEqual(['New result']))
+    await userEvent.click(optionsOf()[0]!)
+    await vi.waitFor(() => expect(value.value).toBe('new'))
+    await w.setProps({ options: [] })
+    await userEvent.click(input)
+    await userEvent.keyboard('{Control>}a{/Control}query{Escape}')
+    await vi.waitFor(() => expect(input.value).toBe('New result'))
+    await userEvent.click(host.querySelector('button[aria-label="清除"]')!)
+    await vi.waitFor(() => expect(value.value).toBeNull())
+    expect(input.value).toBe('')
+    await userEvent.keyboard('{Escape}')
+    expect(value.value).toBeNull()
+  })
+})

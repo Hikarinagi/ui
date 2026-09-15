@@ -26,7 +26,11 @@ It differs from `MultiSelect` in whether you type: a multi select picks from a f
 
 ### Remote search {#remote}
 
-The example below queries a live search endpoint: `ignoreFilter` turns off local filtering, `v-model:search` hands the typed text to the caller, which debounces it for 300 ms with `refDebounced` from VueUse, refetches with `useFetch` whenever the term changes while aborting the previous request, and writes the results into `options`; while `loading` the toggle arrow becomes a spinner. The component remembers the name of every option it has seen, so chips keep their names while the result list changes with the query; when editing existing data, include the current values in the initial `options`. Debouncing and cancelling requests belong to the caller.
+`ignoreFilter` disables local filtering, and `v-model:search` provides the input text. Pass remote search results directly to `options`. Supply selected item data separately through `selectedOptions`; each [Chip](/components/chip) resolves its name from the values in `v-model`. This data neither adds dropdown candidates nor selects additional values.
+
+Names are remembered when search results are replaced or cleared. Asynchronously supplied or updated names are reflected in the chips. When both sources contain the same value, `selectedOptions` takes precedence for the chip name. A selected value returned by the search still appears as a checked candidate.
+
+The example prefills three tags before requesting search results. Debouncing and cancelling requests belong to the caller; `loading` replaces the toggle arrow with a loading indicator.
 
 <Demo name="multi-combobox/remote" />
 
@@ -80,24 +84,25 @@ Inside a [FormField](/components/form-field) the label points at the input, and 
 
 ### Props {#props}
 
-`T extends SelectOption` is inferred from `options` and defaults to `SelectOption`.
+`T extends SelectOption` is inferred from `options` and `selectedOptions`, and defaults to `SelectOption`.
 
-| Prop           | Type                       | Default     | Description                                       |
-| -------------- | -------------------------- | ----------- | ------------------------------------------------- |
-| `modelValue`   | `Array<string \| number>`  | `[]`        | The chosen values                                 |
-| `options`      | `SelectItems<T>`           | —           | The items, see [Select](/components/select#types) |
-| `placeholder`  | `string`                   | locale pack | Placeholder of the input while nothing is chosen  |
-| `search`       | `string`                   | `''`        | Text in the input; `v-model:search`               |
-| `ignoreFilter` | `boolean`                  | `false`     | Whether to skip local filtering for remote search |
-| `loading`      | `boolean`                  | `false`     | Whether the toggle arrow shows a spinner          |
-| `clearable`    | `boolean`                  | `false`     | Whether the clear-all button is shown             |
-| `name`         | `string`                   | —           | Form field name                                   |
-| `open`         | `boolean`                  | `false`     | Whether the list is open; `v-model:open`          |
-| `variant`      | `'primary' \| 'secondary'` | `'primary'` | Variant                                           |
-| `size`         | `'sm' \| 'md' \| 'lg'`     | `'md'`      | Size                                              |
-| `disabled`     | `boolean`                  | `false`     | Whether the group is disabled                     |
-| `invalid`      | `boolean`                  | `false`     | Whether the group failed validation               |
-| `class`        | `string`                   | —           | Classes appended to the root element              |
+| Prop              | Type                       | Default     | Description                                                        |
+| ----------------- | -------------------------- | ----------- | ------------------------------------------------------------------ |
+| `modelValue`      | `Array<string \| number>`  | `[]`        | The chosen values                                                  |
+| `options`         | `SelectItems<T>`           | —           | The items, see [Select](/components/select#types)                  |
+| `selectedOptions` | `T[]`                      | —           | Selected item data for chip labels only; not added to the dropdown |
+| `placeholder`     | `string`                   | locale pack | Placeholder of the input while nothing is chosen                   |
+| `search`          | `string`                   | `''`        | Text in the input; `v-model:search`                                |
+| `ignoreFilter`    | `boolean`                  | `false`     | Whether to skip local filtering for remote search                  |
+| `loading`         | `boolean`                  | `false`     | Whether the toggle arrow shows a spinner                           |
+| `clearable`       | `boolean`                  | `false`     | Whether the clear-all button is shown                              |
+| `name`            | `string`                   | —           | Form field name                                                    |
+| `open`            | `boolean`                  | `false`     | Whether the list is open; `v-model:open`                           |
+| `variant`         | `'primary' \| 'secondary'` | `'primary'` | Variant                                                            |
+| `size`            | `'sm' \| 'md' \| 'lg'`     | `'md'`      | Size                                                               |
+| `disabled`        | `boolean`                  | `false`     | Whether the group is disabled                                      |
+| `invalid`         | `boolean`                  | `false`     | Whether the group failed validation                                |
+| `class`           | `string`                   | —           | Classes appended to the root element                               |
 
 ### Slots {#slots}
 

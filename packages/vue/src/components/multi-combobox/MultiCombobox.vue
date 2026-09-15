@@ -33,6 +33,7 @@
   const props = withDefaults(
     defineProps<{
       options: SelectItems<T>
+      selectedOptions?: T[]
       placeholder?: string
       ignoreFilter?: boolean
       loading?: boolean
@@ -69,6 +70,7 @@
   const { selected, keyboard, input, remove, clear, onHostClick, onInputKeydown } =
     useMultiCombobox({
       options: () => props.options,
+      selectedOptions: () => props.selectedOptions,
       model,
       open,
       disabled: () => disabled.value,

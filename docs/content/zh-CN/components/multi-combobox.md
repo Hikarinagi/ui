@@ -26,7 +26,11 @@ import { MultiCombobox } from '@hina-ui/vue'
 
 ### 远程搜索 {#remote}
 
-下面的示例请求一个真实的搜索接口：`ignoreFilter` 关闭本地筛选，`v-model:search` 把输入的文字交给调用方，调用方用 VueUse 的 `refDebounced` 防抖 300 毫秒，再用 `useFetch` 在搜索词变化时重新请求并取消上一次请求，取回结果后写入 `options`，`loading` 为真时展开箭头换成加载指示器。组件会记住出现过的每个选项的名称，结果列表随搜索词变化时，已选标签仍然显示名称；编辑已有数据时，只需在初始的 `options` 里包含当前已选的项。请求的防抖与取消由调用方负责。
+`ignoreFilter` 关闭本地筛选，`v-model:search` 提供输入文字，远程搜索结果直接传给 `options`。`selectedOptions` 单独提供已选项资料，[Chip](/components/chip) 按 `v-model` 中的值解析名称；这些资料不会自动加入下拉列表，也不会增加选中项。
+
+组件会记住选项名称，替换或清空搜索结果后，已选标签仍显示名称；外部资料异步到达或名称更新时同步显示。同一值同时出现在两份资料中时，标签名称以 `selectedOptions` 为准。搜索结果如果包含已选值，该行正常显示勾选状态。
+
+示例预先回填三个标签，再请求搜索接口。请求的防抖与取消由调用方负责，`loading` 为真时展开箭头显示加载指示器。
 
 <Demo name="multi-combobox/remote" />
 
@@ -80,24 +84,25 @@ import { MultiCombobox } from '@hina-ui/vue'
 
 ### Props {#props}
 
-`T extends SelectOption` 从 `options` 推断，默认是 `SelectOption`。
+`T extends SelectOption` 从 `options` 与 `selectedOptions` 推断，默认是 `SelectOption`。
 
-| 属性           | 类型                       | 默认值      | 说明                                            |
-| -------------- | -------------------------- | ----------- | ----------------------------------------------- |
-| `modelValue`   | `Array<string \| number>`  | `[]`        | 选中的值                                        |
-| `options`      | `SelectItems<T>`           | —           | 选项，类型见 [Select](/components/select#types) |
-| `placeholder`  | `string`                   | 语言包      | 无已选项时输入区的占位文字                      |
-| `search`       | `string`                   | `''`        | 输入区的文字，支持 `v-model:search`             |
-| `ignoreFilter` | `boolean`                  | `false`     | 是否关闭本地筛选，交给调用方远程搜索            |
-| `loading`      | `boolean`                  | `false`     | 是否把展开箭头换成加载指示器                    |
-| `clearable`    | `boolean`                  | `false`     | 是否显示清空全部的按钮                          |
-| `name`         | `string`                   | —           | 表单字段名                                      |
-| `open`         | `boolean`                  | `false`     | 浮层是否打开，支持 `v-model:open`               |
-| `variant`      | `'primary' \| 'secondary'` | `'primary'` | 形态                                            |
-| `size`         | `'sm' \| 'md' \| 'lg'`     | `'md'`      | 尺寸                                            |
-| `disabled`     | `boolean`                  | `false`     | 是否禁用                                        |
-| `invalid`      | `boolean`                  | `false`     | 是否处于校验未通过状态                          |
-| `class`        | `string`                   | —           | 追加至根元素的类名                              |
+| 属性              | 类型                       | 默认值      | 说明                                            |
+| ----------------- | -------------------------- | ----------- | ----------------------------------------------- |
+| `modelValue`      | `Array<string \| number>`  | `[]`        | 选中的值                                        |
+| `options`         | `SelectItems<T>`           | —           | 选项，类型见 [Select](/components/select#types) |
+| `selectedOptions` | `T[]`                      | —           | 已选项资料，仅用于标签回显，不加入候选列表      |
+| `placeholder`     | `string`                   | 语言包      | 无已选项时输入区的占位文字                      |
+| `search`          | `string`                   | `''`        | 输入区的文字，支持 `v-model:search`             |
+| `ignoreFilter`    | `boolean`                  | `false`     | 是否关闭本地筛选，交给调用方远程搜索            |
+| `loading`         | `boolean`                  | `false`     | 是否把展开箭头换成加载指示器                    |
+| `clearable`       | `boolean`                  | `false`     | 是否显示清空全部的按钮                          |
+| `name`            | `string`                   | —           | 表单字段名                                      |
+| `open`            | `boolean`                  | `false`     | 浮层是否打开，支持 `v-model:open`               |
+| `variant`         | `'primary' \| 'secondary'` | `'primary'` | 形态                                            |
+| `size`            | `'sm' \| 'md' \| 'lg'`     | `'md'`      | 尺寸                                            |
+| `disabled`        | `boolean`                  | `false`     | 是否禁用                                        |
+| `invalid`         | `boolean`                  | `false`     | 是否处于校验未通过状态                          |
+| `class`           | `string`                   | —           | 追加至根元素的类名                              |
 
 ### 插槽 {#slots}
 
