@@ -1,8 +1,7 @@
 <script setup lang="ts" generic="T extends SelectOption = SelectOption">
-  import { computed, ref, shallowRef, watch } from 'vue'
+  import { computed } from 'vue'
   import { ComboboxAnchor, ComboboxInput, ComboboxRoot, ComboboxTrigger } from 'reka-ui'
   import { cn } from '../../lib/cn'
-  import { focusFieldFrom } from '../../lib/field-focus'
   import { useUiLocale } from '../../locale'
   import { X } from '@lucide/vue'
   import InputAction from '../input/InputAction.vue'
@@ -18,7 +17,8 @@
     inputIndicator,
     type InputVariants,
   } from '../input/input.variants'
-  import { flattenOptions, type SelectItems, type SelectOption } from '../select/types'
+  import type { SelectItems, SelectOption } from '../select/types'
+  import { useCombobox } from './composables/useCombobox'
   import ComboboxList from './ComboboxList.vue'
 
   defineOptions({ name: 'HnCombobox', inheritAttrs: false })
@@ -44,8 +44,6 @@
 
   const t = useUiLocale()
   const group = injectInputGroup()
-  const keyboard = ref(false)
-  const input = shallowRef<{ $el: HTMLInputElement } | null>(null)
 
   const size = computed(() => (group ? group.size.value : props.size))
   const {
@@ -61,23 +59,13 @@
     () => !!props.clearable && model.value != null && model.value !== '' && !disabled.value,
   )
 
-  function displayValue(value: string | number | null | undefined) {
-    return flattenOptions(props.options).find(option => option.value === value)?.label ?? ''
-  }
-
-  function clear() {
-    model.value = null
-    search.value = ''
-    emit('clear')
-    input.value?.$el.focus()
-  }
-
-  watch(search, value => {
-    if (value === '' && model.value != null) model.value = null
-  })
-
-  watch(open, value => {
-    if (!value) keyboard.value = false
+  const { keyboard, input, displayValue, clear, onInput, onHostClick } = useCombobox({
+    options: () => props.options,
+    model,
+    search,
+    open,
+    disabled: () => disabled.value,
+    onClear: () => emit('clear'),
   })
 </script>
 
@@ -100,7 +88,7 @@
             props.class,
           )
         "
-        @click="focusFieldFrom($event.currentTarget as HTMLElement, $event.target as HTMLElement)"
+        @click="onHostClick"
         @keydown="keyboard = true"
       >
         <ComboboxInput
@@ -114,6 +102,7 @@
           :disabled="disabled"
           :aria-invalid="invalid || undefined"
           :class="inputControl({ trailing: true })"
+          @input="onInput"
         />
         <Transition
           enter-active-class="hn-transition-base"

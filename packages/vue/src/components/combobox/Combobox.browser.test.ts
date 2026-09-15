@@ -244,3 +244,19 @@ describe('combobox · 打开时的初始高亮', () => {
     )
   })
 })
+
+describe('combobox · 远程结果替换', () => {
+  it.each(['{Escape}', '{Tab}'])('搜索结果不含已选值时，%s 关闭不会误清值', async key => {
+    const { w, input, value } = mountBox({ modelValue: 'gal', ignoreFilter: true })
+    await vi.waitFor(() => expect(input.value).toBe('Galgame'))
+    await userEvent.click(input)
+    await userEvent.keyboard('{Control>}a{/Control}remote')
+    await w.setProps({ options: [{ value: 'new', label: 'Remote result' }] })
+    await vi.waitFor(() => expect(labels()).toEqual(['Remote result']))
+    expect(value.value).toBe('gal')
+    await userEvent.keyboard(key)
+    await vi.waitFor(() => expect(listbox()).toBeNull())
+    expect(value.value).toBe('gal')
+    expect(w.emitted('update:modelValue')).toBeUndefined()
+  })
+})
