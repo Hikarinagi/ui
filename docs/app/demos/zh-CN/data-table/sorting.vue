@@ -7,7 +7,7 @@
 </script>
 
 <template>
-  <Stack>
+  <Stack class="w-full">
     <DataTable
       v-model:sorting="sorting"
       :rows="rows.slice(0, 6)"
