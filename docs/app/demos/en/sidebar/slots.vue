@@ -1,39 +1,89 @@
 <script setup lang="ts">
-  import { BookMarked, House, Star } from '@lucide/vue'
-  import { AppShell, Avatar, Inline, NavLink, Sidebar, Text } from '@hina-ui/vue'
+  import { ref } from 'vue'
+  import { FileText, House, Images, Settings } from '@lucide/vue'
+  import {
+    AppShell,
+    Avatar,
+    Heading,
+    Inline,
+    NavLink,
+    Sidebar,
+    SidebarGroup,
+    SidebarLabel,
+    SidebarTrigger,
+    Stack,
+    Text,
+  } from '@hina-ui/vue'
+
+  const selected = ref('overview')
+  const groups = [
+    {
+      label: 'Content',
+      items: [
+        { id: 'overview', label: 'Overview', icon: House },
+        { id: 'articles', label: 'Articles', icon: FileText },
+        { id: 'library', label: 'Media library', icon: Images },
+      ],
+    },
+    { label: 'Manage', items: [{ id: 'settings', label: 'Settings', icon: Settings }] },
+  ]
 </script>
 
 <template>
-  <AppShell class="border-line h-80 w-full rounded-lg border">
+  <AppShell mobile-title="Hina UI" class="border-line h-112 w-full rounded-lg border">
     <template #sidebar>
-      <Sidebar label="Site navigation">
+      <Sidebar>
         <template #header>
-          <Inline gap="sm" align="center">
-            <BookMarked class="size-5" aria-hidden="true" />
-            <Text weight="medium">Hikari Library</Text>
+          <Inline gap="sm" align="center" :wrap="false">
+            <Avatar src="/favicon.png" name="Hina UI" class="rounded-md" />
+            <SidebarLabel as="div" class="flex-1">
+              <Stack gap="none">
+                <Text weight="medium" class="truncate">Hina UI</Text>
+                <Text size="xs" tone="muted" class="truncate">Workspace</Text>
+              </Stack>
+            </SidebarLabel>
           </Inline>
         </template>
 
-        <NavLink href="#" active label="Overview">
-          <template #icon><House /></template>
-          Overview
-        </NavLink>
-        <NavLink href="#" label="Favourites">
-          <template #icon><Star /></template>
-          Favourites
-        </NavLink>
+        <SidebarGroup v-for="group in groups" :key="group.label" :label="group.label">
+          <NavLink
+            v-for="item in group.items"
+            :key="item.id"
+            :href="`#${item.id}`"
+            :label="item.label"
+            :active="selected === item.id"
+            @click.prevent="selected = item.id"
+          >
+            <template #icon><component :is="item.icon" /></template>
+            {{ item.label }}
+          </NavLink>
+        </SidebarGroup>
 
         <template #footer>
-          <Inline gap="sm" align="center">
-            <Avatar size="sm" name="Shion" />
-            <Text size="sm" tone="muted">Shion</Text>
+          <Inline gap="sm" align="center" :wrap="false">
+            <Avatar src="/avatars/paper.webp" name="Shion Hoshimi" />
+            <SidebarLabel as="div" class="flex-1">
+              <Stack gap="none">
+                <Text size="sm" weight="medium" class="truncate">Shion Hoshimi</Text>
+                <Text size="xs" tone="muted" class="truncate">Administrator</Text>
+              </Stack>
+            </SidebarLabel>
           </Inline>
         </template>
       </Sidebar>
     </template>
-
-    <Text size="sm" tone="muted" class="block p-6">
-      The header and footer stay at either end and do not scroll with the entries.
-    </Text>
+    <template #header>
+      <SidebarTrigger />
+      <Heading :level="2" size="sm" class="truncate">Creator workspace</Heading>
+    </template>
+    <Stack gap="sm" class="p-6">
+      <Heading :level="3" size="sm">
+        {{ groups.flatMap(group => group.items).find(item => item.id === selected)?.label }}
+      </Heading>
+      <Text size="sm" tone="muted">
+        Toggle the sidebar to see the logo, groups and footer stay in place. On narrow screens, the
+        button opens the drawer.
+      </Text>
+    </Stack>
   </AppShell>
 </template>

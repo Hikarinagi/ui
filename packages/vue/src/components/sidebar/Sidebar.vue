@@ -1,11 +1,10 @@
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { Motion } from 'motion-v'
   import { cn } from '../../lib/cn'
-  import { TRANSITION, prefersReducedMotion } from '../../motion'
   import { useUiLocale } from '../../locale'
   import ScrollArea from '../scroll-area/ScrollArea.vue'
   import { useSidebar } from './context'
+  import { sidebarRoot, sidebarRegion } from './sidebar.variants'
 
   defineOptions({ name: 'HnSidebar' })
 
@@ -18,35 +17,15 @@
   const sidebar = useSidebar()
   const state = computed(() => sidebar?.state.value ?? 'expanded')
   const inDrawer = computed(() => sidebar?.inDrawer ?? false)
-
-  const width = computed(() => {
-    if (state.value === 'rail') return 56
-    if (state.value === 'hidden') return 0
-    return 256
-  })
-
-  const transition = computed(() => (prefersReducedMotion() ? { duration: 0 } : TRANSITION.layout))
 </script>
 
 <template>
-  <Motion
-    as="aside"
-    :initial="false"
-    :animate="inDrawer ? undefined : { width }"
-    :transition="transition"
+  <aside
     :data-state="state"
-    :class="
-      cn(
-        'flex h-full min-h-0 shrink-0 flex-col overflow-hidden',
-        inDrawer
-          ? 'w-full'
-          : 'border-line border-e [transition:border-color_var(--hn-duration-base)_var(--hn-ease-move)]',
-        !inDrawer && state === 'hidden' && 'border-e-transparent',
-        props.class,
-      )
-    "
+    :inert="state === 'hidden'"
+    :class="cn(sidebarRoot({ inDrawer }), props.class)"
   >
-    <div v-if="$slots.header" :class="cn('shrink-0 py-3', !inDrawer && 'px-3')">
+    <div v-if="$slots.header" :class="sidebarRegion({ inDrawer })">
       <slot name="header" :state="state" />
     </div>
     <ScrollArea class="min-h-0 flex-1">
@@ -57,11 +36,8 @@
         <slot />
       </nav>
     </ScrollArea>
-    <div
-      v-if="$slots.footer"
-      :class="cn('border-line shrink-0 border-t py-3', !inDrawer && 'px-3')"
-    >
+    <div v-if="$slots.footer" :class="sidebarRegion({ inDrawer, footer: true })">
       <slot name="footer" :state="state" />
     </div>
-  </Motion>
+  </aside>
 </template>

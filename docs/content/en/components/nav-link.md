@@ -58,6 +58,8 @@ Inside a `Sidebar`, `NavLink` follows the sidebar's state. When the sidebar coll
 
 So every `NavLink` inside a `Sidebar` should carry a `label`, otherwise a collapsed entry has neither visible text nor a readable name. Outside a `Sidebar`, `label` has no effect and no tooltip is rendered. See the Sidebar documentation for the pattern.
 
+Navigation labels fade out before the sidebar finishes collapsing and fade in after expansion begins. Use [SidebarLabel](/components/sidebar#label) for the same transition in custom headers and footers.
+
 ## Accessibility {#a11y}
 
 - The current entry carries `aria-current="page"`, so position is not conveyed by colour alone.

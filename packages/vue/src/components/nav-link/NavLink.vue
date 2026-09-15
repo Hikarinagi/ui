@@ -42,7 +42,13 @@
       :class="cn(navLink({ active: props.active }), props.class)"
     >
       <slot name="icon" />
-      <span :aria-hidden="rail ? 'true' : undefined" data-hn-label :class="navLinkLabel({ rail })">
+      <span
+        :aria-hidden="rail ? 'true' : undefined"
+        :inert="rail"
+        :data-collapsed="rail ? '' : undefined"
+        data-hn-label
+        :class="navLinkLabel()"
+      >
         <slot />
       </span>
     </Primitive>

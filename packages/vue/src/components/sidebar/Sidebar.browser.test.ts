@@ -94,9 +94,7 @@ describe('sidebar · 三态收起系统', () => {
     const groupButton = [...aside()!.querySelectorAll('button')].find(b =>
       b.textContent!.includes('组件'),
     )!
-    await vi.waitFor(() =>
-      expect((groupButton.closest('.hn-collapse-body') as HTMLElement).clientHeight).toBe(0),
-    )
+    await vi.waitFor(() => expect(getComputedStyle(groupButton).visibility).toBe('hidden'))
 
     const iconXAfter = aside()!.querySelector('a svg')!.getBoundingClientRect().left
     expect(Math.abs(iconXAfter - iconXBefore)).toBeLessThanOrEqual(1)
@@ -117,15 +115,16 @@ describe('sidebar · 三态收起系统', () => {
     expect(aside()!.dataset.state).toBe('expanded')
   })
 
-  it('组头按钮保留自己的按压过渡:收合占位层不清零它的 transition', async () => {
+  it('组头按钮保留自己的按压过渡，文字显隐不影响标题占位', async () => {
     const w = harness()
     const trigger = w.find('aside button').element as HTMLElement
     const style = getComputedStyle(trigger)
     expect(style.transitionProperty).toContain('transform')
     expect(style.transitionDuration.split(',').every(d => parseFloat(d) > 0)).toBe(true)
     const body = trigger.parentElement as HTMLElement
-    expect(body.classList.contains('hn-collapse-body')).toBe(true)
-    expect(getComputedStyle(body).transitionProperty).toBe('opacity')
+    expect(body.classList.contains('hn-sidebar-label')).toBe(true)
+    expect(getComputedStyle(body).transitionProperty).toContain('opacity')
+    expect(body.parentElement!.clientHeight).toBe(trigger.offsetHeight)
   })
 
   it("collapsible='hidden':触发器在展开与全收之间二态切换", async () => {

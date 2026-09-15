@@ -30,6 +30,8 @@ import { AppShell } from '@hina-ui/vue'
 
 侧栏状态可以用 `v-model:sidebar` 双向绑定，取值为 `expanded`、`rail`、`hidden`。需要在别处读出或写入当前形态时绑定它，否则交给组件自己维护即可。
 
+收起过程中标识、头像和已展开条目的位置保持不变；自定义文字通过 [SidebarLabel](/components/sidebar#label) 与导航文字使用同一套显隐过渡。
+
 <Demo name="app-shell/collapsible" />
 
 ### 主区域滚动 {#scroll}

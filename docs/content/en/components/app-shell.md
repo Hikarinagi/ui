@@ -30,6 +30,8 @@ The component is one viewport tall by default. A frame embedded within a page ca
 
 The state can be bound two-way with `v-model:sidebar`, taking `expanded`, `rail` or `hidden`. Bind it when the current form has to be read or set from elsewhere; otherwise leave the component to manage it.
 
+Logos, avatars and entries in expanded groups stay in place during collapse. [SidebarLabel](/components/sidebar#label) gives custom text the same visibility transition as navigation labels.
+
 <Demo name="app-shell/collapsible" />
 
 ### Scrolling the main area {#scroll}

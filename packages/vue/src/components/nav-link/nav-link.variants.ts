@@ -17,14 +17,5 @@ export const navLink = tv({
 })
 
 export const navLinkLabel = tv({
-  base: 'shrink-0 whitespace-nowrap',
-  variants: {
-    rail: {
-      true: 'opacity-0 [transition:opacity_calc(var(--hn-duration-fast)/2)_var(--hn-ease-exit)]',
-      false: 'opacity-100 [transition:opacity_var(--hn-duration-fast)_var(--hn-ease-enter)]',
-    },
-  },
-  defaultVariants: { rail: false },
+  base: 'hn-sidebar-label shrink-0 whitespace-nowrap',
 })
-
-export type NavLinkVariants = VariantProps<typeof navLink>

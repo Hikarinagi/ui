@@ -199,6 +199,7 @@ export { default as AccordionTrigger } from './components/accordion/AccordionTri
 export { default as AccordionContent } from './components/accordion/AccordionContent.vue'
 export { default as NavLink } from './components/nav-link/NavLink.vue'
 export { default as Sidebar } from './components/sidebar/Sidebar.vue'
+export { default as SidebarLabel } from './components/sidebar/SidebarLabel.vue'
 export { default as SidebarGroup } from './components/sidebar/SidebarGroup.vue'
 export { default as AppShell } from './components/app-shell/AppShell.vue'
 export { default as Page } from './components/page/Page.vue'
