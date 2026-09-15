@@ -1,11 +1,17 @@
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { Motion } from 'motion-v'
   import { cn } from '../../lib/cn'
-  import { TRANSITION, prefersReducedMotion } from '../../motion'
   import { useUiLocale } from '../../locale'
   import ScrollArea from '../scroll-area/ScrollArea.vue'
-  import { useSidebar } from './context'
+  import { useSidebar, type SidebarState } from './context'
+  import SidebarLabel from './SidebarLabel.vue'
+  import {
+    sidebarRoot,
+    sidebarRegion,
+    sidebarBrand,
+    sidebarIcon,
+    sidebarWordmark,
+  } from './sidebar.variants'
 
   defineOptions({ name: 'HnSidebar' })
 
@@ -14,54 +20,58 @@
     class?: string
   }>()
 
+  defineSlots<{
+    default?(): unknown
+    header?(props: { state: SidebarState }): unknown
+    icon?(props: { state: SidebarState }): unknown
+    wordmark?(props: { state: SidebarState }): unknown
+    footer?(props: { state: SidebarState }): unknown
+  }>()
+
   const t = useUiLocale()
   const sidebar = useSidebar()
   const state = computed(() => sidebar?.state.value ?? 'expanded')
   const inDrawer = computed(() => sidebar?.inDrawer ?? false)
-
-  const width = computed(() => {
-    if (state.value === 'rail') return 56
-    if (state.value === 'hidden') return 0
-    return 256
-  })
-
-  const transition = computed(() => (prefersReducedMotion() ? { duration: 0 } : TRANSITION.layout))
 </script>
 
 <template>
-  <Motion
-    as="aside"
-    :initial="false"
-    :animate="inDrawer ? undefined : { width }"
-    :transition="transition"
+  <aside
     :data-state="state"
-    :class="
-      cn(
-        'flex h-full min-h-0 shrink-0 flex-col overflow-hidden',
-        inDrawer
-          ? 'w-full'
-          : 'border-line border-e [transition:border-color_var(--hn-duration-base)_var(--hn-ease-move)]',
-        !inDrawer && state === 'hidden' && 'border-e-transparent',
-        props.class,
-      )
-    "
+    :inert="state === 'hidden'"
+    :class="cn(sidebarRoot({ inDrawer }), props.class)"
   >
-    <div v-if="$slots.header" :class="cn('shrink-0', !inDrawer && 'px-3 py-3')">
+    <div v-if="$slots.header" :class="sidebarRegion({ inDrawer })">
       <slot name="header" :state="state" />
+    </div>
+    <div
+      v-else-if="$slots.icon || $slots.wordmark"
+      class="hn-collapse shrink-0"
+      :data-state="state === 'rail' && !$slots.icon ? 'closed' : 'open'"
+      :inert="state === 'rail' && !$slots.icon"
+    >
+      <div class="hn-collapse-body">
+        <div :class="sidebarRegion({ inDrawer })">
+          <div :class="sidebarBrand()">
+            <div v-if="$slots.icon" :class="sidebarIcon()">
+              <slot name="icon" :state="state" />
+            </div>
+            <SidebarLabel v-if="$slots.wordmark" as="div" :class="sidebarWordmark()">
+              <slot name="wordmark" :state="state" />
+            </SidebarLabel>
+          </div>
+        </div>
+      </div>
     </div>
     <ScrollArea class="min-h-0 flex-1">
       <nav
         :aria-label="props.label ?? t.sidebar.navLabel"
-        :class="cn('flex flex-col gap-1', !inDrawer && 'px-2.5 py-2')"
+        :class="cn('flex flex-col gap-1 py-2', !inDrawer && 'px-2.5')"
       >
         <slot />
       </nav>
     </ScrollArea>
-    <div
-      v-if="$slots.footer"
-      :class="cn('border-line shrink-0 border-t', !inDrawer && 'px-3 py-3')"
-    >
+    <div v-if="$slots.footer" :class="sidebarRegion({ inDrawer, footer: true })">
       <slot name="footer" :state="state" />
     </div>
-  </Motion>
+  </aside>
 </template>

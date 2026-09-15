@@ -32,7 +32,9 @@ import { Combobox } from '@hina-ui/vue'
 
 ### 远程数据 {#remote}
 
-设置 `ignoreFilter` 后组件不再自行筛选，`v-model:search` 拿到当前输入，由调用方决定 `options`。适用于向服务端搜索。
+`ignoreFilter` 关闭本地筛选，`v-model:search` 提供输入文字，调用方将搜索结果直接传给 `options`。下拉列表只渲染这份结果。
+
+`selectedOption` 单独提供已选项资料，`value` 与 `v-model` 匹配时用于显示名称，不会加入候选列表，也不会改变选中值。组件会记住选项名称，搜索结果替换或清空后仍能回显。资料异步到达或名称更新时同步显示，正在输入的搜索词不会被覆盖；关闭列表后恢复最新名称。同一值同时出现在两份资料中时，回显名称以 `selectedOption` 为准。
 
 <Demo name="combobox/remote" />
 
@@ -83,22 +85,23 @@ import { Combobox } from '@hina-ui/vue'
 
 ### Props {#props}
 
-`T extends SelectOption` 从 `options` 推断，默认是 `SelectOption`。
+`T extends SelectOption` 从 `options` 与 `selectedOption` 推断，默认是 `SelectOption`。
 
-| 属性           | 类型                       | 默认值      | 说明                                            |
-| -------------- | -------------------------- | ----------- | ----------------------------------------------- |
-| `modelValue`   | `string \| number \| null` | —           | 选中的值                                        |
-| `options`      | `SelectItems<T>`           | —           | 选项，类型见 [Select](/components/select#types) |
-| `search`       | `string`                   | `''`        | 当前输入的文字，支持 `v-model:search`           |
-| `placeholder`  | `string`                   | 语言包      | 无值时显示的文字                                |
-| `ignoreFilter` | `boolean`                  | `false`     | 是否交由调用方筛选                              |
-| `clearable`    | `boolean`                  | `false`     | 是否显示清除按钮                                |
-| `open`         | `boolean`                  | `false`     | 浮层是否打开，支持 `v-model:open`               |
-| `variant`      | `'primary' \| 'secondary'` | `'primary'` | 形态                                            |
-| `size`         | `'sm' \| 'md' \| 'lg'`     | `'md'`      | 尺寸                                            |
-| `invalid`      | `boolean`                  | `false`     | 是否校验未通过                                  |
-| `disabled`     | `boolean`                  | `false`     | 是否禁用                                        |
-| `class`        | `string`                   | —           | 追加至根元素的类名                              |
+| 属性             | 类型                       | 默认值      | 说明                                            |
+| ---------------- | -------------------------- | ----------- | ----------------------------------------------- |
+| `modelValue`     | `string \| number \| null` | —           | 选中的值                                        |
+| `options`        | `SelectItems<T>`           | —           | 选项，类型见 [Select](/components/select#types) |
+| `selectedOption` | `T \| null`                | —           | 已选项资料，仅用于回显，不加入候选列表          |
+| `search`         | `string`                   | `''`        | 当前输入的文字，支持 `v-model:search`           |
+| `placeholder`    | `string`                   | 语言包      | 无值时显示的文字                                |
+| `ignoreFilter`   | `boolean`                  | `false`     | 是否交由调用方筛选                              |
+| `clearable`      | `boolean`                  | `false`     | 是否显示清除按钮                                |
+| `open`           | `boolean`                  | `false`     | 浮层是否打开，支持 `v-model:open`               |
+| `variant`        | `'primary' \| 'secondary'` | `'primary'` | 形态                                            |
+| `size`           | `'sm' \| 'md' \| 'lg'`     | `'md'`      | 尺寸                                            |
+| `invalid`        | `boolean`                  | `false`     | 是否校验未通过                                  |
+| `disabled`       | `boolean`                  | `false`     | 是否禁用                                        |
+| `class`          | `string`                   | —           | 追加至根元素的类名                              |
 
 ### 插槽 {#slots}
 

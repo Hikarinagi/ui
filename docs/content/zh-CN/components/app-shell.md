@@ -30,6 +30,8 @@ import { AppShell } from '@hina-ui/vue'
 
 侧栏状态可以用 `v-model:sidebar` 双向绑定，取值为 `expanded`、`rail`、`hidden`。需要在别处读出或写入当前形态时绑定它，否则交给组件自己维护即可。
 
+收起过程中标识、头像和已展开条目的位置保持不变。[Sidebar 的品牌插槽](/components/sidebar#brand) 自动处理图标与字标的显隐；自定义页眉与页脚内容可通过 [SidebarLabel](/components/sidebar#label) 使用相同过渡。
+
 <Demo name="app-shell/collapsible" />
 
 ### 主区域滚动 {#scroll}
@@ -49,6 +51,7 @@ import { AppShell } from '@hina-ui/vue'
 - 视口宽度达到 1024 像素时为桌面布局，侧栏常驻左侧；低于此宽度时侧栏改由抽屉承载，`sidebar` 插槽的内容原样搬进抽屉。
 - 桌面端点击 `SidebarTrigger` 在展开与 `collapsible` 指定的形态之间切换；窄屏则打开抽屉。
 - 抽屉的开合状态可用 `v-model:mobileOpen` 绑定。
+- `mobileTitle` 设置移动端 [Drawer](/components/drawer) 的标题与无障碍名；默认取自界面语言，顶部示例将其设为 `Hina UI`。
 - `autoClose` 为真时路由变化会关闭抽屉，避免跳转后抽屉仍挡在内容前面。默认开启。
 - `restoreKey` 写在主区域的滚动容器上，供滚动位置恢复使用。
 - 组件内置浮层提供方，侧栏在 rail 形态下的悬停提示不需要另行包裹。
@@ -63,12 +66,13 @@ import { AppShell } from '@hina-ui/vue'
 
 ### Props {#props}
 
-| 属性          | 类型                 | 默认值   | 说明                             |
-| ------------- | -------------------- | -------- | -------------------------------- |
-| `collapsible` | `'rail' \| 'hidden'` | `'rail'` | 桌面端收起后的形态               |
-| `autoClose`   | `boolean`            | `true`   | 路由变化时是否关闭移动端抽屉     |
-| `restoreKey`  | `string`             | —        | 主区域滚动容器的滚动位置恢复标识 |
-| `class`       | `string`             | —        | 追加到根元素的类                 |
+| 属性          | 类型                 | 默认值       | 说明                             |
+| ------------- | -------------------- | ------------ | -------------------------------- |
+| `collapsible` | `'rail' \| 'hidden'` | `'rail'`     | 桌面端收起后的形态               |
+| `autoClose`   | `boolean`            | `true`       | 路由变化时是否关闭移动端抽屉     |
+| `mobileTitle` | `string`             | 取自界面语言 | 移动端抽屉的标题与无障碍名       |
+| `restoreKey`  | `string`             | —            | 主区域滚动容器的滚动位置恢复标识 |
+| `class`       | `string`             | —            | 追加到根元素的类                 |
 
 ### 双向绑定 {#models}
 

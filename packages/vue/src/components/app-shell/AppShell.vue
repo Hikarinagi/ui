@@ -16,6 +16,7 @@
       collapsible?: 'rail' | 'hidden'
       restoreKey?: string
       autoClose?: boolean
+      mobileTitle?: string
       class?: string
     }>(),
     { collapsible: 'rail', autoClose: true },
@@ -86,7 +87,7 @@
       <Drawer
         v-if="$slots.sidebar"
         v-model:open="mobileOpen"
-        :title="t.sidebar.navLabel"
+        :title="props.mobileTitle ?? t.sidebar.navLabel"
         side="start"
         size="sm"
         class="lg:hidden"

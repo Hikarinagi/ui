@@ -102,6 +102,9 @@ export interface UiMessages {
     show: string
     hide: string
   }
+  tree: {
+    empty: string
+  }
   treeSelect: {
     search: string
   }

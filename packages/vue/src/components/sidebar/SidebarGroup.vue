@@ -31,8 +31,13 @@
     :class="cn(props.class)"
     @update:open="v => (rail ? undefined : (open = v))"
   >
-    <div class="hn-collapse" :class="rail ? 'hn-collapse-closed' : 'hn-collapse-open'">
-      <div class="hn-collapse-body">
+    <div class="relative h-(--hn-control-h-sm)">
+      <div
+        class="hn-sidebar-label"
+        :data-collapsed="rail ? '' : undefined"
+        :aria-hidden="rail ? 'true' : undefined"
+        :inert="rail"
+      >
         <CollapsibleTrigger as-child>
           <Button
             variant="ghost"
@@ -49,15 +54,11 @@
           </Button>
         </CollapsibleTrigger>
       </div>
-    </div>
-    <div
-      aria-hidden="true"
-      class="hn-collapse"
-      :class="rail ? 'hn-collapse-open' : 'hn-collapse-closed'"
-    >
-      <div class="hn-collapse-body">
-        <div class="border-line mx-2 my-1.5 border-t" />
-      </div>
+      <div
+        aria-hidden="true"
+        class="hn-sidebar-label border-line pointer-events-none absolute inset-x-2 top-1/2 border-t"
+        :data-collapsed="rail ? undefined : ''"
+      />
     </div>
     <CollapsibleContent>
       <div class="flex flex-col gap-0.5 pt-1">

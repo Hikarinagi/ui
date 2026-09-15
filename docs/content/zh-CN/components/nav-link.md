@@ -58,6 +58,8 @@ import { NavLink } from '@hina-ui/vue'
 
 因此放进 Sidebar 的 `NavLink` 都应当写 `label`，否则收起后这一项既没有可见文字，也没有可读名称。脱离 `Sidebar` 时 `label` 不起作用，也不会渲染提示。用法见 Sidebar 的文档。
 
+收起时导航文字较早淡出，展开时延后淡入。自定义页眉和页脚文字可用 [SidebarLabel](/components/sidebar#label) 保持相同过渡。
+
 ## 无障碍 {#a11y}
 
 - 当前项带 `aria-current="page"`，位置信息不依赖颜色。
