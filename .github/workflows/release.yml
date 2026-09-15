@@ -4,37 +4,91 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      bump:
+        description: Version bump (auto keeps a previously selected release version)
+        type: choice
+        options: [auto, patch, minor, major]
+        default: auto
+      version:
+        description: Exact stable version, for example 1.8.0
+        type: string
+        required: false
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
 
 permissions:
-  contents: write
-  pull-requests: write
-  id-token: write
+  contents: read
 
 concurrency:
-  group: release
+  group: release-${{ github.event_name == 'workflow_run' && 'publish' || 'prepare' }}
   cancel-in-progress: false
 
 jobs:
-  release:
+  prepare:
+    if: github.event_name != 'workflow_run' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    environment:
-      name: npm
-      url: https://www.npmjs.com/package/@hina-ui/vue
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-          cache: pnpm
-          registry-url: https://registry.npmjs.org
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @hina-ui/vue build
-      - uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
+      - name: Configure git
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+      - name: Prepare release pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BUMP: ${{ inputs.bump }}
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: node scripts/release/pr.mjs
+
+  publish:
+    if: >-
+      github.event_name == 'workflow_run' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      github.event.workflow_run.head_repository.full_name == github.repository &&
+      (github.event.workflow_run.event == 'push' || github.event.workflow_run.event == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
+      id-token: write
+    environment:
+      name: npm
+      url: https://www.npmjs.com/package/@hina-ui/vue
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
         with:
-          version-script: pnpm changeset version
-          publish-script: pnpm changeset publish
-          commit-message: 'chore: version packages'
-          pr-title: 'chore: version packages'
+          ref: ${{ github.event.workflow_run.head_sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          registry-url: https://registry.npmjs.org
+      - name: Check release commit and CI
+        id: release
+        run: node scripts/release/publish.mjs --check
+      - uses: pnpm/action-setup@v4
+        if: steps.release.outputs.publish == 'true'
+      - name: Install dependencies
+        if: steps.release.outputs.publish == 'true'
+        run: pnpm install --frozen-lockfile
+      - name: Build package
+        if: steps.release.outputs.publish == 'true'
+        run: pnpm --filter @hina-ui/vue build
+      - name: Publish package and GitHub release
+        if: steps.release.outputs.candidate == 'true'
+        run: node scripts/release/publish.mjs

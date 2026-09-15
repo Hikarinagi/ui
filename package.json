@@ -9,14 +9,16 @@
     "lint": "pnpm --filter @hina-ui/docs lint:check",
     "format": "prettier --write .",
     "build": "pnpm --filter @hina-ui/docs generate",
-    "changeset": "changeset",
-    "prepare": "husky && git config alias.sync-dev '!./scripts/git-sync-dev.sh' || true"
+    "prepare": "husky && git config alias.sync-dev '!./scripts/git-sync-dev.sh' || true",
+    "change": "node scripts/release/change.mjs",
+    "release:preview": "node scripts/release/prepare.mjs --dry",
+    "release:prepare": "node scripts/release/prepare.mjs",
+    "release:check": "node --test scripts/release/*.test.mjs"
   },
   "type": "module",
   "private": true,
   "packageManager": "pnpm@11.25.0",
   "devDependencies": {
-    "@changesets/cli": "^3.0.2",
     "husky": "^9.1.7",
     "lint-staged": "^17.4.1",
     "prettier": "^3.9.6"

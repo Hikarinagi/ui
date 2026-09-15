@@ -1,5 +1,6 @@
 ---
-'@hina-ui/vue': patch
+type: fixed
+scope: Table
 ---
 
 Fix Table header alignment so explicit center and end alignment override the default heading style, including in RTL layouts.
