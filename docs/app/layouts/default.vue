@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import {
     AppShell,
+    Image,
     NavLink,
     Sidebar,
     SidebarGroup,
@@ -44,7 +45,11 @@
       </DocsHeader>
     </template>
     <template #sidebar>
-      <Sidebar :label="t('nav.docsNav')">
+      <Sidebar :label="t('nav.docsNav')" :closable="false">
+        <template #icon>
+          <Image src="/favicon.png" alt="" :lazy="false" class="rounded-md" />
+        </template>
+        <template #wordmark><DocsWordmark /></template>
         <SidebarGroup v-for="group in nav" :key="group.label" :label="t(group.label)">
           <NavLink
             v-for="item in group.items"

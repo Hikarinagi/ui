@@ -51,7 +51,7 @@ Both slots receive `{ state }`. Providing `header` fully replaces the default he
 
 The `header` slot fully replaces the default brand header, while `footer` sits below the entries. Neither scrolls with the entries. Custom headers are not automatically hidden as logos.
 
-The header and footer retain their expanded content width, preventing content from squeezing or wrapping during collapse. Wrap text and secondary actions in `SidebarLabel` to fade them out with [NavLink](/components/nav-link) labels and delay their fade-in on expansion. Keep the logo and [Avatar](/components/avatar) outside it so their size and position stay fixed.
+The header retains its expanded content width. The footer follows the sidebar width so buttons and overlay anchors stay within the rail. For horizontal avatar and label layouts, use [Inline](/components/inline) with `:wrap="false"` and `truncate` or `whitespace-nowrap` on text to avoid wrapping during collapse. Wrap text and secondary actions in `SidebarLabel` to fade them out with [NavLink](/components/nav-link) labels and delay their fade-in on expansion. Keep the logo and [Avatar](/components/avatar) outside it so their size and position stay fixed.
 
 `SidebarLabel` preserves its layout space. In rail form, its contents are hidden from view, interaction, screen readers and keyboard focus. The `header` and `footer` slots still provide `{ state }` for custom content that needs the current form.
 
@@ -61,15 +61,16 @@ The header and footer retain their expanded content width, preventing content fr
 
 - The three forms are 256 pixels wide when expanded, 56 as a rail and 0 when hidden, and the width transitions continuously between them.
 - Collapsed to a rail, `SidebarGroup` is forced open, its heading fades into a divider while retaining the same space. Entries in expanded groups keep their vertical positions.
-- The entry area is a scroll container; the header and footer stay fixed at either end.
+- The entry area uses [ScrollArea](/components/scroll-area) without edge shadows; the header and footer stay fixed at either end.
 - When fully hidden, the entire sidebar leaves interaction and keyboard focus.
 - Width and label transitions use Hina motion tokens and switch instantly with reduced motion enabled.
-- Inside the mobile [Drawer](/components/drawer), horizontal padding comes from the drawer. The header, entries and footer retain their vertical padding.
+- Inside the mobile [Drawer](/components/drawer), the sidebar fills the drawer height with the footer pinned to the bottom and only the entries scrolling. The header includes a close button by default. Set `:closable="false"` to hide it; with no header or brand slots, the button row leaves no empty space. The drawer title is not duplicated. Horizontal padding comes from the drawer; the header, entries and footer retain their vertical padding.
 
 ## Accessibility {#a11y}
 
 - The entry area is a `nav` landmark whose default accessible name follows the interface language (“Sidebar navigation” in English); `label` overrides it.
 - In the rail form the entry text is invisible, but each [NavLink](/components/nav-link)'s `label` remains as its `aria-label`.
+- `closable` only controls the mobile close button. Escape, the backdrop and controlled state can still close the drawer when the button is hidden.
 - Hidden wordmarks leave screen readers and keyboard focus. Supply `alt` for brand images and an appropriate accessible name for SVGs. A link around the icon also needs an accessible name.
 - A group heading hidden by the rail also leaves the keyboard order, so no control is focusable while invisible.
 
@@ -77,10 +78,11 @@ The header and footer retain their expanded content width, preventing content fr
 
 ### Sidebar {#props}
 
-| Prop    | Type     | Default            | Description                     |
-| ------- | -------- | ------------------ | ------------------------------- |
-| `label` | `string` | Interface language | Accessible name of the landmark |
-| `class` | `string` | —                  | Classes appended to the root    |
+| Prop       | Type      | Default            | Description                                    |
+| ---------- | --------- | ------------------ | ---------------------------------------------- |
+| `label`    | `string`  | Interface language | Accessible name of the landmark                |
+| `closable` | `boolean` | `true`             | Whether to show the mobile drawer close button |
+| `class`    | `string`  | —                  | Classes appended to the root                   |
 
 | Slot       | Slot props  | Description                                                 |
 | ---------- | ----------- | ----------------------------------------------------------- |

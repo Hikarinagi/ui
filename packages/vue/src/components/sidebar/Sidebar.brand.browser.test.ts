@@ -272,6 +272,16 @@ describe('Sidebar brand slots', () => {
     ).toBe('expanded')
     expect(getComputedStyle(label(drawerSidebar)).opacity).toBe('1')
     expect(label(drawerSidebar).inert).toBe(false)
+    const close = drawerSidebar.querySelector('[aria-label="关闭"]') as HTMLElement
+    const icon = drawerSidebar.querySelector('[data-brand-icon]')!.getBoundingClientRect()
+    const wordmark = label(drawerSidebar).getBoundingClientRect()
+    const closeRect = close.getBoundingClientRect()
+    expect(
+      Math.abs(closeRect.y + closeRect.height / 2 - icon.y - icon.height / 2),
+    ).toBeLessThanOrEqual(1)
+    expect(wordmark.right).toBeLessThanOrEqual(closeRect.left)
+    await userEvent.click(close)
+    await vi.waitFor(() => expect(document.querySelector('[role="dialog"]')).toBeNull())
   })
 })
 

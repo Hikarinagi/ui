@@ -1,5 +1,5 @@
 import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest'
-import { page, userEvent } from '@vitest/browser/context'
+import { page, userEvent } from 'vitest/browser'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { defineComponent, h, reactive, ref, type Ref } from 'vue'
 import AppShell from '../app-shell/AppShell.vue'
@@ -22,7 +22,13 @@ afterEach(() => {
   mounted = []
 })
 
-function harness(shellProps: Record<string, unknown> = {}, model?: Ref<string>, withSlots = false) {
+function harness(
+  shellProps: Record<string, unknown> = {},
+  model?: Ref<string>,
+  withSlots = false,
+  itemCount = ref(1),
+  sidebarProps: Record<string, unknown> = {},
+) {
   const host = document.createElement('div')
   document.body.appendChild(host)
   const w = mount(
@@ -37,25 +43,23 @@ function harness(shellProps: Record<string, unknown> = {}, model?: Ref<string>, 
           h(AppShell, bound, {
             header: () => h(SidebarTrigger),
             sidebar: () =>
-              h(
-                Sidebar,
-                {},
-                {
-                  header: withSlots ? () => h('span', { 'data-header': '' }, 'Hina UI') : undefined,
-                  footer: withSlots ? () => h('span', { 'data-footer': '' }, 'Account') : undefined,
-                  default: () =>
-                    h(SidebarGroup, { label: '组件' }, () =>
+              h(Sidebar, sidebarProps, {
+                header: withSlots ? () => h('span', { 'data-header': '' }, 'Hina UI') : undefined,
+                footer: withSlots ? () => h('span', { 'data-footer': '' }, 'Account') : undefined,
+                default: () =>
+                  h(SidebarGroup, { label: '组件' }, () =>
+                    Array.from({ length: itemCount.value }, (_, index) =>
                       h(
                         NavLink,
-                        { href: '#x', label: '收藏夹', active: true },
+                        { key: index, href: `#x${index}`, label: '收藏夹', active: index === 0 },
                         {
                           icon: () => h(Star, { class: 'size-4 shrink-0' }),
                           default: () => '收藏夹',
                         },
                       ),
                     ),
-                },
-              ),
+                  ),
+              }),
             default: () => h('p', '正文内容'),
           }),
         )
@@ -186,7 +190,7 @@ describe('sidebar drawer spacing', () => {
     await userEvent.click(trigger())
     await vi.waitFor(() => expect(document.querySelector('[role="dialog"] aside')).toBeTruthy())
     const sidebar = document.querySelector('[role="dialog"] aside') as HTMLElement
-    const header = sidebar.querySelector('[data-header]')!.parentElement!
+    const header = sidebar.firstElementChild!
     const footer = sidebar.querySelector('[data-footer]')!.parentElement!
     const nav = sidebar.querySelector('nav')!
     for (const element of [header, footer]) {
@@ -202,16 +206,76 @@ describe('sidebar drawer spacing', () => {
 })
 
 describe('AppShell mobile title', () => {
-  it('uses the custom title for both the drawer heading and accessible name', async () => {
+  it('keeps the title as an accessible name without an extra visible title bar', async () => {
     await page.viewport(600, 800)
     const props = reactive<{ mobileTitle?: string }>({ mobileTitle: 'Hina Studio' })
-    harness(props)
+    const sidebarProps = reactive({ closable: true })
+    harness(props, undefined, false, ref(1), sidebarProps)
     await userEvent.click(trigger())
     await expect.element(page.getByRole('dialog', { name: 'Hina Studio' })).toBeVisible()
-    await expect.element(page.getByRole('heading', { name: 'Hina Studio' })).toBeVisible()
+    const heading = document.querySelector('[role="dialog"] h2')!
+    expect(heading.textContent).toBe('Hina Studio')
+    expect(heading.classList.contains('sr-only')).toBe(true)
+    expect(heading.getBoundingClientRect().height).toBe(1)
+    await expect.element(page.getByRole('button', { name: '关闭', exact: true })).toBeVisible()
     props.mobileTitle = 'Hina Workspace'
     await expect.element(page.getByRole('dialog', { name: 'Hina Workspace' })).toBeVisible()
     props.mobileTitle = undefined
     await expect.element(page.getByRole('dialog', { name: '侧边导航' })).toBeVisible()
+    sidebarProps.closable = false
+    await vi.waitFor(() =>
+      expect(document.querySelector('[role="dialog"] [aria-label="关闭"]')).toBeNull(),
+    )
+    expect(
+      document
+        .querySelector('[role="dialog"] aside')!
+        .firstElementChild!.classList.contains('hn-scroll-area'),
+    ).toBe(true)
+    await userEvent.keyboard('{Escape}')
+    await vi.waitFor(() => expect(document.querySelector('[role="dialog"]')).toBeNull())
+    await vi.waitFor(() => expect(document.activeElement).toBe(trigger()))
   })
+})
+
+describe('AppShell mobile sidebar layout', () => {
+  it.each([800, 360])(
+    'pins the footer to the drawer bottom and scrolls only the navigation at height %i',
+    async height => {
+      await page.viewport(375, height)
+      const count = ref(1)
+      harness({}, undefined, true, count)
+      await userEvent.click(trigger())
+      await vi.waitFor(() => expect(document.querySelector('[role="dialog"] aside')).toBeTruthy())
+      const drawer = document.querySelector('[role="dialog"]') as HTMLElement
+      await vi.waitFor(() => expect(drawer.getBoundingClientRect().x).toBe(0))
+      const sidebar = drawer.querySelector('aside')!
+      const header = sidebar.firstElementChild!
+      const footer = sidebar.lastElementChild!
+      const area = sidebar.querySelector('.hn-scroll-area')!
+      const rect = (element: Element) => element.getBoundingClientRect().toJSON()
+      expect(drawer.querySelectorAll('.hn-scroll-area')).toHaveLength(1)
+      expect(sidebar.getBoundingClientRect().height).toBe(drawer.clientHeight)
+      expect(Math.abs(footer.getBoundingClientRect().bottom - height)).toBeLessThanOrEqual(1)
+      expect(area.getBoundingClientRect().top).toBe(header.getBoundingClientRect().bottom)
+      expect(area.getBoundingClientRect().bottom).toBe(footer.getBoundingClientRect().top)
+      expect(area.getBoundingClientRect().height).toBeGreaterThan(height / 2)
+      const headerRect = rect(header)
+      const footerRect = rect(footer)
+      count.value = 60
+      await vi.waitFor(() => expect(sidebar.querySelectorAll('nav a')).toHaveLength(60))
+      await vi.waitFor(() =>
+        expect(sidebar.querySelector('[data-overlayscrollbars-viewport]')).toBeTruthy(),
+      )
+      const viewport = sidebar.querySelector('[data-overlayscrollbars-viewport]') as HTMLElement
+      await vi.waitFor(() => expect(viewport.scrollHeight).toBeGreaterThan(viewport.clientHeight))
+      viewport.scrollTop = viewport.scrollHeight
+      await vi.waitFor(() => expect(viewport.scrollTop).toBeGreaterThan(0))
+      expect(rect(header)).toEqual(headerRect)
+      expect(rect(footer)).toEqual(footerRect)
+      expect(sidebar.querySelector('nav')!.getBoundingClientRect().top).toBeLessThan(headerRect.top)
+      await userEvent.click(page.getByRole('button', { name: '关闭', exact: true }))
+      await vi.waitFor(() => expect(document.querySelector('[role="dialog"]')).toBeNull())
+      await vi.waitFor(() => expect(document.activeElement).toBe(trigger()))
+    },
+  )
 })

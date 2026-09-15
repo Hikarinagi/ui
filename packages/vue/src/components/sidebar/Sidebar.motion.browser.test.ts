@@ -3,6 +3,8 @@ import { page } from 'vitest/browser'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { defineComponent, h, nextTick, ref } from 'vue'
 import { Star } from '@lucide/vue'
+import Avatar from '../avatar/Avatar.vue'
+import Inline from '../inline/Inline.vue'
 import AppShell from '../app-shell/AppShell.vue'
 import NavLink from '../nav-link/NavLink.vue'
 import Sidebar from './Sidebar.vue'
@@ -61,9 +63,9 @@ function harness(initial: SidebarState = 'expanded', dir: 'ltr' | 'rtl' = 'ltr')
                       ),
                     ]),
                   footer: () =>
-                    h('div', { class: 'flex flex-wrap items-center gap-2' }, [
-                      h('span', { 'data-avatar': '', class: 'size-8 shrink-0' }, 'A'),
-                      h(SidebarLabel, {}, () =>
+                    h(Inline, { wrap: false, gap: 'sm' }, () => [
+                      h(Avatar, { class: 'test-avatar', name: 'A' }),
+                      h(SidebarLabel, { class: 'shrink-0 whitespace-nowrap' }, () =>
                         h('button', { 'data-account': '' }, 'Account settings'),
                       ),
                     ]),
@@ -85,7 +87,7 @@ async function frames(state: ReturnType<typeof harness>, target: SidebarState) {
     width: aside.getBoundingClientRect().width,
     logo: aside.querySelector('[data-logo]')!.getBoundingClientRect().toJSON(),
     brand: aside.querySelector('[data-brand]')!.getBoundingClientRect().toJSON(),
-    avatar: aside.querySelector('[data-avatar]')!.getBoundingClientRect().toJSON(),
+    avatar: aside.querySelector('.test-avatar')!.getBoundingClientRect().toJSON(),
     link: aside.querySelector('a')!.getBoundingClientRect().toJSON(),
   })
   const initial = read()

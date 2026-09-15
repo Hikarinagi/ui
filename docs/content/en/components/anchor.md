@@ -30,6 +30,16 @@ Tracking is based on an element's visibility in the viewport, so the content wor
 
 <Demo name="anchor/nested" />
 
+### Trailing content {#trailing}
+
+`#trailing` receives `{ item, active }` for non-interactive content such as a [Tag](/components/tag), text or an icon. `item` is the original entry, including custom fields. Both top-level and second-level entries support the slot.
+
+`active` matches `aria-current="location"`. When several sections are visible, only the first visible entry in directory order is `active`; the existing visible-range highlight is unchanged.
+
+Trailing content aligns to the end of the row without shrinking, while long labels can wrap. Empty trailing content takes no space. Updating a status mark keeps the current entry, and clicking the mark still follows its link.
+
+<Demo name="anchor/trailing" />
+
 ### Landmark name {#label}
 
 `Anchor` renders as a `nav` landmark with an accessible name in the interface language (“On this page” in English). When a page holds several navigation landmarks, name each with `label`.
@@ -55,11 +65,11 @@ Tracking is based on an element's visibility in the viewport, so the content wor
 
 ### Props {#props}
 
-| Prop    | Type           | Default            | Description                     |
-| ------- | -------------- | ------------------ | ------------------------------- |
-| `items` | `AnchorItem[]` | Required           | Entries of the contents list    |
-| `label` | `string`       | Interface language | Accessible name of the landmark |
-| `class` | `string`       | —                  | Classes appended to the root    |
+| Prop    | Type     | Default            | Description                     |
+| ------- | -------- | ------------------ | ------------------------------- |
+| `items` | `T[]`    | Required           | Entries of the contents list    |
+| `label` | `string` | Interface language | Accessible name of the landmark |
+| `class` | `string` | —                  | Classes appended to the root    |
 
 ### AnchorItem {#item}
 
@@ -68,3 +78,11 @@ Tracking is based on an element's visibility in the viewport, so the content wor
 | `id`       | `string`       | `id` of the target element, without the `#`        |
 | `label`    | `string`       | Text shown in the contents                         |
 | `children` | `AnchorItem[]` | Second-level entries; their own `children` ignored |
+
+### Slots {#slots}
+
+| Slot       | Parameters                  | Description                             |
+| ---------- | --------------------------- | --------------------------------------- |
+| `trailing` | `{ item, active: boolean }` | Trailing content inside each entry link |
+
+`T` is inferred from `items` and must include the base fields of `AnchorItem`. `item` preserves the original types of top-level entries and their `children`; use a field or discriminant to narrow the type when parent and child fields differ.

@@ -15,7 +15,7 @@ export const sidebarRegion = tv({
   base: 'shrink-0 py-3',
   variants: {
     inDrawer: { true: 'w-full', false: 'w-[calc(16rem-1px)] px-3' },
-    footer: { true: 'border-line border-t' },
+    footer: { true: 'border-line w-full border-t' },
   },
 })
 

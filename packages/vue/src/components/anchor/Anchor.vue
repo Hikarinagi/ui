@@ -1,34 +1,27 @@
-<script setup lang="ts">
-  import { computed } from 'vue'
+<script setup lang="ts" generic="T extends AnchorItem = AnchorItem">
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
   import Highlight from '../highlight/Highlight.vue'
-  import { useScrollSpy } from './composables/useScrollSpy'
+  import { useAnchor } from './composables/useAnchor'
+  import type { AnchorItem, AnchorSlotItem } from './types'
 
-  export interface AnchorItem {
-    id: string
-    label: string
-    children?: AnchorItem[]
-  }
+  export type { AnchorItem } from './types'
 
   defineOptions({ name: 'HnAnchor' })
 
   const props = defineProps<{
-    items: AnchorItem[]
+    items: T[]
     label?: string
     class?: string
   }>()
 
+  defineSlots<{
+    trailing?(props: { item: AnchorSlotItem<T>; active: boolean }): unknown
+  }>()
+
   const t = useUiLocale()
 
-  const entries = computed(() =>
-    props.items.flatMap(item => [
-      { id: item.id, label: item.label, depth: 0 },
-      ...(item.children ?? []).map(child => ({ id: child.id, label: child.label, depth: 1 })),
-    ]),
-  )
-
-  const { visible, current, span, jump } = useScrollSpy(() => entries.value)
+  const { entries, visible, current, span, jump } = useAnchor(() => props.items)
 </script>
 
 <template>
@@ -60,7 +53,7 @@
           :aria-current="current === entry.id ? 'location' : undefined"
           :class="
             cn(
-              'hn-link block py-1 text-sm',
+              'hn-link flex items-center gap-(--hn-control-gap) py-1 text-sm',
               entry.depth === 0 ? 'ps-3' : 'ps-6',
               visible.has(entry.id)
                 ? 'font-medium [--hn-link-color:var(--hn-fg-default)]'
@@ -69,7 +62,10 @@
           "
           @click="jump($event, entry.id)"
         >
-          {{ entry.label }}
+          <span class="min-w-0 flex-1 wrap-break-word">{{ entry.label }}</span>
+          <span v-if="$slots.trailing" class="flex shrink-0 items-center empty:hidden">
+            <slot name="trailing" :item="entry.item" :active="current === entry.id" />
+          </span>
         </a>
       </li>
     </ul>

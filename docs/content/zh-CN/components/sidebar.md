@@ -51,7 +51,7 @@ import { Sidebar, SidebarGroup, SidebarLabel, SidebarTrigger } from '@hina-ui/vu
 
 `header` 完整替换默认品牌页眉，`footer` 位于条目区下方，两者都不随条目滚动。自定义页眉不会被自动视为 logo 隐藏。
 
-页眉与页脚保持展开时的内容宽度，收起过程不会挤压内容或改变换行。把文字与附属操作放进 `SidebarLabel`，它会与 [NavLink](/components/nav-link) 的文字一起淡出，展开时延后淡入；标识和 [Avatar](/components/avatar) 留在外面，位置与尺寸保持不变。
+页眉保持展开时的内容宽度。页脚随侧栏实际宽度收起，内部按钮与浮层锚点不会超出 rail。水平排布的头像和文字可使用 [Inline](/components/inline) 并设置 `:wrap="false"`；文字使用 `truncate` 或 `whitespace-nowrap` 避免收起时换行。把文字与附属操作放进 `SidebarLabel`，它会与 [NavLink](/components/nav-link) 的文字一起淡出，展开时延后淡入；标识和 [Avatar](/components/avatar) 留在外面，位置与尺寸保持不变。
 
 `SidebarLabel` 不改变内容的占位。rail 形态下其内容不可见、不可交互，也不进入朗读和键盘焦点序列。`header` 和 `footer` 仍提供 `{ state }`，供自定义内容读取当前形态。
 
@@ -61,15 +61,16 @@ import { Sidebar, SidebarGroup, SidebarLabel, SidebarTrigger } from '@hina-ui/vu
 
 - 三种形态的宽度分别是展开 256 像素、rail 56 像素、隐藏 0 像素，切换时宽度连续过渡。
 - 收起为 rail 时，`SidebarGroup` 强制展开、组标题原位淡出并显示分隔线，标题占位保持不变，已展开的条目不会随收起动作上下移动。
-- 条目区是滚动容器，页眉与页脚固定在两端。
+- 条目区使用不带边缘阴影的 [ScrollArea](/components/scroll-area)，页眉与页脚固定在两端。
 - 完全隐藏时，侧栏整体退出交互与键盘焦点序列。
 - 宽度和文字过渡使用 Hina 动画 token；系统开启减弱动态效果时直接切换。
-- 搬入移动端 [Drawer](/components/drawer) 时，水平内边距由抽屉提供；页眉、条目区和页脚保留各自的纵向内边距。
+- 搬入移动端 [Drawer](/components/drawer) 时，侧栏撑满抽屉高度，页脚固定在底部，仅条目区滚动。页眉内默认提供关闭按钮，设置 `:closable="false"` 可隐藏；未提供页眉或品牌插槽时，也不保留按钮行的占位。不重复显示抽屉标题；水平内边距由抽屉提供，页眉、条目区和页脚保留各自的纵向内边距。
 
 ## 无障碍 {#a11y}
 
 - 条目区是 `nav` 地标，默认无障碍名取自界面语言（简体中文为「侧边导航」），`label` 可覆盖。
 - rail 形态下条目的文字虽然不可见，但 [NavLink](/components/nav-link) 的 `label` 会作为 `aria-label` 保留。
+- `closable` 仅控制移动端关闭按钮，隐藏后仍可按 Escape、点击遮罩或通过受控状态关闭抽屉。
 - 隐藏的字标退出朗读与焦点序列。品牌图标使用图片时提供 `alt`，使用 SVG 时提供合适的无障碍名；若图标包含链接，链接本身也应有名称。
 - 收起后被隐藏的组标题同时退出键盘序列，不会出现能聚焦却看不见的控件。
 
@@ -77,10 +78,11 @@ import { Sidebar, SidebarGroup, SidebarLabel, SidebarTrigger } from '@hina-ui/vu
 
 ### Sidebar {#props}
 
-| 属性    | 类型     | 默认值       | 说明               |
-| ------- | -------- | ------------ | ------------------ |
-| `label` | `string` | 取自界面语言 | 导航地标的无障碍名 |
-| `class` | `string` | —            | 追加到根元素的类   |
+| 属性       | 类型      | 默认值       | 说明                         |
+| ---------- | --------- | ------------ | ---------------------------- |
+| `label`    | `string`  | 取自界面语言 | 导航地标的无障碍名           |
+| `closable` | `boolean` | `true`       | 是否显示移动端抽屉的关闭按钮 |
+| `class`    | `string`  | —            | 追加到根元素的类             |
 
 | 插槽       | 插槽参数    | 说明                                  |
 | ---------- | ----------- | ------------------------------------- |
