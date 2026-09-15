@@ -40,18 +40,26 @@
     :inert="state === 'hidden'"
     :class="cn(sidebarRoot({ inDrawer }), props.class)"
   >
+    <div v-if="$slots.header" :class="sidebarRegion({ inDrawer })">
+      <slot name="header" :state="state" />
+    </div>
     <div
-      v-if="$slots.header || $slots.icon || $slots.wordmark"
-      :class="sidebarRegion({ inDrawer })"
+      v-else-if="$slots.icon || $slots.wordmark"
+      class="hn-collapse shrink-0"
+      :data-state="state === 'rail' && !$slots.icon ? 'closed' : 'open'"
+      :inert="state === 'rail' && !$slots.icon"
     >
-      <slot v-if="$slots.header" name="header" :state="state" />
-      <div v-else :class="sidebarBrand()">
-        <div v-if="$slots.icon" :class="sidebarIcon()">
-          <slot name="icon" :state="state" />
+      <div class="hn-collapse-body">
+        <div :class="sidebarRegion({ inDrawer })">
+          <div :class="sidebarBrand()">
+            <div v-if="$slots.icon" :class="sidebarIcon()">
+              <slot name="icon" :state="state" />
+            </div>
+            <SidebarLabel v-if="$slots.wordmark" as="div" :class="sidebarWordmark()">
+              <slot name="wordmark" :state="state" />
+            </SidebarLabel>
+          </div>
         </div>
-        <SidebarLabel v-if="$slots.wordmark" as="div" :class="sidebarWordmark()">
-          <slot name="wordmark" :state="state" />
-        </SidebarLabel>
       </div>
     </div>
     <ScrollArea class="min-h-0 flex-1">

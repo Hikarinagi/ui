@@ -38,10 +38,10 @@ The `icon` and `wordmark` slots form the default header. The icon occupies a fix
 | ------------------- | ------------------------------------ | --------------------------------------- |
 | `icon` + `wordmark` | Icon and wordmark side by side       | Icon stays in place; wordmark fades out |
 | Only `icon`         | Icon visible                         | Stays in place                          |
-| Only `wordmark`     | Wordmark aligned to the header start | Entire wordmark fades out               |
+| Only `wordmark`     | Wordmark aligned to the header start | Entire brand region collapses           |
 | Neither             | No brand region                      | No brand region                         |
 
-The brand row retains its height during collapse, keeping the navigation in place. The wordmark automatically shares the navigation label transition without a `SidebarLabel` wrapper. The complete brand is visible in the mobile drawer.
+With an icon, the brand row retains its height in rail form. With only a wordmark, the entire brand region collapses, including its vertical padding, and the navigation moves up to fill the space. Expanding the sidebar or opening the mobile drawer shows the full brand region. The wordmark automatically shares the navigation label transition without a [SidebarLabel](#label) wrapper.
 
 Both slots receive `{ state }`. Providing `header` fully replaces the default header; `icon` and `wordmark` are then not rendered.
 

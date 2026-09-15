@@ -154,26 +154,31 @@ describe('Sidebar brand slots', () => {
     },
   )
 
-  it('hides an entire wordmark without reserving an empty icon column or collapsing its row', async () => {
+  it('collapses the entire wordmark-only header including padding and restores it on expansion', async () => {
     const state = harness({ icon: false })
     const header = sidebar().firstElementChild! as HTMLElement
     const wordmark = sidebar().querySelector('[data-wordmark]') as HTMLElement
+    const region = label().parentElement!.parentElement!
     const labelX = label().getBoundingClientRect().x
     expect(labelX).toBe(
-      header.getBoundingClientRect().x + parseFloat(getComputedStyle(header).paddingLeft),
+      region.getBoundingClientRect().x + parseFloat(getComputedStyle(region).paddingLeft),
     )
     expect(sidebar().querySelector('[data-brand-icon]')).toBeNull()
     wordmark.focus()
     expect(document.activeElement).toBe(wordmark)
     const rect = header.getBoundingClientRect().toJSON()
+    const navY = sidebar().querySelector('nav')!.getBoundingClientRect().y
     state.sidebar = 'rail'
     await settle()
     expect(getComputedStyle(label()).visibility).toBe('hidden')
-    expect(header.getBoundingClientRect().toJSON()).toEqual(rect)
+    expect(header.getBoundingClientRect().height).toBe(0)
+    expect(sidebar().querySelector('nav')!.getBoundingClientRect().y).toBe(navY - rect.height)
     wordmark.focus()
     expect(document.activeElement).not.toBe(wordmark)
     state.sidebar = 'expanded'
     await settle()
+    expect(header.getBoundingClientRect().toJSON()).toEqual(rect)
+    expect(sidebar().querySelector('nav')!.getBoundingClientRect().y).toBe(navY)
     wordmark.focus()
     expect(document.activeElement).toBe(wordmark)
   })
@@ -245,6 +250,7 @@ describe('Sidebar brand slots', () => {
     expect(sidebar().querySelector('[data-wordmark]')).toBeNull()
     state.sidebar = 'rail'
     await settle()
+    expect(sidebar().firstElementChild!.getBoundingClientRect().height).toBeGreaterThan(0)
     const custom = sidebar().querySelector('[data-custom-header]') as HTMLElement
     expect(custom.getAttribute('data-sidebar-state')).toBe('rail')
     expect(getComputedStyle(custom).visibility).toBe('visible')
@@ -266,5 +272,37 @@ describe('Sidebar brand slots', () => {
     ).toBe('expanded')
     expect(getComputedStyle(label(drawerSidebar)).opacity).toBe('1')
     expect(label(drawerSidebar).inert).toBe(false)
+  })
+})
+
+describe('Sidebar brand region visibility', () => {
+  it('removes the brand gap when an icon is removed in rail form and restores it when the icon returns', async () => {
+    const state = harness()
+    state.sidebar = 'rail'
+    await settle()
+    const header = sidebar().firstElementChild!
+    const height = header.getBoundingClientRect().height
+    state.icon = false
+    await settle()
+    expect(header.getBoundingClientRect().height).toBe(0)
+    state.icon = true
+    await settle()
+    expect(header.getBoundingClientRect().height).toBe(height)
+    expect(getComputedStyle(sidebar().querySelector('[data-brand-icon]')!).visibility).toBe(
+      'visible',
+    )
+  })
+
+  it('keeps the wordmark-only header in the mobile drawer when the desktop sidebar is collapsed', async () => {
+    await page.viewport(375, 800)
+    const state = harness({ icon: false })
+    state.sidebar = 'rail'
+    await userEvent.click(page.getByRole('button', { name: '切换侧栏' }))
+    await vi.waitFor(() => expect(document.querySelector('[role="dialog"] aside')).not.toBeNull())
+    const drawer = document.querySelector('[role="dialog"] aside')!
+    await settle(drawer)
+    expect(drawer.firstElementChild!.getBoundingClientRect().height).toBeGreaterThan(0)
+    expect(getComputedStyle(label(drawer)).visibility).toBe('visible')
+    expect(label(drawer).inert).toBe(false)
   })
 })
