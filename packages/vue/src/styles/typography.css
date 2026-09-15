@@ -57,6 +57,9 @@
   & th {
     color: var(--hn-fg-muted);
     font-weight: var(--hn-weight-medium);
+  }
+
+  & :where(th) {
     text-align: start;
   }
 

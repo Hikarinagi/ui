@@ -19,6 +19,7 @@ beforeEach(() => {
 afterEach(() => {
   mounted.forEach(w => w.unmount())
   mounted = []
+  document.documentElement.dir = 'ltr'
 })
 
 function attach(width = 640) {
@@ -55,6 +56,32 @@ function harness(width = 640, cols = 3) {
 }
 
 describe('table · 样式表族', () => {
+  it.each(['ltr', 'rtl'])('preserves explicit header alignment in %s', dir => {
+    document.documentElement.dir = dir
+    const aligns = ['start', 'center', 'end'] as const
+    const wrapper = mount(
+      defineComponent({
+        setup: () => () =>
+          h(Table, null, () => [
+            h(TableHeader, () => [
+              h(TableRow, () => aligns.map(align => h(TableHead, { align }, () => align))),
+            ]),
+            h(TableBody, () => [
+              h(TableRow, () => aligns.map(align => h(TableCell, { align }, () => align))),
+            ]),
+          ]),
+      }),
+      { attachTo: attach() },
+    )
+    mounted.push(wrapper)
+    expect(wrapper.findAll('th').map(cell => getComputedStyle(cell.element).textAlign)).toEqual(
+      aligns,
+    )
+    expect(wrapper.findAll('td').map(cell => getComputedStyle(cell.element).textAlign)).toEqual(
+      aligns,
+    )
+  })
+
   it('发丝线分隔、无斑马纹;表头 muted 加重;数字栏 tabular-nums', () => {
     const w = harness()
     const rows = w.findAll('tbody tr')
