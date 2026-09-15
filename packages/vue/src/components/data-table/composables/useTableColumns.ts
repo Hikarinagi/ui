@@ -10,6 +10,7 @@ import {
 import { cssSize } from '../utils'
 import { allocateWidths, pixelWidth } from '../column-sizing'
 import { useTableResize } from './useTableResize'
+import { useTableResizeHandles } from './useTableResizeHandles'
 import type { DataTableColumn, DataTableHeader, DataTableProps } from '../types'
 import type { DataTableController, DataTableModels } from './useDataTable'
 
@@ -47,6 +48,7 @@ export function useTableColumns<T extends object>(
           row => row.getBoundingClientRect().height,
         )
         if (JSON.stringify(rows) !== JSON.stringify(heights.value)) heights.value = rows
+        handles.update()
       }
       observer = new ResizeObserver(() => {
         cancelAnimationFrame(frame)
@@ -78,6 +80,7 @@ export function useTableColumns<T extends object>(
         availableColumnsWidth.value,
       ),
   )
+  const handles = useTableResizeHandles(element, viewport, ctl.visibleColumns, widths)
   const resizing = useTableResize(
     props,
     models,
@@ -242,6 +245,7 @@ export function useTableColumns<T extends object>(
     cellStyle,
     controlStyle,
     ...resizing,
+    ...handles,
     width,
   }
 }

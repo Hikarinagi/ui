@@ -14,13 +14,36 @@ export function useTableResize<T extends object>(
   available: Ref<number>,
 ) {
   const resizing = shallowRef<string>()
-  const guide = shallowRef<{ x: number; y: number; height: number }>()
+  const guide = shallowRef<{
+    x: number
+    y: number
+    height: number
+    label: string
+    width: number
+    labelX: number
+  }>()
   let release: (() => void) | undefined
   const boundary = (column: DataTableColumn<T>) =>
     resizeBoundary(ctl.visibleColumns.value, column, props.resizeMode ?? 'fit')
   const minimumTotalWidth = () => (props.resizeMode === 'expand' ? Math.max(0, available.value) : 0)
+  const maximumWidth = (column: DataTableColumn<T>, source: Record<string, number>) => {
+    if (!column.pin || boundary(column)?.neighbor?.pin) return Infinity
+    const columns = ctl.visibleColumns.value
+    const otherPinned = columns.reduce(
+      (sum, item) => sum + (item.pin && item.key !== column.key ? source[item.key]! : 0),
+      0,
+    )
+    const center = columns.some(item => !item.pin) ? 48 : 0
+    return Math.max(source[column.key]!, available.value - otherPinned - center)
+  }
   const bounds = (column: DataTableColumn<T>) =>
-    resizeBounds(column, boundary(column)?.neighbor, widths.value, minimumTotalWidth())
+    resizeBounds(
+      column,
+      boundary(column)?.neighbor,
+      widths.value,
+      minimumTotalWidth(),
+      maximumWidth(column, widths.value),
+    )
   const canResize = (column: DataTableColumn<T>) => {
     const range = bounds(column)
     return props.resizable && !!boundary(column) && range.max - range.min > 0.01
@@ -86,11 +109,14 @@ export function useTableResize<T extends object>(
       const area = viewport.value?.getBoundingClientRect()
       const box = table.getBoundingClientRect()
       if (!area) return
-      const x = coordinate(rect)
+      const x = coordinate(handle.getBoundingClientRect())
       guide.value =
         x >= area.left - 1 && x <= area.right + 1
           ? {
               x,
+              label: column.label,
+              width: Math.round(widths.value[column.key]!),
+              labelX: Math.max(8, Math.min(x - 90, window.innerWidth - 188)),
               y: Math.max(rect.top, area.top),
               height: Math.max(0, Math.min(box.bottom, area.bottom) - Math.max(rect.top, area.top)),
             }
@@ -103,7 +129,14 @@ export function useTableResize<T extends object>(
         const delta =
           pointerX - event.clientX + anchor - areaAnchor() + (column.pin ? 0 : scrollDelta)
         const desired = initial[column.key]! + (delta * sign) / ratio
-        const changes = resizeWidths(column, edge.neighbor, initial, desired, minimumTotalWidth())
+        const changes = resizeWidths(
+          column,
+          edge.neighbor,
+          initial,
+          desired,
+          minimumTotalWidth(),
+          maximumWidth(column, initial),
+        )
         if (
           Object.entries(changes).some(
             ([key, width]) => Math.abs(width - widths.value[key]!) > 0.01,
@@ -197,7 +230,14 @@ export function useTableResize<T extends object>(
           : widths.value[column.key]! +
             (event.key === 'ArrowRight' ? 1 : -1) * sign * (event.shiftKey ? 10 : 1)
     const initial = widths.value
-    const changes = resizeWidths(column, edge.neighbor, initial, value, minimumTotalWidth())
+    const changes = resizeWidths(
+      column,
+      edge.neighbor,
+      initial,
+      value,
+      minimumTotalWidth(),
+      maximumWidth(column, initial),
+    )
     if (Object.entries(changes).every(([key, width]) => Math.abs(width - initial[key]!) < 0.01))
       return
     models.columnWidths.value = {

@@ -3,6 +3,7 @@
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
   import Checkbox from '../checkbox/Checkbox.vue'
+  import { vTooltip } from '../tooltip/directive'
   import TableHead from '../table/TableHead.vue'
   import Slot from './Slot'
   import type { DataTableProps, DataTableSlots } from './types'
@@ -146,9 +147,15 @@
         </Slot>
         <div
           v-if="header.leaf && layout.canResize(header.column) && !ctl.blocked.value"
+          v-tooltip="
+            !layout.resizing.value && layout.handleVisible(header.column)
+              ? `${t.table.resizeColumn}: ${header.column.label}`
+              : false
+          "
           role="separator"
           aria-orientation="vertical"
-          :tabindex="ctl.blocked.value ? -1 : 0"
+          :tabindex="layout.handleVisible(header.column) ? 0 : -1"
+          :style="layout.handleStyle(header.column)"
           :aria-label="`${t.table.resizeColumn}: ${header.column.label}`"
           :aria-valuenow="Math.round(layout.width(header.column))"
           :aria-valuemin="Math.round(layout.bounds(header.column).min)"

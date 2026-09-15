@@ -17,6 +17,19 @@
         width: '2px',
       }"
     />
+    <div
+      v-if="layout.guide.value"
+      class="hn-table-resize-label"
+      data-hn-resize-label
+      aria-hidden="true"
+      :style="{
+        left: `${layout.guide.value.labelX}px`,
+        top: `${Math.max(4, layout.guide.value.y - 30)}px`,
+      }"
+    >
+      <span>{{ layout.guide.value.label }}</span>
+      <span>{{ layout.guide.value.width }}px</span>
+    </div>
     <template v-if="drag.dragging.value">
       <div
         v-if="drag.dragging.value.marker"
