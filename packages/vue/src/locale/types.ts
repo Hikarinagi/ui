@@ -32,6 +32,19 @@ export interface UiMessages {
     totalLabel: (n: number) => string
   }
   table: {
+    edit: string
+    save: string
+    cancel: string
+    editFailed: string
+    selectPage: string
+    selectFiltered: string
+    expand: string
+    collapse: string
+    moveRow: string
+    moveColumn: string
+    resizeColumn: string
+
+    noColumns: string
     empty: string
     loading: string
     sortAsc: string

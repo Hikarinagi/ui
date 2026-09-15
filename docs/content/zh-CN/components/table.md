@@ -20,7 +20,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 
 <Demo name="table/basic" />
 
-本组件只负责呈现，不含排序、筛选、分页与行选择。这些能力需要与数据源约定接口，属于后续的数据表格组件。
+本组件只负责呈现。需要列定义、排序、筛选、分页或行选择时，使用 [DataTable](/components/data-table)。
 
 ## 示例 {#examples}
 

@@ -1,0 +1,32 @@
+import {
+  columnFilteringFeature,
+  columnGroupingFeature,
+  rowExpandingFeature,
+  createGroupedRowModel,
+  createExpandedRowModel,
+  columnVisibilityFeature,
+  createFilteredRowModel,
+  createPaginatedRowModel,
+  createSortedRowModel,
+  globalFilteringFeature,
+  rowPaginationFeature,
+  rowSelectionFeature,
+  rowSortingFeature,
+  tableFeatures,
+} from '@tanstack/vue-table'
+
+export const features = tableFeatures({
+  columnFilteringFeature,
+  columnVisibilityFeature,
+  columnGroupingFeature,
+  rowExpandingFeature,
+  globalFilteringFeature,
+  rowPaginationFeature,
+  rowSelectionFeature,
+  rowSortingFeature,
+  filteredRowModel: createFilteredRowModel(),
+  groupedRowModel: createGroupedRowModel(),
+  sortedRowModel: createSortedRowModel(),
+  expandedRowModel: createExpandedRowModel(),
+  paginatedRowModel: createPaginatedRowModel(),
+})

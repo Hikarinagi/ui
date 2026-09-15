@@ -20,7 +20,7 @@ A table is built from six components that mirror the structure of an HTML table:
 
 <Demo name="table/basic" />
 
-The component only presents data. Sorting, filtering, pagination and row selection are not included — they require an agreed interface with the data source and belong to the data-grid component that comes later.
+This component handles presentation. Use [DataTable](/components/data-table) for column definitions, sorting, filtering, pagination and row selection.
 
 ## Examples {#examples}
 
