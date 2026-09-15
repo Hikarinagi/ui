@@ -1,5 +1,24 @@
 # @hina-ui/vue
 
+## 1.6.0
+
+### Minor Changes
+
+- eb6062e: Add AppShell `mobileTitle` to customize the mobile sidebar drawer heading and accessible name, with the existing localized title as the default.
+- f103554: Add selectedOption to Combobox and selectedOptions to MultiCombobox so selected names can be supplied independently of dropdown candidates. Remote results can replace or clear options without adding prefilled selections to the list or losing their labels. Both components remember option names and reflect asynchronous label updates while preserving active search input and value-based models.
+- 45089f0: Add Sidebar `icon` and `wordmark` slots for a default brand header. Icons fit a fixed square box and remain visible in rail form; wordmarks fade out automatically while preserving the header height. Wordmark-only headers fade out in full, and a custom `header` takes priority over both brand slots.
+- e692e34: Stabilize Sidebar collapse and expansion by keeping header and footer content at their expanded width and preserving SidebarGroup heading space. Coordinate label and width transitions with Hina motion tokens, support immediate switching with reduced motion, and prevent keyboard focus inside fully hidden sidebars.
+  
+  Add SidebarLabel for custom header and footer text and secondary actions to follow the same visibility transition as NavLink labels. Expand the documentation demos with logos, grouped navigation and account footers.
+- b0cbed8: Add Tree with single selection, cascading checkbox multiselection, and indeterminate parent states. Support controlled expansion, disabled subtrees, node and trailing slots, empty content, FormField integration, keyboard navigation, and RTL. Check states include collapsed descendants and update from externally supplied values; fully checked nodes are emitted while indeterminate parents remain derived state.
+
+### Patch Changes
+
+- 041f47d: Keep the selected Combobox value when closing a remote search whose results no longer contain that value. Clear the selection only when the user deletes the input text or uses the clear button, rather than when the displayed search text resets internally.
+- db84a5c: Keep the Sidebar header, navigation and footer vertically padded inside the mobile drawer while leaving horizontal padding to its container.
+- 65651c4: Align Sidebar icons and wordmarks on a shared horizontal centerline. Use flex alignment for inline wordmark content and center the documentation wordmark instead of aligning it by its text baseline.
+- 6a058f8: Collapse the entire Sidebar brand region, including vertical padding, in rail form when only a wordmark is provided. Navigation fills the vacated space, and expanding the sidebar restores the header. Headers with an icon, custom headers, and mobile drawers retain their existing layout.
+
 ## 1.5.0
 
 ### Minor Changes
