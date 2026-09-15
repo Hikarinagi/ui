@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, expect, it, onTestFinished, vi } from 'vitest'
 import { page, userEvent } from '@vitest/browser/context'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { h } from 'vue'
@@ -350,6 +350,13 @@ it.each([false, true])('独立灯箱有 previewSize 时不等待 src 解码,矩�
   const pending = vi
     .spyOn(HTMLImageElement.prototype, 'decode')
     .mockImplementation(() => new Promise(() => {}))
+  const entering: DOMRect[] = []
+  const observer = new MutationObserver(() => {
+    const target = dialog()?.dataset.hnPhase === 'entering' ? frame() : undefined
+    if (target) entering.push(target.getBoundingClientRect())
+  })
+  onTestFinished(() => observer.disconnect())
+  observer.observe(document.body, { subtree: true, attributes: true, attributeFilter: ['style'] })
   wrapper = mount(Lightbox, {
     props: {
       open: true,
@@ -365,11 +372,8 @@ it.each([false, true])('独立灯箱有 previewSize 时不等待 src 解码,矩�
     },
     attachTo: document.body,
   })
-  const entering: DOMRect[] = []
-  while (dialog()?.dataset.hnPhase !== 'open') {
-    if (dialog()) entering.push(frame().getBoundingClientRect())
-    await nextFrame()
-  }
+  await ready()
+  observer.disconnect()
   expect(pending).not.toHaveBeenCalled()
   expect(width()).toBeGreaterThan(1000)
   if (virtual) {
