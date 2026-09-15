@@ -1,7 +1,7 @@
 import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest'
 import { page, userEvent } from '@vitest/browser/context'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { defineComponent, h, ref, type Ref } from 'vue'
+import { defineComponent, h, reactive, ref, type Ref } from 'vue'
 import AppShell from '../app-shell/AppShell.vue'
 import Sidebar from './Sidebar.vue'
 import SidebarGroup from './SidebarGroup.vue'
@@ -199,5 +199,20 @@ describe('sidebar drawer spacing', () => {
     expect(getComputedStyle(nav).paddingTop).toBe('8px')
     expect(getComputedStyle(nav).paddingBottom).toBe('8px')
     expect(getComputedStyle(nav).paddingLeft).toBe('0px')
+  })
+})
+
+describe('AppShell mobile title', () => {
+  it('uses the custom title for both the drawer heading and accessible name', async () => {
+    await page.viewport(600, 800)
+    const props = reactive<{ mobileTitle?: string }>({ mobileTitle: 'Hina Studio' })
+    harness(props)
+    await userEvent.click(trigger())
+    await expect.element(page.getByRole('dialog', { name: 'Hina Studio' })).toBeVisible()
+    await expect.element(page.getByRole('heading', { name: 'Hina Studio' })).toBeVisible()
+    props.mobileTitle = 'Hina Workspace'
+    await expect.element(page.getByRole('dialog', { name: 'Hina Workspace' })).toBeVisible()
+    props.mobileTitle = undefined
+    await expect.element(page.getByRole('dialog', { name: '侧边导航' })).toBeVisible()
   })
 })

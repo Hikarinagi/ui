@@ -4,7 +4,7 @@
 </script>
 
 <template>
-  <AppShell class="border-line h-96 w-full rounded-lg border">
+  <AppShell mobile-title="Hina UI" class="border-line h-96 w-full rounded-lg border">
     <template #sidebar>
       <Sidebar>
         <NavLink href="#" active label="Home">
