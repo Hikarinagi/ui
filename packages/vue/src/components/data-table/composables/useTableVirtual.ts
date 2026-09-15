@@ -1,6 +1,6 @@
 import { computed, nextTick, onScopeDispose, shallowRef, watch, type Ref } from 'vue'
 import { useVirtualizer } from '@tanstack/vue-virtual'
-import type { DataTableProps } from '../types'
+import type { DataTableKey, DataTableProps } from '../types'
 import type { DataTableController } from './useDataTable'
 
 export function useTableVirtual<T extends object>(
@@ -9,16 +9,21 @@ export function useTableVirtual<T extends object>(
   element: Ref<HTMLTableElement | undefined>,
   viewport: Ref<HTMLElement | undefined>,
   hasExpansion: () => boolean,
+  rowError: (key: DataTableKey) => string | undefined,
 ) {
   const margin = shallowRef(0)
   let observer: ResizeObserver | undefined
   let disposed = false
   const entries = computed(() =>
     ctl.rows.value.flatMap(entry => {
-      const row = { id: entry.id, entry, detail: false }
-      return !entry.group && entry.expanded && hasExpansion()
-        ? [row, { id: `${entry.id}:detail`, entry, detail: true }]
-        : [row]
+      const rows = [{ id: entry.id, entry, detail: false, error: undefined as string | undefined }]
+      if (!entry.group) {
+        const error = rowError(entry.key)
+        if (error) rows.push({ id: `${entry.id}:error`, entry, detail: true, error })
+        if (entry.expanded && hasExpansion())
+          rows.push({ id: `${entry.id}:detail`, entry, detail: true, error: undefined })
+      }
+      return rows
     }),
   )
   watch(element, async () => {
@@ -41,7 +46,7 @@ export function useTableVirtual<T extends object>(
       enabled: !!props.virtualize,
       getScrollElement: () => viewport.value ?? null,
       estimateSize: (index: number) =>
-        entries.value[index]?.detail
+        entries.value[index]?.detail && !entries.value[index]?.error
           ? 140
           : typeof props.virtualize === 'object'
             ? (props.virtualize.estimateSize ?? 44)

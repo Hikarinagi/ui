@@ -1,4 +1,4 @@
-import { computed, nextTick, onScopeDispose, shallowRef, toRaw, watch, type Ref } from 'vue'
+import { computed, nextTick, onScopeDispose, shallowRef, toRaw, useId, watch, type Ref } from 'vue'
 import { useUiLocale } from '../../../locale'
 import { rowId } from '../utils'
 import type {
@@ -19,6 +19,7 @@ export function useTableEditing<T extends object>(
   element: Ref<HTMLTableElement | undefined>,
 ) {
   const t = useUiLocale()
+  const errorId = useId()
   const session = shallowRef<{
     key: DataTableKey
     column?: string
@@ -27,6 +28,12 @@ export function useTableEditing<T extends object>(
   const errors = shallowRef<Record<string, string>>({})
   const pending = shallowRef(false)
   const failure = shallowRef<string>()
+  const editingKey = computed(() => session.value?.key)
+  const rowFailure = computed(() =>
+    props.editMode === 'row' && failure.value
+      ? { key: editingKey.value, message: failure.value }
+      : undefined,
+  )
   let active = true
   watch(
     [() => session.value?.key, () => session.value?.column],
@@ -142,7 +149,7 @@ export function useTableEditing<T extends object>(
       column,
       value: session.value?.values[column.key],
       pending: pending.value,
-      error: errors.value[column.key] ?? failure.value,
+      error: errors.value[column.key] ?? (props.editMode === 'cell' ? failure.value : undefined),
       updateValue: value => {
         if (session.value && !pending.value)
           session.value = {
@@ -162,6 +169,9 @@ export function useTableEditing<T extends object>(
     session,
     pending,
     failure,
+    errorId,
+    rowError: (key: DataTableKey) =>
+      rowFailure.value?.key === key ? rowFailure.value.message : undefined,
     canEdit,
     startEdit,
     isEditing,

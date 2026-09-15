@@ -146,6 +146,8 @@ Drafts do not mutate input rows. `parse` converts draft values; `validate` retur
 
 Success emits `edit` with `{ key, row, column?, values }`; `values` is keyed by column key. The caller applies changes, including mapping accessor-backed columns. `onSave` runs once before `edit`; do not send the same request from both. Default inputs support Enter to save and Escape to cancel.
 
+In row mode, save errors appear once below the row. Column validation errors appear at the corresponding field and are exposed through its `error` slot parameter. Editors use the `bare` variant of [InputGroup](/components/input-group); [Input](/components/input), [Select](/components/select), and other compatible controls in custom slots inherit its embedded appearance and size.
+
 <Demo name="data-table/editing" />
 
 ### Row reordering {#reorder}

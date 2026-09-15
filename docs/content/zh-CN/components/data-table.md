@@ -146,6 +146,8 @@ import { DataTable, type DataTableColumn } from '@hina-ui/vue'
 
 成功后触发 `edit`，参数为 `{ key, row, column?, values }`，其中 `values` 按列键组织。调用方负责应用修改，包括将 accessor 列映射回原始字段。`onSave` 在 `edit` 之前执行一次，不要在两处重复发送请求。默认输入框支持 Enter 保存与 Escape 取消。
 
+整行编辑的保存错误在行下方显示一次；列 `validate` 返回的错误只显示在对应字段，`error` 插槽参数也只包含该字段的校验错误。编辑器通过 [InputGroup](/components/input-group) 的 `bare` 变体统一尺寸和外观，自定义插槽中的 [Input](/components/input)、[Select](/components/select) 等控件会继承嵌入样式。
+
 <Demo name="data-table/editing" />
 
 ### 行重排 {#reorder}

@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T extends object">
   import { computed, shallowRef, watch } from 'vue'
-  import { Check, ChevronRight, GripVertical, Pencil, X } from '@lucide/vue'
+  import { Check, ChevronRight, CircleAlert, GripVertical, Pencil, X } from '@lucide/vue'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
   import DataTableAction from './DataTableAction.vue'
@@ -39,6 +39,10 @@
   <tr
     ref="element"
     :data-index="item.index"
+    :data-editing="
+      !item.detail && !entry.group && editing.isEditing(entry.key) ? config.editMode : undefined
+    "
+    :data-edit-error="item.error ? '' : undefined"
     :data-hn-row="item.detail ? undefined : entry.id"
     :aria-rowindex="config.virtualize ? item.index + layout.headerRows.value.length + 1 : undefined"
     :data-state="entry.selected ? 'selected' : undefined"
@@ -64,7 +68,11 @@
       v-if="item.detail"
       :colspan="colspan"
     >
-      <div class="p-3"><Slot :render="slots.expansion" :context="entry" /></div>
+      <p v-if="item.error" :id="editing.errorId" role="alert" class="hn-table-edit-message">
+        <CircleAlert aria-hidden="true" />
+        {{ item.error }}
+      </p>
+      <div v-else class="p-3"><Slot :render="slots.expansion" :context="entry" /></div>
     </TableCell>
     <template v-else-if="entry.group">
       <TableCell
@@ -162,7 +170,7 @@
         :data-hn-cell="column.key"
         :data-editing="
           editing.isEditing(entry.key, column.key) && editing.canEdit(entry.row, column)
-            ? ''
+            ? config.editMode
             : undefined
         "
         :align="column.align"
@@ -208,11 +216,13 @@
       <TableCell
         :data-state="!item.detail && entry.selected ? 'selected' : undefined"
         v-if="config.editMode === 'row'"
+        class="hn-table-edit-actions"
         :style="layout.controlStyle('end', 0)"
       >
-        <div v-if="editing.isEditing(entry.key)" class="flex items-center justify-center gap-1">
+        <div v-if="editing.isEditing(entry.key)" class="hn-table-editor-control justify-center">
           <DataTableAction
             :loading="editing.pending.value"
+            :aria-describedby="editing.rowError(entry.key) ? editing.errorId : undefined"
             :aria-label="t.table.save"
             @click="editing.commit"
           >

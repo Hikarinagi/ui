@@ -117,7 +117,14 @@
     if (!change.parent) emit('update:rows', change.rows)
     emit('rowReorder', change)
   })
-  const virtual = useTableVirtual(props, ctl, element, viewport, () => !!slots.expansion)
+  const virtual = useTableVirtual(
+    props,
+    ctl,
+    element,
+    viewport,
+    () => !!slots.expansion,
+    editing.rowError,
+  )
   useTableExport(ctl)
   const colspan = computed(() =>
     Math.max(1, ctl.visibleColumns.value.length + controls.value.length + trailing.value),

@@ -28,11 +28,13 @@ export function useTableColumns<T extends object>(
   const active = shallowRef<Record<string, number>>()
   let observer: ResizeObserver | undefined
   let disposed = false
+  let frame = 0
   watch(
     [element, viewport, ctl.visibleColumns],
     async () => {
       await nextTick()
       observer?.disconnect()
+      cancelAnimationFrame(frame)
       if (disposed || !element.value || typeof ResizeObserver === 'undefined') return
       const update = () => {
         available.value = viewport.value?.clientWidth ?? 0
@@ -46,7 +48,10 @@ export function useTableColumns<T extends object>(
         )
         if (JSON.stringify(rows) !== JSON.stringify(heights.value)) heights.value = rows
       }
-      observer = new ResizeObserver(update)
+      observer = new ResizeObserver(() => {
+        cancelAnimationFrame(frame)
+        frame = requestAnimationFrame(update)
+      })
       element.value.querySelectorAll('thead th, thead tr').forEach(cell => observer!.observe(cell))
       if (viewport.value) observer.observe(viewport.value)
       update()
@@ -94,7 +99,7 @@ export function useTableColumns<T extends object>(
       position: 'sticky',
       [column.pin === 'start' ? 'insetInlineStart' : 'insetInlineEnd']: offset,
       zIndex: head ? 5 : 1,
-      background: head ? 'var(--hn-table-head-bg)' : 'var(--hn-table-bg)',
+      backgroundColor: head ? 'var(--hn-table-head-bg)' : 'var(--hn-table-bg)',
       boxShadow: `${column.pin === 'start' ? '1px' : '-1px'} 0 0 var(--hn-border)`,
     }
   }
@@ -117,7 +122,7 @@ export function useTableColumns<T extends object>(
             position: 'sticky',
             [side === 'start' ? 'insetInlineStart' : 'insetInlineEnd']: `${index * 48}px`,
             zIndex: head ? 5 : 1,
-            background: head ? 'var(--hn-table-head-bg)' : 'var(--hn-table-bg)',
+            backgroundColor: head ? 'var(--hn-table-head-bg)' : 'var(--hn-table-bg)',
           }
         : {}),
     }
@@ -177,6 +182,7 @@ export function useTableColumns<T extends object>(
     })
   })
   const tableStyle = computed<CSSProperties>(() => ({
+    '--hn-table-viewport-width': available.value ? `${available.value}px` : undefined,
     tableLayout: constrained.value ? 'fixed' : 'auto',
     ...(constrained.value
       ? {
@@ -215,6 +221,7 @@ export function useTableColumns<T extends object>(
   Object.assign(ctl.api, { setColumnWidth: resizing.setWidth, moveColumn })
   onScopeDispose(() => {
     disposed = true
+    cancelAnimationFrame(frame)
     observer?.disconnect()
   })
   return {
