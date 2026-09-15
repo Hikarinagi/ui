@@ -61,7 +61,7 @@ The header retains its expanded content width. The footer follows the sidebar wi
 
 - The three forms are 256 pixels wide when expanded, 56 as a rail and 0 when hidden, and the width transitions continuously between them.
 - Collapsed to a rail, `SidebarGroup` is forced open, its heading fades into a divider while retaining the same space. Entries in expanded groups keep their vertical positions.
-- The entry area is a scroll container; the header and footer stay fixed at either end.
+- The entry area uses [ScrollArea](/components/scroll-area) without edge shadows; the header and footer stay fixed at either end.
 - When fully hidden, the entire sidebar leaves interaction and keyboard focus.
 - Width and label transitions use Hina motion tokens and switch instantly with reduced motion enabled.
 - Inside the mobile [Drawer](/components/drawer), the sidebar fills the drawer height with the footer pinned to the bottom and only the entries scrolling. The header includes a close button without a duplicate drawer title. Horizontal padding comes from the drawer; the header, entries and footer retain their vertical padding.

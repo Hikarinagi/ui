@@ -71,7 +71,7 @@
     <div v-else-if="inDrawer" :class="cn(sidebarRegion({ inDrawer }), 'flex justify-end')">
       <CloseButton @click="sidebar?.toggle()" />
     </div>
-    <ScrollArea class="min-h-0 flex-1">
+    <ScrollArea :shadow="false" class="min-h-0 flex-1">
       <nav
         :aria-label="props.label ?? t.sidebar.navLabel"
         :class="cn('flex flex-col gap-1 py-2', !inDrawer && 'px-2.5')"

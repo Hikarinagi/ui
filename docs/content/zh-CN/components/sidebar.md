@@ -61,7 +61,7 @@ import { Sidebar, SidebarGroup, SidebarLabel, SidebarTrigger } from '@hina-ui/vu
 
 - 三种形态的宽度分别是展开 256 像素、rail 56 像素、隐藏 0 像素，切换时宽度连续过渡。
 - 收起为 rail 时，`SidebarGroup` 强制展开、组标题原位淡出并显示分隔线，标题占位保持不变，已展开的条目不会随收起动作上下移动。
-- 条目区是滚动容器，页眉与页脚固定在两端。
+- 条目区使用不带边缘阴影的 [ScrollArea](/components/scroll-area)，页眉与页脚固定在两端。
 - 完全隐藏时，侧栏整体退出交互与键盘焦点序列。
 - 宽度和文字过渡使用 Hina 动画 token；系统开启减弱动态效果时直接切换。
 - 搬入移动端 [Drawer](/components/drawer) 时，侧栏撑满抽屉高度，页脚固定在底部，仅条目区滚动。页眉内提供关闭按钮，不重复显示抽屉标题；水平内边距由抽屉提供，页眉、条目区和页脚保留各自的纵向内边距。
