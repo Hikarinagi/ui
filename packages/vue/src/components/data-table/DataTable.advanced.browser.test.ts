@@ -88,9 +88,7 @@ describe('DataTable advanced browser behavior', () => {
         dir === 'rtl' ? '{Shift>}{ArrowLeft}{/Shift}' : '{Shift>}{ArrowRight}{/Shift}',
       )
       await vi.waitFor(() => expect(first.getBoundingClientRect().width).toBeCloseTo(230, 0))
-      expect(wrapper.emitted('update:columnWidths')?.at(-1)).toEqual([
-        { name: 230, count: 290, id: 120 },
-      ])
+      expect(wrapper.emitted('update:columnWidths')?.at(-1)).toEqual([{ name: 230, count: 290 }])
       await userEvent.keyboard('{Home}')
       await vi.waitFor(() => expect(first.getBoundingClientRect().width).toBeCloseTo(120, 0))
       await expectNoA11yViolations(wrapper.element as HTMLElement)

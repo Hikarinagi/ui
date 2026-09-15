@@ -75,6 +75,9 @@
     editError: [error: unknown, edit: DataTableEdit<T>]
     rowContextmenu: [row: T, event: MouseEvent]
   }>()
+  function onRowContextmenu(row: T, event: MouseEvent) {
+    emit('rowContextmenu', row, event)
+  }
   const t = useUiLocale()
   const name = useId()
   const area = shallowRef<InstanceType<typeof ScrollArea>>()
@@ -134,7 +137,11 @@
     :aria-busy="props.loading || undefined"
     :style="{ height: cssSize(props.height) }"
     :class="
-      cn('flex min-h-0 min-w-0 max-w-full flex-col gap-3', props.fill && 'h-full', props.class)
+      cn(
+        'flex min-h-0 min-w-0 w-full max-w-full flex-col gap-3',
+        props.fill && 'h-full',
+        props.class,
+      )
     "
   >
     <slot name="toolbar" v-bind="ctl.state.value" />
@@ -233,11 +240,7 @@
                 :colspan="colspan"
                 :name="name"
                 :measure="virtual.measure"
-                @contextmenu="
-                  !item.detail &&
-                  !item.entry.group &&
-                  emit('rowContextmenu', item.entry.row, $event)
-                "
+                @row-contextmenu="onRowContextmenu"
               />
               <tr v-if="virtual.after.value" aria-hidden="true">
                 <td

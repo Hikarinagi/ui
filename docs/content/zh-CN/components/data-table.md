@@ -98,9 +98,9 @@ import { DataTable, type DataTableColumn } from '@hina-ui/vue'
 
 列支持 `width`、`minWidth`、`maxWidth` 以及逻辑方向的 `pin: 'start' | 'end'`。`truncate` 将默认文本限制为单行，仅溢出时显示 [Tooltip](/components/tooltip)。自定义单元格内容自行处理截断。
 
-`resizable` 允许拖动表头边界调宽，拖动时显示贯穿表格的指示线。默认 `resizeMode="fit"` 与相邻列交换宽度，保持表格总宽不变；最后一列不提供外侧手柄，相邻列禁止调宽时也不显示对应边界。`resizeMode="expand"` 只调整当前列，表格随之变宽或变窄。两种模式均遵守列的上下限。
+`resizable` 允许拖动表头边界调宽，拖动时显示贯穿表格的指示线。默认 `resizeMode="fit"` 与相邻列交换宽度，保持当前表格总宽不变。普通列从末端边界调整，固定在末端的列从内侧起始边界调整，RTL 下方向镜像。普通末列没有外侧手柄；相邻列禁止调宽或两列之间没有可调整空间时，不显示对应手柄。`resizeMode="expand"` 只调整当前列，表格随之变宽或变窄。两种模式均遵守列的上下限。
 
-聚焦边界后，左右方向键每次调整 1px，Shift 调整 10px，Home/End 到达可调整范围的边界。Esc 撤销当前拖动。`v-model:columnWidths` 存储像素宽度，首次调宽以当前显示宽度为起点，同时记录其余列宽。交互调宽使用数字边界；静态列也支持 CSS 长度。
+聚焦边界后，左右方向键每次调整 1px，Shift 调整 10px，Home/End 到达可调整范围的边界。Esc 撤销当前拖动。`v-model:columnWidths` 存储手动指定的像素宽度。`fit` 只记录调整的两列，其他未指定宽度的列继续分配容器剩余空间；`expand` 同时记录其余列的显示宽度，以保证它们不会一起变化。仅按下再松开手柄不会写入宽度，Esc 恢复本次拖动前的设置。清空该模型可恢复自动分配。交互调宽使用数字边界；静态列也支持 CSS 长度。
 
 `reorderColumns` 允许直接拖动叶子表头，列预览与插入线显示松手后的落点。轻点仍执行排序，拖动不会触发排序，Esc 取消重排。聚焦表头后也可使用 Alt + 左右方向键。`v-model:columnOrder` 存储列键，重排限制在同一固定区域内。列的 `resizable: false`、`reorderable: false` 分别禁用调宽与重排。`layout="fixed"`、调宽、截断或虚拟化会约束表格布局。
 
@@ -323,22 +323,22 @@ import { DataTable, type DataTableColumn } from '@hina-ui/vue'
 
 实例暴露 `element: HTMLTableElement | undefined`、`viewport: HTMLElement | undefined`、`state: DataTableState<T>` 与 `api: DataTableApi<T>`，工具栏与页脚插槽也提供同一份 API。
 
-| 方法                              | 返回值          | 说明                                             |
-| --------------------------------- | --------------- | ------------------------------------------------ |
-| `getRows(scope?)`                 | `T[]`           | page / filtered / selected / all，只含已加载数据 |
-| `toggleSelected(key, value?)`     | `void`          | 选择已加载行                                     |
-| `toggleExpanded(key, value?)`     | `void`          | 控制行展开                                       |
-| `setFilter(column, value)`        | `void`          | 设置列筛选                                       |
-| `setColumnHidden(column, hidden)` | `void`          | 改变列显隐                                       |
-| `setColumnWidth(column, width)`   | `void`          | 设置边界内的像素列宽                             |
-| `moveColumn(column, target)`      | `void`          | 在同一固定区域内移动列                           |
-| `moveRow(key, target)`            | `void`          | 重排可移动同级行                                 |
-| `startEdit(key, column?)`         | `void`          | 开始单元格或行编辑                               |
-| `cancelEdit()`                    | `void`          | 取消草稿                                         |
-| `commitEdit()`                    | `Promise<void>` | 校验并保存                                       |
-| `scrollToRow(key)`                | `void`          | 滚动到显示行集中的行                             |
-| `toCsv(options?)`                 | `string`        | 返回 CSV                                         |
-| `exportCsv(options?)`             | `void`          | 下载 CSV                                         |
+| 方法                              | 返回值          | 说明                                                 |
+| --------------------------------- | --------------- | ---------------------------------------------------- |
+| `getRows(scope?)`                 | `T[]`           | page / filtered / selected / all，只含已加载数据     |
+| `toggleSelected(key, value?)`     | `void`          | 选择已加载行                                         |
+| `toggleExpanded(key, value?)`     | `void`          | 控制行展开                                           |
+| `setFilter(column, value)`        | `void`          | 设置列筛选                                           |
+| `setColumnHidden(column, hidden)` | `void`          | 改变列显隐                                           |
+| `setColumnWidth(column, width)`   | `void`          | 直接设置指定列的像素宽度并遵守上下限，不与相邻列交换 |
+| `moveColumn(column, target)`      | `void`          | 在同一固定区域内移动列                               |
+| `moveRow(key, target)`            | `void`          | 重排可移动同级行                                     |
+| `startEdit(key, column?)`         | `void`          | 开始单元格或行编辑                                   |
+| `cancelEdit()`                    | `void`          | 取消草稿                                             |
+| `commitEdit()`                    | `Promise<void>` | 校验并保存                                           |
+| `scrollToRow(key)`                | `void`          | 滚动到显示行集中的行                                 |
+| `toCsv(options?)`                 | `string`        | 返回 CSV                                             |
+| `exportCsv(options?)`             | `void`          | 下载 CSV                                             |
 
 ```ts
 interface DataTableExportOptions {

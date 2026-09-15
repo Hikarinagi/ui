@@ -29,6 +29,7 @@
     name: string
     measure: (element: unknown) => void
   }>()
+  const emit = defineEmits<{ rowContextmenu: [row: T, event: MouseEvent] }>()
   const element = shallowRef<HTMLTableRowElement>()
   const entry = computed(() => props.item.entry)
   const t = useUiLocale()
@@ -53,6 +54,7 @@
         drag.key.value === entry.id && 'opacity-50',
       )
     "
+    @contextmenu="!item.detail && !entry.group && emit('rowContextmenu', entry.row, $event)"
     @click="!item.detail && !entry.group && ctl.activate(entry.row, $event)"
     @keydown.enter="!item.detail && !entry.group && ctl.activate(entry.row, $event)"
     @keydown.space="!item.detail && !entry.group && ctl.activate(entry.row, $event)"

@@ -22,7 +22,7 @@
 </script>
 
 <template>
-  <Stack gap="sm">
+  <Stack gap="sm" class="w-full">
     <Inline gap="xs">
       <Text size="sm" tone="muted">调宽模式</Text>
       <Select v-model="mode" :options="modes" size="sm" class="w-44" aria-label="调宽模式" />

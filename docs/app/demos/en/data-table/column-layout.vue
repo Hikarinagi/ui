@@ -22,7 +22,7 @@
 </script>
 
 <template>
-  <Stack gap="sm">
+  <Stack gap="sm" class="w-full">
     <Inline gap="xs">
       <Text size="sm" tone="muted">Resize mode</Text>
       <Select v-model="mode" :options="modes" size="sm" class="w-44" aria-label="Resize mode" />

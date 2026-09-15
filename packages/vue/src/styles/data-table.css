@@ -1,6 +1,7 @@
 .hn-table th.hn-table-header {
   padding: 0;
   user-select: none;
+  isolation: isolate;
 }
 
 .hn-table-header > :not(.hn-table-heading, .hn-table-resize) {
@@ -68,7 +69,7 @@ button.hn-table-heading:hover:not(:disabled) {
 .hn-table-resize {
   position: absolute;
   inset-block: 0;
-  inset-inline-end: -4px;
+  inset-inline-end: 0;
   width: 9px;
   z-index: 10;
   cursor: col-resize;
@@ -78,9 +79,17 @@ button.hn-table-heading:hover:not(:disabled) {
   content: '';
   position: absolute;
   inset-block: 25%;
-  inset-inline-start: 4px;
+  inset-inline-end: 0;
   width: 1px;
   background: var(--hn-border);
+}
+.hn-table-resize[data-side='start'] {
+  inset-inline-start: 0;
+  inset-inline-end: auto;
+}
+.hn-table-resize[data-side='start']::after {
+  inset-inline-start: 0;
+  inset-inline-end: auto;
 }
 .hn-table-resize:is(:hover, :focus-visible, [data-resizing])::after {
   inset-block: 0;
@@ -225,4 +234,9 @@ html[data-hn-table-gesture='resize'] * {
 
 .hn-table-action[data-hn-row-drag]:not(:disabled) {
   cursor: grab;
+}
+
+.hn-table-header:has(.hn-table-resize:is(:hover, :focus-visible, [data-resizing]))
+  .hn-table-heading {
+  background: color-mix(in oklab, var(--hn-accent) 8%, var(--hn-table-head-bg));
 }

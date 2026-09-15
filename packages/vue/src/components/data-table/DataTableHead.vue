@@ -121,7 +121,10 @@
               drag.columnKeydown(header.column.key, $event)
             "
           >
-            <span class="min-w-0" :class="header.column.truncate && 'truncate'">
+            <span
+              class="min-w-0"
+              :class="(header.column.truncate || config.resizable) && 'truncate'"
+            >
               {{ header.column.label }}
             </span>
             <span
@@ -148,10 +151,9 @@
           :tabindex="ctl.blocked.value ? -1 : 0"
           :aria-label="`${t.table.resizeColumn}: ${header.column.label}`"
           :aria-valuenow="Math.round(layout.width(header.column))"
-          :aria-valuemin="typeof header.column.minWidth === 'number' ? header.column.minWidth : 48"
-          :aria-valuemax="
-            typeof header.column.maxWidth === 'number' ? header.column.maxWidth : 1600
-          "
+          :aria-valuemin="Math.round(layout.bounds(header.column).min)"
+          :aria-valuemax="Math.round(layout.bounds(header.column).max)"
+          :data-side="layout.boundary(header.column)?.side"
           class="hn-table-resize hn-focus-ring"
           :data-resizing="layout.resizing.value === header.column.key ? '' : undefined"
           @click.stop
