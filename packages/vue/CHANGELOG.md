@@ -1,5 +1,19 @@
 # @hina-ui/vue
 
+## 1.7.0
+
+### Minor Changes
+
+- 1a8ce61: Add an Anchor trailing slot with the original typed item and its current-location state. Preserve link navigation, nested indentation and visible-range highlighting, and keep the current location when only entry metadata changes.
+- e6d2ac8: Add a Sidebar closable prop to hide the mobile drawer close button without reserving an empty header row.
+
+### Patch Changes
+
+- 2a1b076: Reduce AppShell main-content measurement work during sidebar width transitions by deferring repeated scrollbar updates until the transition finishes or is cancelled. Native scrolling remains available, and scrollbar geometry is refreshed when updates resume.
+- 4db9048: Fix the AppShell mobile sidebar to fill the drawer height, keeping the header and footer fixed while navigation scrolls independently. Remove the duplicate visible drawer title and place the close button in the sidebar header; `mobileTitle` remains the accessible name.
+- 04d68ed: Fix Sidebar footer content retaining its expanded width in rail mode, which clipped interactive backgrounds and positioned tooltips beyond the sidebar.
+- a6c3acc: Disable edge shadows in the Sidebar navigation scroll area.
+
 ## 1.6.0
 
 ### Minor Changes
