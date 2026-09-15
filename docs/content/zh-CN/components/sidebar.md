@@ -44,7 +44,7 @@ import { Sidebar, SidebarGroup, SidebarTrigger } from '@hina-ui/vue'
 - 收起为 rail 时，`SidebarGroup` 强制展开、组标题让位给一条分隔线，并退出键盘序列，因为此时组名已无处显示。
 - 条目区是滚动容器，页眉与页脚固定在两端。
 - 系统开启减弱动态效果时宽度直接切换，不做过渡。
-- 搬入移动端抽屉时不再自行加内边距，改由抽屉统一控制。
+- 搬入移动端 [Drawer](/components/drawer) 时，水平内边距由抽屉提供；页眉、条目区和页脚保留各自的纵向内边距。
 
 ## 无障碍 {#a11y}
 

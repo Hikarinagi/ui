@@ -44,7 +44,7 @@ Collapsed to a rail the column is only 56 pixels wide, and content in these regi
 - Collapsed to a rail, `SidebarGroup` is forced open, its heading gives way to a divider and leaves the keyboard order, since there is nowhere left to show the group name.
 - The entry area is a scroll container; the header and footer stay fixed at either end.
 - With reduced motion enabled the width switches instantly rather than transitioning.
-- Moved into the mobile drawer, the sidebar drops its own padding and leaves spacing to the drawer.
+- Inside the mobile [Drawer](/components/drawer), horizontal padding comes from the drawer. The header, entries and footer retain their vertical padding.
 
 ## Accessibility {#a11y}
 

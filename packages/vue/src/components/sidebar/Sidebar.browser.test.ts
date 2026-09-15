@@ -22,7 +22,7 @@ afterEach(() => {
   mounted = []
 })
 
-function harness(shellProps: Record<string, unknown> = {}, model?: Ref<string>) {
+function harness(shellProps: Record<string, unknown> = {}, model?: Ref<string>, withSlots = false) {
   const host = document.createElement('div')
   document.body.appendChild(host)
   const w = mount(
@@ -37,17 +37,24 @@ function harness(shellProps: Record<string, unknown> = {}, model?: Ref<string>) 
           h(AppShell, bound, {
             header: () => h(SidebarTrigger),
             sidebar: () =>
-              h(Sidebar, {}, () =>
-                h(SidebarGroup, { label: '组件' }, () =>
-                  h(
-                    NavLink,
-                    { href: '#x', label: '收藏夹', active: true },
-                    {
-                      icon: () => h(Star, { class: 'size-4 shrink-0' }),
-                      default: () => '收藏夹',
-                    },
-                  ),
-                ),
+              h(
+                Sidebar,
+                {},
+                {
+                  header: withSlots ? () => h('span', { 'data-header': '' }, 'Hina UI') : undefined,
+                  footer: withSlots ? () => h('span', { 'data-footer': '' }, 'Account') : undefined,
+                  default: () =>
+                    h(SidebarGroup, { label: '组件' }, () =>
+                      h(
+                        NavLink,
+                        { href: '#x', label: '收藏夹', active: true },
+                        {
+                          icon: () => h(Star, { class: 'size-4 shrink-0' }),
+                          default: () => '收藏夹',
+                        },
+                      ),
+                    ),
+                },
               ),
             default: () => h('p', '正文内容'),
           }),
@@ -170,5 +177,27 @@ describe('sidebar · 三态收起系统', () => {
 
     await userEvent.keyboard('{Escape}')
     await vi.waitFor(() => expect(document.querySelector('[role="dialog"]')).toBeNull())
+  })
+})
+
+describe('sidebar drawer spacing', () => {
+  it('preserves vertical padding around header, navigation and footer in the drawer', async () => {
+    await page.viewport(600, 800)
+    harness({}, undefined, true)
+    await userEvent.click(trigger())
+    await vi.waitFor(() => expect(document.querySelector('[role="dialog"] aside')).toBeTruthy())
+    const sidebar = document.querySelector('[role="dialog"] aside') as HTMLElement
+    const header = sidebar.querySelector('[data-header]')!.parentElement!
+    const footer = sidebar.querySelector('[data-footer]')!.parentElement!
+    const nav = sidebar.querySelector('nav')!
+    for (const element of [header, footer]) {
+      expect(getComputedStyle(element).paddingTop).toBe('12px')
+      expect(getComputedStyle(element).paddingBottom).toBe('12px')
+      expect(getComputedStyle(element).paddingLeft).toBe('0px')
+      expect(getComputedStyle(element).paddingRight).toBe('0px')
+    }
+    expect(getComputedStyle(nav).paddingTop).toBe('8px')
+    expect(getComputedStyle(nav).paddingBottom).toBe('8px')
+    expect(getComputedStyle(nav).paddingLeft).toBe('0px')
   })
 })
