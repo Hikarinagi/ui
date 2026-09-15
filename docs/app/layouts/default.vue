@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import {
     AppShell,
-    Image,
     NavLink,
     Sidebar,
     SidebarGroup,
@@ -46,9 +45,6 @@
     </template>
     <template #sidebar>
       <Sidebar :label="t('nav.docsNav')" :closable="false" class="lg:[&>.hn-collapse]:hidden">
-        <template #icon>
-          <Image src="/favicon.png" alt="" :lazy="false" class="rounded-md" />
-        </template>
         <template #wordmark>
           <NuxtLink :to="localePath('/')" class="hn-focus-ring inline-flex rounded-sm">
             <DocsWordmark />
