@@ -5,8 +5,6 @@
 
   defineOptions({ name: 'DocsHeader' })
 
-  const props = defineProps<{ hideBrandOnDesktop?: boolean }>()
-
   const route = useRoute()
   const { t } = useI18n()
   const localePath = useLocalePath()
@@ -16,14 +14,7 @@
 
 <template>
   <slot name="leading" />
-  <Button
-    :as="NuxtLink"
-    :to="localePath('/')"
-    variant="ghost"
-    tone="neutral"
-    size="sm"
-    :class="props.hideBrandOnDesktop ? 'lg:hidden' : undefined"
-  >
+  <Button :as="NuxtLink" :to="localePath('/')" variant="ghost" tone="neutral" size="sm">
     <DocsWordmark />
   </Button>
   <Inline gap="xs" class="max-md:hidden">

@@ -40,12 +40,12 @@
       <DocsBanner />
     </template>
     <template #header>
-      <DocsHeader hide-brand-on-desktop>
+      <DocsHeader>
         <template #leading><SidebarTrigger /></template>
       </DocsHeader>
     </template>
     <template #sidebar>
-      <Sidebar :label="t('nav.docsNav')" :closable="false">
+      <Sidebar :label="t('nav.docsNav')" :closable="false" class="lg:[&>.hn-collapse]:hidden">
         <template #icon>
           <Image src="/favicon.png" alt="" :lazy="false" class="rounded-md" />
         </template>
