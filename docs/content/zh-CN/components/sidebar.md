@@ -64,7 +64,7 @@ import { Sidebar, SidebarGroup, SidebarLabel, SidebarTrigger } from '@hina-ui/vu
 - 条目区是滚动容器，页眉与页脚固定在两端。
 - 完全隐藏时，侧栏整体退出交互与键盘焦点序列。
 - 宽度和文字过渡使用 Hina 动画 token；系统开启减弱动态效果时直接切换。
-- 搬入移动端 [Drawer](/components/drawer) 时，水平内边距由抽屉提供；页眉、条目区和页脚保留各自的纵向内边距。
+- 搬入移动端 [Drawer](/components/drawer) 时，侧栏撑满抽屉高度，页脚固定在底部，仅条目区滚动。页眉内提供关闭按钮，不重复显示抽屉标题；水平内边距由抽屉提供，页眉、条目区和页脚保留各自的纵向内边距。
 
 ## 无障碍 {#a11y}
 

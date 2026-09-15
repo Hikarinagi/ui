@@ -64,7 +64,7 @@ The header and footer retain their expanded content width, preventing content fr
 - The entry area is a scroll container; the header and footer stay fixed at either end.
 - When fully hidden, the entire sidebar leaves interaction and keyboard focus.
 - Width and label transitions use Hina motion tokens and switch instantly with reduced motion enabled.
-- Inside the mobile [Drawer](/components/drawer), horizontal padding comes from the drawer. The header, entries and footer retain their vertical padding.
+- Inside the mobile [Drawer](/components/drawer), the sidebar fills the drawer height with the footer pinned to the bottom and only the entries scrolling. The header includes a close button without a duplicate drawer title. Horizontal padding comes from the drawer; the header, entries and footer retain their vertical padding.
 
 ## Accessibility {#a11y}
 

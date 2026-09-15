@@ -49,9 +49,10 @@ A [Banner](/components/banner) in the `banner` slot spans the whole shell. When 
 ## Behaviour {#behavior}
 
 - At viewport widths of 1024 pixels and above the layout is desktop and the sidebar sits permanently on the left; below that the sidebar moves into a drawer, carrying the contents of the `sidebar` slot unchanged.
-- On desktop, `SidebarTrigger` switches between expanded and the form named by `collapsible`; on narrow screens it opens the drawer.
+- On desktop, `SidebarTrigger` switches between expanded and the form named by `collapsible`; on narrow screens it toggles the drawer.
 - The drawer's open state can be bound with `v-model:mobileOpen`.
-- `mobileTitle` sets the mobile [Drawer](/components/drawer) heading and accessible name. It defaults to the interface language; the opening demo sets it to `Hina UI`.
+- The mobile [Drawer](/components/drawer) has no extra title bar. Its close button sits in the [Sidebar](/components/sidebar) header. `mobileTitle` only sets the accessible name and defaults to the interface language.
+- The sidebar fills the drawer height. Its header and footer stay at either end while the navigation fills the remaining space and scrolls independently.
 - With `autoClose` on, a route change closes the drawer so it does not stay in front of the content after navigating. It is on by default.
 - `restoreKey` is placed on the main area's scroll container for scroll-position restoration.
 - A tooltip provider is built in, so the hover hints a rail sidebar shows need no extra wrapper.
@@ -66,13 +67,13 @@ A [Banner](/components/banner) in the `banner` slot spans the whole shell. When 
 
 ### Props {#props}
 
-| Prop          | Type                 | Default            | Description                                      |
-| ------------- | -------------------- | ------------------ | ------------------------------------------------ |
-| `collapsible` | `'rail' \| 'hidden'` | `'rail'`           | What the sidebar collapses to on desktop         |
-| `autoClose`   | `boolean`            | `true`             | Whether a route change closes the mobile drawer  |
-| `mobileTitle` | `string`             | Interface language | Heading and accessible name of the mobile drawer |
-| `restoreKey`  | `string`             | —                  | Scroll-restoration key for the main area         |
-| `class`       | `string`             | —                  | Classes appended to the root                     |
+| Prop          | Type                 | Default            | Description                                                |
+| ------------- | -------------------- | ------------------ | ---------------------------------------------------------- |
+| `collapsible` | `'rail' \| 'hidden'` | `'rail'`           | What the sidebar collapses to on desktop                   |
+| `autoClose`   | `boolean`            | `true`             | Whether a route change closes the mobile drawer            |
+| `mobileTitle` | `string`             | Interface language | Accessible name of the mobile drawer; no visible title bar |
+| `restoreKey`  | `string`             | —                  | Scroll-restoration key for the main area                   |
+| `class`       | `string`             | —                  | Classes appended to the root                               |
 
 ### Two-way bindings {#models}
 

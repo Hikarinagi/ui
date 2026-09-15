@@ -92,8 +92,8 @@
         size="sm"
         class="lg:hidden"
       >
-        <template #content>
-          <DrawerScope>
+        <template #body="{ close }">
+          <DrawerScope :close="close">
             <slot name="sidebar" />
           </DrawerScope>
         </template>
