@@ -27,6 +27,7 @@
   >
     <template #toolbar>
       <Button
+        size="sm"
         variant="soft"
         tone="neutral"
         class="self-start"

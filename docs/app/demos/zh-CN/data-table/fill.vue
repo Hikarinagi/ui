@@ -8,7 +8,7 @@
 </script>
 
 <template>
-  <Stack class="h-80">
+  <Stack class="h-80 w-full">
     <DataTable
       :rows="rows"
       :columns="summaryColumns"

@@ -106,7 +106,7 @@ import { DataTable, type DataTableColumn } from '@hina-ui/vue'
 
 `reorderColumns` 允许直接拖动叶子表头，列预览与插入线显示松手后的落点。轻点仍执行排序，拖动不会触发排序，Esc 取消重排。聚焦表头后也可使用 Alt + 左右方向键。`v-model:columnOrder` 存储列键，重排限制在同一固定区域内。列的 `resizable: false`、`reorderable: false` 分别禁用调宽与重排。`layout="fixed"`、调宽、截断或虚拟化会约束表格布局。
 
-示例通过 [Select](/components/select) 切换调宽模式。
+示例通过 [Select](/components/select) 切换调宽模式，通过 [Button](/components/button) 清空列宽与顺序，恢复初始布局。
 
 <Demo name="data-table/column-layout" />
 

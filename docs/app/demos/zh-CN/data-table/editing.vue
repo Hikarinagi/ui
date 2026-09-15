@@ -22,7 +22,7 @@
   >
     <template #toolbar>
       <Inline align="center" wrap>
-        <Select v-model="mode" :options="modes" aria-label="编辑模式" class="w-32" />
+        <Select size="sm" v-model="mode" :options="modes" aria-label="编辑模式" class="w-32" />
         <Checkbox v-model="fail">模拟保存失败</Checkbox>
       </Inline>
     </template>

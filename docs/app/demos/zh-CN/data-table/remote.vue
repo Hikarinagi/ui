@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { DataTable, SearchInput, Text, Tag } from '@hina-ui/vue'
+  import { DataTable, SearchInput, Text, Tag, Inline } from '@hina-ui/vue'
   import { useRemoteTableDemo } from '../../data-table'
   const { rows, columns, statusLabels, total, loading, lastQuery, load } =
     useRemoteTableDemo('zh-CN')
@@ -22,15 +22,18 @@
     @change="load"
   >
     <template #toolbar>
-      <SearchInput
-        v-model="filter"
-        placeholder="搜索名称"
-        aria-label="搜索名称"
-        class="w-64 max-w-full"
-      />
-      <Text size="sm" tone="muted">
-        请求页 {{ lastQuery.page }} · 返回 {{ rows.length }} / {{ total }}
-      </Text>
+      <Inline justify="between">
+        <SearchInput
+          size="sm"
+          v-model="filter"
+          placeholder="搜索名称"
+          aria-label="搜索名称"
+          class="w-64 max-w-full"
+        />
+        <Text size="sm" tone="muted">
+          请求页 {{ lastQuery.page }} · 返回 {{ rows.length }} / {{ total }}
+        </Text>
+      </Inline>
     </template>
     <template #cell-status="{ row }">
       <Tag :tone="row.status === 'active' ? 'success' : 'neutral'">

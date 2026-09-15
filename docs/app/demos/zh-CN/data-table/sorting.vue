@@ -19,7 +19,12 @@
     <Text size="sm" tone="muted">
       {{
         sorting.length
-          ? sorting.map(sort => `${sort.key}: ${sort.desc ? 'desc' : 'asc'}`).join(' · ')
+          ? sorting
+              .map(
+                sort =>
+                  `${columns.find(column => column.key === sort.key)?.label ?? sort.key} ${sort.desc ? '降序' : '升序'}`,
+              )
+              .join(' · ')
           : '未排序'
       }}
     </Text>

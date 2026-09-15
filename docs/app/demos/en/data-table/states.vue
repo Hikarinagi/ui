@@ -7,8 +7,8 @@
 </script>
 
 <template>
-  <Stack>
-    <Button variant="soft" tone="neutral" class="self-start" @click="loading = !loading">
+  <Stack class="w-full">
+    <Button size="sm" variant="soft" tone="neutral" class="self-start" @click="loading = !loading">
       Toggle loading
     </Button>
     <DataTable

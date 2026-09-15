@@ -18,6 +18,7 @@
   >
     <template #toolbar>
       <SearchInput
+        size="sm"
         v-model="filter"
         placeholder="Filter names"
         aria-label="Filter names"

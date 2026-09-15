@@ -106,7 +106,7 @@ Focus a boundary to resize with Left/Right by one pixel, Shift by ten, or Home/E
 
 `reorderColumns` makes leaf headers draggable. A column preview and insertion line show the drop position. Clicking still sorts; dragging does not trigger sorting. Escape cancels a drag. Focus a header and use Alt + Left/Right to reorder with the keyboard. `v-model:columnOrder` stores keys. Reordering stays within the same pinned region; `resizable: false` and `reorderable: false` disable the respective operation. `layout="fixed"`, resizing, truncation or virtualization constrain the table layout.
 
-The example uses [Select](/components/select) to switch resize modes.
+The example uses [Select](/components/select) to switch resize modes and [Button](/components/button) to clear width and order overrides, restoring the initial layout.
 
 <Demo name="data-table/column-layout" />
 

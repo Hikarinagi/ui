@@ -1,6 +1,14 @@
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { DataTable, Stack, Inline, Text, Select, type DataTableColumn } from '@hina-ui/vue'
+  import {
+    DataTable,
+    Stack,
+    Inline,
+    Text,
+    Select,
+    Button,
+    type DataTableColumn,
+  } from '@hina-ui/vue'
   import { tableDemo, type TableDemoRow } from '../../data-table'
   const { rows, columns } = tableDemo('en')
   const mode = ref<'fit' | 'expand'>('fit')
@@ -23,9 +31,25 @@
 
 <template>
   <Stack gap="sm" class="w-full">
-    <Inline gap="xs">
-      <Text size="sm" tone="muted">Resize mode</Text>
-      <Select v-model="mode" :options="modes" size="sm" class="w-44" aria-label="Resize mode" />
+    <Inline justify="between">
+      <Inline gap="sm">
+        <Text size="sm" tone="muted">Resize mode</Text>
+        <Select v-model="mode" :options="modes" size="sm" class="w-44" aria-label="Resize mode" />
+      </Inline>
+      <Button
+        size="sm"
+        variant="ghost"
+        tone="neutral"
+        :disabled="!order.length && !Object.keys(widths).length"
+        @click="
+          () => {
+            order = []
+            widths = {}
+          }
+        "
+      >
+        Reset columns
+      </Button>
     </Inline>
     <DataTable
       v-model:column-order="order"

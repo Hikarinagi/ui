@@ -19,6 +19,7 @@
     <template #toolbar="{ api }">
       <Inline wrap>
         <Button
+          size="sm"
           variant="soft"
           tone="neutral"
           @click="api.exportCsv({ formatted: true, filename: 'entries.csv' })"
@@ -26,6 +27,7 @@
           Export CSV
         </Button>
         <Button
+          size="sm"
           variant="ghost"
           tone="neutral"
           :disabled="!selected.length"

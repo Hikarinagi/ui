@@ -22,7 +22,7 @@
   >
     <template #toolbar>
       <Inline align="center" wrap>
-        <Select v-model="mode" :options="modes" aria-label="Edit mode" class="w-32" />
+        <Select size="sm" v-model="mode" :options="modes" aria-label="Edit mode" class="w-32" />
         <Checkbox v-model="fail">Simulate save failure</Checkbox>
       </Inline>
     </template>
