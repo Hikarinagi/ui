@@ -135,6 +135,8 @@ describe('Sidebar brand slots', () => {
       expect(
         sidebar().querySelector('[data-wordmark] svg')!.getBoundingClientRect().width,
       ).toBeLessThanOrEqual(label().getBoundingClientRect().width)
+      const mark = sidebar().querySelector('[data-wordmark] svg')!.getBoundingClientRect()
+      expect(Math.abs(mark.y + mark.height / 2 - rect.y - rect.height / 2)).toBeLessThanOrEqual(1)
       state.sidebar = 'rail'
       await settle()
       expect(box.getBoundingClientRect().toJSON()).toEqual(rect)
@@ -179,8 +181,14 @@ describe('Sidebar brand slots', () => {
   it('preserves the intrinsic width of SVG wordmarks inside a custom inline layout', async () => {
     const wrapper = mount(Sidebar, {
       slots: {
+        icon: () =>
+          h(
+            'svg',
+            { viewBox: '0 0 32 32', 'data-inline-icon': '' },
+            h('rect', { width: 32, height: 32 }),
+          ),
         wordmark: () =>
-          h('span', { class: 'inline-flex items-baseline gap-1' }, [
+          h('span', { class: 'inline-flex items-center gap-1' }, [
             h(
               'span',
               { class: 'h-5 [&>svg]:h-full [&>svg]:w-auto' },
@@ -201,9 +209,12 @@ describe('Sidebar brand slots', () => {
     })
     wrappers.push(wrapper)
     await nextTick()
-    const svg = sidebar().querySelector('svg')!
+    const svg = sidebar().querySelector('[aria-label="Nested wordmark"]')!
     expect(svg.getBoundingClientRect().width).toBe(40)
     expect(svg.getBoundingClientRect().height).toBe(20)
+    const mark = svg.getBoundingClientRect()
+    const icon = sidebar().querySelector('[data-inline-icon]')!.getBoundingClientRect()
+    expect(Math.abs(mark.y + mark.height / 2 - icon.y - icon.height / 2)).toBeLessThanOrEqual(1)
   })
 
   it('keeps an icon-only header visible in rail form', async () => {

@@ -21,7 +21,7 @@
               <Image src="/favicon.png" alt="Hina UI" class="rounded-md" />
             </template>
             <template v-if="example.mode !== 'icon'" #wordmark>
-              <Wordmark />
+              <Wordmark class="items-center" />
             </template>
             <NavLink href="#" active label="概览" @click.prevent>
               <template #icon><House /></template>

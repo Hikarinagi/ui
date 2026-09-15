@@ -32,5 +32,5 @@ export const sidebarIcon = tv({
 })
 
 export const sidebarWordmark = tv({
-  base: 'flex-1 [&_img]:max-h-8 [&_img]:max-w-full [&_img]:object-contain [&_svg]:max-h-8 [&_svg]:max-w-full',
+  base: 'flex flex-1 items-center [&_img]:max-h-8 [&_img]:max-w-full [&_img]:object-contain [&_svg]:max-h-8 [&_svg]:max-w-full',
 })
