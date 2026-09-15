@@ -6,6 +6,7 @@
     Sidebar,
     SidebarGroup,
     SidebarTrigger,
+    type SidebarState,
     Text,
     Toaster,
   } from '@hina-ui/vue'
@@ -22,6 +23,7 @@
   const shell = shallowRef<InstanceType<typeof AppShell>>()
   useScrollRestore('main', () => shell.value?.mainArea)
 
+  const sidebar = ref<SidebarState>('expanded')
   const drawerOpen = ref(false)
   useNuxtApp().hook('page:finish', () => {
     drawerOpen.value = false
@@ -31,6 +33,7 @@
 <template>
   <AppShell
     ref="shell"
+    v-model:sidebar="sidebar"
     v-model:mobile-open="drawerOpen"
     :auto-close="false"
     collapsible="hidden"
@@ -40,7 +43,7 @@
       <DocsBanner />
     </template>
     <template #header>
-      <DocsHeader>
+      <DocsHeader :hide-brand-on-desktop="sidebar === 'expanded'">
         <template #leading><SidebarTrigger /></template>
       </DocsHeader>
     </template>
@@ -49,7 +52,11 @@
         <template #icon>
           <Image src="/favicon.png" alt="" :lazy="false" class="rounded-md" />
         </template>
-        <template #wordmark><DocsWordmark /></template>
+        <template #wordmark>
+          <NuxtLink :to="localePath('/')" class="hn-focus-ring inline-flex rounded-sm">
+            <DocsWordmark />
+          </NuxtLink>
+        </template>
         <SidebarGroup v-for="group in nav" :key="group.label" :label="t(group.label)">
           <NavLink
             v-for="item in group.items"
