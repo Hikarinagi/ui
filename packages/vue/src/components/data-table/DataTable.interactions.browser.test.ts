@@ -119,11 +119,11 @@ describe('DataTable direct manipulation', () => {
     await vi.waitFor(() => expect(widths(wrapper)).toEqual(initial))
     expect(document.documentElement.hasAttribute('data-hn-table-gesture')).toBe(false)
     expect(document.querySelector('[data-hn-resize-guide]')).toBeNull()
-    expect(wrapper.find('[data-hn-column="id"] [role="separator"]').exists()).toBe(true)
+    expect(wrapper.find('[data-hn-column="id"] [role="separator"]').exists()).toBe(false)
     begin(handle, box.x + 2, box.y + 2)
     window.dispatchEvent(pointer('pointermove', box.x - 500, box.y + 40))
     window.dispatchEvent(pointer('pointerup', box.x - 500, box.y + 40))
-    await vi.waitFor(() => expect(rect(wrapper, 'name').width).toBeCloseTo(100, 0))
+    await vi.waitFor(() => expect(rect(wrapper, 'name').width).toBeCloseTo(initial[0]!, 0))
     expect(rect(wrapper, 'count').width).toBeCloseTo(initial[1]!, 0)
   })
 

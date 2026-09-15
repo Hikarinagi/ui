@@ -61,9 +61,19 @@ export function resizeBounds<T extends object>(
   column: DataTableColumn<T>,
   neighbor: DataTableColumn<T> | undefined,
   widths: Record<string, number>,
+  minimumTotalWidth = 0,
 ) {
   const bounds = columnBounds(column)
-  if (!neighbor) return bounds
+  if (!neighbor) {
+    const otherWidth = Object.entries(widths).reduce(
+      (sum, [key, width]) => sum + (key === column.key ? 0 : width),
+      0,
+    )
+    return {
+      min: Math.max(bounds.min, Math.min(widths[column.key]!, minimumTotalWidth - otherWidth)),
+      max: bounds.max,
+    }
+  }
   const other = columnBounds(neighbor)
   const total = widths[column.key]! + widths[neighbor.key]!
   return {
@@ -77,8 +87,9 @@ export function resizeWidths<T extends object>(
   neighbor: DataTableColumn<T> | undefined,
   widths: Record<string, number>,
   value: number,
+  minimumTotalWidth = 0,
 ) {
-  const { min, max } = resizeBounds(column, neighbor, widths)
+  const { min, max } = resizeBounds(column, neighbor, widths, minimumTotalWidth)
   const width = Math.max(min, Math.min(max, value))
   return {
     [column.key]: width,

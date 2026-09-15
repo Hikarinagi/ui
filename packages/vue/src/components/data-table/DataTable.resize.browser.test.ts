@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { page } from 'vitest/browser'
+import { page, userEvent } from 'vitest/browser'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { h, type VNode } from 'vue'
 import DataTable from './DataTable.vue'
@@ -78,6 +78,94 @@ describe('DataTable resize geometry', () => {
     expect(area.getBoundingClientRect().left).toBe(before.left)
     expect(area.getBoundingClientRect().width).toBe(before.width)
     up(x + 35, y)
+  })
+
+  it.each(['ltr', 'rtl'])(
+    'stops expanding-mode shrink at the viewport width for both pointer and keyboard in %s',
+    async dir => {
+      document.documentElement.dir = dir
+      const { wrapper } = await render({ resizeMode: 'expand' })
+      const initial = widths(wrapper)
+      const area = viewport(wrapper)
+      const sign = dir === 'rtl' ? -1 : 1
+      const { x, y, handle } = start(wrapper, 'a')
+      expect(Number(handle.getAttribute('aria-valuemin'))).toBeCloseTo(initial[0]!, 0)
+      move(x - 100 * sign, y)
+      up(x - 100 * sign, y)
+      await new Promise(resolve => requestAnimationFrame(resolve))
+      expect(widths(wrapper)).toEqual(initial)
+      expect(wrapper.emitted('update:columnWidths')).toBeUndefined()
+      const grow = start(wrapper, 'a')
+      move(grow.x + 80 * sign, grow.y)
+      await vi.waitFor(() => expect(rect(wrapper, 'a').width).toBeCloseTo(initial[0]! + 80, 0))
+      move(grow.x - 100 * sign, grow.y)
+      await vi.waitFor(() => expect(rect(wrapper, 'a').width).toBeCloseTo(initial[0]!, 0))
+      expect(wrapper.find('table').element.getBoundingClientRect().width).toBeCloseTo(
+        area.clientWidth,
+        0,
+      )
+      up(grow.x - 100 * sign, grow.y)
+      handle.focus()
+      const count = wrapper.emitted('update:columnWidths')?.length
+      await userEvent.keyboard('{Home}')
+      expect(wrapper.emitted('update:columnWidths')?.length).toBe(count)
+      await userEvent.keyboard('{End}')
+      await vi.waitFor(() => expect(rect(wrapper, 'a').width).toBe(600))
+      await userEvent.keyboard('{Home}')
+      await vi.waitFor(() => expect(widths(wrapper)).toEqual(initial))
+      expect(area.scrollWidth).toBe(area.clientWidth)
+    },
+  )
+
+  it.each(['ltr', 'rtl'])(
+    'uses the same total-width limit for an end-pinned column while scrolled in %s',
+    async dir => {
+      document.documentElement.dir = dir
+      const { wrapper } = await render(
+        {
+          resizeMode: 'expand',
+          columns: columns.map(column => (column.key === 'c' ? { ...column, pin: 'end' } : column)),
+          columnWidths: { a: 200, b: 200, c: 400 },
+        },
+        { width: 600 },
+      )
+      const area = viewport(wrapper)
+      area.scrollLeft = dir === 'rtl' ? -area.scrollWidth : area.scrollWidth
+      await vi.waitFor(() => expect(Math.abs(area.scrollLeft)).toBeGreaterThan(190))
+      const initial = widths(wrapper)
+      const { x, y, handle } = start(wrapper, 'c')
+      const delta = dir === 'rtl' ? -500 : 500
+      move(x + delta, y)
+      const min = area.clientWidth - initial[0]! - initial[1]!
+      await vi.waitFor(() => expect(rect(wrapper, 'c').width).toBeCloseTo(min, 0))
+      expect(rect(wrapper, 'a').width).toBe(initial[0])
+      expect(rect(wrapper, 'b').width).toBe(initial[1])
+      expect(area.scrollWidth).toBe(area.clientWidth)
+      up(x + delta, y)
+      handle.focus()
+      await userEvent.keyboard('{Home}')
+      expect(rect(wrapper, 'c').width).toBeCloseTo(min, 0)
+      expect(wrapper.find('table').element.getBoundingClientRect().width).toBeCloseTo(
+        area.clientWidth,
+        0,
+      )
+    },
+  )
+
+  it('accounts for selection and row-edit action columns in the available width', async () => {
+    const { wrapper } = await render({ resizeMode: 'expand', selectable: true, editMode: 'row' })
+    const initial = widths(wrapper)
+    const { x, y } = start(wrapper, 'a')
+    move(x + 80, y)
+    await vi.waitFor(() => expect(rect(wrapper, 'a').width).toBeCloseTo(initial[0]! + 80, 0))
+    move(x - 100, y)
+    await vi.waitFor(() => expect(rect(wrapper, 'a').width).toBeCloseTo(initial[0]!, 0))
+    up(x - 100, y)
+    expect(widths(wrapper)).toEqual(initial)
+    expect(wrapper.find('table').element.getBoundingClientRect().width).toBeCloseTo(
+      viewport(wrapper).clientWidth,
+      0,
+    )
   })
 
   it('does not persist widths after a click and continues responding to container resizing', async () => {

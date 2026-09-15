@@ -66,16 +66,28 @@ export function useTableColumns<T extends object>(
       ctl.visibleColumns.value.some(column => column.truncate || column.maxWidth !== undefined) ||
       Object.keys(models.columnWidths.value).length > 0,
   )
+  const availableColumnsWidth = computed(
+    () => available.value - leading.value * 48 - trailing.value * 72,
+  )
   const widths = computed(
     () =>
       active.value ??
       allocateWidths(
         ctl.visibleColumns.value,
         models.columnWidths.value,
-        available.value - leading.value * 48 - trailing.value * 72,
+        availableColumnsWidth.value,
       ),
   )
-  const resizing = useTableResize(props, models, ctl, element, viewport, widths, active)
+  const resizing = useTableResize(
+    props,
+    models,
+    ctl,
+    element,
+    viewport,
+    widths,
+    active,
+    availableColumnsWidth,
+  )
   const widthVariable = (column: DataTableColumn<T>) =>
     `var(--hn-table-column-${ctl.visibleColumns.value.findIndex(item => item.key === column.key)})`
   function width(column: DataTableColumn<T>) {

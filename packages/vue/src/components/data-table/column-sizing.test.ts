@@ -25,6 +25,21 @@ describe('DataTable width allocation', () => {
     expect(resizeWidths(columns[0]!, columns[1], widths, 500)).toEqual({ a: 300, b: 150 })
     expect(resizeWidths(columns[0]!, columns[1], widths, 10)).toEqual({ a: 100, b: 350 })
   })
+  it('limits single-column shrinking to the overflow width without changing the neighboring column', () => {
+    expect(resizeBounds(columns[0]!, undefined, { a: 250, b: 200 }, 400)).toEqual({
+      min: 200,
+      max: 400,
+    })
+    expect(resizeWidths(columns[0]!, undefined, { a: 250, b: 200 }, 100, 400)).toEqual({ a: 200 })
+    expect(resizeWidths(columns[0]!, undefined, { a: 200, b: 200 }, 100, 400)).toEqual({ a: 200 })
+    expect(resizeWidths(columns[0]!, undefined, { a: 200, b: 200 }, 300, 400)).toEqual({ a: 300 })
+    expect(resizeWidths(columns[0]!, undefined, { a: 200, b: 200 }, 100, 600)).toEqual({ a: 200 })
+    expect(resizeBounds(columns[0]!, columns[1], { a: 250, b: 200 }, 400)).toEqual({
+      min: 100,
+      max: 300,
+    })
+  })
+
   it('owns the shared fit boundary on the end-pinned column and respects non-resizable neighbors', () => {
     const pinned = [{ ...columns[0]! }, { ...columns[1]!, pin: 'end' as const }]
     expect(resizeBoundary(pinned, pinned[0]!, 'fit')).toBeUndefined()

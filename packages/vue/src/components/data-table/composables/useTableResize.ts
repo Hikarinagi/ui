@@ -11,14 +11,16 @@ export function useTableResize<T extends object>(
   viewport: Ref<HTMLElement | undefined>,
   widths: Ref<Record<string, number>>,
   active: Ref<Record<string, number> | undefined>,
+  available: Ref<number>,
 ) {
   const resizing = shallowRef<string>()
   const guide = shallowRef<{ x: number; y: number; height: number }>()
   let release: (() => void) | undefined
   const boundary = (column: DataTableColumn<T>) =>
     resizeBoundary(ctl.visibleColumns.value, column, props.resizeMode ?? 'fit')
+  const minimumTotalWidth = () => (props.resizeMode === 'expand' ? Math.max(0, available.value) : 0)
   const bounds = (column: DataTableColumn<T>) =>
-    resizeBounds(column, boundary(column)?.neighbor, widths.value)
+    resizeBounds(column, boundary(column)?.neighbor, widths.value, minimumTotalWidth())
   const canResize = (column: DataTableColumn<T>) => {
     const range = bounds(column)
     return props.resizable && !!boundary(column) && range.max - range.min > 0.01
@@ -101,7 +103,7 @@ export function useTableResize<T extends object>(
         const delta =
           pointerX - event.clientX + anchor - areaAnchor() + (column.pin ? 0 : scrollDelta)
         const desired = initial[column.key]! + (delta * sign) / ratio
-        const changes = resizeWidths(column, edge.neighbor, initial, desired)
+        const changes = resizeWidths(column, edge.neighbor, initial, desired, minimumTotalWidth())
         if (
           Object.entries(changes).some(
             ([key, width]) => Math.abs(width - widths.value[key]!) > 0.01,
@@ -195,7 +197,9 @@ export function useTableResize<T extends object>(
           : widths.value[column.key]! +
             (event.key === 'ArrowRight' ? 1 : -1) * sign * (event.shiftKey ? 10 : 1)
     const initial = widths.value
-    const changes = resizeWidths(column, edge.neighbor, initial, value)
+    const changes = resizeWidths(column, edge.neighbor, initial, value, minimumTotalWidth())
+    if (Object.entries(changes).every(([key, width]) => Math.abs(width - initial[key]!) < 0.01))
+      return
     models.columnWidths.value = {
       ...models.columnWidths.value,
       ...(props.resizeMode === 'expand' ? initial : {}),
