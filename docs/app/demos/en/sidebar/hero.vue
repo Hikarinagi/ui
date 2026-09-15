@@ -33,16 +33,14 @@
   <AppShell mobile-title="Hina UI" class="border-line h-112 w-full rounded-lg border">
     <template #sidebar>
       <Sidebar>
-        <template #header>
-          <Inline gap="sm" align="center" :wrap="false">
-            <Avatar src="/favicon.png" name="Hina UI" class="rounded-md" />
-            <SidebarLabel as="div" class="flex-1">
-              <Stack gap="none">
-                <Text weight="medium" class="truncate">Hina UI</Text>
-                <Text size="xs" tone="muted" class="truncate">Workspace</Text>
-              </Stack>
-            </SidebarLabel>
-          </Inline>
+        <template #icon>
+          <Avatar src="/favicon.png" name="Hina UI" class="rounded-md" />
+        </template>
+        <template #wordmark>
+          <Stack gap="none">
+            <Text weight="medium" class="truncate">Hina UI</Text>
+            <Text size="xs" tone="muted" class="truncate">Workspace</Text>
+          </Stack>
         </template>
 
         <SidebarGroup v-for="group in groups" :key="group.label" :label="group.label">

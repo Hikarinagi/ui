@@ -22,3 +22,15 @@ export const sidebarRegion = tv({
 export const sidebarLabel = tv({
   base: 'hn-sidebar-label min-w-0',
 })
+
+export const sidebarBrand = tv({
+  base: 'flex min-h-8 items-center gap-2',
+})
+
+export const sidebarIcon = tv({
+  base: 'flex size-8 shrink-0 items-center justify-center overflow-hidden [&>*]:size-full [&_img]:size-full [&_img]:object-contain [&_svg]:size-full',
+})
+
+export const sidebarWordmark = tv({
+  base: 'flex-1 [&_img]:max-h-8 [&_img]:max-w-full [&_img]:object-contain [&_svg]:max-h-8 [&_svg]:max-w-full',
+})

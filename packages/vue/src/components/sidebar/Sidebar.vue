@@ -3,14 +3,29 @@
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
   import ScrollArea from '../scroll-area/ScrollArea.vue'
-  import { useSidebar } from './context'
-  import { sidebarRoot, sidebarRegion } from './sidebar.variants'
+  import { useSidebar, type SidebarState } from './context'
+  import SidebarLabel from './SidebarLabel.vue'
+  import {
+    sidebarRoot,
+    sidebarRegion,
+    sidebarBrand,
+    sidebarIcon,
+    sidebarWordmark,
+  } from './sidebar.variants'
 
   defineOptions({ name: 'HnSidebar' })
 
   const props = defineProps<{
     label?: string
     class?: string
+  }>()
+
+  defineSlots<{
+    default?(): unknown
+    header?(props: { state: SidebarState }): unknown
+    icon?(props: { state: SidebarState }): unknown
+    wordmark?(props: { state: SidebarState }): unknown
+    footer?(props: { state: SidebarState }): unknown
   }>()
 
   const t = useUiLocale()
@@ -25,8 +40,19 @@
     :inert="state === 'hidden'"
     :class="cn(sidebarRoot({ inDrawer }), props.class)"
   >
-    <div v-if="$slots.header" :class="sidebarRegion({ inDrawer })">
-      <slot name="header" :state="state" />
+    <div
+      v-if="$slots.header || $slots.icon || $slots.wordmark"
+      :class="sidebarRegion({ inDrawer })"
+    >
+      <slot v-if="$slots.header" name="header" :state="state" />
+      <div v-else :class="sidebarBrand()">
+        <div v-if="$slots.icon" :class="sidebarIcon()">
+          <slot name="icon" :state="state" />
+        </div>
+        <SidebarLabel v-if="$slots.wordmark" as="div" :class="sidebarWordmark()">
+          <slot name="wordmark" :state="state" />
+        </SidebarLabel>
+      </div>
     </div>
     <ScrollArea class="min-h-0 flex-1">
       <nav

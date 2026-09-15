@@ -30,9 +30,26 @@ import { Sidebar, SidebarGroup, SidebarLabel, SidebarTrigger } from '@hina-ui/vu
 
 <Demo name="sidebar/groups" />
 
+### 品牌图标与字标 {#brand}
+
+`icon` 与 `wordmark` 插槽组成默认页眉。图标位固定为 32 × 32 像素，SVG 和图片按比例显示；字标可以是文字、SVG、[Image](/components/image) 或组合内容。
+
+| 插槽内容            | 展开                   | 收起为 rail            |
+| ------------------- | ---------------------- | ---------------------- |
+| `icon` + `wordmark` | 图标与字标并排显示     | 图标保持原位，字标淡出 |
+| 只有 `icon`         | 显示图标               | 保持原位               |
+| 只有 `wordmark`     | 字标从页眉起始位置显示 | 字标整体淡出           |
+| 均未提供            | 不生成品牌区           | 不生成品牌区           |
+
+品牌行在收起时保留高度，导航不会随字标退场上下移动。字标自动使用与导航文字相同的过渡，不需要再包 `SidebarLabel`；进入移动端抽屉时完整显示。
+
+两个插槽均提供 `{ state }`。传入 `header` 时由它完全接管页眉，`icon` 和 `wordmark` 不再渲染。
+
+<Demo name="sidebar/brand" />
+
 ### 页眉与页脚 {#slots}
 
-`header` 与 `footer` 插槽分别位于条目区的上方与下方，两者都不随条目滚动。
+`header` 完整替换默认品牌页眉，`footer` 位于条目区下方，两者都不随条目滚动。自定义页眉不会被自动视为 logo 隐藏。
 
 页眉与页脚保持展开时的内容宽度，收起过程不会挤压内容或改变换行。把文字与附属操作放进 `SidebarLabel`，它会与 [NavLink](/components/nav-link) 的文字一起淡出，展开时延后淡入；标识和 [Avatar](/components/avatar) 留在外面，位置与尺寸保持不变。
 
@@ -53,6 +70,7 @@ import { Sidebar, SidebarGroup, SidebarLabel, SidebarTrigger } from '@hina-ui/vu
 
 - 条目区是 `nav` 地标，默认无障碍名取自界面语言（简体中文为「侧边导航」），`label` 可覆盖。
 - rail 形态下条目的文字虽然不可见，但 [NavLink](/components/nav-link) 的 `label` 会作为 `aria-label` 保留。
+- 隐藏的字标退出朗读与焦点序列。品牌图标使用图片时提供 `alt`，使用 SVG 时提供合适的无障碍名；若图标包含链接，链接本身也应有名称。
 - 收起后被隐藏的组标题同时退出键盘序列，不会出现能聚焦却看不见的控件。
 
 ## API {#api}
@@ -64,11 +82,13 @@ import { Sidebar, SidebarGroup, SidebarLabel, SidebarTrigger } from '@hina-ui/vu
 | `label` | `string` | 取自界面语言 | 导航地标的无障碍名 |
 | `class` | `string` | —            | 追加到根元素的类   |
 
-| 插槽      | 插槽参数    | 说明             |
-| --------- | ----------- | ---------------- |
-| `default` | —           | 侧栏条目         |
-| `header`  | `{ state }` | 条目区上方的内容 |
-| `footer`  | `{ state }` | 条目区下方的内容 |
+| 插槽       | 插槽参数    | 说明                                  |
+| ---------- | ----------- | ------------------------------------- |
+| `default`  | —           | 侧栏条目                              |
+| `header`   | `{ state }` | 完整替换页眉，优先于品牌插槽          |
+| `icon`     | `{ state }` | 固定方形区域内的品牌图标，rail 时保留 |
+| `wordmark` | `{ state }` | 品牌字标，rail 时自动淡出             |
+| `footer`   | `{ state }` | 条目区下方的内容                      |
 
 ### SidebarGroup {#group}
 

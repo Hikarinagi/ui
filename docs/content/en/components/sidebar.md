@@ -30,9 +30,26 @@ Every [NavLink](/components/nav-link) inside the sidebar should carry a `label`:
 
 <Demo name="sidebar/groups" />
 
+### Brand icon and wordmark {#brand}
+
+The `icon` and `wordmark` slots form the default header. The icon occupies a fixed 32 × 32 pixel box; SVGs and images preserve their proportions. The wordmark accepts text, SVG, [Image](/components/image), or composed content.
+
+| Slots provided      | Expanded                             | Rail                                    |
+| ------------------- | ------------------------------------ | --------------------------------------- |
+| `icon` + `wordmark` | Icon and wordmark side by side       | Icon stays in place; wordmark fades out |
+| Only `icon`         | Icon visible                         | Stays in place                          |
+| Only `wordmark`     | Wordmark aligned to the header start | Entire wordmark fades out               |
+| Neither             | No brand region                      | No brand region                         |
+
+The brand row retains its height during collapse, keeping the navigation in place. The wordmark automatically shares the navigation label transition without a `SidebarLabel` wrapper. The complete brand is visible in the mobile drawer.
+
+Both slots receive `{ state }`. Providing `header` fully replaces the default header; `icon` and `wordmark` are then not rendered.
+
+<Demo name="sidebar/brand" />
+
 ### Header and footer {#slots}
 
-The `header` and `footer` slots sit above and below the entries and neither scrolls with them.
+The `header` slot fully replaces the default brand header, while `footer` sits below the entries. Neither scrolls with the entries. Custom headers are not automatically hidden as logos.
 
 The header and footer retain their expanded content width, preventing content from squeezing or wrapping during collapse. Wrap text and secondary actions in `SidebarLabel` to fade them out with [NavLink](/components/nav-link) labels and delay their fade-in on expansion. Keep the logo and [Avatar](/components/avatar) outside it so their size and position stay fixed.
 
@@ -53,6 +70,7 @@ The header and footer retain their expanded content width, preventing content fr
 
 - The entry area is a `nav` landmark whose default accessible name follows the interface language (“Sidebar navigation” in English); `label` overrides it.
 - In the rail form the entry text is invisible, but each [NavLink](/components/nav-link)'s `label` remains as its `aria-label`.
+- Hidden wordmarks leave screen readers and keyboard focus. Supply `alt` for brand images and an appropriate accessible name for SVGs. A link around the icon also needs an accessible name.
 - A group heading hidden by the rail also leaves the keyboard order, so no control is focusable while invisible.
 
 ## API {#api}
@@ -64,11 +82,13 @@ The header and footer retain their expanded content width, preventing content fr
 | `label` | `string` | Interface language | Accessible name of the landmark |
 | `class` | `string` | —                  | Classes appended to the root    |
 
-| Slot      | Slot props  | Description               |
-| --------- | ----------- | ------------------------- |
-| `default` | —           | Sidebar entries           |
-| `header`  | `{ state }` | Content above the entries |
-| `footer`  | `{ state }` | Content below the entries |
+| Slot       | Slot props  | Description                                                 |
+| ---------- | ----------- | ----------------------------------------------------------- |
+| `default`  | —           | Sidebar entries                                             |
+| `header`   | `{ state }` | Fully replaces the header, taking priority over brand slots |
+| `icon`     | `{ state }` | Brand icon in a fixed square box, retained in rail form     |
+| `wordmark` | `{ state }` | Brand wordmark, automatically faded out in rail form        |
+| `footer`   | `{ state }` | Content below the entries                                   |
 
 ### SidebarGroup {#group}
 
