@@ -88,7 +88,9 @@ describe('DataTable advanced browser behavior', () => {
         dir === 'rtl' ? '{Shift>}{ArrowLeft}{/Shift}' : '{Shift>}{ArrowRight}{/Shift}',
       )
       await vi.waitFor(() => expect(first.getBoundingClientRect().width).toBeCloseTo(230, 0))
-      expect(wrapper.emitted('update:columnWidths')?.at(-1)).toEqual([{ name: 230 }])
+      expect(wrapper.emitted('update:columnWidths')?.at(-1)).toEqual([
+        { name: 230, count: 290, id: 120 },
+      ])
       await userEvent.keyboard('{Home}')
       await vi.waitFor(() => expect(first.getBoundingClientRect().width).toBeCloseTo(120, 0))
       await expectNoA11yViolations(wrapper.element as HTMLElement)
@@ -121,6 +123,7 @@ describe('DataTable advanced browser behavior', () => {
     const wrapper = render({ resizable: true })
     await ready(wrapper)
     const handle = wrapper.find('[role="separator"]').element
+    vi.spyOn(handle, 'setPointerCapture').mockImplementation(() => {})
     handle.dispatchEvent(
       new PointerEvent('pointerdown', { bubbles: true, button: 0, clientX: 200 }),
     )
@@ -195,6 +198,7 @@ describe('DataTable advanced browser behavior', () => {
     const source = wrapper.find('tbody button').element
     const origin = source.getBoundingClientRect(),
       target = wrapper.findAll('tbody tr')[2]!.element.getBoundingClientRect()
+    vi.spyOn(source, 'setPointerCapture').mockImplementation(() => {})
     source.dispatchEvent(
       new PointerEvent('pointerdown', {
         bubbles: true,
@@ -206,7 +210,12 @@ describe('DataTable advanced browser behavior', () => {
     window.dispatchEvent(
       new PointerEvent('pointermove', { clientX: target.x + 70, clientY: target.y + 10 }),
     )
-    window.dispatchEvent(new PointerEvent('pointerup'))
+    window.dispatchEvent(
+      new PointerEvent('pointerup', {
+        clientX: target.x + 12,
+        clientY: target.y + target.height / 2,
+      }),
+    )
     expect(wrapper.emitted('rowReorder')?.[0]?.[0]).toMatchObject({ from: 0, to: 2 })
     source.dispatchEvent(
       new PointerEvent('pointerdown', {
@@ -249,7 +258,7 @@ describe('DataTable advanced browser behavior', () => {
     expect(document.activeElement).toBe(rowHandle)
     const columnHandle = wrapper.find('[data-hn-column="name"] button').element as HTMLElement
     columnHandle.focus()
-    await userEvent.keyboard('{ArrowRight}')
+    await userEvent.keyboard('{Alt>}{ArrowRight}{/Alt}')
     await vi.waitFor(() =>
       expect(
         wrapper.findAll('[data-hn-column]').map(header => header.attributes('data-hn-column')),

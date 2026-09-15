@@ -99,6 +99,7 @@
     models,
     ctl,
     element,
+    viewport,
     computed(() => controls.value.length),
     trailing,
   )
@@ -183,7 +184,7 @@
               :key="column.key"
               :style="{ width: layout.cellStyle(column).width }"
             />
-            <col v-if="trailing" style="width: 88px" />
+            <col v-if="trailing" style="width: 72px" />
           </colgroup>
           <DataTableHead
             :config="props"
@@ -324,6 +325,6 @@
         </Button>
       </nav>
     </slot>
-    <DataTableDragPreview :drag="drag" />
+    <DataTableDragPreview :drag="drag" :layout="layout" />
   </div>
 </template>

@@ -97,6 +97,7 @@ export interface DataTableProps<T> {
   autoResetPage?: boolean
   multiSort?: boolean
   resizable?: boolean
+  resizeMode?: 'fit' | 'expand'
   reorderColumns?: boolean
   reorderable?: boolean | ((row: T) => boolean)
   virtualize?: boolean | { estimateSize?: number; overscan?: number }

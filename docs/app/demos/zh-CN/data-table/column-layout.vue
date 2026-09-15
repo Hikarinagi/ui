@@ -1,8 +1,13 @@
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { DataTable, type DataTableColumn } from '@hina-ui/vue'
+  import { DataTable, Stack, Inline, Text, Select, type DataTableColumn } from '@hina-ui/vue'
   import { tableDemo, type TableDemoRow } from '../../data-table'
   const { rows, columns } = tableDemo('zh-CN')
+  const mode = ref<'fit' | 'expand'>('fit')
+  const modes = [
+    { value: 'fit', label: '保持总宽' },
+    { value: 'expand', label: '仅调整当前列' },
+  ]
   const order = ref<string[]>([])
   const widths = ref<Record<string, number>>({})
   const sizedColumns: DataTableColumn<TableDemoRow>[] = [
@@ -17,14 +22,21 @@
 </script>
 
 <template>
-  <DataTable
-    v-model:column-order="order"
-    v-model:column-widths="widths"
-    :rows="longRows"
-    :columns="sizedColumns"
-    row-key="id"
-    resizable
-    reorder-columns
-    label="条目列表"
-  />
+  <Stack gap="sm">
+    <Inline gap="xs">
+      <Text size="sm" tone="muted">调宽模式</Text>
+      <Select v-model="mode" :options="modes" size="sm" class="w-44" aria-label="调宽模式" />
+    </Inline>
+    <DataTable
+      v-model:column-order="order"
+      v-model:column-widths="widths"
+      :rows="longRows"
+      :columns="sizedColumns"
+      row-key="id"
+      resizable
+      :resize-mode="mode"
+      reorder-columns
+      label="条目列表"
+    />
+  </Stack>
 </template>

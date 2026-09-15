@@ -16,23 +16,27 @@ export function useTableColumns<T extends object>(
   models: DataTableModels,
   ctl: DataTableController<T>,
   element: Ref<HTMLTableElement | undefined>,
+  viewport: Ref<HTMLElement | undefined>,
   leading: Ref<number>,
   trailing: Ref<number>,
 ) {
   const measured = shallowRef<Record<string, number>>({})
   const heights = shallowRef<number[]>([])
   const resizing = shallowRef<string>()
+  const available = shallowRef(0)
+  const guide = shallowRef<{ x: number; y: number; height: number }>()
   let observer: ResizeObserver | undefined
   let release: (() => void) | undefined
   let frame = 0
   let disposed = false
   watch(
-    [element, ctl.visibleColumns],
+    [element, viewport, ctl.visibleColumns],
     async () => {
       await nextTick()
       observer?.disconnect()
       if (disposed || !element.value || typeof ResizeObserver === 'undefined') return
       const update = () => {
+        available.value = viewport.value?.clientWidth ?? 0
         const next: Record<string, number> = {}
         element.value?.querySelectorAll<HTMLElement>('thead [data-hn-column]').forEach(cell => {
           next[cell.dataset.hnColumn!] = cell.getBoundingClientRect().width
@@ -45,6 +49,7 @@ export function useTableColumns<T extends object>(
       }
       observer = new ResizeObserver(update)
       element.value.querySelectorAll('thead th, thead tr').forEach(cell => observer!.observe(cell))
+      if (viewport.value) observer.observe(viewport.value)
       update()
     },
     { flush: 'post' },
@@ -64,21 +69,48 @@ export function useTableColumns<T extends object>(
         ? parseFloat(value)
         : fallback
   }
-  function width(column: DataTableColumn<T>) {
-    return (
-      models.columnWidths.value[column.key] ??
-      measured.value[column.key] ??
-      numeric(column.width, 160)
+  const widths = computed(() => {
+    const columns = ctl.visibleColumns.value
+    const result = Object.fromEntries(
+      columns.map(column => [
+        column.key,
+        clamp(column, numeric(models.columnWidths.value[column.key] ?? column.width, 160)),
+      ]),
     )
+    if (!Object.keys(models.columnWidths.value).length) {
+      let remaining =
+        available.value -
+        leading.value * 48 -
+        trailing.value * 72 -
+        Object.values(result).reduce((sum, value) => sum + value, 0)
+      let flexible = columns.filter(column => !column.pin)
+      while (remaining > 0.5 && flexible.length) {
+        const share = remaining / flexible.length
+        for (const column of flexible) {
+          const extra = Math.max(
+            0,
+            Math.min(share, numeric(column.maxWidth, Infinity) - result[column.key]!),
+          )
+          result[column.key]! += extra
+          remaining -= extra
+        }
+        flexible = flexible.filter(
+          column => result[column.key]! < numeric(column.maxWidth, Infinity),
+        )
+      }
+    }
+    return result
+  })
+  function clamp(column: DataTableColumn<T>, value: number) {
+    return Math.max(numeric(column.minWidth, 48), Math.min(numeric(column.maxWidth, 1600), value))
+  }
+  function width(column: DataTableColumn<T>) {
+    return constrained.value
+      ? widths.value[column.key]!
+      : (measured.value[column.key] ?? numeric(column.width, 160))
   }
   function specifiedWidth(column: DataTableColumn<T>) {
-    return (
-      models.columnWidths.value[column.key] ??
-      column.width ??
-      (constrained.value
-        ? Math.min(numeric(column.maxWidth, Infinity), Math.max(numeric(column.minWidth, 48), 160))
-        : undefined)
-    )
+    return constrained.value ? width(column) : column.width
   }
   function pinStyle(column: DataTableColumn<T>, head = false): CSSProperties {
     if (!column.pin) return {}
@@ -87,7 +119,7 @@ export function useTableColumns<T extends object>(
     const offset =
       column.pin === 'start'
         ? leading.value * 48 + siblings.slice(0, index).reduce((sum, item) => sum + width(item), 0)
-        : trailing.value * 88 +
+        : trailing.value * 72 +
           siblings.slice(index + 1).reduce((sum, item) => sum + width(item), 0)
     return {
       position: 'sticky',
@@ -107,9 +139,10 @@ export function useTableColumns<T extends object>(
   }
   function controlStyle(side: 'start' | 'end', index: number, head = false): CSSProperties {
     return {
-      width: side === 'end' ? '88px' : '48px',
-      minWidth: side === 'end' ? '88px' : '48px',
+      width: side === 'end' ? '72px' : '48px',
+      minWidth: side === 'end' ? '72px' : '48px',
       paddingInline: '8px',
+      textAlign: 'center',
       ...(ctl.visibleColumns.value.some(column => column.pin === side)
         ? {
             position: 'sticky',
@@ -178,52 +211,126 @@ export function useTableColumns<T extends object>(
     tableLayout: constrained.value ? 'fixed' : 'auto',
     ...(constrained.value
       ? {
-          width: `max(100%, ${ctl.visibleColumns.value.reduce((sum, column) => sum + numeric(specifiedWidth(column), 160), leading.value * 48 + trailing.value * 88)}px)`,
+          width: `${ctl.visibleColumns.value.reduce((sum, column) => sum + width(column), leading.value * 48 + trailing.value * 72)}px`,
         }
       : {}),
   }))
+  function neighbor(column: DataTableColumn<T>) {
+    const columns = ctl.visibleColumns.value
+    return columns[columns.findIndex(item => item.key === column.key) + 1]
+  }
+  function canResize(column: DataTableColumn<T>) {
+    return (
+      props.resizable &&
+      column.resizable !== false &&
+      (props.resizeMode === 'expand' ||
+        (neighbor(column)?.resizable !== false && !!neighbor(column)))
+    )
+  }
+  function snapshot() {
+    return Object.fromEntries(ctl.visibleColumns.value.map(column => [column.key, width(column)]))
+  }
+  function resized(column: DataTableColumn<T>, value: number, initial: Record<string, number>) {
+    const next = props.resizeMode === 'expand' ? undefined : neighbor(column)
+    let delta = clamp(column, value) - initial[column.key]!
+    if (next && next.resizable !== false) {
+      delta = initial[next.key]! - clamp(next, initial[next.key]! - delta)
+      delta = clamp(column, initial[column.key]! + delta) - initial[column.key]!
+    }
+    return {
+      ...models.columnWidths.value,
+      ...initial,
+      [column.key]: initial[column.key]! + delta,
+      ...(next && next.resizable !== false ? { [next.key]: initial[next.key]! - delta } : {}),
+    }
+  }
   function setWidth(key: string, value: number) {
     if (ctl.blocked.value || !Number.isFinite(value)) return
     const column = ctl.leaves.value.find(column => column.key === key)
-    if (!column) return
-    models.columnWidths.value = {
-      ...models.columnWidths.value,
-      [key]: Math.max(
-        numeric(column.minWidth, 48),
-        Math.min(numeric(column.maxWidth, 1600), value),
-      ),
-    }
+    if (column)
+      models.columnWidths.value = ctl.visibleColumns.value.includes(column)
+        ? resized(column, value, snapshot())
+        : { ...models.columnWidths.value, [key]: clamp(column, value) }
   }
   function resize(column: DataTableColumn<T>, event: PointerEvent) {
-    if (event.button !== 0 || ctl.blocked.value) return
+    if (event.button !== 0 || ctl.blocked.value || !canResize(column)) return
     event.preventDefault()
     event.stopPropagation()
     release?.()
-    const widths = Object.fromEntries(ctl.visibleColumns.value.map(item => [item.key, width(item)]))
-    models.columnWidths.value = { ...models.columnWidths.value, ...widths }
-    const start = event.clientX,
-      initial = width(column)
-    const direction = element.value && getComputedStyle(element.value).direction === 'rtl' ? -1 : 1
+    const handle = event.currentTarget as HTMLElement
+    const document = handle.ownerDocument
+    const previous = models.columnWidths.value
+    const initial = snapshot()
+    const start = event.clientX
+    const direction = getComputedStyle(element.value!).direction === 'rtl' ? -1 : 1
+    const cell = handle.closest('th')!
+    const cursor = document.documentElement.style.cursor
+    const selection = document.documentElement.style.userSelect
+    document.documentElement.dataset.hnTableGesture = 'resize'
+    document.documentElement.style.cursor = 'col-resize'
+    document.documentElement.style.userSelect = 'none'
+    handle.setPointerCapture?.(event.pointerId)
     resizing.value = column.key
-    let latest = initial
-    const move = (next: PointerEvent) => {
-      latest = initial + (next.clientX - start) * direction
-      cancelAnimationFrame(frame)
-      frame = requestAnimationFrame(() => setWidth(column.key, latest))
+    let latest = initial[column.key]!
+    const apply = () => {
+      if (disposed) return
+      models.columnWidths.value = resized(column, latest, initial)
+      void nextTick(() => {
+        if (resizing.value !== column.key) return
+        const rect = cell.getBoundingClientRect()
+        const area = viewport.value?.getBoundingClientRect()
+        const table = element.value?.getBoundingClientRect()
+        if (area && table)
+          guide.value = {
+            x: direction === 1 ? rect.right : rect.left,
+            y: Math.max(rect.top, area.top),
+            height: Math.max(0, Math.min(table.bottom, area.bottom) - Math.max(rect.top, area.top)),
+          }
+      })
     }
-    const stop = () => {
+    const move = (next: PointerEvent) => {
+      if (next.pointerId !== event.pointerId) return
+      latest = initial[column.key]! + (next.clientX - start) * direction
       cancelAnimationFrame(frame)
-      if (!disposed) setWidth(column.key, latest)
+      frame = requestAnimationFrame(apply)
+    }
+    const stop = (cancel = false) => {
+      cancelAnimationFrame(frame)
+      if (cancel) models.columnWidths.value = previous
+      else apply()
       window.removeEventListener('pointermove', move)
-      window.removeEventListener('pointerup', stop)
-      window.removeEventListener('pointercancel', stop)
+      window.removeEventListener('pointerup', up)
+      window.removeEventListener('pointercancel', cancelDrag)
+      window.removeEventListener('keydown', keydown)
+      window.removeEventListener('blur', cancelDrag)
+      if (handle.hasPointerCapture?.(event.pointerId)) handle.releasePointerCapture(event.pointerId)
+      delete document.documentElement.dataset.hnTableGesture
+      document.documentElement.style.cursor = cursor
+      document.documentElement.style.userSelect = selection
       resizing.value = undefined
+      guide.value = undefined
       release = undefined
     }
-    release = stop
+    const up = (next: PointerEvent) => {
+      if (next.pointerId !== event.pointerId) return
+      latest = initial[column.key]! + (next.clientX - start) * direction
+      stop()
+    }
+    const cancelDrag = () => stop(true)
+    const keydown = (next: KeyboardEvent) => {
+      if (next.key === 'Escape') {
+        next.preventDefault()
+        next.stopPropagation()
+        stop(true)
+      }
+    }
+    release = cancelDrag
     window.addEventListener('pointermove', move)
-    window.addEventListener('pointerup', stop)
-    window.addEventListener('pointercancel', stop)
+    window.addEventListener('pointerup', up)
+    window.addEventListener('pointercancel', cancelDrag)
+    window.addEventListener('keydown', keydown)
+    window.addEventListener('blur', cancelDrag)
+    apply()
   }
   function resizeKey(column: DataTableColumn<T>, event: KeyboardEvent) {
     if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return
@@ -269,7 +376,18 @@ export function useTableColumns<T extends object>(
     release?.()
     if (frame) cancelAnimationFrame(frame)
   })
-  return { headerRows, tableStyle, cellStyle, controlStyle, resizing, resize, resizeKey, width }
+  return {
+    headerRows,
+    tableStyle,
+    cellStyle,
+    controlStyle,
+    resizing,
+    guide,
+    canResize,
+    resize,
+    resizeKey,
+    width,
+  }
 }
 
 export type DataTableLayout<T extends object> = ReturnType<typeof useTableColumns<T>>

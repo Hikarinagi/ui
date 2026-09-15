@@ -98,9 +98,13 @@ Omit `total` in manual mode to show previous/next controls. `hasNextPage` explic
 
 Columns accept `width`, `minWidth`, `maxWidth` and logical `pin: 'start' | 'end'`. `truncate` keeps default text on one line and shows [Tooltip](/components/tooltip) only when it overflows. Custom cell content owns its own truncation.
 
-`resizable` adds resize handles. Arrow keys adjust one pixel, Shift adjusts ten, and Home/End reach the limits. `v-model:columnWidths` stores pixel overrides. Use numeric bounds for resizing. Explicit CSS lengths also work for static columns; content or remaining container space can enlarge columns in automatic layout.
+`resizable` makes header boundaries draggable, with a guide extending through the table. The default `resizeMode="fit"` exchanges width with the adjacent column and preserves the total width. The last column has no outer handle, and boundaries next to a non-resizable column are unavailable. `resizeMode="expand"` changes only the current column and adjusts the table width. Both modes respect column bounds.
 
-`reorderColumns` adds drag handles with Left/Right keyboard support. `v-model:columnOrder` stores keys. Reordering stays within the same pinned region; `resizable: false` and `reorderable: false` disable individual handles. `layout="fixed"`, resizing, truncation or virtualization constrain the table layout.
+Focus a boundary to resize with Left/Right by one pixel, Shift by ten, or Home/End to the available limits. Escape cancels the current drag. `v-model:columnWidths` stores pixel widths. The first resize starts from the rendered widths and records the other columns as well. Use numeric bounds for resizing; static columns also accept CSS lengths.
+
+`reorderColumns` makes leaf headers draggable. A column preview and insertion line show the drop position. Clicking still sorts; dragging does not trigger sorting. Escape cancels a drag. Focus a header and use Alt + Left/Right to reorder with the keyboard. `v-model:columnOrder` stores keys. Reordering stays within the same pinned region; `resizable: false` and `reorderable: false` disable the respective operation. `layout="fixed"`, resizing, truncation or virtualization constrain the table layout.
+
+The example uses [Select](/components/select) to switch resize modes.
 
 <Demo name="data-table/column-layout" />
 
@@ -194,47 +198,48 @@ The component retains native table semantics, multilevel header scopes and row p
 
 ### Props {#props}
 
-| Prop             | Type                                                      | Default    | Description                                  |
-| ---------------- | --------------------------------------------------------- | ---------- | -------------------------------------------- |
-| `rows`           | `T[]`                                                     | `Required` | Supplied rows                                |
-| `columns`        | `DataTableColumn<T>[]`                                    | `Required` | Column definitions                           |
-| `rowKey`         | `DataTableKeyField<T> \| ((row: T) => DataTableKey)`      | `Required` | Globally unique stable key                   |
-| `rowLabel`       | `keyof T \| ((row: T) => string)`                         | `Row key`  | Accessible row label                         |
-| `selectable`     | `boolean \| ((row: T) => boolean)`                        | `false`    | Selection eligibility                        |
-| `selectionMode`  | `'single' \| 'multiple'`                                  | `multiple` | Selection mode                               |
-| `selectAll`      | `'page' \| 'filtered'`                                    | `page`     | Header selection scope                       |
-| `selectChildren` | `boolean`                                                 | `true`     | Cascade selection to descendants             |
-| `expandable`     | `boolean \| ((row: T) => boolean)`                        | `false`    | Detail expansion eligibility                 |
-| `getChildren`    | `(row: T) => T[] \| undefined`                            | `—`        | Tree children                                |
-| `pagination`     | `boolean`                                                 | `false`    | Enable page controls                         |
-| `manual`         | `boolean`                                                 | `false`    | External query processing                    |
-| `total`          | `number`                                                  | `—`        | Known remote total                           |
-| `hasNextPage`    | `boolean`                                                 | `—`        | Next-page availability without total         |
-| `autoResetPage`  | `boolean`                                                 | `true`     | Reset page after query changes               |
-| `multiSort`      | `boolean`                                                 | `false`    | Append sorting with Shift                    |
-| `resizable`      | `boolean`                                                 | `false`    | Column resize handles                        |
-| `reorderColumns` | `boolean`                                                 | `false`    | Column drag handles                          |
-| `reorderable`    | `boolean \| ((row: T) => boolean)`                        | `false`    | Row drag handles                             |
-| `virtualize`     | `boolean \| { estimateSize?: number; overscan?: number }` | `false`    | Windowed rendering; estimate 44, overscan 6  |
-| `editMode`       | `'cell' \| 'row'`                                         | `—`        | Editing mode                                 |
-| `onSave`         | `(edit: DataTableEdit<T>) => void \| Promise<void>`       | `—`        | Awaited save callback                        |
-| `loading`        | `boolean`                                                 | `false`    | Block stale rows while loading               |
-| `disabled`       | `boolean`                                                 | `false`    | Disable built-in interactions                |
-| `rowClickable`   | `boolean`                                                 | `false`    | Enable row activation                        |
-| `rowClass`       | `(row: T) => string \| undefined`                         | `—`        | Per-row classes                              |
-| `variant`        | `'primary' \| 'secondary'`                                | `primary`  | Appearance                                   |
-| `hover`          | `boolean`                                                 | `true`     | Row hover feedback                           |
-| `stickyHeader`   | `boolean`                                                 | `false`    | Pin headers                                  |
-| `stickyFooter`   | `boolean`                                                 | `false`    | Pin summary cells                            |
-| `height`         | `number \| string`                                        | `—`        | Total component height                       |
-| `maxHeight`      | `number \| string`                                        | `—`        | Scroll-area maximum height                   |
-| `fill`           | `boolean`                                                 | `false`    | Fill a definite-height parent                |
-| `layout`         | `'auto' \| 'fixed'`                                       | `auto`     | Table layout; constrained features use fixed |
-| `caption`        | `string`                                                  | `—`        | Visible caption                              |
-| `label`          | `string`                                                  | `—`        | Accessible table name                        |
-| `emptyText`      | `string`                                                  | `Locale`   | Empty message                                |
-| `class`          | `string`                                                  | `—`        | Root classes                                 |
-| `tableClass`     | `string`                                                  | `—`        | Scroll-area classes                          |
+| Prop             | Type                                                      | Default    | Description                                                                |
+| ---------------- | --------------------------------------------------------- | ---------- | -------------------------------------------------------------------------- |
+| `rows`           | `T[]`                                                     | `Required` | Supplied rows                                                              |
+| `columns`        | `DataTableColumn<T>[]`                                    | `Required` | Column definitions                                                         |
+| `rowKey`         | `DataTableKeyField<T> \| ((row: T) => DataTableKey)`      | `Required` | Globally unique stable key                                                 |
+| `rowLabel`       | `keyof T \| ((row: T) => string)`                         | `Row key`  | Accessible row label                                                       |
+| `selectable`     | `boolean \| ((row: T) => boolean)`                        | `false`    | Selection eligibility                                                      |
+| `selectionMode`  | `'single' \| 'multiple'`                                  | `multiple` | Selection mode                                                             |
+| `selectAll`      | `'page' \| 'filtered'`                                    | `page`     | Header selection scope                                                     |
+| `selectChildren` | `boolean`                                                 | `true`     | Cascade selection to descendants                                           |
+| `expandable`     | `boolean \| ((row: T) => boolean)`                        | `false`    | Detail expansion eligibility                                               |
+| `getChildren`    | `(row: T) => T[] \| undefined`                            | `—`        | Tree children                                                              |
+| `pagination`     | `boolean`                                                 | `false`    | Enable page controls                                                       |
+| `manual`         | `boolean`                                                 | `false`    | External query processing                                                  |
+| `total`          | `number`                                                  | `—`        | Known remote total                                                         |
+| `hasNextPage`    | `boolean`                                                 | `—`        | Next-page availability without total                                       |
+| `autoResetPage`  | `boolean`                                                 | `true`     | Reset page after query changes                                             |
+| `multiSort`      | `boolean`                                                 | `false`    | Append sorting with Shift                                                  |
+| `resizable`      | `boolean`                                                 | `false`    | Column resize handles                                                      |
+| `resizeMode`     | `'fit' \| 'expand'`                                       | `fit`      | Exchange width with the adjacent column, or resize only the current column |
+| `reorderColumns` | `boolean`                                                 | `false`    | Drag headers to reorder                                                    |
+| `reorderable`    | `boolean \| ((row: T) => boolean)`                        | `false`    | Row drag handles                                                           |
+| `virtualize`     | `boolean \| { estimateSize?: number; overscan?: number }` | `false`    | Windowed rendering; estimate 44, overscan 6                                |
+| `editMode`       | `'cell' \| 'row'`                                         | `—`        | Editing mode                                                               |
+| `onSave`         | `(edit: DataTableEdit<T>) => void \| Promise<void>`       | `—`        | Awaited save callback                                                      |
+| `loading`        | `boolean`                                                 | `false`    | Block stale rows while loading                                             |
+| `disabled`       | `boolean`                                                 | `false`    | Disable built-in interactions                                              |
+| `rowClickable`   | `boolean`                                                 | `false`    | Enable row activation                                                      |
+| `rowClass`       | `(row: T) => string \| undefined`                         | `—`        | Per-row classes                                                            |
+| `variant`        | `'primary' \| 'secondary'`                                | `primary`  | Appearance                                                                 |
+| `hover`          | `boolean`                                                 | `true`     | Row hover feedback                                                         |
+| `stickyHeader`   | `boolean`                                                 | `false`    | Pin headers                                                                |
+| `stickyFooter`   | `boolean`                                                 | `false`    | Pin summary cells                                                          |
+| `height`         | `number \| string`                                        | `—`        | Total component height                                                     |
+| `maxHeight`      | `number \| string`                                        | `—`        | Scroll-area maximum height                                                 |
+| `fill`           | `boolean`                                                 | `false`    | Fill a definite-height parent                                              |
+| `layout`         | `'auto' \| 'fixed'`                                       | `auto`     | Table layout; constrained features use fixed                               |
+| `caption`        | `string`                                                  | `—`        | Visible caption                                                            |
+| `label`          | `string`                                                  | `—`        | Accessible table name                                                      |
+| `emptyText`      | `string`                                                  | `Locale`   | Empty message                                                              |
+| `class`          | `string`                                                  | `—`        | Root classes                                                               |
+| `tableClass`     | `string`                                                  | `—`        | Scroll-area classes                                                        |
 
 ### Columns {#column}
 

@@ -42,6 +42,7 @@
   </label>
   <Checkbox
     v-else
+    class="mx-auto"
     :model-value="checked"
     :disabled="disabled"
     :aria-label="label"

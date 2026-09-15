@@ -98,9 +98,13 @@ import { DataTable, type DataTableColumn } from '@hina-ui/vue'
 
 列支持 `width`、`minWidth`、`maxWidth` 以及逻辑方向的 `pin: 'start' | 'end'`。`truncate` 将默认文本限制为单行，仅溢出时显示 [Tooltip](/components/tooltip)。自定义单元格内容自行处理截断。
 
-`resizable` 添加调宽手柄，方向键每次调整 1px，Shift 调整 10px，Home/End 到达上下限。`v-model:columnWidths` 存储像素覆盖值，交互调宽建议使用数字边界。静态列也支持 CSS 长度；自动布局下内容或容器剩余空间可能撑大列宽。
+`resizable` 允许拖动表头边界调宽，拖动时显示贯穿表格的指示线。默认 `resizeMode="fit"` 与相邻列交换宽度，保持表格总宽不变；最后一列不提供外侧手柄，相邻列禁止调宽时也不显示对应边界。`resizeMode="expand"` 只调整当前列，表格随之变宽或变窄。两种模式均遵守列的上下限。
 
-`reorderColumns` 添加拖动手柄，也支持左右方向键。`v-model:columnOrder` 存储列键，重排限制在同一固定区域内。列的 `resizable: false`、`reorderable: false` 可禁用对应手柄。`layout="fixed"`、调宽、截断或虚拟化会约束表格布局。
+聚焦边界后，左右方向键每次调整 1px，Shift 调整 10px，Home/End 到达可调整范围的边界。Esc 撤销当前拖动。`v-model:columnWidths` 存储像素宽度，首次调宽以当前显示宽度为起点，同时记录其余列宽。交互调宽使用数字边界；静态列也支持 CSS 长度。
+
+`reorderColumns` 允许直接拖动叶子表头，列预览与插入线显示松手后的落点。轻点仍执行排序，拖动不会触发排序，Esc 取消重排。聚焦表头后也可使用 Alt + 左右方向键。`v-model:columnOrder` 存储列键，重排限制在同一固定区域内。列的 `resizable: false`、`reorderable: false` 分别禁用调宽与重排。`layout="fixed"`、调宽、截断或虚拟化会约束表格布局。
+
+示例通过 [Select](/components/select) 切换调宽模式。
 
 <Demo name="data-table/column-layout" />
 
@@ -213,7 +217,8 @@ import { DataTable, type DataTableColumn } from '@hina-ui/vue'
 | `autoResetPage`  | `boolean`                                                 | `true`     | 查询条件变化后复位页码               |
 | `multiSort`      | `boolean`                                                 | `false`    | Shift 追加排序                       |
 | `resizable`      | `boolean`                                                 | `false`    | 列宽手柄                             |
-| `reorderColumns` | `boolean`                                                 | `false`    | 列重排手柄                           |
+| `resizeMode`     | `'fit' \| 'expand'`                                       | `fit`      | 调整相邻列保持总宽，或仅调整当前列   |
+| `reorderColumns` | `boolean`                                                 | `false`    | 拖动表头重排                         |
 | `reorderable`    | `boolean \| ((row: T) => boolean)`                        | `false`    | 行重排手柄                           |
 | `virtualize`     | `boolean \| { estimateSize?: number; overscan?: number }` | `false`    | 虚拟渲染；估计行高 44，缓冲 6        |
 | `editMode`       | `'cell' \| 'row'`                                         | `—`        | 编辑模式                             |

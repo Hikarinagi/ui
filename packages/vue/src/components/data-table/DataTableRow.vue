@@ -3,7 +3,7 @@
   import { Check, ChevronRight, GripVertical, Pencil, X } from '@lucide/vue'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
-  import Button from '../button/Button.vue'
+  import DataTableAction from './DataTableAction.vue'
   import TableCell from '../table/TableCell.vue'
   import DataTableSelection from './DataTableSelection.vue'
   import DataTableEditor from './DataTableEditor.vue'
@@ -50,9 +50,6 @@
         !item.detail && (config.hover || config.selectable) && '[&>td]:hn-state-layer',
         !item.detail && !entry.group && config.rowClickable && 'hn-focus-ring cursor-pointer',
         !entry.group && config.rowClass?.(entry.row),
-        drag.kind.value === 'row' &&
-          drag.target.value === entry.id &&
-          'ring-accent ring-1 ring-inset',
         drag.key.value === entry.id && 'opacity-50',
       )
     "
@@ -89,11 +86,10 @@
           :align="column.align"
           :style="layout.cellStyle(column)"
         >
-          <Button
+          <button
+            type="button"
+            class="hn-table-group hn-focus-ring"
             v-if="index === 0"
-            variant="ghost"
-            tone="neutral"
-            size="sm"
             :disabled="ctl.blocked.value"
             :aria-expanded="entry.group.expanded"
             :style="{ marginInlineStart: `${entry.depth * 16}px` }"
@@ -106,7 +102,7 @@
             />
             {{ entry.group.column.label }}: {{ entry.group.value }}
             <span class="text-muted">({{ entry.group.rows.length }})</span>
-          </Button>
+          </button>
           <template v-else>{{ entry.group.aggregate(column.key) ?? '—' }}</template>
         </TableCell>
         <TableCell
@@ -123,11 +119,9 @@
         :key="control"
         :style="layout.controlStyle('start', index)"
       >
-        <Button
+        <DataTableAction
           v-if="control === 'drag'"
-          variant="ghost"
-          size="sm"
-          icon-only
+          data-hn-row-drag
           class="touch-none cursor-grab"
           :disabled="!drag.canMove(entry.row)"
           :aria-label="`${t.table.moveRow}: ${entry.label}`"
@@ -135,7 +129,7 @@
           @keydown="drag.rowKeydown(entry.key, $event)"
         >
           <GripVertical />
-        </Button>
+        </DataTableAction>
         <DataTableSelection
           v-else-if="control === 'select'"
           :single="config.selectionMode === 'single'"
@@ -145,11 +139,8 @@
           :name="name"
           @change="entry.toggleSelected"
         />
-        <Button
+        <DataTableAction
           v-else-if="control === 'expand' && entry.expandable"
-          variant="ghost"
-          size="sm"
-          icon-only
           :disabled="ctl.blocked.value"
           :aria-label="`${entry.expanded ? t.table.collapse : t.table.expand}: ${entry.label}`"
           :aria-expanded="entry.expanded"
@@ -160,13 +151,18 @@
             class="hn-transition-transform rtl:rotate-180"
             :class="entry.expanded && 'rotate-90 rtl:rotate-90'"
           />
-        </Button>
+        </DataTableAction>
       </TableCell>
       <TableCell
         :data-state="!item.detail && entry.selected ? 'selected' : undefined"
         v-for="(column, index) in ctl.visibleColumns.value"
         :key="column.key"
         :data-hn-cell="column.key"
+        :data-editing="
+          editing.isEditing(entry.key, column.key) && editing.canEdit(entry.row, column)
+            ? ''
+            : undefined
+        "
         :align="column.align"
         :style="layout.cellStyle(column)"
         :tabindex="config.editMode === 'cell' && editing.canEdit(entry.row, column) ? 0 : undefined"
@@ -212,43 +208,35 @@
         v-if="config.editMode === 'row'"
         :style="layout.controlStyle('end', 0)"
       >
-        <div v-if="editing.isEditing(entry.key)" class="flex items-center gap-1">
-          <Button
-            size="sm"
-            variant="ghost"
-            icon-only
+        <div v-if="editing.isEditing(entry.key)" class="flex items-center justify-center gap-1">
+          <DataTableAction
             :loading="editing.pending.value"
             :aria-label="t.table.save"
             @click="editing.commit"
           >
             <Check />
-          </Button>
-          <Button
-            size="sm"
-            variant="ghost"
-            icon-only
+          </DataTableAction>
+          <DataTableAction
             :disabled="editing.pending.value"
             :aria-label="t.table.cancel"
             @click="editing.cancel"
           >
             <X />
-          </Button>
+          </DataTableAction>
         </div>
-        <Button
+        <DataTableAction
           v-else
-          size="sm"
-          variant="ghost"
-          icon-only
           :disabled="
             ctl.blocked.value ||
             !ctl.leaves.value.some(column => editing.canEdit(entry.row, column))
           "
+          class="hn-table-edit-trigger"
           data-hn-edit-trigger
           :aria-label="`${t.table.edit}: ${entry.label}`"
           @click="entry.startEdit()"
         >
           <Pencil />
-        </Button>
+        </DataTableAction>
       </TableCell>
     </template>
   </tr>

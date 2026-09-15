@@ -1,8 +1,7 @@
 <script setup lang="ts" generic="T extends object">
-  import { ArrowDown, ArrowUp, ChevronsUpDown, GripVertical } from '@lucide/vue'
+  import { ArrowDown, ArrowUp, ChevronsUpDown } from '@lucide/vue'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
-  import Button from '../button/Button.vue'
   import Checkbox from '../checkbox/Checkbox.vue'
   import TableHead from '../table/TableHead.vue'
   import Slot from './Slot'
@@ -34,6 +33,7 @@
         >
           <Checkbox
             v-if="control === 'select' && config.selectionMode !== 'single'"
+            class="mx-auto"
             :model-value="ctl.pageSelection.value"
             :disabled="ctl.selectionDisabled.value"
             :aria-label="
@@ -64,72 +64,85 @@
         :style="header.style"
         :class="
           cn(
-            'relative',
+            'hn-table-header relative',
             header.column.headerClass,
-            drag.kind.value === 'column' &&
-              drag.target.value === header.column.key &&
-              'ring-accent ring-1 ring-inset',
+            drag.kind.value === 'column' && drag.key.value === header.column.key && 'opacity-40',
           )
         "
+        :data-reorderable="
+          header.leaf &&
+          config.reorderColumns &&
+          header.column.reorderable !== false &&
+          !ctl.blocked.value
+            ? ''
+            : undefined
+        "
+        :data-align="header.column.align"
+        @pointerdown="
+          header.leaf && drag.start('column', header.column.key, header.column.label, $event)
+        "
       >
-        <div
-          class="flex min-w-0 items-center gap-1"
-          :class="
-            header.column.align === 'end'
-              ? 'justify-end'
-              : header.column.align === 'center'
-                ? 'justify-center'
-                : ''
-          "
-        >
-          <Button
-            v-if="header.leaf && config.reorderColumns && header.column.reorderable !== false"
-            variant="ghost"
-            size="sm"
-            icon-only
-            class="touch-none cursor-grab"
+        <Slot :render="slots[`header-${header.column.key}`] ?? slots.header" :context="header">
+          <component
+            :is="
+              header.leaf &&
+              (header.column.sortable ||
+                (config.reorderColumns && header.column.reorderable !== false))
+                ? 'button'
+                : 'span'
+            "
+            data-hn-table-heading
+            class="hn-table-heading hn-focus-ring"
+            :type="
+              header.leaf && (header.column.sortable || config.reorderColumns)
+                ? 'button'
+                : undefined
+            "
             :disabled="ctl.blocked.value"
-            :aria-label="`${t.table.moveColumn}: ${header.column.label}`"
-            @pointerdown="drag.start('column', header.column.key, header.column.label, $event)"
-            @keydown="drag.columnKeydown(header.column.key, $event)"
+            :data-sorted="header.sorting || undefined"
+            :aria-label="
+              header.column.sortable ? `${header.column.label}: ${header.nextLabel}` : undefined
+            "
+            :aria-description="
+              config.reorderColumns && header.column.reorderable !== false
+                ? `${t.table.moveColumn}: Alt + ← / →`
+                : undefined
+            "
+            :aria-keyshortcuts="
+              config.reorderColumns && header.column.reorderable !== false
+                ? 'Alt+ArrowLeft Alt+ArrowRight'
+                : undefined
+            "
+            @click="header.leaf && header.column.sortable && header.toggleSort($event.shiftKey)"
+            @keydown="
+              header.leaf &&
+              config.reorderColumns &&
+              header.column.reorderable !== false &&
+              drag.columnKeydown(header.column.key, $event)
+            "
           >
-            <GripVertical />
-          </Button>
-          <Slot :render="slots[`header-${header.column.key}`] ?? slots.header" :context="header">
-            <Button
+            <span class="min-w-0" :class="header.column.truncate && 'truncate'">
+              {{ header.column.label }}
+            </span>
+            <span
               v-if="header.leaf && header.column.sortable"
-              variant="ghost"
-              tone="neutral"
-              size="sm"
-              :disabled="ctl.blocked.value"
-              :aria-label="`${header.column.label}: ${header.nextLabel}`"
-              :class="cn('min-w-0 max-w-full', header.column.align === 'end' ? '-me-2' : '-ms-2')"
-              @click="header.toggleSort($event.shiftKey)"
+              class="hn-table-sort"
+              aria-hidden="true"
             >
-              <span class="min-w-0" :class="header.column.truncate && 'truncate'">
-                {{ header.column.label }}
-              </span>
-              <ArrowUp v-if="header.sorting === 'asc'" aria-hidden="true" class="shrink-0" />
-              <ArrowDown
-                v-else-if="header.sorting === 'desc'"
-                aria-hidden="true"
-                class="shrink-0"
-              />
-              <ChevronsUpDown v-else aria-hidden="true" class="text-faint shrink-0" />
+              <ArrowUp v-if="header.sorting === 'asc'" />
+              <ArrowDown v-else-if="header.sorting === 'desc'" />
+              <ChevronsUpDown v-else />
               <span
                 v-if="config.multiSort && models.sorting.value.length > 1 && header.sortIndex >= 0"
-                class="text-faint text-xs"
+                class="text-xs"
               >
                 {{ header.sortIndex + 1 }}
               </span>
-            </Button>
-            <span v-else class="min-w-0" :class="header.column.truncate && 'truncate'">
-              {{ header.column.label }}
             </span>
-          </Slot>
-        </div>
+          </component>
+        </Slot>
         <div
-          v-if="header.leaf && config.resizable && header.column.resizable !== false"
+          v-if="header.leaf && layout.canResize(header.column) && !ctl.blocked.value"
           role="separator"
           aria-orientation="vertical"
           :tabindex="ctl.blocked.value ? -1 : 0"
@@ -139,7 +152,9 @@
           :aria-valuemax="
             typeof header.column.maxWidth === 'number' ? header.column.maxWidth : 1600
           "
-          class="hn-focus-ring absolute inset-y-0 end-0 z-10 w-2 cursor-col-resize touch-none after:absolute after:inset-y-1 after:end-0 after:w-px after:bg-accent after:opacity-0 hover:after:opacity-100 focus-visible:after:opacity-100"
+          class="hn-table-resize hn-focus-ring"
+          :data-resizing="layout.resizing.value === header.column.key ? '' : undefined"
+          @click.stop
           @pointerdown="layout.resize(header.column, $event)"
           @keydown="layout.resizeKey(header.column, $event)"
         />

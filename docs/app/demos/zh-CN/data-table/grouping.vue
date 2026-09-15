@@ -1,8 +1,8 @@
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { Text, Button, DataTable } from '@hina-ui/vue'
+  import { DataTable } from '@hina-ui/vue'
   import { tableDemo } from '../../data-table'
-  const { rows, columns, statusLabels } = tableDemo('zh-CN')
+  const { rows, columns } = tableDemo('zh-CN')
   const grouping = ref(['status'])
   const expandedGroups = ref(['status:active'])
   const groupedColumns = columns.map(column =>
@@ -18,23 +18,5 @@
     :columns="groupedColumns"
     row-key="id"
     label="条目列表"
-  >
-    <template #group="{ value, rows: members, expanded, toggleExpanded, aggregate }">
-      <Button
-        variant="ghost"
-        tone="neutral"
-        type="button"
-        class="h-auto w-full justify-between gap-3 px-2 py-2 text-start"
-        :aria-expanded="expanded"
-        @click="toggleExpanded()"
-      >
-        <Text as="span" size="sm">
-          {{ expanded ? '−' : '+' }} {{ statusLabels[value as keyof typeof statusLabels] }} ({{
-            members.length
-          }})
-        </Text>
-        <Text as="span" size="sm" tone="muted">合计 {{ aggregate('count') }}</Text>
-      </Button>
-    </template>
-  </DataTable>
+  ></DataTable>
 </template>
