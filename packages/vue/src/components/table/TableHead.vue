@@ -6,7 +6,7 @@
 
   const props = withDefaults(
     defineProps<{
-      scope?: 'col' | 'row'
+      scope?: 'col' | 'row' | 'colgroup' | 'rowgroup'
       align?: TableCellVariants['align']
       sticky?: boolean
       class?: string

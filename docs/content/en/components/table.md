@@ -101,12 +101,12 @@ Row height comes from the density tokens, so setting `data-density="compact"` on
 
 ### TableHead {#head}
 
-| Prop     | Type                           | Default   | Description                              |
-| -------- | ------------------------------ | --------- | ---------------------------------------- |
-| `scope`  | `'col' \| 'row'`               | `'col'`   | Whether the cell heads a column or a row |
-| `align`  | `'start' \| 'center' \| 'end'` | `'start'` | Content alignment                        |
-| `sticky` | `boolean`                      | `false`   | Whether it pins to the start edge        |
-| `class`  | `string`                       | —         | Classes appended to the root             |
+| Prop     | Type                                         | Default   | Description                              |
+| -------- | -------------------------------------------- | --------- | ---------------------------------------- |
+| `scope`  | `'col' \| 'row' \| 'colgroup' \| 'rowgroup'` | `'col'`   | Whether the cell heads a column or a row |
+| `align`  | `'start' \| 'center' \| 'end'`               | `'start'` | Content alignment                        |
+| `sticky` | `boolean`                                    | `false`   | Whether it pins to the start edge        |
+| `class`  | `string`                                     | —         | Classes appended to the root             |
 
 ### TableCell {#cell}
 

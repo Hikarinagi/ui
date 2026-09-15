@@ -101,12 +101,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 
 ### TableHead {#head}
 
-| 属性     | 类型                           | 默认值    | 说明                         |
-| -------- | ------------------------------ | --------- | ---------------------------- |
-| `scope`  | `'col' \| 'row'`               | `'col'`   | 该表头单元格描述的是列还是行 |
-| `align`  | `'start' \| 'center' \| 'end'` | `'start'` | 内容对齐方向                 |
-| `sticky` | `boolean`                      | `false`   | 横向滚动时是否固定在起始边   |
-| `class`  | `string`                       | —         | 追加到根元素的类             |
+| 属性     | 类型                                         | 默认值    | 说明                         |
+| -------- | -------------------------------------------- | --------- | ---------------------------- |
+| `scope`  | `'col' \| 'row' \| 'colgroup' \| 'rowgroup'` | `'col'`   | 该表头单元格描述的是列还是行 |
+| `align`  | `'start' \| 'center' \| 'end'`               | `'start'` | 内容对齐方向                 |
+| `sticky` | `boolean`                                    | `false`   | 横向滚动时是否固定在起始边   |
+| `class`  | `string`                                     | —         | 追加到根元素的类             |
 
 ### TableCell {#cell}
 
