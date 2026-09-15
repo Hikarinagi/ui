@@ -7,6 +7,7 @@ export interface SidebarContext {
   toggle: () => void
   openMobile: () => void
   inDrawer?: boolean
+  onTransitionRun?: (event: TransitionEvent) => void
 }
 
 const SIDEBAR_KEY = Symbol('hn-sidebar') as InjectionKey<SidebarContext>

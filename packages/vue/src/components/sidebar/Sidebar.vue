@@ -40,6 +40,7 @@
     :data-state="state"
     :inert="state === 'hidden'"
     :class="cn(sidebarRoot({ inDrawer }), props.class)"
+    @transitionrun="sidebar?.onTransitionRun"
   >
     <div v-if="$slots.header" :class="cn(sidebarRegion({ inDrawer }), 'flex items-center gap-2')">
       <div class="min-w-0 flex-1">

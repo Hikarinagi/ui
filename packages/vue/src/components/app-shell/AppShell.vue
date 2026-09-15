@@ -8,6 +8,7 @@
   import DrawerScope from '../sidebar/DrawerScope'
   import { provideSidebar, type SidebarState } from '../sidebar/context'
   import { useDesktopQuery } from './composables/useDesktopQuery'
+  import { useSidebarScrollUpdates } from './composables/useSidebarScrollUpdates'
 
   defineOptions({ name: 'HnAppShell' })
 
@@ -34,6 +35,7 @@
   })
 
   const isDesktop = useDesktopQuery()
+  const onTransitionRun = useSidebarScrollUpdates(main)
 
   function toggle() {
     if (!isDesktop.value) {
@@ -47,6 +49,7 @@
     state: computed(() => sidebar.value),
     toggle,
     openMobile: () => (mobileOpen.value = true),
+    onTransitionRun,
   })
 
   type Navigable = { currentRoute?: { value?: { fullPath?: string } } }
