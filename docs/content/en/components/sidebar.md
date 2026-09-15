@@ -51,7 +51,7 @@ Both slots receive `{ state }`. Providing `header` fully replaces the default he
 
 The `header` slot fully replaces the default brand header, while `footer` sits below the entries. Neither scrolls with the entries. Custom headers are not automatically hidden as logos.
 
-The header and footer retain their expanded content width, preventing content from squeezing or wrapping during collapse. Wrap text and secondary actions in `SidebarLabel` to fade them out with [NavLink](/components/nav-link) labels and delay their fade-in on expansion. Keep the logo and [Avatar](/components/avatar) outside it so their size and position stay fixed.
+The header retains its expanded content width. The footer follows the sidebar width so buttons and overlay anchors stay within the rail. For horizontal avatar and label layouts, use [Inline](/components/inline) with `:wrap="false"` and `truncate` or `whitespace-nowrap` on text to avoid wrapping during collapse. Wrap text and secondary actions in `SidebarLabel` to fade them out with [NavLink](/components/nav-link) labels and delay their fade-in on expansion. Keep the logo and [Avatar](/components/avatar) outside it so their size and position stay fixed.
 
 `SidebarLabel` preserves its layout space. In rail form, its contents are hidden from view, interaction, screen readers and keyboard focus. The `header` and `footer` slots still provide `{ state }` for custom content that needs the current form.
 

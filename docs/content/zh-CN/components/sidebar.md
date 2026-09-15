@@ -51,7 +51,7 @@ import { Sidebar, SidebarGroup, SidebarLabel, SidebarTrigger } from '@hina-ui/vu
 
 `header` 完整替换默认品牌页眉，`footer` 位于条目区下方，两者都不随条目滚动。自定义页眉不会被自动视为 logo 隐藏。
 
-页眉与页脚保持展开时的内容宽度，收起过程不会挤压内容或改变换行。把文字与附属操作放进 `SidebarLabel`，它会与 [NavLink](/components/nav-link) 的文字一起淡出，展开时延后淡入；标识和 [Avatar](/components/avatar) 留在外面，位置与尺寸保持不变。
+页眉保持展开时的内容宽度。页脚随侧栏实际宽度收起，内部按钮与浮层锚点不会超出 rail。水平排布的头像和文字可使用 [Inline](/components/inline) 并设置 `:wrap="false"`；文字使用 `truncate` 或 `whitespace-nowrap` 避免收起时换行。把文字与附属操作放进 `SidebarLabel`，它会与 [NavLink](/components/nav-link) 的文字一起淡出，展开时延后淡入；标识和 [Avatar](/components/avatar) 留在外面，位置与尺寸保持不变。
 
 `SidebarLabel` 不改变内容的占位。rail 形态下其内容不可见、不可交互，也不进入朗读和键盘焦点序列。`header` 和 `footer` 仍提供 `{ state }`，供自定义内容读取当前形态。
 
