@@ -46,7 +46,7 @@ import { DataTable, type DataTableColumn } from '@hina-ui/vue'
 
 `v-model:columnFilters` 存储 `{ key, value }[]`，各列条件取交集，并与全局筛选同时生效。`filterMode` 支持 `contains`、`equals`、`in`（数组）和 `range`（`[min, max]`，任一边界可为空）。数字、布尔值和日期保留原类型，`filterValue(row, value)` 可自定义匹配。
 
-表头插槽提供 `filterValue` 与 `setFilter(value)`。传入 `undefined`、空字符串或空数组清除该列条件。筛选控件按需添加，示例使用 [Select](/components/select)。
+表头插槽提供 `filterValue` 与 `setFilter(value)`。传入 `null`、`undefined`、空字符串或空数组清除该列条件。筛选控件按需添加，示例使用 [Select](/components/select)。
 
 <Demo name="data-table/column-filters" />
 

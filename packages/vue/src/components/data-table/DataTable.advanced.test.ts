@@ -84,6 +84,25 @@ describe('DataTable advanced behavior', () => {
     expect(ids(wrapper)).toEqual([])
   })
 
+  it.each([null, undefined, '', []])(
+    'removes a cleared column filter (%j) without clearing other columns',
+    async empty => {
+      const wrapper = render()
+      api(wrapper).setFilter('enabled', true)
+      api(wrapper).setFilter('category', ['A'])
+      await settle()
+      expect(ids(wrapper)).toEqual([3])
+      api(wrapper).setFilter('category', empty)
+      await settle()
+      expect(ids(wrapper)).toEqual([2, 3])
+      expect(state(wrapper).columnFilters).toEqual([{ key: 'enabled', value: true }])
+      api(wrapper).setFilter('enabled', empty)
+      await settle()
+      expect(ids(wrapper)).toEqual([1, 2, 3])
+      expect(state(wrapper).columnFilters).toEqual([])
+    },
+  )
+
   it('keeps a restored manual query and supports pagination without a total', async () => {
     const wrapper = render({
       manual: true,

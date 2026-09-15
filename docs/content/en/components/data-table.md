@@ -46,7 +46,7 @@ Use [SearchInput](/components/search-input) in `toolbar`. Debouncing, requests a
 
 `v-model:columnFilters` stores `{ key, value }[]`. Filters combine with AND and also respect global filtering. `filterMode` supports `contains`, `equals`, `in` (an array) and `range` (`[min, max]`, with either bound nullable). Numbers, booleans and dates retain their types. `filterValue(row, value)` provides custom matching.
 
-Each header slot receives `filterValue` and `setFilter(value)`. Passing `undefined`, an empty string or an empty array removes the filter. Controls are optional; this example uses [Select](/components/select).
+Each header slot receives `filterValue` and `setFilter(value)`. Passing `null`, `undefined`, an empty string or an empty array removes the filter. Controls are optional; this example uses [Select](/components/select).
 
 <Demo name="data-table/column-filters" />
 

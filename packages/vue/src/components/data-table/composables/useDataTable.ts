@@ -278,7 +278,7 @@ export function useDataTable<T extends object>(
   function setFilter(column: string, value: unknown) {
     if (blocked.value) return
     const next = models.columnFilters.value.filter(filter => filter.key !== column)
-    if (value !== undefined && value !== '' && !(Array.isArray(value) && !value.length))
+    if (value != null && value !== '' && !(Array.isArray(value) && !value.length))
       next.push({ key: column, value })
     models.columnFilters.value = next
   }
