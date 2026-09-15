@@ -39,7 +39,7 @@ async function render(
   await vi.waitFor(() =>
     expect(wrapper.find('[data-overlayscrollbars-viewport]').exists()).toBe(true),
   )
-  await vi.waitFor(() => expect(getComputedStyle(handle(wrapper, 'b')).visibility).toBe('visible'))
+  await vi.waitFor(() => expect(getComputedStyle(handle(wrapper, 'a')).visibility).toBe('visible'))
   await frame()
   return wrapper
 }
@@ -169,5 +169,33 @@ it.each([
         : header(wrapper, 'c').getBoundingClientRect().left -
             header(wrapper, 'a').getBoundingClientRect().right,
     ).toBeCloseTo(48, 0)
+  },
+)
+
+it.each(['ltr', 'rtl'])(
+  'describes both columns at a shared fit boundary and updates their widths (%s)',
+  async dir => {
+    document.documentElement.dir = dir
+    const wrapper = await render({ resizeMode: 'fit', columnWidths: { a: 120, b: 340, c: 140 } })
+    const shared = handle(wrapper, 'c')
+    expect(shared.getAttribute('aria-label')).toContain('B / C')
+    expect(shared.getAttribute('aria-valuetext')).toBe('B: 340px / C: 140px')
+    expect(handle(wrapper, 'a').getAttribute('aria-label')).toContain('A / B')
+    const total = wrapper.find('table').element.getBoundingClientRect().width
+    const current = start(wrapper, 'c')
+    const delta = dir === 'rtl' ? 40 : -40
+    move(current.x + delta, current.y)
+    await vi.waitFor(() => expect(width(wrapper, 'c')).toBe(180))
+    expect(header(wrapper, 'b').getBoundingClientRect().width).toBeCloseTo(300, 0)
+    expect(shared.getAttribute('aria-valuetext')).toBe('B: 300px / C: 180px')
+    await vi.waitFor(() => {
+      const labels = [...document.querySelectorAll('[data-hn-resize-label] > div')]
+      expect(labels.map(label => label.textContent)).toEqual(['B300px', 'C180px'])
+    })
+    expect(wrapper.find('table').element.getBoundingClientRect().width).toBe(total)
+    up(current.x + delta, current.y)
+    await wrapper.setProps({ resizeMode: 'expand' })
+    expect(handle(wrapper, 'c').getAttribute('aria-label')).not.toContain('B / C')
+    expect(handle(wrapper, 'c').getAttribute('aria-valuetext')).toBe('C: 180px')
   },
 )

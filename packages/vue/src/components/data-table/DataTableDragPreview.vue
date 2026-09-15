@@ -24,11 +24,13 @@
       aria-hidden="true"
       :style="{
         left: `${layout.guide.value.labelX}px`,
-        top: `${Math.max(4, layout.guide.value.y - 30)}px`,
+        top: `${Math.max(4, layout.guide.value.y - 12 - layout.guide.value.columns.length * 18)}px`,
       }"
     >
-      <span>{{ layout.guide.value.label }}</span>
-      <span>{{ layout.guide.value.width }}px</span>
+      <div v-for="column in layout.guide.value.columns" :key="column.key">
+        <span>{{ column.label }}</span>
+        <span>{{ column.width }}px</span>
+      </div>
     </div>
     <template v-if="drag.dragging.value">
       <div

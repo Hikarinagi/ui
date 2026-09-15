@@ -149,15 +149,16 @@
           v-if="header.leaf && layout.canResize(header.column) && !ctl.blocked.value"
           v-tooltip="
             !layout.resizing.value && layout.handleVisible(header.column)
-              ? `${t.table.resizeColumn}: ${header.column.label}`
+              ? `${t.table.resizeColumn}: ${layout.resizeLabel(header.column)}`
               : false
           "
           role="separator"
           aria-orientation="vertical"
           :tabindex="layout.handleVisible(header.column) ? 0 : -1"
           :style="layout.handleStyle(header.column)"
-          :aria-label="`${t.table.resizeColumn}: ${header.column.label}`"
+          :aria-label="`${t.table.resizeColumn}: ${layout.resizeLabel(header.column)}`"
           :aria-valuenow="Math.round(layout.width(header.column))"
+          :aria-valuetext="layout.resizeValueText(header.column)"
           :aria-valuemin="Math.round(layout.bounds(header.column).min)"
           :aria-valuemax="Math.round(layout.bounds(header.column).max)"
           :data-side="layout.boundary(header.column)?.side"

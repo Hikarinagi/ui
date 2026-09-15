@@ -18,13 +18,28 @@ export function useTableResize<T extends object>(
     x: number
     y: number
     height: number
-    label: string
-    width: number
+    columns: { key: string; label: string; width: number }[]
     labelX: number
   }>()
   let release: (() => void) | undefined
   const boundary = (column: DataTableColumn<T>) =>
     resizeBoundary(ctl.visibleColumns.value, column, props.resizeMode ?? 'fit')
+  const affectedColumns = (column: DataTableColumn<T>) => {
+    const edge = boundary(column)
+    return edge?.neighbor
+      ? edge.side === 'start'
+        ? [edge.neighbor, column]
+        : [column, edge.neighbor]
+      : [column]
+  }
+  const resizeLabel = (column: DataTableColumn<T>) =>
+    affectedColumns(column)
+      .map(item => item.label)
+      .join(' / ')
+  const resizeValueText = (column: DataTableColumn<T>) =>
+    affectedColumns(column)
+      .map(item => `${item.label}: ${Math.round(widths.value[item.key]!)}px`)
+      .join(' / ')
   const minimumTotalWidth = () => (props.resizeMode === 'expand' ? Math.max(0, available.value) : 0)
   const maximumWidth = (column: DataTableColumn<T>, source: Record<string, number>) => {
     if (!column.pin || boundary(column)?.neighbor?.pin) return Infinity
@@ -114,8 +129,11 @@ export function useTableResize<T extends object>(
         x >= area.left - 1 && x <= area.right + 1
           ? {
               x,
-              label: column.label,
-              width: Math.round(widths.value[column.key]!),
+              columns: affectedColumns(column).map(item => ({
+                key: item.key,
+                label: item.label,
+                width: Math.round(widths.value[item.key]!),
+              })),
               labelX: Math.max(8, Math.min(x - 90, window.innerWidth - 188)),
               y: Math.max(rect.top, area.top),
               height: Math.max(0, Math.min(box.bottom, area.bottom) - Math.max(rect.top, area.top)),
@@ -259,5 +277,16 @@ export function useTableResize<T extends object>(
     () => release?.(),
   )
   onScopeDispose(() => release?.())
-  return { resizing, guide, boundary, bounds, canResize, resize, resizeKey, setWidth }
+  return {
+    resizing,
+    guide,
+    boundary,
+    bounds,
+    canResize,
+    resizeLabel,
+    resizeValueText,
+    resize,
+    resizeKey,
+    setWidth,
+  }
 }
