@@ -50,7 +50,12 @@ export function useScrollSpy(entries: () => SpyEntry[]) {
     const hash = decodeURIComponent(location.hash.slice(1))
     if (hash && entries().some(entry => entry.id === hash)) visible.value = new Set([hash])
     locate()
-    watch(entries, () => {
+    watch(entries, (next, previous) => {
+      if (
+        next.length === previous.length &&
+        next.every((entry, index) => entry.id === previous[index]?.id)
+      )
+        return
       visible.value = new Set()
       locate()
     })

@@ -30,6 +30,16 @@ import { Anchor } from '@hina-ui/vue'
 
 <Demo name="anchor/nested" />
 
+### 尾部内容 {#trailing}
+
+`#trailing` 接收 `{ item, active }`，可放置 [Tag](/components/tag)、文字或图标等非交互内容。`item` 是原始条目，包含自定义字段；顶层与第二层条目均支持。
+
+`active` 表示该项带有 `aria-current="location"`。多个小节同时可见时，仅目录顺序中的第一个可见项为 `active`，原有的可见区间高亮保持不变。
+
+尾部靠行尾排列，不压缩自身宽度，长标题可换行。空的尾部不占位；更新状态标记不会重置当前项，点击标记仍由该行执行跳转。
+
+<Demo name="anchor/trailing" />
+
 ### 目录名称 {#label}
 
 `Anchor` 渲染为 `nav` 地标，带有随界面语言给出的无障碍名（简体中文为「本页目录」）。一个页面里有多个导航地标时，用 `label` 分别命名。
@@ -55,11 +65,11 @@ import { Anchor } from '@hina-ui/vue'
 
 ### Props {#props}
 
-| 属性    | 类型           | 默认值       | 说明               |
-| ------- | -------------- | ------------ | ------------------ |
-| `items` | `AnchorItem[]` | 必填         | 目录条目           |
-| `label` | `string`       | 取自界面语言 | 导航地标的无障碍名 |
-| `class` | `string`       | —            | 追加到根元素的类   |
+| 属性    | 类型     | 默认值       | 说明               |
+| ------- | -------- | ------------ | ------------------ |
+| `items` | `T[]`    | 必填         | 目录条目           |
+| `label` | `string` | 取自界面语言 | 导航地标的无障碍名 |
+| `class` | `string` | —            | 追加到根元素的类   |
 
 ### AnchorItem {#item}
 
@@ -68,3 +78,11 @@ import { Anchor } from '@hina-ui/vue'
 | `id`       | `string`       | 目标元素的 `id`，不含 `#`        |
 | `label`    | `string`       | 目录上显示的文字                 |
 | `children` | `AnchorItem[]` | 第二层条目，其 `children` 被忽略 |
+
+### Slots {#slots}
+
+| 插槽       | 参数                        | 说明                     |
+| ---------- | --------------------------- | ------------------------ |
+| `trailing` | `{ item, active: boolean }` | 每一项链接内部的尾部内容 |
+
+`T` 从 `items` 推导，须包含 `AnchorItem` 的基础字段。`item` 保留顶层条目及其 `children` 的原始类型；父子项字段不同时可按字段或判别标记缩小类型。
