@@ -51,7 +51,7 @@ A [Banner](/components/banner) in the `banner` slot spans the whole shell. When 
 - At viewport widths of 1024 pixels and above the layout is desktop and the sidebar sits permanently on the left; below that the sidebar moves into a drawer, carrying the contents of the `sidebar` slot unchanged.
 - On desktop, `SidebarTrigger` switches between expanded and the form named by `collapsible`; on narrow screens it toggles the drawer.
 - The drawer's open state can be bound with `v-model:mobileOpen`.
-- The mobile [Drawer](/components/drawer) has no extra title bar. Its close button sits in the [Sidebar](/components/sidebar) header. `mobileTitle` only sets the accessible name and defaults to the interface language.
+- The mobile [Drawer](/components/drawer) has no extra title bar. Its close button sits in the [Sidebar](/components/sidebar) header by default; set `:closable="false"` on `Sidebar` to hide it. `mobileTitle` only sets the accessible name and defaults to the interface language.
 - The sidebar fills the drawer height. Its header and footer stay at either end while the navigation fills the remaining space and scrolls independently.
 - With `autoClose` on, a route change closes the drawer so it does not stay in front of the content after navigating. It is on by default.
 - `restoreKey` is placed on the main area's scroll container for scroll-position restoration.

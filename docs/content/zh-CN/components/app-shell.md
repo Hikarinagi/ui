@@ -51,7 +51,7 @@ import { AppShell } from '@hina-ui/vue'
 - 视口宽度达到 1024 像素时为桌面布局，侧栏常驻左侧；低于此宽度时侧栏改由抽屉承载，`sidebar` 插槽的内容原样搬进抽屉。
 - 桌面端点击 `SidebarTrigger` 在展开与 `collapsible` 指定的形态之间切换；窄屏则切换抽屉开合。
 - 抽屉的开合状态可用 `v-model:mobileOpen` 绑定。
-- 移动端 [Drawer](/components/drawer) 不额外显示标题栏，关闭按钮位于 [Sidebar](/components/sidebar) 页眉内。`mobileTitle` 仅设置抽屉的无障碍名，默认取自界面语言。
+- 移动端 [Drawer](/components/drawer) 不额外显示标题栏，关闭按钮默认位于 [Sidebar](/components/sidebar) 页眉内，可在 `Sidebar` 上设置 `:closable="false"` 隐藏。`mobileTitle` 仅设置抽屉的无障碍名，默认取自界面语言。
 - 抽屉内侧栏占满可用高度，页眉和页脚固定在两端，导航区填满剩余空间并独立滚动。
 - `autoClose` 为真时路由变化会关闭抽屉，避免跳转后抽屉仍挡在内容前面。默认开启。
 - `restoreKey` 写在主区域的滚动容器上，供滚动位置恢复使用。

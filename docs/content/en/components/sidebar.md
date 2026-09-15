@@ -64,12 +64,13 @@ The header retains its expanded content width. The footer follows the sidebar wi
 - The entry area uses [ScrollArea](/components/scroll-area) without edge shadows; the header and footer stay fixed at either end.
 - When fully hidden, the entire sidebar leaves interaction and keyboard focus.
 - Width and label transitions use Hina motion tokens and switch instantly with reduced motion enabled.
-- Inside the mobile [Drawer](/components/drawer), the sidebar fills the drawer height with the footer pinned to the bottom and only the entries scrolling. The header includes a close button without a duplicate drawer title. Horizontal padding comes from the drawer; the header, entries and footer retain their vertical padding.
+- Inside the mobile [Drawer](/components/drawer), the sidebar fills the drawer height with the footer pinned to the bottom and only the entries scrolling. The header includes a close button by default. Set `:closable="false"` to hide it; with no header or brand slots, the button row leaves no empty space. The drawer title is not duplicated. Horizontal padding comes from the drawer; the header, entries and footer retain their vertical padding.
 
 ## Accessibility {#a11y}
 
 - The entry area is a `nav` landmark whose default accessible name follows the interface language (“Sidebar navigation” in English); `label` overrides it.
 - In the rail form the entry text is invisible, but each [NavLink](/components/nav-link)'s `label` remains as its `aria-label`.
+- `closable` only controls the mobile close button. Escape, the backdrop and controlled state can still close the drawer when the button is hidden.
 - Hidden wordmarks leave screen readers and keyboard focus. Supply `alt` for brand images and an appropriate accessible name for SVGs. A link around the icon also needs an accessible name.
 - A group heading hidden by the rail also leaves the keyboard order, so no control is focusable while invisible.
 
@@ -77,10 +78,11 @@ The header retains its expanded content width. The footer follows the sidebar wi
 
 ### Sidebar {#props}
 
-| Prop    | Type     | Default            | Description                     |
-| ------- | -------- | ------------------ | ------------------------------- |
-| `label` | `string` | Interface language | Accessible name of the landmark |
-| `class` | `string` | —                  | Classes appended to the root    |
+| Prop       | Type      | Default            | Description                                    |
+| ---------- | --------- | ------------------ | ---------------------------------------------- |
+| `label`    | `string`  | Interface language | Accessible name of the landmark                |
+| `closable` | `boolean` | `true`             | Whether to show the mobile drawer close button |
+| `class`    | `string`  | —                  | Classes appended to the root                   |
 
 | Slot       | Slot props  | Description                                                 |
 | ---------- | ----------- | ----------------------------------------------------------- |

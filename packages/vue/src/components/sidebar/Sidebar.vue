@@ -16,10 +16,14 @@
 
   defineOptions({ name: 'HnSidebar' })
 
-  const props = defineProps<{
-    label?: string
-    class?: string
-  }>()
+  const props = withDefaults(
+    defineProps<{
+      label?: string
+      closable?: boolean
+      class?: string
+    }>(),
+    { closable: true },
+  )
 
   defineSlots<{
     default?(): unknown
@@ -46,7 +50,7 @@
       <div class="min-w-0 flex-1">
         <slot name="header" :state="state" />
       </div>
-      <CloseButton v-if="inDrawer" class="shrink-0" @click="sidebar?.toggle()" />
+      <CloseButton v-if="inDrawer && props.closable" class="shrink-0" @click="sidebar?.toggle()" />
     </div>
     <div
       v-else-if="$slots.icon || $slots.wordmark"
@@ -63,12 +67,19 @@
             <SidebarLabel v-if="$slots.wordmark" as="div" :class="sidebarWordmark()">
               <slot name="wordmark" :state="state" />
             </SidebarLabel>
-            <CloseButton v-if="inDrawer" class="ms-auto shrink-0" @click="sidebar?.toggle()" />
+            <CloseButton
+              v-if="inDrawer && props.closable"
+              class="ms-auto shrink-0"
+              @click="sidebar?.toggle()"
+            />
           </div>
         </div>
       </div>
     </div>
-    <div v-else-if="inDrawer" :class="cn(sidebarRegion({ inDrawer }), 'flex justify-end')">
+    <div
+      v-else-if="inDrawer && props.closable"
+      :class="cn(sidebarRegion({ inDrawer }), 'flex justify-end')"
+    >
       <CloseButton @click="sidebar?.toggle()" />
     </div>
     <ScrollArea :shadow="false" class="min-h-0 flex-1">

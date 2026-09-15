@@ -27,6 +27,7 @@ function harness(
   model?: Ref<string>,
   withSlots = false,
   itemCount = ref(1),
+  sidebarProps: Record<string, unknown> = {},
 ) {
   const host = document.createElement('div')
   document.body.appendChild(host)
@@ -42,27 +43,23 @@ function harness(
           h(AppShell, bound, {
             header: () => h(SidebarTrigger),
             sidebar: () =>
-              h(
-                Sidebar,
-                {},
-                {
-                  header: withSlots ? () => h('span', { 'data-header': '' }, 'Hina UI') : undefined,
-                  footer: withSlots ? () => h('span', { 'data-footer': '' }, 'Account') : undefined,
-                  default: () =>
-                    h(SidebarGroup, { label: '组件' }, () =>
-                      Array.from({ length: itemCount.value }, (_, index) =>
-                        h(
-                          NavLink,
-                          { key: index, href: `#x${index}`, label: '收藏夹', active: index === 0 },
-                          {
-                            icon: () => h(Star, { class: 'size-4 shrink-0' }),
-                            default: () => '收藏夹',
-                          },
-                        ),
+              h(Sidebar, sidebarProps, {
+                header: withSlots ? () => h('span', { 'data-header': '' }, 'Hina UI') : undefined,
+                footer: withSlots ? () => h('span', { 'data-footer': '' }, 'Account') : undefined,
+                default: () =>
+                  h(SidebarGroup, { label: '组件' }, () =>
+                    Array.from({ length: itemCount.value }, (_, index) =>
+                      h(
+                        NavLink,
+                        { key: index, href: `#x${index}`, label: '收藏夹', active: index === 0 },
+                        {
+                          icon: () => h(Star, { class: 'size-4 shrink-0' }),
+                          default: () => '收藏夹',
+                        },
                       ),
                     ),
-                },
-              ),
+                  ),
+              }),
             default: () => h('p', '正文内容'),
           }),
         )
@@ -212,7 +209,8 @@ describe('AppShell mobile title', () => {
   it('keeps the title as an accessible name without an extra visible title bar', async () => {
     await page.viewport(600, 800)
     const props = reactive<{ mobileTitle?: string }>({ mobileTitle: 'Hina Studio' })
-    harness(props)
+    const sidebarProps = reactive({ closable: true })
+    harness(props, undefined, false, ref(1), sidebarProps)
     await userEvent.click(trigger())
     await expect.element(page.getByRole('dialog', { name: 'Hina Studio' })).toBeVisible()
     const heading = document.querySelector('[role="dialog"] h2')!
@@ -224,6 +222,18 @@ describe('AppShell mobile title', () => {
     await expect.element(page.getByRole('dialog', { name: 'Hina Workspace' })).toBeVisible()
     props.mobileTitle = undefined
     await expect.element(page.getByRole('dialog', { name: '侧边导航' })).toBeVisible()
+    sidebarProps.closable = false
+    await vi.waitFor(() =>
+      expect(document.querySelector('[role="dialog"] [aria-label="关闭"]')).toBeNull(),
+    )
+    expect(
+      document
+        .querySelector('[role="dialog"] aside')!
+        .firstElementChild!.classList.contains('hn-scroll-area'),
+    ).toBe(true)
+    await userEvent.keyboard('{Escape}')
+    await vi.waitFor(() => expect(document.querySelector('[role="dialog"]')).toBeNull())
+    await vi.waitFor(() => expect(document.activeElement).toBe(trigger()))
   })
 })
 
