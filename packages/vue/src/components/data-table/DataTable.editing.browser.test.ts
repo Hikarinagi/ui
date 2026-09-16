@@ -125,6 +125,37 @@ describe('DataTable row editing', () => {
     expect(document.activeElement).toBe(row.find('[data-hn-edit-trigger]').element)
   })
 
+  it.each([
+    ['default', 'default'],
+    ['system-ui', 'default'],
+    ['default', 'compact'],
+    ['system-ui', 'compact'],
+  ])('centers edit triggers in the cell content box (%s, %s)', async (font, density) => {
+    document.documentElement.dataset.density = density
+    const wrapper = await render({
+      columns: columns.map(column => ({
+        ...column,
+        pin: column.key === 'name' ? 'start' : column.key === 'count' ? 'end' : undefined,
+      })),
+    })
+    if (font !== 'default') (wrapper.element as HTMLElement).style.fontFamily = font
+    const items = wrapper.findAll('[data-hn-row]')
+    for (const index of [0, items.length - 1]) {
+      const trigger = items[index]!.find('[data-hn-edit-trigger]').element
+      const cell = trigger.closest('td')!
+      const box = cell.getBoundingClientRect()
+      const button = trigger.getBoundingClientRect()
+      const style = getComputedStyle(cell)
+      const start = parseFloat(style.borderTopWidth) + parseFloat(style.paddingTop)
+      const end = parseFloat(style.borderBottomWidth) + parseFloat(style.paddingBottom)
+      expect(parseFloat(style.borderBottomWidth)).toBe(index === 0 ? 1 : 0)
+      expect(button.top + button.height / 2).toBeCloseTo(
+        (box.top + start + box.bottom - end) / 2,
+        0,
+      )
+    }
+  })
+
   it('keeps the editing background continuous across pinned columns', async () => {
     const wrapper = await render({
       columns: columns.map(column => ({
@@ -134,9 +165,6 @@ describe('DataTable row editing', () => {
     })
     const row = wrapper.find('[data-hn-row]')
     const trigger = row.find('[data-hn-edit-trigger]').element
-    const cell = trigger.closest('td')!.getBoundingClientRect()
-    const button = trigger.getBoundingClientRect()
-    expect(button.top + button.height / 2).toBeCloseTo(cell.top + cell.height / 2, 0)
     await userEvent.click(trigger)
     await vi.waitFor(() => expect(row.find('input').exists()).toBe(true))
     const backgrounds = row
