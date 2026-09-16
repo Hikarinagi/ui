@@ -36,6 +36,8 @@ import { Combobox } from '@hina-ui/vue'
 
 `selectedOption` 单独提供已选项资料，`value` 与 `v-model` 匹配时用于显示名称，不会加入候选列表，也不会改变选中值。组件会记住选项名称，搜索结果替换或清空后仍能回显。资料异步到达或名称更新时同步显示，正在输入的搜索词不会被覆盖；关闭列表后恢复最新名称。同一值同时出现在两份资料中时，回显名称以 `selectedOption` 为准。
 
+`loading` 将展开按钮中的箭头切换为加载指示，并保留输入、选择和清除操作。请求状态与防抖由调用方控制。
+
 <Demo name="combobox/remote" />
 
 ### 可清除 {#clearable}
@@ -79,6 +81,7 @@ import { Combobox } from '@hina-ui/vue'
 
 - 输入区为 `role="combobox"` 并带 `aria-autocomplete="list"`，列表为 `role="listbox"`，选项为 `role="option"` 并带 `aria-selected`。
 - 展开按钮不进入 Tab 序列，名称随语言包本地化。
+- 加载时输入面设置 `aria-busy="true"`。
 - 应当配合 `label` 元素或者 `aria-label` 提供名称。`invalid` 同时设置 `aria-invalid`。
 
 ## API {#api}
@@ -95,6 +98,7 @@ import { Combobox } from '@hina-ui/vue'
 | `search`         | `string`                   | `''`        | 当前输入的文字，支持 `v-model:search`           |
 | `placeholder`    | `string`                   | 语言包      | 无值时显示的文字                                |
 | `ignoreFilter`   | `boolean`                  | `false`     | 是否交由调用方筛选                              |
+| `loading`        | `boolean`                  | `false`     | 是否显示加载指示                                |
 | `clearable`      | `boolean`                  | `false`     | 是否显示清除按钮                                |
 | `open`           | `boolean`                  | `false`     | 浮层是否打开，支持 `v-model:open`               |
 | `variant`        | `'primary' \| 'secondary'` | `'primary'` | 形态                                            |

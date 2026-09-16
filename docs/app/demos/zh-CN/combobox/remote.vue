@@ -1,32 +1,44 @@
 <script setup lang="ts">
-  import { computed, ref } from 'vue'
+  import { computed, onMounted, ref } from 'vue'
+  import { refDebounced, useFetch } from '@vueuse/core'
   import { Combobox, Stack, Text } from '@hina-ui/vue'
 
-  const all = [
-    { value: 'hikari', label: '光' },
-    { value: 'nagi', label: '凪' },
-    { value: 'shion', label: '诗音' },
-    { value: 'kanade', label: '奏' },
-  ]
-  const selectedOption = { value: 'hasekura', label: '支倉凍砂' }
-  const character = ref<string | null>(selectedOption.value)
+  interface TagPage {
+    data: { items: Array<{ id: number; name: string }> }
+  }
+
+  const selectedOption = { value: 31, label: '轻小说' }
+  const selected = ref<string | number | null>(selectedOption.value)
   const search = ref('')
-  const options = computed(() =>
-    search.value ? all.filter(item => item.label.includes(search.value)) : all,
+  const keyword = refDebounced(search, 300)
+  const url = computed(
+    () =>
+      `/api/demo/tags?${new URLSearchParams({ search: keyword.value, page: '1', page_size: '10' })}`,
   )
+  const { data, isFetching, execute } = useFetch(url, {
+    refetch: true,
+    immediate: false,
+  }).json<TagPage>()
+  const options = computed(
+    () => data.value?.data.items.map(tag => ({ value: tag.id, label: tag.name })) ?? [],
+  )
+
+  onMounted(() => execute())
 </script>
 
 <template>
   <Stack class="w-64">
     <Combobox
-      v-model="character"
+      v-model="selected"
       v-model:search="search"
       :options="options"
       :selected-option="selectedOption"
+      :loading="isFetching"
       ignore-filter
-      placeholder="搜索角色"
-      aria-label="角色"
+      clearable
+      placeholder="搜索标签"
+      aria-label="标签"
     />
-    <Text tone="muted">候选：{{ options.length }} · 选中值：{{ character ?? '无' }}</Text>
+    <Text tone="muted">候选：{{ options.length }} · 选中值：{{ selected ?? '无' }}</Text>
   </Stack>
 </template>

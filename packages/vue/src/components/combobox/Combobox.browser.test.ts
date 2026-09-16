@@ -119,6 +119,46 @@ describe('combobox · 筛选与选择', () => {
     expect(document.activeElement).toBe(input)
   })
 
+  it('远程加载时图标平滑切换且不改变布局，仍可输入、选择和清除', async () => {
+    const { w, host, input, value } = mountBox({
+      modelValue: 'gal',
+      ignoreFilter: true,
+      clearable: true,
+    })
+    const toggle = host.querySelector<HTMLButtonElement>('button[aria-label="展开选项"]')!
+    await vi.waitFor(() => expect(input.value).toBe('Galgame'))
+    const initial = toggle.getBoundingClientRect()
+    const fieldWidth = host.getBoundingClientRect().width
+    await w.setProps({ loading: true })
+    await vi.waitFor(() => expect(toggle.querySelector('[role="status"]')).not.toBeNull())
+    expect(host.getAttribute('aria-busy')).toBe('true')
+    expect(input.hasAttribute('loading')).toBe(false)
+    expect(input.disabled).toBe(false)
+    expect(toggle.disabled).toBe(false)
+    expect(value.value).toBe('gal')
+    expect(input.value).toBe('Galgame')
+    expect(toggle.getBoundingClientRect().width).toBe(initial.width)
+    expect(toggle.getBoundingClientRect().x).toBe(initial.x)
+    expect(host.getBoundingClientRect().width).toBe(fieldWidth)
+    await userEvent.click(input)
+    await userEvent.keyboard('{Control>}a{/Control}远程')
+    await vi.waitFor(() => expect(input.value).toBe('远程'))
+    expect(value.value).toBe('gal')
+    await w.setProps({ options: [{ value: 'new', label: '新结果' }] })
+    await vi.waitFor(() => expect(labels()).toEqual(['新结果']))
+    await userEvent.click(optionsOf()[0]!)
+    await vi.waitFor(() => expect(value.value).toBe('new'))
+    expect(input.value).toBe('新结果')
+    await userEvent.click(host.querySelector('button[aria-label="清除"]')!)
+    await vi.waitFor(() => expect(value.value).toBeNull())
+    expect(input.value).toBe('')
+    expect(document.activeElement).toBe(input)
+    await w.setProps({ loading: false })
+    await vi.waitFor(() => expect(toggle.querySelector('[role="status"]')).toBeNull())
+    expect(host.hasAttribute('aria-busy')).toBe(false)
+    expect(toggle.getBoundingClientRect().width).toBe(initial.width)
+  })
+
   it('ignoreFilter 时列表照单全收，由调用方按 search 自己筛', async () => {
     const searched = ref('')
     const { input } = mountBox({
