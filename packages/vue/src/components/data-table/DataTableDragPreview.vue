@@ -1,10 +1,11 @@
 <script setup lang="ts" generic="T extends object">
+  import { DialogPortal } from 'reka-ui'
   import type { DataTableDrag } from './composables/useTableDrag'
   import type { DataTableLayout } from './composables/useTableColumns'
   defineProps<{ drag: DataTableDrag<T>; layout: DataTableLayout<T> }>()
 </script>
 <template>
-  <Teleport to="body">
+  <DialogPortal>
     <div
       v-if="layout.guide.value"
       class="hn-table-drop-line"
@@ -67,5 +68,5 @@
         </div>
       </div>
     </template>
-  </Teleport>
+  </DialogPortal>
 </template>

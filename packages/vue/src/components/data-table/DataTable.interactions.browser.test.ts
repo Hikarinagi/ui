@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { page, userEvent } from 'vitest/browser'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { h } from 'vue'
+import { ConfigProvider } from 'reka-ui'
 import DataTable from './DataTable.vue'
 import type { DataTableColumn, DataTableProps } from './types'
 import '../../../test/browser.css'
@@ -64,6 +65,48 @@ afterEach(() => {
 })
 
 describe('DataTable direct manipulation', () => {
+  it('mounts resize guides and drag previews in the configured portal target', async () => {
+    const target = document.createElement('div')
+    target.id = 'table-portals'
+    document.body.append(target)
+    await page.viewport(1000, 800)
+    const root = mount(ConfigProvider, {
+      props: { teleportTo: '#table-portals' },
+      attachTo: document.body,
+      slots: {
+        default: () =>
+          h(DataTable<Item>, {
+            rows,
+            columns,
+            rowKey: 'id',
+            resizable: true,
+            reorderColumns: true,
+            style: { width: '700px' },
+          }),
+      },
+    })
+    mounted.push(root)
+    const wrapper = root.findComponent(DataTable)
+    await vi.waitFor(() =>
+      expect(wrapper.find('[data-overlayscrollbars-viewport]').exists()).toBe(true),
+    )
+    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))
+    const handle = wrapper.find('[data-hn-column="name"] [role="separator"]').element
+    const box = handle.getBoundingClientRect()
+    begin(handle, box.x + 2, box.y + 2)
+    window.dispatchEvent(pointer('pointermove', box.x + 22, box.y + 2))
+    await vi.waitFor(() => expect(target.querySelector('[data-hn-resize-guide]')).not.toBeNull())
+    expect(target.querySelector('[data-hn-resize-label]')).not.toBeNull()
+    window.dispatchEvent(pointer('pointerup', box.x + 22, box.y + 2))
+    const header = wrapper.find('[data-hn-column="name"]').element
+    const origin = header.getBoundingClientRect()
+    begin(header, origin.x + 20, origin.y + 20)
+    window.dispatchEvent(pointer('pointermove', origin.x + 70, origin.y + 20))
+    await vi.waitFor(() => expect(target.querySelector('[data-hn-drag-preview]')).not.toBeNull())
+    window.dispatchEvent(pointer('pointerup', origin.x + 70, origin.y + 20))
+    await vi.waitFor(() => expect(target.childElementCount).toBe(0))
+  })
+
   it.each(['ltr', 'rtl'])(
     'resizes from visible widths without moving other boundaries in %s',
     async dir => {
