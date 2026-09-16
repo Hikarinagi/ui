@@ -154,7 +154,12 @@
     "primaryStart": "开始",
     "primaryComponents": "组件",
     "installation": "安装",
-    "github": "GitHub 仓库"
+    "github": "GitHub 仓库",
+    "design": "设计规范",
+    "colors": "颜色",
+    "typography": "排版",
+    "layout": "布局与密度",
+    "motion": "交互与动效"
   },
   "page": {
     "toc": "本页目录",
@@ -480,5 +485,31 @@
     "tree": "树形列表",
     "tree-select": "树形选择器",
     "visually-hidden": "视觉隐藏"
+  },
+  "designPreview": {
+    "accent": "强调色",
+    "success": "成功",
+    "warning": "警告",
+    "danger": "危险",
+    "info": "信息",
+    "foreground": "文字层次",
+    "defaultText": "主要文字 · 内容与标题",
+    "mutedText": "次要文字 · 补充说明",
+    "faintText": "弱化文字 · 非关键信息",
+    "brandScale": "品牌色阶 · brand",
+    "typeSample": "清晰、有序的界面 Hina UI",
+    "comfortable": "默认密度",
+    "compact": "紧凑密度",
+    "input": "输入内容",
+    "primary": "主要操作",
+    "secondary": "次要操作",
+    "motionHint": "同一距离，不同时长；跟随系统的减少动态效果设置。",
+    "replay": "播放 / 返回"
+  },
+  "design": {
+    "colors": "语义颜色、明暗主题与自定义配色",
+    "typography": "字号、行高、字重与文字层次",
+    "layout": "间距、控件密度、圆角与层次",
+    "motion": "交互状态、动效节奏与无障碍"
   }
 }

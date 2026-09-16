@@ -506,13 +506,21 @@ export const components: DocsComponent[] = [
   },
 ]
 
+export const design: DocsNavItem[] = ['colors', 'typography', 'layout', 'motion'].map(slug => ({
+  labelI18n: `nav.${slug}`,
+  to: `/design/${slug}`,
+  i18n: `design.${slug}`,
+}))
+
 export const nav: { label: string; items: DocsNavItem[] }[] = [
   { label: 'nav.start', items: guides },
+  { label: 'nav.design', items: design },
   { label: 'nav.components', items: components },
 ]
 
 export const primary: DocsPrimaryItem[] = [
   { label: 'nav.primaryStart', to: '/guide/installation', match: '/guide' },
+  { label: 'nav.design', to: '/design/colors', match: '/design' },
   { label: 'nav.primaryComponents', to: '/components', match: '/components' },
 ]
 

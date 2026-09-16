@@ -2,7 +2,7 @@
   import { Languages, Monitor, Moon, Search, Sun } from '@lucide/vue'
   import { Button, CommandPalette, IconButton, Kbd, type CommandItems } from '@hina-ui/vue'
   import index from 'virtual:docs-search'
-  import { categories, categoryPath, components, guides } from '~/nav'
+  import { categories, categoryPath, components, guides, design } from '~/nav'
 
   const { t, locale, locales } = useI18n()
   const localePath = useLocalePath()
@@ -33,6 +33,16 @@
         id: item.to,
         label: item.label ?? t(item.labelI18n!),
         description: t(item.i18n),
+        onSelect: go(item.to),
+      })),
+    },
+    {
+      label: t('nav.design'),
+      items: design.map(item => ({
+        id: item.to,
+        label: t(item.labelI18n!),
+        description: t(item.i18n),
+        keywords: [item.to.split('/').at(-1)!],
         onSelect: go(item.to),
       })),
     },

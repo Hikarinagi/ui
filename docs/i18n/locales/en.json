@@ -154,7 +154,12 @@
     "primaryStart": "Guide",
     "primaryComponents": "Components",
     "installation": "Installation",
-    "github": "GitHub repository"
+    "github": "GitHub repository",
+    "design": "Design",
+    "colors": "Color",
+    "typography": "Typography",
+    "layout": "Layout & density",
+    "motion": "Interaction & motion"
   },
   "page": {
     "toc": "On this page",
@@ -359,5 +364,31 @@
     "slider": "Picks a number within a range by dragging",
     "image": "An image that loads lazily and falls back when it fails",
     "lightbox": "A full-screen image preview with controlled visibility and selection"
+  },
+  "designPreview": {
+    "accent": "Accent",
+    "success": "Success",
+    "warning": "Warning",
+    "danger": "Danger",
+    "info": "Information",
+    "foreground": "Text hierarchy",
+    "defaultText": "Primary · content and headings",
+    "mutedText": "Secondary · supporting text",
+    "faintText": "Tertiary · nonessential details",
+    "brandScale": "Brand palette · brand",
+    "typeSample": "Clear, ordered interfaces",
+    "comfortable": "Comfortable",
+    "compact": "Compact",
+    "input": "Enter a value",
+    "primary": "Primary",
+    "secondary": "Secondary",
+    "motionHint": "Same distance, different durations. Respects reduced motion.",
+    "replay": "Play / return"
+  },
+  "design": {
+    "colors": "Semantic colors, themes and customization",
+    "typography": "Type sizes, line heights, weights and hierarchy",
+    "layout": "Spacing, control density, radii and elevation",
+    "motion": "States, motion timing and accessibility"
   }
 }
