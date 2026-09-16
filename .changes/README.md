@@ -5,9 +5,9 @@ Hina UI 使用仓库内的发布脚本管理 `@hina-ui/vue`。更新记录的分
 ## 记录变更
 
 ```bash
-pnpm change fixed Image "修复加载前后的尺寸跳变。"
-pnpm change added Dialog "增加标题插槽。"
-pnpm change changed DataTable "优化列宽调整的反馈。"
+pnpm change fixed Image "Fix image dimensions changing after loading."
+pnpm change added Dialog "Add a title slot."
+pnpm change changed DataTable "Improve column resizing feedback."
 ```
 
 每个独立改动附一份 `.changes/*.md`，和代码一起提交。文档、测试和发布工具本身的修改无需新增组件发布记录。
@@ -18,10 +18,10 @@ type: added
 scope: Dialog
 ---
 
-增加标题插槽。
+Add a title slot.
 ```
 
-`type` 支持 `added`、`changed`、`deprecated`、`removed`、`fixed`、`security`，依次生成“新增、优化、已弃用、移除、修复、安全”分类。`scope` 填组件或能力名称，正文描述最终变化。
+`type` 支持 `added`、`changed`、`deprecated`、`removed`、`fixed`、`security`，依次生成“Added、Changed、Deprecated、Removed、Fixed、Security”分类。`scope` 填组件或能力名称，正文使用英文描述最终变化。CHANGELOG 与 GitHub Release 的分类标题、条目正文统一使用英文，不在同一份记录中混用语言。
 
 需要指定最低升级级别时，在命令末尾加 `minor` 或 `major`，文件中对应 `level` 字段。多个记录取最高级别；发布时不能用更低的级别或版本覆盖它。不兼容的公共 API 修改必须声明 `level: major`，并写清迁移方式。
 

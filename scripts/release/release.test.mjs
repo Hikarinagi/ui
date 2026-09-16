@@ -41,7 +41,7 @@ const candidate = {
   pkg: { name: '@hina-ui/vue', version: '1.7.1' },
   tag: '@hina-ui/vue@1.7.1',
   sha,
-  notes: '### 修复\n\n- **Dialog** Fix focus.\n',
+  notes: '### Fixed\n\n- **Dialog** Fix focus.\n',
 }
 const passing = {
   head_sha: sha,
@@ -179,8 +179,8 @@ test('changelog groups notes by type and retains paragraphs and existing legacy 
     [note, { type: 'fixed', scope: 'Image', text: 'Fix sizing.\n\nKeep explicit bounds.' }],
     config,
   )
-  assert.ok(notes.includes('### 新增\n\n- **Dialog** Add a title slot.'))
-  assert.ok(notes.includes('### 修复\n\n- **Image** Fix sizing.\n\n  Keep explicit bounds.'))
+  assert.ok(notes.includes('### Added\n\n- **Dialog** Add a title slot.'))
+  assert.ok(notes.includes('### Fixed\n\n- **Image** Fix sizing.\n\n  Keep explicit bounds.'))
   assert.equal(
     releaseNotes('## 1.7.0\n\nPrevious notes.\n\n## 1.6.0\n\nOlder.', '1.7.0'),
     'Previous notes.\n',

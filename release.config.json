@@ -6,11 +6,29 @@
   "branch": "release/next",
   "defaultBump": "patch",
   "sections": [
-    { "type": "added", "title": "新增" },
-    { "type": "changed", "title": "优化" },
-    { "type": "deprecated", "title": "已弃用" },
-    { "type": "removed", "title": "移除" },
-    { "type": "fixed", "title": "修复" },
-    { "type": "security", "title": "安全" }
+    {
+      "type": "added",
+      "title": "Added"
+    },
+    {
+      "type": "changed",
+      "title": "Changed"
+    },
+    {
+      "type": "deprecated",
+      "title": "Deprecated"
+    },
+    {
+      "type": "removed",
+      "title": "Removed"
+    },
+    {
+      "type": "fixed",
+      "title": "Fixed"
+    },
+    {
+      "type": "security",
+      "title": "Security"
+    }
   ]
 }
