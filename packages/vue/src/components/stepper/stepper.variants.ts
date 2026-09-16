@@ -14,9 +14,8 @@ export const stepper = tv({
 
 export const stepperTrigger = tv({
   base: [
-    'hn-interactive hn-state-layer hn-press-none text-fg relative flex min-w-0 gap-(--hn-inline-gap) rounded-md p-1',
-    'disabled:cursor-not-allowed disabled:opacity-50',
-    '[--hn-state-selected-opacity:0]',
+    'hn-focus-ring cursor-pointer text-fg relative flex min-w-0 gap-(--hn-inline-gap) rounded-md p-1',
+    'disabled:cursor-not-allowed disabled:opacity-50 data-disabled:cursor-not-allowed',
   ],
   variants: {
     orientation: {

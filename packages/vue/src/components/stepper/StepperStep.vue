@@ -9,7 +9,6 @@
     StepperSeparator,
   } from 'reka-ui'
   import { useUiLocale } from '../../locale'
-  import Ripple from '../ripple/Ripple.vue'
   import Spinner from '../spinner/Spinner.vue'
   import { stepperIndicator, stepperTrigger } from './stepper.variants'
   import type { StepperItem, StepperSlotProps, StepperOrientation } from './types'
@@ -60,7 +59,6 @@
       @mousedown.capture.stop
       @click="emit('select', entry.step)"
     >
-      <Ripple :disabled="entry.disabled || props.pending" />
       <StepperIndicator :class="stepperIndicator({ state: entry.state })" aria-hidden="true">
         <slot name="indicator" v-bind="entry">
           <Spinner v-if="props.pending && entry.active" size="sm" />
