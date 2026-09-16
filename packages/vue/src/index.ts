@@ -79,6 +79,16 @@ export { default as RangeSlider } from './components/range-slider/RangeSlider.vu
 export { default as Toggle } from './components/toggle/Toggle.vue'
 export type { ToggleVariants } from './components/toggle/toggle.variants'
 export { default as Toolbar } from './components/toolbar/Toolbar.vue'
+export { default as NavigationMenu } from './components/navigation-menu/NavigationMenu.vue'
+export { default as NavigationMenuItem } from './components/navigation-menu/NavigationMenuItem.vue'
+export { default as NavigationMenuTrigger } from './components/navigation-menu/NavigationMenuTrigger.vue'
+export { default as NavigationMenuLink } from './components/navigation-menu/NavigationMenuLink.vue'
+export { default as NavigationMenuContent } from './components/navigation-menu/NavigationMenuContent.vue'
+export type {
+  NavigationMenuProps,
+  NavigationMenuSize,
+  NavigationMenuOrientation,
+} from './components/navigation-menu/types'
 export { default as ToolbarButton } from './components/toolbar/ToolbarButton.vue'
 export { default as ToolbarLink } from './components/toolbar/ToolbarLink.vue'
 export { default as ToolbarToggleGroup } from './components/toolbar/ToolbarToggleGroup.vue'

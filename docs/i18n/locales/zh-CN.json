@@ -368,7 +368,8 @@
     "lightbox": "独立控制打开状态和图片序列的全屏预览",
     "timeline": "以相连的节点按顺序呈现事件",
     "stepper": "带有步骤状态与切换校验的步骤导航",
-    "toolbar": "统一管理按钮、链接和切换组的工具栏"
+    "toolbar": "统一管理按钮、链接和切换组的工具栏",
+    "navigation-menu": "可组合链接和下拉内容的导航菜单"
   },
   "names": {
     "accordion": "折叠列表",
@@ -492,7 +493,8 @@
     "visually-hidden": "视觉隐藏",
     "timeline": "时间线",
     "stepper": "步骤条",
-    "toolbar": "工具栏"
+    "toolbar": "工具栏",
+    "navigation-menu": "导航菜单"
   },
   "designPreview": {
     "accent": "强调色",

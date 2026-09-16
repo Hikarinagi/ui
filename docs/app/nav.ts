@@ -321,6 +321,12 @@ export const components: DocsComponent[] = [
     category: 'navigation',
   },
   {
+    label: 'NavigationMenu',
+    to: '/components/navigation-menu',
+    i18n: 'components.navigation-menu',
+    category: 'navigation',
+  },
+  {
     label: 'NumberFormat',
     to: '/components/number-format',
     i18n: 'components.number-format',
