@@ -1,5 +1,11 @@
 export interface UiMessages {
   tag: string
+  stepper: {
+    label: string
+    progress: (step: number, total: number) => string
+    completed: string
+    error: string
+  }
   common: {
     close: string
     copy: string

@@ -18,6 +18,7 @@ function merge(base: UiMessages, patch: PartialUiMessages): UiMessages {
   return {
     tag: patch.tag ?? base.tag,
     common: { ...base.common, ...patch.common },
+    stepper: { ...base.stepper, ...patch.stepper },
     banner: { ...base.banner, ...patch.banner },
     pagination: { ...base.pagination, ...patch.pagination },
     table: { ...base.table, ...patch.table },

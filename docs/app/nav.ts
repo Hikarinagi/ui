@@ -460,6 +460,12 @@ export const components: DocsComponent[] = [
     i18n: 'components.statistic',
     category: 'display',
   },
+  {
+    label: 'Stepper',
+    to: '/components/stepper',
+    i18n: 'components.stepper',
+    category: 'navigation',
+  },
   { label: 'Switch', to: '/components/switch', i18n: 'components.switch', category: 'forms' },
   { label: 'Table', to: '/components/table', i18n: 'components.table', category: 'data' },
   { label: 'Tabs', to: '/components/tabs', i18n: 'components.tabs', category: 'display' },

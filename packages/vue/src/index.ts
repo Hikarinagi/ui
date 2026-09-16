@@ -300,3 +300,15 @@ export type {
   TimelineSize,
   TimelineTone,
 } from './components/timeline/types'
+
+export { default as Stepper } from './components/stepper/Stepper.vue'
+export type {
+  StepperItem,
+  StepperState,
+  StepperSize,
+  StepperOrientation,
+  StepperProps,
+  StepperSlotProps,
+  StepperNavigation,
+  StepperBeforeChange,
+} from './components/stepper/types'

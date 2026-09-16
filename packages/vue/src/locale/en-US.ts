@@ -2,6 +2,12 @@ import type { UiMessages } from './types'
 
 export const enUS: UiMessages = {
   tag: 'en-US',
+  stepper: {
+    label: 'Steps',
+    progress: (step, total) => `Step ${step} of ${total}`,
+    completed: 'Completed',
+    error: 'This step has an error',
+  },
   common: {
     close: 'Close',
     copy: 'Copy',

@@ -10,6 +10,7 @@
 @import './scroll.css';
 @import './data-table.css';
 @import './timeline.css';
+@import './stepper.css';
 @import './base.css';
 
 @source '../components/**/*.vue';

@@ -1,0 +1,41 @@
+@layer components {
+  .hn-stepper-list[data-orientation='horizontal'] {
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+
+    > .hn-stepper-item {
+      position: relative;
+
+      > button {
+        padding-inline: var(--hn-inline-gap);
+      }
+
+      > .hn-stepper-separator {
+        position: absolute;
+        pointer-events: none;
+        inset-block-start: calc(var(--hn-stepper-indicator) / 2 + --spacing(1));
+        inset-inline-start: calc(50% + var(--hn-stepper-indicator) / 2 + var(--hn-control-gap));
+        inline-size: calc(100% - var(--hn-stepper-indicator) - var(--hn-control-gap) * 2);
+        block-size: 1px;
+      }
+    }
+  }
+
+  .hn-stepper-list[data-orientation='vertical'] {
+    > .hn-stepper-item {
+      display: grid;
+      grid-template-columns: calc(var(--hn-stepper-indicator) + --spacing(2)) minmax(0, 1fr);
+
+      > button {
+        grid-column: 1 / -1;
+      }
+
+      > .hn-stepper-separator {
+        justify-self: center;
+        inline-size: 1px;
+        min-block-size: var(--hn-stack-gap);
+        margin-block: var(--hn-control-gap);
+      }
+    }
+  }
+}
