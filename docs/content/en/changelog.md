@@ -1,6 +1,6 @@
 ---
 title: Changelog
-description: 'The complete release history of @hina-ui/vue. Release notes are published in English.'
+description: 'The complete release history of @hina-ui/vue.'
 tocDepth: 2
 links:
   - label: GitHub Releases

@@ -1,6 +1,6 @@
 ---
 title: 变更记录
-description: '@hina-ui/vue 的完整版本记录。发布内容统一使用英文。'
+description: '@hina-ui/vue 的完整版本记录。'
 tocDepth: 2
 links:
   - label: GitHub Releases
