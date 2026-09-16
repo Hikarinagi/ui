@@ -32,6 +32,8 @@ Names are remembered when search results are replaced or cleared. Asynchronously
 
 The example prefills three tags before requesting search results. Debouncing and cancelling requests belong to the caller; `loading` replaces the toggle arrow with a loading indicator.
 
+The example requests a static JSON file shipped with the docs and simulates filtering in the caller, without a server proxy. Replace the request URL and result mapping when connecting a search API.
+
 <Demo name="multi-combobox/remote" />
 
 ### Custom content {#custom}

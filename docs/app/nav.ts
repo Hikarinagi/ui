@@ -155,6 +155,12 @@ export const components: DocsComponent[] = [
     category: 'atoms',
   },
   {
+    label: 'DataTable',
+    to: '/components/data-table',
+    i18n: 'components.data-table',
+    category: 'data',
+  },
+  {
     label: 'DateField',
     to: '/components/date-field',
     i18n: 'components.date-field',

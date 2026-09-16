@@ -8,6 +8,7 @@
 @import './typography.css';
 @import './spoiler.css';
 @import './scroll.css';
+@import './data-table.css';
 @import './base.css';
 
 @source '../components/**/*.vue';

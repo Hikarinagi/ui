@@ -36,6 +36,10 @@ A group carries a `label` and its `options`; groups left empty by the filter are
 
 `selectedOption` supplies the selected item separately. Its `value` must match `v-model` to provide the displayed name; it neither adds a candidate nor changes the selection. Names are remembered when results are replaced or cleared. Asynchronously supplied or updated names are reflected without overwriting an active search; closing the list restores the latest name. When both sources contain the same value, `selectedOption` takes precedence for the displayed selection name.
 
+`loading` replaces the toggle arrow with a loading indicator while keeping typing, selection and clearing available. Request state and debouncing are controlled by the caller.
+
+The example requests a static JSON file shipped with the docs and simulates filtering in the caller, without a server proxy. Replace the request URL and result mapping when connecting a search API.
+
 <Demo name="combobox/remote" />
 
 ### Clearable {#clearable}
@@ -79,6 +83,7 @@ Inside a [FormField](/components/form-field) the label points at the input, and 
 
 - The text area is `role="combobox"` with `aria-autocomplete="list"`, the list is `role="listbox"` and each option is `role="option"` with `aria-selected`.
 - The toggle button is outside the Tab order and named from the locale pack.
+- While loading, the field surface has `aria-busy="true"`.
 - Pair it with a `label` element or an `aria-label` for its name. `invalid` also sets `aria-invalid`.
 
 ## API {#api}
@@ -95,6 +100,7 @@ Inside a [FormField](/components/form-field) the label points at the input, and 
 | `search`         | `string`                   | `''`        | The current text; `v-model:search`                             |
 | `placeholder`    | `string`                   | locale pack | Text shown when nothing is chosen                              |
 | `ignoreFilter`   | `boolean`                  | `false`     | Whether filtering is left to the caller                        |
+| `loading`        | `boolean`                  | `false`     | Whether to show the loading indicator                          |
 | `clearable`      | `boolean`                  | `false`     | Whether the clear button is shown                              |
 | `open`           | `boolean`                  | `false`     | Whether the list is open; `v-model:open`                       |
 | `variant`        | `'primary' \| 'secondary'` | `'primary'` | Variant                                                        |

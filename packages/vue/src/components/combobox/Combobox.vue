@@ -5,6 +5,8 @@
   import { useUiLocale } from '../../locale'
   import { X } from '@lucide/vue'
   import InputAction from '../input/InputAction.vue'
+  import IconSlot from '../button/IconSlot.vue'
+  import { buttonIconBox } from '../button/button.variants'
   import DisclosureIcon from '../disclosure-icon/DisclosureIcon.vue'
   import { useFieldControl } from '../form-field/context'
   import { injectInputGroup } from '../input-group/context'
@@ -28,6 +30,7 @@
     selectedOption?: T | null
     placeholder?: string
     ignoreFilter?: boolean
+    loading?: boolean
     clearable?: boolean
     variant?: InputVariants['variant']
     size?: InputVariants['size']
@@ -84,6 +87,7 @@
         data-hn-combobox
         :data-invalid="invalid ? '' : undefined"
         :data-disabled="disabled ? '' : undefined"
+        :aria-busy="props.loading || undefined"
         :class="
           cn(
             group ? inputEmbedded() : inputHost({ variant: props.variant, size: props.size }),
@@ -124,7 +128,13 @@
           :class="cn(inputAdornment(), inputIndicator())"
           @mousedown.prevent
         >
-          <DisclosureIcon :open="open" />
+          <IconSlot
+            :box-class="buttonIconBox({ size })"
+            :swapped="!!props.loading"
+            spinner-size="sm"
+          >
+            <DisclosureIcon :open="open" />
+          </IconSlot>
         </ComboboxTrigger>
       </div>
     </ComboboxAnchor>

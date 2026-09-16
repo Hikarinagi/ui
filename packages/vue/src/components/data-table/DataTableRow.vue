@@ -1,0 +1,255 @@
+<script setup lang="ts" generic="T extends object">
+  import { computed, shallowRef, watch } from 'vue'
+  import { Check, ChevronRight, CircleAlert, GripVertical, Pencil, X } from '@lucide/vue'
+  import { cn } from '../../lib/cn'
+  import { useUiLocale } from '../../locale'
+  import DataTableAction from './DataTableAction.vue'
+  import TableCell from '../table/TableCell.vue'
+  import DataTableSelection from './DataTableSelection.vue'
+  import DataTableEditor from './DataTableEditor.vue'
+  import DataTableText from './DataTableText.vue'
+  import Slot from './Slot'
+  import { cssSize, isRowAction } from './utils'
+  import type { DataTableProps, DataTableSlots } from './types'
+  import type { DataTableController } from './composables/useDataTable'
+  import type { DataTableLayout } from './composables/useTableColumns'
+  import type { DataTableDrag } from './composables/useTableDrag'
+  import type { DataTableEditing } from './composables/useTableEditing'
+  import type { DataTableRenderEntry } from './composables/useTableVirtual'
+  const props = defineProps<{
+    item: DataTableRenderEntry<T>
+    config: DataTableProps<T>
+    ctl: DataTableController<T>
+    layout: DataTableLayout<T>
+    drag: DataTableDrag<T>
+    editing: DataTableEditing<T>
+    slots: DataTableSlots<T>
+    controls: string[]
+    colspan: number
+    name: string
+    measure: (element: unknown) => void
+  }>()
+  const emit = defineEmits<{ rowContextmenu: [row: T, event: MouseEvent] }>()
+  const element = shallowRef<HTMLTableRowElement>()
+  const entry = computed(() => props.item.entry)
+  const t = useUiLocale()
+  watch(element, value => props.measure(value), { flush: 'post' })
+</script>
+<template>
+  <tr
+    ref="element"
+    :data-index="item.index"
+    :data-editing="
+      !item.detail && !entry.group && editing.isEditing(entry.key) ? config.editMode : undefined
+    "
+    :data-edit-error="item.error ? '' : undefined"
+    :data-hn-row="item.detail ? undefined : entry.id"
+    :aria-rowindex="config.virtualize ? item.index + layout.headerRows.value.length + 1 : undefined"
+    :data-state="entry.selected ? 'selected' : undefined"
+    :data-hn-state-group="!item.detail && config.hover ? '' : undefined"
+    :tabindex="
+      !item.detail && !entry.group && config.rowClickable && !ctl.blocked.value ? 0 : undefined
+    "
+    :class="
+      cn(
+        !item.detail && (config.hover || config.selectable) && '[&>td]:hn-state-layer',
+        !item.detail && !entry.group && config.rowClickable && 'hn-focus-ring cursor-pointer',
+        !entry.group && config.rowClass?.(entry.row),
+        drag.key.value === entry.id && 'opacity-50',
+      )
+    "
+    @contextmenu="!item.detail && !entry.group && emit('rowContextmenu', entry.row, $event)"
+    @click="!item.detail && !entry.group && ctl.activate(entry.row, $event)"
+    @keydown.enter="!item.detail && !entry.group && ctl.activate(entry.row, $event)"
+    @keydown.space="!item.detail && !entry.group && ctl.activate(entry.row, $event)"
+  >
+    <TableCell
+      :data-state="!item.detail && entry.selected ? 'selected' : undefined"
+      v-if="item.detail"
+      :colspan="colspan"
+    >
+      <p v-if="item.error" :id="editing.errorId" role="alert" class="hn-table-edit-message">
+        <CircleAlert aria-hidden="true" />
+        {{ item.error }}
+      </p>
+      <div v-else class="p-3"><Slot :render="slots.expansion" :context="entry" /></div>
+    </TableCell>
+    <template v-else-if="entry.group">
+      <TableCell
+        :data-state="!item.detail && entry.selected ? 'selected' : undefined"
+        v-if="slots.group"
+        :colspan="colspan"
+      >
+        <Slot :render="slots.group" :context="entry.group" />
+      </TableCell>
+      <template v-else>
+        <TableCell
+          :data-state="!item.detail && entry.selected ? 'selected' : undefined"
+          v-for="(control, index) in controls"
+          :key="control"
+          :style="layout.controlStyle('start', index)"
+        />
+        <TableCell
+          :data-state="!item.detail && entry.selected ? 'selected' : undefined"
+          v-for="(column, index) in ctl.visibleColumns.value"
+          :key="column.key"
+          :align="column.align"
+          :style="layout.cellStyle(column)"
+        >
+          <button
+            type="button"
+            class="hn-table-group hn-focus-ring"
+            v-if="index === 0"
+            :disabled="ctl.blocked.value"
+            :aria-expanded="entry.group.expanded"
+            :style="{ marginInlineStart: `${entry.depth * 16}px` }"
+            @click="entry.group.toggleExpanded()"
+          >
+            <ChevronRight
+              aria-hidden="true"
+              class="hn-transition-transform rtl:rotate-180"
+              :class="entry.group.expanded && 'rotate-90 rtl:rotate-90'"
+            />
+            {{ entry.group.column.label }}: {{ entry.group.value }}
+            <span class="text-muted">({{ entry.group.rows.length }})</span>
+          </button>
+          <template v-else>{{ entry.group.aggregate(column.key) ?? '—' }}</template>
+        </TableCell>
+        <TableCell
+          :data-state="!item.detail && entry.selected ? 'selected' : undefined"
+          v-if="config.editMode === 'row'"
+          :style="layout.controlStyle('end', 0)"
+        />
+      </template>
+    </template>
+    <template v-else>
+      <TableCell
+        :data-state="!item.detail && entry.selected ? 'selected' : undefined"
+        v-for="(control, index) in controls"
+        :key="control"
+        :style="layout.controlStyle('start', index)"
+      >
+        <DataTableAction
+          v-if="control === 'drag'"
+          data-hn-row-drag
+          class="touch-none cursor-grab"
+          :disabled="!drag.canMove(entry.row)"
+          :aria-label="`${t.table.moveRow}: ${entry.label}`"
+          @pointerdown="drag.start('row', entry.id, entry.label, $event)"
+          @keydown="drag.rowKeydown(entry.key, $event)"
+        >
+          <GripVertical />
+        </DataTableAction>
+        <DataTableSelection
+          v-else-if="control === 'select'"
+          :single="config.selectionMode === 'single'"
+          :checked="entry.indeterminate ? 'indeterminate' : entry.selected"
+          :disabled="ctl.blocked.value || !entry.selectable"
+          :label="`${t.table.selectRow}: ${entry.label}`"
+          :name="name"
+          @change="entry.toggleSelected"
+        />
+        <DataTableAction
+          v-else-if="control === 'expand' && entry.expandable"
+          :disabled="ctl.blocked.value"
+          :aria-label="`${entry.expanded ? t.table.collapse : t.table.expand}: ${entry.label}`"
+          :aria-expanded="entry.expanded"
+          @click="entry.toggleExpanded()"
+        >
+          <ChevronRight
+            aria-hidden="true"
+            class="hn-transition-transform rtl:rotate-180"
+            :class="entry.expanded && 'rotate-90 rtl:rotate-90'"
+          />
+        </DataTableAction>
+      </TableCell>
+      <TableCell
+        :data-state="!item.detail && entry.selected ? 'selected' : undefined"
+        v-for="(column, index) in ctl.visibleColumns.value"
+        :key="column.key"
+        :data-hn-cell="column.key"
+        :data-editing="
+          editing.isEditing(entry.key, column.key) && editing.canEdit(entry.row, column)
+            ? config.editMode
+            : undefined
+        "
+        :align="column.align"
+        :style="layout.cellStyle(column)"
+        :tabindex="config.editMode === 'cell' && editing.canEdit(entry.row, column) ? 0 : undefined"
+        :class="
+          cn(
+            typeof column.cellClass === 'function' ? column.cellClass(entry.row) : column.cellClass,
+            config.editMode === 'cell' && editing.canEdit(entry.row, column) && 'hn-focus-ring',
+          )
+        "
+        @dblclick="config.editMode === 'cell' && isRowAction($event) && entry.startEdit(column.key)"
+        @keydown.enter="
+          config.editMode === 'cell' && isRowAction($event) && entry.startEdit(column.key)
+        "
+      >
+        <div
+          :class="column.truncate && 'min-w-0 overflow-hidden'"
+          :style="{
+            maxWidth: cssSize(column.maxWidth),
+            paddingInlineStart:
+              index === 0 && config.getChildren ? `${entry.depth * 16}px` : undefined,
+          }"
+        >
+          <DataTableEditor
+            v-if="editing.isEditing(entry.key, column.key) && editing.canEdit(entry.row, column)"
+            :context="editing.context(entry, column)"
+            :slots="slots"
+            :cell="config.editMode === 'cell'"
+          />
+          <Slot
+            v-else
+            :render="slots[`cell-${column.key}`] ?? slots.cell"
+            :context="{ ...entry, column, value: ctl.valueOf(entry.row, column) }"
+          >
+            <DataTableText
+              :value="ctl.displayValue(entry.row, column)"
+              :truncate="column.truncate"
+            />
+          </Slot>
+        </div>
+      </TableCell>
+      <TableCell
+        :data-state="!item.detail && entry.selected ? 'selected' : undefined"
+        v-if="config.editMode === 'row'"
+        class="hn-table-edit-actions"
+        :style="layout.controlStyle('end', 0)"
+      >
+        <div v-if="editing.isEditing(entry.key)" class="hn-table-editor-control justify-center">
+          <DataTableAction
+            :loading="editing.pending.value"
+            :aria-describedby="editing.rowError(entry.key) ? editing.errorId : undefined"
+            :aria-label="t.table.save"
+            @click="editing.commit"
+          >
+            <Check />
+          </DataTableAction>
+          <DataTableAction
+            :disabled="editing.pending.value"
+            :aria-label="t.table.cancel"
+            @click="editing.cancel"
+          >
+            <X />
+          </DataTableAction>
+        </div>
+        <DataTableAction
+          v-else
+          :disabled="
+            ctl.blocked.value ||
+            !ctl.leaves.value.some(column => editing.canEdit(entry.row, column))
+          "
+          class="hn-table-edit-trigger"
+          data-hn-edit-trigger
+          :aria-label="`${t.table.edit}: ${entry.label}`"
+          @click="entry.startEdit()"
+        >
+          <Pencil />
+        </DataTableAction>
+      </TableCell>
+    </template>
+  </tr>
+</template>

@@ -19,6 +19,10 @@
 pnpm add @hina-ui/vue
 ```
 
+## 参与开发
+
+版本管理和发布流程见[变更记录与发布](./.changes/README.md)。
+
 ## 许可证
 
 [MIT](./LICENSE)

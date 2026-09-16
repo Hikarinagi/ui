@@ -1,0 +1,16 @@
+{
+  "repo": "Hikarinagi/ui",
+  "package": "packages/vue/package.json",
+  "changelog": "packages/vue/CHANGELOG.md",
+  "changesDir": ".changes",
+  "branch": "release/next",
+  "defaultBump": "patch",
+  "sections": [
+    { "type": "added", "title": "新增" },
+    { "type": "changed", "title": "优化" },
+    { "type": "deprecated", "title": "已弃用" },
+    { "type": "removed", "title": "移除" },
+    { "type": "fixed", "title": "修复" },
+    { "type": "security", "title": "安全" }
+  ]
+}

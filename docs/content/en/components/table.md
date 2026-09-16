@@ -20,7 +20,7 @@ A table is built from six components that mirror the structure of an HTML table:
 
 <Demo name="table/basic" />
 
-The component only presents data. Sorting, filtering, pagination and row selection are not included — they require an agreed interface with the data source and belong to the data-grid component that comes later.
+This component handles presentation. Use [DataTable](/components/data-table) for column definitions, sorting, filtering, pagination and row selection.
 
 ## Examples {#examples}
 
@@ -101,12 +101,12 @@ Row height comes from the density tokens, so setting `data-density="compact"` on
 
 ### TableHead {#head}
 
-| Prop     | Type                           | Default   | Description                              |
-| -------- | ------------------------------ | --------- | ---------------------------------------- |
-| `scope`  | `'col' \| 'row'`               | `'col'`   | Whether the cell heads a column or a row |
-| `align`  | `'start' \| 'center' \| 'end'` | `'start'` | Content alignment                        |
-| `sticky` | `boolean`                      | `false`   | Whether it pins to the start edge        |
-| `class`  | `string`                       | —         | Classes appended to the root             |
+| Prop     | Type                                         | Default   | Description                              |
+| -------- | -------------------------------------------- | --------- | ---------------------------------------- |
+| `scope`  | `'col' \| 'row' \| 'colgroup' \| 'rowgroup'` | `'col'`   | Whether the cell heads a column or a row |
+| `align`  | `'start' \| 'center' \| 'end'`               | `'start'` | Content alignment                        |
+| `sticky` | `boolean`                                    | `false`   | Whether it pins to the start edge        |
+| `class`  | `string`                                     | —         | Classes appended to the root             |
 
 ### TableCell {#cell}
 

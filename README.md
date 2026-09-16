@@ -19,6 +19,10 @@ Powered by [Reka UI](https://reka-ui.com) and [Tailwind CSS v4](https://tailwind
 pnpm add @hina-ui/vue
 ```
 
+## Contributing
+
+See [change records and releases](./.changes/README.md) for versioning and the release workflow.
+
 ## License
 
 [MIT](./LICENSE)

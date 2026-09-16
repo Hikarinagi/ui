@@ -22,6 +22,9 @@ export function useForm(options: Options) {
   const submitted = ref(false)
   const submitting = ref(false)
   const server = shallowRef(new Map<string, ServerError>())
+  let pending: { values: FormValues; rules: FormRules | undefined } | undefined
+  let validation = 0
+  let submission = 0
   let initial = snapshot(options.values()) as FormValues
 
   function shown(key: string) {
@@ -42,14 +45,33 @@ export function useForm(options: Options) {
   const invalid = computed(() => Object.keys(errors.value).length > 0 || !!formError.value)
 
   async function validate() {
-    found.value = await runRules(options.rules(), options.values())
-    return Object.keys(found.value).length === 0
+    const version = ++validation
+    const values = snapshot(options.values()) as FormValues
+    const rules = options.rules()
+    const request = { values, rules }
+    pending = request
+    try {
+      const result = await runRules(rules, values)
+      if (version !== validation || rules !== options.rules() || !same(values, options.values())) {
+        return false
+      }
+      found.value = result
+      return Object.keys(result).length === 0
+    } finally {
+      if (pending === request) pending = undefined
+    }
+  }
+
+  function revalidate() {
+    if (pending && pending.rules === options.rules() && same(pending.values, options.values()))
+      return
+    void validate()
   }
 
   function touch(name: string) {
     if (touched.value.has(name)) return
     touched.value = new Set(touched.value).add(name)
-    if (options.validateOn() !== 'submit') void validate()
+    if (options.validateOn() !== 'submit') revalidate()
   }
 
   function onChange() {
@@ -59,20 +81,30 @@ export function useForm(options: Options) {
       for (const [key, entry] of next) if (readPath(values, key) !== entry.value) next.delete(key)
       if (next.size !== server.value.size) server.value = next
     }
-    if (submitted.value || options.validateOn() !== 'submit') void validate()
+    if (submitted.value || options.validateOn() !== 'submit') revalidate()
   }
 
   async function submit(handler?: (values: FormValues) => unknown) {
+    if (submitting.value) return false
+    const version = ++submission
+    const values = snapshot(options.values()) as FormValues
     submitted.value = true
-    const valid = await validate()
-    if (!valid || server.value.size) return false
     submitting.value = true
     try {
+      const valid = await validate()
+      if (
+        !valid ||
+        version !== submission ||
+        server.value.size ||
+        !same(values, options.values())
+      ) {
+        return false
+      }
       await handler?.(options.values())
+      return true
     } finally {
-      submitting.value = false
+      if (version === submission) submitting.value = false
     }
-    return true
   }
 
   function setErrors(next: FormErrors) {
@@ -85,6 +117,10 @@ export function useForm(options: Options) {
   }
 
   function reset() {
+    validation++
+    submission++
+    pending = undefined
+    submitting.value = false
     found.value = {}
     touched.value = new Set()
     submitted.value = false

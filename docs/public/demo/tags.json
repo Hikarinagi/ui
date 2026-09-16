@@ -1,0 +1,171 @@
+{
+  "data": {
+    "items": [
+      {
+        "id": 1,
+        "name": "动画",
+        "nameEn": "Animation"
+      },
+      {
+        "id": 2,
+        "name": "漫画",
+        "nameEn": "Manga"
+      },
+      {
+        "id": 3,
+        "name": "游戏",
+        "nameEn": "Games"
+      },
+      {
+        "id": 4,
+        "name": "音乐",
+        "nameEn": "Music"
+      },
+      {
+        "id": 5,
+        "name": "科幻",
+        "nameEn": "Science fiction"
+      },
+      {
+        "id": 6,
+        "name": "奇幻",
+        "nameEn": "Fantasy"
+      },
+      {
+        "id": 7,
+        "name": "冒险",
+        "nameEn": "Adventure"
+      },
+      {
+        "id": 8,
+        "name": "日常",
+        "nameEn": "Slice of life"
+      },
+      {
+        "id": 9,
+        "name": "悬疑",
+        "nameEn": "Mystery"
+      },
+      {
+        "id": 10,
+        "name": "喜剧",
+        "nameEn": "Comedy"
+      },
+      {
+        "id": 11,
+        "name": "剧情",
+        "nameEn": "Drama"
+      },
+      {
+        "id": 12,
+        "name": "校园",
+        "nameEn": "School"
+      },
+      {
+        "id": 13,
+        "name": "青春",
+        "nameEn": "Youth"
+      },
+      {
+        "id": 14,
+        "name": "恋爱",
+        "nameEn": "Romance"
+      },
+      {
+        "id": 15,
+        "name": "旅行",
+        "nameEn": "Travel"
+      },
+      {
+        "id": 16,
+        "name": "美食",
+        "nameEn": "Food"
+      },
+      {
+        "id": 17,
+        "name": "运动",
+        "nameEn": "Sports"
+      },
+      {
+        "id": 18,
+        "name": "历史",
+        "nameEn": "History"
+      },
+      {
+        "id": 19,
+        "name": "艺术",
+        "nameEn": "Art"
+      },
+      {
+        "id": 20,
+        "name": "摄影",
+        "nameEn": "Photography"
+      },
+      {
+        "id": 21,
+        "name": "设计",
+        "nameEn": "Design"
+      },
+      {
+        "id": 22,
+        "name": "开发",
+        "nameEn": "Development"
+      },
+      {
+        "id": 23,
+        "name": "开源",
+        "nameEn": "Open source"
+      },
+      {
+        "id": 24,
+        "name": "阅读",
+        "nameEn": "Reading"
+      },
+      {
+        "id": 25,
+        "name": "创作",
+        "nameEn": "Writing"
+      },
+      {
+        "id": 26,
+        "name": "评论",
+        "nameEn": "Reviews"
+      },
+      {
+        "id": 27,
+        "name": "收藏",
+        "nameEn": "Collections"
+      },
+      {
+        "id": 28,
+        "name": "推荐",
+        "nameEn": "Recommendations"
+      },
+      {
+        "id": 29,
+        "name": "随笔",
+        "nameEn": "Essays"
+      },
+      {
+        "id": 30,
+        "name": "短篇",
+        "nameEn": "Short stories"
+      },
+      {
+        "id": 31,
+        "name": "轻小说",
+        "nameEn": "Light novels"
+      },
+      {
+        "id": 32,
+        "name": "長月達平",
+        "nameEn": "Tappei Nagatsuki"
+      },
+      {
+        "id": 33,
+        "name": "穿越",
+        "nameEn": "Time travel"
+      }
+    ]
+  }
+}

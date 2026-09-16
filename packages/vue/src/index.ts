@@ -265,3 +265,28 @@ export type {
   ScrollRestorer,
   ScrollRestorerPorts,
 } from './components/scroll-area/scroll-restore'
+
+export { default as DataTable } from './components/data-table/DataTable.vue'
+export type {
+  DataTableColumn,
+  DataTableKey,
+  DataTableAggregate,
+  DataTableApi,
+  DataTableEdit,
+  DataTableEditorContext,
+  DataTableExportOptions,
+  DataTableFilter,
+  DataTableFilterMode,
+  DataTableGroupContext,
+  DataTableReorder,
+  DataTableScope,
+  DataTableKeyField,
+  DataTableSort,
+  DataTableQuery,
+  DataTableState,
+  DataTableRowContext,
+  DataTableCellContext,
+  DataTableHeaderContext,
+  DataTableProps,
+  DataTableSlots,
+} from './components/data-table/types'
