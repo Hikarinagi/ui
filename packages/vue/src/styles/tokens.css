@@ -9,6 +9,7 @@
 @import './spoiler.css';
 @import './scroll.css';
 @import './data-table.css';
+@import './timeline.css';
 @import './base.css';
 
 @source '../components/**/*.vue';

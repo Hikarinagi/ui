@@ -365,7 +365,8 @@
     "skeleton": "内容加载期间保持其形状的占位块",
     "slider": "在数值范围内拖动取值",
     "image": "懒加载、撑住位置并在失败时回退的图片",
-    "lightbox": "独立控制打开状态和图片序列的全屏预览"
+    "lightbox": "独立控制打开状态和图片序列的全屏预览",
+    "timeline": "以相连的节点按顺序呈现事件"
   },
   "names": {
     "accordion": "折叠列表",
@@ -486,7 +487,8 @@
     "tooltip": "文字提示",
     "tree": "树形列表",
     "tree-select": "树形选择器",
-    "visually-hidden": "视觉隐藏"
+    "visually-hidden": "视觉隐藏",
+    "timeline": "时间线"
   },
   "designPreview": {
     "accent": "强调色",

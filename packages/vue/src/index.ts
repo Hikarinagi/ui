@@ -290,3 +290,13 @@ export type {
   DataTableProps,
   DataTableSlots,
 } from './components/data-table/types'
+
+export { default as Timeline } from './components/timeline/Timeline.vue'
+export type {
+  TimelineItem,
+  TimelineSlotProps,
+  TimelineAlign,
+  TimelineOrientation,
+  TimelineSize,
+  TimelineTone,
+} from './components/timeline/types'

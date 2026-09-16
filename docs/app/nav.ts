@@ -484,6 +484,12 @@ export const components: DocsComponent[] = [
     i18n: 'components.time-field',
     category: 'forms',
   },
+  {
+    label: 'Timeline',
+    to: '/components/timeline',
+    i18n: 'components.timeline',
+    category: 'display',
+  },
   { label: 'Toast', to: '/components/toast', i18n: 'components.toast', category: 'overlays' },
   { label: 'Toggle', to: '/components/toggle', i18n: 'components.toggle', category: 'forms' },
   {
