@@ -1,5 +1,21 @@
 # @hina-ui/vue
 
+## [1.7.4](https://github.com/Hikarinagi/ui/compare/@hina-ui/vue@1.7.3...@hina-ui/vue@1.7.4) (2026-09-16)
+
+### Added
+
+- **NavigationMenu** Add composable navigation menus with links, triggers, custom content panels, controlled expansion, hover and click activation, horizontal and vertical layouts, and router integration. Include shared panel transitions, keyboard navigation, disabled states, RTL support, and bilingual documentation with interactive examples.
+
+### Changed
+
+- **CI** Run browser tests across four independent shards and run static checks, unit tests, documentation builds, and package checks in parallel. Preserve failure screenshots for each browser shard.
+
+### Fixed
+
+- **Docs** Reduce documentation build memory by disabling redundant server bundle tree-shaking and production source maps, preventing prerender initialization from exhausting the CI heap.
+- **Docs** Use client-side routing for internal links in component demos and preserve the current documentation language when navigating between pages.
+- **CI** Verify the final rendered Lightbox hero geometry after unmount instead of relying on the last animation-frame sample, preventing intermittent browser test failures under load.
+
 ## [1.7.3](https://github.com/Hikarinagi/ui/compare/@hina-ui/vue@1.7.2...@hina-ui/vue@1.7.3) (2026-09-16)
 
 ### Added
