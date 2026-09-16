@@ -12,7 +12,7 @@ links:
 
 ## Usage {#usage}
 
-`Toolbar` provides toolbar semantics, sizing and arrow-key navigation. `ToolbarButton` performs an action, `ToolbarLink` renders a link, and `ToolbarSeparator` separates controls. Controls reuse [Button](/en/components/button) styling.
+`Toolbar` provides toolbar semantics, sizing and arrow-key navigation. `ToolbarButton` performs an action, `ToolbarLink` renders a link, and `ToolbarSeparator` separates controls. Controls reuse [Button](/components/button) styling.
 
 ```ts
 import {
@@ -25,7 +25,7 @@ import {
 } from '@hina-ui/vue'
 ```
 
-Name the toolbar with `label` or `aria-labelledby`. Text buttons use the default slot, with `#icon` and `#trailing` for adjacent content. For icon-only controls, set `label` and place the icon in the default slot. This provides square sizing, an accessible name, and a tooltip inside [TooltipProvider](/en/components/tooltip#provider), matching [IconButton](/en/components/icon-button).
+Name the toolbar with `label` or `aria-labelledby`. Text buttons use the default slot, with `#icon` and `#trailing` for adjacent content. For icon-only controls, set `label` and place the icon in the default slot. This provides square sizing, an accessible name, and a tooltip inside [TooltipProvider](/components/tooltip#provider), matching [IconButton](/components/icon-button).
 
 <Demo name="toolbar/basic" />
 
@@ -65,9 +65,9 @@ Buttons, links and toggle items inherit the toolbar's `size`. Individual control
 
 ### Composing controls {#composition}
 
-Use `ToolbarButton` as the trigger of [DropdownMenu](/en/components/dropdown-menu) or [Popover](/en/components/popover) to preserve both the overlay's and toolbar's keyboard behavior.
+Use `ToolbarButton` as the trigger of [DropdownMenu](/components/dropdown-menu) or [Popover](/components/popover) to preserve both the overlay's and toolbar's keyboard behavior.
 
-`as-child` merges behavior and attributes into one child control without nesting buttons. This example reuses [Toggle](/en/components/toggle). Custom children must forward attributes and events to their focusable element. Set disabled and loading states on `ToolbarButton` so it also leaves arrow-key navigation.
+`as-child` merges behavior and attributes into one child control without nesting buttons. This example reuses [Toggle](/components/toggle). Custom children must forward attributes and events to their focusable element. Set disabled and loading states on `ToolbarButton` so it also leaves arrow-key navigation.
 
 <Demo name="toolbar/composition" />
 
@@ -91,7 +91,7 @@ The container has `role="toolbar"`, toggle groups use `role="group"`, and toggle
 
 `loop` defaults to true, allowing navigation between the last and first items. Horizontal controls can wrap naturally. Arrow keys continue to follow DOM order rather than a two-dimensional grid.
 
-Controls that need the same arrow keys for their own operation, such as text inputs or [Slider](/en/components/slider), should retain their own keyboard handling. Do not use `ToolbarButton` to add them to this arrow-key sequence.
+Controls that need the same arrow keys for their own operation, such as text inputs or [Slider](/components/slider), should retain their own keyboard handling. Do not use `ToolbarButton` to add them to this arrow-key sequence.
 
 ## API {#api}
 
