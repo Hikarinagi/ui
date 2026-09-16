@@ -423,3 +423,69 @@ test('backfilling an older GitHub release does not replace the latest release', 
   assert.equal(latest, false)
   assert.deepEqual(calls, ['tag'])
 })
+
+test('annotated release tags use the bot identity in a checkout without git identity', t => {
+  const f = fixture(t)
+  const remote = join(f.root, '.git', 'remote.git')
+  f.git(['init', '--bare', remote])
+  f.git(['remote', 'add', 'origin', remote])
+  const target = { ...candidate, sha: f.git(['rev-parse', 'HEAD']) }
+  f.git(['config', '--unset', 'user.name'])
+  f.git(['config', '--unset', 'user.email'])
+  f.git(['config', 'user.useConfigOnly', 'true'])
+  f.write('.git/empty-global-config', '')
+  const env = {
+    ...process.env,
+    GIT_CONFIG_GLOBAL: join(f.root, '.git', 'empty-global-config'),
+    GIT_CONFIG_NOSYSTEM: '1',
+  }
+  for (const key of [
+    'GIT_AUTHOR_NAME',
+    'GIT_AUTHOR_EMAIL',
+    'GIT_COMMITTER_NAME',
+    'GIT_COMMITTER_EMAIL',
+  ])
+    delete env[key]
+  assert.throws(() =>
+    execFileSync('git', ['tag', '--no-sign', '-a', target.tag, target.sha, '-m', target.tag], {
+      env,
+      stdio: 'pipe',
+    }),
+  )
+  const invoke = () =>
+    execFileSync(
+      process.execPath,
+      [
+        '--input-type=module',
+        '-e',
+        `import { pushReleaseTag } from ${JSON.stringify(new URL('./publish.mjs', import.meta.url).href)}; pushReleaseTag(${JSON.stringify(target)})`,
+      ],
+      { env, stdio: 'pipe' },
+    )
+  invoke()
+  const tag = f.git(['rev-parse', target.tag])
+  assert.equal(f.git(['cat-file', '-t', tag]), 'tag')
+  assert.equal(f.git(['rev-parse', `${target.tag}^{commit}`]), target.sha)
+  assert.equal(
+    f.git(['for-each-ref', '--format=%(taggername) %(taggeremail)', `refs/tags/${target.tag}`]),
+    'github-actions[bot] <github-actions[bot]@users.noreply.github.com>',
+  )
+  assert.match(f.git(['ls-remote', 'origin', `refs/tags/${target.tag}`]), new RegExp(`^${tag}\\s`))
+  assert.throws(() => f.git(['config', '--local', '--get', 'user.name']))
+  invoke()
+  assert.equal(f.git(['rev-parse', target.tag]), tag)
+})
+
+test('a tag failure after npm publication retries only the tag and GitHub release', async () => {
+  const { calls, io } = publication()
+  const push = io.pushTag
+  io.pushTag = async () => {
+    throw new Error('Tag creation failed')
+  }
+  await assert.rejects(publishRelease(candidate, io), /Tag creation failed/)
+  assert.deepEqual(calls, ['npm'])
+  calls.length = 0
+  io.pushTag = push
+  await publishRelease(candidate, io)
+  assert.deepEqual(calls, ['tag', 'release'])
+})
