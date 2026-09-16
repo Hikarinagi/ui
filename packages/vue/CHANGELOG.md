@@ -1,5 +1,21 @@
 # @hina-ui/vue
 
+## [1.7.3](https://github.com/Hikarinagi/ui/compare/@hina-ui/vue@1.7.2...@hina-ui/vue@1.7.3) (2026-09-16)
+
+### Added
+
+- **Rating** Add a `stars` prop to separate the displayed star count from the maximum score. Pointer and keyboard selection, read-only fill, accessible labels, and form values use the configured score scale. Existing ratings keep their current behavior when `stars` is omitted.
+- **Stepper** Add Stepper with horizontal and vertical layouts, linear and non-linear navigation, completion and error states, typed slots, and RTL keyboard support. Provide guarded asynchronous navigation, duplicate-request protection, localized progress announcements, and exposed navigation methods.
+- **Timeline** Add Timeline with vertical and horizontal layouts, alternate alignment, semantic node colors, reversible item order, opposite time labels, and typed slots for markers and content. Include RTL support and accessible ordered-list markup.
+- **Toolbar** Add Toolbar with buttons, links, single and multiple toggle groups, separators, and custom control composition. Support horizontal and vertical layouts, RTL, roving keyboard focus, inherited sizing and disabled state, and bare styling.
+
+### Fixed
+
+- **Ripple** Keep the ripple drawing coordinate system consistent in RTL layouts so pointer ripples follow the clicked position and keyboard ripples stay centered, without changing the host control's reading direction.
+- **Sidebar** Align the first desktop navigation item's icon with the AppShell header toggle by correcting navigation padding. Keep the alignment consistent between expanded and rail states and across density modes.
+- **Stepper** Remove hover and pressed color feedback and ripples from step triggers while preserving keyboard focus indicators and step status styling.
+- **Docs** Correct internal links in the English Toolbar documentation to prevent duplicate locale prefixes and static prerender failures.
+
 ## [1.7.2](https://github.com/Hikarinagi/ui/compare/@hina-ui/vue@1.7.1...@hina-ui/vue@1.7.2) (2026-09-16)
 
 ### Fixed
