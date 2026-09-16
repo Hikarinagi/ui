@@ -65,7 +65,7 @@
         :style="header.style"
         :class="
           cn(
-            'hn-table-header relative',
+            'hn-table-header relative p-0',
             header.column.headerClass,
             drag.kind.value === 'column' && drag.key.value === header.column.key && 'opacity-40',
           )

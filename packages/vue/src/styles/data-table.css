@@ -1,5 +1,4 @@
 .hn-table th.hn-table-header {
-  padding: 0;
   user-select: none;
   isolation: isolate;
 }

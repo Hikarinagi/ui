@@ -4,7 +4,6 @@ export const tableWrapper = tv({
   base: [
     'max-w-full rounded-lg',
     '[&_th]:h-(--hn-row-h) [&_td]:h-(--hn-row-h)',
-    '[&_th]:py-0 [&_td]:py-0',
     '[&_caption>span]:sticky [&_caption>span]:start-[0.75em] [&_caption>span]:inline-block',
     '[&_tbody_tr:last-child_td]:border-b-0',
   ],
@@ -30,7 +29,7 @@ export const tableWrapper = tv({
 export type TableVariants = VariantProps<typeof tableWrapper>
 
 export const tableCell = tv({
-  base: '',
+  base: 'py-0',
   variants: {
     align: {
       start: '',
