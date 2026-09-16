@@ -159,7 +159,8 @@
     "colors": "Color",
     "typography": "Typography",
     "layout": "Layout & density",
-    "motion": "Interaction & motion"
+    "motion": "Interaction & motion",
+    "changelog": "Changelog"
   },
   "page": {
     "toc": "On this page",
@@ -242,7 +243,8 @@
     }
   },
   "guides": {
-    "installation": "Dependencies, style entry, fonts, dark mode and density"
+    "installation": "Dependencies, style entry, fonts, dark mode and density",
+    "changelog": "Additions, improvements and fixes across all releases"
   },
   "components": {
     "accordion": "A list of sections that expand and collapse in turn",

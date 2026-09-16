@@ -37,6 +37,7 @@ export const categories: DocsCategory[] = [
 
 export const guides: DocsNavItem[] = [
   { labelI18n: 'nav.installation', to: '/guide/installation', i18n: 'guides.installation' },
+  { labelI18n: 'nav.changelog', to: '/changelog', i18n: 'guides.changelog' },
 ]
 
 export const components: DocsComponent[] = [
@@ -522,6 +523,7 @@ export const primary: DocsPrimaryItem[] = [
   { label: 'nav.primaryStart', to: '/guide/installation', match: '/guide' },
   { label: 'nav.design', to: '/design/colors', match: '/design' },
   { label: 'nav.primaryComponents', to: '/components', match: '/components' },
+  { label: 'nav.changelog', to: '/changelog', match: '/changelog' },
 ]
 
 export const pages = nav.flatMap(group =>

@@ -2,6 +2,7 @@ import { readFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import Markdown from 'unplugin-vue-markdown/vite'
 import attrs from 'markdown-it-attrs'
+import { loadChangelog } from './changelog-source'
 import { tokenize, tokensToHtml } from '../packages/vue/src/components/code-block/highlighter'
 
 const DEMOS_ROOT = fileURLToPath(new URL('./app/demos/', import.meta.url))
@@ -231,10 +232,18 @@ export function markdown() {
     frontmatterPreprocess(frontmatter, _options, id) {
       return {
         head: {},
-        frontmatter: { ...frontmatter, toc: toc(collected.get(id)?.headings ?? []) },
+        frontmatter: {
+          ...frontmatter,
+          toc: toc(
+            (collected.get(id)?.headings ?? []).filter(
+              heading => heading.level <= Number(frontmatter.tocDepth ?? 3),
+            ),
+          ),
+        },
       }
     },
     transforms: {
+      before: loadChangelog,
       after(html, id) {
         const found = entry(id)
         found.demos = []

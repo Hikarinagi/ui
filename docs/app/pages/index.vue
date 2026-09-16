@@ -16,7 +16,7 @@
 
   const { t } = useI18n()
   const localePath = useLocalePath()
-  const { version, releasesUrl } = useAppConfig()
+  const { version } = useAppConfig()
 
   const FEATURES = ['modes', 'appearance', 'a11y', 'scaffolding'] as const
 
@@ -35,9 +35,7 @@
         <Stack gap="md" align="center">
           <Tag
             :as="NuxtLink"
-            :to="releasesUrl"
-            target="_blank"
-            rel="noreferrer"
+            :to="localePath('/changelog')"
             pill
             tone="accent"
             class="hn-interactive h-8 gap-1.5 px-3.5 text-base [&_svg]:size-4"

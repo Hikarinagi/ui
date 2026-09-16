@@ -14,7 +14,8 @@
     "release:preview": "node scripts/release/prepare.mjs --dry",
     "release:prepare": "node scripts/release/prepare.mjs",
     "release:check": "node --test scripts/release/*.test.mjs",
-    "test:package": "pnpm --filter @hina-ui/vue build && node scripts/check-package.mjs"
+    "test:package": "pnpm --filter @hina-ui/vue build && node scripts/check-package.mjs",
+    "test:docs": "node --test docs/changelog.test.ts"
   },
   "type": "module",
   "private": true,

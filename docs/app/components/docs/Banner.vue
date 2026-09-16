@@ -1,10 +1,12 @@
 <script setup lang="ts">
   import { Puzzle } from '@lucide/vue'
   import { Banner, Link } from '@hina-ui/vue'
+  import { NuxtLink } from '#components'
 
   defineOptions({ name: 'DocsBanner' })
 
-  const { version, releasesUrl } = useAppConfig()
+  const { version } = useAppConfig()
+  const localePath = useLocalePath()
   const key = 'hn-docs-banner:preview'
   const { t } = useI18n()
   const open = ref(true)
@@ -46,8 +48,8 @@
   <Banner v-model:open="open" :data-docs-banner="key" closable @close="close">
     <template #icon><Puzzle class="size-4 shrink-0" /></template>
     {{ t('banner.text') }}
-    <Link :href="releasesUrl" target="_blank" rel="noreferrer" underline>
-      {{ t('banner.link', { version }) }}
+    <Link as-child underline>
+      <NuxtLink :to="localePath('/changelog')">{{ t('banner.link', { version }) }}</NuxtLink>
     </Link>
   </Banner>
 </template>

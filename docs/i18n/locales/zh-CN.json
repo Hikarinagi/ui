@@ -159,7 +159,8 @@
     "colors": "颜色",
     "typography": "排版",
     "layout": "布局与密度",
-    "motion": "交互与动效"
+    "motion": "交互与动效",
+    "changelog": "变更记录"
   },
   "page": {
     "toc": "本页目录",
@@ -242,7 +243,8 @@
     }
   },
   "guides": {
-    "installation": "接入依赖、样式入口、字体、深色模式与密度"
+    "installation": "接入依赖、样式入口、字体、深色模式与密度",
+    "changelog": "全部版本的新增、优化与修复记录"
   },
   "components": {
     "accordion": "多段内容依次展开与收起的折叠列表",
