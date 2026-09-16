@@ -58,6 +58,24 @@ function build(props: Record<string, unknown> = {}, rules: FormRules = schema) {
 }
 
 describe('Form', () => {
+  it('异步校验等待期间禁用控件并阻止连续提交', async () => {
+    let finish!: (errors: FormErrors) => void
+    const rules = vi.fn(() => new Promise<FormErrors>(resolve => (finish = resolve)))
+    const { wrapper, onSubmit, inputs } = build({}, rules)
+    const form = wrapper.vm as unknown as { submit: () => Promise<void> }
+    const first = form.submit()
+    const second = form.submit()
+    await nextTick()
+    expect(wrapper.find('form').attributes('aria-busy')).toBe('true')
+    expect(inputs().every(input => input.attributes('disabled') !== undefined)).toBe(true)
+    expect(rules).toHaveBeenCalledTimes(1)
+    finish({})
+    await Promise.all([first, second])
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(wrapper.find('form').attributes('aria-busy')).toBeUndefined()
+    wrapper.unmount()
+  })
+
   it('提交时校验，失败则显示错误、聚焦第一个无效控件并且不调用提交函数', async () => {
     const { wrapper, onSubmit, inputs, messages } = build()
     await wrapper.find('form').trigger('submit')
