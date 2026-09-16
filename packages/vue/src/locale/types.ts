@@ -1,5 +1,11 @@
 export interface UiMessages {
   tag: string
+  stepper: {
+    label: string
+    progress: (step: number, total: number) => string
+    completed: string
+    error: string
+  }
   common: {
     close: string
     copy: string
@@ -155,6 +161,7 @@ export interface UiMessages {
   rating: {
     star: (value: number) => string
     label: (value: number, max: number) => string
+    score: (value: number, max: number) => string
   }
   form: {
     required: string

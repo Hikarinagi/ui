@@ -2,6 +2,12 @@ import type { UiMessages } from './types'
 
 export const zhCN: UiMessages = {
   tag: 'zh-CN',
+  stepper: {
+    label: '步骤',
+    progress: (step, total) => `第 ${step} 步，共 ${total} 步`,
+    completed: '已完成',
+    error: '该步骤存在错误',
+  },
   common: {
     close: '关闭',
     copy: '复制',
@@ -156,6 +162,7 @@ export const zhCN: UiMessages = {
   rating: {
     star: value => `${value} 星`,
     label: (value, max) => `${value} 星，满分 ${max} 星`,
+    score: (value, max) => `${value} 分，满分 ${max} 分`,
   },
   form: {
     required: '必填',

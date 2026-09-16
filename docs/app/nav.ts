@@ -460,6 +460,12 @@ export const components: DocsComponent[] = [
     i18n: 'components.statistic',
     category: 'display',
   },
+  {
+    label: 'Stepper',
+    to: '/components/stepper',
+    i18n: 'components.stepper',
+    category: 'navigation',
+  },
   { label: 'Switch', to: '/components/switch', i18n: 'components.switch', category: 'forms' },
   { label: 'Table', to: '/components/table', i18n: 'components.table', category: 'data' },
   { label: 'Tabs', to: '/components/tabs', i18n: 'components.tabs', category: 'display' },
@@ -484,8 +490,20 @@ export const components: DocsComponent[] = [
     i18n: 'components.time-field',
     category: 'forms',
   },
+  {
+    label: 'Timeline',
+    to: '/components/timeline',
+    i18n: 'components.timeline',
+    category: 'display',
+  },
   { label: 'Toast', to: '/components/toast', i18n: 'components.toast', category: 'overlays' },
   { label: 'Toggle', to: '/components/toggle', i18n: 'components.toggle', category: 'forms' },
+  {
+    label: 'Toolbar',
+    to: '/components/toolbar',
+    i18n: 'components.toolbar',
+    category: 'navigation',
+  },
   {
     label: 'Tooltip',
     to: '/components/tooltip',

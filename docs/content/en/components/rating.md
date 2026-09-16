@@ -16,7 +16,7 @@ links:
 import { Rating } from '@hina-ui/vue'
 ```
 
-A rating is a row of stars: clicking a star picks that score, and hovering previews the stars up to it as filled. `v-model` binds a number and `max` sets the number of stars, five by default. Attributes it does not declare land on the group element that wraps the stars, so name it with `aria-label` or `aria-labelledby`.
+A rating is a row of stars: clicking a star picks that score, and hovering previews the stars up to it as filled. `v-model` binds the score and `max` sets the maximum score, `5` by default. The star count defaults to `max`; set `stars` to control it independently. Attributes it does not declare land on the group element that wraps the stars, so name it with `aria-label` or `aria-labelledby`.
 
 <Demo name="rating/basic" />
 
@@ -27,6 +27,14 @@ A rating is a row of stars: clicking a star picks that score, and hovering previ
 With `step` set to `0.5` every star splits into two halves, so scores such as 2.5 can be picked.
 
 <Demo name="rating/half" />
+
+### Score scale and star count {#scale}
+
+`max` sets the maximum score and `stars` sets the displayed star count. With `:max="10" :stars="5"`, each star represents 2 points and a value of `7` displays 3.5 stars.
+
+`step` remains measured in stars: the default `1` selects whole stars, changing the score by 2 points; `0.5` changes it by 1 point. `v-model`, `update:modelValue`, and form values submitted through `name` always use the actual score. Read-only ratings fill proportionally, regardless of `step`.
+
+<Demo name="rating/scale" />
 
 ### Read-only display {#readonly}
 
@@ -61,24 +69,25 @@ Inside a [FormField](/components/form-field) the label is linked to the row of s
 ## Accessibility {#a11y}
 
 - When interactive the group is `role="radiogroup"` and every star or half star is a `role="radio"` with a localized name.
-- When read only the group is `role="img"` named by the locale as "n out of m stars".
+- When read only the group is `role="img"` named by the locale as "n out of m stars". When the star count differs from the maximum score, radio options and read-only graphics use the actual score, such as "7 out of 10 points".
 - Name the group with `aria-label` or `aria-labelledby`.
 
 ## API {#api}
 
 ### Props {#props}
 
-| Prop         | Type                   | Default | Description                                   |
-| ------------ | ---------------------- | ------- | --------------------------------------------- |
-| `modelValue` | `number`               | `0`     | The score                                     |
-| `max`        | `number`               | `5`     | Number of stars                               |
-| `step`       | `1 \| 0.5`             | `1`     | Step, `0.5` allows half stars                 |
-| `clearable`  | `boolean`              | `true`  | Whether clicking the picked star again resets |
-| `readonly`   | `boolean`              | `false` | Whether the rating is display only            |
-| `name`       | `string`               | —       | Form field name                               |
-| `size`       | `'sm' \| 'md' \| 'lg'` | `'md'`  | Size                                          |
-| `disabled`   | `boolean`              | `false` | Whether the rating is disabled                |
-| `class`      | `string`               | —       | Classes appended to the root element          |
+| Prop         | Type                   | Default | Description                                                                    |
+| ------------ | ---------------------- | ------- | ------------------------------------------------------------------------------ |
+| `modelValue` | `number`               | `0`     | The score                                                                      |
+| `max`        | `number`               | `5`     | Positive maximum score; also determines the star count when `stars` is omitted |
+| `stars`      | `number`               | `max`   | Displayed star count, a positive integer                                       |
+| `step`       | `1 \| 0.5`             | `1`     | Step in stars; the score increment is `max / stars * step`                     |
+| `clearable`  | `boolean`              | `true`  | Whether clicking the picked star again resets                                  |
+| `readonly`   | `boolean`              | `false` | Whether the rating is display only                                             |
+| `name`       | `string`               | —       | Form field name                                                                |
+| `size`       | `'sm' \| 'md' \| 'lg'` | `'md'`  | Size                                                                           |
+| `disabled`   | `boolean`              | `false` | Whether the rating is disabled                                                 |
+| `class`      | `string`               | —       | Classes appended to the root element                                           |
 
 ### Events {#events}
 

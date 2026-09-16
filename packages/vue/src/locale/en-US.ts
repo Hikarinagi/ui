@@ -2,6 +2,12 @@ import type { UiMessages } from './types'
 
 export const enUS: UiMessages = {
   tag: 'en-US',
+  stepper: {
+    label: 'Steps',
+    progress: (step, total) => `Step ${step} of ${total}`,
+    completed: 'Completed',
+    error: 'This step has an error',
+  },
   common: {
     close: 'Close',
     copy: 'Copy',
@@ -156,6 +162,7 @@ export const enUS: UiMessages = {
   rating: {
     star: value => `${value} ${value === 1 ? 'star' : 'stars'}`,
     label: (value, max) => `${value} out of ${max} stars`,
+    score: (value, max) => `${value} out of ${max} points`,
   },
   form: {
     required: 'Required',

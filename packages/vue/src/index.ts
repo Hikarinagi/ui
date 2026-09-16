@@ -78,6 +78,19 @@ export type { SliderVariants } from './components/slider/slider.variants'
 export { default as RangeSlider } from './components/range-slider/RangeSlider.vue'
 export { default as Toggle } from './components/toggle/Toggle.vue'
 export type { ToggleVariants } from './components/toggle/toggle.variants'
+export { default as Toolbar } from './components/toolbar/Toolbar.vue'
+export { default as ToolbarButton } from './components/toolbar/ToolbarButton.vue'
+export { default as ToolbarLink } from './components/toolbar/ToolbarLink.vue'
+export { default as ToolbarToggleGroup } from './components/toolbar/ToolbarToggleGroup.vue'
+export { default as ToolbarToggleItem } from './components/toolbar/ToolbarToggleItem.vue'
+export { default as ToolbarSeparator } from './components/toolbar/ToolbarSeparator.vue'
+export type {
+  ToolbarProps,
+  ToolbarControlProps,
+  ToolbarOrientation,
+  ToolbarSize,
+  ToolbarVariant,
+} from './components/toolbar/types'
 export { default as TagsInput } from './components/tags-input/TagsInput.vue'
 export { default as MultiCombobox } from './components/multi-combobox/MultiCombobox.vue'
 export { default as Calendar } from './components/calendar/Calendar.vue'
@@ -290,3 +303,25 @@ export type {
   DataTableProps,
   DataTableSlots,
 } from './components/data-table/types'
+
+export { default as Timeline } from './components/timeline/Timeline.vue'
+export type {
+  TimelineItem,
+  TimelineSlotProps,
+  TimelineAlign,
+  TimelineOrientation,
+  TimelineSize,
+  TimelineTone,
+} from './components/timeline/types'
+
+export { default as Stepper } from './components/stepper/Stepper.vue'
+export type {
+  StepperItem,
+  StepperState,
+  StepperSize,
+  StepperOrientation,
+  StepperProps,
+  StepperSlotProps,
+  StepperNavigation,
+  StepperBeforeChange,
+} from './components/stepper/types'
