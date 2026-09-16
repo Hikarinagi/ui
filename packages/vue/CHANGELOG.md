@@ -1,5 +1,30 @@
 # @hina-ui/vue
 
+## [1.7.1](https://github.com/Hikarinagi/ui/compare/@hina-ui/vue@1.7.0...@hina-ui/vue@1.7.1) (2026-09-16)
+
+### 新增
+
+- **Combobox** 增加 loading 属性，与 MultiCombobox 共用加载指示和图标切换过渡，并通过 aria-busy 标记加载状态。加载期间仍可输入、选择和清除，保留选中项回显与请求状态独立控制。
+- **DataTable** Add DataTable with typed columns, slots and instance methods; local and remote sorting, global and column filtering, known and unknown-total pagination, cross-page single and multiple selection, tree rows and expansion, grouping and aggregation, multilevel headers and summaries, column visibility, pinning, resizing and reordering, row reordering, asynchronous cell and row editing, virtual scrolling, CSV export, and accessible keyboard controls. Additional controls are enabled individually.
+- **Table** Allow TableHead to represent grouped column and row headers through the native colgroup and rowgroup scopes.
+
+### 优化
+
+- **DataTable** 优化 DataTable 编辑态：统一文本与自定义控件的嵌入样式及对齐方式，整行编辑仅强调当前焦点；保存失败在行下方显示一次，字段校验错误保持独立，错误提示在横向滚动后仍保持可见，并支持错误行的虚拟滚动测量。
+- **DataTable** 改进 DataTable 调宽提示：保持总宽时，悬停提示与无障碍名称标明共享边界两侧的列，拖动反馈同时显示两列的当前宽度；仅调整当前列时保留单列提示。
+- **DataTable** 优化 DataTable 的列宽调整、重排和表内操作。调宽从实际显示宽度开始，提供保持总宽或仅调整当前列两种模式，支持贯穿表格的边界指示与 Esc 撤销。列重排改为直接拖动表头，通过列预览和插入线反馈落点，避免误触排序。统一排序、展开、分组及编辑操作的紧凑样式，保持编辑前后的行高与内容对齐。
+
+### 修复
+
+- **DataTable** 修复 DataTable 调宽时容器随内容移动、末列手柄制造额外横向溢出，以及固定列、缩放和滚动坐标计算不正确的问题。统一初始列宽和拖动范围的约束，保留未指定列宽的自适应能力，点击手柄不再固化列宽。拖动中的列宽与固定偏移通过 CSS 变量更新，避免逐帧重新渲染自定义单元格。 窄列自动截断表头，避免调整宽度时表头高度跳动。
+- **DataTable** 修复 DataTable 使用 Select 清除列筛选时保留 null 条件、导致空表和残留清除按钮的问题。
+- **DataTable** 修复 DataTable 的 expand 调宽模式可将表格缩至小于容器、留下大片空白的问题；鼠标和键盘调宽统一遵守容器宽度下限，保持其他列宽不变。
+- **DataTable** 拖拽预览与调宽辅助线统一通过 Portal 挂载，遵循 ConfigProvider 的 teleportTo 配置。
+- **Form** 丢弃过期的异步校验结果，校验等待期间阻止重复提交，重置后不再恢复旧错误或执行待提交操作。
+- **Types** 补齐公开声明所依赖的 vue-component-type-helpers，避免干净消费项目开启声明检查时出现模块缺失。
+- **Table** Fix Table header alignment so explicit center and end alignment override the default heading style, including in RTL layouts.
+- **DataTable** 修复 DataTable 调宽手柄被固定列遮挡、相邻手柄难以区分的问题：手柄保持在所属表头的可见范围内，隐藏区域不参与点击和键盘导航；悬停与拖动显示列名，拖动时同时显示当前宽度。限制固定区的交互扩张，为中间列保留可操作空间。
+
 ## 1.7.0
 
 ### Minor Changes
