@@ -1,6 +1,7 @@
 import { readFileSync, readdirSync } from 'node:fs'
 import { join, relative } from 'node:path'
 import { describe, expect, it } from 'vitest'
+import { topLevelBrowserAccess } from './ssr-access'
 
 const root = process.cwd()
 const srcDir = join(root, 'src')
@@ -120,13 +121,8 @@ describe('国际化与 SSR', () => {
     const hits: string[] = []
     for (const file of componentFiles) {
       const text = readFileSync(file, 'utf8')
-      const body = file.endsWith('.vue')
-        ? (text.match(/<script[^>]*>([\s\S]*?)<\/script>/)?.[1] ?? '')
-        : text
-      for (const line of body.split('\n')) {
-        if (/^\s*(const|let|var)\s+\w+\s*=\s*(window|document)\b/.test(line)) {
-          hits.push(`${relative(root, file)}: ${line.trim()}`)
-        }
+      for (const access of topLevelBrowserAccess(text, file.endsWith('.vue'))) {
+        hits.push(`${relative(root, file)}: ${access}`)
       }
     }
     expect(hits).toEqual([])
