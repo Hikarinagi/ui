@@ -5,6 +5,7 @@ import { h } from 'vue'
 import Lightbox from './Lightbox.vue'
 import Image from '../image/Image.vue'
 import ImageGroup from '../image/ImageGroup.vue'
+import { frameRect } from '../../../test/frame'
 import '../../../test/browser.css'
 
 let wrapper: VueWrapper | undefined
@@ -47,6 +48,13 @@ async function ready() {
 
 async function nearWidth(expected: number) {
   await vi.waitFor(() => expect(width()).toBeCloseTo(expected, 0), { timeout: 3000 })
+}
+
+async function closeRect() {
+  const target = frame()
+  await userEvent.keyboard('{Escape}')
+  await vi.waitFor(() => expect(dialog()).toBeNull(), { timeout: 3000 })
+  return frameRect(target)
 }
 
 function wheel(deltaY: number) {
@@ -214,13 +222,8 @@ it.each(['entering', 'open'])(
     wheel(-10000)
     await nearWidth(3840)
     const origin = wrapper!.find('button').element.getBoundingClientRect()
-    await userEvent.keyboard('{Escape}')
-    const leaving: DOMRect[] = []
-    while (dialog()) {
-      leaving.push(frame().getBoundingClientRect())
-      await nextFrame()
-    }
-    expect(leaving.at(-1)!.width).toBeCloseTo(origin.width, 0)
+    const closed = await closeRect()
+    expect(closed.width).toBeCloseTo(origin.width, 0)
   },
 )
 
@@ -258,13 +261,8 @@ it('独立灯箱的来源缩略图与 src 不同时,按 src 的真实尺寸缩�
   await nearWidth(2400)
   wheel(-10000)
   await nearWidth(4800)
-  await userEvent.keyboard('{Escape}')
-  const leaving: DOMRect[] = []
-  while (dialog()) {
-    leaving.push(frame().getBoundingClientRect())
-    await nextFrame()
-  }
-  expect(leaving.at(-1)!.width).toBeCloseTo(100, 0)
+  const closed = await closeRect()
+  expect(closed.width).toBeCloseTo(100, 0)
 })
 
 it.each(['Image', 'ImageGroup'])(
@@ -333,14 +331,9 @@ it.each(['Image', 'ImageGroup'])(
     await nearWidth(3840)
     await userEvent.click(tool('适应窗口'))
     await nearWidth(initial.width)
-    await userEvent.keyboard('{Escape}')
-    const leaving: DOMRect[] = []
-    while (dialog()) {
-      leaving.push(frame().getBoundingClientRect())
-      await nextFrame()
-    }
-    expect(leaving.at(-1)!.width).toBeCloseTo(source.width, 0)
-    expect(leaving.at(-1)!.height).toBeCloseTo(source.height, 0)
+    const closed = await closeRect()
+    expect(closed.width).toBeCloseTo(source.width, 0)
+    expect(closed.height).toBeCloseTo(source.height, 0)
   },
 )
 
@@ -384,14 +377,8 @@ it.each([false, true])('独立灯箱有 previewSize 时不等待 src 解码,矩�
   }
   await userEvent.click(tool('原始尺寸'))
   await nearWidth(1920)
-  await userEvent.keyboard('{Escape}')
-  const leaving: DOMRect[] = []
-  while (dialog()) {
-    leaving.push(frame().getBoundingClientRect())
-    await nextFrame()
-  }
+  const last = await closeRect()
   if (virtual) {
-    const last = leaving.at(-1)!
     expect(last.width).toBeCloseTo(bounds.width, 0)
     expect(Math.hypot(last.x - bounds.x, last.y - bounds.y)).toBeLessThan(4)
   }

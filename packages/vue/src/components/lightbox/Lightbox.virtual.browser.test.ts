@@ -3,6 +3,7 @@ import { page, userEvent } from '@vitest/browser/context'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import Lightbox from './Lightbox.vue'
 import type { Rect } from './utils/pose'
+import { frameRect } from '../../../test/frame'
 import '../../../test/browser.css'
 
 let wrapper: VueWrapper | undefined
@@ -84,6 +85,7 @@ it.each(['Escape', '下滑'])('首次打开 blob 从矩形展开,%s关闭时回�
   expect(frame()!.querySelector('img')!.naturalWidth).toBe(400)
   expect(frame()!.getBoundingClientRect().width).toBeCloseTo(400, 0)
   bounds = { x: 280, y: 160, width: 160, height: 80 }
+  const target = frame()!
   if (method === 'Escape') {
     await userEvent.keyboard('{Escape}')
   } else {
@@ -94,12 +96,8 @@ it.each(['Escape', '下滑'])('首次打开 blob 从矩形展开,%s关闭时回�
     }
     pointer('pointerup', dialog()!, 564)
   }
-  const leave: DOMRect[] = []
-  while (dialog()) {
-    if (frame()) leave.push(frame()!.getBoundingClientRect())
-    await nextFrame()
-  }
-  const last = leave.at(-1)!
+  await vi.waitFor(() => expect(dialog()).toBeNull(), { timeout: 3000 })
+  const last = frameRect(target)
   expect(Math.hypot(last.x - bounds.x, last.y - bounds.y)).toBeLessThan(4)
   expect(last.width).toBeCloseTo(bounds.width, 0)
   expect(last.height).toBeCloseTo(bounds.height, 0)
