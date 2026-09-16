@@ -13,12 +13,14 @@
     type RatingVariants,
   } from './rating.variants'
   import { starFill } from './utils/fill'
+  import { useRatingScale } from './composables/useRatingScale'
 
   defineOptions({ name: 'HnRating', inheritAttrs: false })
 
   const props = withDefaults(
     defineProps<{
       max?: number
+      stars?: number
       step?: 1 | 0.5
       clearable?: boolean
       readonly?: boolean
@@ -31,6 +33,11 @@
   )
 
   const model = defineModel<number>({ default: 0 })
+  const { count, scaled, value, toScore } = useRatingScale(
+    model,
+    () => props.max,
+    () => props.stars,
+  )
 
   const t = useUiLocale()
 
@@ -46,12 +53,12 @@
     data-hn-rating
     data-readonly
     role="img"
-    :aria-label="t.rating.label(model, props.max)"
+    :aria-label="scaled ? t.rating.score(model, props.max) : t.rating.label(model, props.max)"
     :class="cn(ratingRoot({ size: props.size }), props.class)"
   >
-    <span v-for="index in props.max" :key="index" :class="ratingItem()">
+    <span v-for="index in count" :key="index" :class="ratingItem()">
       <Star :class="ratingStar()" />
-      <span :class="ratingFill()" :style="{ width: starFill(model, index) }">
+      <span :class="ratingFill()" :style="{ width: starFill(value, index) }">
         <Star :class="ratingStar({ active: true })" />
       </span>
     </span>
@@ -66,15 +73,14 @@
     :aria-labelledby="labelledBy"
     :aria-describedby="describedBy"
     :aria-invalid="invalid || undefined"
-    :model-value="model"
-    :length="props.max"
+    v-model="value"
+    :length="count"
     :step="props.step"
     :clearable="props.clearable"
     hoverable
     :disabled="disabled"
-    :name="props.name"
+    :name="scaled ? undefined : props.name"
     :class="cn(ratingRoot({ size: props.size }), props.class)"
-    @update:model-value="model = $event"
   >
     <RatingItem
       v-for="item in items"
@@ -87,11 +93,19 @@
         v-for="step in steps"
         :key="step"
         :step="step"
-        :aria-label="t.rating.star(step)"
+        :aria-label="scaled ? t.rating.score(toScore(step), props.max) : t.rating.star(step)"
         :class="ratingStep()"
       >
         <Star :class="ratingStar()" />
       </RatingItemIndicator>
     </RatingItem>
+    <input
+      v-if="scaled && props.name"
+      type="hidden"
+      :name="props.name"
+      :value="model"
+      :disabled="disabled"
+      :form="$attrs.form as string | undefined"
+    />
   </RatingRoot>
 </template>

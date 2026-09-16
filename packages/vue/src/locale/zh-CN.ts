@@ -162,6 +162,7 @@ export const zhCN: UiMessages = {
   rating: {
     star: value => `${value} 星`,
     label: (value, max) => `${value} 星，满分 ${max} 星`,
+    score: (value, max) => `${value} 分，满分 ${max} 分`,
   },
   form: {
     required: '必填',

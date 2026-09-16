@@ -162,6 +162,7 @@ export const enUS: UiMessages = {
   rating: {
     star: value => `${value} ${value === 1 ? 'star' : 'stars'}`,
     label: (value, max) => `${value} out of ${max} stars`,
+    score: (value, max) => `${value} out of ${max} points`,
   },
   form: {
     required: 'Required',

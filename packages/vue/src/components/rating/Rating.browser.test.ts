@@ -101,3 +101,38 @@ describe('rating · 尺寸', () => {
     }
   })
 })
+
+describe('rating · 分制', () => {
+  it('五颗星的半星点击、悬停预览和清零对应十分制', async () => {
+    const { state, root, radios } = mountRating({ max: 10, stars: 5, step: 0.5 })
+    expect(root.querySelectorAll('label')).toHaveLength(5)
+    await userEvent.hover(radios()[6]!)
+    await vi.waitFor(() => {
+      expect(root.querySelectorAll('[role="radio"][data-state="active"]')).toHaveLength(7)
+    })
+    expect(state.modelValue).toBe(2)
+    await userEvent.unhover(root)
+    await vi.waitFor(() => {
+      expect(root.querySelectorAll('[role="radio"][data-state="active"]')).toHaveLength(2)
+    })
+    await userEvent.click(radios()[6]!)
+    await vi.waitFor(() => expect(state.modelValue).toBe(7))
+    expect(radios()[6]!.getAttribute('aria-checked')).toBe('true')
+    expect(radios()[6]!.getAttribute('aria-label')).toBe('7 分，满分 10 分')
+    await userEvent.click(radios()[6]!)
+    await vi.waitFor(() => expect(state.modelValue).toBe(0))
+  })
+
+  it.each(['ltr', 'rtl'])('%s 方向键选择使用实际分值', async dir => {
+    const { state, radios } = mountRating({ max: 10, stars: 5, step: 0.5, dir })
+    radios()[1]!.focus()
+    await userEvent.keyboard(dir === 'rtl' ? '{ArrowLeft>}' : '{ArrowRight>}')
+    await vi.waitFor(() => expect(state.modelValue).toBe(3))
+    await userEvent.keyboard(dir === 'rtl' ? '{/ArrowLeft}' : '{/ArrowRight}')
+    expect(document.activeElement).toBe(radios()[2])
+    await userEvent.keyboard('{End}')
+    await vi.waitFor(() => expect(document.activeElement).toBe(radios()[9]))
+    await userEvent.keyboard(' ')
+    await vi.waitFor(() => expect(state.modelValue).toBe(10))
+  })
+})

@@ -161,6 +161,7 @@ export interface UiMessages {
   rating: {
     star: (value: number) => string
     label: (value: number, max: number) => string
+    score: (value: number, max: number) => string
   }
   form: {
     required: string
