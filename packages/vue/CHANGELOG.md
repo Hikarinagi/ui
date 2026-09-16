@@ -1,5 +1,13 @@
 # @hina-ui/vue
 
+## [1.7.2](https://github.com/Hikarinagi/ui/compare/@hina-ui/vue@1.7.1...@hina-ui/vue@1.7.2) (2026-09-16)
+
+### Fixed
+
+- **Anchor** Keep observed sections separate from fallback and hash locations so scrolling through gaps cannot leave stale entries in the highlighted range. Preserve highlighting of multiple sections when they are actually visible together.
+- **DataTable** Resolve constrained column widths against the container before hydration, preserving width limits, pinned columns and explicit overrides without an initial layout jump. Keep resizing and responsive width allocation consistent with the initial layout.
+- **Table** Allow cell and header padding utilities to override Table defaults, including DataTable cellClass and headerClass, while preserving default row density.
+
 ## [1.7.1](https://github.com/Hikarinagi/ui/compare/@hina-ui/vue@1.7.0...@hina-ui/vue@1.7.1) (2026-09-16)
 
 ### Added
