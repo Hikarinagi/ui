@@ -1,11 +1,15 @@
 <script setup lang="ts">
   import { Chip, Inline } from '@hina-ui/vue'
+
+  const localePath = useLocalePath()
 </script>
 
 <template>
-  <Inline>
-    <Chip as="a" href="/components/tag">Sci-fi</Chip>
-    <Chip as="a" href="/components/tag">School</Chip>
-    <Chip as="a" href="/components/tag" variant="outline">Romance</Chip>
-  </Inline>
+  <NuxtLink v-slot="{ href, navigate }" :to="localePath('/components/tag')" custom>
+    <Inline>
+      <Chip as="a" :href="href" @click="navigate">Sci-fi</Chip>
+      <Chip as="a" :href="href" @click="navigate">School</Chip>
+      <Chip as="a" :href="href" variant="outline" @click="navigate">Romance</Chip>
+    </Inline>
+  </NuxtLink>
 </template>

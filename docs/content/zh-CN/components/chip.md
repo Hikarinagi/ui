@@ -58,7 +58,7 @@ import { Chip } from '@hina-ui/vue'
 
 ### 作为链接 {#link}
 
-`as` 设为 `a` 并给出 `href`，条目成为链接，带悬停与按下反馈，用于跳转到标签页之类的入口。
+`as` 设为 `a` 并给出 `href`，条目成为链接，带悬停与按下反馈。接入应用路由时，可通过 `RouterLink` 或 `NuxtLink` 的 `custom` 插槽传入 `href` 与 `navigate`，保留链接语义并使用 SPA 导航。
 
 <Demo name="chip/link" />
 

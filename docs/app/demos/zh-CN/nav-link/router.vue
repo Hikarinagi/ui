@@ -8,6 +8,7 @@
     { to: '/components/nav-link', label: 'NavLink' },
     { to: '/components/splitter', label: 'Splitter' },
   ]
+  const localePath = useLocalePath()
 </script>
 
 <template>
@@ -16,8 +17,8 @@
       v-for="link in links"
       :key="link.to"
       :as="NuxtLink"
-      :to="link.to"
-      :active="route.path.endsWith(link.to)"
+      :to="localePath(link.to)"
+      :active="route.path === localePath(link.to)"
     >
       {{ link.label }}
     </NavLink>

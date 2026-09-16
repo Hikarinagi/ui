@@ -58,7 +58,7 @@ A `disabled` chip ignores clicks, and its remove button is disabled as well.
 
 ### As a link {#link}
 
-With `as` set to `a` and an `href`, the chip becomes a link with hover and press feedback, for entry points such as a tag page.
+With `as` set to `a` and an `href`, the chip becomes a link with hover and press feedback. To use application routing, pass `href` and `navigate` from the `custom` slot of `RouterLink` or `NuxtLink`, preserving link semantics and SPA navigation.
 
 <Demo name="chip/link" />
 
