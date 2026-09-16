@@ -227,6 +227,7 @@
 @utility hn-ripple-surface {
   position: absolute;
   inset: 0;
+  direction: ltr;
   border-radius: inherit;
   pointer-events: none;
 
