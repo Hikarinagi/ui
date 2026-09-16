@@ -32,11 +32,14 @@ pnpm release:preview
 pnpm release:preview --bump=minor
 pnpm release:preview --version=1.9.0
 pnpm release:check
+pnpm test:package
 ```
 
 预览只读取文件，不修改版本、记录或 Git。指定版本必须是递增的 `X.Y.Z` 稳定版本，并满足记录的最低升级要求。没有记录时不生成版本；不会仅因为提交消息包含 `feat` 就升 minor。
 
 `pnpm release:prepare` 将预览结果写入 `packages/vue/package.json` 和 `packages/vue/CHANGELOG.md`，消费对应记录，供需要本地准备发布 PR 时使用。它不会提交、推送或发布 npm。已有 Changelog 保留原样。
+
+`pnpm test:package` 只构建组件库，将 tarball 安装到仓库外的临时项目，验证包导出、类型声明、CSS 编译、客户端打包和 Node SSR。消费项目不使用源码 alias 或工作区依赖。CI 将它作为独立任务执行；发布依赖同一提交包含此任务在内的 CI 全部通过。
 
 ## 自动发布
 

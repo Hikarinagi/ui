@@ -13,7 +13,8 @@
     "change": "node scripts/release/change.mjs",
     "release:preview": "node scripts/release/prepare.mjs --dry",
     "release:prepare": "node scripts/release/prepare.mjs",
-    "release:check": "node --test scripts/release/*.test.mjs"
+    "release:check": "node --test scripts/release/*.test.mjs",
+    "test:package": "pnpm --filter @hina-ui/vue build && node scripts/check-package.mjs"
   },
   "type": "module",
   "private": true,
