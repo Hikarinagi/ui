@@ -9,6 +9,7 @@ export default defineConfig({
   resolve: {
     alias: { '@hina-ui/vue': fileURLToPath(new URL('./src', import.meta.url)) },
   },
+  optimizeDeps: { include: ['vue/server-renderer'] },
   test: {
     include: ['src/**/*.browser.test.ts'],
     globals: false,

@@ -78,6 +78,24 @@ async function registry(name) {
   return response.json()
 }
 
+export function pushReleaseTag(candidate) {
+  if (!git(['tag', '--list', candidate.tag]))
+    git([
+      '-c',
+      'user.name=github-actions[bot]',
+      '-c',
+      'user.email=github-actions[bot]@users.noreply.github.com',
+      'tag',
+      '--no-sign',
+      '-a',
+      candidate.tag,
+      candidate.sha,
+      '-m',
+      candidate.tag,
+    ])
+  run('git', ['push', 'origin', `refs/tags/${candidate.tag}`])
+}
+
 const services = {
   github,
   registry,
@@ -91,11 +109,7 @@ const services = {
       stdio: 'inherit',
     })
   },
-  pushTag(candidate) {
-    if (!git(['tag', '--list', candidate.tag]))
-      git(['tag', '--no-sign', '-a', candidate.tag, candidate.sha, '-m', candidate.tag])
-    run('git', ['push', 'origin', `refs/tags/${candidate.tag}`])
-  },
+  pushTag: pushReleaseTag,
   createRelease(candidate, latest) {
     const path = join(process.env.RUNNER_TEMP ?? tmpdir(), 'hina-release-notes.md')
     writeFileSync(path, candidate.notes)

@@ -168,6 +168,7 @@
         :class="
           cn(
             tableWrapper({ variant: props.variant, hover: false }),
+            layout.constrained.value && '@container',
             (props.fill || props.height) && 'h-full',
             props.stickyHeader && '[&_thead_th]:sticky [&_thead_th]:z-[3]',
             props.stickyFooter &&

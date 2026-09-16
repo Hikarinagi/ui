@@ -11,7 +11,7 @@ export interface SpyEntry {
 export function useScrollSpy(entries: () => SpyEntry[]) {
   const visible = shallowRef<ReadonlySet<string>>(new Set())
   const targets = shallowRef<Array<HTMLElement | null>>([])
-  const seen = new Set<string>()
+  const intersecting = new Set<string>()
 
   const covered = computed(() => entries().filter(entry => visible.value.has(entry.id)))
   const current = computed(() => covered.value[0]?.id)
@@ -23,18 +23,15 @@ export function useScrollSpy(entries: () => SpyEntry[]) {
   useIntersectionObserver(
     targets,
     observed => {
-      const next = new Set(visible.value)
       for (const entry of observed) {
-        if (entry.isIntersecting) {
-          seen.add(entry.target.id)
-          next.add(entry.target.id)
-        } else if (seen.has(entry.target.id)) {
-          next.delete(entry.target.id)
-        }
+        if (entry.isIntersecting && entry.intersectionRatio > 0) intersecting.add(entry.target.id)
+        else intersecting.delete(entry.target.id)
       }
-      if (next.size) visible.value = next
+      visible.value = intersecting.size
+        ? new Set(intersecting)
+        : new Set(current.value ? [current.value] : [])
     },
-    { rootMargin: '0px 0px -15% 0px' },
+    { rootMargin: '0px 0px -15% 0px', threshold: [0, Number.EPSILON] },
   )
 
   function targetOf(id: string) {
@@ -42,7 +39,7 @@ export function useScrollSpy(entries: () => SpyEntry[]) {
   }
 
   function locate() {
-    seen.clear()
+    intersecting.clear()
     targets.value = entries().map(({ id }) => targetOf(id))
   }
 

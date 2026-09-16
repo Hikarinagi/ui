@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url'
 import tailwindcss from '@tailwindcss/vite'
 import { markdown } from './markdown'
 import { searchIndex } from './search-index'
+import { changelogPath } from './changelog-source'
 
 const uiSrc = fileURLToPath(new URL('../packages/vue/src', import.meta.url))
 const uiPkg = fileURLToPath(new URL('../packages/vue/package.json', import.meta.url))
@@ -18,7 +19,6 @@ export default defineNuxtConfig({
   compatibilityDate: '2026-08-01',
   appConfig: {
     version,
-    releasesUrl: 'https://github.com/Hikarinagi/ui/releases',
   },
   ssr: true,
   devtools: { enabled: false },
@@ -40,12 +40,12 @@ export default defineNuxtConfig({
   },
   hooks: {
     'vite:serverCreated'(server) {
-      server.watcher.add([uiSrc, contentDir])
+      server.watcher.add([uiSrc, contentDir, changelogPath])
 
       const refreshDocs = (file: string, event: 'add' | 'unlink' | 'change') => {
         const isContent = file.startsWith(contentDir) && file.endsWith('.md')
         const isDemo = file.includes('/demos/') && file.endsWith('.vue')
-        if (!isContent && !isDemo) return
+        if (!isContent && !isDemo && file !== changelogPath) return
 
         if (event !== 'change') {
           const now = new Date()
@@ -69,14 +69,19 @@ export default defineNuxtConfig({
     },
   },
   css: ['~/assets/css/main.css'],
-  watch: ['markdown.ts', 'search-index.ts'],
+  watch: ['markdown.ts', 'search-index.ts', 'changelog.ts', 'changelog-source.ts'],
   nitro: {
     serverAssets: [
       { baseName: 'content', dir: contentDir },
       { baseName: 'demos', dir: demosDir },
+      {
+        baseName: 'release',
+        dir: fileURLToPath(new URL('../packages/vue', import.meta.url)),
+        pattern: 'CHANGELOG.md',
+      },
     ],
     prerender: {
-      routes: ['/', '/en', '/components', '/en/components'],
+      routes: ['/', '/en', '/components', '/en/components', '/changelog', '/en/changelog'],
       autoSubfolderIndex: false,
     },
   },

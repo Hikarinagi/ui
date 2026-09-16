@@ -9,6 +9,7 @@ import {
 } from 'vue'
 import { cssSize } from '../utils'
 import { allocateWidths, pixelWidth } from '../column-sizing'
+import { columnSizingStyles } from '../column-sizing-styles'
 import { useTableResize } from './useTableResize'
 import { useTableResizeHandles } from './useTableResizeHandles'
 import type { DataTableColumn, DataTableHeader, DataTableProps } from '../types'
@@ -200,15 +201,11 @@ export function useTableColumns<T extends object>(
     '--hn-table-viewport-width': available.value ? `${available.value}px` : undefined,
     tableLayout: constrained.value ? 'fixed' : 'auto',
     ...(constrained.value
-      ? {
-          ...Object.fromEntries(
-            ctl.visibleColumns.value.map((column, index) => [
-              `--hn-table-column-${index}`,
-              `${widths.value[column.key]}px`,
-            ]),
-          ),
-          width: `${ctl.visibleColumns.value.reduce((sum, column) => sum + width(column), leading.value * 48 + trailing.value * 72)}px`,
-        }
+      ? columnSizingStyles(
+          ctl.visibleColumns.value,
+          active.value ?? models.columnWidths.value,
+          leading.value * 48 + trailing.value * 72,
+        )
       : {}),
   }))
   function moveColumn(key: string, target: string) {
@@ -240,6 +237,7 @@ export function useTableColumns<T extends object>(
     observer?.disconnect()
   })
   return {
+    constrained,
     headerRows,
     tableStyle,
     cellStyle,

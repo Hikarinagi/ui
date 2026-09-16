@@ -1,3 +1,5 @@
+import { expandChangelog } from '../../changelog'
+
 const DEMO = /<Demo\s+name="([^"]+)"\s*\/>/g
 const PLAYGROUND = /<Playground\b[\s\S]*?\/>/g
 const ANCHOR = /^(#{2,6} .+?)\s*\{#[\w-]+\}$/gm
@@ -27,8 +29,14 @@ export default defineEventHandler(async event => {
 
   const locale = raw.startsWith('/en/') ? 'en' : 'zh-CN'
   const path = locale === 'en' ? raw.slice(3) : raw
-  const source = await read('content', `${locale}${path}`)
+  let source = await read('content', `${locale}${path}`)
   if (source === undefined) return
+  if (source.includes('<Changelog />')) {
+    const changelog = await read('release', 'CHANGELOG.md')
+    if (changelog === undefined)
+      throw createError({ statusCode: 500, statusMessage: 'Changelog is unavailable' })
+    source = expandChangelog(source, changelog)
+  }
 
   const names = [...source.matchAll(DEMO)].map(match => match[1]!)
   const code = new Map<string, string>()

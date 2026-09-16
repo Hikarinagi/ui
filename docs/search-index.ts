@@ -1,6 +1,7 @@
 import { readdir, readFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import type { Plugin } from 'vite'
+import { loadChangelog } from './changelog-source'
 
 const CONTENT_ROOT = fileURLToPath(new URL('./content/', import.meta.url))
 const ID = 'virtual:docs-search'
@@ -41,12 +42,15 @@ function parse(raw: string): Parsed {
   const body = (front ? raw.slice(front[0].length) : raw).replace(FENCE, '')
   const headings: SearchHeading[] = []
   let parent: string | undefined
+  let sequence = 0
+  const depth = Number(field(meta, 'tocDepth') ?? 3)
   for (const match of body.matchAll(HEADING)) {
     const level = match[1]!.length
     const label = match[2]!.replace(/`/g, '')
-    const id = match[3] ?? `section-${headings.length + 1}`
+    sequence += 1
+    const id = match[3] ?? `section-${sequence}`
     if (level === 2) parent = label
-    headings.push({ id, label, parent: level === 3 ? parent : undefined })
+    if (level <= depth) headings.push({ id, label, parent: level === 3 ? parent : undefined })
   }
   return { title: field(meta, 'title') ?? '', description: field(meta, 'description'), headings }
 }
@@ -62,7 +66,10 @@ async function pagesOf(locale: string): Promise<SearchPage[]> {
     name.endsWith('.md'),
   )
   const parsed = await Promise.all(
-    names.map(async name => ({ to: route(name), ...parse(await readFile(dir + name, 'utf8')) })),
+    names.map(async name => ({
+      to: route(name),
+      ...parse(await loadChangelog(await readFile(dir + name, 'utf8'))),
+    })),
   )
   const frequency = new Map<string, number>()
   for (const page of parsed) {

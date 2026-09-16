@@ -63,8 +63,7 @@
     text-align: start;
   }
 
-  & th,
-  & td {
+  & :where(th, td) {
     border-block-end: 1px solid var(--hn-border);
     padding: 0.5em 0.75em;
   }
