@@ -499,6 +499,12 @@ export const components: DocsComponent[] = [
   { label: 'Toast', to: '/components/toast', i18n: 'components.toast', category: 'overlays' },
   { label: 'Toggle', to: '/components/toggle', i18n: 'components.toggle', category: 'forms' },
   {
+    label: 'Toolbar',
+    to: '/components/toolbar',
+    i18n: 'components.toolbar',
+    category: 'navigation',
+  },
+  {
     label: 'Tooltip',
     to: '/components/tooltip',
     i18n: 'components.tooltip',
