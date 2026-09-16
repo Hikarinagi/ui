@@ -63,6 +63,7 @@ jobs:
     permissions:
       contents: write
       actions: read
+      pull-requests: read
       id-token: write
     environment:
       name: npm

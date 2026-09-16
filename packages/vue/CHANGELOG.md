@@ -4,10 +4,15 @@
 
 ### Added
 
+- **NavigationMenu** Add composable navigation menus with links, triggers, custom content panels, controlled expansion, hover and click activation, horizontal and vertical layouts, and router integration. Include shared panel transitions, keyboard navigation, disabled states, RTL support, and bilingual documentation with interactive examples.
 - **Rating** Add a `stars` prop to separate the displayed star count from the maximum score. Pointer and keyboard selection, read-only fill, accessible labels, and form values use the configured score scale. Existing ratings keep their current behavior when `stars` is omitted.
 - **Stepper** Add Stepper with horizontal and vertical layouts, linear and non-linear navigation, completion and error states, typed slots, and RTL keyboard support. Provide guarded asynchronous navigation, duplicate-request protection, localized progress announcements, and exposed navigation methods.
 - **Timeline** Add Timeline with vertical and horizontal layouts, alternate alignment, semantic node colors, reversible item order, opposite time labels, and typed slots for markers and content. Include RTL support and accessible ordered-list markup.
 - **Toolbar** Add Toolbar with buttons, links, single and multiple toggle groups, separators, and custom control composition. Support horizontal and vertical layouts, RTL, roving keyboard focus, inherited sizing and disabled state, and bare styling.
+
+### Changed
+
+- **CI** Run browser tests across four independent shards and run static checks, unit tests, documentation builds, and package checks in parallel. Preserve failure screenshots for each browser shard.
 
 ### Fixed
 
@@ -15,6 +20,9 @@
 - **Sidebar** Align the first desktop navigation item's icon with the AppShell header toggle by correcting navigation padding. Keep the alignment consistent between expanded and rail states and across density modes.
 - **Stepper** Remove hover and pressed color feedback and ripples from step triggers while preserving keyboard focus indicators and step status styling.
 - **Docs** Correct internal links in the English Toolbar documentation to prevent duplicate locale prefixes and static prerender failures.
+- **Docs** Reduce documentation build memory by disabling redundant server bundle tree-shaking and production source maps, preventing prerender initialization from exhausting the CI heap.
+- **Docs** Use client-side routing for internal links in component demos and preserve the current documentation language when navigating between pages.
+- **CI** Verify the final rendered Lightbox hero geometry after unmount instead of relying on the last animation-frame sample, preventing intermittent browser test failures under load.
 
 ## [1.7.2](https://github.com/Hikarinagi/ui/compare/@hina-ui/vue@1.7.1...@hina-ui/vue@1.7.2) (2026-09-16)
 

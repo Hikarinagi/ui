@@ -13,7 +13,20 @@ import {
   tagOf,
 } from './lib.mjs'
 
-export function releaseCandidate(config = loadConfig()) {
+export function isReleaseCommit({ config, sha }, io = services) {
+  const pulls = io.github(`repos/${config.repo}/commits/${sha}/pulls?per_page=100`)
+  return pulls.some(
+    pull =>
+      pull.merged_at &&
+      pull.merge_commit_sha === sha &&
+      pull.base?.ref === 'main' &&
+      pull.base.repo?.full_name === config.repo &&
+      pull.head?.ref === config.branch &&
+      pull.head.repo?.full_name === config.repo,
+  )
+}
+
+export function releaseCandidate(config = loadConfig(), io = services) {
   const pkg = readJson(config.package)
   const previous = JSON.parse(git(['show', 'HEAD^:' + config.package]))
   if (pkg.version === previous.version) return null
@@ -23,10 +36,12 @@ export function releaseCandidate(config = loadConfig()) {
     compareVersions(pkg.version, previous.version) <= 0
   )
     throw new Error('Release must increase the version of the existing public package')
+  const sha = git(['rev-parse', 'HEAD'])
+  if (!isReleaseCommit({ config, sha }, io)) return null
   return {
     config,
     pkg,
-    sha: git(['rev-parse', 'HEAD']),
+    sha,
     tag: tagOf(pkg.name, pkg.version),
     notes: releaseNotes(readFileSync(config.changelog, 'utf8'), pkg.version),
   }
@@ -131,6 +146,8 @@ const services = {
 
 export async function checkRelease(candidate, io = services) {
   const { config, sha, tag } = candidate
+  if (!isReleaseCommit(candidate, io))
+    throw new Error(`Commit ${sha} is not a merged ${config.branch} release PR`)
   const runs = io.github(
     `repos/${config.repo}/actions/workflows/ci.yml/runs?head_sha=${sha}&per_page=100`,
   )
@@ -162,7 +179,7 @@ if (isMain(import.meta.url)) {
   const options = parseOptions(process.argv.slice(2), ['dry', 'check'])
   const candidate = releaseCandidate()
   if (!candidate) {
-    console.log('No version change in this commit; nothing to publish')
+    console.log('No merged release PR with a version change at this commit; nothing to publish')
     if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, 'candidate=false\n')
   } else {
     if (git(['status', '--porcelain'])) throw new Error('Publishing requires a clean checkout')

@@ -46,9 +46,9 @@ pnpm test:package
 1. `main` 有新推送时，Release 工作流更新 `release/next` 发布 PR，列出版本和更新记录。默认升 patch，例如 `1.7.0 → 1.7.1`。
 2. 要选择 minor、major 或准确版本，在 Actions 的 Release 工作流中选择 `main`，填写 `bump` 或 `version` 后运行。`auto` 会保留同一轮发布 PR 已选定的较高版本；显式选择可以重新调整，但不能低于记录要求。
 3. 发布 PR 由 `GITHUB_TOKEN` 创建，脚本会主动触发它的 CI。无须额外的个人访问令牌。
-4. 合并发布 PR 后，等待 `main` 上这个提交的 CI 通过，再构建并发布 npm、创建版本 Tag 和 GitHub Release。只处理实际修改包版本的提交，普通推送不重复发包。
+4. 合并发布 PR 后，等待 `main` 上这个提交的 CI 通过，再构建并发布 npm、创建版本 Tag 和 GitHub Release。发布提交必须实际修改包版本，且对应本仓库已合并的 `release/next → main` PR；脚本会校验 GitHub 记录的合并提交 SHA。普通推送和分支同步不会触发发包，即使它们相对第一父提交存在版本变化。
 
-工作流保留 `release.yml` 文件名和 `npm` environment，沿用 npm 的 GitHub Actions trusted publisher / OIDC 配置。仓库需要允许 GitHub Actions 创建 PR；准备任务使用 `contents: write`、`pull-requests: write` 和 `actions: write`，发布任务使用 `contents: write`、`actions: read` 和 `id-token: write`。
+工作流保留 `release.yml` 文件名和 `npm` environment，沿用 npm 的 GitHub Actions trusted publisher / OIDC 配置。仓库需要允许 GitHub Actions 创建 PR；准备任务使用 `contents: write`、`pull-requests: write` 和 `actions: write`，发布任务使用 `contents: write`、`actions: read`、`pull-requests: read` 和 `id-token: write`。
 
 自动化只更新 `release/next`，推送带 `--force-with-lease`；`main` 在准备过程中前进时会停止，使用最新提交的工作流重新准备即可。
 

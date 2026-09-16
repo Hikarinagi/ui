@@ -28,6 +28,7 @@ import {
   assertCI,
   assertRegistry,
   checkRelease,
+  isReleaseCommit,
   publishRelease,
   releaseCandidate,
 } from './publish.mjs'
@@ -52,6 +53,15 @@ const passing = {
   run_attempt: 1,
   status: 'completed',
   conclusion: 'success',
+}
+
+function releasePull(commit = sha) {
+  return {
+    merged_at: '2026-09-16T00:00:00Z',
+    merge_commit_sha: commit,
+    base: { ref: 'main', repo: { full_name: config.repo } },
+    head: { ref: config.branch, repo: { full_name: config.repo } },
+  }
 }
 
 function fixture(t) {
@@ -102,6 +112,7 @@ function publication(overrides = {}) {
   let release = null
   const io = {
     github(path) {
+      if (path.includes('/commits/')) return [releasePull()]
       return path.includes('/actions/') ? { workflow_runs: [passing] } : release
     },
     registry: async () => ({ versions: npm ? { '1.7.1': { gitHead: sha } } : {} }),
@@ -234,7 +245,7 @@ test('no records do not bump versions and existing version tags cannot be reused
   assert.throws(() => planRelease(), /Tag already exists/)
 })
 
-test('only the version-changing commit becomes a release candidate, including merge commits', t => {
+test('only the version-changing commit of a merged release PR becomes a release candidate', t => {
   const f = fixture(t)
   f.write('.changes/dialog.md', record())
   f.commit('add capability')
@@ -242,15 +253,98 @@ test('only the version-changing commit becomes a release candidate, including me
   f.git(['checkout', '-b', 'release/next'])
   applyRelease(planRelease())
   f.commit('prepare release')
-  assert.equal(releaseCandidate().pkg.version, '1.7.1')
+  assert.equal(releaseCandidate(config, { github: () => [] }), null)
   f.git(['checkout', 'main'])
   f.write('other.txt', 'another change')
   f.commit('other work')
   f.git(['merge', '--no-ff', 'release/next', '-m', 'Merge release'])
-  assert.equal(releaseCandidate().sha, f.git(['rev-parse', 'HEAD']))
+  const merged = f.git(['rev-parse', 'HEAD'])
+  const io = { github: () => [releasePull(merged)] }
+  assert.equal(releaseCandidate(config, io).sha, merged)
+  assert.equal(releaseCandidate(config, io).pkg.version, '1.7.1')
   f.write('other.txt', 'later change')
   f.commit('later work')
   assert.equal(releaseCandidate(), null)
+})
+
+test('syncing main release history into dev cannot publish a version from the wrong parent', t => {
+  const f = fixture(t)
+  f.write('.changes/dialog.md', record())
+  f.commit('add capability')
+  f.git(['checkout', '-b', 'dev'])
+  f.write('.changes/image.md', record('fixed').replaceAll('Dialog', 'Image'))
+  f.commit('unreleased work')
+  f.git(['checkout', 'main'])
+  applyRelease(planRelease())
+  f.commit('release version')
+  const released = f.git(['rev-parse', 'HEAD'])
+  f.git(['checkout', 'dev'])
+  f.git(['merge', '--no-ff', 'main', '-m', 'Sync main release history'])
+  assert.equal(JSON.parse(f.git(['show', `HEAD^:${config.package}`])).version, '1.7.0')
+  assert.equal(JSON.parse(readFileSync(config.package)).version, '1.7.1')
+  assert.equal(releaseCandidate(config, { github: () => [] }), null)
+  assert.equal(releaseCandidate(config, { github: () => [releasePull(released)] }), null)
+  assert.equal(readChanges(config).length, 1)
+})
+
+for (const method of ['squash', 'rebase']) {
+  test(`${method} release merges remain publishable when GitHub identifies the exact commit`, t => {
+    const f = fixture(t)
+    f.write('.changes/dialog.md', record())
+    f.commit('add capability')
+    f.git(['checkout', '-b', 'release/next'])
+    applyRelease(planRelease())
+    f.commit('prepare release')
+    f.git(['checkout', 'main'])
+    f.write('other.txt', 'independent work')
+    f.commit('other work')
+    if (method === 'squash') {
+      f.git(['merge', '--squash', config.branch])
+      f.commit('squash release')
+    } else {
+      f.git(['checkout', config.branch])
+      f.git(['rebase', 'main'])
+      f.git(['checkout', 'main'])
+      f.git(['merge', '--ff-only', config.branch])
+    }
+    const merged = f.git(['rev-parse', 'HEAD'])
+    assert.equal(releaseCandidate(config, { github: () => [releasePull(merged)] }).sha, merged)
+  })
+}
+
+test('release provenance rejects unrelated, unmerged, foreign and stale pull requests', () => {
+  const valid = releasePull()
+  assert.equal(isReleaseCommit(candidate, { github: () => [valid] }), true)
+  for (const difference of [
+    { merged_at: null },
+    { merge_commit_sha: 'b'.repeat(40) },
+    { base: { ...valid.base, ref: 'dev' } },
+    { base: { ...valid.base, repo: { full_name: 'other/ui' } } },
+    { head: { ...valid.head, ref: 'dev' } },
+    { head: { ...valid.head, repo: { full_name: 'other/ui' } } },
+    { head: null },
+  ])
+    assert.equal(isReleaseCommit(candidate, { github: () => [{ ...valid, ...difference }] }), false)
+})
+
+test('publication refuses missing release provenance before any registry or write operations', async () => {
+  for (const pulls of [[], [releasePull('b'.repeat(40))]]) {
+    const { calls, io } = publication({
+      github: () => pulls,
+      registry: () => {
+        assert.fail('Registry must not be accessed')
+      },
+    })
+    await assert.rejects(publishRelease(candidate, io), /not a merged release\/next release PR/)
+    assert.deepEqual(calls, [])
+  }
+  const { calls, io } = publication({
+    github: () => {
+      throw new Error('GitHub unavailable')
+    },
+  })
+  await assert.rejects(publishRelease(candidate, io), /GitHub unavailable/)
+  assert.deepEqual(calls, [])
 })
 
 test('change CLI validates input and writes independently classified notes', t => {
@@ -331,7 +425,12 @@ test('registry, CI and tag failures stop publishing without swallowing errors', 
       },
     },
     { tagCommit: () => 'other' },
-    { github: () => ({ workflow_runs: [{ ...passing, conclusion: 'failure' }] }) },
+    {
+      github: path =>
+        path.includes('/commits/')
+          ? [releasePull()]
+          : { workflow_runs: [{ ...passing, conclusion: 'failure' }] },
+    },
   ]) {
     const { calls, io } = publication(override)
     await assert.rejects(checkRelease(candidate, io))
