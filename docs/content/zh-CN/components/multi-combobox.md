@@ -32,6 +32,8 @@ import { MultiCombobox } from '@hina-ui/vue'
 
 示例预先回填三个标签，再请求搜索接口。请求的防抖与取消由调用方负责，`loading` 为真时展开箭头显示加载指示器。
 
+示例请求随文档发布的静态 JSON，并在调用方模拟筛选，无需服务端代理。接入实际接口时替换请求地址与结果映射。
+
 <Demo name="multi-combobox/remote" />
 
 ### 定制内容 {#custom}

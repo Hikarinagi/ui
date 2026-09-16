@@ -38,6 +38,8 @@ import { Combobox } from '@hina-ui/vue'
 
 `loading` 将展开按钮中的箭头切换为加载指示，并保留输入、选择和清除操作。请求状态与防抖由调用方控制。
 
+示例请求随文档发布的静态 JSON，并在调用方模拟筛选，无需服务端代理。接入实际接口时替换请求地址与结果映射。
+
 <Demo name="combobox/remote" />
 
 ### 可清除 {#clearable}

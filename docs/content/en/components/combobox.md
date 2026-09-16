@@ -38,6 +38,8 @@ A group carries a `label` and its `options`; groups left empty by the filter are
 
 `loading` replaces the toggle arrow with a loading indicator while keeping typing, selection and clearing available. Request state and debouncing are controlled by the caller.
 
+The example requests a static JSON file shipped with the docs and simulates filtering in the caller, without a server proxy. Replace the request URL and result mapping when connecting a search API.
+
 <Demo name="combobox/remote" />
 
 ### Clearable {#clearable}
