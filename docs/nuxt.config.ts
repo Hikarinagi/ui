@@ -21,6 +21,9 @@ export default defineNuxtConfig({
     version,
   },
   ssr: true,
+  $production: {
+    sourcemap: false,
+  },
   devtools: { enabled: false },
   modules: ['@nuxt/eslint', '@nuxt/fonts', '@nuxtjs/color-mode', '@nuxtjs/i18n', 'motion-v/nuxt'],
   i18n: {
@@ -71,6 +74,9 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   watch: ['markdown.ts', 'search-index.ts', 'changelog.ts', 'changelog-source.ts'],
   nitro: {
+    rollupConfig: {
+      treeshake: false,
+    },
     serverAssets: [
       { baseName: 'content', dir: contentDir },
       { baseName: 'demos', dir: demosDir },
