@@ -52,7 +52,7 @@ import { VirtualList, type VirtualListExpose } from '@hina-ui/vue'
 
 ### 加载与空态 {#states}
 
-`loading` 会保留已有条目，在底部显示加载提示；没有条目时居中显示。空态与初始加载态不会同时出现。`#loading` 和 `#empty` 分别替换提示，空态也可以用 `emptyText` 修改默认文案。
+`loading` 使用 [LoadingOverlay](/components/loading-overlay) 在列表中央显示加载提示，保留已有条目和滚动位置，不改变滚动视口的尺寸。没有条目时也居中显示，加载时不显示空态。`#loading` 替换加载层的内容，`#empty` 替换空态，空态也可以用 `emptyText` 修改默认文案。
 
 示例组合 [Switch](/components/switch) 和 [Empty](/components/empty)。组件不请求数据，也不清空已有数据。
 

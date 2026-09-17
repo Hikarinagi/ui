@@ -280,6 +280,39 @@ describe('VirtualList browser behavior', () => {
     expect(wrapper.text()).not.toContain('Nothing here')
   })
 
+  it.each([
+    ['vertical', 'ltr'],
+    ['horizontal', 'ltr'],
+    ['horizontal', 'rtl'],
+  ])('preserves viewport geometry while loading in %s %s', async (orientation, dir) => {
+    const wrapper = create({ items: items.slice(0, 100), orientation, dir, estimateSize: 100 })
+    const viewport = await ready(wrapper)
+    api(wrapper).scrollToIndex(50, { align: 'start' })
+    await vi.waitFor(() =>
+      expect(
+        Math.abs(orientation === 'horizontal' ? viewport.scrollLeft : viewport.scrollTop),
+      ).toBe(5000),
+    )
+    await vi.waitFor(() => expect(row(wrapper, 50).exists()).toBe(true))
+    const before = viewport.getBoundingClientRect()
+    const offset = [viewport.scrollLeft, viewport.scrollTop]
+    const target = row(wrapper, 50).element
+    await wrapper.setProps({ loading: true })
+    await new Promise(requestAnimationFrame)
+    expect(viewport.getBoundingClientRect().toJSON()).toEqual(before.toJSON())
+    expect([viewport.scrollLeft, viewport.scrollTop]).toEqual(offset)
+    expect(row(wrapper, 50).element).toBe(target)
+    expect(wrapper.find('ul').attributes('aria-busy')).toBe('true')
+    const overlay = wrapper
+      .find<HTMLElement>('[data-hn-loading-overlay]')
+      .element.getBoundingClientRect()
+    expect(overlay.toJSON()).toEqual(before.toJSON())
+    await wrapper.setProps({ loading: false })
+    await vi.waitFor(() => expect(wrapper.find('[data-hn-loading-overlay]').exists()).toBe(false))
+    expect(viewport.getBoundingClientRect().toJSON()).toEqual(before.toJSON())
+    expect([viewport.scrollLeft, viewport.scrollTop]).toEqual(offset)
+  })
+
   it('allows native keyboard scrolling from the named viewport', async () => {
     const wrapper = create()
     const viewport = await ready(wrapper)

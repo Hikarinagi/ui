@@ -2,7 +2,7 @@
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
   import ScrollArea from '../scroll-area/ScrollArea.vue'
-  import Spinner from '../spinner/Spinner.vue'
+  import LoadingOverlay from '../loading-overlay/LoadingOverlay.vue'
   import { useVirtualList } from './composables/useVirtualList'
   import {
     virtualList,
@@ -29,7 +29,7 @@
   })
 
   const emit = defineEmits<{ rangeChange: [range: VirtualListRange] }>()
-  defineSlots<{
+  const slots = defineSlots<{
     default?(props: VirtualListSlotProps<T>): unknown
     empty?(): unknown
     loading?(): unknown
@@ -109,14 +109,8 @@
     >
       <slot name="empty">{{ props.emptyText ?? t.virtualList.empty }}</slot>
     </div>
-    <div
-      v-if="props.loading"
-      :class="cn(virtualListStatus(), !props.items.length && 'absolute inset-0')"
-    >
-      <slot name="loading">
-        <Spinner size="sm" />
-        {{ t.common.loading }}
-      </slot>
-    </div>
+    <LoadingOverlay :visible="props.loading" :text="t.common.loading" :delay="0" size="sm">
+      <template v-if="slots.loading" #default><slot name="loading" /></template>
+    </LoadingOverlay>
   </div>
 </template>

@@ -52,7 +52,7 @@ With `orientation="horizontal"`, `estimateSize` describes width and `height` con
 
 ### Loading and empty states {#states}
 
-`loading` retains existing items and shows an indicator below them. Without items, the indicator is centered. Empty content and initial loading content are mutually exclusive. Replace them using `#loading` and `#empty`, or change the default empty message with `emptyText`.
+`loading` uses [LoadingOverlay](/components/loading-overlay) to center an indicator over the list while preserving existing items, scroll position, and viewport dimensions. The indicator is also centered when there are no items, and empty content is hidden during loading. Use `#loading` to replace the overlay content, `#empty` to replace empty content, or `emptyText` to change the default empty message.
 
 The example combines [Switch](/components/switch) and [Empty](/components/empty). The component does not fetch or clear data.
 
