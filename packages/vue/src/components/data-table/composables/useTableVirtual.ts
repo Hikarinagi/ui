@@ -1,5 +1,5 @@
 import { computed, nextTick, onScopeDispose, shallowRef, watch, type Ref } from 'vue'
-import { useVirtualizer } from '@tanstack/vue-virtual'
+import { useVirtualWindow, virtualFlow } from '../../../lib/virtual/useVirtualWindow'
 import type { DataTableKey, DataTableProps } from '../types'
 import type { DataTableController } from './useDataTable'
 
@@ -39,10 +39,9 @@ export function useTableVirtual<T extends object>(
     if (element.value?.caption) observer.observe(element.value.caption)
     update()
   })
-  const virtualizer = useVirtualizer(
+  const virtualizer = useVirtualWindow(
     computed(() => ({
       count: entries.value.length,
-      useAnimationFrameWithResizeObserver: true,
       enabled: !!props.virtualize,
       getScrollElement: () => viewport.value ?? null,
       estimateSize: (index: number) =>
@@ -64,19 +63,16 @@ export function useTableVirtual<T extends object>(
       ? window.value.map(item => ({ ...entries.value[item.index]!, index: item.index }))
       : entries.value.map((entry, index) => ({ ...entry, index })),
   )
-  const before = computed(() =>
-    props.virtualize ? Math.max(0, (window.value[0]?.start ?? margin.value) - margin.value) : 0,
+  const flow = computed(() =>
+    virtualFlow(window.value, virtualizer.value.getTotalSize(), margin.value),
   )
-  const after = computed(() =>
-    props.virtualize
-      ? Math.max(
-          0,
-          virtualizer.value.getTotalSize() -
-            ((window.value.at(-1)?.end ?? margin.value) - margin.value),
-        )
-      : 0,
-  )
+  const before = computed(() => (props.virtualize ? flow.value.before : 0))
+  const after = computed(() => (props.virtualize ? flow.value.after : 0))
   function measure(element: unknown) {
+    if (element === null) {
+      virtualizer.value.measureElement(null)
+      return
+    }
     if (props.virtualize && element instanceof HTMLElement)
       virtualizer.value.measureElement(element)
   }

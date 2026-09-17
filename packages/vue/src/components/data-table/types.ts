@@ -1,3 +1,4 @@
+import type { VirtualizeOptions } from '../../lib/virtual/types'
 import type { CSSProperties } from 'vue'
 import type { TableVariants } from '../table/table.variants'
 
@@ -100,7 +101,7 @@ export interface DataTableProps<T> {
   resizeMode?: 'fit' | 'expand'
   reorderColumns?: boolean
   reorderable?: boolean | ((row: T) => boolean)
-  virtualize?: boolean | { estimateSize?: number; overscan?: number }
+  virtualize?: VirtualizeOptions
   editMode?: 'cell' | 'row'
   onSave?: (edit: DataTableEdit<T>) => void | Promise<void>
   loading?: boolean

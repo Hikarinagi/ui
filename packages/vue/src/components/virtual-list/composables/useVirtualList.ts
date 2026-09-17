@@ -1,12 +1,8 @@
 import { computed, nextTick, onScopeDispose, shallowRef, watch, type CSSProperties } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
-import {
-  defaultRangeExtractor,
-  measureElement as measureItem,
-  useVirtualizer,
-  type VirtualItem,
-} from '@tanstack/vue-virtual'
+import { defaultRangeExtractor, type VirtualItem } from '@tanstack/vue-virtual'
 import { useDirection } from '../../../lib/useDirection'
+import { useVirtualWindow, virtualFlow } from '../../../lib/virtual/useVirtualWindow'
 import { prefersReducedMotion } from '../../../motion'
 import type ScrollArea from '../../scroll-area/ScrollArea.vue'
 import type {
@@ -37,7 +33,7 @@ export function useVirtualList<T>(
   watch(focusedIndex, index => {
     if (index < 0) focusedKey.value = undefined
   })
-  const virtualizer = useVirtualizer<HTMLElement, HTMLElement>(
+  const virtualizer = useVirtualWindow(
     computed(() => {
       const items = props.items
       const itemKeys = keys.value
@@ -47,13 +43,6 @@ export function useVirtualList<T>(
         count: items.length,
         getScrollElement: () => viewport.value ?? null,
         getItemKey: (index: number) => itemKeys[index]!,
-        measureElement: (element, entry, instance) => {
-          const size = measureItem(element, entry, instance)
-          const index = instance.indexFromElement(element)
-          return size > 0
-            ? size
-            : (instance.itemSizeCache.get(itemKeys[index]!) ?? instance.options.estimateSize(index))
-        },
         estimateSize: (index: number) =>
           Math.max(
             1,
@@ -61,14 +50,6 @@ export function useVirtualList<T>(
           ),
         horizontal: horizontal.value,
         isRtl: direction.value === 'rtl',
-        scrollToFn: (offset, { adjustments = 0, behavior }, instance) => {
-          instance.scrollElement?.scrollTo({
-            [instance.options.horizontal ? 'left' : 'top']:
-              (offset + adjustments) *
-              (instance.options.horizontal && instance.options.isRtl ? -1 : 1),
-            behavior,
-          })
-        },
         overscan: Math.floor(nonnegative(props.overscan ?? 5)),
         gap: nonnegative(props.gap ?? 0),
         paddingStart: nonnegative(props.paddingStart ?? 0),
@@ -78,7 +59,6 @@ export function useVirtualList<T>(
           width: 320,
           height: typeof props.height === 'number' ? props.height : 320,
         },
-        useAnimationFrameWithResizeObserver: true,
         rangeExtractor: (range: Parameters<typeof defaultRangeExtractor>[0]) => {
           const indexes = defaultRangeExtractor(range)
           if (retained >= 0 && !indexes.includes(retained)) indexes.push(retained)
@@ -87,16 +67,17 @@ export function useVirtualList<T>(
       }
     }),
   )
+  const flow = computed(() =>
+    virtualFlow(virtualizer.value.getVirtualItems(), virtualizer.value.getTotalSize()),
+  )
   const entries = computed(() =>
-    virtualizer.value.getVirtualItems().map((entry, index, items) => ({
+    flow.value.entries.map(entry => ({
       ...entry,
       key: keys.value[entry.index]!,
-      gapBefore: index ? Math.max(0, entry.start - items[index - 1]!.end) : 0,
     })),
   )
   const contentStyle = computed<CSSProperties>(() => {
-    const start = entries.value[0]?.start ?? 0
-    const end = Math.max(0, virtualizer.value.getTotalSize() - (entries.value.at(-1)?.end ?? 0))
+    const { before: start, after: end } = flow.value
     return horizontal.value
       ? {
           width: 'max-content',

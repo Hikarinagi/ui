@@ -316,6 +316,7 @@ export type {
 
 export { default as Timeline } from './components/timeline/Timeline.vue'
 export { default as VirtualList } from './components/virtual-list/VirtualList.vue'
+export type { VirtualizeOptions } from './lib/virtual/types'
 export type {
   VirtualListProps,
   VirtualListSlotProps,
