@@ -28,6 +28,7 @@ export function useVirtualTree<T extends { label: string; disabled?: boolean }>(
     items: () => props.items,
     key: item => item._id,
     config: () => props.virtualize,
+    initialIndex: () => selected.value,
     viewport,
     body,
     retain: () => [index.value, selected.value],
@@ -36,14 +37,14 @@ export function useVirtualTree<T extends { label: string; disabled?: boolean }>(
   root.isVirtual.value = true
   let generation = 0
   let disposed = false
-  async function focus(target: number, moveFocus = true) {
+  async function focus(target: number, moveFocus = true, align: 'auto' | 'center' = 'auto') {
     if (target < 0 || disabled(target)) return
     const version = ++generation
     const key = props.items[target]!._id
     active.value = key
     await nextTick()
     if (disposed || generation !== version || props.items[target]?._id !== key) return
-    collection.virtualizer.value.scrollToIndex(target, { align: 'auto' })
+    collection.virtualizer.value.scrollToIndex(target, { align })
     if (moveFocus)
       body.value
         ?.querySelector<HTMLElement>(`[data-index="${target}"] [role="treeitem"]`)
@@ -133,8 +134,8 @@ export function useVirtualTree<T extends { label: string; disabled?: boolean }>(
   )
   watch(
     viewport,
-    (element, previous) => {
-      if (element && !previous) void focus(selected.value >= 0 ? selected.value : first(), false)
+    element => {
+      if (element) void focus(selected.value >= 0 ? selected.value : first(), false, 'center')
     },
     { flush: 'post' },
   )

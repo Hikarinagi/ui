@@ -79,6 +79,7 @@ export function useVirtualChoices<T extends SelectOption>(props: {
     viewport,
     body,
     config: () => props.virtualize,
+    initialIndex: () => selectedIndex.value,
     retain: () => [activeIndex.value, selectedIndex.value],
     include: indexes =>
       indexes.flatMap(index =>
@@ -88,14 +89,19 @@ export function useVirtualChoices<T extends SelectOption>(props: {
   })
   let generation = 0
   let disposed = false
-  async function highlight(index: number, scroll = true, focus = listbox?.focusable.value ?? true) {
+  async function highlight(
+    index: number,
+    scroll = true,
+    focus = listbox?.focusable.value ?? true,
+    align: 'auto' | 'center' = 'auto',
+  ) {
     if (index < 0 || disabled(index)) return
     const version = ++generation
     const key = rows.value[index]!.key
     activeKey.value = key
     await nextTick()
     if (disposed || version !== generation || rows.value[index]?.key !== key) return
-    if (scroll) collection.virtualizer.value.scrollToIndex(index, { align: 'auto' })
+    if (scroll) collection.virtualizer.value.scrollToIndex(index, { align })
     const element = body.value?.querySelector<HTMLElement>(
       `[data-index="${index}"] [role="option"]`,
     )
@@ -223,6 +229,7 @@ export function useVirtualChoices<T extends SelectOption>(props: {
           selectedIndex.value >= 0 ? selectedIndex.value : first(),
           scroll,
           event ? true : scroll && listbox.focusable.value,
+          'center',
         )
       }).off,
     )
@@ -259,13 +266,14 @@ export function useVirtualChoices<T extends SelectOption>(props: {
   )
   watch(
     viewport,
-    (element, previous) => {
+    element => {
       if (element && props.kind !== 'listbox') element.setAttribute('role', 'group')
-      if (element && !previous)
+      if (element)
         void highlight(
           selectedIndex.value >= 0 ? selectedIndex.value : first(),
           selectedIndex.value >= 0,
           !!select?.open.value,
+          'center',
         )
     },
     { flush: 'post' },

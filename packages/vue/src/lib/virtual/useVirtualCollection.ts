@@ -10,6 +10,7 @@ export function useVirtualCollection<T>(options: {
   viewport: Ref<HTMLElement | undefined>
   body: Ref<HTMLElement | undefined>
   config: () => VirtualizeOptions | undefined
+  initialIndex?: () => number
   retain?: () => number[]
   include?: (indexes: number[]) => number[]
   estimate?: (item: T) => number
@@ -26,14 +27,22 @@ export function useVirtualCollection<T>(options: {
     computed(() => {
       const items = options.items()
       const retained = options.retain?.() ?? []
+      const initialIndex = options.initialIndex?.() ?? -1
+      const estimateSize = (index: number) =>
+        Math.max(1, finite(config.value.estimateSize, options.estimate?.(items[index]!) ?? 36))
       return {
         count: items.length,
         getScrollElement: () => options.viewport.value ?? null,
         getItemKey: index => options.key(items[index]!),
-        estimateSize: index =>
-          Math.max(1, finite(config.value.estimateSize, options.estimate?.(items[index]!) ?? 36)),
+        estimateSize,
         overscan: Math.max(0, Math.floor(finite(config.value.overscan, 6))),
         initialRect: { width: 320, height: 320 },
+        initialOffset: () => {
+          if (initialIndex < 0 || initialIndex >= items.length) return 0
+          let offset = (estimateSize(initialIndex) - 320) / 2
+          for (let index = 0; index < initialIndex; index++) offset += estimateSize(index)
+          return Math.max(0, offset)
+        },
         scrollMargin: margin.value,
         observeElementRect: (instance, callback) =>
           observeElementRect(instance, rect =>
@@ -74,12 +83,12 @@ export function useVirtualCollection<T>(options: {
       top += node.offsetTop
     return top
   }
-  async function refresh(reset = true) {
+  async function refresh() {
     const viewport = options.viewport.value
     const body = options.body.value
     if (viewport && body?.isConnected)
       margin.value = Math.max(0, layoutTop(body) - layoutTop(viewport))
-    if (reset) virtualizer.value.measure()
+    virtualizer.value.measure()
     await nextTick()
     for (const child of options.body.value?.children ?? []) measure(child)
   }
@@ -96,12 +105,8 @@ export function useVirtualCollection<T>(options: {
     }
     width = next
   })
-  watch(options.viewport, () => refresh(false), { flush: 'post' })
-  watch(
-    () => config.value.estimateSize,
-    () => refresh(),
-    { flush: 'post' },
-  )
+  watch(options.viewport, refresh, { flush: 'post' })
+  watch(() => config.value.estimateSize, refresh, { flush: 'post' })
   watch(
     () => [config.value.estimateSize, options.items().length],
     async () => {

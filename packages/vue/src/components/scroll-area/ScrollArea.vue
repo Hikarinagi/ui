@@ -60,11 +60,7 @@
     }
   }
 
-  const { viewport, scrollElement, instance, onEvent } = useOverlayScrollbars(
-    host,
-    content,
-    options,
-  )
+  const { viewport, instance, onEvent } = useOverlayScrollbars(host, content, options)
   const { hostFocus, viewportFocus } = useScrollFocus(host, viewport, () => ({
     focusable: props.focusable,
     label: props.label ?? t.value.scroll.regionLabel,
@@ -86,7 +82,7 @@
     () => instance.value?.options(options()),
   )
 
-  defineExpose({ viewport: scrollElement, instance })
+  defineExpose({ viewport, instance })
 </script>
 
 <template>

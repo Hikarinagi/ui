@@ -1,4 +1,4 @@
-import { computed, onBeforeUnmount, onMounted, shallowRef, type ShallowRef } from 'vue'
+import { onBeforeUnmount, onMounted, shallowRef, type ShallowRef } from 'vue'
 import {
   OverlayScrollbars,
   type OverlayScrollbars as OSInstance,
@@ -13,7 +13,6 @@ export function useOverlayScrollbars(
   options: () => PartialOptions,
 ) {
   const viewport = shallowRef<HTMLElement>()
-  const mounted = shallowRef(false)
   const instance = shallowRef<OSInstance>()
   const listeners: Array<[OSEvent, () => void]> = []
   let frameId: number | undefined
@@ -23,7 +22,6 @@ export function useOverlayScrollbars(
   }
 
   onMounted(() => {
-    mounted.value = true
     frameId = requestAnimationFrame(() => {
       frameId = undefined
       if (!host.value || !content.value) return
@@ -40,17 +38,11 @@ export function useOverlayScrollbars(
   })
 
   onBeforeUnmount(() => {
-    mounted.value = false
     if (frameId !== undefined) cancelAnimationFrame(frameId)
     instance.value?.destroy()
     instance.value = undefined
     viewport.value = undefined
   })
 
-  return {
-    viewport,
-    scrollElement: computed(() => viewport.value ?? (mounted.value ? host.value : undefined)),
-    instance,
-    onEvent,
-  }
+  return { viewport, instance, onEvent }
 }
