@@ -128,3 +128,7 @@ Other native attributes reach the root. Customize item appearance with `itemClas
 | `measure`        | `() => void`                                                    | Reset cached sizes and remeasure |
 
 Also exports `VirtualListProps<T>`, `VirtualListSlotProps<T>`, `VirtualListKey`, `VirtualListRange`, `VirtualListScrollOptions`, and `VirtualListExpose`.
+
+## Component integration {#integration}
+
+[Select](/components/select#virtual), [MultiSelect](/components/multi-select#virtual), [Combobox](/components/combobox#virtual), [MultiCombobox](/components/multi-combobox#virtual), [Listbox](/components/listbox#virtual), [CommandPalette](/components/command-palette#virtual), [Tree](/components/tree#virtual), [TreeSelect](/components/tree-select#virtual), [DataTable](/components/data-table#virtual) provide optional `virtualize` support with the same scrolling foundation and their own selection, search and keyboard behavior. They do not need an additional VirtualList wrapper.

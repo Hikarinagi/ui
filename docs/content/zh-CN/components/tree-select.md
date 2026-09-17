@@ -22,6 +22,12 @@ import { TreeSelect } from '@hina-ui/vue'
 
 ## 示例 {#examples}
 
+### 虚拟滚动 {#virtual}
+
+`virtualize` 按需渲染可见范围附近的条目，与 [VirtualList](/components/virtual-list) 共用测量与滚动底层。默认关闭；可传 `{ estimateSize, overscan }` 调整预估行高和两侧预渲染数量，行高会按实际内容测量。键盘导航覆盖完整数据，禁用项会跳过。 搜索仍处理完整数据。 只对展开后的可见节点进行虚拟化，父子导航与勾选状态不依赖节点是否挂载。 条目离开渲染范围后会卸载；插槽内需要持久保留的状态应按唯一 value 存在外部。
+
+<Demo name="tree-select/virtual" />
+
 ### 默认展开 {#expanded}
 
 `defaultExpanded` 列出打开时默认展开的节点。已选节点所在的路径总会自动展开。
@@ -82,21 +88,22 @@ import { TreeSelect } from '@hina-ui/vue'
 
 ### Props {#props}
 
-| 属性                | 类型                       | 默认值      | 说明                              |
-| ------------------- | -------------------------- | ----------- | --------------------------------- |
-| `modelValue`        | `string \| number \| null` | —           | 选中节点的值                      |
-| `items`             | `TreeSelectNode[]`         | —           | 节点，见下方类型                  |
-| `placeholder`       | `string`                   | 语言包      | 无值时显示的文字                  |
-| `searchable`        | `boolean`                  | `false`     | 显示搜索框并启用节点过滤          |
-| `search`            | `string`                   | `''`        | 搜索文本，支持 `v-model:search`   |
-| `searchPlaceholder` | `string`                   | 语言包      | 搜索框提示文字与无障碍名称        |
-| `defaultExpanded`   | `Array<string \| number>`  | `[]`        | 打开时默认展开的节点              |
-| `open`              | `boolean`                  | `false`     | 浮层是否打开，支持 `v-model:open` |
-| `variant`           | `'primary' \| 'secondary'` | `'primary'` | 形态                              |
-| `size`              | `'sm' \| 'md' \| 'lg'`     | `'md'`      | 尺寸                              |
-| `invalid`           | `boolean`                  | `false`     | 是否校验未通过                    |
-| `disabled`          | `boolean`                  | `false`     | 是否禁用                          |
-| `class`             | `string`                   | —           | 追加至触发器的类名                |
+| 属性                | 类型                       | 默认值      | 说明                                 |
+| ------------------- | -------------------------- | ----------- | ------------------------------------ |
+| `modelValue`        | `string \| number \| null` | —           | 选中节点的值                         |
+| `items`             | `TreeSelectNode[]`         | —           | 节点，见下方类型                     |
+| `virtualize`        | `VirtualizeOptions`        | `false`     | 虚拟滚动；预估行高按内容，overscan 6 |
+| `placeholder`       | `string`                   | 语言包      | 无值时显示的文字                     |
+| `searchable`        | `boolean`                  | `false`     | 显示搜索框并启用节点过滤             |
+| `search`            | `string`                   | `''`        | 搜索文本，支持 `v-model:search`      |
+| `searchPlaceholder` | `string`                   | 语言包      | 搜索框提示文字与无障碍名称           |
+| `defaultExpanded`   | `Array<string \| number>`  | `[]`        | 打开时默认展开的节点                 |
+| `open`              | `boolean`                  | `false`     | 浮层是否打开，支持 `v-model:open`    |
+| `variant`           | `'primary' \| 'secondary'` | `'primary'` | 形态                                 |
+| `size`              | `'sm' \| 'md' \| 'lg'`     | `'md'`      | 尺寸                                 |
+| `invalid`           | `boolean`                  | `false`     | 是否校验未通过                       |
+| `disabled`          | `boolean`                  | `false`     | 是否禁用                             |
+| `class`             | `string`                   | —           | 追加至触发器的类名                   |
 
 ### 插槽 {#slots}
 
@@ -122,4 +129,8 @@ interface TreeSelectNode {
   disabled?: boolean
   children?: TreeSelectNode[]
 }
+```
+
+```ts
+type VirtualizeOptions = boolean | { estimateSize?: number; overscan?: number }
 ```

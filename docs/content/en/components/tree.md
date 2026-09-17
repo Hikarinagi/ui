@@ -24,6 +24,12 @@ Single selection is the default. `v-model` holds the node's `value`; selecting i
 
 ## Examples {#examples}
 
+### Virtual scrolling {#virtual}
+
+`virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Only expanded, visible nodes participate in the window; parent-child navigation and selection do not depend on mounted rows. `maxHeight` defaults to `320px` and applies only with virtualization enabled. It accepts a number or CSS length. Rows unmount outside the rendered range; keep persistent slot state outside the row, keyed by its unique value.
+
+<Demo name="tree/virtual" />
+
 ### Multiple checks and indeterminate parents {#multiple}
 
 Set `multiple` to display checkboxes and bind `v-model` to a `TreeValue[]`. Checking a parent selects all available descendants; unchecking it clears them. Clicking an indeterminate parent completes the selection. Parents show a minus when some descendants are checked and a check when all available children are checked.
@@ -79,16 +85,18 @@ An empty tree displays localized text, replaceable through the `empty` slot. Emp
 
 ### Props and models {#props}
 
-| Prop              | Type                               | Default | Description                                 |
-| ----------------- | ---------------------------------- | ------- | ------------------------------------------- |
-| `items`           | `TreeNode[]`                       | —       | Required. Tree nodes                        |
-| `multiple`        | `boolean`                          | `false` | Enable cascading checkbox multiselection    |
-| `modelValue`      | `TreeValue \| TreeValue[] \| null` | —       | Single value or array; supports `v-model`   |
-| `defaultExpanded` | `TreeValue[]`                      | `[]`    | Initially expanded nodes                    |
-| `expanded`        | `TreeValue[]`                      | —       | Expanded nodes; supports `v-model:expanded` |
-| `disabled`        | `boolean`                          | `false` | Disable the entire tree                     |
-| `invalid`         | `boolean`                          | `false` | Mark validation as failed                   |
-| `class`           | `string`                           | —       | Classes appended to the root                |
+| Prop              | Type                               | Default | Description                                           |
+| ----------------- | ---------------------------------- | ------- | ----------------------------------------------------- |
+| `items`           | `TreeNode[]`                       | —       | Required. Tree nodes                                  |
+| `virtualize`      | `VirtualizeOptions`                | `false` | Virtual scrolling; content-based estimate, overscan 6 |
+| `maxHeight`       | `number \| string`                 | `320`   | Maximum height of the virtual viewport                |
+| `multiple`        | `boolean`                          | `false` | Enable cascading checkbox multiselection              |
+| `modelValue`      | `TreeValue \| TreeValue[] \| null` | —       | Single value or array; supports `v-model`             |
+| `defaultExpanded` | `TreeValue[]`                      | `[]`    | Initially expanded nodes                              |
+| `expanded`        | `TreeValue[]`                      | —       | Expanded nodes; supports `v-model:expanded`           |
+| `disabled`        | `boolean`                          | `false` | Disable the entire tree                               |
+| `invalid`         | `boolean`                          | `false` | Mark validation as failed                             |
+| `class`           | `string`                           | —       | Classes appended to the root                          |
 
 ### Slots {#slots}
 
@@ -121,3 +129,7 @@ export interface TreeNodeSlot {
 ```
 
 Each `value` must be unique within the tree. Numeric `1` and string `'1'` are distinct values. `description` appears below the label by default; the slot's `disabled` state includes inherited disabling from ancestors and the whole component.
+
+```ts
+type VirtualizeOptions = boolean | { estimateSize?: number; overscan?: number }
+```

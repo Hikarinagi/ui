@@ -7,6 +7,7 @@ interface TreeSelectOptions {
   items: TreeSelectNode[]
   defaultExpanded: Array<string | number>
   searchable?: boolean
+  virtualize?: unknown
 }
 
 export function useTreeSelect(
@@ -20,6 +21,11 @@ export function useTreeSelect(
   const searchExpanded = ref<string[]>([])
   const input = shallowRef<{ focus: () => void } | null>(null)
   const tree = shallowRef<{ $el: HTMLElement } | null>(null)
+  const rows = shallowRef<{
+    focusFirst(): void
+    focusLast(): void
+    isFirst(element: EventTarget | null): boolean
+  }>()
   const { contains } = useFilter({ sensitivity: 'base' })
   const query = computed(() => (props.searchable ? search.value.trim() : ''))
   const filtered = computed(() =>
@@ -99,13 +105,23 @@ export function useTreeSelect(
   function onSearchKeydown(event: KeyboardEvent) {
     if (event.isComposing || !['ArrowDown', 'ArrowUp'].includes(event.key)) return
     event.preventDefault()
-    const rows = enabledRows()
-    const target = event.key === 'ArrowDown' ? rows[0] : rows.at(-1)
+    if (props.virtualize) {
+      if (event.key === 'ArrowDown') rows.value?.focusFirst()
+      else rows.value?.focusLast()
+      return
+    }
+    const enabled = enabledRows()
+    const target = event.key === 'ArrowDown' ? enabled[0] : enabled.at(-1)
     target?.focus()
   }
 
   function onTreeKeydown(event: KeyboardEvent) {
-    if (!props.searchable || event.key !== 'ArrowUp' || event.target !== enabledRows()[0]) return
+    if (
+      !props.searchable ||
+      event.key !== 'ArrowUp' ||
+      !(props.virtualize ? rows.value?.isFirst(event.target) : event.target === enabledRows()[0])
+    )
+      return
     event.preventDefault()
     event.stopPropagation()
     input.value?.focus()
@@ -117,6 +133,7 @@ export function useTreeSelect(
     expanded,
     input,
     tree,
+    rows,
     getChildren,
     key,
     choose,
