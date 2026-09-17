@@ -11,11 +11,13 @@ export function useWheelRedirect(
     if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return
     const max = el.scrollWidth - el.clientWidth
     if (max <= 0) return
-    const atStart = el.scrollLeft <= 0 && event.deltaY < 0
-    const atEnd = el.scrollLeft >= max - 1 && event.deltaY > 0
+    const sign = getComputedStyle(el).direction === 'rtl' ? -1 : 1
+    const offset = Math.max(0, Math.min(max, el.scrollLeft * sign))
+    const atStart = offset <= 1 && event.deltaY < 0
+    const atEnd = offset >= max - 1 && event.deltaY > 0
     if (atStart || atEnd) return
     event.preventDefault()
-    el.scrollLeft += event.deltaY
+    el.scrollLeft = (offset + event.deltaY) * sign
   }
 
   watch(
