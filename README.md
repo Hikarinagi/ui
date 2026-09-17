@@ -23,6 +23,8 @@ pnpm add @hina-ui/vue
 
 See [change records and releases](./.changes/README.md) for versioning and the release workflow.
 
+The [shared presentation layer](./packages/shared/README.md) owns styles, variants and motion helpers. Framework components and primitive adapters stay in their respective packages.
+
 ## License
 
 [MIT](./LICENSE)

@@ -5,7 +5,7 @@
     "test:browser": "pnpm --filter @hina-ui/vue test:browser",
     "format:check": "prettier --check .",
     "typecheck": "pnpm -r typecheck",
-    "test": "pnpm --filter @hina-ui/vue test",
+    "test": "pnpm --filter @hina-ui/shared test && pnpm --filter @hina-ui/vue test",
     "lint": "pnpm --filter @hina-ui/docs lint:check",
     "format": "prettier --write .",
     "build": "pnpm --filter @hina-ui/docs generate",

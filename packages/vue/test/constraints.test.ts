@@ -5,7 +5,8 @@ import { topLevelBrowserAccess } from './ssr-access'
 
 const root = process.cwd()
 const srcDir = join(root, 'src')
-const stylesDir = join(srcDir, 'styles')
+const sharedDir = join(root, '../shared/src')
+const stylesDir = join(sharedDir, 'styles')
 const tokens = readdirSync(stylesDir)
   .filter(f => f.endsWith('.css'))
   .sort()
@@ -20,7 +21,7 @@ function walk(dir: string): string[] {
   })
 }
 
-const componentFiles = walk(srcDir).filter(f => !f.endsWith('styles/tokens.css'))
+const componentFiles = [...walk(srcDir), ...walk(sharedDir)]
 
 function findAll(pattern: RegExp, files = componentFiles) {
   const hits: string[] = []

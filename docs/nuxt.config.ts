@@ -6,6 +6,7 @@ import { searchIndex } from './search-index'
 import { changelogPath } from './changelog-source'
 
 const uiSrc = fileURLToPath(new URL('../packages/vue/src', import.meta.url))
+const sharedSrc = fileURLToPath(new URL('../packages/shared/src', import.meta.url))
 const uiPkg = fileURLToPath(new URL('../packages/vue/package.json', import.meta.url))
 const version = JSON.parse(readFileSync(uiPkg, 'utf8')).version as string
 const contentDir = fileURLToPath(new URL('./content', import.meta.url))
@@ -43,7 +44,7 @@ export default defineNuxtConfig({
   },
   hooks: {
     'vite:serverCreated'(server) {
-      server.watcher.add([uiSrc, contentDir, changelogPath])
+      server.watcher.add([uiSrc, sharedSrc, contentDir, changelogPath])
 
       const refreshDocs = (file: string, event: 'add' | 'unlink' | 'change') => {
         const isContent = file.startsWith(contentDir) && file.endsWith('.md')

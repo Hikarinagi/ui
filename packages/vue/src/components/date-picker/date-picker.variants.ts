@@ -1,5 +1,1 @@
-import { tv } from '../../lib/tv'
-
-export const datePickerContent = tv({
-  base: 'hn-anim-pop z-(--hn-z-overlay) p-2 shadow-md outline-none',
-})
+export * from '../../../../shared/src/variants/date-picker'

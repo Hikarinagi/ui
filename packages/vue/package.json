@@ -24,13 +24,13 @@
     "**/*.css"
   ],
   "module": "./dist/index.js",
-  "types": "./dist/types/index.d.ts",
+  "types": "./dist/types/vue/src/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
+      "types": "./dist/types/vue/src/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./styles/tokens.css": "./src/styles/tokens.css",
+    "./styles/tokens.css": "./dist/styles/tokens.css",
     "./package.json": "./package.json"
   },
   "files": [
@@ -42,7 +42,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "vite build && vue-tsc -p tsconfig.build.json",
+    "build": "vite build && vue-tsc -p tsconfig.build.json && node ../../scripts/package-shared.mjs",
     "typecheck": "vue-tsc --noEmit -p tsconfig.json",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -67,6 +67,7 @@
     "vue": "^3.5.0"
   },
   "devDependencies": {
+    "@hina-ui/shared": "workspace:*",
     "@floating-ui/dom": "1.7.6",
     "@tailwindcss/vite": "^4.3.0",
     "@vitejs/plugin-vue": "^6.0.7",

@@ -1,17 +1,3 @@
-@import 'overlayscrollbars/overlayscrollbars.css';
-@import './palette.css';
-@import './semantic.css';
-@import './density.css';
-@import './mappings.css';
-@import './motion.css';
-@import './interaction.css';
-@import './typography.css';
-@import './spoiler.css';
-@import './scroll.css';
-@import './data-table.css';
-@import './timeline.css';
-@import './stepper.css';
-@import './base.css';
+@import '../../../shared/src/styles/tokens.css';
 
 @source '../components/**/*.vue';
-@source '../components/**/*.variants.ts';

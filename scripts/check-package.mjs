@@ -70,6 +70,8 @@ try {
     '--hn-control-h-md',
     '.hn-interactive',
     '.hn-table-resize-label',
+    '.hn-navigation-viewport',
+    '.hn-slider-move',
   ])
     assert.ok(css.includes(token), `Missing compiled style: ${token}`)
   assert.ok(
