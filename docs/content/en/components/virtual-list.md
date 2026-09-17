@@ -30,7 +30,7 @@ With `:dynamic="false"`, `estimateSize` specifies the actual item height and DOM
 
 `dynamic` is enabled by default. Items grow with their content, and `estimateSize` estimates unmeasured items. Choose a value close to their expected size. Expanding content, loaded images, and viewport resizing update item measurements and subsequent positions. The total scroll extent changes as estimates are refined.
 
-Use `gap` for spacing between items and `paddingStart` / `paddingEnd` for leading and trailing space, all in pixels. Avoid item margins for this spacing: margins are outside the measured item box. This example uses [Button](/components/button) to expand content.
+Use `gap` for spacing between items and `paddingStart` / `paddingEnd` for leading and trailing space, all in pixels. Avoid item margins for this spacing: margins are outside the measured item box. This example uses [Collapsible](/components/collapsible) to expand content, with the list tracking its animated height. Open state is stored outside each item by key and survives scrolling out of view and back.
 
 <Demo name="virtual-list/dynamic" />
 

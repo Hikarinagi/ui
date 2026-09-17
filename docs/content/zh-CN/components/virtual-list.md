@@ -30,7 +30,7 @@ import { VirtualList, type VirtualListExpose } from '@hina-ui/vue'
 
 默认 `dynamic` 开启，条目随内容自然撑开。`estimateSize` 是尚未测量条目的预估高度，尽量取接近真实内容的值。内容展开、图片加载或容器变窄后，会重新计算实际高度和后续条目的位置。滚动条总长度也会随测量修正。
 
-间隔使用 `gap`，首尾留白使用 `paddingStart` 和 `paddingEnd`，单位均为像素。避免用条目外部 margin 表示这些间隔，因为 margin 不计入条目测量。示例用 [Button](/components/button) 切换附加内容。
+间隔使用 `gap`，首尾留白使用 `paddingStart` 和 `paddingEnd`，单位均为像素。避免用条目外部 margin 表示这些间隔，因为 margin 不计入条目测量。示例用 [Collapsible](/components/collapsible) 展开附加内容，列表跟随开合动画更新高度。开合状态按条目 key 保存在外部，滚出可见范围再返回时仍然保留。
 
 <Demo name="virtual-list/dynamic" />
 

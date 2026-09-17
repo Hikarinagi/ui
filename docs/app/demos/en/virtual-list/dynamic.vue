@@ -1,8 +1,8 @@
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { VirtualList, Button } from '@hina-ui/vue'
+  import { VirtualList, Collapsible, CollapsibleTrigger, CollapsibleContent } from '@hina-ui/vue'
 
-  const expanded = ref(new Set<number>())
+  const expanded = ref<Record<number, boolean>>({})
   const items = Array.from({ length: 500 }, (_, id) => ({
     id,
     title: `Item ${id + 1}`,
@@ -10,10 +10,6 @@
       (id % 3) + 1,
     ),
   }))
-  function toggle(id: number) {
-    if (expanded.value.has(id)) expanded.value.delete(id)
-    else expanded.value.add(id)
-  }
 </script>
 
 <template>
@@ -26,22 +22,18 @@
     class="border-line rounded-lg border"
   >
     <template #default="{ item }">
-      <div class="border-line border-b p-4">
+      <Collapsible v-model:open="expanded[item.id]" class="border-line border-b p-4">
         <div class="text-sm font-medium">{{ item.title }}</div>
         <p class="text-muted mt-1 text-sm">{{ item.description }}</p>
-        <p v-if="expanded.has(item.id)" class="text-muted mt-2 text-sm">
-          {{ 'Expanded content is measured automatically. '.repeat(5) }}
-        </p>
-        <Button
-          size="sm"
-          variant="ghost"
-          class="mt-2"
-          :aria-expanded="expanded.has(item.id)"
-          @click="toggle(item.id)"
-        >
-          {{ expanded.has(item.id) ? 'Collapse' : 'Expand' }}
-        </Button>
-      </div>
+        <CollapsibleTrigger class="mt-2">
+          {{ expanded[item.id] ? 'Collapse' : 'Expand' }}
+        </CollapsibleTrigger>
+        <CollapsibleContent>
+          <p class="text-muted pt-2 text-sm">
+            {{ 'Expanded content is measured automatically. '.repeat(5) }}
+          </p>
+        </CollapsibleContent>
+      </Collapsible>
     </template>
   </VirtualList>
 </template>
