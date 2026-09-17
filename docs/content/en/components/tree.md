@@ -24,12 +24,6 @@ Single selection is the default. `v-model` holds the node's `value`; selecting i
 
 ## Examples {#examples}
 
-### Virtual scrolling {#virtual}
-
-`virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Only expanded, visible nodes participate in the window; parent-child navigation and selection do not depend on mounted rows. `maxHeight` defaults to `320px` and applies only with virtualization enabled. It accepts a number or CSS length. Rows unmount outside the rendered range; keep persistent slot state outside the row, keyed by its unique value.
-
-<Demo name="tree/virtual" />
-
 ### Multiple checks and indeterminate parents {#multiple}
 
 Set `multiple` to display checkboxes and bind `v-model` to a `TreeValue[]`. Checking a parent selects all available descendants; unchecking it clears them. Clicking an indeterminate parent completes the selection. Parents show a minus when some descendants are checked and a check when all available children are checked.
@@ -73,6 +67,12 @@ The component has no height limit, panel background, or border. Wrap it in [Scro
 An empty tree displays localized text, replaceable through the `empty` slot. Empty content uses `role="status"` instead of rendering a `role="tree"` without nodes.
 
 <Demo name="tree/empty" />
+
+### Virtual scrolling {#virtual}
+
+`virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Only expanded, visible nodes participate in the window; parent-child navigation and selection do not depend on mounted rows. `maxHeight` defaults to `320px` and applies only with virtualization enabled. It accepts a number or CSS length. Rows unmount outside the rendered range; keep persistent slot state outside the row, keyed by its unique value.
+
+<Demo name="tree/virtual" />
 
 ## Keyboard and accessibility {#a11y}
 

@@ -22,12 +22,6 @@ The listbox keeps its options on the page and shares its option data with `Selec
 
 ## Examples {#examples}
 
-### Virtual scrolling {#virtual}
-
-`virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Rows unmount outside the rendered range; keep persistent slot state outside the row, keyed by its unique value.
-
-<Demo name="listbox/virtual" />
-
 ### Multiple {#multiple}
 
 With `multiple` set several options can be chosen at once; clicking again unticks.
@@ -89,6 +83,12 @@ Custom trailing content does not change selection behaviour.
 Inside a [FormField](/components/form-field) the label is linked to the list through `aria-labelledby`, and the error message is rendered by the field; validation rules and submission belong to the [Form](/components/form).
 
 <Demo name="listbox/form" />
+
+### Virtual scrolling {#virtual}
+
+`virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Rows unmount outside the rendered range; keep persistent slot state outside the row, keyed by its unique value.
+
+<Demo name="listbox/virtual" />
 
 ## Behaviour {#behavior}
 

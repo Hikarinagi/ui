@@ -22,12 +22,6 @@ The tree select shares its trigger with [Select](/components/select) and opens a
 
 ## Examples {#examples}
 
-### Virtual scrolling {#virtual}
-
-`virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Search still processes the full dataset. Only expanded, visible nodes participate in the window; parent-child navigation and selection do not depend on mounted rows. Rows unmount outside the rendered range; keep persistent slot state outside the row, keyed by its unique value.
-
-<Demo name="tree-select/virtual" />
-
 ### Expanded by default {#expanded}
 
 `defaultExpanded` lists the nodes expanded when the tree opens. The path to the chosen node is always expanded as well.
@@ -71,6 +65,12 @@ Three sizes, matching the input.
 Inside a [FormField](/components/form-field) the label points at the trigger, and the error message is rendered by the field and linked to it; validation rules and submission belong to the [Form](/components/form).
 
 <Demo name="tree-select/form" />
+
+### Virtual scrolling {#virtual}
+
+`virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Search still processes the full dataset. Only expanded, visible nodes participate in the window; parent-child navigation and selection do not depend on mounted rows. Rows unmount outside the rendered range; keep persistent slot state outside the row, keyed by its unique value.
+
+<Demo name="tree-select/virtual" />
 
 ## Behaviour {#behavior}
 

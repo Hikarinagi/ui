@@ -11,13 +11,12 @@
 </script>
 
 <template>
-  <Stack gap="sm" class="w-full">
+  <Stack gap="sm" class="w-72 max-w-full">
     <MultiSelect
       v-model="selected"
       :options="options"
       :virtualize="{ estimateSize: 36, overscan: 6 }"
       aria-label="Ten thousand items"
-      class="w-full"
     />
     <Text size="sm" tone="muted">Selected: {{ selected.length }}</Text>
   </Stack>

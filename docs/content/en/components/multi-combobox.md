@@ -24,12 +24,6 @@ It differs from `MultiSelect` in whether you type: a multi select picks from a f
 
 ## Examples {#examples}
 
-### Virtual scrolling {#virtual}
-
-`virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Search still processes the full dataset. Rows unmount outside the rendered range; keep persistent slot state outside the row, keyed by its unique value.
-
-<Demo name="multi-combobox/virtual" />
-
 ### Remote search {#remote}
 
 `ignoreFilter` disables local filtering, and `v-model:search` provides the input text. Pass remote search results directly to `options`. Supply selected item data separately through `selectedOptions`; each [Chip](/components/chip) resolves its name from the values in `v-model`. This data neither adds dropdown candidates nor selects additional values.
@@ -73,6 +67,12 @@ The complete option type is inferred from `options`. Slot parameters preserve ad
 Inside a [FormField](/components/form-field) the label points at the input, and the description and error message are rendered by the field; validation rules and submission belong to the [Form](/components/form). The value is an array, so count limits go on the array.
 
 <Demo name="multi-combobox/form" />
+
+### Virtual scrolling {#virtual}
+
+`virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Search still processes the full dataset. Rows unmount outside the rendered range; keep persistent slot state outside the row, keyed by its unique value.
+
+<Demo name="multi-combobox/virtual" />
 
 ## Behavior {#behavior}
 

@@ -12,7 +12,7 @@
 </script>
 
 <template>
-  <Stack gap="sm" class="w-full">
+  <Stack gap="sm" class="w-80 max-w-full">
     <Tree
       v-model="selected"
       :items="items"
@@ -21,7 +21,6 @@
       multiple
       :max-height="320"
       aria-label="Ten thousand items"
-      class="w-full"
     />
     <Text size="sm" tone="muted">Selected: {{ selected.length }}</Text>
   </Stack>

@@ -24,12 +24,6 @@ import { Combobox } from '@hina-ui/vue'
 
 ## 示例 {#examples}
 
-### 虚拟滚动 {#virtual}
-
-`virtualize` 按需渲染可见范围附近的条目，与 [VirtualList](/components/virtual-list) 共用测量与滚动底层。默认关闭；可传 `{ estimateSize, overscan }` 调整预估行高和两侧预渲染数量，行高会按实际内容测量。键盘导航覆盖完整数据，禁用项会跳过。 搜索仍处理完整数据。 条目离开渲染范围后会卸载；插槽内需要持久保留的状态应按唯一 value 存在外部。
-
-<Demo name="combobox/virtual" />
-
 ### 分组 {#groups}
 
 分组项带 `label` 与 `options`，筛选时空的分组会一并隐藏。
@@ -77,6 +71,12 @@ import { Combobox } from '@hina-ui/vue'
 放进 [FormField](/components/form-field) 后，标签指向输入区，说明与错误信息由字段渲染并关联到控件；校验规则与提交交给 [Form](/components/form)。
 
 <Demo name="combobox/form" />
+
+### 虚拟滚动 {#virtual}
+
+`virtualize` 按需渲染可见范围附近的条目，与 [VirtualList](/components/virtual-list) 共用测量与滚动底层。默认关闭；可传 `{ estimateSize, overscan }` 调整预估行高和两侧预渲染数量，行高会按实际内容测量。键盘导航覆盖完整数据，禁用项会跳过。 搜索仍处理完整数据。 条目离开渲染范围后会卸载；插槽内需要持久保留的状态应按唯一 value 存在外部。
+
+<Demo name="combobox/virtual" />
 
 ## 行为 {#behavior}
 

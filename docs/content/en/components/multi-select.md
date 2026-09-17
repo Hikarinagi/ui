@@ -22,12 +22,6 @@ The multi-select shares its option data and list with `Select`, with `v-model` b
 
 ## Examples {#examples}
 
-### Virtual scrolling {#virtual}
-
-`virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Rows unmount outside the rendered range; keep persistent slot state outside the row, keyed by its unique value.
-
-<Demo name="multi-select/virtual" />
-
 ### Groups {#groups}
 
 A group carries a `label` and its `options`, and can be mixed with plain options.
@@ -77,6 +71,12 @@ Three sizes, matching the input; the chips scale with them.
 Inside a [FormField](/components/form-field) the label points at the trigger, and the description and error message are rendered by the field; validation rules and submission belong to the [Form](/components/form). The value is an array, so count limits go on the array.
 
 <Demo name="multi-select/form" />
+
+### Virtual scrolling {#virtual}
+
+`virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Rows unmount outside the rendered range; keep persistent slot state outside the row, keyed by its unique value.
+
+<Demo name="multi-select/virtual" />
 
 ## Behaviour {#behavior}
 

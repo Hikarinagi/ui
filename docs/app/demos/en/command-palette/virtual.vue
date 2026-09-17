@@ -11,13 +11,12 @@
 </script>
 
 <template>
-  <Stack gap="sm" class="w-full">
+  <Stack gap="sm" class="w-96 max-w-full">
     <CommandPalette
       :items="items"
       :virtualize="{ estimateSize: 36, overscan: 6 }"
       inline
       aria-label="Ten thousand items"
-      class="w-full"
       @select="selected = $event.label"
     />
     <Text size="sm" tone="muted">Selected: {{ selected }}</Text>

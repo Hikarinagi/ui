@@ -24,12 +24,6 @@ import { MultiCombobox } from '@hina-ui/vue'
 
 ## 示例 {#examples}
 
-### 虚拟滚动 {#virtual}
-
-`virtualize` 按需渲染可见范围附近的条目，与 [VirtualList](/components/virtual-list) 共用测量与滚动底层。默认关闭；可传 `{ estimateSize, overscan }` 调整预估行高和两侧预渲染数量，行高会按实际内容测量。键盘导航覆盖完整数据，禁用项会跳过。 搜索仍处理完整数据。 条目离开渲染范围后会卸载；插槽内需要持久保留的状态应按唯一 value 存在外部。
-
-<Demo name="multi-combobox/virtual" />
-
 ### 远程搜索 {#remote}
 
 `ignoreFilter` 关闭本地筛选，`v-model:search` 提供输入文字，远程搜索结果直接传给 `options`。`selectedOptions` 单独提供已选项资料，[Chip](/components/chip) 按 `v-model` 中的值解析名称；这些资料不会自动加入下拉列表，也不会增加选中项。
@@ -73,6 +67,12 @@ import { MultiCombobox } from '@hina-ui/vue'
 放进 [FormField](/components/form-field) 后，标签指向输入区，说明与错误信息由字段渲染；校验规则与提交交给 [Form](/components/form)。值是数组，数量限制写在数组层。
 
 <Demo name="multi-combobox/form" />
+
+### 虚拟滚动 {#virtual}
+
+`virtualize` 按需渲染可见范围附近的条目，与 [VirtualList](/components/virtual-list) 共用测量与滚动底层。默认关闭；可传 `{ estimateSize, overscan }` 调整预估行高和两侧预渲染数量，行高会按实际内容测量。键盘导航覆盖完整数据，禁用项会跳过。 搜索仍处理完整数据。 条目离开渲染范围后会卸载；插槽内需要持久保留的状态应按唯一 value 存在外部。
+
+<Demo name="multi-combobox/virtual" />
 
 ## 行为 {#behavior}
 

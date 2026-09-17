@@ -22,12 +22,6 @@ import { CommandPalette } from '@hina-ui/vue'
 
 ## 示例 {#examples}
 
-### 虚拟滚动 {#virtual}
-
-`virtualize` 按需渲染可见范围附近的条目，与 [VirtualList](/components/virtual-list) 共用测量与滚动底层。默认关闭；可传 `{ estimateSize, overscan }` 调整预估行高和两侧预渲染数量，行高会按实际内容测量。键盘导航覆盖完整数据，禁用项会跳过。 搜索仍处理完整数据。 命令离开渲染范围后会卸载，持久状态应按命令 id 保存在外部。
-
-<Demo name="command-palette/virtual" />
-
 ### 分组与说明 {#groups}
 
 分组各有标题，条目的 `description` 显示在标签下方。没有查询时分组按给定顺序排列，有查询时含最佳匹配的分组靠前，没有匹配条目的分组不显示。
@@ -63,6 +57,12 @@ import { CommandPalette } from '@hina-ui/vue'
 设置 `inline` 后面板不再包进浮层，直接渲染在文档流里，适合嵌在页面中而不是由快捷键唤起。内联形态不注册全局快捷键，选中条目之后面板停在原地。
 
 <Demo name="command-palette/inline" />
+
+### 虚拟滚动 {#virtual}
+
+`virtualize` 按需渲染可见范围附近的条目，与 [VirtualList](/components/virtual-list) 共用测量与滚动底层。默认关闭；可传 `{ estimateSize, overscan }` 调整预估行高和两侧预渲染数量，行高会按实际内容测量。键盘导航覆盖完整数据，禁用项会跳过。 搜索仍处理完整数据。 命令离开渲染范围后会卸载，持久状态应按命令 id 保存在外部。
+
+<Demo name="command-palette/virtual" />
 
 ## 行为 {#behavior}
 

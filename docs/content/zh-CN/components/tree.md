@@ -24,12 +24,6 @@ import { Tree, type TreeNode, type TreeValue } from '@hina-ui/vue'
 
 ## 示例 {#examples}
 
-### 虚拟滚动 {#virtual}
-
-`virtualize` 按需渲染可见范围附近的条目，与 [VirtualList](/components/virtual-list) 共用测量与滚动底层。默认关闭；可传 `{ estimateSize, overscan }` 调整预估行高和两侧预渲染数量，行高会按实际内容测量。键盘导航覆盖完整数据，禁用项会跳过。 只对展开后的可见节点进行虚拟化，父子导航与勾选状态不依赖节点是否挂载。 `maxHeight` 默认 `320px`，仅开启虚拟化时生效，可传数字或 CSS 长度。 条目离开渲染范围后会卸载；插槽内需要持久保留的状态应按唯一 value 存在外部。
-
-<Demo name="tree/virtual" />
-
 ### 多选勾选与半选 {#multiple}
 
 设置 `multiple` 显示勾选框，`v-model` 改为 `TreeValue[]`。勾选父节点会选中所有可用后代，取消父节点会清除这些选择；点击半选父节点会补全勾选。部分后代被选中时，父节点显示横线；全部可用子节点选中后，父节点显示勾选。
@@ -73,6 +67,12 @@ import { Tree, type TreeNode, type TreeValue } from '@hina-ui/vue'
 没有节点时显示语言包中的空状态文字，可通过 `empty` 插槽替换。空状态使用 `role="status"`，不会产生一个没有节点的 `role="tree"`。
 
 <Demo name="tree/empty" />
+
+### 虚拟滚动 {#virtual}
+
+`virtualize` 按需渲染可见范围附近的条目，与 [VirtualList](/components/virtual-list) 共用测量与滚动底层。默认关闭；可传 `{ estimateSize, overscan }` 调整预估行高和两侧预渲染数量，行高会按实际内容测量。键盘导航覆盖完整数据，禁用项会跳过。 只对展开后的可见节点进行虚拟化，父子导航与勾选状态不依赖节点是否挂载。 `maxHeight` 默认 `320px`，仅开启虚拟化时生效，可传数字或 CSS 长度。 条目离开渲染范围后会卸载；插槽内需要持久保留的状态应按唯一 value 存在外部。
+
+<Demo name="tree/virtual" />
 
 ## 键盘与无障碍 {#a11y}
 

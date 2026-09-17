@@ -12,7 +12,7 @@
 </script>
 
 <template>
-  <Stack gap="sm" class="w-full">
+  <Stack gap="sm" class="w-64 max-w-full">
     <TreeSelect
       v-model="selected"
       :items="items"
@@ -20,7 +20,6 @@
       :virtualize="{ estimateSize: 36, overscan: 6 }"
       searchable
       aria-label="一万项"
-      class="w-full"
     />
     <Text size="sm" tone="muted">已选: {{ selected }}</Text>
   </Stack>

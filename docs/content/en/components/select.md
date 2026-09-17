@@ -22,12 +22,6 @@ The select pairs a trigger with a floating list. `options` supplies the items an
 
 ## Examples {#examples}
 
-### Virtual scrolling {#virtual}
-
-`virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Rows unmount outside the rendered range; keep persistent slot state outside the row, keyed by its unique value.
-
-<Demo name="select/virtual" />
-
 ### Clear {#clearable}
 
 `clearable` shows a clear button when a value is set and the field is enabled. Activating it sets `v-model` to `null` and emits `clear`. Focus returns to the trigger and the list stays closed.
@@ -71,6 +65,12 @@ Three sizes, matching the input.
 Inside a [FormField](/components/form-field) the label points at the trigger, and the description and error message are rendered by the field and linked to it; validation rules, timing and submission belong to the [Form](/components/form).
 
 <Demo name="select/form" />
+
+### Virtual scrolling {#virtual}
+
+`virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Rows unmount outside the rendered range; keep persistent slot state outside the row, keyed by its unique value.
+
+<Demo name="select/virtual" />
 
 ## Behaviour {#behavior}
 

@@ -22,12 +22,6 @@ import { CommandPalette } from '@hina-ui/vue'
 
 ## Examples {#examples}
 
-### Virtual scrolling {#virtual}
-
-`virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Search still processes the full dataset. Commands unmount outside the rendered range; keep persistent state externally by command id.
-
-<Demo name="command-palette/virtual" />
-
 ### Groups and descriptions {#groups}
 
 Groups have their own headings, and an item's `description` sits under its label. Without a query groups keep their given order; with one, the group holding the best match comes first, and a group with no matching items is not shown.
@@ -63,6 +57,12 @@ Groups have their own headings, and an item's `description` sits under its label
 With `inline` the panel is no longer wrapped in an overlay and renders in the document flow, which suits embedding it in a page rather than summoning it with a shortcut. The inline form registers no global hotkey, and selecting an item leaves the panel in place.
 
 <Demo name="command-palette/inline" />
+
+### Virtual scrolling {#virtual}
+
+`virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Search still processes the full dataset. Commands unmount outside the rendered range; keep persistent state externally by command id.
+
+<Demo name="command-palette/virtual" />
 
 ## Behavior {#behavior}
 
