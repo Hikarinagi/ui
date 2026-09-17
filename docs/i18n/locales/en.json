@@ -369,7 +369,8 @@
     "timeline": "An ordered sequence of events with connected markers",
     "stepper": "Navigates a sequence of steps with guarded transitions",
     "toolbar": "Groups buttons, links and toggles with shared keyboard navigation",
-    "navigation-menu": "Composes navigation links and dropdown content panels"
+    "navigation-menu": "Composes navigation links and dropdown content panels",
+    "virtual-list": "A virtual list with dynamic item sizes"
   },
   "designPreview": {
     "accent": "Accent",

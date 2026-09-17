@@ -369,7 +369,8 @@
     "timeline": "以相连的节点按顺序呈现事件",
     "stepper": "带有步骤状态与切换校验的步骤导航",
     "toolbar": "统一管理按钮、链接和切换组的工具栏",
-    "navigation-menu": "可组合链接和下拉内容的导航菜单"
+    "navigation-menu": "可组合链接和下拉内容的导航菜单",
+    "virtual-list": "只渲染可见范围附近条目的虚拟列表"
   },
   "names": {
     "accordion": "折叠列表",
@@ -494,7 +495,8 @@
     "timeline": "时间线",
     "stepper": "步骤条",
     "toolbar": "工具栏",
-    "navigation-menu": "导航菜单"
+    "navigation-menu": "导航菜单",
+    "virtual-list": "虚拟列表"
   },
   "designPreview": {
     "accent": "强调色",

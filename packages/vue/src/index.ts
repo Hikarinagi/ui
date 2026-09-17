@@ -315,6 +315,15 @@ export type {
 } from './components/data-table/types'
 
 export { default as Timeline } from './components/timeline/Timeline.vue'
+export { default as VirtualList } from './components/virtual-list/VirtualList.vue'
+export type {
+  VirtualListProps,
+  VirtualListSlotProps,
+  VirtualListRange,
+  VirtualListKey,
+  VirtualListScrollOptions,
+  VirtualListExpose,
+} from './components/virtual-list/types'
 export type {
   TimelineItem,
   TimelineSlotProps,

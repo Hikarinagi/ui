@@ -524,6 +524,12 @@ export const components: DocsComponent[] = [
     category: 'forms',
   },
   {
+    label: 'VirtualList',
+    to: '/components/virtual-list',
+    i18n: 'components.virtual-list',
+    category: 'data',
+  },
+  {
     label: 'VisuallyHidden',
     to: '/components/visually-hidden',
     i18n: 'components.visually-hidden',

@@ -26,6 +26,7 @@ function merge(base: UiMessages, patch: PartialUiMessages): UiMessages {
     upload: { ...base.upload, ...patch.upload },
     time: { ...base.time, ...patch.time },
     scroll: { ...base.scroll, ...patch.scroll },
+    virtualList: { ...base.virtualList, ...patch.virtualList },
     toast: { ...base.toast, ...patch.toast },
     spoiler: { ...base.spoiler, ...patch.spoiler },
     codeblock: { ...base.codeblock, ...patch.codeblock },

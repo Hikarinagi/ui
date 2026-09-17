@@ -78,6 +78,7 @@ export const enUS: UiMessages = {
     justNow: 'Just now',
     unknown: 'Unknown time',
   },
+  virtualList: { empty: 'No data' },
   scroll: {
     regionLabel: 'Scrollable region',
   },

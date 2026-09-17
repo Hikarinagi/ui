@@ -78,6 +78,7 @@ export const zhCN: UiMessages = {
     justNow: '刚刚',
     unknown: '未知时间',
   },
+  virtualList: { empty: '暂无数据' },
   scroll: {
     regionLabel: '可滚动区域',
   },

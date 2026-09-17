@@ -78,6 +78,9 @@ export interface UiMessages {
   scroll: {
     regionLabel: string
   }
+  virtualList: {
+    empty: string
+  }
   toast: {
     regionLabel: string
   }
