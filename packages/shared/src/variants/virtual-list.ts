@@ -1,7 +1,7 @@
 import { tv } from '../lib/tv'
 
 export const virtualList = tv({
-  base: 'relative flex w-full min-h-0 min-w-0 flex-col',
+  base: 'relative flex w-full min-h-0 min-w-0 flex-col overflow-hidden',
 })
 
 export const virtualListContent = tv({
