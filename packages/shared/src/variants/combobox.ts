@@ -8,5 +8,5 @@ export const comboboxContent = tv({
 })
 
 export const comboboxList = tv({
-  base: 'max-h-[min(20rem,var(--hn-overlay-available-height))]',
+  base: 'max-h-[min(20rem,var(--hn-overlay-available-height,20rem))]',
 })

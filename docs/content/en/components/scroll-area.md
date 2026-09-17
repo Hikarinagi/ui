@@ -79,3 +79,7 @@ A region that scrolls but holds nothing focusable cannot be reached by keyboard.
 | Slot      | Description          |
 | --------- | -------------------- |
 | `default` | The scrolled content |
+
+| Exposed    | Type                       | Description                                                                                                                     |
+| ---------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `viewport` | `HTMLElement \| undefined` | Current scroll element, available after mount. Read it reactively: the reference updates when the custom scrollbar initializes. |

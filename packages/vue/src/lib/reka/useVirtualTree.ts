@@ -133,8 +133,8 @@ export function useVirtualTree<T extends { label: string; disabled?: boolean }>(
   )
   watch(
     viewport,
-    element => {
-      if (element) void focus(selected.value >= 0 ? selected.value : first(), false)
+    (element, previous) => {
+      if (element && !previous) void focus(selected.value >= 0 ? selected.value : first(), false)
     },
     { flush: 'post' },
   )

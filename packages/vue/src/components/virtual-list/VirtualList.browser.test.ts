@@ -44,7 +44,9 @@ function api(wrapper: VueWrapper) {
 }
 
 async function ready(wrapper: VueWrapper) {
-  await vi.waitFor(() => expect(api(wrapper).viewport).toBeInstanceOf(HTMLElement))
+  await vi.waitFor(() =>
+    expect(api(wrapper).viewport?.hasAttribute('data-overlayscrollbars-viewport')).toBe(true),
+  )
   return api(wrapper).viewport!
 }
 

@@ -20,7 +20,7 @@ async function create(dir: 'ltr' | 'rtl', inherited: boolean) {
     slots: { default: () => h('div', { style: { width: '600px', height: '80px' } }) },
   })
   wrappers.push(wrapper)
-  await vi.waitFor(() => expect(wrapper.vm.viewport).toBeInstanceOf(HTMLElement))
+  await vi.waitFor(() => expect(wrapper.vm.instance).toBeDefined())
   return { wrapper, viewport: wrapper.vm.viewport!, host }
 }
 

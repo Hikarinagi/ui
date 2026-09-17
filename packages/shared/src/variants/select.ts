@@ -26,7 +26,7 @@ export const selectContent = tv({
 })
 
 export const selectList = tv({
-  base: 'max-h-[min(20rem,var(--hn-overlay-available-height))]',
+  base: 'max-h-[min(20rem,var(--hn-overlay-available-height,20rem))]',
 })
 
 export const selectItem = tv({

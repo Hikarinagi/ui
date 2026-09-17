@@ -64,17 +64,22 @@ export function useVirtualCollection<T>(options: {
     else if (options.viewport.value && element instanceof HTMLElement && element.isConnected)
       virtualizer.value.measureElement(element)
   }
-  async function refresh() {
+  function layoutTop(element: HTMLElement) {
+    let top = 0
+    for (
+      let node: HTMLElement | null = element;
+      node;
+      node = node.offsetParent as HTMLElement | null
+    )
+      top += node.offsetTop
+    return top
+  }
+  async function refresh(reset = true) {
     const viewport = options.viewport.value
     const body = options.body.value
     if (viewport && body?.isConnected)
-      margin.value = Math.max(
-        0,
-        body.getBoundingClientRect().top -
-          viewport.getBoundingClientRect().top +
-          viewport.scrollTop,
-      )
-    virtualizer.value.measure()
+      margin.value = Math.max(0, layoutTop(body) - layoutTop(viewport))
+    if (reset) virtualizer.value.measure()
     await nextTick()
     for (const child of options.body.value?.children ?? []) measure(child)
   }
@@ -91,8 +96,12 @@ export function useVirtualCollection<T>(options: {
     }
     width = next
   })
-  watch(options.viewport, refresh, { flush: 'post' })
-  watch(() => config.value.estimateSize, refresh, { flush: 'post' })
+  watch(options.viewport, () => refresh(false), { flush: 'post' })
+  watch(
+    () => config.value.estimateSize,
+    () => refresh(),
+    { flush: 'post' },
+  )
   watch(
     () => [config.value.estimateSize, options.items().length],
     async () => {

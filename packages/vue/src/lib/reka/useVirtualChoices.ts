@@ -259,9 +259,9 @@ export function useVirtualChoices<T extends SelectOption>(props: {
   )
   watch(
     viewport,
-    element => {
+    (element, previous) => {
       if (element && props.kind !== 'listbox') element.setAttribute('role', 'group')
-      if (element)
+      if (element && !previous)
         void highlight(
           selectedIndex.value >= 0 ? selectedIndex.value : first(),
           selectedIndex.value >= 0,

@@ -137,7 +137,7 @@ export function useVirtualList<T>(
 
   let pendingScroll: (() => void) | undefined
   function scroll(action: () => void) {
-    if (viewport.value) action()
+    if (viewport.value && virtualizer.value.scrollElement === viewport.value) action()
     else pendingScroll = action
   }
 
