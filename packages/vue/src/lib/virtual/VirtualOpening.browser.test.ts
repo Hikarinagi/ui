@@ -20,11 +20,8 @@ const options = Array.from({ length: 10000 }, (_, value) => ({ value, label: `It
 const frame = () => new Promise<void>(resolve => requestAnimationFrame(() => resolve()))
 
 it.each(['Select', 'MultiSelect', 'Combobox', 'MultiCombobox', 'TreeSelect'] as const)(
-  '%s renders the selected neighborhood before scrollbar enhancement and preserves manual scrolling on takeover',
+  '%s renders the selected neighborhood with an initialized scrollbar from the first frame',
   async name => {
-    const pending: IdleRequestCallback[] = []
-    vi.spyOn(window, 'requestIdleCallback').mockImplementation(callback => pending.push(callback))
-    vi.spyOn(window, 'cancelIdleCallback').mockImplementation(() => {})
     const open = ref(false)
     const shared = {
       virtualize: true,
@@ -50,6 +47,8 @@ it.each(['Select', 'MultiSelect', 'Combobox', 'MultiCombobox', 'TreeSelect'] as 
     const area = wrapper.findComponent(ScrollArea)
     const root = area.element as HTMLElement
     const host = area.get<HTMLElement>('[data-overlayscrollbars-initialize]').element
+    expect(area.vm.instance).toBeUndefined()
+    expect(area.vm.viewport).toBe(host)
     const visibleRows = () => {
       const viewport = area.vm.viewport!
       const rect = viewport.getBoundingClientRect()
@@ -62,20 +61,17 @@ it.each(['Select', 'MultiSelect', 'Combobox', 'MultiCombobox', 'TreeSelect'] as 
     }
     for (let index = 0; index < 6; index++) {
       await frame()
-      expect(area.vm.instance).toBeUndefined()
-      expect(area.vm.viewport).toBe(host)
+      expect(area.vm.instance).toBeDefined()
+      expect(area.vm.viewport?.hasAttribute('data-overlayscrollbars-viewport')).toBe(true)
       expect(visibleRows().length).toBeGreaterThan(4)
       expect(visibleRows()).toContain('Item 7890')
       expect(area.element.querySelectorAll('[data-index]').length).toBeLessThan(50)
     }
-    host.scrollTop += 600
+    area.vm.viewport!.scrollTop += 600
     await frame()
     await frame()
     const before = visibleRows()
     expect(before).not.toContain('Item 7890')
-    await new Promise(resolve => setTimeout(resolve, 300))
-    pending.splice(0).forEach(callback => callback({ didTimeout: false, timeRemaining: () => 50 }))
-    await vi.waitFor(() => expect(area.vm.instance).toBeDefined())
     await frame()
     expect(area.vm.viewport).not.toBe(host)
     expect(visibleRows()).toEqual(before)
