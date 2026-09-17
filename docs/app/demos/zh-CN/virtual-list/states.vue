@@ -12,10 +12,7 @@
 <template>
   <div class="w-full space-y-3">
     <div class="flex flex-wrap items-center gap-3">
-      <label class="flex items-center gap-2 text-sm">
-        <Switch v-model="loading" />
-        加载中
-      </label>
+      <Switch v-model="loading">加载中</Switch>
       <Button variant="outline" @click="empty = !empty">
         {{ empty ? '恢复条目' : '清空条目' }}
       </Button>

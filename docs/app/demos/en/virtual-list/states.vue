@@ -12,10 +12,7 @@
 <template>
   <div class="w-full space-y-3">
     <div class="flex flex-wrap items-center gap-3">
-      <label class="flex items-center gap-2 text-sm">
-        <Switch v-model="loading" />
-        Loading
-      </label>
+      <Switch v-model="loading">Loading</Switch>
       <Button variant="outline" @click="empty = !empty">
         {{ empty ? 'Restore items' : 'Clear items' }}
       </Button>
