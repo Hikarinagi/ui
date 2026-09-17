@@ -65,7 +65,7 @@
     () => !!props.clearable && model.value != null && model.value !== '' && !disabled.value,
   )
 
-  const { keyboard, input, displayValue, clear, onInput, onHostClick } = useCombobox({
+  const { keyboard, input, inputValue, displayValue, clear, onInput, onHostClick } = useCombobox({
     options: () => props.options,
     selectedOption: () => props.selectedOption,
     model,
@@ -102,7 +102,7 @@
         <ComboboxInput
           ref="input"
           v-bind="$attrs"
-          v-model="search"
+          v-model="inputValue"
           :id="fieldId"
           :aria-describedby="describedBy"
           :display-value="displayValue"

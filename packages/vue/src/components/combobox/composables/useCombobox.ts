@@ -21,6 +21,10 @@ export function useCombobox<T extends SelectOption>(options: ComboboxOptions<T>)
   })
   const label = computed(() => displayValue(model.value))
   const editing = ref(false)
+  const inputValue = computed({
+    get: () => search.value || (editing.value ? '' : label.value),
+    set: value => (search.value = value),
+  })
   const keyboard = ref(false)
   const input = shallowRef<{ $el: HTMLInputElement } | null>(null)
 
@@ -59,5 +63,5 @@ export function useCombobox<T extends SelectOption>(options: ComboboxOptions<T>)
     if (!editing.value) search.value = value
   })
 
-  return { keyboard, input, displayValue, clear, onInput, onHostClick }
+  return { keyboard, input, inputValue, displayValue, clear, onInput, onHostClick }
 }
