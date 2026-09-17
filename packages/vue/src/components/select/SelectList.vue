@@ -10,6 +10,7 @@
     SelectPortal,
   } from 'reka-ui'
   import { ref } from 'vue'
+  import { rekaSelectStyle } from '../../lib/reka/styles'
   import { useUiLocale } from '../../locale'
   import Card from '../card/Card.vue'
   import ScrollArea from '../scroll-area/ScrollArea.vue'
@@ -42,6 +43,7 @@
         data-hn-select-content
         :data-hn-fresh="fresh ? '' : undefined"
         :class="selectContent()"
+        :style="rekaSelectStyle"
         @vue:mounted="fresh = !props.keyboard"
         @keydown="fresh = false"
         @pointermove="fresh = false"

@@ -20,13 +20,13 @@ export const selectButton = tv({
 
 export const selectContent = tv({
   base: [
-    'hn-anim-pop z-(--hn-z-overlay) flex w-[var(--reka-select-trigger-width)] min-w-40 flex-col overflow-hidden shadow-md outline-none',
+    'hn-anim-pop z-(--hn-z-overlay) flex w-[var(--hn-overlay-anchor-width)] min-w-40 flex-col overflow-hidden shadow-md outline-none',
     '[&[data-hn-fresh]_[data-highlighted]:not(:hover)]:[--hn-state-hover-opacity:0]',
   ],
 })
 
 export const selectList = tv({
-  base: 'max-h-[min(20rem,var(--reka-select-content-available-height))]',
+  base: 'max-h-[min(20rem,var(--hn-overlay-available-height))]',
 })
 
 export const selectItem = tv({

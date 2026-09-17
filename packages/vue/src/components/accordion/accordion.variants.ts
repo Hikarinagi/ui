@@ -13,7 +13,7 @@ export const accordionTrigger = tv({
 })
 
 export const accordionContent = tv({
-  base: 'hn-anim-collapse [--hn-collapse-h:var(--reka-accordion-content-height)]',
+  base: 'hn-anim-collapse',
 })
 
 export type AccordionVariants = VariantProps<typeof accordion>

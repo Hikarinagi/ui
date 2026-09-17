@@ -156,7 +156,7 @@
     left var(--hn-duration-base) var(--hn-ease-move),
     top var(--hn-duration-base) var(--hn-ease-move);
 
-  &[style*='--reka-navigation-menu-viewport-width'] {
+  &[data-hn-ready] {
     @apply hn-anim-pop;
 
     visibility: visible;
@@ -315,7 +315,7 @@
 
 @keyframes hn-swipe-out {
   from {
-    transform: translateX(var(--reka-toast-swipe-end-x));
+    transform: translateX(var(--hn-toast-swipe-end-x));
   }
   to {
     opacity: 0;
@@ -396,7 +396,7 @@
   }
 
   &[data-swipe='move'] {
-    transform: translateX(var(--reka-toast-swipe-move-x));
+    transform: translateX(var(--hn-toast-swipe-move-x));
   }
   &[data-swipe='cancel'] {
     transform: none;

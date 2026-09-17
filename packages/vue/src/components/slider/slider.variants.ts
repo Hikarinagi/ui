@@ -18,7 +18,6 @@ export const sliderRoot = tv({
   base: [
     'bg-line-strong relative flex h-[var(--hn-slider-h)] w-full cursor-pointer touch-none rounded-full select-none',
     'data-disabled:pointer-events-none',
-    '[&[dir=rtl]>[role=slider]]:[--reka-slider-thumb-transform:translateX(50%)]',
   ],
 })
 
@@ -43,6 +42,7 @@ export const sliderRangeBetween = tv({
 
 export const sliderThumb = tv({
   base: [
+    '[--hn-slider-thumb-transform:translateX(-50%)] rtl:[--hn-slider-thumb-transform:translateX(50%)]',
     'hn-state-layer hn-slider-move border-line bg-surface text-fg top-1 !block size-[var(--hn-slider-thumb)] cursor-grab rounded-full border shadow-sm outline-none',
     '!start-[calc(0.25rem+var(--hn-slider-thumb)/2+var(--hn-slider-p)*(100%-0.5rem-var(--hn-slider-thumb)))]',
     'data-focus-ring:outline-2 data-focus-ring:outline-offset-2 data-focus-ring:outline-solid data-focus-ring:outline-(--hn-focus-ring)',

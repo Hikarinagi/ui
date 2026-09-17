@@ -10,6 +10,7 @@
     ComboboxPortal,
   } from 'reka-ui'
   import { ref } from 'vue'
+  import { rekaComboboxStyle } from '../../lib/reka/styles'
   import { useUiLocale } from '../../locale'
   import Card from '../card/Card.vue'
   import ScrollArea from '../scroll-area/ScrollArea.vue'
@@ -36,6 +37,7 @@
         data-hn-combobox-content
         :data-hn-fresh="fresh && !props.keyboard ? '' : undefined"
         :class="comboboxContent()"
+        :style="rekaComboboxStyle"
         @vue:mounted="fresh = true"
         @keydown="fresh = false"
         @pointermove="fresh = false"

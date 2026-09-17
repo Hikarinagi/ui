@@ -2,7 +2,7 @@ import { tv } from '../../lib/tv'
 
 export const treeSelectContent = tv({
   base: [
-    'hn-anim-pop z-(--hn-z-overlay) flex w-[var(--reka-popover-trigger-width)] min-w-40 max-h-[var(--reka-popover-content-available-height)] flex-col overflow-hidden shadow-md outline-none',
+    'hn-anim-pop z-(--hn-z-overlay) flex w-[var(--hn-overlay-anchor-width)] min-w-40 max-h-[var(--hn-overlay-available-height)] flex-col overflow-hidden shadow-md outline-none',
   ],
 })
 

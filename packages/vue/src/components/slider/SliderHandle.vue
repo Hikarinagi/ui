@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { injectTooltipProviderContext, SliderThumb } from 'reka-ui'
+  import { rekaSliderThumbStyle } from '../../lib/reka/styles'
   import Tooltip from '../tooltip/Tooltip.vue'
   import { sliderThumb } from './slider.variants'
 
@@ -16,6 +17,7 @@
       v-bind="$attrs"
       :data-focus-ring="props.ring ? '' : undefined"
       :class="sliderThumb()"
+      :style="rekaSliderThumbStyle"
     />
   </Tooltip>
   <SliderThumb
@@ -23,5 +25,6 @@
     v-bind="$attrs"
     :data-focus-ring="props.ring ? '' : undefined"
     :class="sliderThumb()"
+    :style="rekaSliderThumbStyle"
   />
 </template>

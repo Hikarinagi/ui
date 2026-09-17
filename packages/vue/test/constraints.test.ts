@@ -1,5 +1,5 @@
 import { readFileSync, readdirSync } from 'node:fs'
-import { join, relative } from 'node:path'
+import { join, relative, sep } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { topLevelBrowserAccess } from './ssr-access'
 
@@ -105,6 +105,12 @@ describe('hover / press 只许走三条轴(README「hover 与 press」)', () => 
 })
 
 describe('L0 约定', () => {
+  it('Reka CSS 变量只允许出现在 Vue 适配层', () => {
+    const files = componentFiles.filter(f => !f.startsWith(join(srcDir, 'lib', 'reka') + sep))
+    expect(findAll(/--reka-[\w-]+/, files)).toEqual([])
+    expect(tokens.match(/--reka-[\w-]+/g) ?? []).toEqual([])
+  })
+
   it('组件不得使用裸 Teleport,浮层一律经 Reka 的 Portal 部件', () => {
     expect(findAll(/<Teleport\b/)).toEqual([])
   })

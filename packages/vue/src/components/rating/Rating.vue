@@ -2,6 +2,7 @@
   import { RatingItem, RatingItemIndicator, RatingRoot } from 'reka-ui'
   import { Star } from '@lucide/vue'
   import { cn } from '../../lib/cn'
+  import { rekaRatingStepStyle } from '../../lib/reka/styles'
   import { useFieldControl } from '../form-field/context'
   import { useUiLocale } from '../../locale'
   import {
@@ -95,6 +96,7 @@
         :step="step"
         :aria-label="scaled ? t.rating.score(toScore(step), props.max) : t.rating.star(step)"
         :class="ratingStep()"
+        :style="rekaRatingStepStyle"
       >
         <Star :class="ratingStar()" />
       </RatingItemIndicator>

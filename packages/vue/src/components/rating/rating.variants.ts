@@ -22,7 +22,7 @@ export const ratingItem = tv({
 export const ratingStep = tv({
   base: [
     'group/hn-rating-step absolute inset-y-0 start-0 cursor-pointer overflow-hidden outline-none',
-    '[width:var(--reka-rating-item-step-width)] [opacity:var(--reka-rating-item-step-opacity)] [z-index:var(--reka-rating-item-step-z-index)]',
+    '[width:var(--hn-rating-step-width)] [opacity:var(--hn-rating-step-opacity)] [z-index:var(--hn-rating-step-z-index)]',
     'disabled:cursor-not-allowed',
   ],
 })

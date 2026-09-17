@@ -10,6 +10,7 @@
     TreeRoot,
   } from 'reka-ui'
   import { cn } from '../../lib/cn'
+  import { rekaPopoverStyle } from '../../lib/reka/styles'
   import { useUiLocale } from '../../locale'
   import Card from '../card/Card.vue'
   import DisclosureIcon from '../disclosure-icon/DisclosureIcon.vue'
@@ -138,6 +139,7 @@
             labelledBy ?? ($attrs['aria-label'] ? undefined : (fieldId ?? triggerId))
           "
           :class="treeSelectContent()"
+          :style="rekaPopoverStyle"
         >
           <TreeSelectSearch
             v-if="props.searchable"

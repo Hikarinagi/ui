@@ -149,8 +149,8 @@ describe('行为', () => {
     const content = w.find('.hn-anim-collapse')
     expect(content.exists()).toBe(true)
     expect(content.attributes('data-state')).toBe('open')
-    expect(content.classes().join(' ')).toContain(
-      '[--hn-collapse-h:var(--reka-collapsible-content-height)]',
+    expect((content.element as HTMLElement).style.getPropertyValue('--hn-collapse-h')).toBe(
+      'var(--reka-collapsible-content-height)',
     )
   })
 })

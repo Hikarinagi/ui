@@ -65,13 +65,13 @@ export const navigationMenuContent = tv({
 export const navigationMenuViewport = tv({
   base: [
     'hn-navigation-viewport bg-surface border-line absolute z-(--hn-z-overlay) overflow-hidden rounded-lg border shadow-md',
-    'h-(--reka-navigation-menu-viewport-height) w-(--reka-navigation-menu-viewport-width)',
+    'h-(--hn-navigation-height) w-(--hn-navigation-width)',
   ],
   variants: {
     orientation: {
       horizontal:
-        'top-full mt-2 [left:clamp(var(--hn-navigation-min-x,0px),var(--reka-navigation-menu-viewport-left),calc(var(--hn-navigation-bound-end,100vw)-var(--reka-navigation-menu-viewport-width)-2px))]',
-      vertical: '[top:var(--reka-navigation-menu-viewport-top)]',
+        'top-full mt-2 [left:clamp(var(--hn-navigation-min-x,0px),var(--hn-navigation-left),calc(var(--hn-navigation-bound-end,100vw)-var(--hn-navigation-width)-2px))]',
+      vertical: '[top:var(--hn-navigation-top)]',
     },
     side: { start: '', end: '' },
   },
