@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { VirtualList } from '@hina-ui/vue'
+  import { VirtualList, Inline, Text } from '@hina-ui/vue'
   const items = Array.from({ length: 1000 }, (_, id) => ({ id, label: `条目 ${id + 1}` }))
 </script>
 
@@ -14,10 +14,12 @@
     class="border-line rounded-lg border"
   >
     <template #default="{ item, index }">
-      <div class="border-line flex h-full items-center justify-between border-b px-4 text-sm">
-        <span>{{ item.label }}</span>
-        <span class="text-muted tabular-nums">{{ index + 1 }} / {{ items.length }}</span>
-      </div>
+      <Inline justify="between" gap="sm" :wrap="false" class="border-line h-full border-b px-4">
+        <Text as="span" size="sm">{{ item.label }}</Text>
+        <Text as="span" size="sm" tone="muted" class="tabular-nums">
+          {{ index + 1 }} / {{ items.length }}
+        </Text>
+      </Inline>
     </template>
   </VirtualList>
 </template>

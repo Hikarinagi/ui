@@ -1,6 +1,12 @@
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { VirtualList, Collapsible, CollapsibleTrigger, CollapsibleContent } from '@hina-ui/vue'
+  import {
+    VirtualList,
+    Collapsible,
+    CollapsibleTrigger,
+    CollapsibleContent,
+    Text,
+  } from '@hina-ui/vue'
 
   const expanded = ref<Record<number, boolean>>({})
   const items = Array.from({ length: 500 }, (_, id) => ({
@@ -21,15 +27,15 @@
   >
     <template #default="{ item }">
       <Collapsible v-model:open="expanded[item.id]" class="border-line border-b p-4">
-        <div class="text-sm font-medium">{{ item.title }}</div>
-        <p class="text-muted mt-1 text-sm">{{ item.description }}</p>
+        <Text size="sm" weight="medium">{{ item.title }}</Text>
+        <Text size="sm" tone="muted" class="mt-1">{{ item.description }}</Text>
         <CollapsibleTrigger class="mt-2">
           {{ expanded[item.id] ? '收起' : '展开' }}
         </CollapsibleTrigger>
         <CollapsibleContent>
-          <p class="text-muted pt-2 text-sm">
+          <Text size="sm" tone="muted" class="pt-2">
             {{ '展开后增加的内容会自动参与高度计算。'.repeat(5) }}
-          </p>
+          </Text>
         </CollapsibleContent>
       </Collapsible>
     </template>

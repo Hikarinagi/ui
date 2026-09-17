@@ -18,6 +18,8 @@ Supply `items` and a `getKey` function returning a unique, stable string or numb
 
 The component includes [ScrollArea](/components/scroll-area) and defaults to a height of `320px`. `height` accepts pixels or a CSS length; `100%` requires a parent with a definite height. Item content and appearance are customizable. There is no default border, selection state, or click behavior. The first example contains ten thousand items and uses [Tag](/components/tag) for trailing content.
 
+The examples use [Text](/components/text) for typography and [Stack](/components/stack) and [Inline](/components/inline) for layout.
+
 ## Examples {#examples}
 
 ### Fixed sizes {#fixed}

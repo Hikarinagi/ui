@@ -18,6 +18,8 @@ import { VirtualList, type VirtualListExpose } from '@hina-ui/vue'
 
 组件内置 [ScrollArea](/components/scroll-area)，默认高度为 `320px`。`height` 可传像素数或 CSS 长度；设为 `100%` 时父容器需要有确定高度。外观和条目内容由调用方定义，组件本身不增加边框、选中态或点击行为。首个示例包含一万项，并在尾部组合了 [Tag](/components/tag)。
 
+示例使用 [Text](/components/text) 设置文字样式，通过 [Stack](/components/stack) 与 [Inline](/components/inline) 排列内容。
+
 ## 示例 {#examples}
 
 ### 固定尺寸 {#fixed}

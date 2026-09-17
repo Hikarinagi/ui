@@ -1,12 +1,12 @@
 <script setup lang="ts">
-  import { VirtualList } from '@hina-ui/vue'
+  import { VirtualList, Stack, Text } from '@hina-ui/vue'
   const items = Array.from({ length: 200 }, (_, id) => ({ id, label: `条目 ${id + 1}` }))
 </script>
 
 <template>
-  <div class="w-full space-y-4">
-    <div v-for="dir in ['ltr', 'rtl'] as const" :key="dir">
-      <div class="text-muted mb-2 text-xs uppercase">{{ dir }}</div>
+  <Stack class="w-full">
+    <Stack v-for="dir in ['ltr', 'rtl'] as const" :key="dir" gap="sm">
+      <Text size="xs" tone="muted" class="uppercase">{{ dir }}</Text>
       <VirtualList
         :items="items"
         :get-key="item => item.id"
@@ -19,16 +19,18 @@
         :label="`${dir} 横向列表`"
       >
         <template #default="{ item, index }">
-          <div
-            class="border-line bg-surface flex h-full flex-col justify-between rounded-lg border p-4"
+          <Stack
+            justify="between"
+            gap="sm"
+            class="border-line bg-surface h-full rounded-lg border p-4"
           >
-            <span class="text-muted text-2xl tabular-nums">
+            <Text size="2xl" tone="muted" class="tabular-nums">
               {{ String(index + 1).padStart(2, '0') }}
-            </span>
-            <span class="text-sm">{{ item.label }}</span>
-          </div>
+            </Text>
+            <Text size="sm">{{ item.label }}</Text>
+          </Stack>
         </template>
       </VirtualList>
-    </div>
-  </div>
+    </Stack>
+  </Stack>
 </template>

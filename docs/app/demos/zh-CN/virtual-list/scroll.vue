@@ -4,6 +4,9 @@
     VirtualList,
     NumberInput,
     Button,
+    Inline,
+    Stack,
+    Text,
     type VirtualListExpose,
     type VirtualListRange,
   } from '@hina-ui/vue'
@@ -15,8 +18,8 @@
 </script>
 
 <template>
-  <div class="w-full space-y-3">
-    <div class="flex flex-wrap items-center gap-2">
+  <Stack class="w-full">
+    <Inline gap="sm">
       <NumberInput
         v-model="target"
         :min="1"
@@ -26,10 +29,10 @@
       />
       <Button @click="list?.scrollToIndex(target - 1, { align: 'center' })">跳转</Button>
       <Button variant="outline" @click="list?.scrollToOffset(0)">回到顶部</Button>
-      <span class="text-muted text-sm tabular-nums">
+      <Text as="span" size="sm" tone="muted" class="tabular-nums">
         可见 {{ range.startIndex + 1 }}–{{ range.endIndex + 1 }}
-      </span>
-    </div>
+      </Text>
+    </Inline>
     <VirtualList
       ref="list"
       :items="items"
@@ -42,10 +45,10 @@
       @range-change="range = $event"
     >
       <template #default="{ item }">
-        <div class="border-line flex h-full items-center border-b px-4 text-sm">
-          {{ item.label }}
-        </div>
+        <Inline gap="none" class="border-line h-full border-b px-4">
+          <Text size="sm">{{ item.label }}</Text>
+        </Inline>
       </template>
     </VirtualList>
-  </div>
+  </Stack>
 </template>

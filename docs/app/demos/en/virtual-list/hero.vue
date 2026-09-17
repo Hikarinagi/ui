@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { VirtualList, Tag } from '@hina-ui/vue'
+  import { VirtualList, Tag, Inline, Text } from '@hina-ui/vue'
 
   const items = Array.from({ length: 10000 }, (_, id) => ({
     id,
@@ -17,15 +17,18 @@
     class="border-line bg-surface rounded-lg border"
   >
     <template #default="{ item, index }">
-      <div class="border-line flex h-16 items-center gap-3 border-b px-4">
-        <span
-          class="bg-inset text-muted flex size-9 shrink-0 items-center justify-center rounded-md text-xs tabular-nums"
+      <Inline :wrap="false" class="border-line h-16 border-b px-4">
+        <Text
+          as="span"
+          size="xs"
+          tone="muted"
+          class="bg-inset flex size-9 shrink-0 items-center justify-center rounded-md tabular-nums"
         >
           {{ index + 1 }}
-        </span>
-        <span class="min-w-0 flex-1 truncate text-sm">{{ item.label }}</span>
+        </Text>
+        <Text as="span" size="sm" truncate class="min-w-0 flex-1">{{ item.label }}</Text>
         <Tag v-if="index % 3 === 0" size="sm">Tag</Tag>
-      </div>
+      </Inline>
     </template>
   </VirtualList>
 </template>
