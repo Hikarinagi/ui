@@ -13,6 +13,7 @@
   const props = withDefaults(
     defineProps<{
       direction?: 'vertical' | 'horizontal' | 'both'
+      dir?: 'ltr' | 'rtl' | 'auto'
       autoHide?: 'never' | 'scroll' | 'leave' | 'move'
       scrollbar?: boolean
       wheelRedirect?: boolean
@@ -85,7 +86,10 @@
 </script>
 
 <template>
-  <div :class="cn('hn-scroll-area relative flex flex-col overflow-hidden', props.class)">
+  <div
+    :dir="props.dir"
+    :class="cn('hn-scroll-area relative flex flex-col overflow-hidden', props.class)"
+  >
     <div
       ref="host"
       v-bind="{ ...$attrs, ...hostFocus }"

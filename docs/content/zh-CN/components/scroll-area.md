@@ -30,6 +30,8 @@ import { ScrollArea } from '@hina-ui/vue'
 
 <Demo name="scroll-area/horizontal" />
 
+内容方向继承外层，也可用 `dir="rtl"` 显式设置。横向阴影的位置和渐变方向一起镜像，始终从边缘向内容内侧淡出。
+
 ### 边缘阴影 {#shadow}
 
 某一侧还有未显示的内容时，该侧出现阴影，滚动到尽头后消失。边界本身已经足够清楚时，把 `shadow` 设为假。
@@ -65,6 +67,7 @@ import { ScrollArea } from '@hina-ui/vue'
 | 属性            | 类型                                       | 默认值       | 说明                           |
 | --------------- | ------------------------------------------ | ------------ | ------------------------------ |
 | `direction`     | `'vertical' \| 'horizontal' \| 'both'`     | `'vertical'` | 滚动的方向                     |
+| `dir`           | `'ltr' \| 'rtl' \| 'auto'`                 | 继承         | 视口与阴影层的内容方向         |
 | `autoHide`      | `'never' \| 'scroll' \| 'leave' \| 'move'` | `'leave'`    | 滚动条何时淡出                 |
 | `scrollbar`     | `boolean`                                  | `true`       | 是否显示滚动条                 |
 | `wheelRedirect` | `boolean`                                  | `true`       | 横向区域中滚轮是否横向滚动     |

@@ -20,6 +20,10 @@
     inset-inline-start: 0;
     width: 16px;
     background: linear-gradient(to right, var(--hn-scroll-shadow), transparent);
+
+    &:dir(rtl) {
+      background: linear-gradient(to left, var(--hn-scroll-shadow), transparent);
+    }
   }
 
   &[data-side='x-end'] {
@@ -27,6 +31,10 @@
     inset-inline-end: 0;
     width: 16px;
     background: linear-gradient(to left, var(--hn-scroll-shadow), transparent);
+
+    &:dir(rtl) {
+      background: linear-gradient(to right, var(--hn-scroll-shadow), transparent);
+    }
   }
 
   &[data-side='y-start'] {

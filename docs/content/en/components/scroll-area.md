@@ -30,6 +30,8 @@ Every scrolling container in the library goes through this component — dropdow
 
 <Demo name="scroll-area/horizontal" />
 
+Content direction is inherited or set explicitly with `dir="rtl"`. Horizontal shadow positions and gradients mirror together, always fading inward from the edge.
+
 ### Edge shadows {#shadow}
 
 A shadow appears at each edge that has content beyond it, and goes away at the ends. Set `shadow` to false where the boundary is already obvious.
@@ -62,16 +64,17 @@ A region that scrolls but holds nothing focusable cannot be reached by keyboard.
 
 ## API {#api}
 
-| Prop            | Type                                       | Default      | Description                                 |
-| --------------- | ------------------------------------------ | ------------ | ------------------------------------------- |
-| `direction`     | `'vertical' \| 'horizontal' \| 'both'`     | `'vertical'` | Which axis scrolls                          |
-| `autoHide`      | `'never' \| 'scroll' \| 'leave' \| 'move'` | `'leave'`    | When the scrollbar fades out                |
-| `scrollbar`     | `boolean`                                  | `true`       | Whether the scrollbar is visible at all     |
-| `wheelRedirect` | `boolean`                                  | `true`       | Wheel scrolls sideways in a horizontal area |
-| `shadow`        | `boolean`                                  | `true`       | Whether edges get a shadow                  |
-| `focusable`     | `boolean`                                  | `false`      | Put the area in the tab order               |
-| `label`         | `string`                                   | —            | Accessible name, used when focusable        |
-| `class`         | `string`                                   | —            | Classes appended to the outer element       |
+| Prop            | Type                                       | Default      | Description                                    |
+| --------------- | ------------------------------------------ | ------------ | ---------------------------------------------- |
+| `direction`     | `'vertical' \| 'horizontal' \| 'both'`     | `'vertical'` | Which axis scrolls                             |
+| `dir`           | `'ltr' \| 'rtl' \| 'auto'`                 | Inherited    | Content direction for the viewport and shadows |
+| `autoHide`      | `'never' \| 'scroll' \| 'leave' \| 'move'` | `'leave'`    | When the scrollbar fades out                   |
+| `scrollbar`     | `boolean`                                  | `true`       | Whether the scrollbar is visible at all        |
+| `wheelRedirect` | `boolean`                                  | `true`       | Wheel scrolls sideways in a horizontal area    |
+| `shadow`        | `boolean`                                  | `true`       | Whether edges get a shadow                     |
+| `focusable`     | `boolean`                                  | `false`      | Put the area in the tab order                  |
+| `label`         | `string`                                   | —            | Accessible name, used when focusable           |
+| `class`         | `string`                                   | —            | Classes appended to the outer element          |
 
 | Slot      | Description          |
 | --------- | -------------------- |
