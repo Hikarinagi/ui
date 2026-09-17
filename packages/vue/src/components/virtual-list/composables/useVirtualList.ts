@@ -88,27 +88,36 @@ export function useVirtualList<T>(
     }),
   )
   const entries = computed(() =>
-    virtualizer.value.getVirtualItems().map(entry => ({
+    virtualizer.value.getVirtualItems().map((entry, index, items) => ({
       ...entry,
       key: keys.value[entry.index]!,
+      gapBefore: index ? Math.max(0, entry.start - items[index - 1]!.end) : 0,
     })),
   )
-  const contentStyle = computed<CSSProperties>(() => ({
-    width: horizontal.value ? `${virtualizer.value.getTotalSize()}px` : '100%',
-    height: horizontal.value ? '100%' : `${virtualizer.value.getTotalSize()}px`,
-  }))
+  const contentStyle = computed<CSSProperties>(() => {
+    const start = entries.value[0]?.start ?? 0
+    const end = Math.max(0, virtualizer.value.getTotalSize() - (entries.value.at(-1)?.end ?? 0))
+    return horizontal.value
+      ? {
+          width: 'max-content',
+          height: '100%',
+          paddingInlineStart: `${start}px`,
+          paddingInlineEnd: `${end}px`,
+        }
+      : { width: '100%', paddingBlockStart: `${start}px`, paddingBlockEnd: `${end}px` }
+  })
   const rootStyle = computed<CSSProperties>(() => ({
     height: typeof props.height === 'string' ? props.height : `${props.height ?? 320}px`,
   }))
 
-  function itemStyle(entry: VirtualItem): CSSProperties {
+  function itemStyle(entry: VirtualItem & { gapBefore: number }): CSSProperties {
     return horizontal.value
       ? {
-          transform: `translateX(${entry.start * (direction.value === 'rtl' ? -1 : 1)}px)`,
+          marginInlineStart: `${entry.gapBefore}px`,
           width: props.dynamic === false ? `${entry.size}px` : undefined,
         }
       : {
-          transform: `translateY(${entry.start}px)`,
+          marginBlockStart: `${entry.gapBefore}px`,
           height: props.dynamic === false ? `${entry.size}px` : undefined,
         }
   }

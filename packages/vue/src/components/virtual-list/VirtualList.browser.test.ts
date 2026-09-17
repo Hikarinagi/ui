@@ -3,6 +3,9 @@ import { mount, type VueWrapper } from '@vue/test-utils'
 import { h, nextTick, ref, type VNode } from 'vue'
 import { userEvent } from 'vitest/browser'
 import VirtualList from './VirtualList.vue'
+import Collapsible from '../collapsible/Collapsible.vue'
+import CollapsibleTrigger from '../collapsible/CollapsibleTrigger.vue'
+import CollapsibleContent from '../collapsible/CollapsibleContent.vue'
 import type { VirtualListExpose } from './types'
 import { expectNoA11yViolations } from '../../../test/axe'
 import '../../../test/browser.css'
@@ -138,6 +141,47 @@ describe('VirtualList browser behavior', () => {
     )
   })
 
+  it('keeps adjacent items aligned throughout expand and collapse animations', async () => {
+    const wrapper = create({ dynamic: true, estimateSize: 40 }, ({ item }) =>
+      h(Collapsible, {}, () => [
+        h(CollapsibleTrigger, {}, () => item.label),
+        h(CollapsibleContent, {}, () => h('div', { style: { height: '160px' } }, 'Details')),
+      ]),
+    )
+    await ready(wrapper)
+    const first = row(wrapper, 0).element
+    const second = row(wrapper, 1).element
+    const trigger = first.querySelector('button')!
+    for (const open of [true, false]) {
+      trigger.click()
+      await nextTick()
+      const gaps = await new Promise<number[]>(resolve => {
+        const samples: number[] = []
+        function sample() {
+          setTimeout(() => {
+            samples.push(second.getBoundingClientRect().top - first.getBoundingClientRect().bottom)
+            const running = first
+              .getAnimations({ subtree: true })
+              .some(
+                animation =>
+                  animation.playState === 'running' &&
+                  (animation.effect as KeyframeEffect | null)?.target instanceof Element &&
+                  ((animation.effect as KeyframeEffect).target as Element).classList.contains(
+                    'hn-anim-collapse',
+                  ),
+              )
+            if (running) requestAnimationFrame(sample)
+            else resolve(samples)
+          }, 0)
+        }
+        requestAnimationFrame(sample)
+      })
+      expect(trigger.getAttribute('aria-expanded')).toBe(String(open))
+      expect(gaps.length).toBeGreaterThan(2)
+      expect(Math.max(...gaps.map(Math.abs))).toBeLessThan(1)
+    }
+  })
+
   it('retains a focused input outside the window and releases it after focus leaves', async () => {
     const wrapper = create({}, ({ item }) => h('input', { 'aria-label': item.label }))
     const viewport = await ready(wrapper)
@@ -150,6 +194,12 @@ describe('VirtualList browser behavior', () => {
     expect(document.activeElement).toBe(input)
     expect(input.isConnected).toBe(true)
     expect(wrapper.findAll('li').length).toBeLessThan(25)
+    expect(
+      Math.abs(
+        row(wrapper, 500).element.getBoundingClientRect().top -
+          viewport.getBoundingClientRect().top,
+      ),
+    ).toBeLessThan(1)
     viewport.focus({ preventScroll: true })
     await vi.waitFor(() => expect(input.isConnected).toBe(false))
   })
@@ -166,27 +216,39 @@ describe('VirtualList browser behavior', () => {
     expect(input.value).toBe('Keep this')
   })
 
-  it.each(['ltr', 'rtl'] as const)('positions and scrolls horizontal content in %s', async dir => {
-    const wrapper = create({
-      orientation: 'horizontal',
-      dir,
-      estimateSize: 100,
-      gap: 8,
-      height: 120,
-    })
-    const viewport = await ready(wrapper)
-    const first = row(wrapper, 0).element.getBoundingClientRect()
-    const second = row(wrapper, 1).element.getBoundingClientRect()
-    expect(dir === 'rtl' ? first.left - second.right : second.left - first.right).toBe(8)
-    api(wrapper).scrollToIndex(50, { align: 'start' })
-    await vi.waitFor(() => expect(row(wrapper, 50).exists()).toBe(true))
-    await vi.waitFor(() => expect(Math.abs(viewport.scrollLeft)).toBe(5400))
-    const target = row(wrapper, 50).element.getBoundingClientRect()
-    const bounds = viewport.getBoundingClientRect()
-    expect(
-      Math.abs(dir === 'rtl' ? target.right - bounds.right : target.left - bounds.left),
-    ).toBeLessThan(1)
-  })
+  it.each([
+    ['ltr', false],
+    ['rtl', false],
+    ['ltr', true],
+    ['rtl', true],
+  ] as const)(
+    'positions and scrolls horizontal content in %s with dynamic=%s',
+    async (dir, dynamic) => {
+      const wrapper = create(
+        {
+          orientation: 'horizontal',
+          dir,
+          dynamic,
+          estimateSize: 100,
+          gap: 8,
+          height: 120,
+        },
+        ({ item }) => h('div', { style: { width: '100px' } }, item.label),
+      )
+      const viewport = await ready(wrapper)
+      const first = row(wrapper, 0).element.getBoundingClientRect()
+      const second = row(wrapper, 1).element.getBoundingClientRect()
+      expect(dir === 'rtl' ? first.left - second.right : second.left - first.right).toBe(8)
+      api(wrapper).scrollToIndex(50, { align: 'start' })
+      await vi.waitFor(() => expect(row(wrapper, 50).exists()).toBe(true))
+      await vi.waitFor(() => expect(Math.abs(viewport.scrollLeft)).toBe(5400))
+      const target = row(wrapper, 50).element.getBoundingClientRect()
+      const bounds = viewport.getBoundingClientRect()
+      expect(
+        Math.abs(dir === 'rtl' ? target.right - bounds.right : target.left - bounds.left),
+      ).toBeLessThan(1)
+    },
+  )
 
   it('supports heterogeneous fixed sizes and runtime size changes', async () => {
     const wrapper = create({

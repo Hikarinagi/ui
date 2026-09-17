@@ -77,7 +77,7 @@
         ref="list"
         role="list"
         :aria-busy="props.loading"
-        :class="virtualListContent()"
+        :class="virtualListContent({ orientation: props.orientation })"
         :style="contentStyle"
         @focusin="updateFocus"
         @focusout="onFocusOut"

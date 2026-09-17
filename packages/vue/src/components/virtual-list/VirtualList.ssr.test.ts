@@ -24,7 +24,7 @@ describe('VirtualList SSR', () => {
       }),
     )
     expect(html).toContain('height:200px')
-    expect(html).toContain('height:400000px')
+    expect(html).toContain('padding-block-end:399600px')
     expect(html).toContain('aria-setsize="10000"')
     expect(html).toContain('Item 0')
     expect(html).not.toContain('Item 9999')
@@ -52,7 +52,7 @@ describe('VirtualList SSR', () => {
           ),
       }),
     )
-    expect(html).toContain('translateX(-800px)')
+    expect(html).toContain('padding-inline-start:800px')
     expect(html).toContain('Item 10')
     expect(html).not.toContain('Item 0<')
     expect(html).toContain('aria-posinset="11"')

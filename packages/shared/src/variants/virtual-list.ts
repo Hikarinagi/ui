@@ -5,11 +5,17 @@ export const virtualList = tv({
 })
 
 export const virtualListContent = tv({
-  base: 'relative m-0 list-none p-0 [overflow-anchor:none]',
+  base: 'relative m-0 flex list-none p-0 [overflow-anchor:none]',
+  variants: {
+    orientation: {
+      vertical: 'flex-col',
+      horizontal: 'flex-row',
+    },
+  },
 })
 
 export const virtualListItem = tv({
-  base: 'absolute start-0 top-0 flow-root min-w-0',
+  base: 'flow-root min-w-0 shrink-0',
   variants: {
     orientation: {
       vertical: 'w-full',
