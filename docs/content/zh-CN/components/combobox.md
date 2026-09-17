@@ -24,6 +24,12 @@ import { Combobox } from '@hina-ui/vue'
 
 ## 示例 {#examples}
 
+### 虚拟滚动 {#virtual}
+
+`virtualize` 按需渲染可见范围附近的条目，与 [VirtualList](/components/virtual-list) 共用测量与滚动底层。默认关闭；可传 `{ estimateSize, overscan }` 调整预估行高和两侧预渲染数量，行高会按实际内容测量。键盘导航覆盖完整数据，禁用项会跳过。 搜索仍处理完整数据。 条目离开渲染范围后会卸载；插槽内需要持久保留的状态应按唯一 value 存在外部。
+
+<Demo name="combobox/virtual" />
+
 ### 分组 {#groups}
 
 分组项带 `label` 与 `options`，筛选时空的分组会一并隐藏。
@@ -96,6 +102,7 @@ import { Combobox } from '@hina-ui/vue'
 | ---------------- | -------------------------- | ----------- | ----------------------------------------------- |
 | `modelValue`     | `string \| number \| null` | —           | 选中的值                                        |
 | `options`        | `SelectItems<T>`           | —           | 选项，类型见 [Select](/components/select#types) |
+| `virtualize`     | `VirtualizeOptions`        | `false`     | 虚拟滚动；预估行高按内容，overscan 6            |
 | `selectedOption` | `T \| null`                | —           | 已选项资料，仅用于回显，不加入候选列表          |
 | `search`         | `string`                   | `''`        | 当前输入的文字，支持 `v-model:search`           |
 | `placeholder`    | `string`                   | 语言包      | 无值时显示的文字                                |
@@ -123,3 +130,7 @@ import { Combobox } from '@hina-ui/vue'
 | `update:search`     | `search: string`          | 输入文字变化 |
 | `update:open`       | `open: boolean`           | 浮层开合变化 |
 | `clear`             | —                         | 被清空       |
+
+```ts
+type VirtualizeOptions = boolean | { estimateSize?: number; overscan?: number }
+```

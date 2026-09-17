@@ -2,6 +2,7 @@
   import { computed, ref } from 'vue'
   import { SelectRoot, SelectTrigger } from 'reka-ui'
   import { cn } from '../../lib/cn'
+  import type { VirtualizeOptions } from '../../lib/virtual/types'
   import { useUiLocale } from '../../locale'
   import Chip from '../chip/Chip.vue'
   import VisuallyHidden from '../visually-hidden/VisuallyHidden.vue'
@@ -26,6 +27,7 @@
   const props = withDefaults(
     defineProps<{
       options: SelectItems<T>
+      virtualize?: VirtualizeOptions
       placeholder?: string
       name?: string
       required?: boolean
@@ -64,7 +66,9 @@
   const selected = computed(() =>
     flattenOptions(props.options).filter(option => model.value.includes(option.value)),
   )
-  const formOptions = computed(() => flattenOptions(props.options))
+  const formOptions = computed(() =>
+    props.virtualize ? selected.value : flattenOptions(props.options),
+  )
   const visible = computed(() => selected.value.slice(0, props.maxVisible))
   const overflow = computed(() => selected.value.length - visible.value.length)
   const chipSize = computed(() => (size.value === 'sm' ? 'sm' : 'md'))
@@ -178,7 +182,7 @@
         </option>
       </select>
     </VisuallyHidden>
-    <SelectList :options="props.options" :keyboard="keyboard">
+    <SelectList :options="props.options" :keyboard="keyboard" :virtualize="props.virtualize">
       <template #option="slotProps">
         <slot name="option" v-bind="slotProps" />
       </template>

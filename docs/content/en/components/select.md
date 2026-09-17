@@ -22,6 +22,12 @@ The select pairs a trigger with a floating list. `options` supplies the items an
 
 ## Examples {#examples}
 
+### Virtual scrolling {#virtual}
+
+`virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Rows unmount outside the rendered range; keep persistent slot state outside the row, keyed by its unique value.
+
+<Demo name="select/virtual" />
+
 ### Clear {#clearable}
 
 `clearable` shows a clear button when a value is set and the field is enabled. Activating it sets `v-model` to `null` and emits `clear`. Focus returns to the trigger and the list stays closed.
@@ -84,21 +90,22 @@ Inside a [FormField](/components/form-field) the label points at the trigger, an
 
 `T extends SelectOption` is inferred from `options` and defaults to `SelectOption`.
 
-| Prop           | Type                       | Default     | Description                              |
-| -------------- | -------------------------- | ----------- | ---------------------------------------- |
-| `modelValue`   | `string \| number \| null` | —           | The chosen value                         |
-| `options`      | `SelectItems<T>`           | —           | The items, see the types below           |
-| `clearable`    | `boolean`                  | `false`     | Whether the clear button is shown        |
-| `placeholder`  | `string`                   | locale pack | Text shown when nothing is chosen        |
-| `open`         | `boolean`                  | `false`     | Whether the list is open; `v-model:open` |
-| `variant`      | `'primary' \| 'secondary'` | `'primary'` | Variant                                  |
-| `size`         | `'sm' \| 'md' \| 'lg'`     | `'md'`      | Size                                     |
-| `invalid`      | `boolean`                  | `false`     | Whether validation failed                |
-| `name`         | `string`                   | —           | Native form field name                   |
-| `required`     | `boolean`                  | `false`     | Require a selection when `name` is set   |
-| `autocomplete` | `string`                   | —           | Native form autofill hint                |
-| `disabled`     | `boolean`                  | `false`     | Whether the select is disabled           |
-| `class`        | `string`                   | —           | Classes appended to the root element     |
+| Prop           | Type                       | Default     | Description                                           |
+| -------------- | -------------------------- | ----------- | ----------------------------------------------------- |
+| `modelValue`   | `string \| number \| null` | —           | The chosen value                                      |
+| `options`      | `SelectItems<T>`           | —           | The items, see the types below                        |
+| `virtualize`   | `VirtualizeOptions`        | `false`     | Virtual scrolling; content-based estimate, overscan 6 |
+| `clearable`    | `boolean`                  | `false`     | Whether the clear button is shown                     |
+| `placeholder`  | `string`                   | locale pack | Text shown when nothing is chosen                     |
+| `open`         | `boolean`                  | `false`     | Whether the list is open; `v-model:open`              |
+| `variant`      | `'primary' \| 'secondary'` | `'primary'` | Variant                                               |
+| `size`         | `'sm' \| 'md' \| 'lg'`     | `'md'`      | Size                                                  |
+| `invalid`      | `boolean`                  | `false`     | Whether validation failed                             |
+| `name`         | `string`                   | —           | Native form field name                                |
+| `required`     | `boolean`                  | `false`     | Require a selection when `name` is set                |
+| `autocomplete` | `string`                   | —           | Native form autofill hint                             |
+| `disabled`     | `boolean`                  | `false`     | Whether the select is disabled                        |
+| `class`        | `string`                   | —           | Classes appended to the root element                  |
 
 ### Slots {#slots}
 
@@ -131,4 +138,8 @@ interface SelectOptionGroup<T extends SelectOption = SelectOption> {
 }
 
 type SelectItems<T extends SelectOption = SelectOption> = Array<T | SelectOptionGroup<T>>
+```
+
+```ts
+type VirtualizeOptions = boolean | { estimateSize?: number; overscan?: number }
 ```

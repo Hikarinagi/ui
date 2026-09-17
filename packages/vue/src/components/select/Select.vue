@@ -2,6 +2,7 @@
   import { computed, ref, shallowRef } from 'vue'
   import { SelectRoot, SelectTrigger, useDirection } from 'reka-ui'
   import { cn } from '../../lib/cn'
+  import type { VirtualizeOptions } from '../../lib/virtual/types'
   import { useUiLocale } from '../../locale'
   import { X } from '@lucide/vue'
   import InputAction from '../input/InputAction.vue'
@@ -23,6 +24,7 @@
 
   const props = defineProps<{
     options: SelectItems<T>
+    virtualize?: VirtualizeOptions
     placeholder?: string
     clearable?: boolean
     name?: string
@@ -137,7 +139,7 @@
         </span>
       </Transition>
     </div>
-    <SelectList :options="props.options" :keyboard="keyboard">
+    <SelectList :options="props.options" :keyboard="keyboard" :virtualize="props.virtualize">
       <template #option="slotProps">
         <slot name="option" v-bind="slotProps" />
       </template>

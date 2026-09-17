@@ -22,6 +22,12 @@ The multi-select shares its option data and list with `Select`, with `v-model` b
 
 ## Examples {#examples}
 
+### Virtual scrolling {#virtual}
+
+`virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Rows unmount outside the rendered range; keep persistent slot state outside the row, keyed by its unique value.
+
+<Demo name="multi-select/virtual" />
+
 ### Groups {#groups}
 
 A group carries a `label` and its `options`, and can be mixed with plain options.
@@ -92,22 +98,23 @@ Inside a [FormField](/components/form-field) the label points at the trigger, an
 
 `T extends SelectOption` is inferred from `options` and defaults to `SelectOption`.
 
-| Prop           | Type                       | Default     | Description                                       |
-| -------------- | -------------------------- | ----------- | ------------------------------------------------- |
-| `modelValue`   | `Array<string \| number>`  | `[]`        | The chosen values                                 |
-| `options`      | `SelectItems<T>`           | —           | The items, see [Select](/components/select#types) |
-| `placeholder`  | `string`                   | locale pack | Text shown when nothing is chosen                 |
-| `maxVisible`   | `number`                   | `2`         | Maximum chips shown in the trigger                |
-| `clearable`    | `boolean`                  | `false`     | Whether the clear-all button is shown             |
-| `open`         | `boolean`                  | `false`     | Whether the list is open; `v-model:open`          |
-| `variant`      | `'primary' \| 'secondary'` | `'primary'` | Variant                                           |
-| `size`         | `'sm' \| 'md' \| 'lg'`     | `'md'`      | Size                                              |
-| `invalid`      | `boolean`                  | `false`     | Whether validation failed                         |
-| `name`         | `string`                   | —           | Native form field name                            |
-| `required`     | `boolean`                  | `false`     | Require a selection when `name` is set            |
-| `autocomplete` | `string`                   | —           | Native form autofill hint                         |
-| `disabled`     | `boolean`                  | `false`     | Whether the control is disabled                   |
-| `class`        | `string`                   | —           | Classes appended to the trigger                   |
+| Prop           | Type                       | Default     | Description                                           |
+| -------------- | -------------------------- | ----------- | ----------------------------------------------------- |
+| `modelValue`   | `Array<string \| number>`  | `[]`        | The chosen values                                     |
+| `options`      | `SelectItems<T>`           | —           | The items, see [Select](/components/select#types)     |
+| `virtualize`   | `VirtualizeOptions`        | `false`     | Virtual scrolling; content-based estimate, overscan 6 |
+| `placeholder`  | `string`                   | locale pack | Text shown when nothing is chosen                     |
+| `maxVisible`   | `number`                   | `2`         | Maximum chips shown in the trigger                    |
+| `clearable`    | `boolean`                  | `false`     | Whether the clear-all button is shown                 |
+| `open`         | `boolean`                  | `false`     | Whether the list is open; `v-model:open`              |
+| `variant`      | `'primary' \| 'secondary'` | `'primary'` | Variant                                               |
+| `size`         | `'sm' \| 'md' \| 'lg'`     | `'md'`      | Size                                                  |
+| `invalid`      | `boolean`                  | `false`     | Whether validation failed                             |
+| `name`         | `string`                   | —           | Native form field name                                |
+| `required`     | `boolean`                  | `false`     | Require a selection when `name` is set                |
+| `autocomplete` | `string`                   | —           | Native form autofill hint                             |
+| `disabled`     | `boolean`                  | `false`     | Whether the control is disabled                       |
+| `class`        | `string`                   | —           | Classes appended to the trigger                       |
 
 ### Slots {#slots}
 
@@ -122,3 +129,7 @@ Inside a [FormField](/components/form-field) the label points at the trigger, an
 | `update:modelValue` | `value: Array<string \| number>` | The chosen values changed |
 | `update:open`       | `open: boolean`                  | The list opened or closed |
 | `clear`             | —                                | Everything was cleared    |
+
+```ts
+type VirtualizeOptions = boolean | { estimateSize?: number; overscan?: number }
+```

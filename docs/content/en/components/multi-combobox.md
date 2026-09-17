@@ -24,6 +24,12 @@ It differs from `MultiSelect` in whether you type: a multi select picks from a f
 
 ## Examples {#examples}
 
+### Virtual scrolling {#virtual}
+
+`virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Search still processes the full dataset. Rows unmount outside the rendered range; keep persistent slot state outside the row, keyed by its unique value.
+
+<Demo name="multi-combobox/virtual" />
+
 ### Remote search {#remote}
 
 `ignoreFilter` disables local filtering, and `v-model:search` provides the input text. Pass remote search results directly to `options`. Supply selected item data separately through `selectedOptions`; each [Chip](/components/chip) resolves its name from the values in `v-model`. This data neither adds dropdown candidates nor selects additional values.
@@ -92,6 +98,7 @@ Inside a [FormField](/components/form-field) the label points at the input, and 
 | ----------------- | -------------------------- | ----------- | ------------------------------------------------------------------ |
 | `modelValue`      | `Array<string \| number>`  | `[]`        | The chosen values                                                  |
 | `options`         | `SelectItems<T>`           | —           | The items, see [Select](/components/select#types)                  |
+| `virtualize`      | `VirtualizeOptions`        | `false`     | Virtual scrolling; content-based estimate, overscan 6              |
 | `selectedOptions` | `T[]`                      | —           | Selected item data for chip labels only; not added to the dropdown |
 | `placeholder`     | `string`                   | locale pack | Placeholder of the input while nothing is chosen                   |
 | `search`          | `string`                   | `''`        | Text in the input; `v-model:search`                                |
@@ -120,3 +127,7 @@ Inside a [FormField](/components/form-field) the label points at the input, and 
 | `update:search`     | `value: string`                  | The typed text changed    |
 | `update:open`       | `open: boolean`                  | The list opened or closed |
 | `clear`             | —                                | Everything was cleared    |
+
+```ts
+type VirtualizeOptions = boolean | { estimateSize?: number; overscan?: number }
+```

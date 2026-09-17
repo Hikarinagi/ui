@@ -24,6 +24,12 @@ The complete option type is inferred from `options`. Slot parameters preserve ad
 
 ## Examples {#examples}
 
+### Virtual scrolling {#virtual}
+
+`virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Search still processes the full dataset. Rows unmount outside the rendered range; keep persistent slot state outside the row, keyed by its unique value.
+
+<Demo name="combobox/virtual" />
+
 ### Groups {#groups}
 
 A group carries a `label` and its `options`; groups left empty by the filter are hidden with it.
@@ -96,6 +102,7 @@ Inside a [FormField](/components/form-field) the label points at the input, and 
 | ---------------- | -------------------------- | ----------- | -------------------------------------------------------------- |
 | `modelValue`     | `string \| number \| null` | —           | The chosen value                                               |
 | `options`        | `SelectItems<T>`           | —           | The items, see [Select](/components/select#types)              |
+| `virtualize`     | `VirtualizeOptions`        | `false`     | Virtual scrolling; content-based estimate, overscan 6          |
 | `selectedOption` | `T \| null`                | —           | Selected item data for display only; not added to the dropdown |
 | `search`         | `string`                   | `''`        | The current text; `v-model:search`                             |
 | `placeholder`    | `string`                   | locale pack | Text shown when nothing is chosen                              |
@@ -123,3 +130,7 @@ Inside a [FormField](/components/form-field) the label points at the input, and 
 | `update:search`     | `search: string`          | The text changed          |
 | `update:open`       | `open: boolean`           | The list opened or closed |
 | `clear`             | —                         | The value was cleared     |
+
+```ts
+type VirtualizeOptions = boolean | { estimateSize?: number; overscan?: number }
+```

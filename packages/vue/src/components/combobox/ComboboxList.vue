@@ -10,6 +10,8 @@
     ComboboxPortal,
   } from 'reka-ui'
   import { ref } from 'vue'
+  import VirtualChoices from '../virtual-list/VirtualChoices.vue'
+  import type { VirtualizeOptions } from '../../lib/virtual/types'
   import { rekaComboboxStyle } from '../../lib/reka/styles'
   import { useUiLocale } from '../../locale'
   import Card from '../card/Card.vue'
@@ -20,7 +22,11 @@
 
   defineOptions({ name: 'HnComboboxList' })
 
-  const props = defineProps<{ options: SelectItems<T>; keyboard?: boolean }>()
+  const props = defineProps<{
+    options: SelectItems<T>
+    keyboard?: boolean
+    virtualize?: VirtualizeOptions
+  }>()
 
   const fresh = ref(false)
 
@@ -42,7 +48,35 @@
         @keydown="fresh = false"
         @pointermove="fresh = false"
       >
-        <ScrollArea :class="comboboxList()">
+        <VirtualChoices
+          v-if="props.virtualize"
+          v-slot="{ option, attrs }"
+          :options="props.options"
+          :virtualize="props.virtualize"
+          kind="combobox"
+          :class="comboboxList()"
+        >
+          <ComboboxItem
+            v-bind="attrs"
+            :value="option.value"
+            :disabled="option.disabled"
+            :text-value="option.label"
+            :class="selectItem()"
+          >
+            <span class="min-w-0 flex-1">
+              <slot name="option" :option="option">
+                <span class="block truncate">{{ option.label }}</span>
+                <span v-if="option.description" class="text-muted block truncate text-xs">
+                  {{ option.description }}
+                </span>
+              </slot>
+            </span>
+            <span class="flex size-4 shrink-0 items-center justify-center">
+              <ComboboxItemIndicator><Check /></ComboboxItemIndicator>
+            </span>
+          </ComboboxItem>
+        </VirtualChoices>
+        <ScrollArea v-else :class="comboboxList()">
           <div :class="selectListBody()">
             <template
               v-for="item in props.options"

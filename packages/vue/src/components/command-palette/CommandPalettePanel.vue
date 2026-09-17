@@ -7,11 +7,13 @@
     ListboxGroupLabel,
     ListboxRoot,
   } from 'reka-ui'
-  import { computed } from 'vue'
+  import { shallowRef } from 'vue'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
   import Card from '../card/Card.vue'
   import ScrollArea from '../scroll-area/ScrollArea.vue'
+  import VirtualChoices from '../virtual-list/VirtualChoices.vue'
+  import type { VirtualizeOptions } from '../../lib/virtual/types'
   import { selectLabel, selectListBody } from '../select/select.variants'
   import CommandPaletteItem from './CommandPaletteItem.vue'
   import {
@@ -22,12 +24,13 @@
     commandList,
   } from './command-palette.variants'
   import type { CommandItem, CommandItems } from './types'
-  import { filterCommands } from './utils/match'
+  import { useCommandItems } from './composables/useCommandItems'
 
   defineOptions({ name: 'HnCommandPalettePanel', inheritAttrs: false })
 
   const props = defineProps<{
     items: CommandItems
+    virtualize?: VirtualizeOptions
     label: string
     placeholder?: string
     ignoreFilter?: boolean
@@ -42,9 +45,8 @@
 
   const t = useUiLocale()
 
-  const sections = computed(() =>
-    filterCommands(props.items, props.ignoreFilter ? '' : search.value),
-  )
+  const input = shallowRef<{ $el: HTMLElement }>()
+  const { sections, options } = useCommandItems(props, () => search.value)
 </script>
 
 <template>
@@ -59,6 +61,7 @@
       <div :class="commandInputRow()">
         <Search aria-hidden="true" />
         <ListboxFilter
+          ref="input"
           v-model="search"
           :auto-focus="props.autoFocus"
           :placeholder="props.placeholder ?? t.command.placeholder"
@@ -66,7 +69,25 @@
           :class="commandInput()"
         />
       </div>
-      <ScrollArea :class="commandList()">
+      <ListboxContent v-if="props.virtualize" as-child :aria-label="props.label">
+        <VirtualChoices
+          :options="options"
+          :virtualize="props.virtualize"
+          :input="input?.$el"
+          kind="listbox"
+          :class="commandList()"
+        >
+          <template #default="{ option, attrs }">
+            <CommandPaletteItem
+              v-bind="attrs"
+              :match="option.match"
+              @select="emit('select', option.match.item)"
+            />
+          </template>
+          <template #empty>{{ t.command.empty }}</template>
+        </VirtualChoices>
+      </ListboxContent>
+      <ScrollArea v-else :class="commandList()">
         <ListboxContent :aria-label="props.label" :class="selectListBody()">
           <template v-for="section in sections" :key="section.key">
             <ListboxGroup v-if="section.label">

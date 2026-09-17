@@ -22,6 +22,12 @@ import { Listbox } from '@hina-ui/vue'
 
 ## 示例 {#examples}
 
+### 虚拟滚动 {#virtual}
+
+`virtualize` 按需渲染可见范围附近的条目，与 [VirtualList](/components/virtual-list) 共用测量与滚动底层。默认关闭；可传 `{ estimateSize, overscan }` 调整预估行高和两侧预渲染数量，行高会按实际内容测量。键盘导航覆盖完整数据，禁用项会跳过。 条目离开渲染范围后会卸载；插槽内需要持久保留的状态应按唯一 value 存在外部。
+
+<Demo name="listbox/virtual" />
+
 ### 多选 {#multiple}
 
 设置 `multiple` 后可以同时选中多项，再次点选取消。
@@ -104,6 +110,7 @@ import { Listbox } from '@hina-ui/vue'
 | ------------ | ----------------------------------------------------- | ----------- | ----------------------------------------------- |
 | `modelValue` | `string \| number \| null \| Array<string \| number>` | —           | 选中的值，多选时为数组                          |
 | `options`    | `SelectItems<T>`                                      | —           | 选项，类型见 [Select](/components/select#types) |
+| `virtualize` | `VirtualizeOptions`                                   | `false`     | 虚拟滚动；预估行高按内容，overscan 6            |
 | `multiple`   | `boolean`                                             | `false`     | 是否多选                                        |
 | `maxHeight`  | `string`                                              | `'20rem'`   | 列表的最大高度                                  |
 | `padded`     | `boolean`                                             | `true`      | 是否保留内部列表外围留白                        |
@@ -123,3 +130,7 @@ import { Listbox } from '@hina-ui/vue'
 | 事件                | 参数                                                 | 说明       |
 | ------------------- | ---------------------------------------------------- | ---------- |
 | `update:modelValue` | `value: string \| number \| Array<string \| number>` | 选中值变化 |
+
+```ts
+type VirtualizeOptions = boolean | { estimateSize?: number; overscan?: number }
+```

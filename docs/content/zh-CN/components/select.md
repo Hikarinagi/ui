@@ -22,6 +22,12 @@ import { Select } from '@hina-ui/vue'
 
 ## 示例 {#examples}
 
+### 虚拟滚动 {#virtual}
+
+`virtualize` 按需渲染可见范围附近的条目，与 [VirtualList](/components/virtual-list) 共用测量与滚动底层。默认关闭；可传 `{ estimateSize, overscan }` 调整预估行高和两侧预渲染数量，行高会按实际内容测量。键盘导航覆盖完整数据，禁用项会跳过。 条目离开渲染范围后会卸载；插槽内需要持久保留的状态应按唯一 value 存在外部。
+
+<Demo name="select/virtual" />
+
 ### 清除 {#clearable}
 
 `clearable` 在有值且未禁用时显示清除按钮。点击后将 `v-model` 设为 `null` 并触发 `clear`，焦点回到触发器，列表保持关闭。
@@ -84,21 +90,22 @@ import { Select } from '@hina-ui/vue'
 
 `T extends SelectOption` 从 `options` 推断，默认是 `SelectOption`。
 
-| 属性           | 类型                       | 默认值      | 说明                              |
-| -------------- | -------------------------- | ----------- | --------------------------------- |
-| `modelValue`   | `string \| number \| null` | —           | 选中的值                          |
-| `options`      | `SelectItems<T>`           | —           | 选项，见下方类型                  |
-| `clearable`    | `boolean`                  | `false`     | 是否显示清除按钮                  |
-| `placeholder`  | `string`                   | 语言包      | 无值时显示的文字                  |
-| `open`         | `boolean`                  | `false`     | 浮层是否打开，支持 `v-model:open` |
-| `variant`      | `'primary' \| 'secondary'` | `'primary'` | 形态                              |
-| `size`         | `'sm' \| 'md' \| 'lg'`     | `'md'`      | 尺寸                              |
-| `invalid`      | `boolean`                  | `false`     | 是否校验未通过                    |
-| `name`         | `string`                   | —           | 原生表单字段名                    |
-| `required`     | `boolean`                  | `false`     | 设置 `name` 后启用原生必填校验    |
-| `autocomplete` | `string`                   | —           | 原生表单自动填充提示              |
-| `disabled`     | `boolean`                  | `false`     | 是否禁用                          |
-| `class`        | `string`                   | —           | 追加至根元素的类名                |
+| 属性           | 类型                       | 默认值      | 说明                                 |
+| -------------- | -------------------------- | ----------- | ------------------------------------ |
+| `modelValue`   | `string \| number \| null` | —           | 选中的值                             |
+| `options`      | `SelectItems<T>`           | —           | 选项，见下方类型                     |
+| `virtualize`   | `VirtualizeOptions`        | `false`     | 虚拟滚动；预估行高按内容，overscan 6 |
+| `clearable`    | `boolean`                  | `false`     | 是否显示清除按钮                     |
+| `placeholder`  | `string`                   | 语言包      | 无值时显示的文字                     |
+| `open`         | `boolean`                  | `false`     | 浮层是否打开，支持 `v-model:open`    |
+| `variant`      | `'primary' \| 'secondary'` | `'primary'` | 形态                                 |
+| `size`         | `'sm' \| 'md' \| 'lg'`     | `'md'`      | 尺寸                                 |
+| `invalid`      | `boolean`                  | `false`     | 是否校验未通过                       |
+| `name`         | `string`                   | —           | 原生表单字段名                       |
+| `required`     | `boolean`                  | `false`     | 设置 `name` 后启用原生必填校验       |
+| `autocomplete` | `string`                   | —           | 原生表单自动填充提示                 |
+| `disabled`     | `boolean`                  | `false`     | 是否禁用                             |
+| `class`        | `string`                   | —           | 追加至根元素的类名                   |
 
 ### 插槽 {#slots}
 
@@ -131,4 +138,8 @@ interface SelectOptionGroup<T extends SelectOption = SelectOption> {
 }
 
 type SelectItems<T extends SelectOption = SelectOption> = Array<T | SelectOptionGroup<T>>
+```
+
+```ts
+type VirtualizeOptions = boolean | { estimateSize?: number; overscan?: number }
 ```

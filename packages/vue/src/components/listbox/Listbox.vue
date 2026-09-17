@@ -10,6 +10,8 @@
   import { useFieldControl } from '../form-field/context'
   import { useUiLocale } from '../../locale'
   import ScrollArea from '../scroll-area/ScrollArea.vue'
+  import VirtualChoices from '../virtual-list/VirtualChoices.vue'
+  import type { VirtualizeOptions } from '../../lib/virtual/types'
   import { selectEmpty, selectItem, selectLabel } from '../select/select.variants'
   import { isOptionGroup, type SelectItems, type SelectOption } from '../select/types'
   import ListboxOptionContent from './ListboxOptionContent.vue'
@@ -20,6 +22,7 @@
   const props = withDefaults(
     defineProps<{
       options: SelectItems<T>
+      virtualize?: VirtualizeOptions
       multiple?: boolean
       maxHeight?: string
       padded?: boolean
@@ -57,7 +60,33 @@
     :data-invalid="invalid ? '' : undefined"
     :class="cn(listbox({ variant: props.variant }), props.class)"
   >
-    <ScrollArea :style="{ maxHeight: props.maxHeight }">
+    <ListboxContent v-if="props.virtualize" as-child v-bind="$attrs">
+      <VirtualChoices
+        v-slot="{ option, attrs }"
+        :options="props.options"
+        :virtualize="props.virtualize"
+        kind="listbox"
+        :padded="props.padded"
+        :max-height="props.maxHeight"
+      >
+        <ListboxItem
+          v-bind="attrs"
+          :value="option.value"
+          :disabled="option.disabled"
+          :class="selectItem()"
+        >
+          <ListboxOptionContent :option="option">
+            <template v-if="slots.option" #option="slotProps">
+              <slot name="option" v-bind="slotProps" />
+            </template>
+            <template v-if="slots.trailing" #trailing="slotProps">
+              <slot name="trailing" v-bind="slotProps" />
+            </template>
+          </ListboxOptionContent>
+        </ListboxItem>
+      </VirtualChoices>
+    </ListboxContent>
+    <ScrollArea v-else :style="{ maxHeight: props.maxHeight }">
       <ListboxContent v-bind="$attrs" :class="listboxContent({ padded: props.padded })">
         <template
           v-for="item in props.options"
