@@ -26,6 +26,14 @@ import { Text } from '@hina-ui/vue'
 
 <Demo name="text/sizes" />
 
+### 继承字号 {#inherit}
+
+`size="inherit"` 继承父元素的字号和行高，父级文字样式变化时会跟随更新。行内文字搭配 `as="span"`；单独设置 `as` 不会改变字号。
+
+颜色和字重仍分别由 `tone`、`weight` 控制，未设置 `size` 时仍使用 `base`。
+
+<Demo name="text/inherit" />
+
 ### 色调 {#tones}
 
 `default` 是正文色，`muted` 和 `faint` 依次减弱，`disabled` 用于不可用状态，其余四种表示语义状态。
@@ -61,7 +69,7 @@ import { Text } from '@hina-ui/vue'
 
 | 属性       | 类型                                                                                                        | 默认值      | 说明                           |
 | ---------- | ----------------------------------------------------------------------------------------------------------- | ----------- | ------------------------------ |
-| `size`     | `'xs' \| 'sm' \| 'base' \| 'md' \| 'lg' \| 'xl' \| '2xl'`                                                   | `'base'`    | 字号                           |
+| `size`     | `'xs' \| 'sm' \| 'base' \| 'md' \| 'lg' \| 'xl' \| '2xl' \| 'inherit'`                                      | `'base'`    | 字号                           |
 | `tone`     | `'default' \| 'muted' \| 'faint' \| 'disabled' \| 'accent' \| 'success' \| 'warning' \| 'danger' \| 'info'` | `'default'` | 色调                           |
 | `weight`   | `'normal' \| 'medium' \| 'semibold'`                                                                        | `'normal'`  | 字重                           |
 | `truncate` | `boolean`                                                                                                   | `false`     | 是否单行截断并显示省略号       |

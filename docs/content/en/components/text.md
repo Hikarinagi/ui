@@ -26,6 +26,14 @@ Seven steps, from 13 pixels to 30. `base` is body text, `md` suits a lead paragr
 
 <Demo name="text/sizes" />
 
+### Inherited size {#inherit}
+
+`size="inherit"` inherits the parent's font size and line height, following changes to the parent's typography. Pair it with `as="span"` for inline text; changing `as` alone does not change the size.
+
+Colour and weight remain controlled by `tone` and `weight`. Omitting `size` still uses `base`.
+
+<Demo name="text/inherit" />
+
 ### Tones {#tones}
 
 `default` is body colour, `muted` and `faint` step down from it, `disabled` marks unavailable content, and the remaining four carry meaning.
@@ -61,7 +69,7 @@ With `truncate`, text wider than its container ends in an ellipsis and never wra
 
 | Prop       | Type                                                                                                        | Default     | Description                                   |
 | ---------- | ----------------------------------------------------------------------------------------------------------- | ----------- | --------------------------------------------- |
-| `size`     | `'xs' \| 'sm' \| 'base' \| 'md' \| 'lg' \| 'xl' \| '2xl'`                                                   | `'base'`    | Font size                                     |
+| `size`     | `'xs' \| 'sm' \| 'base' \| 'md' \| 'lg' \| 'xl' \| '2xl' \| 'inherit'`                                      | `'base'`    | Font size                                     |
 | `tone`     | `'default' \| 'muted' \| 'faint' \| 'disabled' \| 'accent' \| 'success' \| 'warning' \| 'danger' \| 'info'` | `'default'` | Tone                                          |
 | `weight`   | `'normal' \| 'medium' \| 'semibold'`                                                                        | `'normal'`  | Font weight                                   |
 | `truncate` | `boolean`                                                                                                   | `false`     | Truncate to one line with an ellipsis         |

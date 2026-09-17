@@ -3,6 +3,7 @@ import { tv, type VariantProps } from '../lib/tv'
 export const text = tv({
   variants: {
     size: {
+      inherit: 'text-[length:inherit] leading-[inherit]',
       xs: 'text-xs',
       sm: 'text-sm',
       base: 'text-base',
