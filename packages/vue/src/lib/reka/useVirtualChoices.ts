@@ -79,7 +79,7 @@ export function useVirtualChoices<T extends SelectOption>(props: {
     viewport,
     body,
     config: () => props.virtualize,
-    initialIndex: () => selectedIndex.value,
+    initialIndex: props.kind === 'listbox' ? undefined : () => selectedIndex.value,
     retain: () => [activeIndex.value, selectedIndex.value],
     include: indexes =>
       indexes.flatMap(index =>

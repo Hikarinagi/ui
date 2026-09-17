@@ -8,6 +8,7 @@
   const props = defineProps<{
     items: FlattenedItem<T>[]
     virtualize?: VirtualizeOptions
+    initialScrollToSelected?: boolean
     viewport?: HTMLElement
     disabled?: (node: T) => boolean
   }>()

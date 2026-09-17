@@ -8,6 +8,7 @@
   const props = defineProps<{
     items: FlattenedItem<T>[]
     virtualize?: VirtualizeOptions
+    initialScrollToSelected?: boolean
     maxHeight?: string | number
     scrollable?: boolean
     class?: string
@@ -46,6 +47,7 @@
       ref="window"
       :items="props.items"
       :virtualize="props.virtualize"
+      :initial-scroll-to-selected="props.initialScrollToSelected"
       :viewport="area?.viewport"
       :disabled="props.disabled"
       v-slot="{ item }"

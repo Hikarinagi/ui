@@ -9,6 +9,7 @@ export function useVirtualTree<T extends { label: string; disabled?: boolean }>(
   props: {
     items: FlattenedItem<T>[]
     virtualize?: VirtualizeOptions
+    initialScrollToSelected?: boolean
     disabled?: (node: T) => boolean
   },
   viewport: Ref<HTMLElement | undefined>,
@@ -28,7 +29,7 @@ export function useVirtualTree<T extends { label: string; disabled?: boolean }>(
     items: () => props.items,
     key: item => item._id,
     config: () => props.virtualize,
-    initialIndex: () => selected.value,
+    initialIndex: props.initialScrollToSelected ? () => selected.value : undefined,
     viewport,
     body,
     retain: () => [index.value, selected.value],

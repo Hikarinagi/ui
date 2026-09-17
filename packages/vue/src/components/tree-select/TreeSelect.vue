@@ -173,6 +173,7 @@
               ref="rows"
               :items="flattenItems"
               :virtualize="props.virtualize"
+              initial-scroll-to-selected
               scrollable
               :class="treeSelectList()"
             >
