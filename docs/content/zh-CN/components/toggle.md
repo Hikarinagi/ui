@@ -26,7 +26,7 @@ import { Toggle } from '@hina-ui/vue'
 
 ### 图标型 {#icon}
 
-传入 `label` 即为图标型：按钮变为正方形，`label` 是它的无障碍名称，在 `TooltipProvider` 内还会作为文字提示。`#pressed-icon` 给出按下时的图标，两个图标之间交叉淡变。
+`label` 提供无障碍名称。没有默认文字插槽时，按钮使用正方形的图标型尺寸；同时提供文字时，保留常规按钮内边距。在 `TooltipProvider` 内，`label` 还会作为 [Tooltip](/components/tooltip) 的文字提示。`#pressed-icon` 给出按下时的图标，两个图标之间交叉淡变。
 
 <Demo name="toggle/icon" />
 
@@ -69,24 +69,24 @@ import { Toggle } from '@hina-ui/vue'
 ## 无障碍 {#a11y}
 
 - 根元素是带 `aria-pressed` 的按钮，读屏软件读作「切换按钮，已按下」。
-- 图标型必须提供 `label`；文字型以文字命名。
+- 图标型必须提供 `label`；文字型默认以文字命名，也可通过 `label` 补充完整名称。
 
 ## API {#api}
 
 ### Props {#props}
 
-| 属性         | 类型                                     | 默认值    | 说明                         |
-| ------------ | ---------------------------------------- | --------- | ---------------------------- |
-| `modelValue` | `boolean`                                | `false`   | 是否按下                     |
-| `label`      | `string`                                 | —         | 图标型的名称，传入即为图标型 |
-| `tooltip`    | `boolean`                                | `true`    | 图标型是否显示文字提示       |
-| `side`       | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'`   | 文字提示的位置               |
-| `variant`    | `'ghost' \| 'outline'`                   | `'ghost'` | 形态                         |
-| `size`       | `'sm' \| 'md' \| 'lg'`                   | `'md'`    | 尺寸                         |
-| `pill`       | `boolean`                                | `false`   | 是否为胶囊形                 |
-| `disabled`   | `boolean`                                | `false`   | 是否禁用                     |
-| `ripple`     | `boolean`                                | `true`    | 是否显示按压波纹             |
-| `class`      | `string`                                 | —         | 追加至按钮元素的类名         |
+| 属性         | 类型                                     | 默认值    | 说明                                   |
+| ------------ | ---------------------------------------- | --------- | -------------------------------------- |
+| `modelValue` | `boolean`                                | `false`   | 是否按下                               |
+| `label`      | `string`                                 | —         | 无障碍名称；无文字插槽时使用图标型尺寸 |
+| `tooltip`    | `boolean`                                | `true`    | 是否显示 label 对应的文字提示          |
+| `side`       | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'`   | 文字提示的位置                         |
+| `variant`    | `'ghost' \| 'outline'`                   | `'ghost'` | 形态                                   |
+| `size`       | `'sm' \| 'md' \| 'lg'`                   | `'md'`    | 尺寸                                   |
+| `pill`       | `boolean`                                | `false`   | 是否为胶囊形                           |
+| `disabled`   | `boolean`                                | `false`   | 是否禁用                               |
+| `ripple`     | `boolean`                                | `true`    | 是否显示按压波纹                       |
+| `class`      | `string`                                 | —         | 追加至按钮元素的类名                   |
 
 ### 插槽 {#slots}
 

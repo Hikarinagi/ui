@@ -94,7 +94,7 @@ describe('toggle · 按下态', () => {
 })
 
 describe('toggle · 图标型', () => {
-  it('label 让按钮成正方形，悬停出现同名文字提示', async () => {
+  it('无文字插槽时按钮为正方形，悬停出现 label 文字提示', async () => {
     const { button } = mountToggle(
       { label: '加粗' },
       { default: undefined as unknown as () => unknown, icon: () => h('svg') },
@@ -126,6 +126,34 @@ describe('toggle · 图标型', () => {
 })
 
 describe('toggle · 与 Button 同一副尺寸', () => {
+  it.each(['comfortable', 'compact'])(
+    '文字型带 label 时保留与 Button 相同的内边距（%s）',
+    async density => {
+      for (const size of ['sm', 'md', 'lg'] as const) {
+        const reference = mount(Button, {
+          props: { size, 'data-density': density },
+          slots: { default: '加粗', icon: () => h('svg') },
+          attachTo: attach(),
+        })
+        mounted.push(reference)
+        const { button } = mountToggle({ size, label: '加粗文字' }, { icon: () => h('svg') })
+        button.setAttribute('data-density', density)
+        const referenceButton = reference.get('button').element
+        const style = getComputedStyle(button)
+        const referenceStyle = getComputedStyle(referenceButton)
+        expect(parseFloat(style.paddingInlineStart)).toBeGreaterThan(0)
+        expect(style.paddingInlineStart).toBe(referenceStyle.paddingInlineStart)
+        expect(style.paddingInlineEnd).toBe(referenceStyle.paddingInlineEnd)
+        expect(style.aspectRatio).toBe('auto')
+        expect(button.offsetHeight).toBe(referenceButton.offsetHeight)
+        expect(button.getAttribute('aria-label')).toBe('加粗文字')
+        await userEvent.click(button)
+        expect(button.getAttribute('aria-pressed')).toBe('true')
+        expect(style.paddingInlineStart).toBe(referenceStyle.paddingInlineStart)
+      }
+    },
+  )
+
   it('三档高度与 Button 逐档相等', () => {
     for (const size of ['sm', 'md', 'lg'] as const) {
       const button = mount(Button, {
