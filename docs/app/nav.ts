@@ -156,6 +156,12 @@ export const components: DocsComponent[] = [
     category: 'atoms',
   },
   {
+    label: 'DataList',
+    to: '/components/data-list',
+    i18n: 'components.data-list',
+    category: 'data',
+  },
+  {
     label: 'DataTable',
     to: '/components/data-table',
     i18n: 'components.data-table',

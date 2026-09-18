@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 52,
+      "title": "D.S. -Dal Segno-",
+      "originalTitle": "D.S. -Dal Segno-",
+      "developer": "CIRCUS",
+      "released": "2016-04-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10055/brx57zrd_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/52"
+    },
+    {
+      "id": 1192,
+      "title": "异世界酒馆六重奏 ～第一卷 新世界之日～",
+      "originalTitle": "異世界酒場のセクステット ～Vol.1 New World Days～",
+      "developer": "qureate / iMel株式会社",
+      "released": "2020-11-05",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/79cd1ed6-0d75-4797-8064-7a9aaee94841.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 822,
+        "height": 462
+      },
+      "url": "https://www.hikarinagi.org/galgames/1192"
+    },
+    {
+      "id": 1072,
+      "title": "神怒之日 ～剧终～",
+      "originalTitle": "Dies irae 〜Acta est Fabula〜",
+      "developer": "light / 株式会社グリーンウッド",
+      "released": "2009-12-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/b3e44ee2-1a5c-463f-a271-597041d18696.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 398,
+        "height": 284
+      },
+      "url": "https://www.hikarinagi.org/galgames/1072"
+    },
+    {
+      "id": 1207,
+      "title": "白恋SAKURA·GRAM",
+      "originalTitle": "春音アリス＊グラムWパッケージ",
+      "developer": "ナナウィンド",
+      "released": "2020-11-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/855d3e06-9fa9-4f29-876e-6ae357bb4bfa.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 800,
+        "height": 1149
+      },
+      "url": "https://www.hikarinagi.org/galgames/1207"
+    },
+    {
+      "id": 774,
+      "title": "E×E",
+      "originalTitle": "E×E",
+      "developer": "ゆずソフト",
+      "released": "2007-06-01",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/b79384e3-c1d7-4945-ab71-f18d418b3bf1.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/774"
+    },
+    {
+      "id": 464,
+      "title": "妹选拔总选举",
+      "originalTitle": "妹選抜☆総選挙 ～365人の妹いちゃラブマニフェスト～",
+      "developer": "Latte",
+      "released": "2011-12-22",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/7737d462-3b65-4a3d-bbe0-f678be662947.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 256,
+        "height": 352
+      },
+      "url": "https://www.hikarinagi.org/galgames/464"
+    },
+    {
+      "id": 932,
+      "title": "ごほうしアクマとオシオキてんし",
+      "originalTitle": "ごほうしアクマとオシオキてんし",
+      "developer": "クインスソフト",
+      "released": "2021-01-29",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/db6a87d5-8162-4053-a1e8-e52c553ae795.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1469,
+        "height": 2048
+      },
+      "url": "https://www.hikarinagi.org/galgames/932"
+    },
+    {
+      "id": 398,
+      "title": "痕 ～きずあと～",
+      "originalTitle": "痕 ～きずあと～",
+      "developer": "Leaf",
+      "released": "2009-06-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/aca6b811-fe2c-4a0e-8f11-f199820c10a1.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 389,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/398"
+    },
+    {
+      "id": 1204,
+      "title": "我的妹妹哪有这么可爱！ 携带版",
+      "originalTitle": "俺の妹がこんなに可愛いわけがない ポータブル",
+      "developer": "有限会社ガイズウェア / バンダイナムコエンターテインメント",
+      "released": "2011-01-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/4321dd6e-42ba-410b-90d4-8547c4ea1851.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 500,
+        "height": 853
+      },
+      "url": "https://www.hikarinagi.org/galgames/1204"
+    },
+    {
+      "id": 936,
+      "title": "RE：D Cherish！ SS 与德斯的甜蜜生活",
+      "originalTitle": "RE:D Cherish! SS デスのワンオペレーション",
+      "developer": "CRYSTALiA",
+      "released": "2023-11-24",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/20e141a2-8738-4961-9b73-c31475163620.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 636,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/936"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

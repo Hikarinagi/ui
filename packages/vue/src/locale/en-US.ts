@@ -79,6 +79,7 @@ export const enUS: UiMessages = {
     unknown: 'Unknown time',
   },
   virtualList: { empty: 'No data' },
+  dataList: { empty: 'No data', list: 'List view', grid: 'Grid view', layout: 'Display layout' },
   scroll: {
     regionLabel: 'Scrollable region',
   },

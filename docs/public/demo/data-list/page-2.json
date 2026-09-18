@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 228,
+      "title": "ISLAND",
+      "originalTitle": "ISLAND",
+      "developer": "Frontwing Co., Ltd.",
+      "released": "2016-04-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/0bc80df9-bbba-4e73-bfe9-1284e10cd918.webp?w=600&f=webp&fit=scale-down&q=85",
+        "width": 800,
+        "height": 450
+      },
+      "url": "https://www.hikarinagi.org/galgames/228"
+    },
+    {
+      "id": 2019,
+      "title": "重返蓝鲸岛",
+      "originalTitle": "シロナガス島への帰還",
+      "developer": "旅の道",
+      "released": "2018-12-30",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/03063c62-bc62-455a-93aa-42a638c76efd.webp?w=600&f=webp&fit=scale-down&q=85",
+        "width": 866,
+        "height": 1024
+      },
+      "url": "https://www.hikarinagi.org/galgames/2019"
+    },
+    {
+      "id": 1051,
+      "title": "甜蜜女友3",
+      "originalTitle": "アマカノ３",
+      "developer": "あざらしそふと",
+      "released": "2025-09-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/11078/i8svpzaj_2.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 796,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/1051"
+    },
+    {
+      "id": 1041,
+      "title": "橘光柠水随想曲",
+      "originalTitle": "ライムライト・レモネードジャム",
+      "developer": "ゆずソフト",
+      "released": "2025-09-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/00b6ad4e-d63f-4ce7-9fe6-8ca8d5012431.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 500,
+        "height": 709
+      },
+      "url": "https://www.hikarinagi.org/galgames/1041"
+    },
+    {
+      "id": 798,
+      "title": "甜蜜女友2+",
+      "originalTitle": "アマカノ2+",
+      "developer": "あざらしそふと",
+      "released": "2023-04-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/f9c26271-1c7a-4a8f-98f7-21ef34237ca0.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1500,
+        "height": 1056
+      },
+      "url": "https://www.hikarinagi.org/galgames/798"
+    },
+    {
+      "id": 1184,
+      "title": "魔法少女的魔女审判",
+      "originalTitle": "魔法少女ノ魔女裁判",
+      "developer": "合同会社Re,AER / Acacia / Re,AER",
+      "released": "2025-07-18",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/806dae9f-f8ce-45eb-bb57-6445bed406a2.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/1184"
+    },
+    {
+      "id": 797,
+      "title": "甜蜜女友2",
+      "originalTitle": "アマカノ2",
+      "developer": "あざらしそふと",
+      "released": "2020-04-24",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10806/ds1tpxju_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1064,
+        "height": 1356
+      },
+      "url": "https://www.hikarinagi.org/galgames/797"
+    },
+    {
+      "id": 394,
+      "title": "废村少女［2］ ～引导阴影的秘姬之匣～",
+      "originalTitle": "廃村少女［弐］ ～陰り誘う秘姫の匣～",
+      "developer": "エスクード",
+      "released": "2025-07-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10403/0d31mx4o_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1066,
+        "height": 1507
+      },
+      "url": "https://www.hikarinagi.org/galgames/394"
+    },
+    {
+      "id": 893,
+      "title": "すれ違う兄妹の壊れる倫理観",
+      "originalTitle": "すれ違う兄妹の壊れる倫理観",
+      "developer": "CloverGAME",
+      "released": "2025-04-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/449d33eb-1884-4cfa-9a67-794123967fe9.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 790,
+        "height": 1279
+      },
+      "url": "https://www.hikarinagi.org/galgames/893"
+    },
+    {
+      "id": 1112,
+      "title": "寄宿少女的誓言与魔法",
+      "originalTitle": "宿りし乙女の誓いと魔法",
+      "developer": "ensemble",
+      "released": "2025-07-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/11139/yhszlnyp_2.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1000,
+        "height": 708
+      },
+      "url": "https://www.hikarinagi.org/galgames/1112"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

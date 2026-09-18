@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 10,
+      "title": "ONE.",
+      "originalTitle": "ONE.",
+      "developer": "ネクストン / Shiravune / novamicus",
+      "released": "2023-12-22",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10012/dhh586sg_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/10"
+    },
+    {
+      "id": 869,
+      "title": "任性HighSpec",
+      "originalTitle": "ワガママハイスペック",
+      "developer": "まどそふと",
+      "released": "2017-07-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/5a6b8793-19df-40dd-9c6d-5f437a45616c.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 785,
+        "height": 1000
+      },
+      "url": "https://www.hikarinagi.org/galgames/869"
+    },
+    {
+      "id": 165,
+      "title": "果然在游戏里我的青春恋爱物语也有问题。续",
+      "originalTitle": "やはりゲームでも俺の青春ラブコメはまちがっている。続",
+      "developer": "MAGES. / 有限会社ガイズウェア / 5pb.",
+      "released": "2016-10-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/798be631-033a-4458-9a04-3b5bf1740097.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 500,
+        "height": 682
+      },
+      "url": "https://www.hikarinagi.org/galgames/165"
+    },
+    {
+      "id": 1024,
+      "title": "家喵二三事 Vol. 1",
+      "originalTitle": "ウチのペット事情 Vol.1",
+      "developer": "あにまるハーブ",
+      "released": "2022-04-08",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/1e416910-0601-4009-82d0-cbb7b5147b8a.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/1024"
+    },
+    {
+      "id": 422,
+      "title": "3days ～在逝去时间的另一端～",
+      "originalTitle": "3days ～満ちてゆく刻の彼方で～",
+      "developer": "Lass",
+      "released": "2004-06-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/0c8221f6-3ece-48b3-ad4c-0b77ab2847b7.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 448,
+        "height": 614
+      },
+      "url": "https://www.hikarinagi.org/galgames/422"
+    },
+    {
+      "id": 520,
+      "title": "SPIRAL!!",
+      "originalTitle": "SPIRAL!!",
+      "developer": "Navel",
+      "released": "2019-02-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/97646d86-3f6b-4452-88c4-7ea9dd9ec3fe.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 792,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/520"
+    },
+    {
+      "id": 462,
+      "title": "牛顿与苹果树",
+      "originalTitle": "ニュートンと林檎の樹",
+      "developer": "Laplacian",
+      "released": "2017-05-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/aad7b3ff-5c6b-4210-8372-847556ae6496.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 792,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/462"
+    },
+    {
+      "id": 160,
+      "title": "恋爱少女与守护之盾",
+      "originalTitle": "恋する乙女と守護の楯",
+      "developer": "AXL",
+      "released": "2007-06-29",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/4d1b04e4-0ea6-4eaa-8db5-56e85fca7ac4.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 400,
+        "height": 563
+      },
+      "url": "https://www.hikarinagi.org/galgames/160"
+    },
+    {
+      "id": 125,
+      "title": "将军大人芳华正茂",
+      "originalTitle": "将軍様はお年頃",
+      "developer": "ALcot",
+      "released": "2018-01-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/3b3700ed-bdc8-4098-ab2d-13eebea41172.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 560,
+        "height": 396
+      },
+      "url": "https://www.hikarinagi.org/galgames/125"
+    },
+    {
+      "id": 1135,
+      "title": "怀揣思念与我再会!!",
+      "originalTitle": "思い出抱えてアイにコイ!!",
+      "developer": "HOOKSOFT",
+      "released": "2021-09-24",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/11164/sqdzsac3_2.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1596,
+        "height": 1000
+      },
+      "url": "https://www.hikarinagi.org/galgames/1135"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

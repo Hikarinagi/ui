@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 952,
+      "title": "人狼村之谜",
+      "originalTitle": "レイジングループ",
+      "developer": "株式会社ケムコ",
+      "released": "2015-12-03",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/763a7cb9-12e0-4032-ac84-96e63b65e605.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 480,
+        "height": 800
+      },
+      "url": "https://www.hikarinagi.org/galgames/952"
+    },
+    {
+      "id": 882,
+      "title": "アイキス3",
+      "originalTitle": "アイキス3",
+      "developer": "戯画",
+      "released": "2022-03-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/ca442c12-9b18-44c8-bc69-6fbd56be72b4.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1920,
+        "height": 1080
+      },
+      "url": "https://www.hikarinagi.org/galgames/882"
+    },
+    {
+      "id": 1719,
+      "title": "我的未婚妻还不太懂初恋",
+      "originalTitle": "その許嫁(よめ)は初恋を知らない",
+      "developer": "その恋、保留につき、",
+      "released": "2025-09-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/6a67bc94-298c-4245-84dd-71c7340a27b3.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1200,
+        "height": 675
+      },
+      "url": "https://www.hikarinagi.org/galgames/1719"
+    },
+    {
+      "id": 166,
+      "title": "果然在游戏里我的青春恋爱物语也有问题。完",
+      "originalTitle": "やはりゲームでも俺の青春ラブコメはまちがっている。完",
+      "developer": "MAGES.",
+      "released": "2023-04-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/a49cf296-2d44-4363-80b7-232ace83d6d4.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 874,
+        "height": 1425
+      },
+      "url": "https://www.hikarinagi.org/galgames/166"
+    },
+    {
+      "id": 208,
+      "title": "同级生2 重制版",
+      "originalTitle": "同級生2リメイク",
+      "developer": "FG Remake",
+      "released": "2024-06-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/7128e346-f412-46bf-92c0-51c496b2c982.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1000,
+        "height": 749
+      },
+      "url": "https://www.hikarinagi.org/galgames/208"
+    },
+    {
+      "id": 1032,
+      "title": "韶华苦短，起舞吧少女",
+      "originalTitle": "華は短し、踊れよ乙女",
+      "developer": "ensemble",
+      "released": "2022-09-30",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/b9a5b435-2412-482a-8445-c7e523f688c7.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1271,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/1032"
+    },
+    {
+      "id": 1019,
+      "title": "恋狱～月狂病～ 重制版",
+      "originalTitle": "カルタグラ～ツキ狂イノ病～　《REBIRTH FHD SIZE EDITION》",
+      "developer": "Innocent Grey",
+      "released": "2023-04-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/2f780368-6594-4b45-a3f9-e58f904fd0f8.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/1019"
+    },
+    {
+      "id": 801,
+      "title": "爱之钥3",
+      "originalTitle": "アイカギ3",
+      "developer": "あざらしそふと",
+      "released": "2021-05-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/0df46b8f-5666-4f92-b7ee-bb8f6d1dcdca.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 2048,
+        "height": 1421
+      },
+      "url": "https://www.hikarinagi.org/galgames/801"
+    },
+    {
+      "id": 86,
+      "title": "9-nine-雪色雪花雪之痕",
+      "originalTitle": "9-nine-ゆきいろゆきはなゆきのあと  Episode.4 Yuki Noa",
+      "developer": "ぱれっと / 株式会社エンターグラム",
+      "released": "2020-04-24",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/b0277a4d-8c21-45a5-b7f8-75a510896877.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1202,
+        "height": 1750
+      },
+      "url": "https://www.hikarinagi.org/galgames/86"
+    },
+    {
+      "id": 1089,
+      "title": "SorceressAlive!～世界末日陨落之星～",
+      "originalTitle": "ソーサレス＊アライヴ！～the World's End Fallen Star～",
+      "developer": "Fluorite",
+      "released": "2019-01-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/c9346e00-ee23-4ce6-ae34-5d5a9b35d34b.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 822,
+        "height": 462
+      },
+      "url": "https://www.hikarinagi.org/galgames/1089"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

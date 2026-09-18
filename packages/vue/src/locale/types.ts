@@ -81,6 +81,12 @@ export interface UiMessages {
   virtualList: {
     empty: string
   }
+  dataList: {
+    empty: string
+    list: string
+    grid: string
+    layout: string
+  }
   toast: {
     regionLabel: string
   }

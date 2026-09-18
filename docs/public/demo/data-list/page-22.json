@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 46,
+      "title": "金辉恋曲四重奏 -Golden Time-",
+      "originalTitle": "金色ラブリッチェ -Golden Time-",
+      "developer": "SAGA PLANETS",
+      "released": "2019-02-22",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10049/lurkzl5z_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/46"
+    },
+    {
+      "id": 363,
+      "title": "Tiny Dungeon ～BLACK and WHITE～",
+      "originalTitle": "Tiny Dungeon ～BLACK and WHITE～",
+      "developer": "Rosebleu",
+      "released": "2010-06-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/9a1b2065-527d-4e78-aeec-bc59c5c5e17e.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 560,
+        "height": 420
+      },
+      "url": "https://www.hikarinagi.org/galgames/363"
+    },
+    {
+      "id": 329,
+      "title": "雨恋",
+      "originalTitle": "雨恋",
+      "developer": "Noesis",
+      "released": "2014-08-08",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/3399efed-5b3d-46f9-b64e-2ded202386d9.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/329"
+    },
+    {
+      "id": 557,
+      "title": "献给神明般的你 EXTENDED EDITION",
+      "originalTitle": "神様のような君へ EXTENDED EDITION",
+      "developer": "CUBE / 株式会社エンターグラム",
+      "released": "2022-03-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/5022ddc4-6632-42db-b18c-78b638a4c30d.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1000,
+        "height": 707
+      },
+      "url": "https://www.hikarinagi.org/galgames/557"
+    },
+    {
+      "id": 152,
+      "title": "八卦恋爱",
+      "originalTitle": "コイバナ恋愛",
+      "developer": "ASa Project",
+      "released": "2023-09-29",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/994764b2-241d-4c2a-a25f-b0b7352a29e0.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 2048,
+        "height": 1447
+      },
+      "url": "https://www.hikarinagi.org/galgames/152"
+    },
+    {
+      "id": 1047,
+      "title": "饿殍：明末千里行",
+      "originalTitle": "饿殍：明末千里行",
+      "developer": "零创游戏",
+      "released": "2024-04-23",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/70cff04f-9c60-4eca-9d14-a20468267076.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/1047"
+    },
+    {
+      "id": 315,
+      "title": "恋狱～月狂病～",
+      "originalTitle": "カルタグラ ～ツキ狂イノ病～",
+      "developer": "Innocent Grey",
+      "released": "2005-04-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/e0b0d4a4-9a3e-4216-a2d3-0aa3e1139d2e.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 2048,
+        "height": 1489
+      },
+      "url": "https://www.hikarinagi.org/galgames/315"
+    },
+    {
+      "id": 680,
+      "title": "玻璃青春",
+      "originalTitle": "青春フラジャイル",
+      "developer": "パープルソフトウェア",
+      "released": "2020-08-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/6313d6ec-f6dd-4c2d-9b7e-33334b8d4bf3.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1451,
+        "height": 2048
+      },
+      "url": "https://www.hikarinagi.org/galgames/680"
+    },
+    {
+      "id": 477,
+      "title": "永不落幕的前奏诗",
+      "originalTitle": "ソレヨリノ前奏詩",
+      "developer": "minori",
+      "released": "2015-02-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/14e50a5a-2d53-4836-aa12-fdee5fbc0ed0.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 256,
+        "height": 179
+      },
+      "url": "https://www.hikarinagi.org/galgames/477"
+    },
+    {
+      "id": 1165,
+      "title": "ワナクリ２",
+      "originalTitle": "ワナクリ２",
+      "developer": "DESSERT Soft",
+      "released": "2025-06-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/11194/zfnkjw9u_2.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 800,
+        "height": 1131
+      },
+      "url": "https://www.hikarinagi.org/galgames/1165"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

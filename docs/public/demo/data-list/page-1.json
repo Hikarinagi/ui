@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 5,
+      "title": "夏日口袋",
+      "originalTitle": "Summer Pockets",
+      "developer": "Key / 株式会社ビジュアルアーツ",
+      "released": "2018-06-29",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/cea28e7a-f8fe-41bd-a590-8617ab444543.webp?w=600&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/5"
+    },
+    {
+      "id": 371,
+      "title": "CLANNAD",
+      "originalTitle": "CLANNAD",
+      "developer": "Key / 株式会社ビジュアルアーツ",
+      "released": "2004-04-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10380/29nm9759_2.jpg?w=600&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/371"
+    },
+    {
+      "id": 38,
+      "title": "亚托莉 -我挚爱的时光-",
+      "originalTitle": "ATRI -My Dear Moments-",
+      "developer": "Frontwing Co., Ltd. / 枕 / ANIPLEX.EXE / iMel / Syawase Works / JAST USA",
+      "released": "2020-06-19",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/80d19f51-05f8-420b-bf21-c14be639f4b9.webp?w=600&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/38"
+    },
+    {
+      "id": 25,
+      "title": "星之终途",
+      "originalTitle": "終のステラ",
+      "developer": "Key",
+      "released": "2022-09-30",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/b4413de2-6b99-43d3-8821-38a3f3e9e265.webp?w=600&f=webp&fit=scale-down&q=85",
+        "width": 618,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/25"
+    },
+    {
+      "id": 373,
+      "title": "星之梦",
+      "originalTitle": "planetarian ～ちいさなほしのゆめ～",
+      "developer": "Key",
+      "released": "2004-11-29",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/78964a61-24c2-4282-9303-0a58d34c9e8c.webp?w=600&f=webp&fit=scale-down&q=85",
+        "width": 440,
+        "height": 160
+      },
+      "url": "https://www.hikarinagi.org/galgames/373"
+    },
+    {
+      "id": 626,
+      "title": "命运石之门",
+      "originalTitle": "STEINS;GATE",
+      "developer": "ニトロプラス / MAGES. / 株式会社MAGES. / 株式会社角川書店 / スパイク・チュンソフト / 5pb.",
+      "released": "2009-10-15",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10635/tmy4f8v3_2.jpg?w=600&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 882
+      },
+      "url": "https://www.hikarinagi.org/galgames/626"
+    },
+    {
+      "id": 4,
+      "title": "Summer Pockets REFLECTION BLUE",
+      "originalTitle": "Summer Pockets REFLECTION BLUE",
+      "developer": "Key / 株式会社ビジュアルアーツ",
+      "released": "2020-06-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/00d188f8-4cb1-43a8-a524-af088d32fcb3.webp?w=600&f=webp&fit=scale-down&q=85",
+        "width": 387,
+        "height": 548
+      },
+      "url": "https://www.hikarinagi.org/galgames/4"
+    },
+    {
+      "id": 384,
+      "title": "Harmonia -ハルモニア-",
+      "originalTitle": "Harmonia -ハルモニア-",
+      "developer": "Key",
+      "released": "2016-09-23",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/835fdeed-e380-4879-b9f2-c4044777368b.webp?w=600&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/384"
+    },
+    {
+      "id": 385,
+      "title": "时廻者",
+      "originalTitle": "LOOPERS -ルーパーズ-",
+      "developer": "Key / 株式会社ビジュアルアーツ",
+      "released": "2021-05-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/aa377229-7ccd-46fd-9acb-65f379829f4c.webp?w=600&f=webp&fit=scale-down&q=85",
+        "width": 1000,
+        "height": 1414
+      },
+      "url": "https://www.hikarinagi.org/galgames/385"
+    },
+    {
+      "id": 627,
+      "title": "命运石之门 0",
+      "originalTitle": "STEINS;GATE 0",
+      "developer": "MAGES. / 有限会社エムツー / 5pb.",
+      "released": "2015-12-10",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/8730e2b0-c446-4d00-803f-5522a025b6eb.webp?w=600&f=webp&fit=scale-down&q=85",
+        "width": 784,
+        "height": 1000
+      },
+      "url": "https://www.hikarinagi.org/galgames/627"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

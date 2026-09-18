@@ -290,6 +290,21 @@ export type {
 } from './components/scroll-area/scroll-restore'
 
 export { default as DataTable } from './components/data-table/DataTable.vue'
+export { default as DataList } from './components/data-list/DataList.vue'
+export type {
+  DataListKey,
+  DataListKeyField,
+  DataListLayout,
+  DataListPageChange,
+  DataListItemSlot,
+  DataListState,
+  DataListProps,
+  DataListTextField,
+  DataListPlaceholderSlot,
+  DataListVirtualOptions,
+  DataListExpose,
+  DataListRange,
+} from './components/data-list/types'
 export type {
   DataTableColumn,
   DataTableKey,

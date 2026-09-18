@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 298,
+      "title": "缘起甜韵趣恋丛生",
+      "originalTitle": "ラブピカルポッピー！",
+      "developer": "SMEE",
+      "released": "2024-04-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/a8e91bb5-eb9c-4bb2-856a-a3a7a57ddc34.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 800,
+        "height": 585
+      },
+      "url": "https://www.hikarinagi.org/galgames/298"
+    },
+    {
+      "id": 1173,
+      "title": "制服女友2.5",
+      "originalTitle": "制服カノジョ2.5",
+      "developer": "株式会社エンターグラム",
+      "released": "2025-08-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/11203/tq65zs4o_2.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 672,
+        "height": 706
+      },
+      "url": "https://www.hikarinagi.org/galgames/1173"
+    },
+    {
+      "id": 453,
+      "title": "爱上火车-Last Run!!-",
+      "originalTitle": "まいてつ Last Run!!",
+      "developer": "Lose / RaRo",
+      "released": "2020-10-30",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/8b1f80ec-6d71-4d13-b6c6-56d4fe2f786b.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/453"
+    },
+    {
+      "id": 877,
+      "title": "向日葵的教会与长长的暑假",
+      "originalTitle": "向日葵の教会と長い夏休み",
+      "developer": "枕",
+      "released": "2013-03-29",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/db436841-dec3-4a39-af80-9e7edac065d0.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 620,
+        "height": 455
+      },
+      "url": "https://www.hikarinagi.org/galgames/877"
+    },
+    {
+      "id": 892,
+      "title": "秘密之恋（伪）纯爱 After Story",
+      "originalTitle": "シークレットラブ（仮）純愛アフターストーリー",
+      "developer": "HOOKSOFT",
+      "released": "2025-04-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10901/fpqpjnnh_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 742,
+        "height": 464
+      },
+      "url": "https://www.hikarinagi.org/galgames/892"
+    },
+    {
+      "id": 14,
+      "title": "巧克甜恋",
+      "originalTitle": "あまいろショコラータ",
+      "developer": "きゃべつそふと",
+      "released": "2020-01-31",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/f4b2f96f-5b9f-4192-a955-f8e31d014191.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 782,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/14"
+    },
+    {
+      "id": 62,
+      "title": "秽翼的尤斯蒂娅",
+      "originalTitle": "穢翼のユースティア",
+      "developer": "オーガスト",
+      "released": "2011-04-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10065/3q78bwcp_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1024,
+        "height": 1024
+      },
+      "url": "https://www.hikarinagi.org/galgames/62"
+    },
+    {
+      "id": 725,
+      "title": "异想魅惑",
+      "originalTitle": "きまぐれテンプテーション",
+      "developer": "シルキーズプラス WASABI",
+      "released": "2019-09-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10734/v8njhe3i_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/725"
+    },
+    {
+      "id": 260,
+      "title": "融心回响~御愈幽香~",
+      "originalTitle": "Re CATION ～Melty Healing～",
+      "developer": "hibiki works",
+      "released": "2020-07-22",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/607c5340-020c-4018-9975-2c2839e8b729.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1200,
+        "height": 847
+      },
+      "url": "https://www.hikarinagi.org/galgames/260"
+    },
+    {
+      "id": 82,
+      "title": "兰斯10 决战",
+      "originalTitle": "ランス10",
+      "developer": "アリスソフト",
+      "released": "2018-02-23",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/da77d4db-8a6e-445e-a088-825940eeec98.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 792,
+        "height": 1000
+      },
+      "url": "https://www.hikarinagi.org/galgames/82"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

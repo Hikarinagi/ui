@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 369,
+      "title": "Kanon",
+      "originalTitle": "Kanon",
+      "developer": "Key",
+      "released": "1999-06-04",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/60c799c8-13bf-449b-8a93-f6f4c39f15b4.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 800,
+        "height": 800
+      },
+      "url": "https://www.hikarinagi.org/galgames/369"
+    },
+    {
+      "id": 476,
+      "title": "无尽的平安夜",
+      "originalTitle": "12の月のイヴ",
+      "developer": "minori",
+      "released": "2014-01-31",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/fb142b42-72eb-43c5-acfe-5bf45b803dc8.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 791,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/476"
+    },
+    {
+      "id": 1133,
+      "title": "魔女恋爱日记",
+      "originalTitle": "魔女こいにっき",
+      "developer": "Qoobrand",
+      "released": "2014-05-30",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/11162/0dvk20x9_2.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/1133"
+    },
+    {
+      "id": 701,
+      "title": "绽放★青春全力向前冲！",
+      "originalTitle": "かけぬけ★青春スパーキング",
+      "developer": "SAGA PLANETS",
+      "released": "2020-08-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10710/bf0bpmig_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/701"
+    },
+    {
+      "id": 479,
+      "title": "トリノライン",
+      "originalTitle": "トリノライン",
+      "developer": "minori",
+      "released": "2017-03-31",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10488/dkj95pj4_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 842,
+        "height": 1181
+      },
+      "url": "https://www.hikarinagi.org/galgames/479"
+    },
+    {
+      "id": 107,
+      "title": "G弦上的魔王",
+      "originalTitle": "G線上の魔王",
+      "developer": "あかべぇそふとつぅ",
+      "released": "2008-05-29",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/ae9ee574-9e02-4ca6-95a4-48f122fe2e5e.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 353,
+        "height": 500
+      },
+      "url": "https://www.hikarinagi.org/galgames/107"
+    },
+    {
+      "id": 602,
+      "title": "恋花绽放樱飞时",
+      "originalTitle": "恋がさくころ桜どき",
+      "developer": "ぱれっと",
+      "released": "2014-06-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10611/caxzt3qt_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 794,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/602"
+    },
+    {
+      "id": 1035,
+      "title": "スカイコード",
+      "originalTitle": "スカイコード",
+      "developer": "MELLOW",
+      "released": "2024-05-31",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/65ef9a7f-5367-4139-80ed-1fbd5609c990.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 571,
+        "height": 800
+      },
+      "url": "https://www.hikarinagi.org/galgames/1035"
+    },
+    {
+      "id": 1017,
+      "title": "女装百合畑",
+      "originalTitle": "女装百合畑",
+      "developer": "の～すとらいく",
+      "released": "2024-06-10",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/978990cf-dbb5-4cd4-a9bb-93e745403ee0.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/1017"
+    },
+    {
+      "id": 2,
+      "title": "抬头看看吧，看那天上的繁星 FINE DAYS",
+      "originalTitle": "見上げてごらん、夜空の星を FINE DAYS",
+      "developer": "PULLTOP",
+      "released": "2016-05-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/74b0eddb-819f-4ee8-b406-fa096943a5b9.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1500,
+        "height": 1045
+      },
+      "url": "https://www.hikarinagi.org/galgames/2"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

@@ -131,4 +131,4 @@ import { VirtualList, type VirtualListExpose } from '@hina-ui/vue'
 
 ## 组件集成 {#integration}
 
-[Select](/components/select#virtual), [MultiSelect](/components/multi-select#virtual), [Combobox](/components/combobox#virtual), [MultiCombobox](/components/multi-combobox#virtual), [Listbox](/components/listbox#virtual), [CommandPalette](/components/command-palette#virtual), [Tree](/components/tree#virtual), [TreeSelect](/components/tree-select#virtual), [DataTable](/components/data-table#virtual) 已提供可选的 `virtualize`，共用虚拟滚动底层，同时保留各自的选择、搜索和键盘行为。无需在这些组件外再嵌套 VirtualList。
+[Select](/components/select#virtual), [MultiSelect](/components/multi-select#virtual), [Combobox](/components/combobox#virtual), [MultiCombobox](/components/multi-combobox#virtual), [Listbox](/components/listbox#virtual), [CommandPalette](/components/command-palette#virtual), [Tree](/components/tree#virtual), [TreeSelect](/components/tree-select#virtual), [DataList](/components/data-list#virtual), [DataTable](/components/data-table#virtual) 已提供可选的 `virtualize`，共用虚拟滚动底层，同时保留各自的选择、搜索和键盘行为。无需在这些组件外再嵌套 VirtualList。

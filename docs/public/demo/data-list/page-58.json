@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 1546,
+      "title": "白色相簿2 mini After Story",
+      "originalTitle": "WHITE ALBUM2 ミニアフターストーリー",
+      "developer": "AQUAPLUS / スティング / Leaf",
+      "released": "2014-12-24",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/6f221235-dc3b-4aa9-9de7-ac8b1c4254ce.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 360,
+        "height": 250
+      },
+      "url": "https://www.hikarinagi.org/galgames/1546"
+    },
+    {
+      "id": 1486,
+      "title": "日在盛夏",
+      "originalTitle": "Summer Days",
+      "developer": "オーバーフロー",
+      "released": "2006-06-23",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/1e561f07-6419-4c55-b2a2-5c9d992cbcf4.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1430,
+        "height": 2048
+      },
+      "url": "https://www.hikarinagi.org/galgames/1486"
+    },
+    {
+      "id": 986,
+      "title": "Golden Hour",
+      "originalTitle": "ゴールデンアワー",
+      "developer": "Niko",
+      "released": "2017-07-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/a8d1a044-1a4c-4801-bbb2-7a86335f9128.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 651,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/986"
+    },
+    {
+      "id": 517,
+      "title": "近月少女的礼仪2.1 E×S×PAR!!",
+      "originalTitle": "月に寄りそう乙女の作法2.1 E×S×PAR!!",
+      "developer": "Navel",
+      "released": "2017-05-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/9737abb1-9545-481f-913c-ec96469260f0.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1059,
+        "height": 1500
+      },
+      "url": "https://www.hikarinagi.org/galgames/517"
+    },
+    {
+      "id": 720,
+      "title": "Secret Agent～騎士学園の忍びなるもの～",
+      "originalTitle": "Secret Agent～騎士学園の忍びなるもの～",
+      "developer": "ensemble",
+      "released": "2020-05-29",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/e0f28018-9025-47bb-902f-a2de037e14a2.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 360,
+        "height": 512
+      },
+      "url": "https://www.hikarinagi.org/galgames/720"
+    },
+    {
+      "id": 189,
+      "title": "Golden Marriage",
+      "originalTitle": "ゴールデンマリッジ",
+      "developer": "ensemble",
+      "released": "2014-05-30",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/f2dd4824-7009-45ea-90aa-e68b9fe2d77e.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 500,
+        "height": 706
+      },
+      "url": "https://www.hikarinagi.org/galgames/189"
+    },
+    {
+      "id": 1149,
+      "title": "啾啾爱恋！",
+      "originalTitle": "ひよこストライク！",
+      "developer": "Ex-iT",
+      "released": "2012-01-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/bd205f35-fb66-47f8-91c5-b79a81c5fd0c.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 256,
+        "height": 368
+      },
+      "url": "https://www.hikarinagi.org/galgames/1149"
+    },
+    {
+      "id": 870,
+      "title": "任性HighSpec OC",
+      "originalTitle": "ワガママハイスペックOC",
+      "developer": "まどそふと",
+      "released": "2017-08-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10879/9nydsnfm_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/870"
+    },
+    {
+      "id": 918,
+      "title": "pieces/揺り籠のカナリア",
+      "originalTitle": "pieces/揺り籠のカナリア",
+      "developer": "ワールプール",
+      "released": "2020-05-29",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/e24c9b63-3e60-4e0c-94ae-b6322993de0d.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 2048,
+        "height": 1496
+      },
+      "url": "https://www.hikarinagi.org/galgames/918"
+    },
+    {
+      "id": 881,
+      "title": "乙女騎士♥いますぐ私を抱きしめて",
+      "originalTitle": "乙女騎士♥いますぐ私を抱きしめて",
+      "developer": "ensemble SWEET",
+      "released": "2019-04-29",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/3bb10b27-1cf1-4b6e-8c34-500f80fc6a3f.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 808,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/881"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

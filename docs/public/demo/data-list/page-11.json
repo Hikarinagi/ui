@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 168,
+      "title": "永不枯萎的世界与终结之花",
+      "originalTitle": "枯れない世界と終わる花",
+      "developer": "Sweet & Tea",
+      "released": "2016-11-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/e8f9e3e6-317d-491a-9ebf-e6c851dcaf68.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 610,
+        "height": 855
+      },
+      "url": "https://www.hikarinagi.org/galgames/168"
+    },
+    {
+      "id": 814,
+      "title": "密语",
+      "originalTitle": "アイコトバ",
+      "developer": "あざらしそふと+1 / あざらしそふと",
+      "released": "2019-12-20",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/4fee0af9-19e5-469d-bed9-42e46ebd722b.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 389,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/814"
+    },
+    {
+      "id": 2346,
+      "title": "年上彼女２",
+      "originalTitle": "年上彼女２",
+      "developer": "あざらしそふと",
+      "released": "2026-06-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/183ed640-1650-4970-9ec9-234dee28b2e7.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 706,
+        "height": 1000
+      },
+      "url": "https://www.hikarinagi.org/galgames/2346"
+    },
+    {
+      "id": 1037,
+      "title": "创造世界的空想理论 -goodbye world index-",
+      "originalTitle": "はじめるセカイの理想論 -goodbye world index-",
+      "developer": "ワールプール",
+      "released": "2024-02-22",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/11064/xkh8sof2_2.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/1037"
+    },
+    {
+      "id": 278,
+      "title": "ゆびさきコネクション",
+      "originalTitle": "ゆびさきコネクション",
+      "developer": "HOOKSOFT",
+      "released": "2021-04-30",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/798ad3bd-bbfa-4078-9540-7db17d73607b.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 2048,
+        "height": 1407
+      },
+      "url": "https://www.hikarinagi.org/galgames/278"
+    },
+    {
+      "id": 1050,
+      "title": "ToHeart",
+      "originalTitle": "ToHeart",
+      "developer": "Leaf / AQUAPLUS / 合同会社DMM GAMES / Shiravune",
+      "released": "2025-06-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/506e3d59-cb8b-4cf9-b086-097b33e432db.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 788,
+        "height": 1280
+      },
+      "url": "https://www.hikarinagi.org/galgames/1050"
+    },
+    {
+      "id": 79,
+      "title": "放学后的灰姑娘2",
+      "originalTitle": "放課後シンデレラ２",
+      "developer": "HOOKSOFT",
+      "released": "2022-09-30",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/32f73bc1-88ff-44e1-a009-09358dc7462d.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 2048,
+        "height": 1273
+      },
+      "url": "https://www.hikarinagi.org/galgames/79"
+    },
+    {
+      "id": 283,
+      "title": "突然＊恋人",
+      "originalTitle": "Making*Lovers",
+      "developer": "SMEE",
+      "released": "2017-11-24",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10292/29mno48m_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 992,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/283"
+    },
+    {
+      "id": 1040,
+      "title": "アンラベル・トリガー",
+      "originalTitle": "アンラベル・トリガー",
+      "developer": "Archive / アルシーヴ",
+      "released": "2024-03-29",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/c7672bab-a65b-4b1f-b72e-ef8da8ca9939.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1000,
+        "height": 706
+      },
+      "url": "https://www.hikarinagi.org/galgames/1040"
+    },
+    {
+      "id": 56,
+      "title": "樱之刻 - 于樱花之森下漫步",
+      "originalTitle": "サクラノ刻 -櫻の森の下を歩む-",
+      "developer": "枕",
+      "released": "2023-02-24",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/9f41cb72-01c3-458c-b466-8f598a1e88c2.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 800,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/56"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

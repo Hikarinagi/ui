@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 118,
+      "title": "回忆录",
+      "originalTitle": "レミニセンス",
+      "developer": "てぃ～ぐる",
+      "released": "2013-05-31",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/210e01a7-a505-4e9a-8029-473c3cd87deb.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/118"
+    },
+    {
+      "id": 24399,
+      "title": "お隣の天使様にいつの間にか駄目人間にされていた件 Memorial Vacation",
+      "originalTitle": "お隣の天使様にいつの間にか駄目人間にされていた件 Memorial Vacation",
+      "developer": "MAGES.",
+      "released": "2026-07-23",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/1a90cca6-cbf7-40c3-ae64-b9e723d3afe0.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 830,
+        "height": 1350
+      },
+      "url": "https://www.hikarinagi.org/galgames/24399"
+    },
+    {
+      "id": 448,
+      "title": "爱因斯坦携爱敬上 APOLLOCRISIS",
+      "originalTitle": "アインシュタインより愛を込めて APOLLOCRISIS",
+      "developer": "GLOVETY",
+      "released": "2021-09-24",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/188ddabd-2d4c-46e2-9240-02be945fca42.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 800,
+        "height": 500
+      },
+      "url": "https://www.hikarinagi.org/galgames/448"
+    },
+    {
+      "id": 196,
+      "title": "有少女涂彩的爱之芬芳 ～笑容交织的未来～",
+      "originalTitle": "乙女が彩る恋のエッセンス～笑顔で織りなす未来～",
+      "developer": "ensemble",
+      "released": "2016-11-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/8edc8ed2-7f2d-41e0-aa74-7ca103ad73f1.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 800,
+        "height": 1120
+      },
+      "url": "https://www.hikarinagi.org/galgames/196"
+    },
+    {
+      "id": 175,
+      "title": "家族计划~再开~",
+      "originalTitle": "家族計画 ～そしてまた家族計画を～",
+      "developer": "高屋敷開発 / 株式会社ディーオー",
+      "released": "2004-07-30",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/8fcb8d26-7352-41e9-84f8-1fccf40172e6.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 256,
+        "height": 366
+      },
+      "url": "https://www.hikarinagi.org/galgames/175"
+    },
+    {
+      "id": 401,
+      "title": "传颂之物-虚伪的假面-",
+      "originalTitle": "うたわれるもの 偽りの仮面",
+      "developer": "AQUAPLUS / スティング / Leaf",
+      "released": "2015-09-24",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10410/p97j49ag_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/401"
+    },
+    {
+      "id": 356,
+      "title": "告别回忆 -无垢少女-",
+      "originalTitle": "メモリーズオフ -Innocent Fille-",
+      "developer": "MAGES. / SDR Project / SEGA / スパイク・チュンソフト / 5pb.",
+      "released": "2018-03-29",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/1c7e4bb3-783a-4d7a-a4b1-0e93a10559d1.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 525,
+        "height": 750
+      },
+      "url": "https://www.hikarinagi.org/galgames/356"
+    },
+    {
+      "id": 630,
+      "title": "命运石之门 线形拘束的树状图",
+      "originalTitle": "STEINS;GATE 線形拘束のフェノグラム",
+      "developer": "ニトロプラス / MAGES. / 5pb.",
+      "released": "2013-04-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/2b090130-5464-4900-8ea1-6a8d15188580.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 500,
+        "height": 580
+      },
+      "url": "https://www.hikarinagi.org/galgames/630"
+    },
+    {
+      "id": 129,
+      "title": "LOVEREC. -ミニシアターズ-",
+      "originalTitle": "LOVEREC. -ミニシアターズ-",
+      "developer": "ALcot",
+      "released": "2016-01-29",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/3a5922b5-3e8b-4aba-b167-e2bedf66ed74.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/129"
+    },
+    {
+      "id": 1527,
+      "title": "终将凋零的镜花",
+      "originalTitle": "やがて散りゆく鏡の花へ",
+      "developer": "工画堂スタジオ",
+      "released": "2025-06-20",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/6c9a8048-3271-433f-bea4-048e898d5a0e.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/1527"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

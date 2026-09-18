@@ -266,6 +266,7 @@
     "code-block": "A block of code with highlighting and copying",
     "copy-button": "Writes a piece of text to the clipboard",
     "context-menu": "A menu that opens at the pointer on right-click or long press",
+    "data-list": "List and grid data views with pagination and custom items",
     "data-table": "A data table with sorting, filtering, pagination and row selection",
     "date-field": "Types a date or time segment by segment",
     "date-picker": "Types a date or picks it from a calendar",

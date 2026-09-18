@@ -79,6 +79,7 @@ export const zhCN: UiMessages = {
     unknown: '未知时间',
   },
   virtualList: { empty: '暂无数据' },
+  dataList: { empty: '暂无数据', list: '列表视图', grid: '网格视图', layout: '展示布局' },
   scroll: {
     regionLabel: '可滚动区域',
   },
