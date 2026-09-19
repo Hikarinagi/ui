@@ -68,7 +68,13 @@
       v-if="item.detail"
       :colspan="colspan"
     >
-      <p v-if="item.error" :id="editing.errorId" role="alert" class="hn-table-edit-message">
+      <p
+        v-if="item.error"
+        :id="editing.errorId"
+        :style="layout.errorStyle.value"
+        role="alert"
+        class="hn-table-edit-message"
+      >
         <CircleAlert aria-hidden="true" />
         {{ item.error }}
       </p>

@@ -5,3 +5,5 @@ allowBuilds:
   esbuild: false
   unrs-resolver: false
   vue-demi: false
+patchedDependencies:
+  overlayscrollbars@2.16.0: patches/overlayscrollbars@2.16.0.patch

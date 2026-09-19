@@ -52,10 +52,7 @@
       },
       overflow: overflow[props.direction],
       update: {
-        elementEvents: [
-          ['img', 'load'],
-          ['*', 'transitionend animationend'],
-        ] as Array<[string, string]>,
+        elementEvents: [['img', 'load']] as Array<[string, string]>,
       },
     }
   }
@@ -88,13 +85,13 @@
 <template>
   <div
     :dir="props.dir"
-    :class="cn('hn-scroll-area relative flex flex-col overflow-hidden', props.class)"
+    :class="cn('hn-scroll-area relative grid grid-cols-1 grid-rows-1 overflow-hidden', props.class)"
   >
     <div
       ref="host"
       v-bind="{ ...$attrs, ...hostFocus }"
       data-overlayscrollbars-initialize
-      class="w-full min-h-0 grow"
+      class="min-h-0 w-full"
     >
       <div ref="content" v-bind="viewportFocus" data-overlayscrollbars-contents>
         <slot />

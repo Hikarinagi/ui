@@ -1,4 +1,12 @@
-import { computed, onScopeDispose, shallowRef, watch, type CSSProperties, type Ref } from 'vue'
+import {
+  computed,
+  nextTick,
+  onScopeDispose,
+  shallowRef,
+  watch,
+  type CSSProperties,
+  type Ref,
+} from 'vue'
 import { useEventListener } from '@vueuse/core'
 import type { DataTableColumn } from '../types'
 
@@ -6,11 +14,15 @@ export function useTableResizeHandles<T extends object>(
   element: Ref<HTMLTableElement | undefined>,
   viewport: Ref<HTMLElement | undefined>,
   columns: Ref<DataTableColumn<T>[]>,
-  widths: Ref<Record<string, number>>,
+  enabled: () => boolean,
 ) {
   const positions = shallowRef<Record<string, { inset: number; visible: boolean }>>({})
   let frame = 0
+  let observer: ResizeObserver | undefined
   function update() {
+    cancelAnimationFrame(frame)
+    frame = 0
+    if (!enabled()) return
     const table = element.value
     const area = viewport.value
     if (!table || !area) return
@@ -46,12 +58,37 @@ export function useTableResizeHandles<T extends object>(
     if (JSON.stringify(next) !== JSON.stringify(positions.value)) positions.value = next
   }
   function schedule() {
+    if (!enabled()) return
     cancelAnimationFrame(frame)
     frame = requestAnimationFrame(update)
   }
   useEventListener(viewport, 'scroll', schedule, { passive: true })
-  watch([element, viewport, columns, widths], update, { flush: 'post' })
-  onScopeDispose(() => cancelAnimationFrame(frame))
+  watch(
+    [element, viewport, columns, enabled],
+    async (_, __, onCleanup) => {
+      let cancelled = false
+      onCleanup(() => {
+        cancelled = true
+      })
+      await nextTick()
+      if (cancelled) return
+      observer?.disconnect()
+      cancelAnimationFrame(frame)
+      frame = 0
+      if (!enabled() || !element.value || !viewport.value || typeof ResizeObserver === 'undefined')
+        return
+      observer = new ResizeObserver(update)
+      observer.observe(viewport.value)
+      element.value
+        .querySelectorAll('thead [data-hn-column]')
+        .forEach(cell => observer!.observe(cell, { box: 'border-box' }))
+    },
+    { flush: 'post' },
+  )
+  onScopeDispose(() => {
+    cancelAnimationFrame(frame)
+    observer?.disconnect()
+  })
   const styles = computed(() =>
     Object.fromEntries(
       Object.entries(positions.value).map(([key, position]) => [

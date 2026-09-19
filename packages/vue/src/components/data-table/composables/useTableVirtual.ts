@@ -26,17 +26,36 @@ export function useTableVirtual<T extends object>(
       return rows
     }),
   )
-  watch(element, async () => {
+  watch([element, () => !!props.virtualize || !!props.stickyHeader], async (_, __, onCleanup) => {
+    let cancelled = false
+    onCleanup(() => {
+      cancelled = true
+    })
     await nextTick()
+    if (cancelled) return
     observer?.disconnect()
+    if (!props.virtualize && !props.stickyHeader) {
+      margin.value = 0
+      return
+    }
     const head = element.value?.tHead
     if (disposed || !head || typeof ResizeObserver === 'undefined') return
+    const caption = element.value?.caption
+    const sizes = new Map<Element, number>([[head, head.offsetHeight]])
+    if (caption) sizes.set(caption, caption.offsetHeight)
     const update = () => {
-      margin.value = head.offsetHeight + (element.value?.caption?.offsetHeight ?? 0)
+      margin.value = [...sizes.values()].reduce((sum, size) => sum + size, 0)
     }
-    observer = new ResizeObserver(update)
-    observer.observe(head)
-    if (element.value?.caption) observer.observe(element.value.caption)
+    observer = new ResizeObserver(entries => {
+      for (const entry of entries)
+        sizes.set(
+          entry.target,
+          entry.borderBoxSize[0]?.blockSize ?? (entry.target as HTMLElement).offsetHeight,
+        )
+      update()
+    })
+    observer.observe(head, { box: 'border-box' })
+    if (caption) observer.observe(caption, { box: 'border-box' })
     update()
   })
   const virtualizer = useVirtualWindow(

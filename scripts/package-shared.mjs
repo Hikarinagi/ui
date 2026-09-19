@@ -7,6 +7,10 @@ const styles = fileURLToPath(new URL('../packages/vue/dist/styles/', import.meta
 
 cpSync(shared, target, { recursive: true })
 mkdirSync(styles, { recursive: true })
+cpSync(
+  fileURLToPath(new URL('../patches/overlayscrollbars.LICENSE', import.meta.url)),
+  fileURLToPath(new URL('../packages/vue/dist/overlayscrollbars.LICENSE', import.meta.url)),
+)
 writeFileSync(
   `${styles}tokens.css`,
   "@import '../shared/styles/tokens.css';\n\n@source '../../src/components/**/*.vue';\n",

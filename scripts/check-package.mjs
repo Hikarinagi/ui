@@ -57,6 +57,18 @@ try {
   )
   console.log(`Installing tarball into ${temporary}`)
   run('npm', ['install', '--ignore-scripts', '--no-audit', '--no-fund'])
+  const distribution = join(temporary, 'node_modules/@hina-ui/vue/dist')
+  const runtime = readdirSync(distribution)
+    .filter(name => name.endsWith('.js'))
+    .map(name => readFileSync(join(distribution, name), 'utf8'))
+    .join('\n')
+  assert.ok(
+    !/from\s*["']overlayscrollbars["']/.test(runtime),
+    'Scrollbar runtime must include the workspace patch',
+  )
+  assert.ok(
+    readFileSync(join(distribution, 'overlayscrollbars.LICENSE'), 'utf8').includes('MIT License'),
+  )
   run('node', ['ssr.mjs'])
   run('node', ['node_modules/vue-tsc/bin/vue-tsc.js', '--noEmit', '-p', 'tsconfig.json'])
   run('node', ['node_modules/vite/bin/vite.js', 'build'])

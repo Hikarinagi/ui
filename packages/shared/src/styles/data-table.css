@@ -1,3 +1,10 @@
+/* Resolve the growth formula on the colgroup; only its columns inherit the length. */
+@property --hn-table-column-grow {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
+}
+
 .hn-table th.hn-table-header {
   user-select: none;
   isolation: isolate;

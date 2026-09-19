@@ -12,6 +12,7 @@ export function useTableResize<T extends object>(
   widths: Ref<Record<string, number>>,
   active: Ref<Record<string, number> | undefined>,
   available: Ref<number>,
+  updateHandles: () => void,
 ) {
   const resizing = shallowRef<string>()
   const guide = shallowRef<{
@@ -60,8 +61,9 @@ export function useTableResize<T extends object>(
       maximumWidth(column, widths.value),
     )
   const canResize = (column: DataTableColumn<T>) => {
+    if (!props.resizable || !boundary(column)) return false
     const range = bounds(column)
-    return props.resizable && !!boundary(column) && range.max - range.min > 0.01
+    return range.max - range.min > 0.01
   }
   function setWidth(key: string, value: number) {
     if (ctl.blocked.value || !Number.isFinite(value)) return
@@ -118,7 +120,10 @@ export function useTableResize<T extends object>(
     let moved = false
     let frame = 0
     let stopped = false
-    const updateGuide = () => {
+    const updateGuide = async () => {
+      if (stopped) return
+      updateHandles()
+      await nextTick()
       if (stopped) return
       const rect = cell.getBoundingClientRect()
       const area = viewport.value?.getBoundingClientRect()

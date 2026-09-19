@@ -1,0 +1,256 @@
+diff --git a/overlayscrollbars.cjs b/overlayscrollbars.cjs
+index ec871bc71397ef9f5586519c121a65b90907ad9d..36393373255cdae84fc4d78998933e99561a6c74 100644
+--- a/overlayscrollbars.cjs
++++ b/overlayscrollbars.cjs
+@@ -353,7 +353,7 @@ const hasAttr = (t, n) => t && t.hasAttribute(n);
+ 
+ const setAttrs = (t, n, o) => {
+   each(getDomTokensArray(n), (n => {
+-    if (t) {
++    if (t && t.getAttribute(n) !== String(o || "")) {
+       t.setAttribute(n, String(o || ""));
+     }
+   }));
+@@ -1540,7 +1540,7 @@ const createTrinsicObserver = (t, n) => {
+   }, () => o && intersectionObserverCallback(true, o.takeRecords()) ];
+ };
+ 
+-const createObserversSetup = (t, n, o, s) => {
++const createObserversSetup = (t, n, o, s, sleeping) => {
+   let e;
+   let c;
+   let r;
+@@ -1654,6 +1654,7 @@ const createObserversSetup = (t, n, o, s) => {
+     return c;
+   };
+   const onSizeChanged = ({_t: t, ft: n}) => {
++    if (sleeping()) return {};
+     const o = n ? s : z;
+     const e = {
+       _t: t || n,
+@@ -1663,6 +1664,7 @@ const createObserversSetup = (t, n, o, s) => {
+     o(e, c);
+   };
+   const onContentMutation = (t, n) => {
++    if (sleeping()) return {};
+     const [, o] = D();
+     const s = {
+       xt: o
+@@ -1674,6 +1676,7 @@ const createObserversSetup = (t, n, o, s) => {
+     return s;
+   };
+   const onHostMutation = (t, n, o) => {
++    if (sleeping()) return {};
+     const s = {
+       Ht: n
+     };
+@@ -2652,6 +2655,8 @@ const createOverflowUpdateSegment = (t, s) => {
+     };
+   };
+   const setViewportOverflowStyle = t => {
++    const expected = keys(t).map(n => createViewportOverflowStyleClassName(t[n], n === "x")).join(" ");
++    if (hasAttrClass(a, j, expected)) return;
+     const createAllOverflowStyleClassNames = t => [ x, H, E ].map((n => createViewportOverflowStyleClassName(overflowCssValueToOverflowStyle(n), t)));
+     const n = createAllOverflowStyleClassNames(true).concat(createAllOverflowStyleClassNames()).join(" ");
+     p(n);
+@@ -2834,7 +2839,7 @@ const createSetups = (t, n, o, s) => {
+   const [i, l, a, u, f] = createStructureSetup(t);
+   const [_, d, p] = createObserversSetup(u, a, r, (t => {
+     update({}, t);
+-  }));
++  }), () => c.Kt && e);
+   const [v, g, , h] = createScrollbarsSetup(t, n, c, p, a, u, s);
+   const updateHintsAreTruthy = t => keys(t).some((n => !!t[n]));
+   const update = (t, s) => {
+diff --git a/overlayscrollbars.cjs.js b/overlayscrollbars.cjs.js
+index ab9d930b11ea64af9a2d5b7315b554db88cd5bbd..56e8c956b28d44a1154dd8aa0d1cc537e2da00dd 100644
+--- a/overlayscrollbars.cjs.js
++++ b/overlayscrollbars.cjs.js
+@@ -353,7 +353,7 @@ const hasAttr = (t, n) => t && t.hasAttribute(n);
+ 
+ const setAttrs = (t, n, o) => {
+   each(getDomTokensArray(n), (n => {
+-    if (t) {
++    if (t && t.getAttribute(n) !== String(o || "")) {
+       t.setAttribute(n, String(o || ""));
+     }
+   }));
+@@ -1540,7 +1540,7 @@ const createTrinsicObserver = (t, n) => {
+   }, () => o && intersectionObserverCallback(true, o.takeRecords()) ];
+ };
+ 
+-const createObserversSetup = (t, n, o, s) => {
++const createObserversSetup = (t, n, o, s, sleeping) => {
+   let e;
+   let c;
+   let r;
+@@ -1654,6 +1654,7 @@ const createObserversSetup = (t, n, o, s) => {
+     return c;
+   };
+   const onSizeChanged = ({_t: t, ft: n}) => {
++    if (sleeping()) return {};
+     const o = n ? s : z;
+     const e = {
+       _t: t || n,
+@@ -1663,6 +1664,7 @@ const createObserversSetup = (t, n, o, s) => {
+     o(e, c);
+   };
+   const onContentMutation = (t, n) => {
++    if (sleeping()) return {};
+     const [, o] = D();
+     const s = {
+       xt: o
+@@ -1674,6 +1676,7 @@ const createObserversSetup = (t, n, o, s) => {
+     return s;
+   };
+   const onHostMutation = (t, n, o) => {
++    if (sleeping()) return {};
+     const s = {
+       Ht: n
+     };
+@@ -2652,6 +2655,8 @@ const createOverflowUpdateSegment = (t, s) => {
+     };
+   };
+   const setViewportOverflowStyle = t => {
++    const expected = keys(t).map(n => createViewportOverflowStyleClassName(t[n], n === "x")).join(" ");
++    if (hasAttrClass(a, j, expected)) return;
+     const createAllOverflowStyleClassNames = t => [ x, H, E ].map((n => createViewportOverflowStyleClassName(overflowCssValueToOverflowStyle(n), t)));
+     const n = createAllOverflowStyleClassNames(true).concat(createAllOverflowStyleClassNames()).join(" ");
+     p(n);
+@@ -2834,7 +2839,7 @@ const createSetups = (t, n, o, s) => {
+   const [i, l, a, u, f] = createStructureSetup(t);
+   const [_, d, p] = createObserversSetup(u, a, r, (t => {
+     update({}, t);
+-  }));
++  }), () => c.Kt && e);
+   const [v, g, , h] = createScrollbarsSetup(t, n, c, p, a, u, s);
+   const updateHintsAreTruthy = t => keys(t).some((n => !!t[n]));
+   const update = (t, s) => {
+diff --git a/overlayscrollbars.esm.js b/overlayscrollbars.esm.js
+index b05b8043eba78f20754a14e84daa09ff505e2fbc..bfefb0b30887e15d3aa05307e486295775b86f5a 100644
+--- a/overlayscrollbars.esm.js
++++ b/overlayscrollbars.esm.js
+@@ -347,7 +347,7 @@ const hasAttr = (t, n) => t && t.hasAttribute(n);
+ 
+ const setAttrs = (t, n, o) => {
+   each(getDomTokensArray(n), (n => {
+-    if (t) {
++    if (t && t.getAttribute(n) !== String(o || "")) {
+       t.setAttribute(n, String(o || ""));
+     }
+   }));
+@@ -1534,7 +1534,7 @@ const createTrinsicObserver = (t, n) => {
+   }, () => o && intersectionObserverCallback(true, o.takeRecords()) ];
+ };
+ 
+-const createObserversSetup = (t, n, o, s) => {
++const createObserversSetup = (t, n, o, s, sleeping) => {
+   let e;
+   let c;
+   let r;
+@@ -1648,6 +1648,7 @@ const createObserversSetup = (t, n, o, s) => {
+     return c;
+   };
+   const onSizeChanged = ({_t: t, ft: n}) => {
++    if (sleeping()) return {};
+     const o = n ? s : z;
+     const e = {
+       _t: t || n,
+@@ -1657,6 +1658,7 @@ const createObserversSetup = (t, n, o, s) => {
+     o(e, c);
+   };
+   const onContentMutation = (t, n) => {
++    if (sleeping()) return {};
+     const [, o] = D();
+     const s = {
+       xt: o
+@@ -1668,6 +1670,7 @@ const createObserversSetup = (t, n, o, s) => {
+     return s;
+   };
+   const onHostMutation = (t, n, o) => {
++    if (sleeping()) return {};
+     const s = {
+       Ht: n
+     };
+@@ -2646,6 +2649,8 @@ const createOverflowUpdateSegment = (t, s) => {
+     };
+   };
+   const setViewportOverflowStyle = t => {
++    const expected = keys(t).map(n => createViewportOverflowStyleClassName(t[n], n === "x")).join(" ");
++    if (hasAttrClass(a, j, expected)) return;
+     const createAllOverflowStyleClassNames = t => [ x, H, E ].map((n => createViewportOverflowStyleClassName(overflowCssValueToOverflowStyle(n), t)));
+     const n = createAllOverflowStyleClassNames(true).concat(createAllOverflowStyleClassNames()).join(" ");
+     p(n);
+@@ -2828,7 +2833,7 @@ const createSetups = (t, n, o, s) => {
+   const [i, l, a, u, f] = createStructureSetup(t);
+   const [_, d, p] = createObserversSetup(u, a, r, (t => {
+     update({}, t);
+-  }));
++  }), () => c.Kt && e);
+   const [v, g, , h] = createScrollbarsSetup(t, n, c, p, a, u, s);
+   const updateHintsAreTruthy = t => keys(t).some((n => !!t[n]));
+   const update = (t, s) => {
+diff --git a/overlayscrollbars.mjs b/overlayscrollbars.mjs
+index ae4c28abc9bbb5a972bdff8889bc552069bcf0fe..e9a3f46bf4d22a1109d7facd40db0d2481990850 100644
+--- a/overlayscrollbars.mjs
++++ b/overlayscrollbars.mjs
+@@ -347,7 +347,7 @@ const hasAttr = (t, n) => t && t.hasAttribute(n);
+ 
+ const setAttrs = (t, n, o) => {
+   each(getDomTokensArray(n), (n => {
+-    if (t) {
++    if (t && t.getAttribute(n) !== String(o || "")) {
+       t.setAttribute(n, String(o || ""));
+     }
+   }));
+@@ -1534,7 +1534,7 @@ const createTrinsicObserver = (t, n) => {
+   }, () => o && intersectionObserverCallback(true, o.takeRecords()) ];
+ };
+ 
+-const createObserversSetup = (t, n, o, s) => {
++const createObserversSetup = (t, n, o, s, sleeping) => {
+   let e;
+   let c;
+   let r;
+@@ -1648,6 +1648,7 @@ const createObserversSetup = (t, n, o, s) => {
+     return c;
+   };
+   const onSizeChanged = ({_t: t, ft: n}) => {
++    if (sleeping()) return {};
+     const o = n ? s : z;
+     const e = {
+       _t: t || n,
+@@ -1657,6 +1658,7 @@ const createObserversSetup = (t, n, o, s) => {
+     o(e, c);
+   };
+   const onContentMutation = (t, n) => {
++    if (sleeping()) return {};
+     const [, o] = D();
+     const s = {
+       xt: o
+@@ -1668,6 +1670,7 @@ const createObserversSetup = (t, n, o, s) => {
+     return s;
+   };
+   const onHostMutation = (t, n, o) => {
++    if (sleeping()) return {};
+     const s = {
+       Ht: n
+     };
+@@ -2646,6 +2649,8 @@ const createOverflowUpdateSegment = (t, s) => {
+     };
+   };
+   const setViewportOverflowStyle = t => {
++    const expected = keys(t).map(n => createViewportOverflowStyleClassName(t[n], n === "x")).join(" ");
++    if (hasAttrClass(a, j, expected)) return;
+     const createAllOverflowStyleClassNames = t => [ x, H, E ].map((n => createViewportOverflowStyleClassName(overflowCssValueToOverflowStyle(n), t)));
+     const n = createAllOverflowStyleClassNames(true).concat(createAllOverflowStyleClassNames()).join(" ");
+     p(n);
+@@ -2828,7 +2833,7 @@ const createSetups = (t, n, o, s) => {
+   const [i, l, a, u, f] = createStructureSetup(t);
+   const [_, d, p] = createObserversSetup(u, a, r, (t => {
+     update({}, t);
+-  }));
++  }), () => c.Kt && e);
+   const [v, g, , h] = createScrollbarsSetup(t, n, c, p, a, u, s);
+   const updateHintsAreTruthy = t => keys(t).some((n => !!t[n]));
+   const update = (t, s) => {

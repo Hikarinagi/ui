@@ -56,7 +56,7 @@
     "@vueuse/core": "^12.8.2",
     "clsx": "^2.1.1",
     "motion-v": "^2.2.1",
-    "overlayscrollbars": "^2.16.0",
+    "overlayscrollbars": "2.16.0",
     "reka-ui": "^2.9.10",
     "shiki": "4.0.2",
     "tailwind-merge": "^3.6.0",

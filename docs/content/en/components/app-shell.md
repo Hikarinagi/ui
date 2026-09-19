@@ -34,6 +34,8 @@ Logos, avatars and entries in expanded groups stay in place during collapse. [Si
 
 <Demo name="app-shell/collapsible" />
 
+`@size-stable` fires once after a desktop sidebar change finishes, including changes without an animation. Use it to resize expensive charts. When using this event, disable the chart's continuous resize observer to avoid doing both. Descendant `ScrollArea` instances automatically defer measurements during the sidebar transition and catch up when it finishes; native scrolling remains available.
+
 ### Scrolling the main area {#scroll}
 
 The main area brings its own scroll container, so however long the content grows it scrolls within that area while the header and sidebar stay put.
@@ -81,6 +83,12 @@ A [Banner](/components/banner) in the `banner` slot spans the whole shell. When 
 | ------------ | -------------- | ------------ | --------------------------------- |
 | `sidebar`    | `SidebarState` | `'expanded'` | Sidebar form on desktop           |
 | `mobileOpen` | `boolean`      | `false`      | Whether the mobile drawer is open |
+
+### Events {#events}
+
+| Event         | Payload | Description                                                                                                               |
+| ------------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `size-stable` | —       | The sidebar layout has settled after its state changes; interrupted transitions notify only when the final layout settles |
 
 ### Slots {#slots}
 

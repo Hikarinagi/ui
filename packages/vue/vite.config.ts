@@ -9,7 +9,9 @@ const pkg = require('./package.json') as {
   peerDependencies: Record<string, string>
 }
 
-const bare = [...Object.keys(pkg.dependencies), ...Object.keys(pkg.peerDependencies)]
+const bare = [...Object.keys(pkg.dependencies), ...Object.keys(pkg.peerDependencies)].filter(
+  name => name !== 'overlayscrollbars',
+)
 
 export default defineConfig({
   plugins: [vue()],
@@ -23,7 +25,9 @@ export default defineConfig({
       fileName: () => 'index.js',
     },
     rollupOptions: {
-      external: id => bare.some(name => id === name || id.startsWith(`${name}/`)),
+      external: id =>
+        id.startsWith('overlayscrollbars/') ||
+        bare.some(name => id === name || id.startsWith(`${name}/`)),
     },
   },
 })

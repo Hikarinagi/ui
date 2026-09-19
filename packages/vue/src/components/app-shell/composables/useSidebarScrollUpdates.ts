@@ -1,52 +1,75 @@
-import { onBeforeUnmount, shallowRef, watch, type Ref } from 'vue'
-import type { OverlayScrollbars } from 'overlayscrollbars'
-import type ScrollArea from '../../scroll-area/ScrollArea.vue'
+import { nextTick, onBeforeUnmount, shallowRef, watch } from 'vue'
+import { provideLayoutTransition } from '../../../lib/layout-stability'
 
-export function useSidebarScrollUpdates(
-  area: Readonly<Ref<InstanceType<typeof ScrollArea> | undefined>>,
-) {
+export function useSidebarScrollUpdates(state: () => string, settled: () => void) {
   const transitioning = shallowRef(false)
-  let paused: OverlayScrollbars | undefined
+  provideLayoutTransition(transitioning)
   let revision = 0
+  let frame = 0
+  let target: HTMLElement | undefined
+  let running = false
+  let pendingRun = false
 
-  function resume() {
-    const instance = paused
-    paused = undefined
-    if (instance && !instance.state().destroyed) instance.sleep(false)
+  function check() {
+    frame = 0
+    if (target && !target.isConnected) running = false
+    if (running || pendingRun) {
+      pendingRun = false
+      frame = requestAnimationFrame(check)
+      return
+    }
+    const current = revision
+    release()
+    transitioning.value = false
+    void nextTick(() => {
+      if (current === revision) settled()
+    })
   }
 
-  const stop = watch(
-    [() => area.value?.instance, transitioning],
-    ([instance, active]) => {
-      if (active && instance === paused) return
-      resume()
-      if (active && instance && !instance.state().sleeping && !instance.state().destroyed) {
-        paused = instance
-        instance.sleep(true)
-      }
+  function schedule() {
+    if (!frame) frame = requestAnimationFrame(check)
+  }
+
+  function stop(event: TransitionEvent) {
+    if (event.target !== target || event.propertyName !== 'width') return
+    running = false
+    pendingRun = false
+    schedule()
+  }
+
+  function release() {
+    target?.removeEventListener('transitionend', stop)
+    target?.removeEventListener('transitioncancel', stop)
+    target = undefined
+  }
+
+  watch(
+    state,
+    () => {
+      revision++
+      transitioning.value = true
+      pendingRun = true
+      schedule()
     },
     { flush: 'sync' },
   )
 
   onBeforeUnmount(() => {
     revision++
-    stop()
-    resume()
+    cancelAnimationFrame(frame)
+    release()
   })
 
   return (event: TransitionEvent) => {
     if (event.target !== event.currentTarget || event.propertyName !== 'width') return
-    const target = event.currentTarget as HTMLElement
-    const animations = target
-      .getAnimations()
-      .filter(
-        animation => animation instanceof CSSTransition && animation.transitionProperty === 'width',
-      )
-    if (!animations.length) return
-    const current = ++revision
+    if (target !== event.currentTarget) {
+      release()
+      target = event.currentTarget as HTMLElement
+      target.addEventListener('transitionend', stop)
+      target.addEventListener('transitioncancel', stop)
+    }
+    running = true
     transitioning.value = true
-    void Promise.allSettled(animations.map(animation => animation.finished)).then(() => {
-      if (current === revision) transitioning.value = false
-    })
+    schedule()
   }
 }

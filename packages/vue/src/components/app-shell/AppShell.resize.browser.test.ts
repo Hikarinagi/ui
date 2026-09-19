@@ -15,6 +15,7 @@ beforeEach(async () => {
 
 afterEach(() => {
   mounted.splice(0).forEach(wrapper => wrapper.unmount())
+  vi.restoreAllMocks()
   document.body.innerHTML = ''
 })
 
@@ -23,12 +24,13 @@ async function harness(count = 80) {
   const rows = ref(count)
   const showSidebar = ref(true)
   const shell = shallowRef<InstanceType<typeof AppShell>>()
+  const stable = vi.fn()
   const wrapper = mount(
     defineComponent({
       setup: () => () =>
         h(
           AppShell,
-          { ref: shell, sidebar: state.value },
+          { ref: shell, sidebar: state.value, onSizeStable: stable },
           {
             sidebar: showSidebar.value
               ? () =>
@@ -62,7 +64,7 @@ async function harness(count = 80) {
   const instance = shell.value!.mainArea!.instance!
   const viewport = instance.elements().viewport
   const sidebar = document.querySelector('aside')!
-  return { state, rows, showSidebar, wrapper, instance, viewport, sidebar }
+  return { state, rows, showSidebar, wrapper, instance, viewport, sidebar, stable }
 }
 
 async function settled(
@@ -78,6 +80,51 @@ async function settled(
 }
 
 describe('AppShell sidebar resize updates', () => {
+  it('suspends before the sidebar changes layout without reading animation geometry', async () => {
+    const { state, instance, sidebar, stable } = await harness()
+    const animations = vi.spyOn(sidebar, 'getAnimations')
+    state.value = 'rail'
+    await nextTick()
+    expect(instance.state().sleeping).toBe(true)
+    await settled(instance, sidebar, 56)
+    await vi.waitFor(() => expect(stable).toHaveBeenCalledTimes(1))
+    expect(animations).not.toHaveBeenCalled()
+  })
+  it('keeps the main area inside the shell throughout the existing width transition', async () => {
+    const { state, sidebar, viewport, stable } = await harness()
+    const before = viewport.getBoundingClientRect()
+    const samples: DOMRect[] = []
+    let done = false
+    const sample = () => {
+      samples.push(viewport.getBoundingClientRect())
+      if (!done) requestAnimationFrame(sample)
+    }
+    requestAnimationFrame(sample)
+    state.value = 'rail'
+    await vi.waitFor(() => expect(stable).toHaveBeenCalledTimes(1))
+    done = true
+    const after = viewport.getBoundingClientRect()
+    expect(sidebar.getBoundingClientRect().width).toBe(56)
+    expect(after.width - before.width).toBe(200)
+    expect(samples.some(rect => rect.width > before.width && rect.width < after.width)).toBe(true)
+    for (const rect of samples) expect(rect.right).toBeCloseTo(before.right, 1)
+    expect(getComputedStyle(viewport).transform).toBe('none')
+    expect(getComputedStyle(viewport.closest('main')!).transform).toBe('none')
+  })
+
+  it('notifies consumers once for instant changes and once after a reversed transition settles', async () => {
+    const { state, sidebar, stable } = await harness()
+    sidebar.style.transition = 'none'
+    state.value = 'rail'
+    await vi.waitFor(() => expect(stable).toHaveBeenCalledTimes(1))
+    sidebar.style.transition = ''
+    state.value = 'expanded'
+    await vi.waitFor(() => expect(sidebar.getBoundingClientRect().width).toBeGreaterThan(100))
+    state.value = 'rail'
+    await vi.waitFor(() => expect(stable).toHaveBeenCalledTimes(2))
+    expect(sidebar.getBoundingClientRect().width).toBe(56)
+  })
+
   it('batches repeated measurements on a large main subtree while keeping native scrolling available', async () => {
     const { state, rows, instance, viewport, sidebar } = await harness(320)
     const updates = vi.fn()
@@ -130,7 +177,17 @@ describe('AppShell sidebar resize updates', () => {
     )
   })
 
-  it('does not suspend updates for descendant transitions or an instant sidebar change', async () => {
+  it('resumes when an animated change is replaced with an instant change', async () => {
+    const { state, instance, sidebar, stable } = await harness()
+    state.value = 'rail'
+    await vi.waitFor(() => expect(instance.state().sleeping).toBe(true))
+    sidebar.style.transition = 'none'
+    state.value = 'expanded'
+    await settled(instance, sidebar, 256)
+    await vi.waitFor(() => expect(stable).toHaveBeenCalledTimes(1))
+  })
+
+  it('ignores descendant transitions and resumes after an instant sidebar change', async () => {
     const { state, instance, sidebar } = await harness()
     const sleep = vi.spyOn(instance, 'sleep')
     const child = sidebar.querySelector('[data-child]') as HTMLElement
@@ -141,7 +198,7 @@ describe('AppShell sidebar resize updates', () => {
     sidebar.style.transition = 'none'
     state.value = 'rail'
     await settled(instance, sidebar, 56)
-    expect(sleep).not.toHaveBeenCalled()
+    expect(sleep).toHaveBeenLastCalledWith(false)
   })
 
   it('preserves an instance already paused by its caller and cleans up on unmount', async () => {
