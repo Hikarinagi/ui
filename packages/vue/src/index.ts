@@ -58,6 +58,13 @@ export { default as Select } from './components/select/Select.vue'
 export type { SelectOption, SelectOptionGroup, SelectItems } from './components/select/types'
 export { default as MultiSelect } from './components/multi-select/MultiSelect.vue'
 export { default as Combobox } from './components/combobox/Combobox.vue'
+export { default as Autocomplete } from './components/autocomplete/Autocomplete.vue'
+export type {
+  AutocompleteOption,
+  AutocompleteSelection,
+  CompletionContext,
+  CompletionEdit,
+} from './components/autocomplete/types'
 export { default as CommandPalette } from './components/command-palette/CommandPalette.vue'
 export type { CommandItem, CommandGroup, CommandItems } from './components/command-palette/types'
 export { default as Listbox } from './components/listbox/Listbox.vue'

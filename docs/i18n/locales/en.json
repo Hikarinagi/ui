@@ -350,6 +350,7 @@
     "calendar": "Shows a month and picks a date",
     "callout": "A note written into the content",
     "collapsible": "A region a single trigger opens and closes",
+    "autocomplete": "Free-text input with caret-aware suggestions",
     "combobox": "A select that filters as you type",
     "command-palette": "A keyboard-summoned search panel for picking commands and pages",
     "disclosure-icon": "An indicator that turns as a region opens and closes",
