@@ -1,0 +1,38 @@
+.hn-float-button {
+  --hn-float-offset: calc(var(--spacing) * 6);
+  --hn-float-safe-top: 0px;
+  --hn-float-safe-bottom: 0px;
+  --hn-float-safe-start: 0px;
+  --hn-float-safe-end: 0px;
+}
+
+.hn-float-button[data-position='fixed'] {
+  --hn-float-safe-top: env(safe-area-inset-top, 0px);
+  --hn-float-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --hn-float-safe-start: env(safe-area-inset-left, 0px);
+  --hn-float-safe-end: env(safe-area-inset-right, 0px);
+}
+
+.hn-float-button[data-position='fixed']:dir(rtl) {
+  --hn-float-safe-start: env(safe-area-inset-right, 0px);
+  --hn-float-safe-end: env(safe-area-inset-left, 0px);
+}
+
+.hn-float-button:not([data-position='static'])[data-placement^='top'] {
+  top: max(var(--hn-float-offset), var(--hn-float-safe-top));
+}
+.hn-float-button:not([data-position='static']) {
+  max-inline-size: calc(
+    100% - max(var(--hn-float-offset), var(--hn-float-safe-start)) -
+      max(var(--hn-float-offset), var(--hn-float-safe-end))
+  );
+}
+.hn-float-button:not([data-position='static'])[data-placement^='bottom'] {
+  bottom: max(var(--hn-float-offset), var(--hn-float-safe-bottom));
+}
+.hn-float-button:not([data-position='static'])[data-placement$='start'] {
+  inset-inline-start: max(var(--hn-float-offset), var(--hn-float-safe-start));
+}
+.hn-float-button:not([data-position='static'])[data-placement$='end'] {
+  inset-inline-end: max(var(--hn-float-offset), var(--hn-float-safe-end));
+}

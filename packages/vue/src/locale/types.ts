@@ -1,4 +1,6 @@
 export interface UiMessages {
+  splitButton: { more: string }
+  editable: { edit: string; save: string; placeholder: string; failed: string }
   tag: string
   stepper: {
     label: string
@@ -77,6 +79,7 @@ export interface UiMessages {
   }
   scroll: {
     regionLabel: string
+    backToTop: string
   }
   virtualList: {
     empty: string

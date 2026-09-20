@@ -34,6 +34,8 @@
   const model = defineModel<string>()
 
   const { el, area, bounds, fit, focus } = useTextareaSizing(props, model)
+
+  defineExpose({ input: el, focus: () => el.value?.focus({ preventScroll: true }) })
 </script>
 
 <template>

@@ -224,6 +224,7 @@ export const components: DocsComponent[] = [
     i18n: 'components.dropdown-menu',
     category: 'overlays',
   },
+  { label: 'Editable', to: '/components/editable', i18n: 'components.editable', category: 'forms' },
   { label: 'Empty', to: '/components/empty', i18n: 'components.empty', category: 'display' },
   {
     label: 'FileUpload',
@@ -232,6 +233,12 @@ export const components: DocsComponent[] = [
     category: 'forms',
   },
   { label: 'Flex', to: '/components/flex', i18n: 'components.flex', category: 'layout' },
+  {
+    label: 'FloatButton',
+    to: '/components/float-button',
+    i18n: 'components.float-button',
+    category: 'atoms',
+  },
   { label: 'Form', to: '/components/form', i18n: 'components.form', category: 'forms' },
   {
     label: 'FormField',
@@ -429,6 +436,12 @@ export const components: DocsComponent[] = [
     category: 'layout',
   },
   {
+    label: 'ScrollTop',
+    to: '/components/scroll-top',
+    i18n: 'components.scroll-top',
+    category: 'navigation',
+  },
+  {
     label: 'SearchInput',
     to: '/components/search-input',
     i18n: 'components.search-input',
@@ -459,6 +472,12 @@ export const components: DocsComponent[] = [
   { label: 'Slider', to: '/components/slider', i18n: 'components.slider', category: 'forms' },
   { label: 'Space', to: '/components/space', i18n: 'components.space', category: 'layout' },
   { label: 'Spinner', to: '/components/spinner', i18n: 'components.spinner', category: 'atoms' },
+  {
+    label: 'SplitButton',
+    to: '/components/split-button',
+    i18n: 'components.split-button',
+    category: 'atoms',
+  },
   {
     label: 'Splitter',
     to: '/components/splitter',

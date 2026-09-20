@@ -372,7 +372,11 @@
     "stepper": "Navigates a sequence of steps with guarded transitions",
     "toolbar": "Groups buttons, links and toggles with shared keyboard navigation",
     "navigation-menu": "Composes navigation links and dropdown content panels",
-    "virtual-list": "A virtual list with dynamic item sizes"
+    "virtual-list": "A virtual list with dynamic item sizes",
+    "editable": "Edit text in place with save and cancel",
+    "split-button": "A primary action joined to a menu of alternatives",
+    "float-button": "A prominent action at the edge of a page or container",
+    "scroll-top": "Return to the top of a page or scroll container"
   },
   "designPreview": {
     "accent": "Accent",

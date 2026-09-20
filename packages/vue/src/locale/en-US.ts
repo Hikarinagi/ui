@@ -1,6 +1,13 @@
 import type { UiMessages } from './types'
 
 export const enUS: UiMessages = {
+  splitButton: { more: 'More actions' },
+  editable: {
+    edit: 'Edit',
+    save: 'Save',
+    placeholder: 'Click to edit',
+    failed: 'Could not save. Try again.',
+  },
   tag: 'en-US',
   stepper: {
     label: 'Steps',
@@ -82,6 +89,7 @@ export const enUS: UiMessages = {
   dataList: { empty: 'No data', list: 'List view', grid: 'Grid view', layout: 'Display layout' },
   scroll: {
     regionLabel: 'Scrollable region',
+    backToTop: 'Back to top',
   },
   toast: {
     regionLabel: 'Notifications',

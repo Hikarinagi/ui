@@ -16,6 +16,12 @@ export { default as IconButton } from './components/icon-button/IconButton.vue'
 export { default as CloseButton } from './components/close-button/CloseButton.vue'
 export { default as CopyButton } from './components/copy-button/CopyButton.vue'
 export { default as ButtonGroup } from './components/button-group/ButtonGroup.vue'
+export { default as FloatButton } from './components/float-button/FloatButton.vue'
+export type { FloatButtonProps } from './components/float-button/types'
+export { default as ScrollTop } from './components/scroll-top/ScrollTop.vue'
+export type { ScrollTopProps, ScrollTopTarget } from './components/scroll-top/types'
+export { default as SplitButton } from './components/split-button/SplitButton.vue'
+export type { SplitButtonProps } from './components/split-button/types'
 export { default as Tag } from './components/tag/Tag.vue'
 export { default as Chip } from './components/chip/Chip.vue'
 export { default as Avatar } from './components/avatar/Avatar.vue'
@@ -367,3 +373,12 @@ export type {
   StepperNavigation,
   StepperBeforeChange,
 } from './components/stepper/types'
+
+export { default as Editable } from './components/editable/Editable.vue'
+export type {
+  EditableProps,
+  EditableControls,
+  EditableActivationMode,
+  EditableSubmitMode,
+  EditableSave,
+} from './components/editable/types'

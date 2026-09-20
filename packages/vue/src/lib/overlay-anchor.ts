@@ -27,13 +27,14 @@ export function useOverlayAnchor(
   open: Ref<boolean | undefined>,
   present: Ref<boolean>,
   strategy: () => OverlayPositionStrategy,
+  direction: () => 'ltr' | 'rtl' | undefined = () => undefined,
 ) {
   const reference = shallowRef<Exclude<OverlayAnchor, HTMLElement>>()
 
   let current: OverlayAnchor | undefined
 
   watch(
-    [source, open, present, strategy],
+    [source, open, present, strategy, direction],
     ([anchor, active, mounted]) => {
       if (!mounted) {
         current = undefined

@@ -1,6 +1,8 @@
 import type { UiMessages } from './types'
 
 export const zhCN: UiMessages = {
+  splitButton: { more: '更多操作' },
+  editable: { edit: '编辑', save: '保存', placeholder: '点击编辑', failed: '保存失败，请重试' },
   tag: 'zh-CN',
   stepper: {
     label: '步骤',
@@ -82,6 +84,7 @@ export const zhCN: UiMessages = {
   dataList: { empty: '暂无数据', list: '列表视图', grid: '网格视图', layout: '展示布局' },
   scroll: {
     regionLabel: '可滚动区域',
+    backToTop: '返回顶部',
   },
   toast: {
     regionLabel: '通知',

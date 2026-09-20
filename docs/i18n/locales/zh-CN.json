@@ -372,7 +372,11 @@
     "stepper": "带有步骤状态与切换校验的步骤导航",
     "toolbar": "统一管理按钮、链接和切换组的工具栏",
     "navigation-menu": "可组合链接和下拉内容的导航菜单",
-    "virtual-list": "只渲染可见范围附近条目的虚拟列表"
+    "virtual-list": "只渲染可见范围附近条目的虚拟列表",
+    "editable": "在原位置编辑文本，确认或取消修改",
+    "split-button": "常用操作与附加菜单组成的按钮",
+    "float-button": "固定于页面或容器边角的常用操作",
+    "scroll-top": "滚动到指定位置后出现的回顶入口"
   },
   "names": {
     "accordion": "折叠列表",
@@ -500,7 +504,11 @@
     "stepper": "步骤条",
     "toolbar": "工具栏",
     "navigation-menu": "导航菜单",
-    "virtual-list": "虚拟列表"
+    "virtual-list": "虚拟列表",
+    "editable": "原地编辑",
+    "split-button": "分裂按钮",
+    "float-button": "浮动按钮",
+    "scroll-top": "返回顶部"
   },
   "designPreview": {
     "accent": "强调色",
