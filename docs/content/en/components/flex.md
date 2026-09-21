@@ -50,6 +50,10 @@ When the direction or alignment differs between breakpoints, override it with Ta
 
 <Demo name="flex/responsive" />
 
+### Root element {#as}
+
+`as` accepts a tag name or Vue component, such as `as="section"`, `:as="RouterLink"` or `:as="NuxtLink"`. Import the component or obtain it through `resolveComponent`; object, functional and async components are supported. Layout classes, extra attributes, event listeners and the default slot are forwarded without an extra wrapper. Custom components must forward attributes and classes to their rendered root.
+
 ## API {#api}
 
 | Prop        | Type                                                                | Default | Description                       |
@@ -59,7 +63,7 @@ When the direction or alignment differs between breakpoints, override it with Ta
 | `align`     | `'start' \| 'center' \| 'end' \| 'baseline' \| 'stretch'`           | —       | Cross-axis alignment              |
 | `justify`   | `'start' \| 'center' \| 'end' \| 'between' \| 'around' \| 'evenly'` | —       | Main-axis distribution            |
 | `wrap`      | `boolean`                                                           | —       | Whether children wrap             |
-| `as`        | `string`                                                            | `'div'` | The rendered tag                  |
+| `as`        | `string \| Component`                                               | `'div'` | The rendered tag or Vue component |
 | `class`     | `string`                                                            | —       | Classes appended to the container |
 
 | Slot      | Description  |

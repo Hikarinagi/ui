@@ -247,6 +247,11 @@
     "changelog": "Additions, improvements and fixes across all releases"
   },
   "components": {
+    "masonry": "Masonry",
+    "month-grid": "Month display",
+    "carousel": "Browse content with dragging, grouping and optional rotation",
+    "qr-code": "Scannable SVG codes with image export",
+    "affix": "Sticky container",
     "accordion": "A list of sections that expand and collapse in turn",
     "alert": "A message bar that appears in the page after something happens",
     "alert-dialog": "A confirmation dialog that needs an explicit answer",
@@ -266,6 +271,7 @@
     "code-block": "A block of code with highlighting and copying",
     "copy-button": "Writes a piece of text to the clipboard",
     "context-menu": "A menu that opens at the pointer on right-click or long press",
+    "data-list": "List and grid data views with pagination and custom items",
     "data-table": "A data table with sorting, filtering, pagination and row selection",
     "date-field": "Types a date or time segment by segment",
     "date-picker": "Types a date or picks it from a calendar",
@@ -349,6 +355,7 @@
     "calendar": "Shows a month and picks a date",
     "callout": "A note written into the content",
     "collapsible": "A region a single trigger opens and closes",
+    "autocomplete": "Free-text input with caret-aware suggestions",
     "combobox": "A select that filters as you type",
     "command-palette": "A keyboard-summoned search panel for picking commands and pages",
     "disclosure-icon": "An indicator that turns as a region opens and closes",
@@ -369,7 +376,12 @@
     "timeline": "An ordered sequence of events with connected markers",
     "stepper": "Navigates a sequence of steps with guarded transitions",
     "toolbar": "Groups buttons, links and toggles with shared keyboard navigation",
-    "navigation-menu": "Composes navigation links and dropdown content panels"
+    "navigation-menu": "Composes navigation links and dropdown content panels",
+    "virtual-list": "A virtual list with dynamic item sizes",
+    "editable": "Edit text in place with save and cancel",
+    "split-button": "A primary action joined to a menu of alternatives",
+    "float-button": "A prominent action at the edge of a page or container",
+    "scroll-top": "Return to the top of a page or scroll container"
   },
   "designPreview": {
     "accent": "Accent",

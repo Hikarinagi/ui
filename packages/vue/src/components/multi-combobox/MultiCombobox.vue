@@ -2,6 +2,7 @@
   import { computed } from 'vue'
   import { ComboboxAnchor, ComboboxInput, ComboboxRoot, ComboboxTrigger } from 'reka-ui'
   import { cn } from '../../lib/cn'
+  import type { VirtualizeOptions } from '../../lib/virtual/types'
   import { useFieldControl } from '../form-field/context'
   import { useUiLocale } from '../../locale'
   import { buttonIconBox } from '../button/button.variants'
@@ -33,6 +34,7 @@
   const props = withDefaults(
     defineProps<{
       options: SelectItems<T>
+      virtualize?: VirtualizeOptions
       selectedOptions?: T[]
       placeholder?: string
       ignoreFilter?: boolean
@@ -163,7 +165,7 @@
         </span>
       </div>
     </ComboboxAnchor>
-    <ComboboxList :options="props.options" :keyboard="keyboard">
+    <ComboboxList :options="props.options" :keyboard="keyboard" :virtualize="props.virtualize">
       <template #option="slotProps">
         <slot name="option" v-bind="slotProps" />
       </template>

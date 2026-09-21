@@ -176,14 +176,6 @@ import { DataTable, type DataTableColumn } from '@hina-ui/vue'
 
 <Demo name="data-table/fill" />
 
-### 虚拟滚动 {#virtual}
-
-`virtualize` 只渲染可见行与缓冲区，可用 `{ estimateSize, overscan }` 指定初始行高估计和缓冲数量。实际行高与展开内容会自动测量，可组合固定列、选择、展开和分组。提供 `height`、`maxHeight` 或 `fill`，否则滚动区默认上限为 400px。
-
-数据处理仍针对传入的完整行集。虚拟化减少挂载的 DOM，不负责请求数据。`api.scrollToRow(key)` 可滚动到当前显示行集中的任意行，包括渲染窗口之外的行。折叠或其他页内的行需先展开祖先或切换页码。
-
-<Demo name="data-table/virtual" />
-
 ### CSV 导出 {#export}
 
 `api.toCsv(options)` 返回 CSV 字符串，`api.exportCsv(options)` 下载文件。`scope` 支持 `page`、`filtered`（默认）、`selected` 和 `all`。远程模式同样只处理已加载记录；仅有已选键而没有行对象的记录无法导出。
@@ -197,6 +189,14 @@ import { DataTable, type DataTableColumn } from '@hina-ui/vue'
 `emptyText` 替换默认提示，`empty` 可放入 [Empty](/components/empty) 等自定义内容。`loading` 插槽替换 [LoadingOverlay](/components/loading-overlay) 的内容，应保留状态播报。
 
 <Demo name="data-table/states" />
+
+### 虚拟滚动 {#virtual}
+
+`virtualize` 只渲染可见行与缓冲区，可用 `{ estimateSize, overscan }` 指定初始行高估计和缓冲数量。实际行高与展开内容会自动测量，可组合固定列、选择、展开和分组。提供 `height`、`maxHeight` 或 `fill`，否则滚动区默认上限为 400px。
+
+数据处理仍针对传入的完整行集。虚拟化减少挂载的 DOM，不负责请求数据。`api.scrollToRow(key)` 可滚动到当前显示行集中的任意行，包括渲染窗口之外的行。折叠或其他页内的行需先展开祖先或切换页码。
+
+<Demo name="data-table/virtual" />
 
 ## 无障碍 {#behavior}
 

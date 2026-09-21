@@ -38,6 +38,21 @@ import { Avatar } from '@hina-ui/vue'
 
 <Demo name="avatar/group" />
 
+叠放间距和分隔环直接作用于组内的外层元素。自定义头像即使包了一层触发器，也不需要把组的布局类名转发给内层头像。包装元素的圆角和装饰仍由自定义组件控制。
+
+自定义子组件可以从包根导入 `useAvatarGroup`，响应式读取整组的尺寸；未放在头像组内时返回 `null`。例如在自定义头像组件中保留「自身尺寸优先」的规则：
+
+```ts
+import { computed } from 'vue'
+import { useAvatarGroup, type AvatarVariants } from '@hina-ui/vue'
+
+const props = defineProps<{ size?: AvatarVariants['size'] }>()
+const group = useAvatarGroup()
+const size = computed(() => props.size ?? group?.value.size ?? 'md')
+```
+
+`max` 按默认插槽提供的条目计数，支持直接写在插槽中的 `v-for`。自定义组件内部渲染的多个头像不会分别计数；需要准确的 `+N` 时，让每个插槽条目代表一个头像。
+
 ### 自定义内容 {#custom}
 
 默认插槽覆盖内置的回退内容，可以是图标或短文本。
@@ -81,3 +96,11 @@ import { Avatar } from '@hina-ui/vue'
 | 插槽      | 说明     |
 | --------- | -------- |
 | `default` | 一组头像 |
+
+### useAvatarGroup {#group-context}
+
+`useAvatarGroup()` 返回 `ComputedRef<AvatarGroupContext> | null`。`AvatarGroupContext` 也从包根导出。
+
+| 字段   | 类型                     | 说明                                             |
+| ------ | ------------------------ | ------------------------------------------------ |
+| `size` | `AvatarVariants['size']` | 最近的头像组设置的尺寸；组未指定时为 `undefined` |

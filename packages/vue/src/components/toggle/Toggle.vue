@@ -73,7 +73,7 @@
           toggle({
             variant: props.variant,
             size: props.size,
-            iconOnly: !!props.label,
+            iconOnly: !!props.label && !slots.default,
             pill: props.pill,
           }),
           props.class,

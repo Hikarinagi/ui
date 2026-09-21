@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 370,
+      "title": "AIR",
+      "originalTitle": "AIR",
+      "developer": "Key / 株式会社ビジュアルアーツ",
+      "released": "2000-09-08",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10379/o57plibw_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/370"
+    },
+    {
+      "id": 778,
+      "title": "天色幻想岛",
+      "originalTitle": "天色＊アイルノーツ",
+      "developer": "ゆずソフト",
+      "released": "2013-07-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/8af2772a-4120-48e7-857a-4fa67b8cadb2.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 572,
+        "height": 800
+      },
+      "url": "https://www.hikarinagi.org/galgames/778"
+    },
+    {
+      "id": 481,
+      "title": "少女与野兽",
+      "originalTitle": "その日の獣には、",
+      "developer": "minori / 株式会社エンターグラム",
+      "released": "2019-01-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/c12d76a8-bfc5-441a-a1ce-1086d969363e.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 790,
+        "height": 580
+      },
+      "url": "https://www.hikarinagi.org/galgames/481"
+    },
+    {
+      "id": 395,
+      "title": "天结迷宫大师",
+      "originalTitle": "天結いラビリンスマイスター",
+      "developer": "エウシュリー",
+      "released": "2021-07-21",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/5cd1426c-3045-4cc5-b789-f486b276380f.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 720,
+        "height": 1000
+      },
+      "url": "https://www.hikarinagi.org/galgames/395"
+    },
+    {
+      "id": 1616,
+      "title": "月姬 -A piece of blue glass moon-",
+      "originalTitle": "月姫 -A piece of blue glass moon-",
+      "developer": "TYPE-MOON / Aniplex",
+      "released": "2021-08-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/c536b797-52d9-4609-82cc-82dba8203a2e.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 750,
+        "height": 910
+      },
+      "url": "https://www.hikarinagi.org/galgames/1616"
+    },
+    {
+      "id": 854,
+      "title": "弹珠汽水",
+      "originalTitle": "ラムネ",
+      "developer": "ねこねこソフト",
+      "released": "2004-07-30",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/0af76fef-f1e6-452b-a257-010fbe9b5c8a.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 657,
+        "height": 938
+      },
+      "url": "https://www.hikarinagi.org/galgames/854"
+    },
+    {
+      "id": 896,
+      "title": "丑小鸭与文字祸",
+      "originalTitle": "みにくいモジカの子",
+      "developer": "ニトロプラス",
+      "released": "2018-07-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/ef6fa8ba-0357-4f02-8fd0-f6550bfd6a0d.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1280,
+        "height": 1281
+      },
+      "url": "https://www.hikarinagi.org/galgames/896"
+    },
+    {
+      "id": 697,
+      "title": "初雪樱",
+      "originalTitle": "はつゆきさくら",
+      "developer": "SAGA PLANETS",
+      "released": "2012-02-24",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/b269034c-e6cc-43a9-99e1-9bbdc66a1b6f.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1442,
+        "height": 2048
+      },
+      "url": "https://www.hikarinagi.org/galgames/697"
+    },
+    {
+      "id": 266,
+      "title": "纯真之夏",
+      "originalTitle": "なちゅらるばけーしょん",
+      "developer": "hibiki works",
+      "released": "2017-12-22",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/95f4203c-263a-4cde-8f67-257ee8cdb5e9.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 854
+      },
+      "url": "https://www.hikarinagi.org/galgames/266"
+    },
+    {
+      "id": 894,
+      "title": "のーぶる バトラー",
+      "originalTitle": "のーぶる バトラー",
+      "developer": "ensemble SWEET",
+      "released": "2025-04-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/3bb4a113-d228-4a54-845d-d26c6572f7aa.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1250,
+        "height": 703
+      },
+      "url": "https://www.hikarinagi.org/galgames/894"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

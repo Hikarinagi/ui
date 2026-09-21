@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 1263,
+      "title": "ガールズフランティッククラン",
+      "originalTitle": "ガールズフランティッククラン",
+      "developer": "チーム++",
+      "released": "2022-12-23",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/4007b78c-4c3c-4940-9b2d-d6c1639d498e.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/1263"
+    },
+    {
+      "id": 884,
+      "title": "ハルキス",
+      "originalTitle": "ハルキス",
+      "developer": "戯画",
+      "released": "2015-01-30",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/3246d484-6d9c-4c59-8c96-3ff4791d915c.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 512,
+        "height": 372
+      },
+      "url": "https://www.hikarinagi.org/galgames/884"
+    },
+    {
+      "id": 1962,
+      "title": "ギャングスタ・リパブリカ",
+      "originalTitle": "ギャングスタ・リパブリカ",
+      "developer": "Whitesoft",
+      "released": "2013-07-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/14f30144-9689-401b-8c32-94596ab7e17c.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 256,
+        "height": 348
+      },
+      "url": "https://www.hikarinagi.org/galgames/1962"
+    },
+    {
+      "id": 635,
+      "title": "KIRA☆KIRA 煌煌舞台",
+      "originalTitle": "キラ☆キラ",
+      "developer": "OVERDRIVE",
+      "released": "2007-11-22",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/16b79326-b3a9-4e6a-8883-5d298c1d9974.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 349,
+        "height": 500
+      },
+      "url": "https://www.hikarinagi.org/galgames/635"
+    },
+    {
+      "id": 941,
+      "title": "QUINTUPLE☆SPLASH",
+      "originalTitle": "QUINTUPLE☆SPLASH",
+      "developer": "Parasol",
+      "released": "2015-12-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/73b298f3-f8c1-41b2-8ec8-8efbe214e2e4.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1448,
+        "height": 2048
+      },
+      "url": "https://www.hikarinagi.org/galgames/941"
+    },
+    {
+      "id": 314,
+      "title": "丸子与银河龙",
+      "originalTitle": "マルコと銀河竜",
+      "developer": "TOKYOTOON",
+      "released": "2020-02-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/8728e3fc-73ec-4014-9064-9764f659304d.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/314"
+    },
+    {
+      "id": 309,
+      "title": "心之形心之色心之声",
+      "originalTitle": "ココロのカタチとイロとオト",
+      "developer": "HULOTTE ROI / Hulotte",
+      "released": "2020-12-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/4406f4f2-7e28-468e-8152-3618bc7f6ba5.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1000,
+        "height": 689
+      },
+      "url": "https://www.hikarinagi.org/galgames/309"
+    },
+    {
+      "id": 965,
+      "title": "Missing-X-Link ～天のゆりかご、伽の花～",
+      "originalTitle": "Missing-X-Link ～天のゆりかご、伽の花～",
+      "developer": "Fluorite",
+      "released": "2019-04-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/5f940c95-bcb4-4e8e-91ba-50fc7d453319.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 256,
+        "height": 181
+      },
+      "url": "https://www.hikarinagi.org/galgames/965"
+    },
+    {
+      "id": 684,
+      "title": "クリミナルボーダー 3rd offence",
+      "originalTitle": "クリミナルボーダー 3rd offence",
+      "developer": "パープルソフトウェア",
+      "released": "2023-11-24",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/1b09b121-9b66-4892-9748-9bcc1b569fcd.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 256,
+        "height": 349
+      },
+      "url": "https://www.hikarinagi.org/galgames/684"
+    },
+    {
+      "id": 1297,
+      "title": "心跳文学部 Plus!",
+      "originalTitle": "Doki Doki Literature Club Plus!",
+      "developer": "Team Salvato",
+      "released": "2021-06-30",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/50b7e95d-6763-4673-88de-25b4a382a046.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/1297"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

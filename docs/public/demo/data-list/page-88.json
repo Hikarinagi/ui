@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 874,
+      "title": "H2O ～FOOTPRINTS IN THE SAND～",
+      "originalTitle": "H2O ～FOOTPRINTS IN THE SAND～",
+      "developer": "枕 / 有限会社レジスタ",
+      "released": "2006-06-23",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/c7bd43a6-7ebb-455f-9675-42c36d6d7601.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/874"
+    },
+    {
+      "id": 504,
+      "title": "在青春的那场恋情。",
+      "originalTitle": "この恋、青春により。",
+      "developer": "More",
+      "released": "2016-04-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/10a12b8b-f026-4ab2-8135-94351d0d44fd.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 500,
+        "height": 715
+      },
+      "url": "https://www.hikarinagi.org/galgames/504"
+    },
+    {
+      "id": 657,
+      "title": "她和我与恋人",
+      "originalTitle": "彼女と俺と恋人と。",
+      "developer": "PULLTOP LATTE",
+      "released": "2012-12-14",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/babcadce-c3e9-44ac-a306-6dace3cda32e.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 575,
+        "height": 400
+      },
+      "url": "https://www.hikarinagi.org/galgames/657"
+    },
+    {
+      "id": 232,
+      "title": "灰色幻影扳机 第1卷",
+      "originalTitle": "グリザイア：ファントムトリガー 第1巻",
+      "developer": "Frontwing Co., Ltd.",
+      "released": "2017-04-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/022379ff-0984-47a6-b905-33f3ffe47b59.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/232"
+    },
+    {
+      "id": 1250,
+      "title": "狂欢节",
+      "originalTitle": "CARNIVAL",
+      "developer": "フライングシャイン",
+      "released": "2004-05-14",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/e328c692-593f-455e-9cec-0c62bf03a910.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 371,
+        "height": 512
+      },
+      "url": "https://www.hikarinagi.org/galgames/1250"
+    },
+    {
+      "id": 1132,
+      "title": "恋爱家庭教师露露美★Coordinate！",
+      "originalTitle": "恋愛家庭教師ルルミ★Coordinate！",
+      "developer": "riffraff / RIFF*RAFF",
+      "released": "2011-08-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/4492fe3f-1eaa-4e7d-ab8e-544bcc54dca4.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 860,
+        "height": 1200
+      },
+      "url": "https://www.hikarinagi.org/galgames/1132"
+    },
+    {
+      "id": 823,
+      "title": "Happiness！2 樱花盛典",
+      "originalTitle": "はぴねす！2 Sakura Celebration",
+      "developer": "ういんどみる Oasis / ういんどみる",
+      "released": "2019-02-22",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/14e58e75-4c07-4767-8801-241e01590a76.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1412,
+        "height": 942
+      },
+      "url": "https://www.hikarinagi.org/galgames/823"
+    },
+    {
+      "id": 554,
+      "title": "恋爱中的她的笨拙舞台",
+      "originalTitle": "恋する彼女の不器用な舞台",
+      "developer": "CUBE",
+      "released": "2014-11-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10563/8yrnjk03_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 792,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/554"
+    },
+    {
+      "id": 216,
+      "title": "染红的街道",
+      "originalTitle": "あかね色に染まる坂",
+      "developer": "feng",
+      "released": "2007-07-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/c6b5ab71-9b6f-4ae1-9fe3-2a039ebf6d4a.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/216"
+    },
+    {
+      "id": 366,
+      "title": "Tiny Dungeon ～BRAVE or SLAVE～",
+      "originalTitle": "Tiny Dungeon ～BRAVE or SLAVE～",
+      "developer": "Rosebleu",
+      "released": "2012-07-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/84d0f742-cbf7-452d-97d4-83745bd6585f.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 640,
+        "height": 430
+      },
+      "url": "https://www.hikarinagi.org/galgames/366"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

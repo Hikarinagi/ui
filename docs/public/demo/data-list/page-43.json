@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 451,
+      "title": "茂伸奇谈-Happy End-",
+      "originalTitle": "ものべの -happy end-",
+      "developer": "Lose",
+      "released": "2013-10-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10460/xj6ldyqu_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1644,
+        "height": 2240
+      },
+      "url": "https://www.hikarinagi.org/galgames/451"
+    },
+    {
+      "id": 1200,
+      "title": "星辰密文",
+      "originalTitle": "ステラーコード",
+      "developer": "フラガリア",
+      "released": "2025-08-15",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/8656ec9a-a1fc-4ab2-a46d-bb38f405f7d0.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/1200"
+    },
+    {
+      "id": 475,
+      "title": "夏空的英仙座",
+      "originalTitle": "夏空のペルセウス",
+      "developer": "minori",
+      "released": "2012-12-21",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/e2c6c2e5-5b2b-4954-aab3-e742a6f0f785.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 499,
+        "height": 500
+      },
+      "url": "https://www.hikarinagi.org/galgames/475"
+    },
+    {
+      "id": 1057,
+      "title": "猫娘乐园 Vol.3",
+      "originalTitle": "ネコぱら vol.3 ネコたちのアロマティゼ",
+      "developer": "NEKO WORKs",
+      "released": "2017-05-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/11084/kgvkv9mg_2.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 497,
+        "height": 700
+      },
+      "url": "https://www.hikarinagi.org/galgames/1057"
+    },
+    {
+      "id": 975,
+      "title": "蛟の巫女",
+      "originalTitle": "蛟の巫女",
+      "developer": "Liar-soft",
+      "released": "2024-09-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/871ae2c5-17b1-42a2-a960-dac4cce5d02d.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/975"
+    },
+    {
+      "id": 558,
+      "title": "ネコと女子寮（ワカイ）せよ！",
+      "originalTitle": "ネコと女子寮（ワカイ）せよ！",
+      "developer": "CUBE",
+      "released": "2022-05-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/41812196-ed78-4f7e-bc5b-6b13428a0220.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 822,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/558"
+    },
+    {
+      "id": 158,
+      "title": "Muv-Luv",
+      "originalTitle": "マブラヴ",
+      "developer": "アージュ / 株式会社aNCHOR / 5pb.",
+      "released": "2003-02-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/6e534a96-4a35-42ba-b84c-f24b59616b50.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 692,
+        "height": 996
+      },
+      "url": "https://www.hikarinagi.org/galgames/158"
+    },
+    {
+      "id": 53,
+      "title": "D.S. i.F.",
+      "originalTitle": "D.S. i.F. -Dal Segno- in Future",
+      "developer": "CIRCUS",
+      "released": "2017-04-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/c560d967-d142-41ae-8c84-7c099b82ab52.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 792,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/53"
+    },
+    {
+      "id": 24532,
+      "title": "战国恋姬BRAVE二 ～战乱的九州、岛津篇～",
+      "originalTitle": "戦国†恋姫BRAVE弐 ～戦乱の九州、島津編～",
+      "developer": "ベースソン",
+      "released": "2026-08-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/828daf49-07cd-4631-9950-8a9ca484fa8e.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 948,
+        "height": 1340
+      },
+      "url": "https://www.hikarinagi.org/galgames/24532"
+    },
+    {
+      "id": 1720,
+      "title": "空之色，水之色",
+      "originalTitle": "そらのいろ、みずのいろ",
+      "developer": "Ciel",
+      "released": "2004-06-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/a5eda380-48ca-4483-a3b5-9d26650fe367.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 256,
+        "height": 370
+      },
+      "url": "https://www.hikarinagi.org/galgames/1720"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

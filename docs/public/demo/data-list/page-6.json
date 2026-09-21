@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 6,
+      "title": "甜蜜夏日",
+      "originalTitle": "アマナツ",
+      "developer": "あざらしそふと",
+      "released": "2022-08-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/cd8f159b-fe8c-48fa-8a3a-af832d2926de.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 320,
+        "height": 452
+      },
+      "url": "https://www.hikarinagi.org/galgames/6"
+    },
+    {
+      "id": 1015,
+      "title": "KANADE",
+      "originalTitle": "KANADE",
+      "developer": "Frontwing Co., Ltd.",
+      "released": "2025-06-12",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/8fff23c4-7e68-433f-ad6f-c7673bfa7f21.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/1015"
+    },
+    {
+      "id": 61,
+      "title": "白色相簿2",
+      "originalTitle": "WHITE ALBUM 2",
+      "developer": "Leaf",
+      "released": "2011-12-22",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10064/8knm5v1x_20.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 320,
+        "height": 460
+      },
+      "url": "https://www.hikarinagi.org/galgames/61"
+    },
+    {
+      "id": 1525,
+      "title": "极客侦探：恒悬迷踪",
+      "originalTitle": "CRACK≡TRICK!",
+      "developer": "CRYSTALiA",
+      "released": "2025-10-31",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/8f02feca-3c93-4b4a-bbe2-bd5e759e40af.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 425,
+        "height": 600
+      },
+      "url": "https://www.hikarinagi.org/galgames/1525"
+    },
+    {
+      "id": 796,
+      "title": "甜蜜女友+",
+      "originalTitle": "アマカノ+",
+      "developer": "あざらしそふと",
+      "released": "2016-12-22",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/6d3f7020-8c44-4f1a-b687-46151a4533e9.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1458,
+        "height": 2048
+      },
+      "url": "https://www.hikarinagi.org/galgames/796"
+    },
+    {
+      "id": 1136,
+      "title": "无法忍耐的处男哥哥和不直率的叛逆妹妹",
+      "originalTitle": "ガマンができない童貞兄キと、スナオになれない反抗妹",
+      "developer": "Sister Position",
+      "released": "2022-07-24",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/61c73838-4f41-4128-a4fe-76cb89cc5844.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 256,
+        "height": 362
+      },
+      "url": "https://www.hikarinagi.org/galgames/1136"
+    },
+    {
+      "id": 2266,
+      "title": "廃村少女 番外 ～籠愛拾遺～",
+      "originalTitle": "廃村少女 番外 ～籠愛拾遺～",
+      "developer": "エスクード",
+      "released": "2025-12-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/3cfe5048-c47a-4d6d-84be-e5447ae25a88.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 707,
+        "height": 1000
+      },
+      "url": "https://www.hikarinagi.org/galgames/2266"
+    },
+    {
+      "id": 30,
+      "title": "苍之彼方的四重奏",
+      "originalTitle": "蒼の彼方のフォーリズム",
+      "developer": "sprite",
+      "released": "2014-11-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10033/tz8va8ec_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/30"
+    },
+    {
+      "id": 23,
+      "title": "恋爱初次见面",
+      "originalTitle": "恋愛、はじめまして",
+      "developer": "ASa Project",
+      "released": "2025-02-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/6e74bb35-2a9f-474b-a10e-e2137ec4da8d.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1000,
+        "height": 707
+      },
+      "url": "https://www.hikarinagi.org/galgames/23"
+    },
+    {
+      "id": 390,
+      "title": "姫と婬欲のテスタメント",
+      "originalTitle": "姫と婬欲のテスタメント",
+      "developer": "エスクード",
+      "released": "2022-04-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/6cb809d2-7c33-4952-af38-db923c9d4046.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 708,
+        "height": 1000
+      },
+      "url": "https://www.hikarinagi.org/galgames/390"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

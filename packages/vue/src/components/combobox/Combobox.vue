@@ -2,6 +2,7 @@
   import { computed } from 'vue'
   import { ComboboxAnchor, ComboboxInput, ComboboxRoot, ComboboxTrigger } from 'reka-ui'
   import { cn } from '../../lib/cn'
+  import type { VirtualizeOptions } from '../../lib/virtual/types'
   import { useUiLocale } from '../../locale'
   import { X } from '@lucide/vue'
   import InputAction from '../input/InputAction.vue'
@@ -27,6 +28,7 @@
 
   const props = defineProps<{
     options: SelectItems<T>
+    virtualize?: VirtualizeOptions
     selectedOption?: T | null
     placeholder?: string
     ignoreFilter?: boolean
@@ -63,7 +65,7 @@
     () => !!props.clearable && model.value != null && model.value !== '' && !disabled.value,
   )
 
-  const { keyboard, input, displayValue, clear, onInput, onHostClick } = useCombobox({
+  const { keyboard, input, inputValue, displayValue, clear, onInput, onHostClick } = useCombobox({
     options: () => props.options,
     selectedOption: () => props.selectedOption,
     model,
@@ -100,7 +102,7 @@
         <ComboboxInput
           ref="input"
           v-bind="$attrs"
-          v-model="search"
+          v-model="inputValue"
           :id="fieldId"
           :aria-describedby="describedBy"
           :display-value="displayValue"
@@ -138,7 +140,7 @@
         </ComboboxTrigger>
       </div>
     </ComboboxAnchor>
-    <ComboboxList :options="props.options" :keyboard="keyboard">
+    <ComboboxList :options="props.options" :keyboard="keyboard" :virtualize="props.virtualize">
       <template #option="slotProps">
         <slot name="option" v-bind="slotProps" />
       </template>

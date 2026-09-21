@@ -1,0 +1,35 @@
+.hn-masonry-list {
+  grid-template-columns: repeat(
+    var(--hn-masonry-fixed-columns, auto-fill),
+    minmax(min(100%, var(--hn-masonry-min-width)), 1fr)
+  );
+}
+
+.hn-masonry-list[data-fixed-columns] {
+  grid-template-columns: repeat(var(--hn-masonry-fixed-columns), minmax(0, 1fr));
+}
+
+.hn-masonry-list[data-pending] {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inline-size: 100%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hn-masonry-list[data-ready] {
+  display: block;
+  block-size: var(--hn-masonry-height);
+}
+
+.hn-masonry-list[data-ready] > .hn-masonry-item {
+  position: absolute;
+  inline-size: calc(
+    (100% - (var(--hn-masonry-columns) - 1) * var(--hn-masonry-gap)) / var(--hn-masonry-columns)
+  );
+  inset-inline-start: calc(
+    var(--hn-masonry-column) * (100% + var(--hn-masonry-gap)) / var(--hn-masonry-columns)
+  );
+  inset-block-start: var(--hn-masonry-top);
+}

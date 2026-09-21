@@ -68,6 +68,12 @@ import { MultiCombobox } from '@hina-ui/vue'
 
 <Demo name="multi-combobox/form" />
 
+### 虚拟滚动 {#virtual}
+
+`virtualize` 按需渲染可见范围附近的条目，与 [VirtualList](/components/virtual-list) 共用测量与滚动底层。默认关闭；可传 `{ estimateSize, overscan }` 调整预估行高和两侧预渲染数量，行高会按实际内容测量。键盘导航覆盖完整数据，禁用项会跳过。 搜索仍处理完整数据。 条目离开渲染范围后会卸载；插槽内需要持久保留的状态应按唯一 value 存在外部。
+
+<Demo name="multi-combobox/virtual" />
+
 ## 行为 {#behavior}
 
 - 输入即打开列表并筛选；上下方向键移动高亮，Enter 勾选或者取消勾选，列表保持展开，搜索词与筛选结果保留，方便在同一批结果里连续勾选；清空输入即回到完整列表。
@@ -92,6 +98,7 @@ import { MultiCombobox } from '@hina-ui/vue'
 | ----------------- | -------------------------- | ----------- | ----------------------------------------------- |
 | `modelValue`      | `Array<string \| number>`  | `[]`        | 选中的值                                        |
 | `options`         | `SelectItems<T>`           | —           | 选项，类型见 [Select](/components/select#types) |
+| `virtualize`      | `VirtualizeOptions`        | `false`     | 虚拟滚动；预估行高按内容，overscan 6            |
 | `selectedOptions` | `T[]`                      | —           | 已选项资料，仅用于标签回显，不加入候选列表      |
 | `placeholder`     | `string`                   | 语言包      | 无已选项时输入区的占位文字                      |
 | `search`          | `string`                   | `''`        | 输入区的文字，支持 `v-model:search`             |
@@ -120,3 +127,7 @@ import { MultiCombobox } from '@hina-ui/vue'
 | `update:search`     | `value: string`                  | 输入文字变化 |
 | `update:open`       | `open: boolean`                  | 浮层开合变化 |
 | `clear`             | —                                | 全部清空     |
+
+```ts
+type VirtualizeOptions = boolean | { estimateSize?: number; overscan?: number }
+```

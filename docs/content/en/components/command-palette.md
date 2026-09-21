@@ -58,6 +58,12 @@ With `inline` the panel is no longer wrapped in an overlay and renders in the do
 
 <Demo name="command-palette/inline" />
 
+### Virtual scrolling {#virtual}
+
+`virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Search still processes the full dataset. Commands unmount outside the rendered range; keep persistent state externally by command id.
+
+<Demo name="command-palette/virtual" />
+
 ## Behavior {#behavior}
 
 - On open the input takes focus and the first item is highlighted; typing filters the list at once, and the matching part of a label is marked in the accent colour.
@@ -77,15 +83,16 @@ With `inline` the panel is no longer wrapped in an overlay and renders in the do
 
 ### Props {#props}
 
-| Prop           | Type           | Default     | Description                                       |
-| -------------- | -------------- | ----------- | ------------------------------------------------- |
-| `items`        | `CommandItems` | —           | Required. Items and groups                        |
-| `placeholder`  | `string`       | from locale | Placeholder of the input                          |
-| `label`        | `string`       | from locale | Accessible name of the panel                      |
-| `hotkey`       | `string`       | —           | Global hotkey, e.g. `mod+k`                       |
-| `ignoreFilter` | `boolean`      | `false`     | Skip built-in filtering; the caller owns the list |
-| `inline`       | `boolean`      | `false`     | Render as an inline panel instead of an overlay   |
-| `class`        | `string`       | —           | Extra classes on the panel                        |
+| Prop           | Type                | Default     | Description                                           |
+| -------------- | ------------------- | ----------- | ----------------------------------------------------- |
+| `items`        | `CommandItems`      | —           | Required. Items and groups                            |
+| `virtualize`   | `VirtualizeOptions` | `false`     | Virtual scrolling; content-based estimate, overscan 6 |
+| `placeholder`  | `string`            | from locale | Placeholder of the input                              |
+| `label`        | `string`            | from locale | Accessible name of the panel                          |
+| `hotkey`       | `string`            | —           | Global hotkey, e.g. `mod+k`                           |
+| `ignoreFilter` | `boolean`           | `false`     | Skip built-in filtering; the caller owns the list     |
+| `inline`       | `boolean`           | `false`     | Render as an inline panel instead of an overlay       |
+| `class`        | `string`            | —           | Extra classes on the panel                            |
 
 ### Models {#models}
 
@@ -120,3 +127,7 @@ With `inline` the panel is no longer wrapped in an overlay and renders in the do
 | `onSelect`    | `() => void` | Called when selected               |
 
 A group is `{ label: string; items: CommandItem[] }`, and `CommandItems` is an array of items and groups.
+
+```ts
+type VirtualizeOptions = boolean | { estimateSize?: number; overscan?: number }
+```

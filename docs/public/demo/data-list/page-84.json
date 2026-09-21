@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 544,
+      "title": "D.C.4 Fortunate Departures ～ダ・カーポ4～フォーチュネイトデパーチャーズ",
+      "originalTitle": "D.C.4 Fortunate Departures ～ダ・カーポ4～フォーチュネイトデパーチャーズ",
+      "developer": "CIRCUS",
+      "released": "2021-02-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/0bb55b3d-8161-45d0-918f-3a4be4d8c8ad.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1065,
+        "height": 1500
+      },
+      "url": "https://www.hikarinagi.org/galgames/544"
+    },
+    {
+      "id": 1090,
+      "title": "当孤僻之人遇上青春生活",
+      "originalTitle": "捻くれモノの学園青春物語～俺と彼女の裏表～",
+      "developer": "りびどーそふと",
+      "released": "2018-12-21",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/67e3413e-0c1f-4c42-829d-5787f989b0d6.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 256,
+        "height": 181
+      },
+      "url": "https://www.hikarinagi.org/galgames/1090"
+    },
+    {
+      "id": 1925,
+      "title": "深渊绝赌：千王处刑",
+      "originalTitle": "オールインアビス：イカサマサバキ",
+      "developer": "WSS playground / 株式会社アクワイア / 株式会社アライアンス・アーツ",
+      "released": "2025-04-09",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/7d0f1e8a-6abd-4318-8d12-9ddc0a5eb1b5.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/1925"
+    },
+    {
+      "id": 1175,
+      "title": "花鐘カナデ＊グラム Chapter:2 花ノ香澄玲編",
+      "originalTitle": "花鐘カナデ＊グラム Chapter:2 花ノ香澄玲編",
+      "developer": "ナナウィンド",
+      "released": "2022-11-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/e00434f1-4ed0-4f53-82d6-f818545b517b.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1028,
+        "height": 1500
+      },
+      "url": "https://www.hikarinagi.org/galgames/1175"
+    },
+    {
+      "id": 358,
+      "title": "Since Memories 星穹之下",
+      "originalTitle": "シンスメモリーズ 星天の下で",
+      "developer": "MAGES. / SDR Project",
+      "released": "2021-09-16",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/7dcbfc9c-2220-40d0-b191-3a3cafc81102.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 950,
+        "height": 1199
+      },
+      "url": "https://www.hikarinagi.org/galgames/358"
+    },
+    {
+      "id": 696,
+      "title": "如月 金★星",
+      "originalTitle": "キサラギGOLD★STAR",
+      "developer": "SAGA PLANETS",
+      "released": "2010-10-29",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10705/7ylw9aav_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 822,
+        "height": 1120
+      },
+      "url": "https://www.hikarinagi.org/galgames/696"
+    },
+    {
+      "id": 954,
+      "title": "恋嵐スピリッチュ",
+      "originalTitle": "恋嵐スピリッチュ",
+      "developer": "Parasol",
+      "released": "2019-05-31",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/fa41ac84-1052-4fc0-96a4-64e29201d93a.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 256,
+        "height": 179
+      },
+      "url": "https://www.hikarinagi.org/galgames/954"
+    },
+    {
+      "id": 940,
+      "title": "恋爱少女与思念的奇迹",
+      "originalTitle": "恋する少女と想いのキセキ～Poupee de souhaits～",
+      "developer": "Sugar Pot",
+      "released": "2014-02-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/93e254c3-3f1b-4540-9887-3b4cfe0d4638.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/940"
+    },
+    {
+      "id": 123,
+      "title": "鬼的捉迷藏！Fan disk",
+      "originalTitle": "鬼ごっこ！ファンディスク",
+      "developer": "ALcot",
+      "released": "2011-09-30",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/1e016f79-5118-4e5d-bebd-179dc02707be.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/123"
+    },
+    {
+      "id": 420,
+      "title": "交汇协奏曲",
+      "originalTitle": "Cross Concerto",
+      "developer": "あっぷりけ / 株式会社 HIKARI FIELD",
+      "released": "2019-10-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10429/txhp8tqy_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/420"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

@@ -47,6 +47,7 @@ export const components: DocsComponent[] = [
     i18n: 'components.accordion',
     category: 'display',
   },
+  { label: 'Affix', to: '/components/affix', i18n: 'components.affix', category: 'layout' },
   { label: 'Alert', to: '/components/alert', i18n: 'components.alert', category: 'display' },
   {
     label: 'AlertDialog',
@@ -66,6 +67,12 @@ export const components: DocsComponent[] = [
     to: '/components/aspect-ratio',
     i18n: 'components.aspect-ratio',
     category: 'layout',
+  },
+  {
+    label: 'Autocomplete',
+    to: '/components/autocomplete',
+    i18n: 'components.autocomplete',
+    category: 'forms',
   },
   { label: 'Avatar', to: '/components/avatar', i18n: 'components.avatar', category: 'atoms' },
   { label: 'Badge', to: '/components/badge', i18n: 'components.badge', category: 'atoms' },
@@ -97,6 +104,12 @@ export const components: DocsComponent[] = [
   },
   { label: 'Callout', to: '/components/callout', i18n: 'components.callout', category: 'display' },
   { label: 'Card', to: '/components/card', i18n: 'components.card', category: 'display' },
+  {
+    label: 'Carousel',
+    to: '/components/carousel',
+    i18n: 'components.carousel',
+    category: 'display',
+  },
   { label: 'Center', to: '/components/center', i18n: 'components.center', category: 'layout' },
   { label: 'Checkbox', to: '/components/checkbox', i18n: 'components.checkbox', category: 'forms' },
   {
@@ -156,6 +169,12 @@ export const components: DocsComponent[] = [
     category: 'atoms',
   },
   {
+    label: 'DataList',
+    to: '/components/data-list',
+    i18n: 'components.data-list',
+    category: 'data',
+  },
+  {
     label: 'DataTable',
     to: '/components/data-table',
     i18n: 'components.data-table',
@@ -212,6 +231,7 @@ export const components: DocsComponent[] = [
     i18n: 'components.dropdown-menu',
     category: 'overlays',
   },
+  { label: 'Editable', to: '/components/editable', i18n: 'components.editable', category: 'forms' },
   { label: 'Empty', to: '/components/empty', i18n: 'components.empty', category: 'display' },
   {
     label: 'FileUpload',
@@ -220,6 +240,12 @@ export const components: DocsComponent[] = [
     category: 'forms',
   },
   { label: 'Flex', to: '/components/flex', i18n: 'components.flex', category: 'layout' },
+  {
+    label: 'FloatButton',
+    to: '/components/float-button',
+    i18n: 'components.float-button',
+    category: 'atoms',
+  },
   { label: 'Form', to: '/components/form', i18n: 'components.form', category: 'forms' },
   {
     label: 'FormField',
@@ -290,6 +316,7 @@ export const components: DocsComponent[] = [
     category: 'overlays',
   },
   { label: 'Mark', to: '/components/mark', i18n: 'components.mark', category: 'typography' },
+  { label: 'Masonry', to: '/components/masonry', i18n: 'components.masonry', category: 'layout' },
   {
     label: 'Menubar',
     to: '/components/menubar',
@@ -300,6 +327,12 @@ export const components: DocsComponent[] = [
     label: 'MeterGroup',
     to: '/components/meter-group',
     i18n: 'components.meter-group',
+    category: 'display',
+  },
+  {
+    label: 'MonthGrid',
+    to: '/components/month-grid',
+    i18n: 'components.month-grid',
     category: 'display',
   },
   {
@@ -383,6 +416,7 @@ export const components: DocsComponent[] = [
     category: 'display',
   },
   { label: 'Prose', to: '/components/prose', i18n: 'components.prose', category: 'typography' },
+  { label: 'QRCode', to: '/components/qr-code', i18n: 'components.qr-code', category: 'display' },
   {
     label: 'RadioGroup',
     to: '/components/radio-group',
@@ -417,6 +451,12 @@ export const components: DocsComponent[] = [
     category: 'layout',
   },
   {
+    label: 'ScrollTop',
+    to: '/components/scroll-top',
+    i18n: 'components.scroll-top',
+    category: 'navigation',
+  },
+  {
     label: 'SearchInput',
     to: '/components/search-input',
     i18n: 'components.search-input',
@@ -447,6 +487,12 @@ export const components: DocsComponent[] = [
   { label: 'Slider', to: '/components/slider', i18n: 'components.slider', category: 'forms' },
   { label: 'Space', to: '/components/space', i18n: 'components.space', category: 'layout' },
   { label: 'Spinner', to: '/components/spinner', i18n: 'components.spinner', category: 'atoms' },
+  {
+    label: 'SplitButton',
+    to: '/components/split-button',
+    i18n: 'components.split-button',
+    category: 'atoms',
+  },
   {
     label: 'Splitter',
     to: '/components/splitter',
@@ -522,6 +568,12 @@ export const components: DocsComponent[] = [
     to: '/components/tree-select',
     i18n: 'components.tree-select',
     category: 'forms',
+  },
+  {
+    label: 'VirtualList',
+    to: '/components/virtual-list',
+    i18n: 'components.virtual-list',
+    category: 'data',
   },
   {
     label: 'VisuallyHidden',

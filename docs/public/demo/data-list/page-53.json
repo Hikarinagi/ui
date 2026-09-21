@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 817,
+      "title": "智以泪聚",
+      "originalTitle": "るいは智を呼ぶ",
+      "developer": "暁WORKS",
+      "released": "2008-06-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10826/ub5i3jtz_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 389,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/817"
+    },
+    {
+      "id": 914,
+      "title": "彼方の人魚姫",
+      "originalTitle": "彼方の人魚姫",
+      "developer": "Wonder Fool",
+      "released": "2023-10-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/6b376dba-c15b-4ad6-8003-35212b5801dd.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/914"
+    },
+    {
+      "id": 732,
+      "title": "夜巡回，我们的迷途课室",
+      "originalTitle": "夜巡る、ボクらの迷子教室",
+      "developer": "SAMOYED SMILE",
+      "released": "2017-11-24",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/033f8847-dc72-4897-91cb-3e95a50aef00.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 822,
+        "height": 551
+      },
+      "url": "https://www.hikarinagi.org/galgames/732"
+    },
+    {
+      "id": 991,
+      "title": "刹那にかける恋はなびSS 小鞠とワンルーム",
+      "originalTitle": "刹那にかける恋はなびSS 小鞠とワンルーム",
+      "developer": "CRYSTALiA",
+      "released": "2024-08-30",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/11003/07hj3027_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 564,
+        "height": 800
+      },
+      "url": "https://www.hikarinagi.org/galgames/991"
+    },
+    {
+      "id": 172,
+      "title": "与我恋爱的废柴小恶魔。FanDisc",
+      "originalTitle": "僕と恋するポンコツアクマ。すっごいえっち！",
+      "developer": "スミレ",
+      "released": "2016-05-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/e53b82f4-8d98-4670-bb84-baa1f196e7e9.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 2048,
+        "height": 1182
+      },
+      "url": "https://www.hikarinagi.org/galgames/172"
+    },
+    {
+      "id": 561,
+      "title": "恋し彩る正義爛漫",
+      "originalTitle": "恋し彩る正義爛漫",
+      "developer": "CUBE",
+      "released": "2023-09-29",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/0d390089-ec92-404e-ba6e-72ac32b94076.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 641,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/561"
+    },
+    {
+      "id": 324,
+      "title": "FLOWERS 冬篇",
+      "originalTitle": "FLOWERS - Le volume sur hiver -",
+      "developer": "Innocent Grey",
+      "released": "2017-09-15",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10333/0a8rp1jn_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/324"
+    },
+    {
+      "id": 265,
+      "title": "LOVELY×CATION2",
+      "originalTitle": "LOVELY×CATION2",
+      "developer": "hibiki works",
+      "released": "2013-04-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/20154b69-e102-4be6-aa77-d1cd32a1752e.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/265"
+    },
+    {
+      "id": 64,
+      "title": "五彩斑斓的曙光",
+      "originalTitle": "いろとりどりのヒカリ",
+      "developer": "FAVORITE",
+      "released": "2012-08-31",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10067/hdwm6xzy_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 543,
+        "height": 768
+      },
+      "url": "https://www.hikarinagi.org/galgames/64"
+    },
+    {
+      "id": 275,
+      "title": "IxSHE Tell",
+      "originalTitle": "IxSHE Tell",
+      "developer": "HOOKSOFT",
+      "released": "2018-02-23",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/1b70246f-8a70-4195-96e7-b148c13efee5.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 344,
+        "height": 500
+      },
+      "url": "https://www.hikarinagi.org/galgames/275"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

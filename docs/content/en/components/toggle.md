@@ -26,7 +26,7 @@ It differs from `Switch` by occasion: a switch stands for a setting, always carr
 
 ### Icon only {#icon}
 
-Passing `label` makes it icon-only: the button becomes square, `label` is its accessible name, and inside a `TooltipProvider` it also shows as a tooltip. `#pressed-icon` supplies the icon for the pressed state; the two icons cross-fade.
+`label` supplies the accessible name. Without a default text slot, the button uses square, icon-only sizing; with text, it keeps normal button padding. Inside a `TooltipProvider`, the label also appears in a [Tooltip](/components/tooltip). `#pressed-icon` supplies the icon for the pressed state; the two icons cross-fade.
 
 <Demo name="toggle/icon" />
 
@@ -69,24 +69,24 @@ Inside a [FormField](/components/form-field) the error message is rendered by th
 ## Accessibility {#a11y}
 
 - The root is a button with `aria-pressed`; screen readers announce it as a toggle button and its state.
-- Icon-only toggles must provide `label`; text toggles are named by their text.
+- Icon-only toggles must provide `label`; text toggles use their text by default and can supply a fuller name through `label`.
 
 ## API {#api}
 
 ### Props {#props}
 
-| Prop         | Type                                     | Default   | Description                                 |
-| ------------ | ---------------------------------------- | --------- | ------------------------------------------- |
-| `modelValue` | `boolean`                                | `false`   | Whether it is pressed                       |
-| `label`      | `string`                                 | —         | Name of an icon-only toggle; makes it so    |
-| `tooltip`    | `boolean`                                | `true`    | Whether an icon-only toggle shows a tooltip |
-| `side`       | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'`   | Tooltip placement                           |
-| `variant`    | `'ghost' \| 'outline'`                   | `'ghost'` | Variant                                     |
-| `size`       | `'sm' \| 'md' \| 'lg'`                   | `'md'`    | Size                                        |
-| `pill`       | `boolean`                                | `false`   | Whether it is pill-shaped                   |
-| `disabled`   | `boolean`                                | `false`   | Whether it is disabled                      |
-| `ripple`     | `boolean`                                | `true`    | Whether to show the press ripple            |
-| `class`      | `string`                                 | —         | Classes appended to the button element      |
+| Prop         | Type                                     | Default   | Description                                                         |
+| ------------ | ---------------------------------------- | --------- | ------------------------------------------------------------------- |
+| `modelValue` | `boolean`                                | `false`   | Whether it is pressed                                               |
+| `label`      | `string`                                 | —         | Accessible name; uses icon-only sizing when no text slot is present |
+| `tooltip`    | `boolean`                                | `true`    | Whether to show a tooltip for the label                             |
+| `side`       | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'`   | Tooltip placement                                                   |
+| `variant`    | `'ghost' \| 'outline'`                   | `'ghost'` | Variant                                                             |
+| `size`       | `'sm' \| 'md' \| 'lg'`                   | `'md'`    | Size                                                                |
+| `pill`       | `boolean`                                | `false`   | Whether it is pill-shaped                                           |
+| `disabled`   | `boolean`                                | `false`   | Whether it is disabled                                              |
+| `ripple`     | `boolean`                                | `true`    | Whether to show the press ripple                                    |
+| `class`      | `string`                                 | —         | Classes appended to the button element                              |
 
 ### Slots {#slots}
 

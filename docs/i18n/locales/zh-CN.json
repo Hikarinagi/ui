@@ -247,6 +247,11 @@
     "changelog": "全部版本的新增、优化与修复记录"
   },
   "components": {
+    "masonry": "瀑布流",
+    "month-grid": "月份内容日历",
+    "carousel": "支持拖拽、分组与按需自动播放的内容轮播",
+    "qr-code": "可扫描、可导出的 SVG 二维码",
+    "affix": "滚动吸附",
     "accordion": "多段内容依次展开与收起的折叠列表",
     "alert": "操作之后出现在页面内的消息条",
     "alert-dialog": "需要用户明确回答的确认对话框",
@@ -266,6 +271,7 @@
     "code-block": "成段的代码，带语法着色和复制按钮",
     "copy-button": "把一段文本写入剪贴板",
     "context-menu": "右键或者长按某个区域时在指针处展开的菜单",
+    "data-list": "支持列表、网格、分页与自定义条目的数据视图",
     "data-table": "支持排序、筛选、分页与行选择的数据表格",
     "date-field": "分段输入日期与时间",
     "date-picker": "输入或者从日历中选择日期",
@@ -349,6 +355,7 @@
     "calendar": "按月展示与选择日期",
     "callout": "写入内容之中的一段标注",
     "collapsible": "由一个触发器控制展开与收起的区域",
+    "autocomplete": "保留自由文本，支持光标处片段补全",
     "combobox": "边输入边筛选的选择框",
     "command-palette": "以快捷键唤起的搜索面板，输入后从命令与页面中选择",
     "disclosure-icon": "随展开与收起旋转的指示物",
@@ -369,7 +376,12 @@
     "timeline": "以相连的节点按顺序呈现事件",
     "stepper": "带有步骤状态与切换校验的步骤导航",
     "toolbar": "统一管理按钮、链接和切换组的工具栏",
-    "navigation-menu": "可组合链接和下拉内容的导航菜单"
+    "navigation-menu": "可组合链接和下拉内容的导航菜单",
+    "virtual-list": "只渲染可见范围附近条目的虚拟列表",
+    "editable": "在原位置编辑文本，确认或取消修改",
+    "split-button": "常用操作与附加菜单组成的按钮",
+    "float-button": "固定于页面或容器边角的常用操作",
+    "scroll-top": "滚动到指定位置后出现的回顶入口"
   },
   "names": {
     "accordion": "折叠列表",
@@ -396,11 +408,13 @@
     "code": "行内代码",
     "code-block": "代码块",
     "collapsible": "折叠区域",
+    "autocomplete": "自动补全",
     "combobox": "组合框",
     "command-palette": "命令面板",
     "container": "内容容器",
     "copy-button": "复制按钮",
     "context-menu": "右键菜单",
+    "data-list": "数据列表",
     "data-table": "数据表格",
     "date-field": "日期输入框",
     "date-picker": "日期选择器",
@@ -494,7 +508,12 @@
     "timeline": "时间线",
     "stepper": "步骤条",
     "toolbar": "工具栏",
-    "navigation-menu": "导航菜单"
+    "navigation-menu": "导航菜单",
+    "virtual-list": "虚拟列表",
+    "editable": "原地编辑",
+    "split-button": "分裂按钮",
+    "float-button": "浮动按钮",
+    "scroll-top": "返回顶部"
   },
   "designPreview": {
     "accent": "强调色",

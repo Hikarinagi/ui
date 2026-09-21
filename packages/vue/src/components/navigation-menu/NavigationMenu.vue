@@ -2,6 +2,8 @@
   import { computed, toRef } from 'vue'
   import { NavigationMenuRoot, NavigationMenuList, NavigationMenuViewport } from 'reka-ui'
   import { cn } from '../../lib/cn'
+  import { rekaNavigationViewportStyle } from '../../lib/reka/styles'
+  import { useRekaNavigationViewport } from '../../lib/reka/navigation-viewport'
   import { useAccessibleName } from '../../lib/a11y'
   import { useDirection } from '../../lib/useDirection'
   import { provideNavigationMenu } from './context'
@@ -25,6 +27,7 @@
     unmountOnHide: true,
   })
   const model = defineModel<string>({ default: '' })
+  const { viewport, ready } = useRekaNavigationViewport()
   const { root, direction, rootDirection } = useDirection(() => props.dir)
   const onKeydown = useNavigationMenuKeyboard(
     root,
@@ -72,13 +75,20 @@
         <slot :value="model" />
       </NavigationMenuList>
       <NavigationMenuViewport
+        as-child
         data-hn-navigation-viewport
         :align="align"
         :data-side="placement"
         :class="
           cn(navigationMenuViewport({ orientation: props.orientation, side }), props.viewportClass)
         "
-      />
+      >
+        <div
+          ref="viewport"
+          :data-hn-ready="ready ? '' : undefined"
+          :style="rekaNavigationViewportStyle"
+        />
+      </NavigationMenuViewport>
     </nav>
   </NavigationMenuRoot>
 </template>

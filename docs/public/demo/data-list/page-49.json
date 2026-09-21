@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 270,
+      "title": "PriministAr",
+      "originalTitle": "PriministAr",
+      "developer": "HOOKSOFT",
+      "released": "2013-08-30",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10279/8waba66q_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 690,
+        "height": 1000
+      },
+      "url": "https://www.hikarinagi.org/galgames/270"
+    },
+    {
+      "id": 2337,
+      "title": "カルタグラ",
+      "originalTitle": "カルタグラ",
+      "developer": "Innocent Grey",
+      "released": "2026-02-05",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/aede5bf7-bb8d-45d8-9158-2688642bd260.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1368,
+        "height": 770
+      },
+      "url": "https://www.hikarinagi.org/galgames/2337"
+    },
+    {
+      "id": 131,
+      "title": "实妹相伴的大泉君",
+      "originalTitle": "リアル妹がいる大泉くんのばあい",
+      "developer": "ALcot ハニカム",
+      "released": "2010-05-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/8b7b6080-e42d-48b0-a6fd-0a02ac5057ff.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 822,
+        "height": 1120
+      },
+      "url": "https://www.hikarinagi.org/galgames/131"
+    },
+    {
+      "id": 268,
+      "title": "Strawberry Nauts -ストロベリーノーツ-",
+      "originalTitle": "Strawberry Nauts -ストロベリーノーツ-",
+      "developer": "HOOKSOFT",
+      "released": "2011-11-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10277/g16hwvix_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 679,
+        "height": 960
+      },
+      "url": "https://www.hikarinagi.org/galgames/268"
+    },
+    {
+      "id": 765,
+      "title": "龙姬混~日子3",
+      "originalTitle": "竜姫ぐーたらいふ３",
+      "developer": "ワールプール",
+      "released": "2022-10-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/0b5aae8f-7306-4d08-8383-585a8c6339af.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 966,
+        "height": 1369
+      },
+      "url": "https://www.hikarinagi.org/galgames/765"
+    },
+    {
+      "id": 873,
+      "title": "认真和我恋爱",
+      "originalTitle": "真剣で私に恋しなさい!!",
+      "developer": "みなとそふと",
+      "released": "2009-08-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/87bca313-2b20-43f2-8cc5-6f256d2072da.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/873"
+    },
+    {
+      "id": 174,
+      "title": "家族计划",
+      "originalTitle": "家族計画",
+      "developer": "株式会社ディーオー / D.O.",
+      "released": "2001-11-02",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/587659ea-d0fd-47eb-b026-aa566fdde541.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 696,
+        "height": 1000
+      },
+      "url": "https://www.hikarinagi.org/galgames/174"
+    },
+    {
+      "id": 387,
+      "title": "天籁人偶：冬穹烟火/雪华纹样",
+      "originalTitle": "プリマドール：冬空花火／雪華文様",
+      "developer": "Key",
+      "released": "2023-04-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/01cf7bcb-e39e-4c63-9e47-12f015c952df.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 800,
+        "height": 1132
+      },
+      "url": "https://www.hikarinagi.org/galgames/387"
+    },
+    {
+      "id": 1060,
+      "title": "クローバー・リセット",
+      "originalTitle": "クローバー・リセット",
+      "developer": "ビビドックシ",
+      "released": "2025-05-30",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/adb244f6-0fd3-432c-9a31-c802efb7c86a.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/1060"
+    },
+    {
+      "id": 574,
+      "title": "冬天的谎言 -Snow World End-",
+      "originalTitle": "フユウソ -Snow World End-",
+      "developer": "Campus",
+      "released": "2017-07-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/6de6d38d-99ef-4f58-83c7-2148a31badbb.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 792,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/574"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

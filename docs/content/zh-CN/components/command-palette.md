@@ -58,6 +58,12 @@ import { CommandPalette } from '@hina-ui/vue'
 
 <Demo name="command-palette/inline" />
 
+### 虚拟滚动 {#virtual}
+
+`virtualize` 按需渲染可见范围附近的条目，与 [VirtualList](/components/virtual-list) 共用测量与滚动底层。默认关闭；可传 `{ estimateSize, overscan }` 调整预估行高和两侧预渲染数量，行高会按实际内容测量。键盘导航覆盖完整数据，禁用项会跳过。 搜索仍处理完整数据。 命令离开渲染范围后会卸载，持久状态应按命令 id 保存在外部。
+
+<Demo name="command-palette/virtual" />
+
 ## 行为 {#behavior}
 
 - 打开后焦点落在输入框，首个条目自动高亮；输入时列表即时过滤，标签中匹配的片段以强调色标出。
@@ -77,15 +83,16 @@ import { CommandPalette } from '@hina-ui/vue'
 
 ### Props {#props}
 
-| 属性           | 类型           | 默认值       | 说明                             |
-| -------------- | -------------- | ------------ | -------------------------------- |
-| `items`        | `CommandItems` | —            | 必填。条目与分组                 |
-| `placeholder`  | `string`       | 取自界面语言 | 输入框的占位文字                 |
-| `label`        | `string`       | 取自界面语言 | 面板的无障碍名                   |
-| `hotkey`       | `string`       | —            | 全局快捷键，例如 `mod+k`         |
-| `ignoreFilter` | `boolean`      | `false`      | 不自行过滤，条目列表由调用方决定 |
-| `inline`       | `boolean`      | `false`      | 渲染为内联面板，不使用浮层       |
-| `class`        | `string`       | —            | 追加至面板的类名                 |
+| 属性           | 类型                | 默认值       | 说明                                 |
+| -------------- | ------------------- | ------------ | ------------------------------------ |
+| `items`        | `CommandItems`      | —            | 必填。条目与分组                     |
+| `virtualize`   | `VirtualizeOptions` | `false`      | 虚拟滚动；预估行高按内容，overscan 6 |
+| `placeholder`  | `string`            | 取自界面语言 | 输入框的占位文字                     |
+| `label`        | `string`            | 取自界面语言 | 面板的无障碍名                       |
+| `hotkey`       | `string`            | —            | 全局快捷键，例如 `mod+k`             |
+| `ignoreFilter` | `boolean`           | `false`      | 不自行过滤，条目列表由调用方决定     |
+| `inline`       | `boolean`           | `false`      | 渲染为内联面板，不使用浮层           |
+| `class`        | `string`            | —            | 追加至面板的类名                     |
 
 ### 双向绑定 {#models}
 
@@ -120,3 +127,7 @@ import { CommandPalette } from '@hina-ui/vue'
 | `onSelect`    | `() => void` | 选中时调用                 |
 
 分组是 `{ label: string; items: CommandItem[] }`，`CommandItems` 是条目与分组的数组。
+
+```ts
+type VirtualizeOptions = boolean | { estimateSize?: number; overscan?: number }
+```

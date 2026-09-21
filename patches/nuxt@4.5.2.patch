@@ -1,0 +1,22 @@
+diff --git a/dist/index.mjs b/dist/index.mjs
+index 0ef28fc8637b9d2a58af7152d744dea401e1fd7b..263e3173b94caa1513936bbd2a168345e48195d1 100644
+--- a/dist/index.mjs
++++ b/dist/index.mjs
+@@ -7650,7 +7650,7 @@ async function initNuxt(nuxt) {
+ 			];
+ 			const sharedProtectionConfig = {
+ 				cwd: nuxt.options.rootDir,
+-				trace: true,
++				trace: nuxt.options.dev ? true : "lazy",
+ 				include: sharedPatterns,
+ 				patterns: createImportProtectionPatterns(nuxt, { context: "shared" })
+ 			};
+@@ -7664,7 +7664,7 @@ async function initNuxt(nuxt) {
+ 			});
+ 			const nuxtProtectionConfig = {
+ 				cwd: nuxt.options.rootDir,
+-				trace: true,
++				trace: nuxt.options.dev ? true : "lazy",
+ 				exclude: [relative(nuxt.options.rootDir, join(nuxt.options.srcDir, "index.html")), ...sharedPatterns],
+ 				patterns: createImportProtectionPatterns(nuxt, { context: "nuxt-app" })
+ 			};

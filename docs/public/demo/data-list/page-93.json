@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 1113,
+      "title": "KARAKARA",
+      "originalTitle": "KARAKARA",
+      "developer": "calme",
+      "released": "2016-06-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/86c0b7fe-f5b5-4c91-abfd-9f814347029e.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/1113"
+    },
+    {
+      "id": 1088,
+      "title": "同一屋簷下，羽翼下的故事",
+      "originalTitle": "ひとつ屋根の、ツバサの下で",
+      "developer": "ハーモライズ",
+      "released": "2018-02-23",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/4f37f167-51e3-464d-8675-d949fa03d7ee.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 560,
+        "height": 396
+      },
+      "url": "https://www.hikarinagi.org/galgames/1088"
+    },
+    {
+      "id": 1154,
+      "title": "和旭同住 ～来自盛夏的某日～",
+      "originalTitle": "旭とワンルーム 〜とある夏の一日〜",
+      "developer": "CRYSTALiA",
+      "released": "2021-07-30",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/9275fc53-a9bb-4d15-b691-226b1a4b7942.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 256,
+        "height": 362
+      },
+      "url": "https://www.hikarinagi.org/galgames/1154"
+    },
+    {
+      "id": 815,
+      "title": "密语-Silver Snow Sister-",
+      "originalTitle": "アイコトバ-Silver Snow Sister-",
+      "developer": "あざらしそふと+1 / あざらしそふと",
+      "released": "2023-10-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/ccda081f-69c7-4c8f-9f87-d0cbdd5dcc7d.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 800,
+        "height": 1131
+      },
+      "url": "https://www.hikarinagi.org/galgames/815"
+    },
+    {
+      "id": 667,
+      "title": "隙间樱花与谎言都市",
+      "originalTitle": "すきま桜とうその都会",
+      "developer": "propeller",
+      "released": "2011-06-24",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/073264b5-4b4d-441f-9a47-841475364693.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 353,
+        "height": 500
+      },
+      "url": "https://www.hikarinagi.org/galgames/667"
+    },
+    {
+      "id": 588,
+      "title": "格林花园的少女",
+      "originalTitle": "グリムガーデンの少女 -witch in gleamgarden-",
+      "developer": "COSMIC CUTE",
+      "released": "2013-07-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/997434d4-7019-4660-9f3c-1b1cf8cde732.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1067,
+        "height": 1500
+      },
+      "url": "https://www.hikarinagi.org/galgames/588"
+    },
+    {
+      "id": 1107,
+      "title": "忍者少女与都市传说怪物的神秘军团～无头骑士的追捕～",
+      "originalTitle": "Ninja Girl and the Mysterious Army of Urban Legend Monsters",
+      "developer": "code:jp",
+      "released": "2019-06-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/a02069ec-d0bd-4364-af38-27ed7ea91e48.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/1107"
+    },
+    {
+      "id": 692,
+      "title": "Endless Dungeon",
+      "originalTitle": "Endless Dungeon",
+      "developer": "Rosebleu",
+      "released": "2014-03-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/51bf0392-3c36-472d-bcce-5217cb436327.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 640,
+        "height": 468
+      },
+      "url": "https://www.hikarinagi.org/galgames/692"
+    },
+    {
+      "id": 1239,
+      "title": "BLACK SHEEP TOWN",
+      "originalTitle": "BLACK SHEEP TOWN",
+      "developer": "BA-KU",
+      "released": "2022-09-16",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/11279/uuv4f2du_2.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/1239"
+    },
+    {
+      "id": 21195,
+      "title": "魔法使之夜",
+      "originalTitle": "魔法使いの夜",
+      "developer": "TYPE-MOON / HuneX / 株式会社ラセングル / Aniplex",
+      "released": "2022-12-08",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/139a38d4-aae1-4b2c-a69a-a89c082c8f59.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1365,
+        "height": 2048
+      },
+      "url": "https://www.hikarinagi.org/galgames/21195"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

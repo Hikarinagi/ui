@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 998,
+      "title": "樱色Dreamer",
+      "originalTitle": "さくら色Dreamer",
+      "developer": "ALcot",
+      "released": "2020-12-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/a1ef7ab8-cf9f-4c11-b4ad-2da1651d36db.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 500,
+        "height": 360
+      },
+      "url": "https://www.hikarinagi.org/galgames/998"
+    },
+    {
+      "id": 2338,
+      "title": "龙娘×咖啡厅2",
+      "originalTitle": "ドラ・コンカフェ2",
+      "developer": "Cuteuphoria",
+      "released": "2026-02-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/d2bd3724-c6a4-48d1-819c-066b2689a3a0.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1000,
+        "height": 1492
+      },
+      "url": "https://www.hikarinagi.org/galgames/2338"
+    },
+    {
+      "id": 92,
+      "title": "与她＊心渐近",
+      "originalTitle": "カノジョ＊ステップ",
+      "developer": "SMEE",
+      "released": "2016-09-30",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/2d7956fe-5157-43ac-913b-31f8b2dd08a9.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 821,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/92"
+    },
+    {
+      "id": 754,
+      "title": "猫忍之心",
+      "originalTitle": "猫忍えくすはーと",
+      "developer": "ワールプール",
+      "released": "2017-02-24",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/88418309-165d-488c-bad3-6720a45783ee.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/754"
+    },
+    {
+      "id": 700,
+      "title": "花之天使的夏日恋歌",
+      "originalTitle": "フローラル・フローラブ",
+      "developer": "SAGA PLANETS",
+      "released": "2016-07-29",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/0d93ff6c-5985-4286-8fba-c6fcf05b5a74.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 851,
+        "height": 1200
+      },
+      "url": "https://www.hikarinagi.org/galgames/700"
+    },
+    {
+      "id": 372,
+      "title": "智代After ～It's a Wonderful Life～",
+      "originalTitle": "智代アフター 〜It’s a Wonderful Life〜",
+      "developer": "Key / 株式会社ビジュアルアーツ",
+      "released": "2005-11-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/55b98aca-b876-4533-8d80-0a4febc8c0d5.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 640,
+        "height": 1066
+      },
+      "url": "https://www.hikarinagi.org/galgames/372"
+    },
+    {
+      "id": 1044,
+      "title": "ChronoBox -クロノボックス-",
+      "originalTitle": "ChronoBox -クロノボックス-",
+      "developer": "No Brand",
+      "released": "2017-05-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/d4abafbf-e959-4575-bfdc-2dc7a49bec34.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/1044"
+    },
+    {
+      "id": 871,
+      "title": "树莓立方体",
+      "originalTitle": "ラズベリーキューブ",
+      "developer": "まどそふと",
+      "released": "2018-09-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/f9048f80-8007-4aca-9f01-8366abacad9a.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 822,
+        "height": 536
+      },
+      "url": "https://www.hikarinagi.org/galgames/871"
+    },
+    {
+      "id": 488,
+      "title": "FLIP＊FLOP 〜INNOCENCE OVERCLOCK〜",
+      "originalTitle": "FLIP＊FLOP 〜INNOCENCE OVERCLOCK〜",
+      "developer": "DiGination",
+      "released": "2022-10-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10497/z4dbvst2_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1000,
+        "height": 666
+      },
+      "url": "https://www.hikarinagi.org/galgames/488"
+    },
+    {
+      "id": 1161,
+      "title": "雨音Switch～我与生病的她以及不停歇的雨～",
+      "originalTitle": "雨音（あまね）スイッチ ～やまない雨と病んだ彼女そして俺～",
+      "developer": "黒鳥",
+      "released": "2013-07-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/4b829bc8-2dd9-49d0-9237-224f40ca2fb8.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 256,
+        "height": 368
+      },
+      "url": "https://www.hikarinagi.org/galgames/1161"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

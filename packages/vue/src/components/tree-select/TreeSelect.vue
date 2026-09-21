@@ -10,6 +10,7 @@
     TreeRoot,
   } from 'reka-ui'
   import { cn } from '../../lib/cn'
+  import { rekaPopoverStyle } from '../../lib/reka/styles'
   import { useUiLocale } from '../../locale'
   import Card from '../card/Card.vue'
   import DisclosureIcon from '../disclosure-icon/DisclosureIcon.vue'
@@ -21,7 +22,8 @@
     inputHost,
     type InputVariants,
   } from '../input/input.variants'
-  import ScrollArea from '../scroll-area/ScrollArea.vue'
+  import TreeRows from '../tree/TreeRows.vue'
+  import type { VirtualizeOptions } from '../../lib/virtual/types'
   import { selectEmpty, selectTrigger } from '../select/select.variants'
   import {
     treeSelectContent,
@@ -46,6 +48,7 @@
       size?: InputVariants['size']
       disabled?: boolean
       invalid?: boolean
+      virtualize?: VirtualizeOptions
       class?: string
     }>(),
     { defaultExpanded: () => [] },
@@ -78,6 +81,7 @@
     expanded,
     input,
     tree,
+    rows,
     getChildren,
     key,
     choose,
@@ -138,6 +142,7 @@
             labelledBy ?? ($attrs['aria-label'] ? undefined : (fieldId ?? triggerId))
           "
           :class="treeSelectContent()"
+          :style="rekaPopoverStyle"
         >
           <TreeSelectSearch
             v-if="props.searchable"
@@ -148,59 +153,71 @@
             @clear="clearSearch"
             @keydown="onSearchKeydown"
           />
-          <ScrollArea :class="treeSelectList()">
-            <TreeRoot
-              :id="treeId"
-              ref="tree"
-              v-slot="{ flattenItems }"
-              v-model:expanded="expanded"
-              :items="items"
-              :get-key="key"
-              :get-children="getChildren"
-              :model-value="selected"
-              :aria-label="$attrs['aria-label'] as string | undefined"
-              :aria-labelledby="labelledBy"
-              class="flex flex-col p-1 outline-none"
-              @update:model-value="choose"
-              @keydown.capture="onTreeKeydown"
+          <TreeRoot
+            as="div"
+            :id="treeId"
+            ref="tree"
+            v-slot="{ flattenItems }"
+            v-model:expanded="expanded"
+            :items="items"
+            :get-key="key"
+            :get-children="getChildren"
+            :model-value="selected"
+            :aria-label="$attrs['aria-label'] as string | undefined"
+            :aria-labelledby="labelledBy"
+            class="flex flex-col p-1 outline-none"
+            @update:model-value="choose"
+            @keydown.capture="onTreeKeydown"
+          >
+            <TreeRows
+              ref="rows"
+              :items="flattenItems"
+              :virtualize="props.virtualize"
+              initial-scroll-to-selected
+              scrollable
+              :class="treeSelectList()"
             >
-              <TreeItem
-                v-for="item in flattenItems"
-                v-slot="{ isExpanded, isSelected, handleToggle }"
-                :key="item._id"
-                v-bind="item.bind"
-                :value="item.value"
-                :level="item.level"
-                :disabled="item.value.disabled"
-                :class="treeSelectRow()"
-                :style="{ paddingInlineStart: `calc(0.375rem + ${(item.level - 1) * 1.25}rem)` }"
-                @toggle="keepRowClick"
-              >
-                <span
-                  v-if="item.hasChildren"
-                  :class="treeSelectToggle()"
-                  @click.stop="handleToggle()"
+              <template #default="{ item }">
+                <TreeItem
+                  as="div"
+                  v-slot="{ isExpanded, isSelected, handleToggle }"
+                  :key="item._id"
+                  v-bind="item.bind"
+                  :value="item.value"
+                  :level="item.level"
+                  :disabled="item.value.disabled"
+                  :class="treeSelectRow()"
+                  :style="{ paddingInlineStart: `calc(0.375rem + ${(item.level - 1) * 1.25}rem)` }"
+                  @toggle="keepRowClick"
                 >
-                  <DisclosureIcon direction="end" :open="isExpanded" />
-                </span>
-                <span v-else class="size-5 shrink-0" />
-                <span class="min-w-0 flex-1">
-                  <slot name="node" :node="item.value">
-                    <span class="block truncate">{{ item.value.label }}</span>
-                    <span v-if="item.value.description" class="text-muted block truncate text-xs">
-                      {{ item.value.description }}
-                    </span>
-                  </slot>
-                </span>
-                <span class="flex size-4 shrink-0 items-center justify-center">
-                  <Check v-if="isSelected" />
-                </span>
-              </TreeItem>
-              <li v-if="items.length === 0" role="none" :class="selectEmpty()">
-                <span role="status">{{ t.select.empty }}</span>
-              </li>
-            </TreeRoot>
-          </ScrollArea>
+                  <span
+                    v-if="item.hasChildren"
+                    :class="treeSelectToggle()"
+                    @click.stop="handleToggle()"
+                  >
+                    <DisclosureIcon direction="end" :open="isExpanded" />
+                  </span>
+                  <span v-else class="size-5 shrink-0" />
+                  <span class="min-w-0 flex-1">
+                    <slot name="node" :node="item.value">
+                      <span class="block truncate">{{ item.value.label }}</span>
+                      <span v-if="item.value.description" class="text-muted block truncate text-xs">
+                        {{ item.value.description }}
+                      </span>
+                    </slot>
+                  </span>
+                  <span class="flex size-4 shrink-0 items-center justify-center">
+                    <Check v-if="isSelected" />
+                  </span>
+                </TreeItem>
+              </template>
+              <template #empty>
+                <div role="none" :class="selectEmpty()">
+                  <span role="status">{{ t.select.empty }}</span>
+                </div>
+              </template>
+            </TreeRows>
+          </TreeRoot>
         </Card>
       </PopoverContent>
     </PopoverPortal>

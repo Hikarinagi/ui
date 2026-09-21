@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 63,
+      "title": "五彩斑斓的世界",
+      "originalTitle": "いろとりどりのセカイ",
+      "developer": "FAVORITE",
+      "released": "2011-07-29",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/55c390c7-2da4-4f11-a252-276b31ab03d0.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 355,
+        "height": 500
+      },
+      "url": "https://www.hikarinagi.org/galgames/63"
+    },
+    {
+      "id": 804,
+      "title": "同居女友2",
+      "originalTitle": "アイベヤ2",
+      "developer": "あざらしそふと",
+      "released": "2020-12-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/2b99d6a6-3e38-4611-81b2-3b145d4a98e7.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1410,
+        "height": 2048
+      },
+      "url": "https://www.hikarinagi.org/galgames/804"
+    },
+    {
+      "id": 368,
+      "title": "青空下的加缪",
+      "originalTitle": "青い空のカミュ",
+      "developer": "KAI",
+      "released": "2019-03-29",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/3cb4d2ad-3e50-4dce-9c29-28683fd0ee55.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 426,
+        "height": 600
+      },
+      "url": "https://www.hikarinagi.org/galgames/368"
+    },
+    {
+      "id": 87,
+      "title": "9-nine- 新章",
+      "originalTitle": "9-nine- NewEpisode",
+      "developer": "ぱれっと / 株式会社エンターグラム",
+      "released": "2021-04-23",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/7ae3c9d7-d627-41c5-8768-c50db26e766f.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 600
+      },
+      "url": "https://www.hikarinagi.org/galgames/87"
+    },
+    {
+      "id": 1196,
+      "title": "兰斯01 寻找小光",
+      "originalTitle": "ランス01 光をもとめて",
+      "developer": "アリスソフト",
+      "released": "2013-09-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/2970b945-64db-4ff4-84b5-736ec3fcb2ac.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 800,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/1196"
+    },
+    {
+      "id": 149,
+      "title": "恋爱×决胜战",
+      "originalTitle": "恋愛×ロワイアル",
+      "developer": "ASa Project",
+      "released": "2020-11-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/15c2d05e-972c-4d90-a0b6-7c9f8ff32d98.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 536,
+        "height": 750
+      },
+      "url": "https://www.hikarinagi.org/galgames/149"
+    },
+    {
+      "id": 695,
+      "title": "夏梦渚",
+      "originalTitle": "ナツユメナギサ",
+      "developer": "SAGA PLANETS",
+      "released": "2009-07-31",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/e649ab7e-95cc-46bf-b5ed-dec73643062a.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/695"
+    },
+    {
+      "id": 551,
+      "title": "夏之雨",
+      "originalTitle": "夏ノ雨",
+      "developer": "CUBE",
+      "released": "2009-09-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/87da225b-a090-4a13-9390-1bb41043261a.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 500,
+        "height": 351
+      },
+      "url": "https://www.hikarinagi.org/galgames/551"
+    },
+    {
+      "id": 677,
+      "title": "柯罗的怀表",
+      "originalTitle": "クロノクロック",
+      "developer": "パープルソフトウェア",
+      "released": "2015-04-24",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/b3d28502-85c3-4200-8975-05c8f1afbe8a.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/677"
+    },
+    {
+      "id": 140,
+      "title": "伊人天使妹侧畔",
+      "originalTitle": "彼女は天使で妹で",
+      "developer": "ALcot ハニカム",
+      "released": "2017-10-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10149/ovu2qbet_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 848,
+        "height": 1200
+      },
+      "url": "https://www.hikarinagi.org/galgames/140"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

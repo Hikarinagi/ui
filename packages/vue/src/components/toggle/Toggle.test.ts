@@ -28,7 +28,7 @@ describe('结构', () => {
     expect(button.text()).toBe('仅看已完结')
   })
 
-  it('label 表示图标型：正方、aria-label 取 label；outline、pill 与 disabled 落在按钮上', () => {
+  it('无文字插槽时使用图标型：正方、aria-label 取 label；outline、pill 与 disabled 落在按钮上', () => {
     const icon = mount(Toggle, {
       props: { label: '加粗', variant: 'outline', pill: true, disabled: true },
       slots: { icon: '<svg />' },

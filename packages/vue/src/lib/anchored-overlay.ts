@@ -15,6 +15,7 @@ export function useAnchoredOverlay(
     anchor?: OverlayAnchor | null
     modal: boolean
     updatePositionStrategy: OverlayPositionStrategy
+    dir?: 'ltr' | 'rtl'
   },
   open: Ref<boolean | undefined>,
   emit: <K extends keyof DropdownMenuContentEmits>(
@@ -37,6 +38,7 @@ export function useAnchoredOverlay(
     visible,
     present,
     () => props.updatePositionStrategy,
+    () => props.dir,
   )
 
   let previousFocus: HTMLElement | null = null

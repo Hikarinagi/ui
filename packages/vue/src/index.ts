@@ -16,10 +16,18 @@ export { default as IconButton } from './components/icon-button/IconButton.vue'
 export { default as CloseButton } from './components/close-button/CloseButton.vue'
 export { default as CopyButton } from './components/copy-button/CopyButton.vue'
 export { default as ButtonGroup } from './components/button-group/ButtonGroup.vue'
+export { default as FloatButton } from './components/float-button/FloatButton.vue'
+export type { FloatButtonProps } from './components/float-button/types'
+export { default as ScrollTop } from './components/scroll-top/ScrollTop.vue'
+export type { ScrollTopProps, ScrollTopTarget } from './components/scroll-top/types'
+export { default as SplitButton } from './components/split-button/SplitButton.vue'
+export type { SplitButtonProps } from './components/split-button/types'
 export { default as Tag } from './components/tag/Tag.vue'
 export { default as Chip } from './components/chip/Chip.vue'
 export { default as Avatar } from './components/avatar/Avatar.vue'
 export { default as AvatarGroup } from './components/avatar/AvatarGroup.vue'
+export { useAvatarGroup } from './components/avatar/context'
+export type { AvatarGroupContext } from './components/avatar/context'
 export type { AvatarVariants } from './components/avatar/avatar.variants'
 export { default as Badge } from './components/badge/Badge.vue'
 export { default as Indicator } from './components/indicator/Indicator.vue'
@@ -58,6 +66,13 @@ export { default as Select } from './components/select/Select.vue'
 export type { SelectOption, SelectOptionGroup, SelectItems } from './components/select/types'
 export { default as MultiSelect } from './components/multi-select/MultiSelect.vue'
 export { default as Combobox } from './components/combobox/Combobox.vue'
+export { default as Autocomplete } from './components/autocomplete/Autocomplete.vue'
+export type {
+  AutocompleteOption,
+  AutocompleteSelection,
+  CompletionContext,
+  CompletionEdit,
+} from './components/autocomplete/types'
 export { default as CommandPalette } from './components/command-palette/CommandPalette.vue'
 export type { CommandItem, CommandGroup, CommandItems } from './components/command-palette/types'
 export { default as Listbox } from './components/listbox/Listbox.vue'
@@ -290,6 +305,21 @@ export type {
 } from './components/scroll-area/scroll-restore'
 
 export { default as DataTable } from './components/data-table/DataTable.vue'
+export { default as DataList } from './components/data-list/DataList.vue'
+export type {
+  DataListKey,
+  DataListKeyField,
+  DataListLayout,
+  DataListPageChange,
+  DataListItemSlot,
+  DataListState,
+  DataListProps,
+  DataListTextField,
+  DataListPlaceholderSlot,
+  DataListVirtualOptions,
+  DataListExpose,
+  DataListRange,
+} from './components/data-list/types'
 export type {
   DataTableColumn,
   DataTableKey,
@@ -315,6 +345,16 @@ export type {
 } from './components/data-table/types'
 
 export { default as Timeline } from './components/timeline/Timeline.vue'
+export { default as VirtualList } from './components/virtual-list/VirtualList.vue'
+export type { VirtualizeOptions } from './lib/virtual/types'
+export type {
+  VirtualListProps,
+  VirtualListSlotProps,
+  VirtualListRange,
+  VirtualListKey,
+  VirtualListScrollOptions,
+  VirtualListExpose,
+} from './components/virtual-list/types'
 export type {
   TimelineItem,
   TimelineSlotProps,
@@ -335,3 +375,55 @@ export type {
   StepperNavigation,
   StepperBeforeChange,
 } from './components/stepper/types'
+
+export { default as Editable } from './components/editable/Editable.vue'
+export type {
+  EditableProps,
+  EditableControls,
+  EditableActivationMode,
+  EditableSubmitMode,
+  EditableSave,
+} from './components/editable/types'
+
+export { default as Affix } from './components/affix/Affix.vue'
+export type { AffixProps, AffixSlotProps, AffixExpose } from './components/affix/types'
+
+export { default as QRCode } from './components/qr-code/QRCode.vue'
+export type {
+  QRCodeProps,
+  QRCodeLevel,
+  QRCodeStatus,
+  QRCodeState,
+  QRCodeStatusSlot,
+  QRCodeExportOptions,
+  QRCodeExpose,
+} from './components/qr-code/types'
+export { default as Carousel } from './components/carousel/Carousel.vue'
+export type {
+  CarouselProps,
+  CarouselItemSlot,
+  CarouselState,
+  CarouselControls,
+  CarouselIndicatorsSlot,
+  CarouselIndicatorSlot,
+  CarouselExpose,
+} from './components/carousel/types'
+
+export { default as MonthGrid } from './components/month-grid/MonthGrid.vue'
+export type {
+  MonthGridProps,
+  MonthGridDay,
+  MonthGridRange,
+  MonthGridHeader,
+  MonthGridWeekday,
+  MonthGridExpose,
+} from './components/month-grid/types'
+
+export { default as Masonry } from './components/masonry/Masonry.vue'
+export type {
+  MasonryProps,
+  MasonryKey,
+  MasonryLayout,
+  MasonrySlotProps,
+  MasonryExpose,
+} from './components/masonry/types'

@@ -66,6 +66,12 @@ Inside a [FormField](/components/form-field) the label points at the trigger, an
 
 <Demo name="tree-select/form" />
 
+### Virtual scrolling {#virtual}
+
+`virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Search still processes the full dataset. Only expanded, visible nodes participate in the window; parent-child navigation and selection do not depend on mounted rows. Rows unmount outside the rendered range; keep persistent slot state outside the row, keyed by its unique value.
+
+<Demo name="tree-select/virtual" />
+
 ## Behaviour {#behavior}
 
 - Clicking the arrow before a node only expands or collapses it; clicking the node itself chooses it and closes the panel.
@@ -82,21 +88,22 @@ Inside a [FormField](/components/form-field) the label points at the trigger, an
 
 ### Props {#props}
 
-| Prop                | Type                       | Default     | Description                               |
-| ------------------- | -------------------------- | ----------- | ----------------------------------------- |
-| `modelValue`        | `string \| number \| null` | —           | Value of the chosen node                  |
-| `items`             | `TreeSelectNode[]`         | —           | The nodes, see the type below             |
-| `placeholder`       | `string`                   | locale pack | Text shown when nothing is chosen         |
-| `searchable`        | `boolean`                  | `false`     | Show search and filter nodes              |
-| `search`            | `string`                   | `''`        | Query; supports `v-model:search`          |
-| `searchPlaceholder` | `string`                   | locale pack | Search placeholder and accessible name    |
-| `defaultExpanded`   | `Array<string \| number>`  | `[]`        | Nodes expanded when the panel opens       |
-| `open`              | `boolean`                  | `false`     | Whether the panel is open; `v-model:open` |
-| `variant`           | `'primary' \| 'secondary'` | `'primary'` | Variant                                   |
-| `size`              | `'sm' \| 'md' \| 'lg'`     | `'md'`      | Size                                      |
-| `invalid`           | `boolean`                  | `false`     | Whether validation failed                 |
-| `disabled`          | `boolean`                  | `false`     | Whether the select is disabled            |
-| `class`             | `string`                   | —           | Classes appended to the trigger           |
+| Prop                | Type                       | Default     | Description                                           |
+| ------------------- | -------------------------- | ----------- | ----------------------------------------------------- |
+| `modelValue`        | `string \| number \| null` | —           | Value of the chosen node                              |
+| `items`             | `TreeSelectNode[]`         | —           | The nodes, see the type below                         |
+| `virtualize`        | `VirtualizeOptions`        | `false`     | Virtual scrolling; content-based estimate, overscan 6 |
+| `placeholder`       | `string`                   | locale pack | Text shown when nothing is chosen                     |
+| `searchable`        | `boolean`                  | `false`     | Show search and filter nodes                          |
+| `search`            | `string`                   | `''`        | Query; supports `v-model:search`                      |
+| `searchPlaceholder` | `string`                   | locale pack | Search placeholder and accessible name                |
+| `defaultExpanded`   | `Array<string \| number>`  | `[]`        | Nodes expanded when the panel opens                   |
+| `open`              | `boolean`                  | `false`     | Whether the panel is open; `v-model:open`             |
+| `variant`           | `'primary' \| 'secondary'` | `'primary'` | Variant                                               |
+| `size`              | `'sm' \| 'md' \| 'lg'`     | `'md'`      | Size                                                  |
+| `invalid`           | `boolean`                  | `false`     | Whether validation failed                             |
+| `disabled`          | `boolean`                  | `false`     | Whether the select is disabled                        |
+| `class`             | `string`                   | —           | Classes appended to the trigger                       |
 
 ### Slots {#slots}
 
@@ -122,4 +129,8 @@ interface TreeSelectNode {
   disabled?: boolean
   children?: TreeSelectNode[]
 }
+```
+
+```ts
+type VirtualizeOptions = boolean | { estimateSize?: number; overscan?: number }
 ```

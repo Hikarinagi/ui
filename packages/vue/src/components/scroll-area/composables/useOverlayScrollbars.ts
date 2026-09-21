@@ -1,4 +1,6 @@
-import { onBeforeUnmount, onMounted, shallowRef, type ShallowRef } from 'vue'
+import { onBeforeUnmount, onMounted, shallowRef, watch, type ShallowRef } from 'vue'
+import { useEventListener } from '@vueuse/core'
+import { useLayoutTransition } from '../../../lib/layout-stability'
 import {
   OverlayScrollbars,
   type OverlayScrollbars as OSInstance,
@@ -6,40 +8,6 @@ import {
 } from 'overlayscrollbars'
 
 type OSEvent = 'scroll' | 'updated'
-
-type IdleRequest = (callback: () => void, options?: { timeout: number }) => number
-
-function idleScheduler(): [(task: () => void) => void, () => void] {
-  if (typeof window === 'undefined') {
-    const noop = () => {}
-    return [noop, noop]
-  }
-  const hasIdle = typeof window.requestIdleCallback === 'function'
-  const request: IdleRequest = hasIdle ? window.requestIdleCallback : window.requestAnimationFrame
-  const cancelRequest = hasIdle ? window.cancelIdleCallback : window.cancelAnimationFrame
-  let requestId: number | undefined
-  let frameId: number | undefined
-
-  const cancel = () => {
-    if (requestId !== undefined) cancelRequest(requestId)
-    if (frameId !== undefined) cancelAnimationFrame(frameId)
-    requestId = undefined
-    frameId = undefined
-  }
-  const schedule = (task: () => void) => {
-    cancel()
-    requestId = request(
-      hasIdle
-        ? () => {
-            cancel()
-            frameId = requestAnimationFrame(task)
-          }
-        : task,
-      { timeout: 2233 },
-    )
-  }
-  return [schedule, cancel]
-}
 
 export function useOverlayScrollbars(
   host: ShallowRef<HTMLElement | undefined>,
@@ -49,37 +17,38 @@ export function useOverlayScrollbars(
   const viewport = shallowRef<HTMLElement>()
   const instance = shallowRef<OSInstance>()
   const listeners: Array<[OSEvent, () => void]> = []
-  const [schedule, cancelSchedule] = idleScheduler()
-
-  let lastGesture = Number.NEGATIVE_INFINITY
-  let retryId: ReturnType<typeof setTimeout> | undefined
-
-  const markGesture = () => {
-    lastGesture = performance.now()
-  }
+  let frameId: number | undefined
+  const transitioning = useLayoutTransition()
+  let paused: OSInstance | undefined
+  const stop = watch(
+    [instance, () => transitioning?.value],
+    ([current, active]) => {
+      if (active && current === paused) return
+      const previous = paused
+      paused = undefined
+      if (previous && !previous.state().destroyed) previous.sleep(false)
+      if (active && current && !current.state().sleeping && !current.state().destroyed) {
+        paused = current
+        current.sleep(true)
+      }
+    },
+    { flush: 'sync' },
+  )
+  let updateFrame = 0
+  useEventListener(content, ['transitionend', 'animationend'], () => {
+    if (transitioning?.value) return
+    cancelAnimationFrame(updateFrame)
+    updateFrame = requestAnimationFrame(() => instance.value?.update(true))
+  })
 
   function onEvent(event: OSEvent, cb: () => void) {
     listeners.push([event, cb])
   }
 
   onMounted(() => {
-    const target = host.value
-    if (target) {
-      for (const name of ['wheel', 'touchmove', 'scroll'] as const) {
-        target.addEventListener(name, markGesture, { passive: true, capture: true })
-      }
-    }
-    schedule(function takeover() {
+    frameId = requestAnimationFrame(() => {
+      frameId = undefined
       if (!host.value || !content.value) return
-      if (performance.now() - lastGesture < 250) {
-        retryId = setTimeout(takeover, 300)
-        return
-      }
-      if (target) {
-        for (const name of ['wheel', 'touchmove', 'scroll'] as const) {
-          target.removeEventListener(name, markGesture, { capture: true })
-        }
-      }
       instance.value = OverlayScrollbars(
         {
           target: host.value,
@@ -93,13 +62,10 @@ export function useOverlayScrollbars(
   })
 
   onBeforeUnmount(() => {
-    cancelSchedule()
-    clearTimeout(retryId)
-    if (host.value) {
-      for (const name of ['wheel', 'touchmove', 'scroll'] as const) {
-        host.value.removeEventListener(name, markGesture, { capture: true })
-      }
-    }
+    stop()
+    paused = undefined
+    cancelAnimationFrame(updateFrame)
+    if (frameId !== undefined) cancelAnimationFrame(frameId)
     instance.value?.destroy()
     instance.value = undefined
     viewport.value = undefined

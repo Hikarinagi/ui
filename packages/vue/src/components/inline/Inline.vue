@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import type { Component } from 'vue'
   import { cn } from '../../lib/cn'
   import { inline, type InlineVariants } from './inline.variants'
 
@@ -6,7 +7,7 @@
 
   const props = withDefaults(
     defineProps<{
-      as?: string
+      as?: string | Component
       gap?: InlineVariants['gap']
       align?: InlineVariants['align']
       justify?: InlineVariants['justify']

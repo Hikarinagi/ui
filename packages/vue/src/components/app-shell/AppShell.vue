@@ -28,6 +28,7 @@
   const sidebar = defineModel<SidebarState>('sidebar', { default: 'expanded' })
   const mobileOpen = defineModel<boolean>('mobileOpen', { default: false })
   const main = shallowRef<InstanceType<typeof ScrollArea>>()
+  const emit = defineEmits<{ sizeStable: [] }>()
 
   defineExpose({
     mainViewport: computed(() => main.value?.viewport),
@@ -35,7 +36,10 @@
   })
 
   const isDesktop = useDesktopQuery()
-  const onTransitionRun = useSidebarScrollUpdates(main)
+  const onTransitionRun = useSidebarScrollUpdates(
+    () => sidebar.value,
+    () => emit('sizeStable'),
+  )
 
   function toggle() {
     if (!isDesktop.value) {

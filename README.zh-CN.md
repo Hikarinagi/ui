@@ -23,6 +23,8 @@ pnpm add @hina-ui/vue
 
 版本管理和发布流程见[变更记录与发布](./.changes/README.md)。
 
+[共享展示层](./packages/shared/README.md)负责样式、variants 和动效工具；框架组件及底层适配保留在各自的包内。
+
 ## 许可证
 
 [MIT](./LICENSE)

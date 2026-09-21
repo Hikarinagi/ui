@@ -13,6 +13,7 @@
   import CloseButton from '../close-button/CloseButton.vue'
   import Spinner from '../spinner/Spinner.vue'
   import { cn } from '../../lib/cn'
+  import { rekaToastStyle } from '../../lib/reka/styles'
   import { useUiLocale } from '../../locale'
   import {
     toastState,
@@ -75,7 +76,7 @@
       :open="true"
       :duration="Infinity"
       class="hn-toast-item group/toast outline-none"
-      :style="itemStyle(item)"
+      :style="[rekaToastStyle, itemStyle(item)]"
       :data-hn-behind="slotOf(item).index > 0 ? '' : undefined"
       :data-hn-hidden="slotOf(item).index >= VISIBLE_STACK ? '' : undefined"
       :data-hn-removed="item.open ? undefined : ''"

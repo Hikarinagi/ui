@@ -10,6 +10,9 @@
     SelectPortal,
   } from 'reka-ui'
   import { ref } from 'vue'
+  import VirtualChoices from '../virtual-list/VirtualChoices.vue'
+  import type { VirtualizeOptions } from '../../lib/virtual/types'
+  import { rekaSelectStyle } from '../../lib/reka/styles'
   import { useUiLocale } from '../../locale'
   import Card from '../card/Card.vue'
   import ScrollArea from '../scroll-area/ScrollArea.vue'
@@ -25,7 +28,11 @@
 
   defineOptions({ name: 'HnSelectList' })
 
-  const props = defineProps<{ options: SelectItems<T>; keyboard?: boolean }>()
+  const props = defineProps<{
+    options: SelectItems<T>
+    keyboard?: boolean
+    virtualize?: VirtualizeOptions
+  }>()
 
   const fresh = ref(false)
 
@@ -42,11 +49,42 @@
         data-hn-select-content
         :data-hn-fresh="fresh ? '' : undefined"
         :class="selectContent()"
+        :style="rekaSelectStyle"
         @vue:mounted="fresh = !props.keyboard"
         @keydown="fresh = false"
         @pointermove="fresh = false"
       >
-        <ScrollArea :class="selectList()">
+        <VirtualChoices
+          v-if="props.virtualize"
+          v-slot="{ option, attrs }"
+          :options="props.options"
+          :virtualize="props.virtualize"
+          kind="select"
+          :class="selectList()"
+        >
+          <SelectItem
+            v-bind="attrs"
+            :value="option.value"
+            :disabled="option.disabled"
+            :text-value="option.label"
+            :class="selectItem()"
+          >
+            <SelectItemText as-child>
+              <span class="min-w-0 flex-1">
+                <slot name="option" :option="option">
+                  <span class="block truncate">{{ option.label }}</span>
+                  <span v-if="option.description" class="text-muted block truncate text-xs">
+                    {{ option.description }}
+                  </span>
+                </slot>
+              </span>
+            </SelectItemText>
+            <span class="flex size-4 shrink-0 items-center justify-center">
+              <SelectItemIndicator><Check /></SelectItemIndicator>
+            </span>
+          </SelectItem>
+        </VirtualChoices>
+        <ScrollArea v-else :class="selectList()">
           <div :class="selectListBody()">
             <template
               v-for="item in props.options"

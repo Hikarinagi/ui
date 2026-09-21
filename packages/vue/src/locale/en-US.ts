@@ -1,6 +1,36 @@
 import type { UiMessages } from './types'
 
 export const enUS: UiMessages = {
+  qrCode: {
+    label: 'QR code',
+    empty: 'No content',
+    expired: 'QR code expired',
+    scanned: 'Scanned',
+    error: 'Unable to generate QR code',
+    refresh: 'Refresh code',
+  },
+  carousel: {
+    label: 'Featured content',
+    role: 'carousel',
+    slide: 'slide',
+    prev: 'Previous group',
+    next: 'Next group',
+    choose: 'Choose a position',
+    play: 'Start rotation',
+    pause: 'Stop rotation',
+    empty: 'No content',
+    position: (index, total) => `${index} of ${total}`,
+    goTo: index => `Go to group ${index}`,
+  },
+  monthGrid: { today: 'Go to current month' },
+  masonry: { empty: 'No items' },
+  splitButton: { more: 'More actions' },
+  editable: {
+    edit: 'Edit',
+    save: 'Save',
+    placeholder: 'Click to edit',
+    failed: 'Could not save. Try again.',
+  },
   tag: 'en-US',
   stepper: {
     label: 'Steps',
@@ -78,8 +108,11 @@ export const enUS: UiMessages = {
     justNow: 'Just now',
     unknown: 'Unknown time',
   },
+  virtualList: { empty: 'No data' },
+  dataList: { empty: 'No data', list: 'List view', grid: 'Grid view', layout: 'Display layout' },
   scroll: {
     regionLabel: 'Scrollable region',
+    backToTop: 'Back to top',
   },
   toast: {
     regionLabel: 'Notifications',

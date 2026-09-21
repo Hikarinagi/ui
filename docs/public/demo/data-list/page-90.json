@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 962,
+      "title": "WABISABI",
+      "originalTitle": "WABISABI",
+      "developer": "Le:CODE",
+      "released": "2019-12-20",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/320789fd-3da6-496a-ba7b-2ff31f182469.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/962"
+    },
+    {
+      "id": 1453,
+      "title": "Rewrite+",
+      "originalTitle": "Rewrite+",
+      "developer": "Key",
+      "released": "2016-07-29",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/dfd19d74-99d9-42b2-b556-71f415e489aa.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/1453"
+    },
+    {
+      "id": 1036,
+      "title": "从Kiss开始的自我主义～EGOISM～",
+      "originalTitle": "キスからはじめるエゴイズム",
+      "developer": "皐月",
+      "released": "2022-10-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/ad3a46d4-91bc-4b65-8e78-f084a283e57d.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 830,
+        "height": 455
+      },
+      "url": "https://www.hikarinagi.org/galgames/1036"
+    },
+    {
+      "id": 943,
+      "title": "和香様の座する世界",
+      "originalTitle": "和香様の座する世界",
+      "developer": "みなとカーニバル / みなとそふと",
+      "released": "2019-04-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/6956a18d-1bea-4e02-bc2c-fcb39fbb4371.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 822,
+        "height": 480
+      },
+      "url": "https://www.hikarinagi.org/galgames/943"
+    },
+    {
+      "id": 715,
+      "title": "爱本堡之风",
+      "originalTitle": "エーベンブルグの風",
+      "developer": "Studio e.go!",
+      "released": "2002-07-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/36faeb71-8d9d-4149-a83e-d00580978e28.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/715"
+    },
+    {
+      "id": 568,
+      "title": "赠与你的空之花",
+      "originalTitle": "キミへ贈る、ソラの花",
+      "developer": "Cabbit",
+      "released": "2012-12-21",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/55f9a359-77e6-4246-845c-f587909c3e5c.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 389,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/568"
+    },
+    {
+      "id": 742,
+      "title": "君之余影静静地摇曳着",
+      "originalTitle": "君の名残は静かに揺れて",
+      "developer": "ユニゾンシフト：ブロッサム",
+      "released": "2010-05-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/dfb66365-4cb4-4969-987f-9a2c7190fa34.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/742"
+    },
+    {
+      "id": 837,
+      "title": "BALDR SKY DiveX \"DREAM WORLD\"",
+      "originalTitle": "BALDR SKY DiveX \"DREAM WORLD\"",
+      "developer": "Team Baldrhead",
+      "released": "2010-09-24",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/32dc1ced-674f-4356-990f-1a3af2c106f1.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 256,
+        "height": 362
+      },
+      "url": "https://www.hikarinagi.org/galgames/837"
+    },
+    {
+      "id": 408,
+      "title": "在世界与世界的正中央",
+      "originalTitle": "世界と世界の真ん中で",
+      "developer": "ランプオブシュガー",
+      "released": "2014-01-31",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10417/eeipypa4_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1061,
+        "height": 1500
+      },
+      "url": "https://www.hikarinagi.org/galgames/408"
+    },
+    {
+      "id": 141,
+      "title": "逆转爱恋",
+      "originalTitle": "アッチむいて恋",
+      "developer": "ASa Project",
+      "released": "2010-04-30",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/6c7d3ff7-ee5a-421d-8395-f8a07d8f7a67.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/141"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

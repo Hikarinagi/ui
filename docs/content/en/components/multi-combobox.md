@@ -68,6 +68,12 @@ Inside a [FormField](/components/form-field) the label points at the input, and 
 
 <Demo name="multi-combobox/form" />
 
+### Virtual scrolling {#virtual}
+
+`virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Search still processes the full dataset. Rows unmount outside the rendered range; keep persistent slot state outside the row, keyed by its unique value.
+
+<Demo name="multi-combobox/virtual" />
+
 ## Behavior {#behavior}
 
 - Typing opens the list and filters it; the arrow keys move the highlight, Enter ticks or unticks the highlighted item, the list stays open and the typed text and its filtering stay put, so several items from one query can be ticked in a row; clearing the input brings the whole list back.
@@ -92,6 +98,7 @@ Inside a [FormField](/components/form-field) the label points at the input, and 
 | ----------------- | -------------------------- | ----------- | ------------------------------------------------------------------ |
 | `modelValue`      | `Array<string \| number>`  | `[]`        | The chosen values                                                  |
 | `options`         | `SelectItems<T>`           | —           | The items, see [Select](/components/select#types)                  |
+| `virtualize`      | `VirtualizeOptions`        | `false`     | Virtual scrolling; content-based estimate, overscan 6              |
 | `selectedOptions` | `T[]`                      | —           | Selected item data for chip labels only; not added to the dropdown |
 | `placeholder`     | `string`                   | locale pack | Placeholder of the input while nothing is chosen                   |
 | `search`          | `string`                   | `''`        | Text in the input; `v-model:search`                                |
@@ -120,3 +127,7 @@ Inside a [FormField](/components/form-field) the label points at the input, and 
 | `update:search`     | `value: string`                  | The typed text changed    |
 | `update:open`       | `open: boolean`                  | The list opened or closed |
 | `clear`             | —                                | Everything was cleared    |
+
+```ts
+type VirtualizeOptions = boolean | { estimateSize?: number; overscan?: number }
+```

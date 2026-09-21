@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import type { Component } from 'vue'
   import { cn } from '../../lib/cn'
   import { stack, type StackVariants } from './stack.variants'
 
@@ -6,7 +7,7 @@
 
   const props = withDefaults(
     defineProps<{
-      as?: string
+      as?: string | Component
       gap?: StackVariants['gap']
       align?: StackVariants['align']
       justify?: StackVariants['justify']

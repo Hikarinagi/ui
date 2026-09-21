@@ -30,6 +30,8 @@ Every scrolling container in the library goes through this component — dropdow
 
 <Demo name="scroll-area/horizontal" />
 
+Content direction is inherited or set explicitly with `dir="rtl"`. Horizontal shadow positions and gradients mirror together, always fading inward from the edge.
+
 ### Edge shadows {#shadow}
 
 A shadow appears at each edge that has content beyond it, and goes away at the ends. Set `shadow` to false where the boundary is already obvious.
@@ -51,7 +53,7 @@ A region that scrolls but holds nothing focusable cannot be reached by keyboard.
 ## Behaviour {#behavior}
 
 - The scrollbar is laid over the content, so the layout width does not change when content starts to overflow.
-- Scrolling works before the component takes over: the markup scrolls natively from first paint, and OverlayScrollbars attaches once the browser is idle.
+- Scrolling works before the component takes over. The custom scrollbar initializes on the next frame after mounting and preserves the native scroll position; opening or reopening an overlay does not wait for idle time or for scrolling to stop.
 - Content that changes size through an animation updates the scrollbar on its own; there is no observer to wire up.
 - While an overlay that locks the page, such as a dialog or a menu, is open the area stops answering the wheel and touch at once; scroll areas inside the overlay are unaffected, and scrolling resumes when it closes.
 
@@ -62,17 +64,22 @@ A region that scrolls but holds nothing focusable cannot be reached by keyboard.
 
 ## API {#api}
 
-| Prop            | Type                                       | Default      | Description                                 |
-| --------------- | ------------------------------------------ | ------------ | ------------------------------------------- |
-| `direction`     | `'vertical' \| 'horizontal' \| 'both'`     | `'vertical'` | Which axis scrolls                          |
-| `autoHide`      | `'never' \| 'scroll' \| 'leave' \| 'move'` | `'leave'`    | When the scrollbar fades out                |
-| `scrollbar`     | `boolean`                                  | `true`       | Whether the scrollbar is visible at all     |
-| `wheelRedirect` | `boolean`                                  | `true`       | Wheel scrolls sideways in a horizontal area |
-| `shadow`        | `boolean`                                  | `true`       | Whether edges get a shadow                  |
-| `focusable`     | `boolean`                                  | `false`      | Put the area in the tab order               |
-| `label`         | `string`                                   | —            | Accessible name, used when focusable        |
-| `class`         | `string`                                   | —            | Classes appended to the outer element       |
+| Prop            | Type                                       | Default      | Description                                    |
+| --------------- | ------------------------------------------ | ------------ | ---------------------------------------------- |
+| `direction`     | `'vertical' \| 'horizontal' \| 'both'`     | `'vertical'` | Which axis scrolls                             |
+| `dir`           | `'ltr' \| 'rtl' \| 'auto'`                 | Inherited    | Content direction for the viewport and shadows |
+| `autoHide`      | `'never' \| 'scroll' \| 'leave' \| 'move'` | `'leave'`    | When the scrollbar fades out                   |
+| `scrollbar`     | `boolean`                                  | `true`       | Whether the scrollbar is visible at all        |
+| `wheelRedirect` | `boolean`                                  | `true`       | Wheel scrolls sideways in a horizontal area    |
+| `shadow`        | `boolean`                                  | `true`       | Whether edges get a shadow                     |
+| `focusable`     | `boolean`                                  | `false`      | Put the area in the tab order                  |
+| `label`         | `string`                                   | —            | Accessible name, used when focusable           |
+| `class`         | `string`                                   | —            | Classes appended to the outer element          |
 
 | Slot      | Description          |
 | --------- | -------------------- |
 | `default` | The scrolled content |
+
+| Exposed    | Type                       | Description                                                                      |
+| ---------- | -------------------------- | -------------------------------------------------------------------------------- |
+| `viewport` | `HTMLElement \| undefined` | Scroll element, available after initialization on the next frame after mounting. |

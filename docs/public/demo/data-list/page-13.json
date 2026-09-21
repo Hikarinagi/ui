@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 908,
+      "title": "制服女友2",
+      "originalTitle": "制服カノジョ2",
+      "developer": "株式会社エンターグラム",
+      "released": "2025-01-23",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/04c72793-4149-4c71-9a82-ef96eeaba0fb.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1457,
+        "height": 2048
+      },
+      "url": "https://www.hikarinagi.org/galgames/908"
+    },
+    {
+      "id": 73,
+      "title": "恋爱成双",
+      "originalTitle": "フタマタ恋愛",
+      "developer": "ASa Project",
+      "released": "2022-04-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/2857b943-a81c-4aaf-9684-5627479da060.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1000,
+        "height": 713
+      },
+      "url": "https://www.hikarinagi.org/galgames/73"
+    },
+    {
+      "id": 34,
+      "title": "常轨脱离Creative 凸",
+      "originalTitle": "ハミダシクリエイティブ凸",
+      "developer": "まどそふと",
+      "released": "2022-11-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/68b9ae6a-43cd-444b-b94f-1ab61366913e.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 822,
+        "height": 462
+      },
+      "url": "https://www.hikarinagi.org/galgames/34"
+    },
+    {
+      "id": 2051,
+      "title": "タユタマ零",
+      "originalTitle": "タユタマ零",
+      "developer": "ランプオブシュガー",
+      "released": "2026-02-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/3611aeb0-2e96-487a-b2d3-54630de42a26.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1000,
+        "height": 706
+      },
+      "url": "https://www.hikarinagi.org/galgames/2051"
+    },
+    {
+      "id": 976,
+      "title": "双天†恋姫 -至源の王-",
+      "originalTitle": "双天†恋姫～至源の王～",
+      "developer": "ベースソン",
+      "released": "2024-09-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/d4539e79-daa8-4b05-830c-38f0a8cb1637.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1000,
+        "height": 1400
+      },
+      "url": "https://www.hikarinagi.org/galgames/976"
+    },
+    {
+      "id": 15,
+      "title": "巧克甜恋2",
+      "originalTitle": "あまいろショコラータ２",
+      "developer": "きゃべつそふと",
+      "released": "2021-05-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/6b835b3b-fc03-489e-a2f5-36c68e30785a.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 789,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/15"
+    },
+    {
+      "id": 808,
+      "title": "飞鸟会长不肯认输！",
+      "originalTitle": "アスカさんはなびかない",
+      "developer": "あざらしそふと",
+      "released": "2022-12-23",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/1c2415e5-2e29-44ec-a23f-e767b8e0d288.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/808"
+    },
+    {
+      "id": 642,
+      "title": "日在交叉",
+      "originalTitle": "Cross Days",
+      "developer": "オーバーフロー",
+      "released": "2010-03-19",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/0d6043f7-2adf-42f0-a14d-85d6b3663ba3.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 423,
+        "height": 599
+      },
+      "url": "https://www.hikarinagi.org/galgames/642"
+    },
+    {
+      "id": 300,
+      "title": "秘密恋爱",
+      "originalTitle": "シークレットラブ（仮）",
+      "developer": "HOOKSOFT",
+      "released": "2024-07-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/46757c64-9b37-43bc-a7e3-3d2135629cac.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 694,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/300"
+    },
+    {
+      "id": 1,
+      "title": "抬头看看吧，看那天上的繁星",
+      "originalTitle": "見上げてごらん、夜空の星を",
+      "developer": "PULLTOP",
+      "released": "2015-12-18",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10003/orhsttk4_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/1"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

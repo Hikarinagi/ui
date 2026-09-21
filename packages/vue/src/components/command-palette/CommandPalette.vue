@@ -9,6 +9,7 @@
     VisuallyHidden,
   } from 'reka-ui'
   import { computed, watch } from 'vue'
+  import type { VirtualizeOptions } from '../../lib/virtual/types'
   import { useUiLocale } from '../../locale'
   import CommandPalettePanel from './CommandPalettePanel.vue'
   import { useHotkey } from './composables/useHotkey'
@@ -19,6 +20,7 @@
 
   const props = defineProps<{
     items: CommandItems
+    virtualize?: VirtualizeOptions
     placeholder?: string
     label?: string
     hotkey?: string
@@ -61,6 +63,7 @@
     v-model:search="search"
     inline
     :items="props.items"
+    :virtualize="props.virtualize"
     :label="label"
     :placeholder="props.placeholder"
     :ignore-filter="props.ignoreFilter"
@@ -80,6 +83,7 @@
             v-model:search="search"
             auto-focus
             :items="props.items"
+            :virtualize="props.virtualize"
             :label="label"
             :placeholder="props.placeholder"
             :ignore-filter="props.ignoreFilter"

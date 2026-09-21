@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import type { Component } from 'vue'
   import { cn } from '../../lib/cn'
   import { flex, type FlexVariants } from './flex.variants'
 
@@ -6,7 +7,7 @@
 
   const props = withDefaults(
     defineProps<{
-      as?: string
+      as?: string | Component
       direction?: FlexVariants['direction']
       gap?: FlexVariants['gap']
       align?: FlexVariants['align']

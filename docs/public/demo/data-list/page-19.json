@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 799,
+      "title": "爱之钥",
+      "originalTitle": "アイカギ",
+      "developer": "あざらしそふと",
+      "released": "2017-01-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/aca4e7f1-047c-43f4-a6aa-2b8c3cc7ffc1.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/799"
+    },
+    {
+      "id": 49,
+      "title": "牵绊闪耀的恋之伊吕波",
+      "originalTitle": "絆きらめく恋いろは",
+      "developer": "CRYSTALiA",
+      "released": "2017-11-24",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/2f2f8101-f7af-4564-a74d-9e515f72f4f9.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 700,
+        "height": 493
+      },
+      "url": "https://www.hikarinagi.org/galgames/49"
+    },
+    {
+      "id": 675,
+      "title": "幸福噩梦",
+      "originalTitle": "ハピメア",
+      "developer": "パープルソフトウェア",
+      "released": "2013-02-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10684/613a6j88_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/675"
+    },
+    {
+      "id": 564,
+      "title": "悠之空",
+      "originalTitle": "ハルカナソラ",
+      "developer": "Sphere",
+      "released": "2009-09-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/3de3949d-fead-4156-bfee-6dd6e11e3d33.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 2048,
+        "height": 1426
+      },
+      "url": "https://www.hikarinagi.org/galgames/564"
+    },
+    {
+      "id": 912,
+      "title": "刹那绽放的恋之花火",
+      "originalTitle": "刹那にかける恋はなび",
+      "developer": "CRYSTALiA",
+      "released": "2024-02-22",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/e44facb0-e56b-4366-b88d-dc64e5abeb7d.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 791,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/912"
+    },
+    {
+      "id": 471,
+      "title": "eden* PLUS+MOSAIC",
+      "originalTitle": "eden* PLUS+MOSAIC",
+      "developer": "minori",
+      "released": "2009-09-18",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/b5efb717-ca7a-4dda-9117-7df6751a240e.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 400,
+        "height": 545
+      },
+      "url": "https://www.hikarinagi.org/galgames/471"
+    },
+    {
+      "id": 1169,
+      "title": "记忆的琴键",
+      "originalTitle": "記憶の鍵盤",
+      "developer": "Laplacian",
+      "released": "2025-07-24",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/8c87cdcd-febc-47ec-b778-d392052c9510.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/1169"
+    },
+    {
+      "id": 596,
+      "title": "友爱俱乐部",
+      "originalTitle": "フラテルニテ",
+      "developer": "CLOCKUP",
+      "released": "2014-07-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/e063f9ca-2a11-46b0-ae28-29757b6fc90a.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/596"
+    },
+    {
+      "id": 924,
+      "title": "龙娘×咖啡厅",
+      "originalTitle": "ドラ・コンカフェ",
+      "developer": "Cuteuphoria",
+      "released": "2024-11-29",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/dd16f5af-7636-42d7-b56c-aa95a1a282d1.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1073,
+        "height": 1600
+      },
+      "url": "https://www.hikarinagi.org/galgames/924"
+    },
+    {
+      "id": 44,
+      "title": "时空轮回",
+      "originalTitle": "Ever17 -the out of infinity-",
+      "developer": "キッド / SDR Project / 有限会社レジスタ",
+      "released": "2002-08-29",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/58f4db68-bab4-49e3-8844-4cecf544b610.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1024,
+        "height": 1022
+      },
+      "url": "https://www.hikarinagi.org/galgames/44"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

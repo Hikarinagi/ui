@@ -68,6 +68,12 @@ import { Tree, type TreeNode, type TreeValue } from '@hina-ui/vue'
 
 <Demo name="tree/empty" />
 
+### 虚拟滚动 {#virtual}
+
+`virtualize` 按需渲染可见范围附近的条目，与 [VirtualList](/components/virtual-list) 共用测量与滚动底层。默认关闭；可传 `{ estimateSize, overscan }` 调整预估行高和两侧预渲染数量，行高会按实际内容测量。键盘导航覆盖完整数据，禁用项会跳过。 只对展开后的可见节点进行虚拟化，父子导航与勾选状态不依赖节点是否挂载。 `maxHeight` 默认 `320px`，仅开启虚拟化时生效，可传数字或 CSS 长度。 条目离开渲染范围后会卸载；插槽内需要持久保留的状态应按唯一 value 存在外部。
+
+<Demo name="tree/virtual" />
+
 ## 键盘与无障碍 {#a11y}
 
 - 树为 `role="tree"`，节点为 `role="treeitem"`，保留层级、同级位置和展开状态。使用 `aria-label`、`aria-labelledby` 或 [FormField](/components/form-field) 提供名称。
@@ -79,16 +85,18 @@ import { Tree, type TreeNode, type TreeValue } from '@hina-ui/vue'
 
 ### Props 与双向绑定 {#props}
 
-| 属性              | 类型                               | 默认值  | 说明                               |
-| ----------------- | ---------------------------------- | ------- | ---------------------------------- |
-| `items`           | `TreeNode[]`                       | —       | 必填。树节点                       |
-| `multiple`        | `boolean`                          | `false` | 启用父子联动的多选勾选             |
-| `modelValue`      | `TreeValue \| TreeValue[] \| null` | —       | 单选值或多选值数组，支持 `v-model` |
-| `defaultExpanded` | `TreeValue[]`                      | `[]`    | 初始展开节点                       |
-| `expanded`        | `TreeValue[]`                      | —       | 展开节点，支持 `v-model:expanded`  |
-| `disabled`        | `boolean`                          | `false` | 禁用整棵树                         |
-| `invalid`         | `boolean`                          | `false` | 标记校验失败                       |
-| `class`           | `string`                           | —       | 追加到树根节点的类名               |
+| 属性              | 类型                               | 默认值  | 说明                                 |
+| ----------------- | ---------------------------------- | ------- | ------------------------------------ |
+| `items`           | `TreeNode[]`                       | —       | 必填。树节点                         |
+| `virtualize`      | `VirtualizeOptions`                | `false` | 虚拟滚动；预估行高按内容，overscan 6 |
+| `maxHeight`       | `number \| string`                 | `320`   | 虚拟滚动视口的最大高度               |
+| `multiple`        | `boolean`                          | `false` | 启用父子联动的多选勾选               |
+| `modelValue`      | `TreeValue \| TreeValue[] \| null` | —       | 单选值或多选值数组，支持 `v-model`   |
+| `defaultExpanded` | `TreeValue[]`                      | `[]`    | 初始展开节点                         |
+| `expanded`        | `TreeValue[]`                      | —       | 展开节点，支持 `v-model:expanded`    |
+| `disabled`        | `boolean`                          | `false` | 禁用整棵树                           |
+| `invalid`         | `boolean`                          | `false` | 标记校验失败                         |
+| `class`           | `string`                           | —       | 追加到树根节点的类名                 |
 
 ### 插槽 {#slots}
 
@@ -121,3 +129,7 @@ export interface TreeNodeSlot {
 ```
 
 `value` 必须在整棵树中唯一，数字 `1` 与字符串 `'1'` 是不同的值。`description` 默认显示在节点文字下方；`disabled` 插槽参数包含从祖先和组件继承的禁用状态。
+
+```ts
+type VirtualizeOptions = boolean | { estimateSize?: number; overscan?: number }
+```

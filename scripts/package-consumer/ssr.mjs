@@ -11,6 +11,9 @@ assert.equal(typeof document, 'undefined')
 const manifestURL = import.meta.resolve('@hina-ui/vue/package.json')
 const manifest = JSON.parse(readFileSync(fileURLToPath(manifestURL), 'utf8'))
 const root = dirname(fileURLToPath(manifestURL))
+assert.equal(manifest.dependencies['@hina-ui/shared'], undefined)
+assert.ok(existsSync(resolve(root, 'dist/shared/variants/button.ts')))
+assert.ok(existsSync(resolve(root, 'dist/types/shared/src/variants/button.d.ts')))
 assert.ok(
   import.meta.resolve('@hina-ui/vue').startsWith(new URL('./node_modules/', import.meta.url).href),
 )

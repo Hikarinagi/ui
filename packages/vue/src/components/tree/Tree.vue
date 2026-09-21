@@ -5,6 +5,8 @@
   import { useFieldControl } from '../form-field/context'
   import DisclosureIcon from '../disclosure-icon/DisclosureIcon.vue'
   import TreeCheck from './TreeCheck.vue'
+  import TreeRows from './TreeRows.vue'
+  import type { VirtualizeOptions } from '../../lib/virtual/types'
   import { useTree } from './composables/useTree'
   import { tree, treeEmpty, treeRow, treeToggle } from './tree.variants'
   import type { TreeNode, TreeNodeSlot, TreeValue } from './types'
@@ -17,9 +19,11 @@
       defaultExpanded?: TreeValue[]
       disabled?: boolean
       invalid?: boolean
+      virtualize?: VirtualizeOptions
+      maxHeight?: string | number
       class?: string
     }>(),
-    { defaultExpanded: () => [] },
+    { defaultExpanded: () => [], maxHeight: 320 },
   )
   const model = defineModel<TreeValue | TreeValue[] | null>()
   const expandedModel = defineModel<TreeValue[]>('expanded')
@@ -61,6 +65,7 @@
     v-slot="{ flattenItems }"
     v-model:expanded="expanded"
     :items="props.items"
+    :as="props.virtualize ? 'div' : 'ul'"
     :get-key="key"
     :get-children="getChildren"
     :model-value="props.multiple ? selected : selected[0]"
@@ -75,58 +80,66 @@
     :data-invalid="invalid ? '' : undefined"
     :class="cn(tree(), props.class)"
   >
-    <TreeItem
-      v-for="item in flattenItems"
-      :key="item._id"
-      v-slot="{ isExpanded }"
-      v-bind="item.bind"
-      :disabled="state(item.value).disabled"
-      as-child
-      @select="select"
-      @toggle="keepRowClick"
+    <TreeRows
+      :items="flattenItems"
+      :virtualize="props.virtualize"
+      :max-height="props.virtualize ? props.maxHeight : undefined"
+      :disabled="node => state(node).disabled"
+      v-slot="{ item }"
     >
-      <li
-        :aria-selected="props.multiple ? undefined : state(item.value).selected"
-        :aria-checked="
-          props.multiple
-            ? state(item.value).indeterminate
-              ? 'mixed'
-              : state(item.value).selected
-            : undefined
-        "
-        :style="{ '--hn-tree-level': item.level - 1 }"
-        :class="treeRow()"
+      <TreeItem
+        :key="item._id"
+        v-slot="{ isExpanded }"
+        v-bind="item.bind"
+        :disabled="state(item.value).disabled"
+        as-child
+        @select="select"
+        @toggle="keepRowClick"
       >
-        <span
-          v-if="item.hasChildren"
-          :class="treeToggle()"
-          aria-hidden="true"
-          data-hn-tree-toggle
-          @click.stop="toggle(item.value)"
+        <component
+          :is="props.virtualize ? 'div' : 'li'"
+          :aria-selected="props.multiple ? undefined : state(item.value).selected"
+          :aria-checked="
+            props.multiple
+              ? state(item.value).indeterminate
+                ? 'mixed'
+                : state(item.value).selected
+              : undefined
+          "
+          :style="{ '--hn-tree-level': item.level - 1 }"
+          :class="treeRow()"
         >
-          <DisclosureIcon direction="end" :open="isExpanded" />
-        </span>
-        <span v-else class="size-5 shrink-0" aria-hidden="true" />
-        <TreeCheck
-          v-if="props.multiple"
-          :selected="state(item.value).selected"
-          :indeterminate="state(item.value).indeterminate"
-        />
-        <span class="min-w-0 flex-1">
-          <slot name="node" :node="item.value" :expanded="isExpanded" v-bind="state(item.value)">
-            <span class="block truncate">{{ item.value.label }}</span>
-            <span v-if="item.value.description" class="text-muted block truncate text-xs">
-              {{ item.value.description }}
-            </span>
-          </slot>
-        </span>
-        <slot
-          name="trailing"
-          :node="item.value"
-          :expanded="isExpanded"
-          v-bind="state(item.value)"
-        />
-      </li>
-    </TreeItem>
+          <span
+            v-if="item.hasChildren"
+            :class="treeToggle()"
+            aria-hidden="true"
+            data-hn-tree-toggle
+            @click.stop="toggle(item.value)"
+          >
+            <DisclosureIcon direction="end" :open="isExpanded" />
+          </span>
+          <span v-else class="size-5 shrink-0" aria-hidden="true" />
+          <TreeCheck
+            v-if="props.multiple"
+            :selected="state(item.value).selected"
+            :indeterminate="state(item.value).indeterminate"
+          />
+          <span class="min-w-0 flex-1">
+            <slot name="node" :node="item.value" :expanded="isExpanded" v-bind="state(item.value)">
+              <span class="block truncate">{{ item.value.label }}</span>
+              <span v-if="item.value.description" class="text-muted block truncate text-xs">
+                {{ item.value.description }}
+              </span>
+            </slot>
+          </span>
+          <slot
+            name="trailing"
+            :node="item.value"
+            :expanded="isExpanded"
+            v-bind="state(item.value)"
+          />
+        </component>
+      </TreeItem>
+    </TreeRows>
   </TreeRoot>
 </template>

@@ -83,3 +83,7 @@ import { Textarea } from '@hina-ui/vue'
 | 事件                | 参数            | 说明     |
 | ------------------- | --------------- | -------- |
 | `update:modelValue` | `value: string` | 文本变化 |
+
+### 实例 {#expose}
+
+`input` 暴露原生 `HTMLTextAreaElement`，可读取选区或调用 `setSelectionRange()`；`focus()` 聚焦输入框且不滚动页面。仅在客户端挂载后可用。

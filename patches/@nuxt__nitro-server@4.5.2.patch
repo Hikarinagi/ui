@@ -1,0 +1,19 @@
+diff --git a/dist/index.mjs b/dist/index.mjs
+index 8df48038ba2e272fa43786803dae174be481523c..406c7077764ad4b7627b603c12a2a42a18a880c3 100644
+--- a/dist/index.mjs
++++ b/dist/index.mjs
+@@ -790,12 +790,12 @@ async function bundle(nuxt) {
+ 	];
+ 	nitroConfig.rollupConfig.plugins.push(ImpoundPlugin.rollup({
+ 		cwd: nuxt.options.rootDir,
+-		trace: true,
++		trace: nuxt.options.dev ? true : "lazy",
+ 		include: sharedPatterns,
+ 		patterns: createImportProtectionPatterns(nuxt, { context: "shared" })
+ 	}), ImpoundPlugin.rollup({
+ 		cwd: nuxt.options.rootDir,
+-		trace: true,
++		trace: nuxt.options.dev ? true : "lazy",
+ 		patterns: createImportProtectionPatterns(nuxt, { context: "nitro-app" }),
+ 		exclude: [/node_modules[\\/]nitro(?:pack)?(?:-nightly)?[\\/]|(packages|@nuxt)[\\/]nitro-server(?:-nightly)?[\\/](src|dist)[\\/]runtime[\\/]/, ...sharedPatterns]
+ 	}));

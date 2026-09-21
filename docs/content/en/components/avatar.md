@@ -38,6 +38,21 @@ Initials follow the writing system: a Chinese, Japanese or Korean name gives its
 
 <Demo name="avatar/group" />
 
+Overlap spacing and separator rings apply directly to the group's outer child elements. A custom avatar wrapped in a trigger does not need to forward group layout classes to its inner avatar. The wrapper's rounding and decoration remain under the custom component's control.
+
+Custom children can import `useAvatarGroup` from the package root to read the group size reactively. It returns `null` outside a group. For example, preserve an individual avatar's size override in a custom component:
+
+```ts
+import { computed } from 'vue'
+import { useAvatarGroup, type AvatarVariants } from '@hina-ui/vue'
+
+const props = defineProps<{ size?: AvatarVariants['size'] }>()
+const group = useAvatarGroup()
+const size = computed(() => props.size ?? group?.value.size ?? 'md')
+```
+
+`max` counts entries supplied by the default slot, including a `v-for` directly in that slot. Multiple avatars rendered inside a custom component are not counted separately; supply one avatar per slot entry when an accurate `+N` is required.
+
 ### Custom content {#custom}
 
 The default slot replaces the built-in fallback with an icon or a short piece of text.
@@ -81,3 +96,11 @@ The default slot replaces the built-in fallback with an icon or a short piece of
 | Slot      | Description |
 | --------- | ----------- |
 | `default` | The avatars |
+
+### useAvatarGroup {#group-context}
+
+`useAvatarGroup()` returns `ComputedRef<AvatarGroupContext> | null`. `AvatarGroupContext` is also exported from the package root.
+
+| Field  | Type                     | Description                                                           |
+| ------ | ------------------------ | --------------------------------------------------------------------- |
+| `size` | `AvatarVariants['size']` | The nearest group's size, or `undefined` if the group leaves it unset |

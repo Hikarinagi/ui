@@ -83,3 +83,7 @@ Inside a [FormField](/components/form-field) the label points at the textarea th
 | Event               | Payload         | Description      |
 | ------------------- | --------------- | ---------------- |
 | `update:modelValue` | `value: string` | The text changed |
+
+### Exposed methods {#expose}
+
+`input` exposes the native `HTMLTextAreaElement` for reading or setting the selection. `focus()` focuses it without scrolling the page. Available after mounting on the client.

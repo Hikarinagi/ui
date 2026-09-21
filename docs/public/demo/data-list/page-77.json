@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 144,
+      "title": "正负战争",
+      "originalTitle": "プラマイウォーズ",
+      "developer": "ASa Project",
+      "released": "2015-04-24",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/028e8fcb-16ae-4fa8-ba11-9e6179689901.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 710,
+        "height": 500
+      },
+      "url": "https://www.hikarinagi.org/galgames/144"
+    },
+    {
+      "id": 728,
+      "title": "九段之都市传说",
+      "originalTitle": "クダンノフォークロア",
+      "developer": "SukeraSparo",
+      "released": "2019-04-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/1854ad5e-5ab0-4de5-b84f-ddb2cc6c0df6.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 256,
+        "height": 366
+      },
+      "url": "https://www.hikarinagi.org/galgames/728"
+    },
+    {
+      "id": 722,
+      "title": "Butterfly Seeker - 寻蝶者",
+      "originalTitle": "バタフライシーカー",
+      "developer": "シルキーズプラス A5和牛",
+      "released": "2018-03-30",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/f59c7d53-61a9-4075-bcd4-d162063f2db8.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 822,
+        "height": 509
+      },
+      "url": "https://www.hikarinagi.org/galgames/722"
+    },
+    {
+      "id": 343,
+      "title": "秋之回忆",
+      "originalTitle": "Memories Off",
+      "developer": "キッド / MAGES. / SDR Project / 5pb. / 智冠科技股份有限公司 / 北京新天地",
+      "released": "1999-09-30",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/6b710ecb-31c2-41f6-ae0e-7aa858f7841e.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 956,
+        "height": 958
+      },
+      "url": "https://www.hikarinagi.org/galgames/343"
+    },
+    {
+      "id": 2215,
+      "title": "嫁充",
+      "originalTitle": "ヨメ充！",
+      "developer": "脳内彼女",
+      "released": "2012-07-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/07bab176-e7e1-4faf-865a-563f1511eb5c.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 256,
+        "height": 368
+      },
+      "url": "https://www.hikarinagi.org/galgames/2215"
+    },
+    {
+      "id": 534,
+      "title": "少女爱上姐姐",
+      "originalTitle": "処女はお姉さまに恋してる",
+      "developer": "キャラメルBOX",
+      "released": "2005-01-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/7fd60e65-f2b2-490b-8adf-38ecb1bda165.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 2048,
+        "height": 1498
+      },
+      "url": "https://www.hikarinagi.org/galgames/534"
+    },
+    {
+      "id": 623,
+      "title": "混沌之脑 LOVE ChuChu",
+      "originalTitle": "CHAOS;HEAD らぶChu☆Chu!",
+      "developer": "ニトロプラス / MAGES. / 株式会社RED FLAGSHIP / 5pb.",
+      "released": "2010-03-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/8aa2b23c-01a1-4252-b1af-daf13f4f9dc0.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1525,
+        "height": 2048
+      },
+      "url": "https://www.hikarinagi.org/galgames/623"
+    },
+    {
+      "id": 468,
+      "title": "悠久之翼-前篇",
+      "originalTitle": "ef - the first tale.",
+      "developer": "minori",
+      "released": "2006-12-22",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/c93d3206-d1ea-48bf-ab80-b153fefb0ac3.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 320,
+        "height": 455
+      },
+      "url": "https://www.hikarinagi.org/galgames/468"
+    },
+    {
+      "id": 173,
+      "title": "加奈···欢迎回来！！",
+      "originalTitle": "加奈···おかえり!!",
+      "developer": "高屋敷開発",
+      "released": "2004-11-19",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/d5ed3fa7-7c9b-4598-863c-e624cacf234f.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 389,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/173"
+    },
+    {
+      "id": 1110,
+      "title": "尚有佳蜜伴恋心2",
+      "originalTitle": "恋ニ、甘味ヲソエテ2",
+      "developer": "Canvas+Garden",
+      "released": "2018-12-31",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/ae956a5a-2da0-4960-ac37-85abb1d9bedd.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 800,
+        "height": 1123
+      },
+      "url": "https://www.hikarinagi.org/galgames/1110"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

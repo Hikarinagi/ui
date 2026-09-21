@@ -5,7 +5,7 @@
     "test:browser": "pnpm --filter @hina-ui/vue test:browser",
     "format:check": "prettier --check .",
     "typecheck": "pnpm -r typecheck",
-    "test": "pnpm --filter @hina-ui/vue test",
+    "test": "pnpm --filter @hina-ui/shared test && pnpm --filter @hina-ui/vue test",
     "lint": "pnpm --filter @hina-ui/docs lint:check",
     "format": "prettier --write .",
     "build": "pnpm --filter @hina-ui/docs generate",
@@ -15,7 +15,7 @@
     "release:prepare": "node scripts/release/prepare.mjs",
     "release:check": "node --test scripts/release/*.test.mjs",
     "test:package": "pnpm --filter @hina-ui/vue build && node scripts/check-package.mjs",
-    "test:docs": "node --test docs/changelog.test.ts"
+    "test:docs": "node --test docs/*.test.ts"
   },
   "type": "module",
   "private": true,

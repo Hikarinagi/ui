@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 1002,
+      "title": "流星 -a Wish Star-",
+      "originalTitle": "流る星 -a Wish Star-",
+      "developer": "NANACAN",
+      "released": "2024-08-01",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/600958bf-9ac1-4a54-b61a-483aa36dc32a.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1920,
+        "height": 1328
+      },
+      "url": "https://www.hikarinagi.org/galgames/1002"
+    },
+    {
+      "id": 641,
+      "title": "闪耀夏日",
+      "originalTitle": "SHINY DAYS",
+      "developer": "オーバーフロー",
+      "released": "2012-04-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10650/0znsp7h6_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1050,
+        "height": 1489
+      },
+      "url": "https://www.hikarinagi.org/galgames/641"
+    },
+    {
+      "id": 612,
+      "title": "装甲恶鬼村正",
+      "originalTitle": "装甲悪鬼村正",
+      "developer": "ニトロプラス / ニトロオリジン",
+      "released": "2009-10-30",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10621/gih9gxv4_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 872,
+        "height": 1200
+      },
+      "url": "https://www.hikarinagi.org/galgames/612"
+    },
+    {
+      "id": 146,
+      "title": "恋爱？我就借走了哦！",
+      "originalTitle": "恋愛、借りちゃいました",
+      "developer": "ASa Project",
+      "released": "2019-07-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/7efd202a-0088-4061-a138-7dc36b0d4aad.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 499,
+        "height": 700
+      },
+      "url": "https://www.hikarinagi.org/galgames/146"
+    },
+    {
+      "id": 85,
+      "title": "9-nine-天色天歌天籁音",
+      "originalTitle": "9-nine-そらいろそらうたそらのおと Episode.2 Sora Nimi",
+      "developer": "ぱれっと / 株式会社エンターグラム",
+      "released": "2018-04-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/bef85473-fec4-4fbf-86c4-69a46e271d95.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 568,
+        "height": 800
+      },
+      "url": "https://www.hikarinagi.org/galgames/85"
+    },
+    {
+      "id": 58,
+      "title": "大图书馆的牧羊人",
+      "originalTitle": "大図書館の羊飼い",
+      "developer": "オーガスト",
+      "released": "2013-01-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/d919494a-1f48-42dd-9fbd-d14d5e2157f4.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 320,
+        "height": 460
+      },
+      "url": "https://www.hikarinagi.org/galgames/58"
+    },
+    {
+      "id": 922,
+      "title": "唇心絮语",
+      "originalTitle": "リップリップルズ",
+      "developer": "パープルソフトウェア",
+      "released": "2024-11-29",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/a40c559d-a162-4e3a-a2b5-609861932abf.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 697,
+        "height": 700
+      },
+      "url": "https://www.hikarinagi.org/galgames/922"
+    },
+    {
+      "id": 606,
+      "title": "沙耶之歌",
+      "originalTitle": "沙耶の唄",
+      "developer": "ニトロプラス / あそべる！ ＢＤゲーム / ニトロオリジン",
+      "released": "2003-12-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/c2016d2e-6820-459e-a557-c8df17e62604.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 540,
+        "height": 748
+      },
+      "url": "https://www.hikarinagi.org/galgames/606"
+    },
+    {
+      "id": 1171,
+      "title": "D.C. Re:tune ～ダ・カーポ～ リチューン",
+      "originalTitle": "D.C. Re:tune ～ダ・カーポ～ リチューン",
+      "developer": "CIRCUS",
+      "released": "2025-10-30",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/c9015e32-f50a-463e-a656-5547f06c3ec7.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 706,
+        "height": 1000
+      },
+      "url": "https://www.hikarinagi.org/galgames/1171"
+    },
+    {
+      "id": 45,
+      "title": "金辉恋曲四重奏",
+      "originalTitle": "金色ラブリッチェ",
+      "developer": "SAGA PLANETS",
+      "released": "2017-12-22",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10048/wo9qyk71_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/45"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

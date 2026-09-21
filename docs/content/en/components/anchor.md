@@ -40,6 +40,16 @@ Trailing content aligns to the end of the row without shrinking, while long labe
 
 <Demo name="anchor/trailing" />
 
+### Following a long directory {#scroll}
+
+Place a long directory inside a height-constrained `ScrollArea`. When the current entry leaves the directory viewport, `Anchor` scrolls it fully into view with a small margin. It detects the nearest vertical scroll container, including native containers or a scrollable root element, without requiring a viewport ref.
+
+Visible entries are not repeatedly centered, and browsing the directory manually does not continually pull it back. Initial positioning and size adjustments are instant; subsequent current-entry changes scroll smoothly unless reduced motion is enabled. Following never moves focus or scrolls an outer container shared with the article.
+
+Set `:auto-scroll="false"` to disable following while keeping scroll-spy and highlighting. `@change` receives the current entry's `id`, and a component ref exposes the read-only `current` value, so observing `aria-current` is unnecessary. This example contains 51 entries; scroll the article and directory independently or disable following to compare.
+
+<Demo name="anchor/scroll" />
+
 ### Landmark name {#label}
 
 `Anchor` renders as a `nav` landmark with an accessible name in the interface language (“On this page” in English). When a page holds several navigation landmarks, name each with `label`.
@@ -65,11 +75,12 @@ Trailing content aligns to the end of the row without shrinking, while long labe
 
 ### Props {#props}
 
-| Prop    | Type     | Default            | Description                     |
-| ------- | -------- | ------------------ | ------------------------------- |
-| `items` | `T[]`    | Required           | Entries of the contents list    |
-| `label` | `string` | Interface language | Accessible name of the landmark |
-| `class` | `string` | —                  | Classes appended to the root    |
+| Prop         | Type      | Default            | Description                                                    |
+| ------------ | --------- | ------------------ | -------------------------------------------------------------- |
+| `items`      | `T[]`     | Required           | Entries of the contents list                                   |
+| `label`      | `string`  | Interface language | Accessible name of the landmark                                |
+| `autoScroll` | `boolean` | `true`             | Keep the current entry visible in the directory's own viewport |
+| `class`      | `string`  | —                  | Classes appended to the root                                   |
 
 ### AnchorItem {#item}
 
@@ -86,3 +97,15 @@ Trailing content aligns to the end of the row without shrinking, while long labe
 | `trailing` | `{ item, active: boolean }` | Trailing content inside each entry link |
 
 `T` is inferred from `items` and must include the base fields of `AnchorItem`. `item` preserves the original types of top-level entries and their `children`; use a field or discriminant to narrow the type when parent and child fields differ.
+
+### Events {#events}
+
+| Event    | Payload                        | Description                                                                                                                                |
+| -------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `change` | `current: string \| undefined` | Emitted when the current entry changes, including its first detection. Becomes `undefined` when resetting entries leaves no current entry. |
+
+### Expose {#expose}
+
+| Property  | Type                  | Description                                                          |
+| --------- | --------------------- | -------------------------------------------------------------------- |
+| `current` | `string \| undefined` | Read-only current entry id; `undefined` until an entry is identified |

@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 571,
+      "title": "春天的谎言 -Passing Memories-",
+      "originalTitle": "ハルウソ -Passing Memories-",
+      "developer": "Campus",
+      "released": "2015-11-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/4b2319d3-b523-4e87-bd99-f5b132c1850f.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 780,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/571"
+    },
+    {
+      "id": 559,
+      "title": "夏之终熄",
+      "originalTitle": "夏ノ終熄",
+      "developer": "CUBE",
+      "released": "2022-08-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/1dfb07b9-51e7-4767-a785-8dff031ec837.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 2000,
+        "height": 1426
+      },
+      "url": "https://www.hikarinagi.org/galgames/559"
+    },
+    {
+      "id": 2343,
+      "title": "告别回忆 双想 Break out of my shell",
+      "originalTitle": "メモリーズオフ 双想 Break out of my shell",
+      "developer": "MAGES.",
+      "released": "2026-04-09",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/1634fb5b-9ddf-4982-87dc-bb6b8c2d986e.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1000,
+        "height": 562
+      },
+      "url": "https://www.hikarinagi.org/galgames/2343"
+    },
+    {
+      "id": 399,
+      "title": "白色相簿",
+      "originalTitle": "WHITE ALBUM",
+      "developer": "Leaf / AQUAPLUS",
+      "released": "1998-05-01",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10408/q6u8ouq5_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 443,
+        "height": 590
+      },
+      "url": "https://www.hikarinagi.org/galgames/399"
+    },
+    {
+      "id": 963,
+      "title": "海与雪的青蓝色",
+      "originalTitle": "海と雪のシアンブルー",
+      "developer": "CUBE",
+      "released": "2021-04-30",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/4e06e5ca-04d5-44ba-90cd-62dc6e4510bd.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 785,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/963"
+    },
+    {
+      "id": 843,
+      "title": "纯爱咖啡厅～帕露菲重制版～",
+      "originalTitle": "パルフェリメイク",
+      "developer": "戯画 / 有限会社だいだい / 株式会社エンターグラム / 株式会社 HIKARI FIELD",
+      "released": "2021-03-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/f86bf260-9f50-4e53-bb3f-d69991710437.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 800,
+        "height": 466
+      },
+      "url": "https://www.hikarinagi.org/galgames/843"
+    },
+    {
+      "id": 136,
+      "title": "慕情之心今随君作伴",
+      "originalTitle": "キミのとなりで恋してる！",
+      "developer": "ALcot ハニカム",
+      "released": "2014-11-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/8e76728a-f3f2-4ef6-a88a-7c9f22f471f4.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 500,
+        "height": 715
+      },
+      "url": "https://www.hikarinagi.org/galgames/136"
+    },
+    {
+      "id": 1612,
+      "title": "Fate/hollow ataraxia",
+      "originalTitle": "Fate/hollow ataraxia",
+      "developer": "TYPE-MOON / ノーツ",
+      "released": "2005-10-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/503d43ee-005d-4f7f-b1fc-b55af753a7f5.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1688,
+        "height": 2048
+      },
+      "url": "https://www.hikarinagi.org/galgames/1612"
+    },
+    {
+      "id": 250,
+      "title": "航迹云的彼方",
+      "originalTitle": "ひこうき雲の向こう側",
+      "developer": "FLAT / SakuraGame",
+      "released": "2014-03-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/7e597bad-2c23-4186-b1f0-9056dfaf9dc5.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/250"
+    },
+    {
+      "id": 996,
+      "title": "冲破万里晴空之上",
+      "originalTitle": "あの晴れわたる空より高く",
+      "developer": "チュアブルソフト",
+      "released": "2014-09-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/91b826b5-7106-4cd4-b9ae-7fb26f35a769.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/996"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

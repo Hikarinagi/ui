@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 27,
+      "title": "幸运草的约定",
+      "originalTitle": "Clover Day's",
+      "developer": "ALcot",
+      "released": "2014-03-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10030/5yhw0n7y_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 785,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/27"
+    },
+    {
+      "id": 781,
+      "title": "星光咖啡馆与死神之蝶",
+      "originalTitle": "喫茶ステラと死神の蝶",
+      "developer": "ゆずソフト",
+      "released": "2019-12-20",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/182338a2-4dc6-4903-a0ef-477a0d4705cd.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 500,
+        "height": 695
+      },
+      "url": "https://www.hikarinagi.org/galgames/781"
+    },
+    {
+      "id": 2330,
+      "title": "次元凸破恋战姬!!",
+      "originalTitle": "ディメンション凸ラバース!!",
+      "developer": "CRYSTALiA",
+      "released": "2026-04-24",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/907370e7-ee1c-450f-8b0a-0713f0bd01a2.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1199,
+        "height": 1041
+      },
+      "url": "https://www.hikarinagi.org/galgames/2330"
+    },
+    {
+      "id": 899,
+      "title": "初恋マスターアップ",
+      "originalTitle": "初恋マスターアップ",
+      "developer": "あざらしそふと",
+      "released": "2025-05-30",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/2538bb6a-9681-426c-9af9-d6c532d42cf3.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 635,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/899"
+    },
+    {
+      "id": 1179,
+      "title": "欧尼酱ConTiNuE！我与结梨的恋爱小秘密",
+      "originalTitle": "おにいちゃんコンティニュー！ ゆうりとしーとくれっとらぶ♥",
+      "developer": "ぱんみみそふと",
+      "released": "2025-08-17",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/11209/5aqhwg77_2.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 592,
+        "height": 800
+      },
+      "url": "https://www.hikarinagi.org/galgames/1179"
+    },
+    {
+      "id": 7,
+      "title": "甜蜜夏日+",
+      "originalTitle": "アマナツ+",
+      "developer": "あざらしそふと",
+      "released": "2024-08-30",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/galgame/10009/t1d8m7ov_2.jpg?w=400&f=webp&fit=scale-down&q=85",
+        "width": 900,
+        "height": 635
+      },
+      "url": "https://www.hikarinagi.org/galgames/7"
+    },
+    {
+      "id": 793,
+      "title": "美少女万华镜 -理与迷宫的少女-",
+      "originalTitle": "美少女万華鏡 -理と迷宮の少女-",
+      "developer": "ωstar",
+      "released": "2020-05-29",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/98fea213-8c65-461b-b306-2e0562ecc4c2.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 850,
+        "height": 1200
+      },
+      "url": "https://www.hikarinagi.org/galgames/793"
+    },
+    {
+      "id": 1010,
+      "title": "バカップル・サプリメント",
+      "originalTitle": "バカップル・サプリメント",
+      "developer": "ま～まれぇど",
+      "released": "2025-11-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/34a9bbd8-3962-403a-861d-8e89f7dea38d.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 1500,
+        "height": 1035
+      },
+      "url": "https://www.hikarinagi.org/galgames/1010"
+    },
+    {
+      "id": 1014,
+      "title": "ハッピーウィークエンド",
+      "originalTitle": "ハッピーウィークエンド",
+      "developer": "HOOKSOFT",
+      "released": "2025-06-27",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/68681bc9-cf64-45b8-b5ba-45628303aa61.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 2048,
+        "height": 1652
+      },
+      "url": "https://www.hikarinagi.org/galgames/1014"
+    },
+    {
+      "id": 29,
+      "title": "天津罪",
+      "originalTitle": "アマツツミ",
+      "developer": "パープルソフトウェア",
+      "released": "2016-07-29",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/00d7cc0d-5ff9-466c-aa56-be849ac8845d.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 500,
+        "height": 715
+      },
+      "url": "https://www.hikarinagi.org/galgames/29"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}

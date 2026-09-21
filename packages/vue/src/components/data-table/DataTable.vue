@@ -192,12 +192,12 @@
           <caption v-if="props.caption">
             <span>{{ props.caption }}</span>
           </caption>
-          <colgroup>
+          <colgroup :style="layout.columnStyles.value">
             <col v-for="control in controls" :key="control" style="width: 48px" />
             <col
               v-for="column in ctl.visibleColumns.value"
               :key="column.key"
-              :style="{ width: layout.cellStyle(column).width }"
+              :style="layout.columnStyle(column)"
             />
             <col v-if="trailing" style="width: 72px" />
           </colgroup>

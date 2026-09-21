@@ -28,39 +28,6 @@ export function useTableColumns<T extends object>(
   const heights = shallowRef<number[]>([])
   const available = shallowRef(0)
   const active = shallowRef<Record<string, number>>()
-  let observer: ResizeObserver | undefined
-  let disposed = false
-  let frame = 0
-  watch(
-    [element, viewport, ctl.visibleColumns],
-    async () => {
-      await nextTick()
-      observer?.disconnect()
-      cancelAnimationFrame(frame)
-      if (disposed || !element.value || typeof ResizeObserver === 'undefined') return
-      const update = () => {
-        available.value = viewport.value?.clientWidth ?? 0
-        const next: Record<string, number> = {}
-        element.value?.querySelectorAll<HTMLElement>('thead [data-hn-column]').forEach(cell => {
-          next[cell.dataset.hnColumn!] = cell.getBoundingClientRect().width
-        })
-        if (JSON.stringify(next) !== JSON.stringify(measured.value)) measured.value = next
-        const rows = [...(element.value?.querySelectorAll('thead tr') ?? [])].map(
-          row => row.getBoundingClientRect().height,
-        )
-        if (JSON.stringify(rows) !== JSON.stringify(heights.value)) heights.value = rows
-        handles.update()
-      }
-      observer = new ResizeObserver(() => {
-        cancelAnimationFrame(frame)
-        frame = requestAnimationFrame(update)
-      })
-      element.value.querySelectorAll('thead th, thead tr').forEach(cell => observer!.observe(cell))
-      if (viewport.value) observer.observe(viewport.value)
-      update()
-    },
-    { flush: 'post' },
-  )
   const constrained = computed(
     () =>
       props.layout === 'fixed' ||
@@ -68,6 +35,58 @@ export function useTableColumns<T extends object>(
       !!props.virtualize ||
       ctl.visibleColumns.value.some(column => column.truncate || column.maxWidth !== undefined) ||
       Object.keys(models.columnWidths.value).length > 0,
+  )
+  let observer: ResizeObserver | undefined
+  let disposed = false
+  let frame = 0
+  watch(
+    [element, viewport, ctl.visibleColumns, constrained, () => props.stickyHeader],
+    async (_, __, onCleanup) => {
+      let cancelled = false
+      onCleanup(() => {
+        cancelled = true
+      })
+      await nextTick()
+      if (cancelled) return
+      observer?.disconnect()
+      cancelAnimationFrame(frame)
+      frame = 0
+      if (disposed || !element.value || typeof ResizeObserver === 'undefined') return
+      const rows = props.stickyHeader ? [...element.value.querySelectorAll('thead tr')] : []
+      const next = { ...measured.value }
+      const sizes = [...heights.value]
+      let areaWidth = available.value
+      observer = new ResizeObserver(entries => {
+        for (const entry of entries) {
+          if (entry.target === viewport.value) areaWidth = viewport.value.clientWidth
+          const key = (entry.target as HTMLElement).dataset.hnColumn
+          if (key !== undefined)
+            next[key] =
+              entry.borderBoxSize[0]?.inlineSize ?? entry.target.getBoundingClientRect().width
+          const index = rows.indexOf(entry.target as HTMLTableRowElement)
+          if (index >= 0)
+            sizes[index] =
+              entry.borderBoxSize[0]?.blockSize ?? entry.target.getBoundingClientRect().height
+        }
+        // Publish cached sizes outside the observer delivery to avoid resize feedback loops.
+        if (!frame)
+          frame = requestAnimationFrame(() => {
+            frame = 0
+            available.value = areaWidth
+            if (JSON.stringify(next) !== JSON.stringify(measured.value))
+              measured.value = { ...next }
+            if (JSON.stringify(sizes) !== JSON.stringify(heights.value)) heights.value = [...sizes]
+          })
+      })
+      if (!constrained.value)
+        element.value
+          .querySelectorAll('thead [data-hn-column]')
+          .forEach(cell => observer!.observe(cell, { box: 'border-box' }))
+      rows.forEach(row => observer!.observe(row, { box: 'border-box' }))
+      if (viewport.value) observer.observe(viewport.value)
+      available.value = viewport.value?.clientWidth ?? 0
+    },
+    { flush: 'post' },
   )
   const availableColumnsWidth = computed(
     () => available.value - leading.value * 48 - trailing.value * 72,
@@ -81,7 +100,12 @@ export function useTableColumns<T extends object>(
         availableColumnsWidth.value,
       ),
   )
-  const handles = useTableResizeHandles(element, viewport, ctl.visibleColumns, widths)
+  const handles = useTableResizeHandles(
+    element,
+    viewport,
+    ctl.visibleColumns,
+    () => !!props.resizable,
+  )
   const resizing = useTableResize(
     props,
     models,
@@ -91,6 +115,7 @@ export function useTableColumns<T extends object>(
     widths,
     active,
     availableColumnsWidth,
+    handles.update,
   )
   const widthVariable = (column: DataTableColumn<T>) =>
     `var(--hn-table-column-${ctl.visibleColumns.value.findIndex(item => item.key === column.key)})`
@@ -99,8 +124,11 @@ export function useTableColumns<T extends object>(
       ? widths.value[column.key]!
       : (measured.value[column.key] ?? pixelWidth(column.width, 160))
   }
-  function specifiedWidth(column: DataTableColumn<T>) {
-    return constrained.value ? widthVariable(column) : column.width
+  const fixedWidths = computed(() =>
+    allocateWidths(ctl.visibleColumns.value, active.value ?? models.columnWidths.value, 0),
+  )
+  function columnStyle(column: DataTableColumn<T>): CSSProperties {
+    return { width: cssSize(constrained.value ? widthVariable(column) : column.width) }
   }
   function pinStyle(column: DataTableColumn<T>, head = false): CSSProperties {
     if (!column.pin) return {}
@@ -108,9 +136,10 @@ export function useTableColumns<T extends object>(
     const index = siblings.findIndex(item => item.key === column.key)
     const preceding = column.pin === 'start' ? siblings.slice(0, index) : siblings.slice(index + 1)
     const controls = column.pin === 'start' ? leading.value * 48 : trailing.value * 72
-    const offset = constrained.value
-      ? `calc(${controls}px${preceding.map(column => ` + ${widthVariable(column)}`).join('')})`
-      : `${preceding.reduce((sum, column) => sum + width(column), controls)}px`
+    const offset = `${preceding.reduce(
+      (sum, column) => sum + (constrained.value ? fixedWidths.value[column.key]! : width(column)),
+      controls,
+    )}px`
     return {
       position: 'sticky',
       [column.pin === 'start' ? 'insetInlineStart' : 'insetInlineEnd']: offset,
@@ -121,9 +150,13 @@ export function useTableColumns<T extends object>(
   }
   function cellStyle(column: DataTableColumn<T>, head = false): CSSProperties {
     return {
-      width: cssSize(specifiedWidth(column)),
-      minWidth: cssSize(column.minWidth ?? specifiedWidth(column)),
-      maxWidth: cssSize(column.maxWidth),
+      ...(constrained.value
+        ? {}
+        : {
+            width: cssSize(column.width),
+            minWidth: cssSize(column.minWidth ?? column.width),
+            maxWidth: cssSize(column.maxWidth),
+          }),
       ...pinStyle(column, head),
     }
   }
@@ -197,16 +230,25 @@ export function useTableColumns<T extends object>(
       return result
     })
   })
-  const tableStyle = computed<CSSProperties>(() => ({
-    '--hn-table-viewport-width': available.value ? `${available.value}px` : undefined,
-    tableLayout: constrained.value ? 'fixed' : 'auto',
-    ...(constrained.value
+  const sizing = computed<CSSProperties>(() =>
+    constrained.value
       ? columnSizingStyles(
           ctl.visibleColumns.value,
           active.value ?? models.columnWidths.value,
           leading.value * 48 + trailing.value * 72,
         )
-      : {}),
+      : {},
+  )
+  const tableStyle = computed<CSSProperties>(() => ({
+    tableLayout: constrained.value ? 'fixed' : 'auto',
+    width: sizing.value.width,
+  }))
+  const columnStyles = computed<CSSProperties>(() => {
+    const { width: _, ...styles } = sizing.value
+    return styles
+  })
+  const errorStyle = computed<CSSProperties>(() => ({
+    '--hn-table-viewport-width': available.value ? `${available.value}px` : undefined,
   }))
   function moveColumn(key: string, target: string) {
     if (ctl.blocked.value || key === target) return
@@ -240,6 +282,9 @@ export function useTableColumns<T extends object>(
     constrained,
     headerRows,
     tableStyle,
+    columnStyles,
+    columnStyle,
+    errorStyle,
     cellStyle,
     controlStyle,
     ...resizing,

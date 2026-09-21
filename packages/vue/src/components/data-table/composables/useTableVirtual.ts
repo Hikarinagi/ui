@@ -1,5 +1,5 @@
 import { computed, nextTick, onScopeDispose, shallowRef, watch, type Ref } from 'vue'
-import { useVirtualizer } from '@tanstack/vue-virtual'
+import { useVirtualWindow, virtualFlow } from '../../../lib/virtual/useVirtualWindow'
 import type { DataTableKey, DataTableProps } from '../types'
 import type { DataTableController } from './useDataTable'
 
@@ -26,23 +26,41 @@ export function useTableVirtual<T extends object>(
       return rows
     }),
   )
-  watch(element, async () => {
+  watch([element, () => !!props.virtualize || !!props.stickyHeader], async (_, __, onCleanup) => {
+    let cancelled = false
+    onCleanup(() => {
+      cancelled = true
+    })
     await nextTick()
+    if (cancelled) return
     observer?.disconnect()
+    if (!props.virtualize && !props.stickyHeader) {
+      margin.value = 0
+      return
+    }
     const head = element.value?.tHead
     if (disposed || !head || typeof ResizeObserver === 'undefined') return
+    const caption = element.value?.caption
+    const sizes = new Map<Element, number>([[head, head.offsetHeight]])
+    if (caption) sizes.set(caption, caption.offsetHeight)
     const update = () => {
-      margin.value = head.offsetHeight + (element.value?.caption?.offsetHeight ?? 0)
+      margin.value = [...sizes.values()].reduce((sum, size) => sum + size, 0)
     }
-    observer = new ResizeObserver(update)
-    observer.observe(head)
-    if (element.value?.caption) observer.observe(element.value.caption)
+    observer = new ResizeObserver(entries => {
+      for (const entry of entries)
+        sizes.set(
+          entry.target,
+          entry.borderBoxSize[0]?.blockSize ?? (entry.target as HTMLElement).offsetHeight,
+        )
+      update()
+    })
+    observer.observe(head, { box: 'border-box' })
+    if (caption) observer.observe(caption, { box: 'border-box' })
     update()
   })
-  const virtualizer = useVirtualizer(
+  const virtualizer = useVirtualWindow(
     computed(() => ({
       count: entries.value.length,
-      useAnimationFrameWithResizeObserver: true,
       enabled: !!props.virtualize,
       getScrollElement: () => viewport.value ?? null,
       estimateSize: (index: number) =>
@@ -64,19 +82,16 @@ export function useTableVirtual<T extends object>(
       ? window.value.map(item => ({ ...entries.value[item.index]!, index: item.index }))
       : entries.value.map((entry, index) => ({ ...entry, index })),
   )
-  const before = computed(() =>
-    props.virtualize ? Math.max(0, (window.value[0]?.start ?? margin.value) - margin.value) : 0,
+  const flow = computed(() =>
+    virtualFlow(window.value, virtualizer.value.getTotalSize(), margin.value),
   )
-  const after = computed(() =>
-    props.virtualize
-      ? Math.max(
-          0,
-          virtualizer.value.getTotalSize() -
-            ((window.value.at(-1)?.end ?? margin.value) - margin.value),
-        )
-      : 0,
-  )
+  const before = computed(() => (props.virtualize ? flow.value.before : 0))
+  const after = computed(() => (props.virtualize ? flow.value.after : 0))
   function measure(element: unknown) {
+    if (element === null) {
+      virtualizer.value.measureElement(null)
+      return
+    }
     if (props.virtualize && element instanceof HTMLElement)
       virtualizer.value.measureElement(element)
   }

@@ -84,6 +84,12 @@ Inside a [FormField](/components/form-field) the label is linked to the list thr
 
 <Demo name="listbox/form" />
 
+### Virtual scrolling {#virtual}
+
+`virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Rows unmount outside the rendered range; keep persistent slot state outside the row, keyed by its unique value.
+
+<Demo name="listbox/virtual" />
+
 ## Behaviour {#behavior}
 
 - Clicking toggles the choice. After tabbing into the list, the arrow keys move the highlight, Enter or Space chooses, and disabled options are skipped.
@@ -100,16 +106,17 @@ Inside a [FormField](/components/form-field) the label is linked to the list thr
 
 `T extends SelectOption` is inferred from `options` and defaults to `SelectOption`.
 
-| Prop         | Type                                                  | Default     | Description                                       |
-| ------------ | ----------------------------------------------------- | ----------- | ------------------------------------------------- |
-| `modelValue` | `string \| number \| null \| Array<string \| number>` | —           | The chosen value, an array when multiple          |
-| `options`    | `SelectItems<T>`                                      | —           | The items, see [Select](/components/select#types) |
-| `multiple`   | `boolean`                                             | `false`     | Whether several can be chosen                     |
-| `maxHeight`  | `string`                                              | `'20rem'`   | Maximum height of the list                        |
-| `padded`     | `boolean`                                             | `true`      | Keep the inner list's surrounding padding         |
-| `variant`    | `'primary' \| 'secondary' \| 'bare'`                  | `'primary'` | Variant                                           |
-| `disabled`   | `boolean`                                             | `false`     | Whether the list is disabled                      |
-| `class`      | `string`                                              | —           | Classes appended to the root element              |
+| Prop         | Type                                                  | Default     | Description                                           |
+| ------------ | ----------------------------------------------------- | ----------- | ----------------------------------------------------- |
+| `modelValue` | `string \| number \| null \| Array<string \| number>` | —           | The chosen value, an array when multiple              |
+| `options`    | `SelectItems<T>`                                      | —           | The items, see [Select](/components/select#types)     |
+| `virtualize` | `VirtualizeOptions`                                   | `false`     | Virtual scrolling; content-based estimate, overscan 6 |
+| `multiple`   | `boolean`                                             | `false`     | Whether several can be chosen                         |
+| `maxHeight`  | `string`                                              | `'20rem'`   | Maximum height of the list                            |
+| `padded`     | `boolean`                                             | `true`      | Keep the inner list's surrounding padding             |
+| `variant`    | `'primary' \| 'secondary' \| 'bare'`                  | `'primary'` | Variant                                               |
+| `disabled`   | `boolean`                                             | `false`     | Whether the list is disabled                          |
+| `class`      | `string`                                              | —           | Classes appended to the root element                  |
 
 ### Slots {#slots}
 
@@ -123,3 +130,7 @@ Inside a [FormField](/components/form-field) the label is linked to the list thr
 | Event               | Payload                                              | Description              |
 | ------------------- | ---------------------------------------------------- | ------------------------ |
 | `update:modelValue` | `value: string \| number \| Array<string \| number>` | The chosen value changed |
+
+```ts
+type VirtualizeOptions = boolean | { estimateSize?: number; overscan?: number }
+```

@@ -1,8 +1,10 @@
 <script setup lang="ts" generic="T extends AnchorItem = AnchorItem">
+  import { useTemplateRef, watch } from 'vue'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
   import Highlight from '../highlight/Highlight.vue'
   import { useAnchor } from './composables/useAnchor'
+  import { useAnchorFollow } from './composables/useAnchorFollow'
   import type { AnchorItem, AnchorSlotItem } from './types'
 
   export type { AnchorItem } from './types'
@@ -12,8 +14,11 @@
   const props = defineProps<{
     items: T[]
     label?: string
+    autoScroll?: boolean
     class?: string
   }>()
+
+  const emit = defineEmits<{ change: [current: string | undefined] }>()
 
   defineSlots<{
     trailing?(props: { item: AnchorSlotItem<T>; active: boolean }): unknown
@@ -22,10 +27,14 @@
   const t = useUiLocale()
 
   const { entries, visible, current, span, jump } = useAnchor(() => props.items)
+  const root = useTemplateRef<HTMLElement>('root')
+  useAnchorFollow(root, current, () => props.autoScroll !== false)
+  watch(current, id => emit('change', id), { flush: 'post' })
+  defineExpose({ current })
 </script>
 
 <template>
-  <nav :aria-label="props.label ?? t.anchor.navLabel" :class="cn(props.class)">
+  <nav ref="root" :aria-label="props.label ?? t.anchor.navLabel" :class="cn(props.class)">
     <ul class="border-line relative grid grid-cols-1 border-s">
       <Transition
         enter-active-class="hn-transition-base"

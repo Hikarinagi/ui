@@ -176,14 +176,6 @@ Horizontal overflow stays inside [ScrollArea](/components/scroll-area). `maxHeig
 
 <Demo name="data-table/fill" />
 
-### Virtual scrolling {#virtual}
-
-`virtualize` renders only visible rows plus overscan. `{ estimateSize, overscan }` configures the initial row estimate and buffer; actual row and expansion heights are measured. Combine it with pinned columns, selection, expansion and grouping. Provide `height`, `maxHeight` or `fill`; otherwise the viewport defaults to 400px.
-
-The complete data pipeline still operates on supplied rows. Virtualization reduces mounted DOM; it does not fetch data. `api.scrollToRow(key)` scrolls to a displayed row, including one outside the current rendered window. Expand ancestors or change the page first for hidden rows.
-
-<Demo name="data-table/virtual" />
-
 ### CSV export {#export}
 
 `api.toCsv(options)` returns CSV; `api.exportCsv(options)` downloads it. `scope` accepts `page`, `filtered` (default), `selected` or `all`. Only loaded records are available, including in remote mode. Selected keys without a loaded row cannot be exported.
@@ -197,6 +189,14 @@ Export follows visible column order and excludes `exportable: false` columns. `c
 `emptyText` replaces the default message; `empty` accepts custom content such as [Empty](/components/empty). The `loading` slot customizes [LoadingOverlay](/components/loading-overlay) content and should retain a status announcement.
 
 <Demo name="data-table/states" />
+
+### Virtual scrolling {#virtual}
+
+`virtualize` renders only visible rows plus overscan. `{ estimateSize, overscan }` configures the initial row estimate and buffer; actual row and expansion heights are measured. Combine it with pinned columns, selection, expansion and grouping. Provide `height`, `maxHeight` or `fill`; otherwise the viewport defaults to 400px.
+
+The complete data pipeline still operates on supplied rows. Virtualization reduces mounted DOM; it does not fetch data. `api.scrollToRow(key)` scrolls to a displayed row, including one outside the current rendered window. Expand ancestors or change the page first for hidden rows.
+
+<Demo name="data-table/virtual" />
 
 ## Accessibility {#behavior}
 

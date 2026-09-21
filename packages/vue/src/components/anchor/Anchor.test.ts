@@ -70,6 +70,28 @@ describe('服务端渲染', () => {
   })
 })
 
+it('exposes and emits the current id, including reset, without duplicate metadata notifications', async () => {
+  history.replaceState(null, '', location.pathname)
+  document.body.innerHTML = '<section id="current-target"></section>'
+  Element.prototype.scrollIntoView = vi.fn()
+  const w = mount(Anchor, {
+    props: { items: [{ id: 'current-target', label: 'Target' }], autoScroll: false },
+  })
+  const api = w.vm as unknown as { readonly current: string | undefined }
+  expect(api.current).toBeUndefined()
+  expect(w.emitted('change')).toBeUndefined()
+  await w.get('a').trigger('click')
+  expect(api.current).toBe('current-target')
+  expect(w.emitted('change')).toEqual([['current-target']])
+  await w.setProps({ items: [{ id: 'current-target', label: 'Renamed' }] })
+  expect(w.emitted('change')).toHaveLength(1)
+  await w.setProps({ items: [] })
+  expect(api.current).toBeUndefined()
+  expect(w.emitted('change')).toEqual([['current-target'], [undefined]])
+  w.unmount()
+  history.replaceState(null, '', location.pathname)
+})
+
 describe('a11y', () => {
   it('无 a11y 违规，含高亮条那一行', async () => {
     for (const id of ['a', 'b']) {

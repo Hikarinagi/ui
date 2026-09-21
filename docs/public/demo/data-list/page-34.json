@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "id": 100,
+      "title": "赤色约定",
+      "originalTitle": "FORTUNE ARTERIAL",
+      "developer": "オーガスト",
+      "released": "2008-01-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/903408c1-4b3b-4b2c-aace-051128d63e1e.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 320,
+        "height": 453
+      },
+      "url": "https://www.hikarinagi.org/galgames/100"
+    },
+    {
+      "id": 599,
+      "title": "纯白交响曲",
+      "originalTitle": "ましろ色シンフォニー -Love is Pure White-",
+      "developer": "ぱれっと",
+      "released": "2009-10-30",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/47c315d6-fae2-48ba-afdc-14a4c4fc17ff.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 320,
+        "height": 460
+      },
+      "url": "https://www.hikarinagi.org/galgames/599"
+    },
+    {
+      "id": 679,
+      "title": "重生游戏",
+      "originalTitle": "リアライブ",
+      "developer": "パープルソフトウェア",
+      "released": "2019-03-29",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/09a13c68-cdc1-4051-812f-2838cf7abd68.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 495,
+        "height": 700
+      },
+      "url": "https://www.hikarinagi.org/galgames/679"
+    },
+    {
+      "id": 171,
+      "title": "与我恋爱的废柴小恶魔。",
+      "originalTitle": "僕と恋するポンコツアクマ。",
+      "developer": "スミレ",
+      "released": "2015-09-25",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/bb247a41-83f0-49b7-bd11-ccd010e816b5.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 2048,
+        "height": 1182
+      },
+      "url": "https://www.hikarinagi.org/galgames/171"
+    },
+    {
+      "id": 2273,
+      "title": "我与她们的大学画相",
+      "originalTitle": "我与她们的大学画相",
+      "developer": "月乃社",
+      "released": "2025-12-05",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/436b0f64-1d39-49de-a058-55faa9031f32.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 600,
+        "height": 900
+      },
+      "url": "https://www.hikarinagi.org/galgames/2273"
+    },
+    {
+      "id": 631,
+      "title": "爱丽娅的明日盛典！",
+      "originalTitle": "ALIA's CARNIVAL!",
+      "developer": "ナナウィンド",
+      "released": "2014-03-28",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/b39136fd-a200-4571-8b87-41c48ce86d75.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 256,
+        "height": 350
+      },
+      "url": "https://www.hikarinagi.org/galgames/631"
+    },
+    {
+      "id": 1115,
+      "title": "玉响未来",
+      "originalTitle": "タマユラミライ",
+      "developer": "Azurite / 合同会社DMM GAMES",
+      "released": "2019-05-31",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/0229098e-ca2f-452d-8a4c-9e18ceea10a9.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 792,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/1115"
+    },
+    {
+      "id": 319,
+      "title": "虚之少女",
+      "originalTitle": "虚ノ少女",
+      "developer": "Innocent Grey",
+      "released": "2013-02-08",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/4651a104-13ed-48fa-ac49-a39aea0bc8b0.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/319"
+    },
+    {
+      "id": 407,
+      "title": "魔卡魅恋！",
+      "originalTitle": "Magical Charming!",
+      "developer": "ランプオブシュガー",
+      "released": "2013-05-31",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/84378754-5e0b-4fd3-b77f-6ee2ce6e4117.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/407"
+    },
+    {
+      "id": 205,
+      "title": "蜂蜜与恶魔",
+      "originalTitle": "はにデビ！ Honey＆Devil",
+      "developer": "Eufonie",
+      "released": "2017-05-26",
+      "cover": {
+        "src": "https://imagesp.yurari.moe/images/d9912c31-6394-4cde-a55e-ebcec7da8352.webp?w=400&f=webp&fit=scale-down&q=85",
+        "width": 411,
+        "height": 560
+      },
+      "url": "https://www.hikarinagi.org/galgames/205"
+    }
+  ],
+  "total": 1000,
+  "hasNextPage": true
+}
