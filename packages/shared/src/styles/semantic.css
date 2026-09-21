@@ -75,6 +75,9 @@
   --hn-skeleton-bg: var(--color-neutral-200);
   --hn-skeleton-wave: rgb(255 255 255 / 0.4);
 
+  --hn-qr-foreground: var(--color-neutral-950);
+  --hn-qr-background: var(--color-neutral-0);
+
   --hn-z-overlay: 100;
   --hn-z-toast: 110;
 }

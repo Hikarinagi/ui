@@ -1,0 +1,79 @@
+.hn-carousel-viewport {
+  overflow: auto;
+  scrollbar-width: none;
+  scroll-snap-type: inline mandatory;
+  overscroll-behavior-inline: contain;
+}
+.hn-carousel-viewport::-webkit-scrollbar {
+  display: none;
+}
+.hn-carousel[data-ready] > .hn-carousel-stage > .hn-carousel-viewport,
+.hn-carousel[data-initial-index] > .hn-carousel-stage > .hn-carousel-viewport {
+  overflow: hidden;
+}
+.hn-carousel-track {
+  margin-inline-start: calc(-1 * var(--hn-carousel-gap));
+}
+.hn-carousel[data-initial-index]:not([data-engine])
+  > .hn-carousel-stage
+  > .hn-carousel-viewport
+  > .hn-carousel-track {
+  transform: translate3d(calc(var(--hn-carousel-initial-index) * -100%), 0, 0);
+}
+.hn-carousel[data-initial-index]:not([data-engine]):dir(rtl)
+  > .hn-carousel-stage
+  > .hn-carousel-viewport
+  > .hn-carousel-track {
+  transform: translate3d(calc(var(--hn-carousel-initial-index) * 100%), 0, 0);
+}
+.hn-carousel[data-initial-index]:not([data-engine])[data-orientation='vertical']
+  > .hn-carousel-stage
+  > .hn-carousel-viewport
+  > .hn-carousel-track {
+  transform: translate3d(0, calc(var(--hn-carousel-initial-index) * -100%), 0);
+}
+.hn-carousel[data-ready] > .hn-carousel-stage > .hn-carousel-viewport > .hn-carousel-track {
+  touch-action: pan-y pinch-zoom;
+}
+.hn-carousel-item {
+  padding-inline-start: var(--hn-carousel-gap);
+  scroll-snap-align: start;
+}
+.hn-carousel[data-orientation='vertical'] > .hn-carousel-stage > .hn-carousel-viewport {
+  scroll-snap-type: block mandatory;
+  overscroll-behavior-block: contain;
+}
+.hn-carousel[data-orientation='vertical']
+  > .hn-carousel-stage
+  > .hn-carousel-viewport
+  > .hn-carousel-track {
+  flex-direction: column;
+  height: calc(100% + var(--hn-carousel-gap));
+  margin-inline-start: 0;
+  margin-block-start: calc(-1 * var(--hn-carousel-gap));
+}
+.hn-carousel[data-ready][data-orientation='vertical']
+  > .hn-carousel-stage
+  > .hn-carousel-viewport
+  > .hn-carousel-track {
+  touch-action: pan-x pinch-zoom;
+}
+.hn-carousel[data-orientation='vertical']
+  > .hn-carousel-stage
+  > .hn-carousel-viewport
+  > .hn-carousel-track
+  > .hn-carousel-item {
+  min-height: 0;
+  padding-inline-start: 0;
+  padding-block-start: var(--hn-carousel-gap);
+}
+.hn-carousel-viewport[data-pending] {
+  position: absolute;
+  inset: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.hn-carousel[data-ready] > .hn-carousel-stage > .hn-carousel-viewport,
+.hn-carousel[data-initial-index] > .hn-carousel-stage > .hn-carousel-viewport {
+  scroll-snap-type: none;
+}

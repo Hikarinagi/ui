@@ -12,6 +12,8 @@
 @import './timeline.css';
 @import './stepper.css';
 @import './float-button.css';
+@import './masonry.css';
+@import './carousel.css';
 @import './base.css';
 
 @source '../variants/*.ts';

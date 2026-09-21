@@ -247,6 +247,11 @@
     "changelog": "Additions, improvements and fixes across all releases"
   },
   "components": {
+    "masonry": "Masonry",
+    "month-grid": "Month display",
+    "carousel": "Browse content with dragging, grouping and optional rotation",
+    "qr-code": "Scannable SVG codes with image export",
+    "affix": "Sticky container",
     "accordion": "A list of sections that expand and collapse in turn",
     "alert": "A message bar that appears in the page after something happens",
     "alert-dialog": "A confirmation dialog that needs an explicit answer",

@@ -384,3 +384,46 @@ export type {
   EditableSubmitMode,
   EditableSave,
 } from './components/editable/types'
+
+export { default as Affix } from './components/affix/Affix.vue'
+export type { AffixProps, AffixSlotProps, AffixExpose } from './components/affix/types'
+
+export { default as QRCode } from './components/qr-code/QRCode.vue'
+export type {
+  QRCodeProps,
+  QRCodeLevel,
+  QRCodeStatus,
+  QRCodeState,
+  QRCodeStatusSlot,
+  QRCodeExportOptions,
+  QRCodeExpose,
+} from './components/qr-code/types'
+export { default as Carousel } from './components/carousel/Carousel.vue'
+export type {
+  CarouselProps,
+  CarouselItemSlot,
+  CarouselState,
+  CarouselControls,
+  CarouselIndicatorsSlot,
+  CarouselIndicatorSlot,
+  CarouselExpose,
+} from './components/carousel/types'
+
+export { default as MonthGrid } from './components/month-grid/MonthGrid.vue'
+export type {
+  MonthGridProps,
+  MonthGridDay,
+  MonthGridRange,
+  MonthGridHeader,
+  MonthGridWeekday,
+  MonthGridExpose,
+} from './components/month-grid/types'
+
+export { default as Masonry } from './components/masonry/Masonry.vue'
+export type {
+  MasonryProps,
+  MasonryKey,
+  MasonryLayout,
+  MasonrySlotProps,
+  MasonryExpose,
+} from './components/masonry/types'

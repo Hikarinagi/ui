@@ -47,6 +47,7 @@ export const components: DocsComponent[] = [
     i18n: 'components.accordion',
     category: 'display',
   },
+  { label: 'Affix', to: '/components/affix', i18n: 'components.affix', category: 'layout' },
   { label: 'Alert', to: '/components/alert', i18n: 'components.alert', category: 'display' },
   {
     label: 'AlertDialog',
@@ -103,6 +104,12 @@ export const components: DocsComponent[] = [
   },
   { label: 'Callout', to: '/components/callout', i18n: 'components.callout', category: 'display' },
   { label: 'Card', to: '/components/card', i18n: 'components.card', category: 'display' },
+  {
+    label: 'Carousel',
+    to: '/components/carousel',
+    i18n: 'components.carousel',
+    category: 'display',
+  },
   { label: 'Center', to: '/components/center', i18n: 'components.center', category: 'layout' },
   { label: 'Checkbox', to: '/components/checkbox', i18n: 'components.checkbox', category: 'forms' },
   {
@@ -309,6 +316,7 @@ export const components: DocsComponent[] = [
     category: 'overlays',
   },
   { label: 'Mark', to: '/components/mark', i18n: 'components.mark', category: 'typography' },
+  { label: 'Masonry', to: '/components/masonry', i18n: 'components.masonry', category: 'layout' },
   {
     label: 'Menubar',
     to: '/components/menubar',
@@ -319,6 +327,12 @@ export const components: DocsComponent[] = [
     label: 'MeterGroup',
     to: '/components/meter-group',
     i18n: 'components.meter-group',
+    category: 'display',
+  },
+  {
+    label: 'MonthGrid',
+    to: '/components/month-grid',
+    i18n: 'components.month-grid',
     category: 'display',
   },
   {
@@ -402,6 +416,7 @@ export const components: DocsComponent[] = [
     category: 'display',
   },
   { label: 'Prose', to: '/components/prose', i18n: 'components.prose', category: 'typography' },
+  { label: 'QRCode', to: '/components/qr-code', i18n: 'components.qr-code', category: 'display' },
   {
     label: 'RadioGroup',
     to: '/components/radio-group',

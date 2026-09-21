@@ -47,6 +47,7 @@
     minValue?: DateValue
     maxValue?: DateValue
     disabled?: boolean
+    dir?: 'ltr' | 'rtl'
   }>()
   const emit = defineEmits<{
     pickMonth: [value: Picked]
@@ -80,6 +81,7 @@
       key="month"
       v-slot="{ grid: months }"
       :placeholder="props.view"
+      :dir="props.dir"
       :model-value="props.view"
       :min-value="props.minValue"
       :max-value="props.maxValue"
@@ -129,6 +131,7 @@
       key="year"
       v-slot="{ grid: years }"
       :placeholder="props.view"
+      :dir="props.dir"
       :model-value="props.view"
       :min-value="props.minValue"
       :max-value="props.maxValue"

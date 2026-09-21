@@ -1,4 +1,27 @@
 export interface UiMessages {
+  qrCode: {
+    label: string
+    empty: string
+    expired: string
+    scanned: string
+    error: string
+    refresh: string
+  }
+  carousel: {
+    label: string
+    role: string
+    slide: string
+    prev: string
+    next: string
+    choose: string
+    play: string
+    pause: string
+    empty: string
+    position: (index: number, total: number) => string
+    goTo: (index: number) => string
+  }
+  monthGrid: { today: string }
+  masonry: { empty: string }
   splitButton: { more: string }
   editable: { edit: string; save: string; placeholder: string; failed: string }
   tag: string

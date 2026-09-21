@@ -1,6 +1,29 @@
 import type { UiMessages } from './types'
 
 export const zhCN: UiMessages = {
+  qrCode: {
+    label: '二维码',
+    empty: '暂无内容',
+    expired: '二维码已过期',
+    scanned: '已扫描',
+    error: '无法生成二维码',
+    refresh: '刷新二维码',
+  },
+  carousel: {
+    label: '推荐内容',
+    role: '轮播',
+    slide: '内容项',
+    prev: '上一组',
+    next: '下一组',
+    choose: '选择展示位置',
+    play: '开始自动播放',
+    pause: '暂停自动播放',
+    empty: '暂无内容',
+    position: (index, total) => `第 ${index} 项，共 ${total} 项`,
+    goTo: index => `转到第 ${index} 组`,
+  },
+  monthGrid: { today: '回到本月' },
+  masonry: { empty: '暂无内容' },
   splitButton: { more: '更多操作' },
   editable: { edit: '编辑', save: '保存', placeholder: '点击编辑', failed: '保存失败，请重试' },
   tag: 'zh-CN',

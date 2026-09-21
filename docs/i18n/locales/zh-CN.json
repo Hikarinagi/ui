@@ -247,6 +247,11 @@
     "changelog": "全部版本的新增、优化与修复记录"
   },
   "components": {
+    "masonry": "瀑布流",
+    "month-grid": "月份内容日历",
+    "carousel": "支持拖拽、分组与按需自动播放的内容轮播",
+    "qr-code": "可扫描、可导出的 SVG 二维码",
+    "affix": "滚动吸附",
     "accordion": "多段内容依次展开与收起的折叠列表",
     "alert": "操作之后出现在页面内的消息条",
     "alert-dialog": "需要用户明确回答的确认对话框",
