@@ -293,5 +293,7 @@ it('has named controls and an accessible menu', async () => {
   await openMenu(s)
   expect(s.trigger.getAttribute('aria-expanded')).toBe('true')
   expect(s.trigger.getAttribute('aria-haspopup')).toBe('menu')
+  // Audit the settled surface, not the translucent first frames of its entrance.
+  await vi.waitFor(() => expect(getComputedStyle(menu()!).opacity).toBe('1'))
   expect((await axe.run(menu()!, options)).violations).toEqual([])
 })

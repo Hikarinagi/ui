@@ -243,7 +243,7 @@ export function useTableColumns<T extends object>(
     tableLayout: constrained.value ? 'fixed' : 'auto',
     width: sizing.value.width,
   }))
-  const columnStyles = computed(() => {
+  const columnStyles = computed<CSSProperties>(() => {
     const { width: _, ...styles } = sizing.value
     return styles
   })

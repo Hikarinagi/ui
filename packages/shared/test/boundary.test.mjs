@@ -16,8 +16,8 @@ function files(directory) {
   })
 }
 
-test('shared source imports stay within the layer or declared styling dependencies', () => {
-  const allowed = new Set(['clsx', 'tailwind-merge', 'tailwind-variants'])
+test('shared source imports stay within the layer or approved framework-independent dependencies', () => {
+  const allowed = new Set(['clsx', 'tailwind-merge', 'tailwind-variants', 'uqr'])
   for (const file of files(source).filter(file => file.endsWith('.ts'))) {
     const tree = ts.createSourceFile(file, readFileSync(file, 'utf8'), ts.ScriptTarget.Latest, true)
     const inspect = node => {
