@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { execFileSync } from 'node:child_process'
+import { execFileSync, spawnSync } from 'node:child_process'
 import {
   chmodSync,
   existsSync,
@@ -133,6 +133,15 @@ function publication(overrides = {}) {
   }
   return { calls, io }
 }
+
+test('repository change records conform to the release schema', () => {
+  assert.doesNotThrow(() =>
+    readChanges({
+      ...config,
+      changesDir: fileURLToPath(new URL('../../.changes/', import.meta.url)),
+    }),
+  )
+})
 
 test('added and changed records default to patch independently of their changelog sections', () => {
   assert.equal(nextVersion('1.7.0', [note, { ...note, type: 'changed' }], config), '1.7.1')
@@ -362,6 +371,73 @@ test('change CLI validates input and writes independently classified notes', t =
     ),
   )
   assert.equal(readChanges(config).length, 1)
+})
+
+test('pnpm change:add invokes the repository CLI instead of a package-manager built-in', () => {
+  const help = execFileSync('pnpm', ['change:add', '--help'], {
+    cwd: fileURLToPath(new URL('../../', import.meta.url)),
+    encoding: 'utf8',
+  })
+  assert.ok(help.includes('Example: pnpm change:add added Dialog'))
+  assert.ok(help.includes(`The default version bump is ${config.defaultBump}.`))
+})
+
+test('change CLI help lists configured types without changing files', t => {
+  const f = fixture(t)
+  const types = config.sections.map(section => section.type).join('|')
+  for (const flag of ['--help', '-h']) {
+    const result = spawnSync(process.execPath, [join(scripts, 'change.mjs'), flag], {
+      encoding: 'utf8',
+    })
+    assert.equal(result.status, 0)
+    assert.ok(result.stdout.includes(types))
+    assert.ok(result.stdout.includes('pnpm change:add added Dialog'))
+    assert.equal(result.stderr, '')
+  }
+  assert.equal(f.git(['status', '--porcelain']), '')
+})
+
+test('change CLI rejects invalid arguments with usage and never creates a record', t => {
+  const f = fixture(t)
+  for (const args of [
+    [],
+    ['feat', 'Affix', 'Add sticky positioning.'],
+    ['fixed', '  ', 'Fix sizing.'],
+    ['fixed', 'Image', '  '],
+    ['fixed', 'Image', 'Fix sizing.', 'tiny'],
+    ['fixed', 'Image', 'Fix sizing.', 'patch', 'extra'],
+  ]) {
+    const result = spawnSync(process.execPath, [join(scripts, 'change.mjs'), ...args], {
+      encoding: 'utf8',
+    })
+    assert.equal(result.status, 1)
+    assert.match(result.stderr, /Usage: pnpm change:add <added\|changed/)
+    assert.equal(result.stdout, '')
+    assert.equal(f.git(['status', '--porcelain']), '')
+  }
+})
+
+test('change CLI creates every configured category and preserves explicit release levels', t => {
+  fixture(t)
+  for (const { type } of config.sections) {
+    execFileSync(process.execPath, [
+      join(scripts, 'change.mjs'),
+      type,
+      ' Dialog ',
+      ' Update the API.\n\nUse the new slot. ',
+      'major',
+    ])
+  }
+  const records = readChanges(config)
+  assert.deepEqual(
+    records.map(record => record.type).sort(),
+    config.sections.map(section => section.type).sort(),
+  )
+  for (const record of records) {
+    assert.equal(record.scope, 'Dialog')
+    assert.equal(record.level, 'major')
+    assert.equal(record.text, 'Update the API.\n\nUse the new slot.')
+  }
 })
 
 test('CI must pass on this exact main commit, not a PR or another revision', () => {

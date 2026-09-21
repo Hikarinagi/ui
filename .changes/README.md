@@ -5,23 +5,19 @@ Hina UI 使用仓库内的发布脚本管理 `@hina-ui/vue`。更新记录的分
 ## 记录变更
 
 ```bash
-pnpm change fixed Image "Fix image dimensions changing after loading."
-pnpm change added Dialog "Add a title slot."
-pnpm change changed DataTable "Improve column resizing feedback."
+pnpm change:add --help
+pnpm change:add fixed Image "Fix image dimensions changing after loading."
+pnpm change:add added Dialog "Add a title slot."
+pnpm change:add changed DataTable "Improve column resizing feedback."
 ```
 
-每个独立改动附一份 `.changes/*.md`，和代码一起提交。文档、测试和发布工具本身的修改无需新增组件发布记录。
+每个独立改动使用 `pnpm change:add` 创建一份 `.changes/*.md`，和代码一起提交。不要手写新记录或直接修改生成的 CHANGELOG；命令会校验参数并生成元数据。文档、测试和发布工具本身的修改无需新增组件发布记录。
 
-```md
----
-type: added
-scope: Dialog
----
-
-Add a title slot.
-```
+不要使用 `pnpm change`：pnpm 11 已将其保留为内置 changeset 命令，不会执行仓库的发布脚本。
 
 `type` 支持 `added`、`changed`、`deprecated`、`removed`、`fixed`、`security`，依次生成“Added、Changed、Deprecated、Removed、Fixed、Security”分类。`scope` 填组件或能力名称，正文使用英文描述最终变化。CHANGELOG 与 GitHub Release 的分类标题、条目正文统一使用英文，不在同一份记录中混用语言。
+
+新增能力使用 `added`，不是提交消息里的 `feat`。类型、升级级别或必填参数错误时，命令会列出正确用法，不创建文件。
 
 需要指定最低升级级别时，在命令末尾加 `minor` 或 `major`，文件中对应 `level` 字段。多个记录取最高级别；发布时不能用更低的级别或版本覆盖它。不兼容的公共 API 修改必须声明 `level: major`，并写清迁移方式。
 
@@ -36,6 +32,8 @@ pnpm test:package
 ```
 
 预览只读取文件，不修改版本、记录或 Git。指定版本必须是递增的 `X.Y.Z` 稳定版本，并满足记录的最低升级要求。没有记录时不生成版本；不会仅因为提交消息包含 `feat` 就升 minor。
+
+提交前运行 `pnpm release:check`。它既测试发版器，也校验仓库当前的全部变更记录；CI 会执行同一检查，阻止非法元数据进入主分支。
 
 `pnpm release:prepare` 将预览结果写入 `packages/vue/package.json` 和 `packages/vue/CHANGELOG.md`，消费对应记录，供需要本地准备发布 PR 时使用。它不会提交、推送或发布 npm。已有 Changelog 保留原样。
 

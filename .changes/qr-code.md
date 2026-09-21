@@ -1,5 +1,5 @@
 ---
-type: feat
+type: added
 scope: QRCode
 ---
 

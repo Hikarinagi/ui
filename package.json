@@ -10,7 +10,7 @@
     "format": "prettier --write .",
     "build": "pnpm --filter @hina-ui/docs generate",
     "prepare": "husky && git config alias.sync-dev '!./scripts/git-sync-dev.sh' || true",
-    "change": "node scripts/release/change.mjs",
+    "change:add": "node scripts/release/change.mjs",
     "release:preview": "node scripts/release/prepare.mjs --dry",
     "release:prepare": "node scripts/release/prepare.mjs",
     "release:check": "node --test scripts/release/*.test.mjs",
