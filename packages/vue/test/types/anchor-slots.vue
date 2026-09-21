@@ -1,5 +1,7 @@
 <script setup lang="ts">
   import { expectTypeOf } from 'vitest'
+  import { useTemplateRef } from 'vue'
+  import type { ComponentExposed } from 'vue-component-type-helpers'
   import { Anchor, type AnchorItem } from '../../src'
 
   interface Item extends AnchorItem {
@@ -35,10 +37,17 @@
     },
   ]
   const plain: AnchorItem[] = [{ id: 'plain', label: 'Plain' }]
+  const anchor = useTemplateRef<ComponentExposed<typeof Anchor>>('anchor')
+  expectTypeOf(anchor.value?.current).toEqualTypeOf<string | undefined>()
 </script>
 
 <template>
-  <Anchor :items="typed">
+  <Anchor
+    ref="anchor"
+    :items="typed"
+    :auto-scroll="false"
+    @change="id => expectTypeOf(id).toEqualTypeOf<string | undefined>()"
+  >
     <template #trailing="{ item, active }">
       {{ expectTypeOf(item).toEqualTypeOf(typed[0]!) }}
       {{ expectTypeOf(active).toEqualTypeOf(true as boolean) }}

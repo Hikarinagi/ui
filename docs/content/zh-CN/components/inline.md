@@ -44,22 +44,24 @@ Inline 是一个横向的 flex 容器，子元素纵向居中对齐，放不下�
 
 <Demo name="inline/wrap" />
 
-### 语义标签 {#as}
+### 根元素 {#as}
 
 `as` 指定渲染的标签，导航用 `nav`。
+
+也可以传入 Vue 组件，例如 `:as="RouterLink"` 或 `:as="NuxtLink"`。组件须先导入或通过 `resolveComponent` 解析；对象组件、函数式组件和异步组件均可使用。布局类名、额外属性、事件监听器和默认插槽会传给该组件，不增加包裹层；自定义组件需将属性和类名传到实际根元素。
 
 <Demo name="inline/as" />
 
 ## API {#api}
 
-| 属性      | 类型                                                                | 默认值     | 说明               |
-| --------- | ------------------------------------------------------------------- | ---------- | ------------------ |
-| `gap`     | `'none' \| 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                    | `'md'`     | 子元素之间的间距   |
-| `align`   | `'start' \| 'center' \| 'end' \| 'baseline' \| 'stretch'`           | `'center'` | 纵向对齐方式       |
-| `justify` | `'start' \| 'center' \| 'end' \| 'between' \| 'around' \| 'evenly'` | —          | 横向分布方式       |
-| `wrap`    | `boolean`                                                           | `true`     | 放不下时是否换行   |
-| `as`      | `string`                                                            | `'div'`    | 渲染的标签         |
-| `class`   | `string`                                                            | —          | 追加到容器上的类名 |
+| 属性      | 类型                                                                | 默认值     | 说明                  |
+| --------- | ------------------------------------------------------------------- | ---------- | --------------------- |
+| `gap`     | `'none' \| 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                    | `'md'`     | 子元素之间的间距      |
+| `align`   | `'start' \| 'center' \| 'end' \| 'baseline' \| 'stretch'`           | `'center'` | 纵向对齐方式          |
+| `justify` | `'start' \| 'center' \| 'end' \| 'between' \| 'around' \| 'evenly'` | —          | 横向分布方式          |
+| `wrap`    | `boolean`                                                           | `true`     | 放不下时是否换行      |
+| `as`      | `string \| Component`                                               | `'div'`    | 渲染的标签或 Vue 组件 |
+| `class`   | `string`                                                            | —          | 追加到容器上的类名    |
 
 | 插槽      | 说明   |
 | --------- | ------ |

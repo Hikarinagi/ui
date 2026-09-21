@@ -4,6 +4,11 @@ import { playwright } from '@vitest/browser-playwright'
 import vue from '@vitejs/plugin-vue'
 import tailwindcss from '@tailwindcss/vite'
 
+const browser = process.env.HINA_TEST_BROWSER ?? 'chromium'
+if (browser !== 'chromium' && browser !== 'firefox' && browser !== 'webkit') {
+  throw new Error(`Unsupported HINA_TEST_BROWSER: ${browser}`)
+}
+
 export default defineConfig({
   plugins: [vue(), tailwindcss()],
   resolve: {
@@ -18,7 +23,7 @@ export default defineConfig({
       enabled: true,
       provider: playwright(),
       headless: true,
-      instances: [{ browser: 'chromium' }],
+      instances: [{ browser }],
     },
   },
 })

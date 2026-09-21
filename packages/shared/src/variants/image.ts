@@ -1,7 +1,9 @@
 import { tv, type VariantProps } from '../lib/tv'
 
 export const imageRoot = tv({
-  base: 'relative isolate block w-full overflow-hidden',
+  // An explicit minimum lets WebKit use height + aspect-ratio instead of the
+  // image's intrinsic width when sizing shrink-to-fit ancestors.
+  base: 'relative isolate block w-full min-w-0 overflow-hidden',
   variants: {
     preview: {
       true: 'hn-focus-ring cursor-zoom-in',

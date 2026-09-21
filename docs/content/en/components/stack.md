@@ -38,9 +38,11 @@ Stack is a vertical flex container: its children run down the page, spaced by `g
 
 <Demo name="stack/justify" />
 
-### Element {#as}
+### Root element {#as}
 
 `as` changes the rendered tag; use `ul` or `ol` for a list.
+
+It also accepts Vue components, such as `:as="RouterLink"` or `:as="NuxtLink"`. Import the component or obtain it through `resolveComponent`; object, functional and async components are supported. Layout classes, extra attributes, event listeners and the default slot are forwarded without an extra wrapper. Custom components must forward attributes and classes to their rendered root.
 
 <Demo name="stack/as" />
 
@@ -51,7 +53,7 @@ Stack is a vertical flex container: its children run down the page, spaced by `g
 | `gap`     | `'none' \| 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                    | `'md'`  | Space between the children        |
 | `align`   | `'start' \| 'center' \| 'end' \| 'stretch'`                         | —       | Cross-axis alignment              |
 | `justify` | `'start' \| 'center' \| 'end' \| 'between' \| 'around' \| 'evenly'` | —       | Main-axis distribution            |
-| `as`      | `string`                                                            | `'div'` | The rendered tag                  |
+| `as`      | `string \| Component`                                               | `'div'` | The rendered tag or Vue component |
 | `class`   | `string`                                                            | —       | Classes appended to the container |
 
 | Slot      | Description  |
