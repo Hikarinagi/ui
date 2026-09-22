@@ -42,9 +42,9 @@ Trailing content aligns to the end of the row without shrinking, while long labe
 
 ### Following a long directory {#scroll}
 
-Place a long directory inside a height-constrained `ScrollArea`. When the current entry leaves the directory viewport, `Anchor` scrolls it fully into view with a small margin. It detects the nearest vertical scroll container, including native containers or a scrollable root element, without requiring a viewport ref.
+Place a long directory inside a height-constrained `ScrollArea`. When the highlighted range extends beyond the directory viewport, `Anchor` scrolls the entire range into view with a small margin. If the range is taller than the viewport, it follows the first current entry instead of alternating between the two ends. It detects the nearest vertical scroll container, including native containers or a scrollable root element, without requiring a viewport ref.
 
-Visible entries are not repeatedly centered, and browsing the directory manually does not continually pull it back. Initial positioning and size adjustments are instant; subsequent current-entry changes scroll smoothly unless reduced motion is enabled. Following never moves focus or scrolls an outer container shared with the article.
+Fully visible ranges are not repeatedly centered, and browsing the directory manually does not continually pull it back. Initial positioning and size adjustments are instant; subsequent changes to either end of the highlighted range scroll smoothly unless reduced motion is enabled. Following never moves focus or scrolls an outer container shared with the article.
 
 Set `:auto-scroll="false"` to disable following while keeping scroll-spy and highlighting. `@change` receives the current entry's `id`, and a component ref exposes the read-only `current` value, so observing `aria-current` is unnecessary. This example contains 51 entries; scroll the article and directory independently or disable following to compare.
 
@@ -79,7 +79,7 @@ Set `:auto-scroll="false"` to disable following while keeping scroll-spy and hig
 | ------------ | --------- | ------------------ | -------------------------------------------------------------- |
 | `items`      | `T[]`     | Required           | Entries of the contents list                                   |
 | `label`      | `string`  | Interface language | Accessible name of the landmark                                |
-| `autoScroll` | `boolean` | `true`             | Keep the current entry visible in the directory's own viewport |
+| `autoScroll` | `boolean` | `true`             | Follow the highlighted range, or its first entry when too tall |
 | `class`      | `string`  | —                  | Classes appended to the root                                   |
 
 ### AnchorItem {#item}

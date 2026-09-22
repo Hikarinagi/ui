@@ -9,7 +9,7 @@
   const localePath = useLocalePath()
   const key = 'hn-docs-banner:preview'
   const { t } = useI18n()
-  const open = ref(true)
+  const open = useState('docs-banner-open', () => true)
 
   onPrehydrate(() => {
     document.querySelectorAll('[data-docs-banner]').forEach(el => {

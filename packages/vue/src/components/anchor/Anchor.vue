@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T extends AnchorItem = AnchorItem">
-  import { useTemplateRef, watch } from 'vue'
+  import { computed, useTemplateRef, watch } from 'vue'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
   import Highlight from '../highlight/Highlight.vue'
@@ -11,12 +11,15 @@
 
   defineOptions({ name: 'HnAnchor' })
 
-  const props = defineProps<{
-    items: T[]
-    label?: string
-    autoScroll?: boolean
-    class?: string
-  }>()
+  const props = withDefaults(
+    defineProps<{
+      items: T[]
+      label?: string
+      autoScroll?: boolean
+      class?: string
+    }>(),
+    { autoScroll: true },
+  )
 
   const emit = defineEmits<{ change: [current: string | undefined] }>()
 
@@ -26,9 +29,10 @@
 
   const t = useUiLocale()
 
-  const { entries, visible, current, span, jump } = useAnchor(() => props.items)
+  const { entries, visible, covered, current, span, jump } = useAnchor(() => props.items)
+  const lastCovered = computed(() => covered.value.at(-1)?.id)
   const root = useTemplateRef<HTMLElement>('root')
-  useAnchorFollow(root, current, () => props.autoScroll !== false)
+  useAnchorFollow(root, current, lastCovered, () => props.autoScroll)
   watch(current, id => emit('change', id), { flush: 'post' })
   defineExpose({ current })
 </script>
