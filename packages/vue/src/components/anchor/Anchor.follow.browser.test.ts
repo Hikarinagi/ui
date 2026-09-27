@@ -22,7 +22,11 @@ async function settle() {
   for (let i = 0; i < 4; i++) await new Promise(requestAnimationFrame)
 }
 
-function setup(kind: 'native' | 'scroll-area' | 'root' = 'scroll-area', follow = true) {
+function setup(
+  kind: 'native' | 'scroll-area' | 'root' = 'scroll-area',
+  follow?: boolean,
+  sectionHeight = 240,
+) {
   const items = ref(
     Array.from({ length: 51 }, (_, index) => ({
       id: `follow-${index}`,
@@ -39,7 +43,7 @@ function setup(kind: 'native' | 'scroll-area' | 'root' = 'scroll-area', follow =
     h(Anchor, {
       ref: anchor,
       items: items.value,
-      autoScroll: autoScroll.value,
+      ...(autoScroll.value === undefined ? {} : { autoScroll: autoScroll.value }),
       onChange: change,
       class: '[&_a]:min-h-[30px]',
     })
@@ -51,14 +55,14 @@ function setup(kind: 'native' | 'scroll-area' | 'root' = 'scroll-area', follow =
             'div',
             { ref: article, style: 'height:320px;width:320px;overflow:auto' },
             items.value.map(item =>
-              h('section', { id: item.id, style: 'height:240px' }, item.label),
+              h('section', { id: item.id, style: `height:${sectionHeight}px` }, item.label),
             ),
           ),
           kind === 'root'
             ? h(Anchor, {
                 ref: anchor,
                 items: items.value,
-                autoScroll: autoScroll.value,
+                ...(autoScroll.value === undefined ? {} : { autoScroll: autoScroll.value }),
                 onChange: change,
                 class: 'w-52 [&_a]:min-h-[30px]',
                 style: 'height:320px;overflow:auto',
@@ -89,22 +93,37 @@ function setup(kind: 'native' | 'scroll-area' | 'root' = 'scroll-area', follow =
   const port = () =>
     kind === 'root' ? nav() : kind === 'native' ? toc.value! : area.value!.viewport!
   const active = () => nav().querySelector<HTMLElement>('a[aria-current]')!
-  const expectVisible = () => {
+  const covered = () => Array.from(nav().querySelectorAll<HTMLElement>('a.font-medium'))
+  const expectBoundsVisible = (first: HTMLElement, last = first) => {
     const viewport = port()
     const top = viewport.getBoundingClientRect().top + viewport.clientTop
-    const row = active().getBoundingClientRect()
-    expect(row.top).toBeGreaterThanOrEqual(top - 1)
-    expect(row.bottom).toBeLessThanOrEqual(top + viewport.clientHeight + 1)
+    expect(first.getBoundingClientRect().top).toBeGreaterThanOrEqual(top - 1)
+    expect(last.getBoundingClientRect().bottom).toBeLessThanOrEqual(top + viewport.clientHeight + 1)
   }
+  const expectVisible = () => expectBoundsVisible(active())
+  const expectRangeVisible = () => expectBoundsVisible(covered()[0]!, covered().at(-1)!)
   const go = async (index: number) => {
-    article.value!.scrollTop = 240 * index
+    article.value!.scrollTop = sectionHeight * index
     await vi.waitFor(() => expect(anchor.value?.current).toBe(`follow-${index}`))
   }
-  return { wrapper, items, autoScroll, article, anchor, change, port, active, expectVisible, go }
+  return {
+    wrapper,
+    items,
+    autoScroll,
+    article,
+    anchor,
+    change,
+    port,
+    active,
+    covered,
+    expectVisible,
+    expectRangeVisible,
+    go,
+  }
 }
 
 it.each(['native', 'scroll-area', 'root'] as const)(
-  'keeps the current entry visible in a long %s directory without moving the article or focus',
+  'keeps the current entry visible by default in a long %s directory without moving the article or focus',
   async kind => {
     const { go, port, expectVisible, article, change, anchor } = setup(kind)
     await vi.waitFor(() => expect(anchor.value?.current).toBe('follow-0'))
@@ -124,6 +143,78 @@ it.each(['native', 'scroll-area', 'root'] as const)(
     expect(article.value!.scrollTop).toBe(2 * 240)
   },
 )
+
+it.each(['native', 'scroll-area', 'root'] as const)(
+  'follows the entire highlighted range in a %s directory when only its end changes',
+  async kind => {
+    const { go, article, anchor, port, covered, expectRangeVisible, change } = setup(
+      kind,
+      undefined,
+      40,
+    )
+    article.value!.style.height = '80px'
+    await go(8)
+    await vi.waitFor(() => expect(covered()).toHaveLength(2))
+    await settle()
+    expectRangeVisible()
+    expect(port().scrollTop).toBe(0)
+    const scroll = vi.spyOn(port(), 'scrollTo')
+    const changes = change.mock.calls.length
+    const focused = document.activeElement
+    const pageTop = window.scrollY
+
+    article.value!.style.height = '160px'
+    await vi.waitFor(() => expect(covered()).toHaveLength(4))
+    await vi.waitFor(expectRangeVisible)
+    await vi.waitFor(() => {
+      const options = scroll.mock.lastCall?.[0] as ScrollToOptions | undefined
+      expect(options?.behavior).toBe('smooth')
+      expect(port().scrollTop).toBeCloseTo(options!.top!, 0)
+    })
+    expect(port().scrollTop).toBeGreaterThan(0)
+    expect(anchor.value?.current).toBe('follow-8')
+    expect(change).toHaveBeenCalledTimes(changes)
+    expect(article.value!.scrollTop).toBe(8 * 40)
+    expect(window.scrollY).toBe(pageTop)
+    expect(document.activeElement).toBe(focused)
+
+    const top = port().scrollTop
+    scroll.mockClear()
+    article.value!.style.height = '120px'
+    await vi.waitFor(() => expect(covered()).toHaveLength(3))
+    await settle()
+    expectRangeVisible()
+    expect(port().scrollTop).toBe(top)
+    expect(scroll).not.toHaveBeenCalled()
+  },
+)
+
+it('falls back to the first entry for an oversized range without alternating between its ends', async () => {
+  const { go, article, port, autoScroll, covered, expectVisible } = setup('native', false, 40)
+  port().style.height = '90px'
+  await go(28)
+  await vi.waitFor(() => expect(covered()).toHaveLength(8))
+  autoScroll.value = true
+  await vi.waitFor(expectVisible)
+  await settle()
+  const top = port().scrollTop
+  expect(top).toBeGreaterThan(0)
+  expect(covered().at(-1)!.getBoundingClientRect().bottom).toBeGreaterThan(
+    port().getBoundingClientRect().bottom,
+  )
+  const scroll = vi.spyOn(port(), 'scrollTo')
+  for (const height of [280, 320, 280, 320]) {
+    article.value!.style.height = `${height}px`
+    await vi.waitFor(() => expect(covered()).toHaveLength(height / 40))
+    await settle()
+    expectVisible()
+    expect(port().scrollTop).toBe(top)
+  }
+  port().style.width = '230px'
+  await settle()
+  expect(port().scrollTop).toBe(top)
+  expect(scroll).not.toHaveBeenCalled()
+})
 
 it('does not recenter visible entries or undo manual browsing of the directory', async () => {
   const { go, port, items, anchor, change } = setup()

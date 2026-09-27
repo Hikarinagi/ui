@@ -1,4 +1,4 @@
-import { useTransform } from 'motion-v'
+import { useMotionValue, useTransform } from 'motion-v'
 import type { useLightboxMotion } from './useLightboxMotion'
 import type { useLightboxFrames } from './useLightboxFrames'
 import type { useLightboxPaging } from './useLightboxPaging'
@@ -10,6 +10,11 @@ export function useLightboxHint(options: {
   paging: ReturnType<typeof useLightboxPaging>
   current: () => LightboxItem | undefined
 }) {
+  // useTransform's subscription refresh queues frame callbacks even during SSR.
+  // Node never drains that queue, retaining the request through these closures.
+  // The hint is only rendered inside the client-mounted lightbox.
+  if (typeof window === 'undefined') return { x: useMotionValue(0), y: useMotionValue(0) }
+
   const { motion, frames, paging } = options
 
   function corner() {

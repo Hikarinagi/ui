@@ -15,7 +15,7 @@
 <template>
   <nav
     :aria-label="props.label ?? t.pagination.navLabel"
-    :class="cn('grid gap-4 sm:grid-cols-2', props.class)"
+    :class="cn('grid grid-cols-1 gap-4 sm:grid-cols-2', props.class)"
   >
     <slot />
   </nav>

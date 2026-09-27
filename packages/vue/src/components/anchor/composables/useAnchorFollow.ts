@@ -5,12 +5,14 @@ import { prefersReducedMotion } from '../../../motion'
 export function useAnchorFollow(
   root: Readonly<Ref<HTMLElement | null>>,
   current: Readonly<Ref<string | undefined>>,
+  lastCovered: Readonly<Ref<string | undefined>>,
   enabled: () => boolean,
 ) {
   const viewport = shallowRef<HTMLElement>()
   let mounted = false
   let frame = 0
   let lastCurrent: string | undefined
+  let lastEnd: string | undefined
 
   function findViewport(nav: HTMLElement, target: HTMLElement) {
     const doc = nav.ownerDocument
@@ -36,14 +38,27 @@ export function useAnchorFollow(
     if (!target || !link || !link.getClientRects().length) return
     const port = findViewport(nav, target)
     viewport.value = port
-    const changed = lastCurrent !== undefined && lastCurrent !== id
+    const endId = lastCovered.value ?? id
+    const changed = lastCurrent !== undefined && (lastCurrent !== id || lastEnd !== endId)
     lastCurrent = id
+    lastEnd = endId
     if (!port || port.clientHeight <= 0 || port.scrollHeight <= port.clientHeight) return
 
     const box = port.getBoundingClientRect()
-    const row = link.getBoundingClientRect()
+    let row: Pick<DOMRect, 'top' | 'bottom' | 'height'> = link.getBoundingClientRect()
     const scale = port.offsetHeight ? box.height / port.offsetHeight : 1
     if (scale <= 0) return
+    if (endId !== id) {
+      const end = nav.querySelector<HTMLElement>(`a[href="#${CSS.escape(endId)}"]`)
+      if (end?.getClientRects().length) {
+        const bottom = end.getBoundingClientRect().bottom
+        const height = bottom - row.top
+        // Follow the full highlight only when it fits; oversized ranges keep
+        // following the first entry instead of alternating between both ends.
+        if (height >= row.height && height <= port.clientHeight * scale)
+          row = { top: row.top, bottom, height }
+      }
+    }
     const top = box.top + port.clientTop * scale
     const bottom = top + port.clientHeight * scale
     if (row.top >= top && row.bottom <= bottom) return
@@ -81,7 +96,7 @@ export function useAnchorFollow(
     if (mounted && !frame) frame = requestAnimationFrame(follow)
   }
 
-  watch([root, current, enabled], schedule, { flush: 'post' })
+  watch([root, current, lastCovered, enabled], schedule, { flush: 'post' })
   useResizeObserver(
     () =>
       [root.value, root.value?.parentElement, viewport.value].filter(
