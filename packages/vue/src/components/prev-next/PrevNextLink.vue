@@ -37,7 +37,7 @@
       <ArrowRight v-else class="size-4" aria-hidden="true" />
       {{ props.label ?? (props.direction === 'prev' ? t.pagination.prev : t.pagination.next) }}
     </span>
-    <span class="text-fg font-medium">
+    <span class="text-fg max-w-full font-medium">
       <slot />
     </span>
   </Primitive>
