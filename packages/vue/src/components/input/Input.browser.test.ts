@@ -17,8 +17,17 @@ function attach() {
   return host
 }
 
+async function parkPointer() {
+  const spot = document.createElement('div')
+  spot.style.cssText = 'position: fixed; right: 0; bottom: 0; width: 8px; height: 8px'
+  document.body.appendChild(spot)
+  await userEvent.hover(spot)
+  spot.remove()
+}
+
 describe('input 真实交互:墨在填充里,不在边框与 ring 上', () => {
   it('hover 时填充落墨、边框不动;focus 后墨退净回本色', async () => {
+    await parkPointer()
     const w = mount(Input, { attrs: { 'aria-label': '普通' }, attachTo: attach() })
     const el = w.element as HTMLElement
     const input = el.querySelector('input') as HTMLElement

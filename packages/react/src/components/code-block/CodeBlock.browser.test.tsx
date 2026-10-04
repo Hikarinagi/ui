@@ -52,9 +52,13 @@ describe('codeblock 与 prose pre 同源', () => {
 
   it('滚动区域聚焦有可见焦点环(焦点在内层宿主,环画在 hn-pre 盒上)', async () => {
     const w = await mount(<CodeBlock code="x" />)
-    const host = w.querySelector<HTMLElement>('[data-overlayscrollbars-initialize]')!
     const box = w.querySelector<HTMLElement>('.hn-pre')!
-    host.focus()
+    const region = await vi.waitFor(() => {
+      const element = box.querySelector<HTMLElement>('[data-overlayscrollbars-contents][tabindex]')
+      expect(element).not.toBeNull()
+      return element!
+    })
+    region.focus()
     await vi.waitFor(() => {
       const s = getComputedStyle(box)
       expect(s.outlineStyle).toBe('solid')
