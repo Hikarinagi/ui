@@ -1,24 +1,14 @@
 import type { CSSProperties, HTMLAttributes, Ref } from 'react'
+import {
+  isAriaHidden,
+  isFullyHidden,
+  VISUALLY_HIDDEN_STYLE,
+  type VisuallyHiddenFeature,
+} from '../../../shared/src/primitives/visually-hidden'
 import { Primitive, type PrimitiveProps } from '../lib/primitive'
 
-const hidden: CSSProperties = {
-  position: 'absolute',
-  border: 0,
-  width: '1px',
-  height: '1px',
-  padding: 0,
-  margin: '-1px',
-  overflow: 'hidden',
-  clip: 'rect(0, 0, 0, 0)',
-  clipPath: 'inset(50%)',
-  whiteSpace: 'nowrap',
-  wordWrap: 'normal',
-  top: '-1px',
-  left: '-1px',
-}
-
 export interface PrimitiveVisuallyHiddenProps extends PrimitiveProps, HTMLAttributes<HTMLElement> {
-  feature?: 'focusable' | 'fully-hidden'
+  feature?: VisuallyHiddenFeature
   ref?: Ref<HTMLElement>
 }
 
@@ -31,11 +21,11 @@ export function PrimitiveVisuallyHidden({
   return (
     <Primitive
       as={as}
-      aria-hidden={feature === 'focusable' || feature === 'fully-hidden' ? 'true' : undefined}
-      data-hidden={feature === 'fully-hidden' ? '' : undefined}
-      tabIndex={feature === 'fully-hidden' ? -1 : undefined}
+      aria-hidden={isAriaHidden(feature) ? 'true' : undefined}
+      data-hidden={isFullyHidden(feature) ? '' : undefined}
+      tabIndex={isFullyHidden(feature) ? -1 : undefined}
       {...props}
-      style={{ ...hidden, ...style }}
+      style={{ ...(VISUALLY_HIDDEN_STYLE as CSSProperties), ...style }}
     />
   )
 }

@@ -30,8 +30,10 @@ import {
   getThumbInBoundsOffset,
   hasMinStepsBetweenValues,
   linearScale,
+  resolveSliderUpdate,
   roundValue,
-} from './utils'
+  sliderStepAmount,
+} from '../../../../shared/src/primitives/slider'
 import { composeEventHandlers } from '../utils/compose-event-handlers'
 import { useComposedRefs } from '../utils/compose-refs'
 import { useControllableState } from '../utils/controllable-state'
@@ -158,12 +160,15 @@ export function SliderRoot({
   }, [])
 
   function updateValues(next: number, atIndex: number, { commit } = { commit: false }) {
-    const decimalCount = getDecimalCount(step)
-    const snapToStep = roundValue(Math.round((next - min) / step) * step + min, decimalCount)
-    const nextValue = clamp(snapToStep, min, max)
-    const nextValues = getNextSortedValues(latest.current.currentModelValue, nextValue, atIndex)
-    if (!hasMinStepsBetweenValues(nextValues, minStepsBetweenThumbs * step)) return
-    valueIndexToChangeRef.current = nextValues.indexOf(nextValue)
+    const update = resolveSliderUpdate(latest.current.currentModelValue, next, atIndex, {
+      min,
+      max,
+      step,
+      minStepsBetweenThumbs,
+    })
+    if (!update) return
+    const nextValues = update.values
+    valueIndexToChangeRef.current = update.index
     const hasChanged = String(nextValues) !== String(latest.current.modelValue)
     if (hasChanged && commit) latest.current.onValueCommit?.(nextValues)
     if (hasChanged) {
@@ -202,12 +207,9 @@ export function SliderRoot({
     },
     onStepKeyDown: (event, direction) => {
       if (disabled) return
-      const isPageKey = PAGE_KEYS.includes(event.key)
-      const isSkipKey = isPageKey || (event.shiftKey && ARROW_KEYS.includes(event.key))
-      const multiplier = isSkipKey ? 10 : 1
       const atIndex = valueIndexToChangeRef.current
       const current = latest.current.currentModelValue[atIndex]!
-      updateValues(current + step * multiplier * direction, atIndex, { commit: true })
+      updateValues(current + sliderStepAmount(event, step) * direction, atIndex, { commit: true })
     },
   }
 

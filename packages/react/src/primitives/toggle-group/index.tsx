@@ -11,11 +11,18 @@ import {
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { RovingFocusGroup, RovingFocusItem } from '../roving-focus'
 import type { Direction, Orientation } from '../roving-focus'
-import { isEqual, isValueEqualOrExist, useVModel } from './model'
+import { toggleState } from '../../../../shared/src/primitives/toggle'
+import {
+  isValueEqualOrExist,
+  nextSingleOrMultipleValue,
+  singleOrMultipleDefault,
+  singleOrMultipleType,
+} from '../../../../shared/src/primitives/value'
+import { useVModel } from './model'
 import { composeEventHandlers } from '../utils/compose-event-handlers'
 import { useDirection } from '../utils/direction'
 
-export { isEqual, isValueEqualOrExist, useVModel } from './model'
+export { useVModel } from './model'
 
 type DataAttributes = { [attribute: `data-${string}`]: string | undefined }
 
@@ -58,7 +65,7 @@ export function Toggle({
       as={as}
       asChild={asChild}
       aria-pressed={pressed}
-      data-state={pressed ? 'on' : 'off'}
+      data-state={toggleState(pressed)}
       data-disabled={disabled ? '' : undefined}
       {...({ disabled } as HTMLAttributes<HTMLElement>)}
       {...(attrs as HTMLAttributes<HTMLElement>)}
@@ -82,14 +89,6 @@ const ToggleGroupRootContext = createContext<ToggleGroupRootContextValue | null>
 
 export function useToggleGroupRootContext() {
   return useContext(ToggleGroupRootContext)
-}
-
-function defaultType(type: ToggleGroupType | undefined, value: unknown, defaultValue: unknown) {
-  if (type) return type
-  const current = value || defaultValue
-  if (value !== undefined || defaultValue !== undefined)
-    return Array.isArray(current) ? 'multiple' : 'single'
-  return 'single'
 }
 
 export interface ToggleGroupRootProps
@@ -127,29 +126,16 @@ export function ToggleGroupRoot({
   ...attrs
 }: ToggleGroupRootProps) {
   const dir = useDirection(dirProp)
-  const resolvedType = defaultType(type, value, defaultValue)
+  const resolvedType = singleOrMultipleType({ type, defaultValue, modelValue: value })
   const [modelValue, setModelValue] = useVModel<ToggleGroupValue>(
     value,
-    defaultValue !== undefined ? defaultValue : type === 'single' ? undefined : [],
+    singleOrMultipleDefault({ type, defaultValue }) as ToggleGroupValue,
     onValueChange,
   )
   const isSingle = resolvedType === 'single'
 
   function changeModelValue(next: AcceptableValue) {
-    if (isSingle) {
-      setModelValue(isEqual(next, modelValue) ? undefined : next)
-      return
-    }
-    const values = Array.isArray(modelValue)
-      ? [...modelValue]
-      : [modelValue].filter((item): item is AcceptableValue => !!item)
-    if (isValueEqualOrExist(values, next))
-      values.splice(
-        values.findIndex(item => isEqual(item, next)),
-        1,
-      )
-    else values.push(next)
-    setModelValue(values)
+    setModelValue(nextSingleOrMultipleValue(resolvedType, modelValue, next))
   }
 
   const group = (

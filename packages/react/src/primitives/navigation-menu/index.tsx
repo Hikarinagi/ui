@@ -22,7 +22,8 @@ import {
 import { flushSync } from 'react-dom'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { PrimitiveVisuallyHidden } from '../visually-hidden'
-import { getActiveElement, navigateByArrow } from '../stepper/arrow-navigation'
+import { arrowNavigation } from '../../../../shared/src/primitives/arrow-navigation'
+import { getActiveElement } from '../../../../shared/src/primitives/focus-scope'
 import {
   EVENT_ROOT_CONTENT_DISMISS,
   LINK_SELECT,
@@ -409,7 +410,7 @@ export function NavigationMenuItem({
       .getItems()
       .filter(item => item.parentElement?.hasAttribute('data-menu-item'))
     if (!currentFocus || !itemsArray.includes(currentFocus)) return
-    const next = navigateByArrow(event.nativeEvent, currentFocus, undefined, {
+    const next = arrowNavigation(event.nativeEvent, currentFocus, undefined, {
       itemsArray,
       loop: false,
     })
@@ -774,7 +775,7 @@ function NavigationMenuContentImpl({
         return
       }
     }
-    const next = navigateByArrow(
+    const next = arrowNavigation(
       event.nativeEvent,
       getActiveElement() as HTMLElement | null,
       undefined,

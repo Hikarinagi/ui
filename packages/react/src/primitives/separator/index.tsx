@@ -1,17 +1,21 @@
+import {
+  separatorOrientation,
+  separatorSemantics,
+  type SeparatorOrientation,
+} from '../../../../shared/src/primitives/separator'
 import { Primitive, type PrimitiveElementProps } from '../../lib/primitive'
 
 export interface SeparatorProps extends PrimitiveElementProps {
-  orientation?: 'horizontal' | 'vertical'
+  orientation?: SeparatorOrientation
   decorative?: boolean
 }
 
 export function Separator({ orientation: orientationProp, decorative, ...props }: SeparatorProps) {
-  const orientation = orientationProp === 'vertical' ? 'vertical' : 'horizontal'
+  const orientation = separatorOrientation(orientationProp)
   return (
     <Primitive
       data-orientation={orientation}
-      role={decorative ? 'none' : 'separator'}
-      aria-orientation={!decorative && orientation === 'vertical' ? orientation : undefined}
+      {...separatorSemantics(orientation, decorative)}
       {...props}
     />
   )

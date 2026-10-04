@@ -12,10 +12,19 @@ import {
   type Ref,
 } from 'react'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
-import { getRange, transform, type PaginationItems } from './utils'
+import {
+  getRange,
+  PAGINATION_EDGES,
+  paginationEdgeDisabled,
+  paginationEdgeTarget,
+  paginationPageCount,
+  transform,
+  type PaginationEdge,
+  type PaginationItems,
+} from '../../../../shared/src/primitives/pagination'
 import { composeEventHandlers } from '../utils/compose-event-handlers'
 
-export type { PaginationItems } from './utils'
+export type { PaginationItems } from '../../../../shared/src/primitives/pagination'
 
 interface PaginationRootContextValue {
   page: number
@@ -72,7 +81,7 @@ export function PaginationRoot({
   const [passive] = useState(pageProp === undefined)
   const [local, setLocal] = useState(defaultPage)
   const page = passive ? local : (pageProp as number)
-  const pageCount = Math.max(1, Math.ceil(total / (itemsPerPage || 1)))
+  const pageCount = paginationPageCount(total, itemsPerPage)
   const change = useCallback(
     (value: number) => {
       if (passive) setLocal(value)
@@ -152,19 +161,12 @@ export function PaginationListItem({
   )
 }
 
-interface ControlOptions {
-  label: string
-  fallback: string
-  consumer: string
-  disabled: (context: PaginationRootContextValue) => boolean
-  target: (context: PaginationRootContextValue) => number
-}
-
 export interface PaginationControlProps extends ElementProps {
   children?: ReactNode
 }
 
-function control({ label, fallback, consumer, disabled: isDisabled, target }: ControlOptions) {
+function control(edge: PaginationEdge, consumer: string) {
+  const { label, fallback } = PAGINATION_EDGES[edge]
   return function PaginationControl({
     as = 'button',
     asChild,
@@ -173,7 +175,12 @@ function control({ label, fallback, consumer, disabled: isDisabled, target }: Co
     ...attrs
   }: PaginationControlProps) {
     const rootContext = usePaginationRootContext(consumer)
-    const disabled = isDisabled(rootContext)
+    const disabled = paginationEdgeDisabled(
+      edge,
+      rootContext.page,
+      rootContext.pageCount,
+      rootContext.disabled,
+    )
     return (
       <Primitive
         as={as}
@@ -184,7 +191,10 @@ function control({ label, fallback, consumer, disabled: isDisabled, target }: Co
         {...attrs}
         onClick={composeEventHandlers(
           (event: MouseEvent<HTMLElement>) => {
-            if (!disabled) rootContext.onPageChange(target(rootContext))
+            if (!disabled)
+              rootContext.onPageChange(
+                paginationEdgeTarget(edge, rootContext.page, rootContext.pageCount),
+              )
             return event
           },
           onClick,
@@ -197,37 +207,10 @@ function control({ label, fallback, consumer, disabled: isDisabled, target }: Co
   }
 }
 
-export const PaginationFirst = control({
-  label: 'First Page',
-  fallback: 'First page',
-  consumer: 'PaginationFirst',
-  disabled: context => context.page === 1 || context.disabled,
-  target: () => 1,
-})
-
-export const PaginationPrev = control({
-  label: 'Previous Page',
-  fallback: 'Prev page',
-  consumer: 'PaginationPrev',
-  disabled: context => context.page === 1 || context.disabled,
-  target: context => context.page - 1,
-})
-
-export const PaginationNext = control({
-  label: 'Next Page',
-  fallback: 'Next page',
-  consumer: 'PaginationNext',
-  disabled: context => context.page === context.pageCount || context.disabled,
-  target: context => context.page + 1,
-})
-
-export const PaginationLast = control({
-  label: 'Last Page',
-  fallback: 'Last page',
-  consumer: 'PaginationLast',
-  disabled: context => context.page === context.pageCount || context.disabled,
-  target: context => context.pageCount,
-})
+export const PaginationFirst = control('first', 'PaginationFirst')
+export const PaginationPrev = control('prev', 'PaginationPrev')
+export const PaginationNext = control('next', 'PaginationNext')
+export const PaginationLast = control('last', 'PaginationLast')
 
 export interface PaginationEllipsisProps extends ElementProps {
   children?: ReactNode

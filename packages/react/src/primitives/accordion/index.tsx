@@ -14,7 +14,18 @@ import {
 } from 'react'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { CollapsibleContent, CollapsibleRoot, CollapsibleTrigger } from '../collapsible'
-import { arrowNavigation } from './arrow-navigation'
+import {
+  ACCORDION_NAVIGATION_KEYS,
+  isAccordionItemOpen,
+  isAccordionTriggerLocked,
+  navigateAccordion,
+} from '../../../../shared/src/primitives/accordion'
+import { openState } from '../../../../shared/src/primitives/collapsible'
+import {
+  nextSingleOrMultipleValue,
+  singleOrMultipleDefault,
+  singleOrMultipleType,
+} from '../../../../shared/src/primitives/value'
 import { composeEventHandlers } from '../utils/compose-event-handlers'
 import { useComposedRefs } from '../utils/compose-refs'
 import { useControllableState } from '../utils/controllable-state'
@@ -42,23 +53,6 @@ function useAccordionRootContext(consumer: string) {
   const context = useContext(AccordionRootContext)
   if (!context) throw new Error(`\`${consumer}\` must be used within \`AccordionRoot\``)
   return context
-}
-
-function defaultType(
-  type: AccordionType | undefined,
-  value: AccordionValue,
-  defaultValue: AccordionValue,
-) {
-  if (type) return type
-  const current = value || defaultValue
-  if (value !== undefined || defaultValue !== undefined)
-    return Array.isArray(current) ? 'multiple' : 'single'
-  return 'single'
-}
-
-function defaultModelValue(type: AccordionType | undefined, defaultValue: AccordionValue) {
-  if (defaultValue !== undefined) return defaultValue
-  return type === 'single' ? undefined : []
 }
 
 export interface AccordionRootProps
@@ -94,28 +88,16 @@ export function AccordionRoot({
   const direction = useDirection(dir)
   const parentElement = useRef<HTMLElement | null>(null)
   const composedRef = useComposedRefs(ref, parentElement)
-  const resolvedType = defaultType(type, value, defaultValue)
+  const resolvedType = singleOrMultipleType({ type, defaultValue, modelValue: value })
   const [modelValue, setModelValue] = useControllableState<AccordionValue>({
     prop: value,
-    defaultProp: defaultModelValue(type, defaultValue),
+    defaultProp: singleOrMultipleDefault({ type, defaultValue }) as AccordionValue,
     onChange: onValueChange,
     caller: 'AccordionRoot',
   })
 
   const changeModelValue = useCallback(
-    (next: string) => {
-      if (resolvedType === 'single') {
-        setModelValue(next === modelValue ? undefined : next)
-        return
-      }
-      const list = Array.isArray(modelValue)
-        ? [...(modelValue || [])]
-        : [modelValue].filter((entry): entry is string => !!entry)
-      const index = list.findIndex(entry => entry === next)
-      if (index !== -1) list.splice(index, 1)
-      else list.push(next)
-      setModelValue(list)
-    },
+    (next: string) => setModelValue(nextSingleOrMultipleValue(resolvedType, modelValue, next)),
     [resolvedType, modelValue, setModelValue],
   )
 
@@ -155,8 +137,6 @@ function useAccordionItemContext(consumer: string) {
   return context
 }
 
-const NAVIGATION_KEYS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End']
-
 export interface AccordionItemProps
   extends PrimitiveProps, HTMLAttributes<HTMLElement>, DataAttributes {
   value: string
@@ -174,24 +154,17 @@ export function AccordionItem({
 }: AccordionItemProps) {
   const root = useAccordionRootContext('AccordionItem')
   const triggerId = useRef('')
-  const open = root.isSingle
-    ? value === root.modelValue
-    : Array.isArray(root.modelValue) && root.modelValue.includes(value)
+  const open = isAccordionItemOpen(root.isSingle, root.modelValue, value)
   const disabled = root.disabled || !!disabledProp
   const dataDisabled = disabled ? '' : undefined
-  const dataState = open ? 'open' : 'closed'
+  const dataState = openState(open)
 
   function handleArrowKey(event: KeyboardEvent<HTMLElement>) {
-    if (!NAVIGATION_KEYS.includes(event.key)) return
-    const target = event.target as HTMLElement
-    const items = Array.from(
-      root.parentElement.current?.querySelectorAll('[data-radix-collection-item]') ?? [],
-    )
-    if (items.findIndex(item => item === target) === -1) return
-    arrowNavigation(event.nativeEvent, target, root.parentElement.current, {
-      arrowKeyOptions: root.orientation,
+    if (!ACCORDION_NAVIGATION_KEYS.includes(event.key)) return
+    navigateAccordion(event.nativeEvent, root.parentElement.current, {
+      orientation: root.orientation,
       dir: root.direction,
-      focus: true,
+      attributeName: '[data-radix-collection-item]',
     })
   }
 
@@ -242,8 +215,8 @@ export function AccordionTrigger({ onClick, ...attrs }: AccordionTriggerProps) {
   if (!item.triggerId.current) item.triggerId.current = id
 
   function changeItem() {
-    const triggerDisabled = root.isSingle && item.open && !root.collapsible
-    if (item.disabled || triggerDisabled) return
+    if (item.disabled || isAccordionTriggerLocked(root.isSingle, item.open, root.collapsible))
+      return
     root.changeModelValue(item.value)
   }
 

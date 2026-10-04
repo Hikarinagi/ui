@@ -4,19 +4,19 @@ import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import type { CSSProperties, FocusEvent, HTMLAttributes, ReactNode, Ref } from 'react'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { usePanelGroupContext } from './context'
-import { assert } from './utils/assert'
+import { assert } from '../../../../shared/src/primitives/splitter/assert'
 import {
   getResizeHandleElement,
   getResizeHandleElementIndex,
   getResizeHandleElementsForGroup,
-} from './utils/dom'
-import { registerResizeHandle } from './utils/registry'
+} from '../../../../shared/src/primitives/splitter/dom'
+import { registerResizeHandle } from '../../../../shared/src/primitives/splitter/registry'
 import type {
   PointerHitAreaMargins,
   ResizeEvent,
   ResizeHandlerAction,
   ResizeHandlerState,
-} from './utils/types'
+} from '../../../../shared/src/primitives/splitter/types'
 import { useComposedRefs } from '../utils/compose-refs'
 
 const isBrowser = typeof document !== 'undefined'

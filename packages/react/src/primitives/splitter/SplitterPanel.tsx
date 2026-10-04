@@ -4,8 +4,12 @@ import { useEffect, useId, useLayoutEffect, useMemo, useRef } from 'react'
 import type { CSSProperties, HTMLAttributes, ReactNode, Ref } from 'react'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { usePanelGroupContext } from './context'
-import { PRECISION } from './utils/constants'
-import type { PanelConstraints, PanelData, SizeUnit } from './utils/types'
+import { PRECISION } from '../../../../shared/src/primitives/splitter/constants'
+import type {
+  PanelConstraints,
+  PanelData,
+  SizeUnit,
+} from '../../../../shared/src/primitives/splitter/types'
 
 export interface SplitterPanelProps
   extends PrimitiveProps, Omit<HTMLAttributes<HTMLElement>, 'onResize'> {

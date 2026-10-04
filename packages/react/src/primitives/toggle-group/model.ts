@@ -23,15 +23,3 @@ export function useVModel<T>(prop: T | undefined, defaultValue: T, onChange?: (v
 
   return [value, set] as const
 }
-
-export function isEqual(a: unknown, b: unknown): boolean {
-  if (Object.is(a, b)) return true
-  if (typeof a !== 'object' || typeof b !== 'object' || a === null || b === null) return false
-  return JSON.stringify(a) === JSON.stringify(b)
-}
-
-export function isValueEqualOrExist(base: unknown, current: unknown) {
-  if (base === undefined || base === null) return false
-  if (Array.isArray(base)) return base.some(value => isEqual(value, current))
-  return isEqual(base, current)
-}

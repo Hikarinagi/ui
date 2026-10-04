@@ -4,40 +4,55 @@ import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 're
 import type { CSSProperties, HTMLAttributes, ReactNode, Ref } from 'react'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { PanelGroupContext, type PanelGroupApi, type PanelGroupContextValue } from './context'
-import { areEqual } from './utils/arrays'
-import { assert } from './utils/assert'
+import { areEqual } from '../../../../shared/src/primitives/splitter/arrays'
+import { assert } from '../../../../shared/src/primitives/splitter/assert'
 import {
   calculateAriaValues,
   calculateDeltaPercentage,
   calculateUnsafeDefaultLayout,
-} from './utils/calculate'
-import { callPanelCallbacks } from './utils/callPanelCallbacks'
-import { fuzzyCompareNumbers, fuzzyNumbersEqual } from './utils/compare'
-import { debounce } from './utils/debounce'
+} from '../../../../shared/src/primitives/splitter/calculate'
+import { callPanelCallbacks } from '../../../../shared/src/primitives/splitter/callPanelCallbacks'
+import {
+  fuzzyCompareNumbers,
+  fuzzyNumbersEqual,
+} from '../../../../shared/src/primitives/splitter/compare'
+import { debounce } from '../../../../shared/src/primitives/splitter/debounce'
 import {
   getPanelGroupElement,
   getResizeHandleElement,
   getResizeHandleElementsForGroup,
   getResizeHandlePanelIds,
-} from './utils/dom'
-import { getResizeEventCursorPosition, isKeyDown, isMouseEvent, isTouchEvent } from './utils/events'
-import { adjustLayoutByDelta, compareLayouts } from './utils/layout'
-import { determinePivotIndices } from './utils/pivot'
+} from '../../../../shared/src/primitives/splitter/dom'
+import {
+  getResizeEventCursorPosition,
+  isKeyDown,
+  isMouseEvent,
+  isTouchEvent,
+} from '../../../../shared/src/primitives/splitter/events'
+import {
+  adjustLayoutByDelta,
+  compareLayouts,
+} from '../../../../shared/src/primitives/splitter/layout'
+import { determinePivotIndices } from '../../../../shared/src/primitives/splitter/pivot'
 import {
   EXCEEDED_HORIZONTAL_MAX,
   EXCEEDED_HORIZONTAL_MIN,
   EXCEEDED_VERTICAL_MAX,
   EXCEEDED_VERTICAL_MIN,
   reportConstraintsViolation,
-} from './utils/registry'
-import { initializeDefaultStorage, loadPanelGroupState, savePanelGroupState } from './utils/storage'
-import { computePanelFlexBoxStyle } from './utils/style'
+} from '../../../../shared/src/primitives/splitter/registry'
+import {
+  initializeDefaultStorage,
+  loadPanelGroupState,
+  savePanelGroupState,
+} from '../../../../shared/src/primitives/splitter/storage'
+import { computePanelFlexBoxStyle } from '../../../../shared/src/primitives/splitter/style'
 import {
   convertPanelConstraintsToPercent,
   hasPixelSizedPanel,
   recalculateLayoutForPixelPanels,
-} from './utils/units'
-import { validatePanelGroupLayout } from './utils/validation'
+} from '../../../../shared/src/primitives/splitter/units'
+import { validatePanelGroupLayout } from '../../../../shared/src/primitives/splitter/validation'
 import type {
   Direction,
   DragState,
@@ -45,7 +60,7 @@ import type {
   PanelData,
   PanelGroupStorage,
   ResizeEvent,
-} from './utils/types'
+} from '../../../../shared/src/primitives/splitter/types'
 import { useComposedRefs } from '../utils/compose-refs'
 import { useDirection } from '../utils/direction'
 

@@ -1,54 +1,50 @@
 'use client'
 
 import { createContext, useContext } from 'react'
+import {
+  DEFAULT_PROGRESS_MAX,
+  defaultProgressLabel,
+  isNumber,
+  isValidProgressMax,
+  isValidProgressValue,
+  progressState,
+} from '../../../../shared/src/primitives/progress'
 import { Primitive, type PrimitiveElementProps } from '../../lib/primitive'
-
-const DEFAULT_MAX = 100
 
 interface ProgressContextValue {
   value: number | null
   max: number
 }
 
-const ProgressContext = createContext<ProgressContextValue>({ value: null, max: DEFAULT_MAX })
-
-function isNumber(value: unknown): value is number {
-  return typeof value === 'number'
-}
-
-function validMax(max: unknown): max is number {
-  return isNumber(max) && !Number.isNaN(max) && max > 0
-}
-
-function validValue(value: unknown, max: number): value is number {
-  return isNumber(value) && !Number.isNaN(value) && value <= max && value >= 0
-}
-
-function progressState(value: number | null, max: number) {
-  return value == null ? 'indeterminate' : value === max ? 'complete' : 'loading'
-}
+const ProgressContext = createContext<ProgressContextValue>({
+  value: null,
+  max: DEFAULT_PROGRESS_MAX,
+})
 
 export interface ProgressRootProps extends PrimitiveElementProps {
   value?: number | null
   max?: number
-  getValueLabel?: (value: number, max: number) => string
+  getValueLabel?: (value: number | null, max: number) => string | undefined
+  getValueText?: (value: number | null, max: number) => string | undefined
 }
 
 export function ProgressRoot({
   value: valueProp = null,
   max: maxProp,
-  getValueLabel = (value, max) => `${Math.round((value / max) * 100)}%`,
+  getValueLabel = defaultProgressLabel,
+  getValueText,
   ...props
 }: ProgressRootProps) {
-  const max = validMax(maxProp) ? maxProp : DEFAULT_MAX
-  const value = validValue(valueProp, max) ? valueProp : null
+  const max = isValidProgressMax(maxProp) ? maxProp : DEFAULT_PROGRESS_MAX
+  const value = isValidProgressValue(valueProp, max) ? (valueProp ?? null) : null
   return (
     <ProgressContext value={{ value, max }}>
       <Primitive
         aria-valuemax={max}
         aria-valuemin={0}
         aria-valuenow={isNumber(value) ? value : undefined}
-        aria-valuetext={isNumber(value) ? getValueLabel(value, max) : undefined}
+        aria-valuetext={getValueText?.(value, max)}
+        aria-label={getValueLabel(value, max)}
         role="progressbar"
         data-state={progressState(value, max)}
         data-value={value ?? undefined}
