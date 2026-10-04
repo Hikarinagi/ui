@@ -1,5 +1,14 @@
 # @hina-ui/vue
 
+## [1.7.5](https://github.com/Hikarinagi/ui/compare/@hina-ui/vue@1.7.4...@hina-ui/vue@1.7.5) (2026-09-27)
+
+### Fixed
+
+- **Anchor** Keep the entire highlighted directory range visible when it fits, including changes to its last entry. Fall back to the first entry for oversized ranges without repeated recentering.
+- **PrevNext** Constrain the narrow-screen grid and title wrapper so long truncated titles stay inside navigation cards.
+- **lightbox** Prevent SSR memory leaks in Lightbox, Image preview and ImageGroup by keeping animation subscriptions out of server rendering.
+- **Anchor** Enable automatic directory scrolling by default when autoScroll is omitted, while preserving explicit opt-out.
+
 ## [1.7.4](https://github.com/Hikarinagi/ui/compare/@hina-ui/vue@1.7.3...@hina-ui/vue@1.7.4) (2026-09-21)
 
 ### Added
