@@ -29,6 +29,7 @@ const GENERATED_ID_PARTS = /^((?:[\w-]+-)?)(?:v-\d+(?:-\d+)*|_[Rr]_[0-9a-z]+_)$/
 const COUNTER_ID_PARTS = /^((?:[\w-]+-)?hn-[a-z]+(?:-[a-z]+)*-)\d+(?:-\d+)*$/
 const GEOMETRY_ATTRIBUTES = new Set(['data-side', 'data-align'])
 const BLOB_URL = /blob:[^\s"')]+/g
+const TRUNCATED = /(?:^|\s)truncate(?:\s|$)/
 const PRIMITIVE_ATTRIBUTE = /^data-(?:reka|radix)-/
 const PRIMITIVE_VARIABLE = /--(?:reka|radix)-/
 const VENDOR_PREFIX = /^(webkit|moz|ms)-/
@@ -107,7 +108,9 @@ function exactLines(
     else if (!isElement(node))
       lines.push(`${indent}${JSON.stringify((node as DefaultTreeAdapterMap['textNode']).value)}`)
     else {
+      const truncated = TRUNCATED.test(node.attrs.find(({ name }) => name === 'class')?.value ?? '')
       const attributes = node.attrs
+        .filter(({ name }) => geometry || !truncated || name !== 'tabindex')
         .map(({ name, value }) => ` ${name}="${exactValue(name, value, ids, geometry)}"`)
         .join('')
       lines.push(`${indent}<${node.tagName}${attributes}>`)
