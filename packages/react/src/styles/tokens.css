@@ -1,0 +1,5 @@
+@import '../../../shared/src/styles/tokens.css';
+
+@source '../components/**/*.{ts,tsx}';
+@source '../primitives/**/*.{ts,tsx}';
+@source '../lib/**/*.{ts,tsx}';

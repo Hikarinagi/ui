@@ -1,0 +1,377 @@
+import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
+import { userEvent } from 'vitest/browser'
+import { render } from 'vitest-browser-react'
+import type { ReactNode } from 'react'
+import { Combobox, type ComboboxProps, type ComboboxValue } from './Combobox'
+import { Input } from '../input/Input'
+import { Select } from '../select/Select'
+import { MultiSelect } from '../multi-select/MultiSelect'
+import type { SelectOption } from '../select/types'
+import { signal } from '../../../test/signal'
+import '../../../test/browser.css'
+
+let mounted: Array<{ unmount: () => Promise<void> | void }> = []
+
+beforeEach(() => {
+  document.body.innerHTML = ''
+})
+
+afterEach(async () => {
+  for (const w of mounted) await w.unmount()
+  mounted = []
+})
+
+function attach() {
+  const host = document.createElement('div')
+  host.style.cssText = 'width: 280px; padding: 40px'
+  document.body.appendChild(host)
+  return host
+}
+
+const options = [
+  { value: 'gal', label: 'Galgame' },
+  { value: 'ln', label: '轻小说' },
+  { value: 'manga', label: '漫画' },
+  { label: '周边', options: [{ value: 'cd', label: '音乐 CD' }] },
+]
+
+async function mountIn(ui: ReactNode, host: HTMLElement = attach()) {
+  const screen = await render(ui, { container: host })
+  mounted.push(screen)
+  return host
+}
+
+type BoxProps = Partial<ComboboxProps<SelectOption>>
+
+async function mountBox(initial: BoxProps = {}) {
+  const value = signal<ComboboxValue>(initial.value)
+  const props = signal<BoxProps>(initial)
+  const emitted: ComboboxValue[] = []
+  function Harness() {
+    const current = value.use()
+    const extra = props.use()
+    return (
+      <Combobox
+        options={options}
+        {...extra}
+        value={current}
+        onValueChange={next => {
+          emitted.push(next)
+          value.value = next
+        }}
+        aria-label="类型"
+      />
+    )
+  }
+  const container = await mountIn(<Harness />)
+  const host = container.querySelector('[data-hn-combobox]') as HTMLElement
+  return {
+    host,
+    input: host.querySelector('input') as HTMLInputElement,
+    value,
+    emitted,
+    setProps: async (next: BoxProps) => {
+      props.value = { ...props.value, ...next }
+      await new Promise(resolve => setTimeout(resolve, 0))
+    },
+  }
+}
+
+const listbox = () => document.querySelector('[role="listbox"]') as HTMLElement | null
+const optionsOf = () => Array.from(document.querySelectorAll('[role="option"]')) as HTMLElement[]
+const labels = () => optionsOf().map(o => o.textContent?.trim())
+
+describe('combobox · 筛选与选择', () => {
+  it('点击输入框打开列表，输入即筛选（含分组），无匹配时显示空态；点选回写并把文字填回输入框', async () => {
+    const { host, input, value } = await mountBox()
+    await userEvent.click(input)
+    await vi.waitFor(() => expect(listbox()).toBeTruthy())
+    expect(labels()).toEqual(['Galgame', '轻小说', '漫画', '音乐 CD'])
+    const content = document.querySelector('[data-hn-combobox-content]') as HTMLElement
+    await vi.waitFor(() =>
+      expect(Math.round(content.getBoundingClientRect().width)).toBe(
+        Math.round(host.getBoundingClientRect().width),
+      ),
+    )
+
+    await userEvent.keyboard('轻')
+    await vi.waitFor(() => expect(labels()).toEqual(['轻小说']))
+    await userEvent.keyboard('x')
+    await vi.waitFor(() => expect(labels()).toEqual([]))
+    expect(content.textContent).toContain('无匹配项')
+    await userEvent.keyboard('{Backspace}')
+    await vi.waitFor(() => expect(labels()).toEqual(['轻小说']))
+
+    await userEvent.click(optionsOf()[0]!)
+    await vi.waitFor(() => expect(value.value).toBe('ln'))
+    await vi.waitFor(() => expect(listbox()).toBeNull())
+    expect(input.value).toBe('轻小说')
+  })
+
+  it('键盘：方向键打开并高亮，Enter 选中；失焦后搜索词回落为已选文字', async () => {
+    const { input, value } = await mountBox({ value: 'gal' })
+    input.focus()
+    await userEvent.keyboard('{ArrowDown}')
+    await vi.waitFor(() => expect(listbox()).toBeTruthy())
+    await userEvent.keyboard('{ArrowDown}')
+    await vi.waitFor(() => expect(optionsOf()[1]!.hasAttribute('data-highlighted')).toBe(true))
+    await userEvent.keyboard('{Enter}')
+    await vi.waitFor(() => expect(value.value).toBe('ln'))
+    await userEvent.keyboard('{Escape}')
+    await userEvent.keyboard('{ControlOrMeta>}a{/ControlOrMeta}xyz')
+    await vi.waitFor(() => expect(listbox()).toBeTruthy())
+    await userEvent.click(document.body)
+    await vi.waitFor(() => expect(listbox()).toBeNull())
+    await vi.waitFor(() => expect(input.value).toBe('轻小说'))
+  })
+
+  it('展开钮切换列表且不抢输入区焦点；清除钮清空值与文字', async () => {
+    const { host, input, value } = await mountBox({ value: 'gal', clearable: true })
+    const toggle = host.querySelector('button[aria-label="展开选项"]') as HTMLElement
+    await userEvent.click(input)
+    await userEvent.keyboard('{Escape}')
+    await vi.waitFor(() => expect(listbox()).toBeNull())
+    await userEvent.click(toggle)
+    await vi.waitFor(() => expect(listbox()).toBeTruthy())
+    expect(document.activeElement).toBe(input)
+    await userEvent.click(toggle)
+    await vi.waitFor(() => expect(listbox()).toBeNull())
+
+    const clear = host.querySelector('button[aria-label="清除"]') as HTMLElement
+    await userEvent.click(clear)
+    await vi.waitFor(() => expect(value.value).toBeNull())
+    expect(input.value).toBe('')
+    expect(document.activeElement).toBe(input)
+  })
+
+  it('远程加载时图标平滑切换且不改变布局，仍可输入、选择和清除', async () => {
+    const { host, input, value, setProps } = await mountBox({
+      value: 'gal',
+      ignoreFilter: true,
+      clearable: true,
+    })
+    const toggle = host.querySelector<HTMLButtonElement>('button[aria-label="展开选项"]')!
+    await vi.waitFor(() => expect(input.value).toBe('Galgame'))
+    const initial = toggle.getBoundingClientRect()
+    const fieldWidth = host.getBoundingClientRect().width
+    await setProps({ loading: true })
+    await vi.waitFor(() => expect(toggle.querySelector('[role="status"]')).not.toBeNull())
+    expect(host.getAttribute('aria-busy')).toBe('true')
+    expect(input.hasAttribute('loading')).toBe(false)
+    expect(input.disabled).toBe(false)
+    expect(toggle.disabled).toBe(false)
+    expect(value.value).toBe('gal')
+    expect(input.value).toBe('Galgame')
+    expect(toggle.getBoundingClientRect().width).toBe(initial.width)
+    expect(toggle.getBoundingClientRect().x).toBe(initial.x)
+    expect(host.getBoundingClientRect().width).toBe(fieldWidth)
+    await userEvent.click(input)
+    await userEvent.keyboard('{ControlOrMeta>}a{/ControlOrMeta}远程')
+    await vi.waitFor(() => expect(input.value).toBe('远程'))
+    expect(value.value).toBe('gal')
+    await setProps({ options: [{ value: 'new', label: '新结果' }] })
+    await vi.waitFor(() => expect(labels()).toEqual(['新结果']))
+    await userEvent.click(optionsOf()[0]!)
+    await vi.waitFor(() => expect(value.value).toBe('new'))
+    expect(input.value).toBe('新结果')
+    await userEvent.click(host.querySelector('button[aria-label="清除"]')!)
+    await vi.waitFor(() => expect(value.value).toBeNull())
+    expect(input.value).toBe('')
+    expect(document.activeElement).toBe(input)
+    await setProps({ loading: false })
+    await vi.waitFor(() => expect(toggle.querySelector('[role="status"]')).toBeNull())
+    expect(host.hasAttribute('aria-busy')).toBe(false)
+    expect(toggle.getBoundingClientRect().width).toBe(initial.width)
+  })
+
+  it('ignoreFilter 时列表照单全收，由调用方按 search 自己筛', async () => {
+    const searched = signal('')
+    const { input } = await mountBox({
+      ignoreFilter: true,
+      onSearchChange: (v: string) => (searched.value = v),
+    })
+    await userEvent.click(input)
+    await vi.waitFor(() => expect(listbox()).toBeTruthy())
+    await userEvent.keyboard('轻')
+    await vi.waitFor(() => expect(searched.value).toBe('轻'))
+    expect(labels()).toEqual(['Galgame', '轻小说', '漫画', '音乐 CD'])
+  })
+})
+
+describe('combobox · 与 Input 同一副输入面', () => {
+  it('三档高度与 Input 逐档相等；输入区聚焦时环落在宿主上', async () => {
+    for (const size of ['sm', 'md', 'lg'] as const) {
+      const reference = await mountIn(<Input size={size} aria-label={size} />)
+      const { host } = await mountBox({ size })
+      expect(host.offsetHeight).toBe((reference.firstElementChild as HTMLElement).offsetHeight)
+    }
+    const { host, input } = await mountBox()
+    const rest = getComputedStyle(host).boxShadow
+    await userEvent.click(input)
+    await vi.waitFor(() =>
+      expect(getComputedStyle(host).boxShadow).toBe(
+        rest.replace('0px 0px 0px 0px', '0px 0px 0px 2px'),
+      ),
+    )
+  })
+})
+
+describe('combobox · 与 Select 对齐', () => {
+  it('展开钮的 chevron 右缩与 Select 的 chevron 相等', async () => {
+    const select = await mountIn(<Select options={options} aria-label="select" />)
+    const selectTrigger = select.querySelector('[data-hn-select]') as HTMLElement
+    const selectInset =
+      selectTrigger.getBoundingClientRect().right -
+      selectTrigger.querySelector('svg')!.getBoundingClientRect().right
+
+    const { host } = await mountBox()
+    const toggle = host.querySelector('button[aria-label="展开选项"]') as HTMLElement
+    const inset =
+      host.getBoundingClientRect().right -
+      toggle.querySelector('svg')!.getBoundingClientRect().right
+    expect(inset).toBe(selectInset)
+    expect(toggle.offsetHeight).toBe(host.clientHeight)
+  })
+})
+
+describe('combobox · 删空即清除', () => {
+  it('把输入文字删干净后值清空，点外关闭也不会回落成上一个选项', async () => {
+    const { input, value } = await mountBox({ value: 'gal' })
+    await userEvent.click(input)
+    await userEvent.keyboard('{ControlOrMeta>}a{/ControlOrMeta}{Backspace}')
+    await vi.waitFor(() => expect(value.value).toBeNull())
+    await userEvent.click(document.body)
+    await vi.waitFor(() => expect(listbox()).toBeNull())
+    expect(input.value).toBe('')
+    expect(value.value).toBeNull()
+  })
+})
+
+describe('combobox · 清除钮与 MultiSelect 对齐', () => {
+  it('清除钮到 chevron 的间距、清除钮的右缩都与 MultiSelect 相等', async () => {
+    const multi = await mountIn(
+      <MultiSelect options={options} value={['gal']} clearable aria-label="multi" />,
+    )
+    const multiHost = multi.querySelector('[data-hn-multi-select]') as HTMLElement
+    const multiClear = multiHost.querySelector('button[aria-label="清除"]')!.getBoundingClientRect()
+    const multiChevron = Array.from(multiHost.querySelectorAll('svg'))
+      .at(-1)!
+      .getBoundingClientRect()
+
+    const { host } = await mountBox({ value: 'gal', clearable: true })
+    const clear = host.querySelector('button[aria-label="清除"]')!.getBoundingClientRect()
+    const chevron = host.querySelector('button[aria-label="展开选项"] svg')!.getBoundingClientRect()
+
+    expect(chevron.left - clear.right).toBe(multiChevron.left - multiClear.right)
+    expect(clear.width).toBe(multiClear.width)
+    expect(clear.height).toBe(multiClear.height)
+    expect(host.getBoundingClientRect().right - clear.right).toBe(
+      multiHost.getBoundingClientRect().right - multiClear.right,
+    )
+  })
+})
+
+describe('combobox · 打开时的初始高亮', () => {
+  it('点击打开时首项高亮但不落墨，输入后高亮才落墨', async () => {
+    const { input } = await mountBox()
+    await userEvent.click(input)
+    await vi.waitFor(() => expect(listbox()).toBeTruthy())
+    const first = optionsOf()[0]!
+    await vi.waitFor(() => expect(first.hasAttribute('data-highlighted')).toBe(true))
+    await new Promise(r => setTimeout(r, 250))
+    expect(parseFloat(getComputedStyle(first, '::after').opacity)).toBe(0)
+    await userEvent.keyboard('G')
+    await vi.waitFor(() => expect(labels()).toEqual(['Galgame']))
+    const hover = parseFloat(
+      getComputedStyle(optionsOf()[0]!).getPropertyValue('--hn-state-hover-opacity'),
+    )
+    await vi.waitFor(() =>
+      expect(parseFloat(getComputedStyle(optionsOf()[0]!, '::after').opacity)).toBeCloseTo(
+        hover,
+        2,
+      ),
+    )
+  })
+})
+
+describe('combobox · 远程结果替换', () => {
+  it.each(['{Escape}', '{Tab}'])('搜索结果不含已选值时，%s 关闭不会误清值', async key => {
+    const { input, value, emitted, setProps } = await mountBox({ value: 'gal', ignoreFilter: true })
+    await vi.waitFor(() => expect(input.value).toBe('Galgame'))
+    await userEvent.click(input)
+    await userEvent.keyboard('{ControlOrMeta>}a{/ControlOrMeta}remote')
+    await setProps({ options: [{ value: 'new', label: 'Remote result' }] })
+    await vi.waitFor(() => expect(labels()).toEqual(['Remote result']))
+    expect(value.value).toBe('gal')
+    await userEvent.keyboard(key)
+    await vi.waitFor(() => expect(listbox()).toBeNull())
+    expect(value.value).toBe('gal')
+    expect(emitted).toEqual([])
+  })
+})
+
+describe('combobox · 独立选中项资料', () => {
+  it('回填资料只提供名称，候选列表完全来自 options，空结果也保留名称', async () => {
+    const { input, value, emitted, setProps } = await mountBox({
+      options: [],
+      selectedOption: { value: 0, label: 'Zero' },
+      value: 0,
+      ignoreFilter: true,
+    })
+    await vi.waitFor(() => expect(input.value).toBe('Zero'))
+    await userEvent.click(input)
+    await vi.waitFor(() => expect(listbox()).not.toBeNull())
+    expect(labels()).toEqual([])
+    await setProps({ options: [{ value: 'new', label: 'New result' }] })
+    await vi.waitFor(() => expect(labels()).toEqual(['New result']))
+    await userEvent.keyboard('{ControlOrMeta>}a{/ControlOrMeta}missing')
+    await setProps({ options: [] })
+    await vi.waitFor(() => expect(labels()).toEqual([]))
+    await userEvent.keyboard('{Escape}')
+    await vi.waitFor(() => expect(input.value).toBe('Zero'))
+    expect(value.value).toBe(0)
+    expect(emitted).toEqual([])
+  })
+
+  it('异步回填和名称更新同步显示；输入中的搜索词不被覆盖，关闭后恢复最新名称', async () => {
+    const { input, value, setProps } = await mountBox({
+      options: [],
+      value: 'saved',
+      ignoreFilter: true,
+    })
+    await setProps({ selectedOption: { value: 'saved', label: 'Saved label' } })
+    await vi.waitFor(() => expect(input.value).toBe('Saved label'))
+    await setProps({ selectedOption: { value: 'saved', label: 'Renamed' } })
+    await vi.waitFor(() => expect(input.value).toBe('Renamed'))
+    await userEvent.click(input)
+    await userEvent.keyboard('{ControlOrMeta>}a{/ControlOrMeta}query')
+    await setProps({ selectedOption: { value: 'saved', label: 'Latest name' } })
+    expect(input.value).toBe('query')
+    await userEvent.keyboard('{Escape}')
+    await vi.waitFor(() => expect(input.value).toBe('Latest name'))
+    expect(value.value).toBe('saved')
+  })
+
+  it('新选中的搜索结果在移出候选列表后仍保留名称，清除不会被回填资料重新选中', async () => {
+    const { host, input, value, setProps } = await mountBox({
+      options: [{ value: 'new', label: 'New result' }],
+      selectedOption: { value: 'saved', label: 'Saved label' },
+      value: 'saved',
+      ignoreFilter: true,
+      clearable: true,
+    })
+    await userEvent.click(input)
+    await vi.waitFor(() => expect(labels()).toEqual(['New result']))
+    await userEvent.click(optionsOf()[0]!)
+    await vi.waitFor(() => expect(value.value).toBe('new'))
+    await setProps({ options: [] })
+    await userEvent.click(input)
+    await userEvent.keyboard('{ControlOrMeta>}a{/ControlOrMeta}query{Escape}')
+    await vi.waitFor(() => expect(input.value).toBe('New result'))
+    await userEvent.click(host.querySelector('button[aria-label="清除"]')!)
+    await vi.waitFor(() => expect(value.value).toBeNull())
+    expect(input.value).toBe('')
+    await userEvent.keyboard('{Escape}')
+    expect(value.value).toBeNull()
+  })
+})
