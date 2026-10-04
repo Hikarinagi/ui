@@ -64,6 +64,48 @@ jobs:
           if-no-files-found: ignore
           retention-days: 7
 
+  react-browser:
+    name: react browser
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @hina-ui/react exec playwright install --with-deps chromium
+      - run: pnpm test:browser:react
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: react-browser-failures
+          path: packages/react/src/**/__screenshots__/**
+          if-no-files-found: ignore
+          retention-days: 7
+
+  parity:
+    name: parity live
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @hina-ui/parity exec playwright install --with-deps chromium
+      - run: pnpm --filter @hina-ui/parity test:browser
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: parity-failures
+          path: packages/parity/test/__screenshots__/**
+          if-no-files-found: ignore
+          retention-days: 7
+
   image-layout:
     name: image layout (${{ matrix.browser }})
     runs-on: ubuntu-latest
@@ -121,3 +163,21 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm test:package
+      - run: pnpm test:package:react
+
+  docs-react:
+    name: docs-react
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @hina-ui/docs-react lint
+      - run: pnpm --filter @hina-ui/docs-react test
+      - run: pnpm --filter @hina-ui/docs-react build
+        env:
+          NODE_OPTIONS: --max-old-space-size=8192

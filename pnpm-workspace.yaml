@@ -1,10 +1,14 @@
 packages:
   - 'packages/*'
   - 'docs'
+  - 'docs-react'
 allowBuilds:
   esbuild: false
   unrs-resolver: false
   vue-demi: false
+overrides:
+  framer-motion: 13.2.0
+  motion-dom: 13.2.0
 patchedDependencies:
   '@nuxt/nitro-server@4.5.2': patches/@nuxt__nitro-server@4.5.2.patch
   nuxt@4.5.2: patches/nuxt@4.5.2.patch
