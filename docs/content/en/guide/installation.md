@@ -48,7 +48,7 @@ pnpm add @hina-ui/react
 
 Body text uses Noto Sans for Latin and Noto Sans SC for Chinese, and monospace uses JetBrains Mono. Loading them is the application's responsibility.
 
-When the root element's `lang` is Chinese, Noto Sans SC comes first, so the Latin text on the page uses Noto Sans SC as well. Quotation marks, ellipses and dashes are shared between Chinese and Latin, and putting the Chinese font first keeps them full-width.
+When the root element's `lang` is Chinese, Noto Sans SC comes first, so the Latin text on the page uses Noto Sans SC as well.
 
 ::: vue
 

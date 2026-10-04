@@ -48,7 +48,7 @@ pnpm add @hina-ui/react
 
 正文的西文采用 Noto Sans，中文采用 Noto Sans SC；等宽采用 JetBrains Mono。字体由应用负责加载。
 
-根元素的 `lang` 为中文时，Noto Sans SC 排在前面，页面里的西文也使用 Noto Sans SC。引号、省略号和破折号是中西文共用的字符，中文字体在前才能保持全角。
+根元素的 `lang` 为中文时，Noto Sans SC 排在前面，页面里的西文也使用 Noto Sans SC。
 
 ::: vue
 
