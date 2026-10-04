@@ -9,7 +9,7 @@ description: 用字号、字重和留白建立层次，让中西文在同一套�
 
 ## 字体与层次 {#hierarchy}
 
-正文使用 Noto Sans SC，等宽内容使用 JetBrains Mono；字体由应用加载，变量中包含系统字体回退。配置方法见[安装](/guide/installation#fonts)。
+正文的西文使用 Noto Sans，中文使用 Noto Sans SC，中文页面的西文也使用 Noto Sans SC；等宽内容使用 JetBrains Mono；字体由应用加载，变量中包含系统字体回退。配置方法见[安装](/guide/installation#fonts)。
 
 优先通过字号和留白区分层级，再使用字重强调。正文保持 normal，控件标签可用 medium，标题可用 semibold。避免把所有文字都加粗，也不要把弱化颜色用于必读内容。
 

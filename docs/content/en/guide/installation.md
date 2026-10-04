@@ -46,7 +46,9 @@ pnpm add @hina-ui/react
 
 ## Fonts {#fonts}
 
-Body text uses Noto Sans SC for both Chinese and Latin, and monospace uses JetBrains Mono. Loading them is the application's responsibility.
+Body text uses Noto Sans for Latin and Noto Sans SC for Chinese, and monospace uses JetBrains Mono. Loading them is the application's responsibility.
+
+When the root element's `lang` is Chinese, Noto Sans SC comes first, so the Latin text on the page uses Noto Sans SC as well. Quotation marks, ellipses and dashes are shared between Chinese and Latin, and putting the Chinese font first keeps them full-width.
 
 ::: vue
 
@@ -55,6 +57,7 @@ export default defineNuxtConfig({
   modules: ['@nuxt/fonts'],
   fonts: {
     families: [
+      { name: 'Noto Sans', provider: 'google', weights: [400, 500, 600, 700], global: true },
       { name: 'Noto Sans SC', provider: 'google', weights: [400, 500, 600, 700], global: true },
       { name: 'JetBrains Mono', provider: 'google', weights: [400, 500], global: true },
     ],
@@ -72,13 +75,18 @@ In Next.js, load them with `next/font`. It self-hosts the files and generates ha
 
 ```tsx
 import type { ReactNode } from 'react'
-import { JetBrains_Mono, Noto_Sans_SC } from 'next/font/google'
+import { JetBrains_Mono, Noto_Sans, Noto_Sans_SC } from 'next/font/google'
 import './globals.css'
 
-const sans = Noto_Sans_SC({
+const latin = Noto_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   variable: '--font-noto-sans',
+})
+const sans = Noto_Sans_SC({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-noto-sans-sc',
 })
 const mono = JetBrains_Mono({
   subsets: ['latin'],
@@ -88,20 +96,19 @@ const mono = JetBrains_Mono({
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={`${sans.variable} ${mono.variable}`}>
+    <html lang="en" className={`${latin.variable} ${sans.variable} ${mono.variable}`}>
       <body>{children}</body>
     </html>
   )
 }
 ```
 
-Then put those variables first in `--hn-font-*` so the components pick up the loaded fonts:
+Then put those variables first in `--hn-font-latin`, `--hn-font-cjk` and `--hn-font-mono` so the components pick up the loaded fonts:
 
 ```css
 :root {
-  --hn-font-sans:
-    var(--font-noto-sans), 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', ui-sans-serif,
-    system-ui, sans-serif;
+  --hn-font-latin: var(--font-noto-sans), 'Noto Sans';
+  --hn-font-cjk: var(--font-noto-sans-sc), 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei';
   --hn-font-mono:
     var(--font-jetbrains-mono), 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas,
     monospace;

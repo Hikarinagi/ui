@@ -46,7 +46,9 @@ pnpm add @hina-ui/react
 
 ## 字体 {#fonts}
 
-正文采用 Noto Sans SC，中西文同一字体；等宽采用 JetBrains Mono。字体由应用负责加载。
+正文的西文采用 Noto Sans，中文采用 Noto Sans SC；等宽采用 JetBrains Mono。字体由应用负责加载。
+
+根元素的 `lang` 为中文时，Noto Sans SC 排在前面，页面里的西文也使用 Noto Sans SC。引号、省略号和破折号是中西文共用的字符，中文字体在前才能保持全角。
 
 ::: vue
 
@@ -55,6 +57,7 @@ export default defineNuxtConfig({
   modules: ['@nuxt/fonts'],
   fonts: {
     families: [
+      { name: 'Noto Sans', provider: 'google', weights: [400, 500, 600, 700], global: true },
       { name: 'Noto Sans SC', provider: 'google', weights: [400, 500, 600, 700], global: true },
       { name: 'JetBrains Mono', provider: 'google', weights: [400, 500], global: true },
     ],
@@ -72,13 +75,18 @@ Next.js 中用 `next/font` 加载。它会自托管字体文件，并生成带�
 
 ```tsx
 import type { ReactNode } from 'react'
-import { JetBrains_Mono, Noto_Sans_SC } from 'next/font/google'
+import { JetBrains_Mono, Noto_Sans, Noto_Sans_SC } from 'next/font/google'
 import './globals.css'
 
-const sans = Noto_Sans_SC({
+const latin = Noto_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   variable: '--font-noto-sans',
+})
+const sans = Noto_Sans_SC({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-noto-sans-sc',
 })
 const mono = JetBrains_Mono({
   subsets: ['latin'],
@@ -88,20 +96,19 @@ const mono = JetBrains_Mono({
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="zh-CN" className={`${sans.variable} ${mono.variable}`}>
+    <html lang="zh-CN" className={`${latin.variable} ${sans.variable} ${mono.variable}`}>
       <body>{children}</body>
     </html>
   )
 }
 ```
 
-再把这两个变量放到 `--hn-font-*` 的最前面，组件就会使用加载好的字体：
+再把这些变量分别放到 `--hn-font-latin`、`--hn-font-cjk` 和 `--hn-font-mono` 的最前面，组件就会使用加载好的字体：
 
 ```css
 :root {
-  --hn-font-sans:
-    var(--font-noto-sans), 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', ui-sans-serif,
-    system-ui, sans-serif;
+  --hn-font-latin: var(--font-noto-sans), 'Noto Sans';
+  --hn-font-cjk: var(--font-noto-sans-sc), 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei';
   --hn-font-mono:
     var(--font-jetbrains-mono), 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas,
     monospace;

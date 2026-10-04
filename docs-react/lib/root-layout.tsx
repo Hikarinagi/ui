@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
-import { JetBrains_Mono, Noto_Sans_SC } from 'next/font/google'
+import { JetBrains_Mono, Noto_Sans, Noto_Sans_SC } from 'next/font/google'
 import { BannerScript } from '~/components/BannerScript'
 import { DocsShell } from '~/components/DocsShell'
 import { Github } from '~/components/Github'
@@ -12,6 +12,11 @@ import { Wordmark } from '~/components/Wordmark'
 import type { Locale } from '~/lib/routes'
 import reactPackage from '../../packages/react/package.json'
 
+const latin = Noto_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  variable: '--font-docs-latin',
+})
 const sans = Noto_Sans_SC({
   subsets: ['latin'],
   weight: ['400', '500', '600'],
@@ -30,7 +35,11 @@ export const rootMetadata: Metadata = {
 
 export function DocsRoot({ locale, children }: { locale: Locale; children: ReactNode }) {
   return (
-    <html lang={locale} className={`${sans.variable} ${mono.variable}`} suppressHydrationWarning>
+    <html
+      lang={locale}
+      className={`${latin.variable} ${sans.variable} ${mono.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <ThemeScript />
         <BannerScript />

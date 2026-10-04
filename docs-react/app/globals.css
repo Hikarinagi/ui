@@ -7,9 +7,8 @@
 @source '../lib';
 
 :root {
-  --hn-font-sans:
-    var(--font-docs-sans), 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', ui-sans-serif,
-    system-ui, sans-serif;
+  --hn-font-latin: var(--font-docs-latin), 'Noto Sans';
+  --hn-font-cjk: var(--font-docs-sans), 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei';
   --hn-font-mono:
     var(--font-docs-mono), 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas,
     'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', monospace;
