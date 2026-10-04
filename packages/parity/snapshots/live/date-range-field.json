@@ -29,7 +29,7 @@
     "        \"/\"",
     "      <div role=\"spinbutton\" contenteditable=\"true\" tabindex=\"0\" spellcheck=\"false\" inputmode=\"numeric\" autocorrect=\"off\" enterkeyhint=\"next\" aria-label=\"结束日期 日\" aria-valuemin=\"1\" aria-valuemax=\"30\" aria-valuenow=\"30\" aria-valuetext=\"30\" data-reka-date-field-segment=\"day\" data-reka-date-range-field-segment-type=\"end\" data-hn-segment=\"\" class=\"hn-transition rounded-xs outline-none px-0.5 focus:bg-accent-soft focus:text-accent-text data-placeholder:text-faint data-placeholder:font-normal data-disabled:cursor-not-allowed\" style=\"caret-color: transparent;\">",
     "        \"30\"",
-    "      <input aria-hidden=\"true\" tabindex=\"-1\" value=\"2026-09-01 - 2026-09-30\" style=\"position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); white-space: nowrap; overflow-wrap: normal; top: -1px; left: -1px;\">",
+    "      <input aria-hidden=\"true\" tabindex=\"-1\" value=\"2026-09-01 - 2026-09-30\" style=\"position: absolute; border: #px; width: #px; height: #px; padding: #px; margin: #px; overflow: hidden; clip: rect(#px, #px, #px, #px); clip-path: inset(#%); white-space: nowrap; overflow-wrap: normal; top: #px; left: #px;\">",
     "    <!--v-if-->",
     "    <!--v-if-->"
   ],
@@ -63,7 +63,7 @@
     "        \"/\"",
     "      <div role=\"spinbutton\" contenteditable=\"true\" tabindex=\"0\" spellcheck=\"false\" inputmode=\"numeric\" autocorrect=\"off\" enterkeyhint=\"next\" aria-label=\"结束日期 日\" aria-valuemin=\"1\" aria-valuemax=\"30\" aria-valuenow=\"30\" aria-valuetext=\"30\" data-reka-date-field-segment=\"day\" data-reka-date-range-field-segment-type=\"end\" data-hn-segment=\"\" class=\"hn-transition rounded-xs outline-none px-0.5 focus:bg-accent-soft focus:text-accent-text data-placeholder:text-faint data-placeholder:font-normal data-disabled:cursor-not-allowed\" style=\"caret-color: transparent;\">",
     "        \"30\"",
-    "      <input aria-hidden=\"true\" tabindex=\"-1\" value=\"2026-09-01 - 2026-09-30\" style=\"position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); white-space: nowrap; overflow-wrap: normal; top: -1px; left: -1px;\">",
+    "      <input aria-hidden=\"true\" tabindex=\"-1\" value=\"2026-09-01 - 2026-09-30\" style=\"position: absolute; border: #px; width: #px; height: #px; padding: #px; margin: #px; overflow: hidden; clip: rect(#px, #px, #px, #px); clip-path: inset(#%); white-space: nowrap; overflow-wrap: normal; top: #px; left: #px;\">",
     "    <span class=\"flex shrink-0 items-stretch self-stretch\">",
     "      <button type=\"button\" aria-label=\"清除\" class=\"relative flex min-w-[var(--hn-input-h)] shrink-0 items-center justify-center self-stretch px-1 [&>svg]:size-[var(--hn-input-icon)] [&>span_svg]:size-[var(--hn-input-icon)] hn-interactive hn-state-layer text-fg cursor-pointer outline-none focus-visible:[outline-offset:calc(var(--hn-focus-ring-offset)*-1)] disabled:pointer-events-none\">",
     "        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-x-icon lucide-x\">",
@@ -101,7 +101,7 @@
     "        \"/\"",
     "      <div role=\"spinbutton\" contenteditable=\"true\" tabindex=\"0\" spellcheck=\"false\" inputmode=\"numeric\" autocorrect=\"off\" enterkeyhint=\"next\" aria-label=\"结束日期 日\" aria-valuemin=\"1\" aria-valuemax=\"31\" aria-valuenow=\"1\" aria-valuetext=\"Empty\" data-placeholder=\"\" data-reka-date-field-segment=\"day\" data-reka-date-range-field-segment-type=\"end\" data-hn-segment=\"\" class=\"hn-transition rounded-xs outline-none px-0.5 focus:bg-accent-soft focus:text-accent-text data-placeholder:text-faint data-placeholder:font-normal data-disabled:cursor-not-allowed\" style=\"caret-color: transparent;\">",
     "        \"日\"",
-    "      <input aria-hidden=\"true\" tabindex=\"-1\" value=\"2026-09-01 - undefined\" style=\"position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); white-space: nowrap; overflow-wrap: normal; top: -1px; left: -1px;\">",
+    "      <input aria-hidden=\"true\" tabindex=\"-1\" value=\"2026-09-01 - undefined\" style=\"position: absolute; border: #px; width: #px; height: #px; padding: #px; margin: #px; overflow: hidden; clip: rect(#px, #px, #px, #px); clip-path: inset(#%); white-space: nowrap; overflow-wrap: normal; top: #px; left: #px;\">",
     "    <!--v-if-->",
     "    <!--v-if-->"
   ],
@@ -135,7 +135,7 @@
     "        \"/\"",
     "      <div role=\"spinbutton\" contenteditable=\"true\" tabindex=\"0\" spellcheck=\"false\" inputmode=\"numeric\" autocorrect=\"off\" enterkeyhint=\"next\" aria-label=\"结束日期 日\" aria-valuemin=\"1\" aria-valuemax=\"30\" aria-valuenow=\"1\" aria-valuetext=\"1\" data-reka-date-field-segment=\"day\" data-reka-date-range-field-segment-type=\"end\" data-hn-segment=\"\" class=\"hn-transition rounded-xs outline-none px-0.5 focus:bg-accent-soft focus:text-accent-text data-placeholder:text-faint data-placeholder:font-normal data-disabled:cursor-not-allowed\" style=\"caret-color: transparent;\" data-invalid=\"\" aria-invalid=\"true\">",
     "        \"1\"",
-    "      <input aria-hidden=\"true\" tabindex=\"-1\" value=\"2026-09-30 - 2026-09-01\" style=\"position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); white-space: nowrap; overflow-wrap: normal; top: -1px; left: -1px;\">",
+    "      <input aria-hidden=\"true\" tabindex=\"-1\" value=\"2026-09-30 - 2026-09-01\" style=\"position: absolute; border: #px; width: #px; height: #px; padding: #px; margin: #px; overflow: hidden; clip: rect(#px, #px, #px, #px); clip-path: inset(#%); white-space: nowrap; overflow-wrap: normal; top: #px; left: #px;\">",
     "    <!--v-if-->",
     "    <!--v-if-->"
   ],
@@ -169,7 +169,7 @@
     "        \"/\"",
     "      <div role=\"spinbutton\" contenteditable=\"true\" tabindex=\"0\" spellcheck=\"false\" inputmode=\"numeric\" autocorrect=\"off\" enterkeyhint=\"next\" aria-label=\"结束日期 日\" aria-valuemin=\"1\" aria-valuemax=\"30\" aria-valuenow=\"29\" aria-valuetext=\"29\" data-reka-date-field-segment=\"day\" data-reka-date-range-field-segment-type=\"end\" data-hn-segment=\"\" class=\"hn-transition rounded-xs outline-none px-0.5 focus:bg-accent-soft focus:text-accent-text data-placeholder:text-faint data-placeholder:font-normal data-disabled:cursor-not-allowed\" style=\"caret-color: transparent;\">",
     "        \"29\"",
-    "      <input aria-hidden=\"true\" tabindex=\"-1\" value=\"2026-09-01 - 2027-09-29\" style=\"position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); white-space: nowrap; overflow-wrap: normal; top: -1px; left: -1px;\">",
+    "      <input aria-hidden=\"true\" tabindex=\"-1\" value=\"2026-09-01 - 2027-09-29\" style=\"position: absolute; border: #px; width: #px; height: #px; padding: #px; margin: #px; overflow: hidden; clip: rect(#px, #px, #px, #px); clip-path: inset(#%); white-space: nowrap; overflow-wrap: normal; top: #px; left: #px;\">",
     "    <!--v-if-->",
     "    <!--v-if-->"
   ],
@@ -203,7 +203,7 @@
     "        \"/\"",
     "      <div role=\"spinbutton\" contenteditable=\"true\" tabindex=\"0\" spellcheck=\"false\" inputmode=\"numeric\" autocorrect=\"off\" enterkeyhint=\"next\" aria-label=\"结束日期 日\" aria-valuemin=\"1\" aria-valuemax=\"31\" aria-valuenow=\"1\" aria-valuetext=\"Empty\" data-placeholder=\"\" data-reka-date-field-segment=\"day\" data-reka-date-range-field-segment-type=\"end\" data-hn-segment=\"\" class=\"hn-transition rounded-xs outline-none px-0.5 focus:bg-accent-soft focus:text-accent-text data-placeholder:text-faint data-placeholder:font-normal data-disabled:cursor-not-allowed\" style=\"caret-color: transparent;\">",
     "        \"日\"",
-    "      <input aria-hidden=\"true\" tabindex=\"-1\" value=\"undefined - undefined\" style=\"position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); white-space: nowrap; overflow-wrap: normal; top: -1px; left: -1px;\">",
+    "      <input aria-hidden=\"true\" tabindex=\"-1\" value=\"undefined - undefined\" style=\"position: absolute; border: #px; width: #px; height: #px; padding: #px; margin: #px; overflow: hidden; clip: rect(#px, #px, #px, #px); clip-path: inset(#%); white-space: nowrap; overflow-wrap: normal; top: #px; left: #px;\">",
     "    <!--v-if-->",
     "    <!--v-if-->"
   ]

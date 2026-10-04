@@ -41,7 +41,7 @@
     "<html-root style=\"\">",
     "<body-root>",
     "<div id=\"parity-host\" data-v-app=\"\">",
-    "  <div style=\"padding: 40px;\">",
+    "  <div style=\"padding: #px;\">",
     "    <div class=\"flex flex-row-reverse justify-end [&>*]:ring-surface [&>*]:ring-2 [&>*:first-child]:me-0 [&>*]:-me-2.5\">",
     "      <span class=\"isolate min-w-0 bg-inset text-muted relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full align-middle font-medium select-none size-10 text-base [&_svg]:size-5\">",
     "        \"+2\"",

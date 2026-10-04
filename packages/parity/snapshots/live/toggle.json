@@ -62,13 +62,13 @@
     "  <!--v-if-->",
     "  <!--teleport start-->",
     "  <!--teleport end-->",
-    "<div data-reka-popper-content-wrapper=\"\" dir=\"ltr\" style=\"position: fixed; left: 0px; top: 0px; transform: translate(0px, 49px); min-width: max-content; --reka-popper-transform-origin: 18px -5px; z-index: 100; --reka-popper-available-width: 414px; --reka-popper-available-height: 847px; --reka-popper-anchor-width: 36px; --reka-popper-anchor-height: 36px;\">",
-    "  <div data-dismissable-layer=\"\" class=\"hn-anim-pop [--hn-pop-in:var(--hn-duration-fast)] bg-neutral-solid text-neutral-solid-on z-(--hn-z-overlay) max-w-xs rounded-md px-2.5 py-1 text-xs shadow-md\" data-state=\"delayed-open\" data-side=\"bottom\" data-align=\"center\" dir=\"ltr\" style=\"--reka-tooltip-content-transform-origin: var(--reka-popper-transform-origin); --reka-tooltip-content-available-width: var(--reka-popper-available-width); --reka-tooltip-content-available-height: var(--reka-popper-available-height); --reka-tooltip-trigger-width: var(--reka-popper-anchor-width); --reka-tooltip-trigger-height: var(--reka-popper-anchor-height);\">",
+    "<div data-reka-popper-content-wrapper=\"\" dir=\"ltr\" style=\"position: fixed; left: #px; top: #px; transform: translate(#px, #px); min-width: max-content; --reka-popper-transform-origin: #px #px; z-index: #; --reka-popper-available-width: #px; --reka-popper-available-height: #px; --reka-popper-anchor-width: #px; --reka-popper-anchor-height: #px;\">",
+    "  <div data-dismissable-layer=\"\" class=\"hn-anim-pop [--hn-pop-in:var(--hn-duration-fast)] bg-neutral-solid text-neutral-solid-on z-(--hn-z-overlay) max-w-xs rounded-md px-2.5 py-1 text-xs shadow-md\" data-state=\"delayed-open\" data-side=\"#\" data-align=\"#\" dir=\"ltr\" style=\"--reka-tooltip-content-transform-origin: var(--reka-popper-transform-origin); --reka-tooltip-content-available-width: var(--reka-popper-available-width); --reka-tooltip-content-available-height: var(--reka-popper-available-height); --reka-tooltip-trigger-width: var(--reka-popper-anchor-width); --reka-tooltip-trigger-height: var(--reka-popper-anchor-height);\">",
     "    \"收藏\"",
-    "    <span style=\"position: absolute; top: 0px; transform-origin: center 0px; transform: rotate(180deg); left: 13px;\">",
+    "    <span style=\"position: absolute; top: #px; transform-origin: center #px; transform: rotate(#deg); left: #px;\">",
     "      <svg width=\"10\" height=\"5\" rounded=\"false\" viewBox=\"0 0 12 6\" preserveAspectRatio=\"none\" class=\"fill-neutral-solid\" style=\"display: block;\">",
     "        <path d=\"M0 0L6 6L12 0\">",
-    "    <span aria-hidden=\"true\" id=\"reka-tooltip-content-v-1\" role=\"tooltip\" style=\"position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); white-space: nowrap; overflow-wrap: normal; top: -1px; left: -1px;\">",
+    "    <span aria-hidden=\"true\" id=\"reka-tooltip-content-v-1\" role=\"tooltip\" style=\"position: absolute; border: #px; width: #px; height: #px; padding: #px; margin: #px; overflow: hidden; clip: rect(#px, #px, #px, #px); clip-path: inset(#%); white-space: nowrap; overflow-wrap: normal; top: #px; left: #px;\">",
     "      \"收藏\""
   ],
   "disabled ignores clicks": [

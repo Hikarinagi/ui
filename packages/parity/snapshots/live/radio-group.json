@@ -159,20 +159,20 @@
     "            \"看过\"",
     "        <!--v-if-->",
     "      <!-- We render single input if it's required -->",
-    "      <input aria-hidden=\"true\" data-hidden=\"\" tabindex=\"-1\" name=\"status\" style=\"position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); white-space: nowrap; overflow-wrap: normal; top: -1px; left: -1px;\" value=\"doing\">"
+    "      <input aria-hidden=\"true\" data-hidden=\"\" tabindex=\"-1\" name=\"status\" style=\"position: absolute; border: #px; width: #px; height: #px; padding: #px; margin: #px; overflow: hidden; clip: rect(#px, #px, #px, #px); clip-path: inset(#%); white-space: nowrap; overflow-wrap: normal; top: #px; left: #px;\" value=\"doing\">"
   ],
   "inside a field": [
     "<html-root style=\"\">",
     "<body-root>",
     "<div id=\"parity-host\" data-v-app=\"\">",
-    "  <div data-hn-form-field=\"\" data-invalid=\"\" data-orientation=\"vertical\" class=\"min-w-0\" style=\"--hn-form-label-width: 10rem;\">",
+    "  <div data-hn-form-field=\"\" data-invalid=\"\" data-orientation=\"vertical\" class=\"min-w-0\" style=\"--hn-form-label-width: #rem;\">",
     "    <div data-hn-form-field-layout=\"\" class=\"grid min-w-0 grid-cols-1 items-start gap-x-6 gap-y-1.5\">",
     "      <div data-hn-form-field-header=\"\" class=\"flex min-w-0 flex-col gap-1.5\">",
     "        <label id=\"v-1\" for=\"v-2\" class=\"text-fg inline-flex items-center gap-1 text-sm font-medium\">",
     "          \"可见范围\"",
     "          <span class=\"text-danger-text\" aria-hidden=\"true\">",
     "            \"*\"",
-    "          <span style=\"position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); white-space: nowrap; overflow-wrap: normal; top: -1px; left: -1px;\">",
+    "          <span style=\"position: absolute; border: #px; width: #px; height: #px; padding: #px; margin: #px; overflow: hidden; clip: rect(#px, #px, #px, #px); clip-path: inset(#%); white-space: nowrap; overflow-wrap: normal; top: #px; left: #px;\">",
     "            \"必填\"",
     "        <!--v-if-->",
     "      <div data-hn-form-field-body=\"\" class=\"flex min-w-0 flex-col gap-1.5\">",

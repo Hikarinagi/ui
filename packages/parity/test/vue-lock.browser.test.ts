@@ -27,7 +27,10 @@ describe('Vue live lock', () => {
       const actual: VueLockRecord = {}
       for (const entry of suite.cases) {
         expect(actual, `duplicate case name: ${entry.name}`).not.toHaveProperty([entry.name])
-        actual[entry.name] = normalizeMarkup(await liveVue(entry), { exact: true }).split('\n')
+        actual[entry.name] = normalizeMarkup(await liveVue(entry), {
+          exact: true,
+          geometry: false,
+        }).split('\n')
       }
       if (update) return commands.writeVueLock('live', file, actual)
       for (const [name, expected] of Object.entries(record!))

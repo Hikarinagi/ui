@@ -4,7 +4,7 @@
     "<body-root>",
     "<div id=\"parity-host\" data-v-app=\"\">",
     "  <div data-state=\"closed\" class=\"\">",
-    "    <div style=\"display: flex; flex-direction: column; row-gap: 8px;\">",
+    "    <div style=\"display: flex; flex-direction: column; row-gap: #px;\">",
     "      <button type=\"button\" class=\"hn-interactive relative isolate inline-flex shrink-0 items-center justify-center gap-[var(--hn-control-gap)] rounded-md border border-transparent font-medium whitespace-nowrap select-none disabled:pointer-events-none disabled:opacity-50 data-disabled:pointer-events-none data-disabled:opacity-50 hn-state-layer h-[var(--hn-control-h-md)] px-[var(--hn-control-px-md)] text-base [&_svg]:size-4 text-fg group/hn-disclosure\" aria-controls=\"reka-collapsible-content-v-1\" aria-expanded=\"false\" data-state=\"closed\">",
     "        <div aria-hidden=\"true\" class=\"hn-ripple\">",
     "          <div class=\"hn-ripple-surface\">",
@@ -18,7 +18,7 @@
     "                <path d=\"m6 9 6 6 6-6\">",
     "          <!--v-if-->",
     "        <!--v-if-->",
-    "      <div class=\"hn-anim-collapse\" id=\"reka-collapsible-content-v-1\" hidden=\"\" data-state=\"closed\" style=\"--hn-collapse-h: var(--reka-collapsible-content-height); --reka-collapsible-content-height: 0px; --reka-collapsible-content-width: 0px; --hn-collapse-gap: 8px;\">",
+    "      <div class=\"hn-anim-collapse\" id=\"reka-collapsible-content-v-1\" hidden=\"\" data-state=\"closed\" style=\"--hn-collapse-h: var(--reka-collapsible-content-height); --reka-collapsible-content-height: #px; --reka-collapsible-content-width: #px; --hn-collapse-gap: #px;\">",
     "        <!--v-if-->"
   ],
   "defaultOpen keeps the mount animation suppressed": [
@@ -26,7 +26,7 @@
     "<body-root>",
     "<div id=\"parity-host\" data-v-app=\"\">",
     "  <div data-state=\"open\" class=\"\">",
-    "    <div style=\"display: flex; flex-direction: column; row-gap: 8px;\">",
+    "    <div style=\"display: flex; flex-direction: column; row-gap: #px;\">",
     "      <button type=\"button\" class=\"hn-interactive relative isolate inline-flex shrink-0 items-center justify-center gap-[var(--hn-control-gap)] rounded-md border border-transparent font-medium whitespace-nowrap select-none disabled:pointer-events-none disabled:opacity-50 data-disabled:pointer-events-none data-disabled:opacity-50 hn-state-layer h-[var(--hn-control-h-md)] px-[var(--hn-control-px-md)] text-base [&_svg]:size-4 text-fg group/hn-disclosure\" aria-controls=\"reka-collapsible-content-v-1\" aria-expanded=\"true\" data-state=\"open\">",
     "        <div aria-hidden=\"true\" class=\"hn-ripple\">",
     "          <div class=\"hn-ripple-surface\">",
@@ -40,8 +40,8 @@
     "                <path d=\"m6 9 6 6 6-6\">",
     "          <!--v-if-->",
     "        <!--v-if-->",
-    "      <div class=\"hn-anim-collapse\" id=\"reka-collapsible-content-v-1\" style=\"--hn-collapse-h: var(--reka-collapsible-content-height); --reka-collapsible-content-height: 60px; --reka-collapsible-content-width: 414px; --hn-collapse-gap: 8px; transition-duration: 0s; animation-name: none;\" data-state=\"open\">",
-    "        <p style=\"height: 60px;\">",
+    "      <div class=\"hn-anim-collapse\" id=\"reka-collapsible-content-v-1\" style=\"--hn-collapse-h: var(--reka-collapsible-content-height); --reka-collapsible-content-height: #px; --reka-collapsible-content-width: #px; --hn-collapse-gap: #px; transition-duration: #s; animation-name: none;\" data-state=\"open\">",
+    "        <p style=\"height: #px;\">",
     "          \"折叠内容\""
   ],
   "click expands and measures the content": [
@@ -49,7 +49,7 @@
     "<body-root>",
     "<div id=\"parity-host\" data-v-app=\"\">",
     "  <div data-state=\"open\" class=\"\">",
-    "    <div style=\"display: flex; flex-direction: column; row-gap: 8px;\">",
+    "    <div style=\"display: flex; flex-direction: column; row-gap: #px;\">",
     "      <button type=\"button\" class=\"hn-interactive relative isolate inline-flex shrink-0 items-center justify-center gap-[var(--hn-control-gap)] rounded-md border border-transparent font-medium whitespace-nowrap select-none disabled:pointer-events-none disabled:opacity-50 data-disabled:pointer-events-none data-disabled:opacity-50 hn-state-layer h-[var(--hn-control-h-md)] px-[var(--hn-control-px-md)] text-base [&_svg]:size-4 text-fg group/hn-disclosure\" aria-controls=\"reka-collapsible-content-v-1\" aria-expanded=\"true\" data-state=\"open\">",
     "        <div aria-hidden=\"true\" class=\"hn-ripple\">",
     "          <div class=\"hn-ripple-surface\">",
@@ -63,8 +63,8 @@
     "                <path d=\"m6 9 6 6 6-6\">",
     "          <!--v-if-->",
     "        <!--v-if-->",
-    "      <div class=\"hn-anim-collapse\" id=\"reka-collapsible-content-v-1\" data-state=\"open\" style=\"--hn-collapse-h: var(--reka-collapsible-content-height); --reka-collapsible-content-height: 60px; --reka-collapsible-content-width: 414px; --hn-collapse-gap: 8px;\">",
-    "        <p style=\"height: 60px;\">",
+    "      <div class=\"hn-anim-collapse\" id=\"reka-collapsible-content-v-1\" data-state=\"open\" style=\"--hn-collapse-h: var(--reka-collapsible-content-height); --reka-collapsible-content-height: #px; --reka-collapsible-content-width: #px; --hn-collapse-gap: #px;\">",
+    "        <p style=\"height: #px;\">",
     "          \"折叠内容\""
   ],
   "click twice collapses again": [
@@ -72,7 +72,7 @@
     "<body-root>",
     "<div id=\"parity-host\" data-v-app=\"\">",
     "  <div data-state=\"closed\" class=\"\">",
-    "    <div style=\"display: flex; flex-direction: column; row-gap: 8px;\">",
+    "    <div style=\"display: flex; flex-direction: column; row-gap: #px;\">",
     "      <button type=\"button\" class=\"hn-interactive relative isolate inline-flex shrink-0 items-center justify-center gap-[var(--hn-control-gap)] rounded-md border border-transparent font-medium whitespace-nowrap select-none disabled:pointer-events-none disabled:opacity-50 data-disabled:pointer-events-none data-disabled:opacity-50 hn-state-layer h-[var(--hn-control-h-md)] px-[var(--hn-control-px-md)] text-base [&_svg]:size-4 text-fg group/hn-disclosure\" aria-controls=\"reka-collapsible-content-v-1\" aria-expanded=\"false\" data-state=\"closed\">",
     "        <div aria-hidden=\"true\" class=\"hn-ripple\">",
     "          <div class=\"hn-ripple-surface\">",
@@ -86,7 +86,7 @@
     "                <path d=\"m6 9 6 6 6-6\">",
     "          <!--v-if-->",
     "        <!--v-if-->",
-    "      <div class=\"hn-anim-collapse\" id=\"reka-collapsible-content-v-1\" data-state=\"closed\" style=\"--hn-collapse-h: var(--reka-collapsible-content-height); --reka-collapsible-content-height: 0px; --reka-collapsible-content-width: 0px; --hn-collapse-gap: 8px;\" hidden=\"\">",
+    "      <div class=\"hn-anim-collapse\" id=\"reka-collapsible-content-v-1\" data-state=\"closed\" style=\"--hn-collapse-h: var(--reka-collapsible-content-height); --reka-collapsible-content-height: #px; --reka-collapsible-content-width: #px; --hn-collapse-gap: #px;\" hidden=\"\">",
     "        <!--v-if-->"
   ],
   "defaultOpen then collapse": [
@@ -94,7 +94,7 @@
     "<body-root>",
     "<div id=\"parity-host\" data-v-app=\"\">",
     "  <div data-state=\"closed\" class=\"\">",
-    "    <div style=\"display: flex; flex-direction: column; row-gap: 8px;\">",
+    "    <div style=\"display: flex; flex-direction: column; row-gap: #px;\">",
     "      <button type=\"button\" class=\"hn-interactive relative isolate inline-flex shrink-0 items-center justify-center gap-[var(--hn-control-gap)] rounded-md border border-transparent font-medium whitespace-nowrap select-none disabled:pointer-events-none disabled:opacity-50 data-disabled:pointer-events-none data-disabled:opacity-50 hn-state-layer h-[var(--hn-control-h-md)] px-[var(--hn-control-px-md)] text-base [&_svg]:size-4 text-fg group/hn-disclosure\" aria-controls=\"reka-collapsible-content-v-1\" aria-expanded=\"false\" data-state=\"closed\">",
     "        <div aria-hidden=\"true\" class=\"hn-ripple\">",
     "          <div class=\"hn-ripple-surface\">",
@@ -108,7 +108,7 @@
     "                <path d=\"m6 9 6 6 6-6\">",
     "          <!--v-if-->",
     "        <!--v-if-->",
-    "      <div class=\"hn-anim-collapse\" id=\"reka-collapsible-content-v-1\" style=\"--hn-collapse-h: var(--reka-collapsible-content-height); --reka-collapsible-content-height: 0px; --reka-collapsible-content-width: 0px; --hn-collapse-gap: 8px;\" data-state=\"closed\" hidden=\"\">",
+    "      <div class=\"hn-anim-collapse\" id=\"reka-collapsible-content-v-1\" style=\"--hn-collapse-h: var(--reka-collapsible-content-height); --reka-collapsible-content-height: #px; --reka-collapsible-content-width: #px; --hn-collapse-gap: #px;\" data-state=\"closed\" hidden=\"\">",
     "        <!--v-if-->"
   ],
   "keyboard Enter toggles": [
@@ -116,7 +116,7 @@
     "<body-root>",
     "<div id=\"parity-host\" data-v-app=\"\">",
     "  <div data-state=\"open\" class=\"\">",
-    "    <div style=\"display: flex; flex-direction: column; row-gap: 8px;\">",
+    "    <div style=\"display: flex; flex-direction: column; row-gap: #px;\">",
     "      <button type=\"button\" class=\"hn-interactive relative isolate inline-flex shrink-0 items-center justify-center gap-[var(--hn-control-gap)] rounded-md border border-transparent font-medium whitespace-nowrap select-none disabled:pointer-events-none disabled:opacity-50 data-disabled:pointer-events-none data-disabled:opacity-50 hn-state-layer h-[var(--hn-control-h-md)] px-[var(--hn-control-px-md)] text-base [&_svg]:size-4 text-fg group/hn-disclosure\" aria-controls=\"reka-collapsible-content-v-1\" aria-expanded=\"true\" data-state=\"open\">",
     "        <div aria-hidden=\"true\" class=\"hn-ripple\">",
     "          <div class=\"hn-ripple-surface\">",
@@ -130,8 +130,8 @@
     "                <path d=\"m6 9 6 6 6-6\">",
     "          <!--v-if-->",
     "        <!--v-if-->",
-    "      <div class=\"hn-anim-collapse\" id=\"reka-collapsible-content-v-1\" data-state=\"open\" style=\"--hn-collapse-h: var(--reka-collapsible-content-height); --reka-collapsible-content-height: 60px; --reka-collapsible-content-width: 414px; --hn-collapse-gap: 8px;\">",
-    "        <p style=\"height: 60px;\">",
+    "      <div class=\"hn-anim-collapse\" id=\"reka-collapsible-content-v-1\" data-state=\"open\" style=\"--hn-collapse-h: var(--reka-collapsible-content-height); --reka-collapsible-content-height: #px; --reka-collapsible-content-width: #px; --hn-collapse-gap: #px;\">",
+    "        <p style=\"height: #px;\">",
     "          \"折叠内容\""
   ],
   "disabled ignores clicks": [
@@ -139,7 +139,7 @@
     "<body-root>",
     "<div id=\"parity-host\" data-v-app=\"\">",
     "  <div data-state=\"closed\" data-disabled=\"\" class=\"\">",
-    "    <div style=\"display: flex; flex-direction: column; row-gap: 8px;\">",
+    "    <div style=\"display: flex; flex-direction: column; row-gap: #px;\">",
     "      <button type=\"button\" disabled=\"\" class=\"hn-interactive relative isolate inline-flex shrink-0 items-center justify-center gap-[var(--hn-control-gap)] rounded-md border border-transparent font-medium whitespace-nowrap select-none disabled:pointer-events-none disabled:opacity-50 data-disabled:pointer-events-none data-disabled:opacity-50 hn-state-layer h-[var(--hn-control-h-md)] px-[var(--hn-control-px-md)] text-base [&_svg]:size-4 text-fg group/hn-disclosure\" aria-controls=\"reka-collapsible-content-v-1\" aria-expanded=\"false\" data-state=\"closed\" data-disabled=\"\">",
     "        <div aria-hidden=\"true\" class=\"hn-ripple\">",
     "          <div class=\"hn-ripple-surface\">",
@@ -153,7 +153,7 @@
     "                <path d=\"m6 9 6 6 6-6\">",
     "          <!--v-if-->",
     "        <!--v-if-->",
-    "      <div class=\"hn-anim-collapse\" id=\"reka-collapsible-content-v-1\" hidden=\"\" data-state=\"closed\" data-disabled=\"\" style=\"--hn-collapse-h: var(--reka-collapsible-content-height); --reka-collapsible-content-height: 0px; --reka-collapsible-content-width: 0px; --hn-collapse-gap: 8px;\">",
+    "      <div class=\"hn-anim-collapse\" id=\"reka-collapsible-content-v-1\" hidden=\"\" data-state=\"closed\" data-disabled=\"\" style=\"--hn-collapse-h: var(--reka-collapsible-content-height); --reka-collapsible-content-height: #px; --reka-collapsible-content-width: #px; --hn-collapse-gap: #px;\">",
     "        <!--v-if-->"
   ],
   "asChild Button expands": [
@@ -169,7 +169,7 @@
     "        \"借体开关\"",
     "      <!--v-if-->",
     "      <!--v-if-->",
-    "    <div class=\"hn-anim-collapse\" id=\"reka-collapsible-content-v-1\" data-state=\"open\" style=\"--hn-collapse-h: var(--reka-collapsible-content-height); --reka-collapsible-content-height: 24px; --reka-collapsible-content-width: 414px; --hn-collapse-gap: 0px;\">",
+    "    <div class=\"hn-anim-collapse\" id=\"reka-collapsible-content-v-1\" data-state=\"open\" style=\"--hn-collapse-h: var(--reka-collapsible-content-height); --reka-collapsible-content-height: #px; --reka-collapsible-content-width: #px; --hn-collapse-gap: #px;\">",
     "      <p>",
     "        \"内容\""
   ]

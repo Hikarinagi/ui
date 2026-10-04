@@ -182,7 +182,7 @@
     "            <td role=\"gridcell\" aria-disabled=\"false\" class=\"p-0 text-center align-middle\">",
     "              <div role=\"button\" aria-label=\"2026年10月11日星期日\" data-reka-calendar-cell-trigger=\"\" data-value=\"2026-10-11\" data-outside-view=\"\" data-outside-visible-view=\"\" class=\"hn-interactive hn-state-layer relative inline-flex size-[var(--hn-calendar-cell)] items-center justify-center rounded-md tabular-nums data-[outside-view]:text-faint data-[today]:not-[[data-selected]]:text-accent-text data-[today]:not-[[data-selected]]:font-semibold data-[selected]:bg-accent data-[selected]:text-accent-on data-[selected]:font-medium data-disabled:text-faint data-disabled:pointer-events-none data-[unavailable]:text-faint data-[unavailable]:line-through data-[unavailable]:pointer-events-none\">",
     "                \"11\"",
-    "    <div style=\"border: 0px; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;\">",
+    "    <div style=\"border: #px; clip: rect(#px, #px, #px, #px); clip-path: inset(#%); height: #px; margin: #px; overflow: hidden; padding: #px; position: absolute; white-space: nowrap; width: #px;\">",
     "      <div role=\"heading\" aria-level=\"2\">",
     "        \"日历, 2026年9月\""
   ],
@@ -369,7 +369,7 @@
     "            <td role=\"gridcell\" aria-disabled=\"false\" class=\"p-0 text-center align-middle\">",
     "              <div role=\"button\" aria-label=\"2026年10月11日星期日\" data-reka-calendar-cell-trigger=\"\" data-value=\"2026-10-11\" data-outside-view=\"\" data-outside-visible-view=\"\" class=\"hn-interactive hn-state-layer relative inline-flex size-[var(--hn-calendar-cell)] items-center justify-center rounded-md tabular-nums data-[outside-view]:text-faint data-[today]:not-[[data-selected]]:text-accent-text data-[today]:not-[[data-selected]]:font-semibold data-[selected]:bg-accent data-[selected]:text-accent-on data-[selected]:font-medium data-disabled:text-faint data-disabled:pointer-events-none data-[unavailable]:text-faint data-[unavailable]:line-through data-[unavailable]:pointer-events-none\">",
     "                \"11\"",
-    "    <div style=\"border: 0px; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;\">",
+    "    <div style=\"border: #px; clip: rect(#px, #px, #px, #px); clip-path: inset(#%); height: #px; margin: #px; overflow: hidden; padding: #px; position: absolute; white-space: nowrap; width: #px;\">",
     "      <div role=\"heading\" aria-level=\"2\">",
     "        \"日历, 2026年9月\""
   ],
@@ -556,7 +556,7 @@
     "            <td role=\"gridcell\" aria-disabled=\"false\" class=\"p-0 text-center align-middle\">",
     "              <div role=\"button\" aria-label=\"2026年10月11日星期日\" data-reka-calendar-cell-trigger=\"\" data-value=\"2026-10-11\" data-outside-view=\"\" data-outside-visible-view=\"\" class=\"hn-interactive hn-state-layer relative inline-flex size-[var(--hn-calendar-cell)] items-center justify-center rounded-md tabular-nums data-[outside-view]:text-faint data-[today]:not-[[data-selected]]:text-accent-text data-[today]:not-[[data-selected]]:font-semibold data-[selected]:bg-accent data-[selected]:text-accent-on data-[selected]:font-medium data-disabled:text-faint data-disabled:pointer-events-none data-[unavailable]:text-faint data-[unavailable]:line-through data-[unavailable]:pointer-events-none\">",
     "                \"11\"",
-    "    <div style=\"border: 0px; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;\">",
+    "    <div style=\"border: #px; clip: rect(#px, #px, #px, #px); clip-path: inset(#%); height: #px; margin: #px; overflow: hidden; padding: #px; position: absolute; white-space: nowrap; width: #px;\">",
     "      <div role=\"heading\" aria-level=\"2\">",
     "        \"日历, 2026年9月\""
   ],
@@ -743,7 +743,7 @@
     "            <td role=\"gridcell\" aria-disabled=\"false\" class=\"p-0 text-center align-middle\">",
     "              <div role=\"button\" aria-label=\"2026年11月8日星期日\" data-reka-calendar-cell-trigger=\"\" data-value=\"2026-11-08\" data-outside-view=\"\" data-outside-visible-view=\"\" class=\"hn-interactive hn-state-layer relative inline-flex size-[var(--hn-calendar-cell)] items-center justify-center rounded-md tabular-nums data-[outside-view]:text-faint data-[today]:not-[[data-selected]]:text-accent-text data-[today]:not-[[data-selected]]:font-semibold data-[selected]:bg-accent data-[selected]:text-accent-on data-[selected]:font-medium data-disabled:text-faint data-disabled:pointer-events-none data-[unavailable]:text-faint data-[unavailable]:line-through data-[unavailable]:pointer-events-none\">",
     "                \"8\"",
-    "    <div style=\"border: 0px; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;\">",
+    "    <div style=\"border: #px; clip: rect(#px, #px, #px, #px); clip-path: inset(#%); height: #px; margin: #px; overflow: hidden; padding: #px; position: absolute; white-space: nowrap; width: #px;\">",
     "      <div role=\"heading\" aria-level=\"2\">",
     "        \"日历, 2026年10月\""
   ],
@@ -930,7 +930,7 @@
     "            <td role=\"gridcell\" aria-disabled=\"true\" data-disabled=\"\" class=\"p-0 text-center align-middle\">",
     "              <div role=\"button\" aria-label=\"2026年11月8日星期日\" data-reka-calendar-cell-trigger=\"\" aria-disabled=\"true\" data-value=\"2026-11-08\" data-disabled=\"\" data-outside-view=\"\" data-outside-visible-view=\"\" class=\"hn-interactive hn-state-layer relative inline-flex size-[var(--hn-calendar-cell)] items-center justify-center rounded-md tabular-nums data-[outside-view]:text-faint data-[today]:not-[[data-selected]]:text-accent-text data-[today]:not-[[data-selected]]:font-semibold data-[selected]:bg-accent data-[selected]:text-accent-on data-[selected]:font-medium data-disabled:text-faint data-disabled:pointer-events-none data-[unavailable]:text-faint data-[unavailable]:line-through data-[unavailable]:pointer-events-none\">",
     "                \"8\"",
-    "    <div style=\"border: 0px; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;\">",
+    "    <div style=\"border: #px; clip: rect(#px, #px, #px, #px); clip-path: inset(#%); height: #px; margin: #px; overflow: hidden; padding: #px; position: absolute; white-space: nowrap; width: #px;\">",
     "      <div role=\"heading\" aria-level=\"2\">",
     "        \"日历, 2026年10月\""
   ],
@@ -1009,10 +1009,10 @@
     "              <td role=\"gridcell\" aria-disabled=\"false\" class=\"p-1 align-middle\">",
     "                <div role=\"button\" aria-label=\"2026年12月\" data-reka-month-picker-cell-trigger=\"\" data-value=\"2026-12-01\" tabindex=\"-1\" class=\"hn-interactive hn-state-layer relative flex h-[var(--hn-calendar-cell)] w-full items-center justify-center rounded-md whitespace-nowrap tabular-nums data-[today]:not-[[data-selected]]:text-accent-text data-[today]:not-[[data-selected]]:font-semibold data-[selected]:bg-accent data-[selected]:text-accent-on data-[selected]:font-medium data-disabled:text-faint data-disabled:pointer-events-none data-[unavailable]:text-faint data-[unavailable]:pointer-events-none\">",
     "                  \"12月\"",
-    "      <div style=\"border: 0px; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;\">",
+    "      <div style=\"border: #px; clip: rect(#px, #px, #px, #px); clip-path: inset(#%); height: #px; margin: #px; overflow: hidden; padding: #px; position: absolute; white-space: nowrap; width: #px;\">",
     "        <div role=\"heading\" aria-level=\"2\">",
     "          \"日历, 2026年\"",
-    "    <div style=\"border: 0px; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;\">",
+    "    <div style=\"border: #px; clip: rect(#px, #px, #px, #px); clip-path: inset(#%); height: #px; margin: #px; overflow: hidden; padding: #px; position: absolute; white-space: nowrap; width: #px;\">",
     "      <div role=\"heading\" aria-level=\"2\">",
     "        \"日历, 2026年9月\""
   ],
@@ -1085,10 +1085,10 @@
     "              <td role=\"gridcell\" aria-disabled=\"false\" class=\"p-1 align-middle\">",
     "                <div role=\"button\" aria-label=\"2031年\" data-reka-year-picker-cell-trigger=\"\" data-value=\"2031-01-01\" tabindex=\"-1\" class=\"hn-interactive hn-state-layer relative flex h-[var(--hn-calendar-cell)] w-full items-center justify-center rounded-md whitespace-nowrap tabular-nums data-[today]:not-[[data-selected]]:text-accent-text data-[today]:not-[[data-selected]]:font-semibold data-[selected]:bg-accent data-[selected]:text-accent-on data-[selected]:font-medium data-disabled:text-faint data-disabled:pointer-events-none data-[unavailable]:text-faint data-[unavailable]:pointer-events-none\">",
     "                  \"2031\"",
-    "      <div style=\"border: 0px; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;\">",
+    "      <div style=\"border: #px; clip: rect(#px, #px, #px, #px); clip-path: inset(#%); height: #px; margin: #px; overflow: hidden; padding: #px; position: absolute; white-space: nowrap; width: #px;\">",
     "        <div role=\"heading\" aria-level=\"2\">",
     "          \"日历, 2020年 - 2031年\"",
-    "    <div style=\"border: 0px; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;\">",
+    "    <div style=\"border: #px; clip: rect(#px, #px, #px, #px); clip-path: inset(#%); height: #px; margin: #px; overflow: hidden; padding: #px; position: absolute; white-space: nowrap; width: #px;\">",
     "      <div role=\"heading\" aria-level=\"2\">",
     "        \"日历, 2026年9月\""
   ],
@@ -1275,7 +1275,7 @@
     "            <td role=\"gridcell\" aria-disabled=\"false\" class=\"p-0 text-center align-middle\">",
     "              <div role=\"button\" aria-label=\"2028年2月6日星期日\" data-reka-calendar-cell-trigger=\"\" data-value=\"2028-02-06\" data-outside-view=\"\" data-outside-visible-view=\"\" class=\"hn-interactive hn-state-layer relative inline-flex size-[var(--hn-calendar-cell)] items-center justify-center rounded-md tabular-nums data-[outside-view]:text-faint data-[today]:not-[[data-selected]]:text-accent-text data-[today]:not-[[data-selected]]:font-semibold data-[selected]:bg-accent data-[selected]:text-accent-on data-[selected]:font-medium data-disabled:text-faint data-disabled:pointer-events-none data-[unavailable]:text-faint data-[unavailable]:line-through data-[unavailable]:pointer-events-none\">",
     "                \"6\"",
-    "    <div style=\"border: 0px; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;\">",
+    "    <div style=\"border: #px; clip: rect(#px, #px, #px, #px); clip-path: inset(#%); height: #px; margin: #px; overflow: hidden; padding: #px; position: absolute; white-space: nowrap; width: #px;\">",
     "      <div role=\"heading\" aria-level=\"2\">",
     "        \"日历, 2028年1月\""
   ],
@@ -1348,10 +1348,10 @@
     "              <td role=\"gridcell\" aria-disabled=\"false\" class=\"p-1 align-middle\">",
     "                <div role=\"button\" aria-label=\"2043年\" data-reka-year-picker-cell-trigger=\"\" data-value=\"2043-01-01\" tabindex=\"-1\" class=\"hn-interactive hn-state-layer relative flex h-[var(--hn-calendar-cell)] w-full items-center justify-center rounded-md whitespace-nowrap tabular-nums data-[today]:not-[[data-selected]]:text-accent-text data-[today]:not-[[data-selected]]:font-semibold data-[selected]:bg-accent data-[selected]:text-accent-on data-[selected]:font-medium data-disabled:text-faint data-disabled:pointer-events-none data-[unavailable]:text-faint data-[unavailable]:pointer-events-none\">",
     "                  \"2043\"",
-    "      <div style=\"border: 0px; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;\">",
+    "      <div style=\"border: #px; clip: rect(#px, #px, #px, #px); clip-path: inset(#%); height: #px; margin: #px; overflow: hidden; padding: #px; position: absolute; white-space: nowrap; width: #px;\">",
     "        <div role=\"heading\" aria-level=\"2\">",
     "          \"日历, 2032年 - 2043年\"",
-    "    <div style=\"border: 0px; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;\">",
+    "    <div style=\"border: #px; clip: rect(#px, #px, #px, #px); clip-path: inset(#%); height: #px; margin: #px; overflow: hidden; padding: #px; position: absolute; white-space: nowrap; width: #px;\">",
     "      <div role=\"heading\" aria-level=\"2\">",
     "        \"日历, 2032年9月\""
   ],
@@ -1538,7 +1538,7 @@
     "            <td role=\"gridcell\" aria-disabled=\"false\" class=\"p-0 text-center align-middle\">",
     "              <div role=\"button\" aria-label=\"2026年10月11日星期日\" data-reka-calendar-cell-trigger=\"\" data-value=\"2026-10-11\" data-outside-view=\"\" data-outside-visible-view=\"\" class=\"hn-interactive hn-state-layer relative inline-flex size-[var(--hn-calendar-cell)] items-center justify-center rounded-md tabular-nums data-[outside-view]:text-faint data-[today]:not-[[data-selected]]:text-accent-text data-[today]:not-[[data-selected]]:font-semibold data-[selected]:bg-accent data-[selected]:text-accent-on data-[selected]:font-medium data-disabled:text-faint data-disabled:pointer-events-none data-[unavailable]:text-faint data-[unavailable]:line-through data-[unavailable]:pointer-events-none\">",
     "                \"11\"",
-    "    <div style=\"border: 0px; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;\">",
+    "    <div style=\"border: #px; clip: rect(#px, #px, #px, #px); clip-path: inset(#%); height: #px; margin: #px; overflow: hidden; padding: #px; position: absolute; white-space: nowrap; width: #px;\">",
     "      <div role=\"heading\" aria-level=\"2\">",
     "        \"日历, 2026年9月\""
   ],
@@ -1725,7 +1725,7 @@
     "            <td role=\"gridcell\" aria-disabled=\"false\" class=\"p-0 text-center align-middle\">",
     "              <div role=\"button\" aria-label=\"2026年10月11日星期日\" data-reka-calendar-cell-trigger=\"\" data-value=\"2026-10-11\" data-outside-view=\"\" data-outside-visible-view=\"\" class=\"hn-interactive hn-state-layer relative inline-flex size-[var(--hn-calendar-cell)] items-center justify-center rounded-md tabular-nums data-[outside-view]:text-faint data-[today]:not-[[data-selected]]:text-accent-text data-[today]:not-[[data-selected]]:font-semibold data-[selected]:bg-accent data-[selected]:text-accent-on data-[selected]:font-medium data-disabled:text-faint data-disabled:pointer-events-none data-[unavailable]:text-faint data-[unavailable]:line-through data-[unavailable]:pointer-events-none\">",
     "                \"11\"",
-    "    <div style=\"border: 0px; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;\">",
+    "    <div style=\"border: #px; clip: rect(#px, #px, #px, #px); clip-path: inset(#%); height: #px; margin: #px; overflow: hidden; padding: #px; position: absolute; white-space: nowrap; width: #px;\">",
     "      <div role=\"heading\" aria-level=\"2\">",
     "        \"日历, 2026年9月\""
   ]
