@@ -1,8 +1,8 @@
 <h1 align="center">Hina UI</h1>
-<p align="center">优雅、克制的 Vue 3 组件库。</p>
+<p align="center">The design system behind Hikarinagi, open source for Vue and React.</p>
 <p align="center"><a href="./README.md">English</a> | 中文</p>
 
-由 [Reka UI](https://reka-ui.com) 和 [Tailwind CSS v4](https://tailwindcss.com) 驱动，组件覆盖排版、布局、浮层与页面骨架。
+基于 [Tailwind CSS v4](https://tailwindcss.com) 构建，两个框架共用一套设计语言，组件、样式与行为一致。组件覆盖排版、布局、浮层与页面骨架。
 
 - **深色模式与紧凑模式** 在外层容器设置一个属性，整片界面随之切换，组件不必逐个适配。
 - **外观可调** 颜色、圆角、动效时长都是 CSS 变量，覆盖变量即可自定义外观。
@@ -11,12 +11,15 @@
 
 ## 文档
 
-[hinaui.dev](https://hinaui.dev)
+- Vue：[hinaui.dev](https://hinaui.dev)
+- React：[react.hinaui.dev](https://react.hinaui.dev)
 
 ## 安装
 
 ```bash
 pnpm add @hina-ui/vue
+# 或
+pnpm add @hina-ui/react
 ```
 
 ## 参与开发

@@ -3,7 +3,7 @@
     "text": "为 React 构建的界面语言。"
   },
   "landing": {
-    "title": "优雅、克制的 React 组件库",
+    "title": "The design system behind Hikarinagi",
     "subtitle": "基于 Tailwind CSS v4 构建，组件覆盖排版、布局、浮层与页面骨架。"
   },
   "framework": {

@@ -1,6 +1,6 @@
 # Porting a component to React
 
-This is the procedure for bringing one Vue component to `@hina-ui/react`. Read [README.md](./README.md) first; it defines the layering, the primitive policy and the API mapping that this procedure applies.
+This is the procedure for bringing one Vue component to `@hina-ui/react`. Read [ARCHITECTURE.md](./ARCHITECTURE.md) first; it defines the layering, the primitive policy and the API mapping that this procedure applies.
 
 The Vue component is the specification. Its source, its tests and its documentation page (`docs/content/zh-CN/components/<name>.md`) together define what the React component must do. Do not improve, simplify or redesign while porting. If the Vue behavior looks wrong, port it faithfully and report it; a fix lands in both packages at once, Vue first.
 
@@ -46,7 +46,7 @@ Class, style and attribute merging must reproduce Vue's result exactly. Vue merg
 Primitives:
 
 - Reka `Primitive` with `as` / `asChild` → `Primitive` from `lib/primitive.tsx`.
-- Reka components with a Radix equivalent → `radix-ui` (`import { Dialog } from 'radix-ui'`) when the live parity cases pass; otherwise port Reka's primitive (see the README's primitive policy and `src/primitives/tooltip` as the model). Building blocks (`Presence`, `DismissableLayer`, `FocusScope`, `RovingFocus`, `Collection`, `useControllableState`, `composeEventHandlers`, `useComposedRefs`) come from `radix-ui/internal`; floating content uses the Reka `Popper` port in `src/primitives/popper`, never Radix's `Popper`.
+- Reka components with a Radix equivalent → `radix-ui` (`import { Dialog } from 'radix-ui'`) when the live parity cases pass; otherwise port Reka's primitive (see the architecture primitive policy and `src/primitives/tooltip` as the model). Building blocks (`Presence`, `DismissableLayer`, `FocusScope`, `RovingFocus`, `Collection`, `useControllableState`, `composeEventHandlers`, `useComposedRefs`) come from `radix-ui/internal`; floating content uses the Reka `Popper` port in `src/primitives/popper`, never Radix's `Popper`.
 - Reka-only primitives are ported into `src/primitives/<name>/` following Reka's implementation and DOM. Keep the Reka MIT notice in a `LICENSE` file in that directory.
 - When Radix renders different DOM from Reka (attributes, wrappers, inline styles), the React component must reproduce Reka's output. The markup parity test is the judge.
 - `--reka-*` CSS variables are mapped in Vue's `lib/reka/styles.ts`; the React equivalents map `--radix-*` in `src/lib/radix/styles.ts` onto the same `--hn-*` names. No other React file may mention `--radix-*`.
@@ -73,7 +73,7 @@ Runtime constraints are enforced by `packages/parity/test/constraints.test.ts` a
 
 ## 4. Export
 
-Add the component and its public types to the barrel for its documentation category in `src/exports/<category>.ts` (the category is the one in `docs/app/nav.ts`). Export the same names and types as `packages/vue/src/index.ts`, renamed only as the README's mapping table says (`provide*` → `*Provider`). Do not edit `src/index.ts` or `packages/parity/coverage/pending.json`.
+Add the component and its public types to the barrel for its documentation category in `src/exports/<category>.ts` (the category is the one in `docs/app/nav.ts`). Export the same names and types as `packages/vue/src/index.ts`, renamed only as the architecture mapping table says (`provide*` → `*Provider`). Do not edit `src/index.ts` or `packages/parity/coverage/pending.json`.
 
 ## 5. Prove parity
 
@@ -97,6 +97,6 @@ pnpm --filter @hina-ui/parity test
 pnpm --filter @hina-ui/parity test:browser
 ```
 
-`packages/parity/test/api.test.ts` compares the API surface: it reads each public Vue component's props, emits, slots and exposed members with `vue-component-meta`, renames them by the README's API mapping (`packages/parity/src/api/mapping.ts`, shared with the React documentation) and checks them against the React props and ref handle types. Fix what it reports, or record the difference with a reason in `packages/parity/src/api/coverage.ts`. `packages/parity/coverage/api-pending.json` lists known gaps and may only shrink; `pnpm --filter @hina-ui/parity api:update` removes the ones you fixed.
+`packages/parity/test/api.test.ts` compares the API surface: it reads each public Vue component's props, emits, slots and exposed members with `vue-component-meta`, renames them by the API mapping in ARCHITECTURE.md (`packages/parity/src/api/mapping.ts`, shared with the React documentation) and checks them against the React props and ref handle types. Fix what it reports, or record the difference with a reason in `packages/parity/src/api/coverage.ts`. `packages/parity/coverage/api-pending.json` lists known gaps and may only shrink; `pnpm --filter @hina-ui/parity api:update` removes the ones you fixed.
 
 If Vue files were touched, also run `pnpm --filter @hina-ui/vue typecheck` and the Vue unit and browser tests of every component that imports the moved module. The export coverage test in `@hina-ui/parity` reports newly ported names as removable from the pending list; that failure is expected until the pending list is regenerated.

@@ -4,7 +4,7 @@
     "link": "v{version} is out"
   },
   "landing": {
-    "title": "An elegant, restrained Vue 3 component library",
+    "title": "The design system behind Hikarinagi",
     "subtitle": "Powered by Reka UI and Tailwind CSS v4. The components cover typography, layout, overlays and page scaffolding.",
     "start": "Get started",
     "browse": "Browse components",

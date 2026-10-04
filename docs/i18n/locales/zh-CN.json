@@ -4,7 +4,7 @@
     "link": "v{version} 已发布"
   },
   "landing": {
-    "title": "优雅、克制的 Vue 3 组件库",
+    "title": "The design system behind Hikarinagi",
     "subtitle": "由 Reka UI 和 Tailwind CSS v4 驱动，组件覆盖排版、布局、浮层与页面骨架。",
     "start": "开始使用",
     "browse": "浏览组件",

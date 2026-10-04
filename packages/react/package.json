@@ -1,8 +1,7 @@
 {
   "name": "@hina-ui/react",
-  "version": "0.0.0",
-  "private": true,
-  "description": "An elegant, restrained React component library built on Radix UI and Tailwind CSS v4.",
+  "version": "1.7.5",
+  "description": "The design system behind Hikarinagi: React 19 components built on Tailwind CSS v4.",
   "keywords": [
     "react",
     "component-library",
@@ -12,7 +11,7 @@
     "radix-ui",
     "accessibility"
   ],
-  "homepage": "https://hinaui.dev",
+  "homepage": "https://react.hinaui.dev",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Hikarinagi/ui.git",
@@ -39,6 +38,9 @@
     "!src/**/*.test.ts",
     "!src/**/*.test.tsx"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "vite build && tsc -p tsconfig.build.json && node ../../scripts/package-shared.mjs react",
     "typecheck": "tsc --noEmit -p tsconfig.json",
