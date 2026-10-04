@@ -149,7 +149,7 @@ jobs:
           if-no-files-found: ignore
           retention-days: 7
 
-  build:
+  docs-vue:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -162,9 +162,9 @@ jobs:
       - run: pnpm build
         env:
           NODE_OPTIONS: --max-old-space-size=8192
-      - uses: actions/upload-artifact@v4
+          NUXT_APP_BASE_URL: ${{ vars.DOCS_BASE_URL || '/' }}
+      - uses: actions/upload-pages-artifact@v3
         with:
-          name: docs
           path: docs/vue/.output/public
           retention-days: 7
 
@@ -182,7 +182,6 @@ jobs:
       - run: pnpm test:package:react
 
   docs-react:
-    name: docs-react
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -194,6 +193,54 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @hina-ui/docs-react lint
       - run: pnpm --filter @hina-ui/docs-react test
-      - run: pnpm --filter @hina-ui/docs-react build
+      - run: pnpm --filter @hina-ui/docs-react exec opennextjs-cloudflare build
         env:
           NODE_OPTIONS: --max-old-space-size=8192
+      - uses: actions/upload-artifact@v4
+        with:
+          name: docs-react
+          path: docs/react/.open-next
+          include-hidden-files: true
+          retention-days: 7
+
+  deploy-docs-vue:
+    name: deploy docs-vue
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs:
+      [check, test, browser, react-browser, parity, cross-engine, docs-vue, package, docs-react]
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+  deploy-docs-react:
+    name: deploy docs-react
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs:
+      [check, test, browser, react-browser, parity, cross-engine, docs-vue, package, docs-react]
+    runs-on: ubuntu-latest
+    environment:
+      name: react-docs
+      url: https://react.hinaui.dev
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v4
+        with:
+          name: docs-react
+          path: docs/react/.open-next
+      - run: pnpm --filter @hina-ui/docs-react exec opennextjs-cloudflare deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
