@@ -4,7 +4,7 @@
     "link": "v{version} 已发布"
   },
   "landing": {
-    "title": "The design system behind Hikarinagi",
+    "title": "驱动 {brand} 的设计系统",
     "subtitle": "由 Reka UI 和 Tailwind CSS v4 驱动。",
     "start": "开始使用",
     "browse": "浏览组件",

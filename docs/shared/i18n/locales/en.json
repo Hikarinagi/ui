@@ -4,7 +4,7 @@
     "link": "v{version} is out"
   },
   "landing": {
-    "title": "The design system behind Hikarinagi",
+    "title": "The design system behind {brand}",
     "subtitle": "Powered by Reka UI and Tailwind CSS v4.",
     "start": "Get started",
     "browse": "Browse components",

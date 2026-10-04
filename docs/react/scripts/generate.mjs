@@ -142,11 +142,18 @@ for (const name of wrappers)
     ].join('\n'),
   )
 
-const wordmark = readFileSync(
-  fileURLToPath(new URL('../../shared/hina-wordmark.svg', import.meta.url)),
-  'utf8',
+const svgLiteral = path =>
+  readFileSync(fileURLToPath(new URL(path, import.meta.url)), 'utf8')
+    .replace(/\\/g, '\\\\')
+    .replace(/'/g, "\\'")
+    .replace(/\n/g, '\\n')
+write(
+  join(site, 'components', 'wordmark-svg.ts'),
+  [
+    `export const wordmarkSvg =\n  '${svgLiteral('../../shared/hina-wordmark.svg')}'`,
+    `export const hikarinagiSvg =\n  '${svgLiteral('../../shared/hikarinagi-wordmark.svg')}'`,
+    '',
+  ].join('\n\n'),
 )
-const literal = wordmark.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\n/g, '\\n')
-write(join(site, 'components', 'wordmark-svg.ts'), `export const wordmarkSvg =\n  '${literal}'\n`)
 
 console.log(`Generated ${routes} routes`)

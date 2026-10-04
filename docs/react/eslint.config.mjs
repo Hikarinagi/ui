@@ -105,6 +105,7 @@ export default [
       'demos/*/*/prose.tsx',
       'demos/*/toast/custom.tsx',
       'components/Wordmark.tsx',
+      'components/HikarinagiWordmark.tsx',
       'components/ThemeScript.tsx',
       'components/BannerScript.tsx',
       'components/BrandIcon.tsx',

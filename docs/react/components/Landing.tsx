@@ -4,6 +4,7 @@ import { Container, Divider, Heading, Inline, SimpleGrid, Stack, Tag, Text } fro
 import { translator } from '~/lib/i18n'
 import { components } from '~/lib/nav'
 import { hrefFor, type Locale } from '~/lib/routes'
+import { HikarinagiWordmark } from './HikarinagiWordmark'
 import { LandingWall } from './LandingWall'
 import { LinkButton } from './LinkButton'
 import { Wordmark } from './Wordmark'
@@ -13,6 +14,7 @@ const FEATURES = ['modes', 'appearance', 'a11y', 'scaffolding'] as const
 export function Landing({ locale, version }: { locale: Locale; version: string }) {
   const t = translator(locale)
   const href = (to: string) => hrefFor(locale, to)
+  const [before, after] = t('landing.title', { brand: '{brand}' }).split('{brand}')
   return (
     <Stack gap="none">
       <Container size="xl" className="py-24 sm:py-32 lg:py-40">
@@ -30,7 +32,9 @@ export function Landing({ locale, version }: { locale: Locale; version: string }
               </NextLink>
             </Tag>
             <Heading level={1} size="2xl" className="max-w-4xl text-5xl text-balance sm:text-7xl">
-              {t('landing.title')}
+              {before}
+              <HikarinagiWordmark />
+              {after}
             </Heading>
             <Text tone="muted" size="xl" className="mt-6 max-w-2xl text-balance break-keep">
               {t('landing.subtitle', { count: String(components.length) })}

@@ -102,7 +102,7 @@ export default withNuxt(
     },
   },
   {
-    files: ['app/components/docs/Wordmark.vue'],
+    files: ['app/components/docs/Wordmark.vue', 'app/components/docs/HikarinagiWordmark.vue'],
     rules: {
       'vue/no-restricted-html-elements': 'off',
       'vue/no-v-html': 'off',

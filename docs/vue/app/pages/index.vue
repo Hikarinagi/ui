@@ -44,7 +44,9 @@
             {{ t('landing.release', { version }) }}
           </Tag>
           <Heading :level="1" size="2xl" class="max-w-4xl text-5xl text-balance sm:text-7xl">
-            {{ t('landing.title') }}
+            <i18n-t keypath="landing.title" scope="global">
+              <template #brand><DocsHikarinagiWordmark /></template>
+            </i18n-t>
           </Heading>
           <Text tone="muted" size="xl" class="mt-6 max-w-2xl text-balance">
             {{ t('landing.subtitle', { count: components.length }) }}
