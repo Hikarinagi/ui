@@ -42,7 +42,17 @@ Once copying succeeds the name always switches to “Copied”, and the custom n
 
 ### The copied event {#event}
 
+::: vue
+
 On success the component emits `copied` with the text that was written. Nothing is emitted on failure.
+
+:::
+
+::: react
+
+On success the component calls `onCopied` with the text that was written. It is not called on failure.
+
+:::
 
 <Demo name="copy-button/event" />
 

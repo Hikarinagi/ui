@@ -52,13 +52,33 @@ import { Badge } from '@hina-ui/vue'
 
 ### 自定义内容 {#content}
 
+::: vue
+
 `content` 插槽用于替换徽标的内容，例如放入一个图标。
 
 徽标是否渲染仍然由 `content` 属性决定，因此使用插槽时 `content` 也要设置为非空值。此时应当通过 `label` 提供无障碍名称。
 
+:::
+
+::: react
+
+`content` 也可以传入元素，例如一个图标。此时应当通过 `label` 提供无障碍名称。
+
+:::
+
 <Demo name="badge/content" />
 
+::: vue
+
 设置 `bare` 后徽标不绘制底色，也没有内边距，只负责定位与描边，尺寸由插槽内容决定。把 `Indicator` 放入插槽即可在头像角上显示状态点。
+
+:::
+
+::: react
+
+设置 `bare` 后徽标不绘制底色，也没有内边距，只负责定位与描边，尺寸由 `content` 决定。把 `Indicator` 传给 `content` 即可在头像角上显示状态点。
+
+:::
 
 <Demo name="indicator/badge" />
 

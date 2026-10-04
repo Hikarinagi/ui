@@ -1,0 +1,9 @@
+.next/
+.vercel/
+/demos/pages/
+/app/(zh)/**/page.tsx
+/app/en/**/page.tsx
+/components/wordmark-svg.ts
+next-env.d.ts
+.open-next/
+.wrangler/

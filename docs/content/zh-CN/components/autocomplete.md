@@ -43,7 +43,17 @@ function complete(option, context) {
 
 ### 远程候选 {#remote}
 
+::: vue
+
 `loading` 显示加载指示和列表中的状态提示，保留输入文字。异步替换 `options` 会清除旧高亮，新结果不会自动选中第一项。无候选时可以通过 `#empty` 自定义提示；加载文案使用 `#loading`。
+
+:::
+
+::: react
+
+`loading` 显示加载指示和列表中的状态提示，保留输入文字。异步替换 `options` 会清除旧高亮，新结果不会自动选中第一项。无候选时可以通过 `empty` 自定义提示；加载文案使用 `loadingContent`。
+
+:::
 
 请求、防抖、取消和过期响应处理由调用方负责。示例请求随文档部署的静态 JSON，在调用方筛选结果；改为实际搜索接口时保留相同的数据流即可。
 
@@ -59,7 +69,17 @@ function complete(option, context) {
 
 通过 `FormField` 的 `name` 关联校验规则，错误与提交期间的禁用状态会自动传给输入框。候选只提供补全建议，用户输入的其他文本也可以提交。
 
+::: vue
+
 将 `@submit` 接到 `Form` 实例的 `submit()`：回车有高亮候选时只完成补全，没有高亮候选时才触发表单校验与提交；保存按钮也走同一套校验。
+
+:::
+
+::: react
+
+在 `onSubmit` 中调用 `Form` ref 的 `submit()`：回车有高亮候选时只完成补全，没有高亮候选时才触发表单校验与提交；保存按钮也走同一套校验。
+
+:::
 
 <Demo name="autocomplete/form" />
 
@@ -73,13 +93,33 @@ function complete(option, context) {
 - 中文等输入法组词期间不处理候选选择、提交或清除，组词完成后再更新建议。
 - 失焦保留文本。`readonly` 可聚焦、选择和复制文本，但不打开建议；`disabled` 禁止交互。
 
+::: vue
+
 输入框、列表和候选分别使用 `combobox`、`listbox`、`option` 语义，活动项由 `aria-activedescendant` 关联。为组件提供 [FormField](/components/form-field)、关联的标签或 `aria-label`。候选内容插槽用于展示，不应嵌入按钮、链接等独立交互控件。
+
+:::
+
+::: react
+
+输入框、列表和候选分别使用 `combobox`、`listbox`、`option` 语义，活动项由 `aria-activedescendant` 关联。为组件提供 [FormField](/components/form-field)、关联的标签或 `aria-label`。`renderOption` 返回的内容用于展示，不应嵌入按钮、链接等独立交互控件。
+
+:::
 
 ## API {#api}
 
 ### Props {#props}
 
+::: vue
+
 `T extends AutocompleteOption` 从 `options` 推断，额外业务字段在回调和插槽中保留类型。
+
+:::
+
+::: react
+
+`T extends AutocompleteOption` 从 `options` 推断，额外业务字段在回调和渲染函数中保留类型。
+
+:::
 
 | 属性            | 类型                                                        | 默认值      | 说明                                                         |
 | --------------- | ----------------------------------------------------------- | ----------- | ------------------------------------------------------------ |
@@ -99,6 +139,8 @@ function complete(option, context) {
 
 ### 插槽 {#slots}
 
+::: vue
+
 | 插槽       | 参数                             | 说明                                           |
 | ---------- | -------------------------------- | ---------------------------------------------- |
 | `leading`  | —                                | 左侧图标等附加内容                             |
@@ -106,6 +148,20 @@ function complete(option, context) {
 | `option`   | `{ option: T, active: boolean }` | 候选展示内容，行的交互与无障碍由组件负责       |
 | `empty`    | —                                | 无候选提示                                     |
 | `loading`  | —                                | 列表内加载提示                                 |
+
+:::
+
+::: react
+
+| 属性             | 参数                             | 说明                                           |
+| ---------------- | -------------------------------- | ---------------------------------------------- |
+| `leading`        | —                                | 左侧图标等附加内容                             |
+| `trailing`       | —                                | 右侧快捷键提示或状态标记；RTL 下随逻辑方向排列 |
+| `renderOption`   | `{ option: T, active: boolean }` | 候选展示内容，行的交互与无障碍由组件负责       |
+| `empty`          | —                                | 无候选提示                                     |
+| `loadingContent` | —                                | 列表内加载提示                                 |
+
+:::
 
 ### 事件 {#events}
 
@@ -120,7 +176,17 @@ function complete(option, context) {
 
 ### 实例 {#expose}
 
+::: vue
+
 `input` 暴露内部 `HTMLInputElement`，可使用 `setSelectionRange()` 操作选区；`focus()`、`blur()` 分别聚焦和失焦。实例仅在挂载后可用。
+
+:::
+
+::: react
+
+ref 的 `input` 指向内部 `HTMLInputElement`，可使用 `setSelectionRange()` 操作选区；`focus()`、`blur()` 分别聚焦和失焦。ref 仅在挂载后可用。
+
+:::
 
 ### 类型 {#types}
 

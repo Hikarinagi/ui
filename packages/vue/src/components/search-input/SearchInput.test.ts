@@ -102,3 +102,22 @@ describe('状态语义', () => {
     await expectNoA11yViolations(w.element)
   })
 })
+
+describe('实例方法', () => {
+  it('与 Input 一样暴露 focus 与 clear', async () => {
+    const w = mount(SearchInput, {
+      props: {
+        modelValue: 'text',
+        'onUpdate:modelValue': (value: string | undefined) => w.setProps({ modelValue: value }),
+      },
+      attachTo: document.body,
+    })
+    const exposed = w.vm as unknown as { focus: () => void; clear: () => void }
+    exposed.focus()
+    expect(document.activeElement).toBe(w.find('input').element)
+    exposed.clear()
+    await w.vm.$nextTick()
+    expect(w.emitted('update:modelValue')?.at(-1)).toEqual([''])
+    w.unmount()
+  })
+})

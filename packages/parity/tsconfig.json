@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "jsx": "react-jsx",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "noEmit": true,
+    "types": ["vite/client", "node"],
+    "paths": {
+      "@hina-ui/vue": ["../vue/src/index.ts"],
+      "@hina-ui/vue/*": ["../vue/src/*"],
+      "@hina-ui/react": ["../react/src/index.ts"],
+      "@hina-ui/react/*": ["../react/src/*"]
+    },
+    "allowImportingTsExtensions": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "cases/**/*.tsx", "test/**/*.ts", "vitest.config.ts"]
+}

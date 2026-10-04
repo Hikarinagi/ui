@@ -38,7 +38,17 @@ import { AlertDialog } from '@hina-ui/vue'
 
 ### 异步确认 {#async}
 
+::: vue
+
 `onConfirm` 接收确认处理函数，也可以通过 `@confirm` 传入。返回 Promise 或 PromiseLike 时，对话框等待其完成再关闭：期间「确定」显示加载指示，「取消」与 Esc 都不可用。
+
+:::
+
+::: react
+
+`onConfirm` 接收确认处理函数。返回 Promise 或 PromiseLike 时，对话框等待其完成再关闭：期间「确定」显示加载指示，「取消」与 Esc 都不可用。
+
+:::
 
 同步抛错或异步拒绝由组件内部捕获，并通过 `error` 事件传出原始错误。对话框保持打开并恢复按钮，可以直接重试；使用 `@error` 更新错误提示。
 

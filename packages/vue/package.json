@@ -1,7 +1,7 @@
 {
   "name": "@hina-ui/vue",
   "version": "1.7.5",
-  "description": "An elegant, restrained Vue 3 component library built on Reka UI and Tailwind CSS v4.",
+  "description": "The design system behind Hikarinagi: Vue 3 components built on Reka UI and Tailwind CSS v4.",
   "keywords": [
     "vue",
     "vue3",
@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "@internationalized/date": "^3.12.4",
+    "@internationalized/number": "^3.6.8",
     "@lucide/vue": "^1.37.0",
     "@tanstack/vue-table": "^9.2.4",
     "@tanstack/vue-virtual": "^3.13.36",

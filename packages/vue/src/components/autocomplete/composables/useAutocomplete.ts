@@ -1,6 +1,6 @@
 import { computed, nextTick, shallowRef, useId, watch, type Ref } from 'vue'
 import { useEventListener } from '@vueuse/core'
-import { applyCompletion } from '@hina-ui/shared/lib/completion'
+import { applyCompletion } from '../../../../../shared/src/lib/completion'
 import type {
   AutocompleteOption,
   AutocompleteSelection,

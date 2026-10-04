@@ -38,7 +38,17 @@ The first and last pages have only one direction to go, so a single `PrevNextLin
 
 ### Router links {#router}
 
+::: vue
+
 `as` sets what the link renders as, defaulting to `a`. Pass a router component for client-side navigation and attributes such as `to` pass through.
+
+:::
+
+::: react
+
+`as` sets what the link renders as, defaulting to `a`. Pass a router component such as `next/link` for client-side navigation and attributes such as `href` pass through. A Server Component cannot pass a component to `as`, so this composition belongs in a `'use client'` module.
+
+:::
 
 <Demo name="prev-next/router" />
 
@@ -79,7 +89,17 @@ The first and last pages have only one direction to go, so a single `PrevNextLin
 | `asChild`   | `boolean`             | `false`            | Let the slot's root element do the rendering |
 | `class`     | `string`              | —                  | Classes appended to the root                 |
 
+::: vue
+
 Remaining attributes pass through to the rendered element, such as `href` or a router component's `to`.
+
+:::
+
+::: react
+
+Remaining attributes pass through to the rendered element, such as `href` or a router component's own props.
+
+:::
 
 | Slot      | Description              |
 | --------- | ------------------------ |

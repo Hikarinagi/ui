@@ -1,26 +1,12 @@
 import { shallowRef, watch, type Ref } from 'vue'
+import {
+  createOverlayReference,
+  type OverlayAnchor,
+  type OverlayPositionStrategy,
+  type OverlayReference,
+} from '../../../shared/src/lib/overlay-anchor'
 
-export type OverlayAnchor =
-  | HTMLElement
-  | {
-      getBoundingClientRect: () => Pick<
-        DOMRect,
-        'x' | 'y' | 'width' | 'height' | 'top' | 'right' | 'bottom' | 'left'
-      >
-      contextElement?: Element
-    }
-export type OverlayPositionStrategy = 'optimized' | 'always'
-
-export function overlayAnchorElement(anchor?: OverlayAnchor | null): HTMLElement | undefined {
-  return anchor && 'nodeType' in anchor ? anchor : undefined
-}
-
-export function overlayAnchorContext(anchor?: OverlayAnchor | null): Element | undefined {
-  return (
-    overlayAnchorElement(anchor) ??
-    (anchor && 'contextElement' in anchor ? anchor.contextElement : undefined)
-  )
-}
+export * from '../../../shared/src/lib/overlay-anchor'
 
 export function useOverlayAnchor(
   source: () => OverlayAnchor | null | undefined,
@@ -29,7 +15,7 @@ export function useOverlayAnchor(
   strategy: () => OverlayPositionStrategy,
   direction: () => 'ltr' | 'rtl' | undefined = () => undefined,
 ) {
-  const reference = shallowRef<Exclude<OverlayAnchor, HTMLElement>>()
+  const reference = shallowRef<OverlayReference>()
 
   let current: OverlayAnchor | undefined
 
@@ -42,22 +28,10 @@ export function useOverlayAnchor(
         return
       }
       if (!anchor || (!active && reference.value && anchor !== current)) return
-      const contextElement = overlayAnchorContext(anchor)
-      if (contextElement && !contextElement.isConnected) return
+      const next = createOverlayReference(anchor, () => source() === anchor)
+      if (!next) return
       current = anchor
-      const measure = () => {
-        const { x, y, width, height, top, right, bottom, left } = anchor.getBoundingClientRect()
-        return { x, y, width, height, top, right, bottom, left }
-      }
-      let rect = measure()
-      reference.value = {
-        contextElement,
-        getBoundingClientRect: () => {
-          if (source() === anchor && (!contextElement || contextElement.isConnected))
-            rect = measure()
-          return rect
-        },
-      }
+      reference.value = next
     },
     { immediate: true, flush: 'post' },
   )

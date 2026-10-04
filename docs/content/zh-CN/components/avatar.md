@@ -40,6 +40,8 @@ import { Avatar } from '@hina-ui/vue'
 
 叠放间距和分隔环直接作用于组内的外层元素。自定义头像即使包了一层触发器，也不需要把组的布局类名转发给内层头像。包装元素的圆角和装饰仍由自定义组件控制。
 
+::: vue
+
 自定义子组件可以从包根导入 `useAvatarGroup`，响应式读取整组的尺寸；未放在头像组内时返回 `null`。例如在自定义头像组件中保留「自身尺寸优先」的规则：
 
 ```ts
@@ -51,7 +53,36 @@ const group = useAvatarGroup()
 const size = computed(() => props.size ?? group?.value.size ?? 'md')
 ```
 
+:::
+
+::: react
+
+自定义子组件可以从包根导入 `useAvatarGroup`，读取整组的尺寸；未放在头像组内时返回 `null`。例如在自定义头像组件中保留「自身尺寸优先」的规则：
+
+```tsx
+'use client'
+
+import { Avatar, useAvatarGroup, type AvatarVariants } from '@hina-ui/react'
+
+export function MemberAvatar({ name, size }: { name: string; size?: AvatarVariants['size'] }) {
+  const group = useAvatarGroup()
+  return <Avatar name={name} size={size ?? group?.size ?? 'md'} />
+}
+```
+
+:::
+
+::: vue
+
 `max` 按默认插槽提供的条目计数，支持直接写在插槽中的 `v-for`。自定义组件内部渲染的多个头像不会分别计数；需要准确的 `+N` 时，让每个插槽条目代表一个头像。
+
+:::
+
+::: react
+
+`max` 按 `children` 中的条目计数，直接写在其中的数组（例如 `members.map(...)`）和 Fragment 会展开后计数。自定义组件内部渲染的多个头像不会分别计数；需要准确的 `+N` 时，让每个子元素代表一个头像。
+
+:::
 
 ### 自定义内容 {#custom}
 
@@ -61,10 +92,23 @@ const size = computed(() => props.size ?? group?.value.size ?? 'md')
 
 ## 行为 {#behavior}
 
+::: vue
+
 - 头像由 [Image](/components/image) 渲染，因此地址同样经过 `provideImageResolver`，加载期间由骨架占位。
 - 图片按 `object-fit: cover` 填满圆形，长宽比不同的图片不会变形。
 - 没有 `src` 或图片加载失败时显示回退内容，失败的图片会被移除。
 - Image 的其余属性可以直接写在 Avatar 上，例如 `fallback`、`lazy`、`eager`，会原样透传。
+
+:::
+
+::: react
+
+- 头像由 [Image](/components/image) 渲染，因此地址同样经过 `ImageResolverProvider` 提供的解析函数，加载期间由骨架占位。
+- 图片按 `object-fit: cover` 填满圆形，长宽比不同的图片不会变形。
+- 没有 `src` 或图片加载失败时显示回退内容，失败的图片会被移除。
+- Image 的其余属性可以直接写在 Avatar 上，例如 `fallback`、`lazy`、`eager`，会原样透传。
+
+:::
 
 ## 无障碍 {#a11y}
 
@@ -99,7 +143,17 @@ const size = computed(() => props.size ?? group?.value.size ?? 'md')
 
 ### useAvatarGroup {#group-context}
 
+::: vue
+
 `useAvatarGroup()` 返回 `ComputedRef<AvatarGroupContext> | null`。`AvatarGroupContext` 也从包根导出。
+
+:::
+
+::: react
+
+`useAvatarGroup()` 返回 `AvatarGroupContext | null`。`AvatarGroupContext` 也从包根导出。
+
+:::
 
 | 字段   | 类型                     | 说明                                             |
 | ------ | ------------------------ | ------------------------------------------------ |

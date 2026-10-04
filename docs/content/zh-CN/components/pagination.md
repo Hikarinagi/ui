@@ -46,7 +46,17 @@ import { Pagination } from '@hina-ui/vue'
 
 `show-info` 显示条目范围、总条数和当前页数。`item-count` 可指定当前页实际展示的条数；未设置时按 `page-size` 计算，并限制到总条数以内。
 
+::: vue
+
 设置 `page-size-options` 显示条数选择器，使用 `v-model:page-size` 绑定。选择新条数时回到第 `1` 页，`change` 一次传出新的 `{ page, pageSize }`，可以直接用这个事件处理数据更新。
+
+:::
+
+::: react
+
+设置 `pageSizeOptions` 显示条数选择器，使用 `pageSize / onPageSizeChange` 绑定。选择新条数时回到第 `1` 页，`onChange` 一次传出新的 `{ page, pageSize }`，可以直接在这个回调中更新数据。
+
+:::
 
 `show-jump` 显示跳页输入框。Enter 或失焦提交，越界值限制到有效范围；空值和无效输入恢复当前页，Escape 取消编辑。
 
@@ -54,7 +64,17 @@ import { Pagination } from '@hina-ui/vue'
 
 ### 总条数与每页条数 {#range}
 
+::: vue
+
 从外部修改 `total` 或 `page-size` 时，当前页在有效范围内则保持；越界时调整到最后一页，并更新 `v-model`。直接修改有效的受控值不会反向触发 `change`。
+
+:::
+
+::: react
+
+从外部修改 `total` 或 `pageSize` 时，当前页在有效范围内则保持；越界时调整到最后一页，并调用 `onValueChange`。直接修改有效的受控值不会反向调用 `onChange`。
+
+:::
 
 <Demo name="pagination/range" />
 
@@ -94,7 +114,17 @@ import { Pagination } from '@hina-ui/vue'
 
 ### 状态 {#states}
 
+::: vue
+
 `disabled` 禁用全部控件；第一页的向前按钮、最后一页的向后按钮自动禁用。`total="0"` 时保留第 `1` 页，所有翻页方向按钮禁用。
+
+:::
+
+::: react
+
+`disabled` 禁用全部控件；第一页的向前按钮、最后一页的向后按钮自动禁用。`total={0}` 时保留第 `1` 页，所有翻页方向按钮禁用。
+
+:::
 
 <Demo name="pagination/states" />
 
@@ -114,10 +144,23 @@ import { Pagination } from '@hina-ui/vue'
 
 ## 行为 {#behavior}
 
+::: vue
+
 - 当前页限制在 `1` 到总页数之间；页码总数由 `Math.ceil(total / pageSize)` 计算，最少为 `1`。
 - 用户操作实际改变页码或条数时，`change` 触发一次；重复选择当前值不会触发。自动校正越界页码也会触发 `change`。
 - 条数选择器始终包含当前值，去除重复、非整数和小于 `1` 的选项。
 - 容器宽度不足时换行；可通过 `sibling-count` 和 `show-edges` 减少可见页码。
+
+:::
+
+::: react
+
+- 当前页限制在 `1` 到总页数之间；页码总数由 `Math.ceil(total / pageSize)` 计算，最少为 `1`。
+- 用户操作实际改变页码或条数时，调用一次 `onChange`；重复选择当前值不会调用。自动校正越界页码也会调用 `onChange`。
+- 条数选择器始终包含当前值，去除重复、非整数和小于 `1` 的选项。
+- 容器宽度不足时换行；可通过 `siblingCount` 和 `showEdges` 减少可见页码。
+
+:::
 
 ## 无障碍 {#a11y}
 
@@ -173,7 +216,17 @@ import { Pagination } from '@hina-ui/vue'
 
 ### 组合组件与类型 {#composition}
 
+::: vue
+
 `PaginationContent` 提供页码与翻页按钮，支持相同的 `#page`、`#ellipsis` 插槽。`PaginationInfo` 提供 `#default(PaginationState)`。`PaginationSize` 和 `PaginationJump` 分别提供条数选择器与跳页输入框。四个组件均接受 `class`，需放在 `Pagination` 的默认插槽内。
+
+:::
+
+::: react
+
+`PaginationContent` 提供页码与翻页按钮，支持相同的 `renderPage`、`renderEllipsis`。`PaginationInfo` 的 `children` 可以是函数 `(state: PaginationState) => ReactNode`。`PaginationSize` 和 `PaginationJump` 分别提供条数选择器与跳页输入框。四个组件均接受 `className`，需放在 `Pagination` 的 `children` 内。
+
+:::
 
 ```ts
 interface PaginationChange {

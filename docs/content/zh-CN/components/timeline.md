@@ -34,7 +34,17 @@ import { Timeline, type TimelineItem } from '@hina-ui/vue'
 
 ### 对侧时间 {#opposite}
 
+::: vue
+
 `time-position="opposite"` 将时间移到轴的另一侧，纵向两侧等宽。`#opposite` 可替换对侧区域；设置该插槽会预留对侧空间。
+
+:::
+
+::: react
+
+`timePosition="opposite"` 将时间移到轴的另一侧，纵向两侧等宽。`renderOpposite` 可替换对侧区域；提供它时会预留对侧空间。
+
+:::
 
 `time` 是直接显示的文字，`dateTime` 为其补充机器可读的值。提供 `dateTime` 时默认时间渲染为 `time` 元素；需要本地化格式时，可通过 `#time` 放入 [Time](/components/time)。
 
@@ -58,13 +68,33 @@ import { Timeline, type TimelineItem } from '@hina-ui/vue'
 
 `#marker` 替换节点，可组合 [Avatar](/components/avatar)、[Spinner](/components/spinner) 或图标。`#content` 替换整个正文区域，包括默认时间、标题和描述；需要只改某一部分时，用 `#time`、`#title` 或 `#description`。
 
+::: vue
+
 所有插槽接收 `{ item, index }`，`item` 保留自定义字段的类型，`index` 是当前显示顺序中的位置。示例使用 [Card](/components/card) 和 [Tag](/components/tag) 组合正文，并在等待中的条目上显示加载指示。
+
+:::
+
+::: react
+
+所有渲染函数接收 `{ item, index }`，`item` 保留自定义字段的类型，`index` 是当前显示顺序中的位置。示例使用 [Card](/components/card) 和 [Tag](/components/tag) 组合正文，并在等待中的条目上显示加载指示。
+
+:::
 
 <Demo name="timeline/custom" />
 
 ### 反向顺序 {#reverse}
 
+::: vue
+
 `reverse` 反转实际渲染顺序，不修改传入的数组。连线终点、插槽索引和交替位置都按显示顺序计算。
+
+:::
+
+::: react
+
+`reverse` 反转实际渲染顺序，不修改传入的数组。连线终点、渲染函数收到的索引和交替位置都按显示顺序计算。
+
+:::
 
 <Demo name="timeline/reverse" />
 
@@ -76,10 +106,23 @@ import { Timeline, type TimelineItem } from '@hina-ui/vue'
 
 ## 无障碍 {#a11y}
 
+::: vue
+
 - 根元素是有序列表，条目按 DOM 顺序阅读；可通过 `aria-label` 命名。
 - 节点和连线是装饰，对辅助技术隐藏。节点插槽应只放非交互内容；链接、按钮放在正文或对侧插槽中，保持正常键盘操作。
 - 不增加焦点停靠点，也不自动赋予选中、完成或当前步骤语义。
 - 默认不包含动画；自定义加载指示遵循其自身的减弱动态效果设置。
+
+:::
+
+::: react
+
+- 根元素是有序列表，条目按 DOM 顺序阅读；可通过 `aria-label` 命名。
+- 节点和连线是装饰，对辅助技术隐藏。`renderMarker` 应只返回非交互内容；链接、按钮放在 `renderContent` 或 `renderOpposite` 中，保持正常键盘操作。
+- 不增加焦点停靠点，也不自动赋予选中、完成或当前步骤语义。
+- 默认不包含动画；自定义加载指示遵循其自身的减弱动态效果设置。
+
+:::
 
 ## API {#api}
 
@@ -109,7 +152,17 @@ import { Timeline, type TimelineItem } from '@hina-ui/vue'
 | `dateTime`    | `string`           | `time` 元素的 `datetime` 属性，不参与格式化或排序 |
 | `tone`        | `TimelineTone`     | 覆盖该项的节点颜色                                |
 
+::: vue
+
 `TimelineTone`：`'accent' | 'neutral' | 'success' | 'warning' | 'danger' | 'info'`。所有条目字段均可选，插槽可以完全接管呈现。
+
+:::
+
+::: react
+
+`TimelineTone`：`'accent' | 'neutral' | 'success' | 'warning' | 'danger' | 'info'`。所有条目字段均可选，渲染函数可以完全接管呈现。
+
+:::
 
 ### Slots {#slots}
 

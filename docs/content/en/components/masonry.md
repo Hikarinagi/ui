@@ -14,6 +14,8 @@ links:
 import { Masonry } from '@hina-ui/vue'
 ```
 
+::: vue
+
 Provide data, a stable `get-key`, and an item slot. Items fill the shortest column by default. The number of columns follows the **container width**.
 
 ```vue
@@ -24,6 +26,20 @@ Provide data, a stable `get-key`, and an item slot. Items fill the shortest colu
 </Masonry>
 ```
 
+:::
+
+::: react
+
+Provide data, a stable `getKey`, and a `children` function that renders each item. Items fill the shortest column by default. The number of columns follows the **container width**. `getKey` and `children` are functions, so the component that renders Masonry needs `'use client'`.
+
+```tsx
+<Masonry items={photos} getKey={photo => photo.id} minColumnWidth={200} label="Photos">
+  {({ item }) => <Image src={item.src} alt={item.title} ratio={item.width / item.height} />}
+</Masonry>
+```
+
+:::
+
 Masonry owns layout, without adding card styling, click actions or an internal scroll container. Compose entries with Card, Image or your own content. Place the component inside ScrollArea for local scrolling. Prefer Grid, DataList or DataTable for aligned rows and direct comparisons.
 
 ## Examples {#examples}
@@ -32,15 +48,45 @@ Masonry owns layout, without adding card styling, click actions or an internal s
 
 For SSR, provide `#pending` to cover initial positioning with a skeleton or another placeholder. SSR and the first client render show the same placeholder. Real items remain mounted and measurable at their actual width, but are invisible, inert and excluded from the Tab sequence. They become visible after their first layout is positioned.
 
+::: vue
+
 CSR uses the same behavior. **This is a component-managed slot, not a separate `pending` prop.** Pass `loading` while fetching the first batch. Before content is available, `#pending` is shown; once a layout exists, subsequent requests use the trailing `#loading` slot and keep the cards visible. Clearing and fetching again starts a new initial load.
+
+:::
+
+::: react
+
+CSR uses the same behavior. **`pending` is only the placeholder content; the component decides when to show it, with no extra state prop.** Pass `loading` while fetching the first batch. Before content is available, `pending` is shown; once a layout exists, subsequent requests show the trailing `loadingContent` and keep the cards visible. Clearing and fetching again starts a new initial load.
+
+:::
 
 <Demo name="masonry/pending" />
 
 The skeleton uses CSS columns with varied card heights and Masonry spacing tokens. It needs no JavaScript measurement, so the SSR first paint already shows a staggered placeholder without another Grid-to-masonry transition.
 
+::: vue
+
 `#pending` waits for the first layout, not image downloads, font loading or arbitrary asynchronous slot work. Reserve known image dimensions with `ratio`. The placeholder and final list can still have different total heights; use a similarly sized placeholder or an outer minimum height when page movement matters.
 
+:::
+
+::: react
+
+`pending` waits for the first layout, not image downloads, font loading or arbitrary asynchronous work inside items. Reserve known image dimensions with `ratio`. The placeholder and final list can still have different total heights; use a similarly sized placeholder or an outer minimum height when page movement matters.
+
+:::
+
+::: vue
+
 Without `#pending`, SSR keeps the visible Grid fallback. With it, client initialization is required to reveal the items. There is no need to author separate SSR and CSR templates.
+
+:::
+
+::: react
+
+Without `pending`, SSR keeps the visible Grid fallback. With it, client initialization is required to reveal the items. There is no need to author separate SSR and CSR content.
+
+:::
 
 ### Columns and direction {#responsive}
 

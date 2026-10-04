@@ -109,7 +109,17 @@ A click moves the button into the loading state, during which further clicks are
 
 ### Signing in with a provider {#sign-in}
 
+::: vue
+
 `block` makes the button fill the width of its container, with the brand icon in the leading slot.
+
+:::
+
+::: react
+
+`block` makes the button fill the width of its container, with the brand icon passed through `icon`.
+
+:::
 
 <Demo name="button/sign-in" />
 
@@ -125,15 +135,37 @@ A click moves the button into the loading state, during which further clicks are
 
 ### As a link {#link}
 
+::: vue
+
 `as` renders the button as an `a` element or as `NuxtLink`, with the same appearance and interaction.
+
+:::
+
+::: react
+
+`as` renders the button as an `a` element or as `Link` from `next/link`, with the same appearance and interaction.
+
+:::
 
 <Demo name="button/link" />
 
 Where only the appearance of a link is wanted, without the semantics of a button, use the `Link` component rather than `variant="link"`.
 
+::: vue
+
 If the target component renders its own root element, use `asChild` instead: the button renders nothing itself and merges its classes and behaviour into the single child.
 
+:::
+
+::: react
+
+If the target component renders its own root element, use `asChild` instead: the button renders nothing itself and merges its classes and behaviour into the single child. A Server Component cannot pass a component such as `Link` through `as`, so use `asChild` there as well.
+
+:::
+
 In this mode the child owns its content, including icons, ripples and loading indicators. `loading` still sets the busy state and blocks clicks.
+
+::: vue
 
 ```vue
 <template>
@@ -142,6 +174,25 @@ In this mode the child owns its content, including icons, ripples and loading in
   </Button>
 </template>
 ```
+
+:::
+
+::: react
+
+```tsx
+import Link from 'next/link'
+import { Button } from '@hina-ui/react'
+
+export function GetStarted() {
+  return (
+    <Button asChild>
+      <Link href="/guide/installation">Get started</Link>
+    </Button>
+  )
+}
+```
+
+:::
 
 ## Custom styles {#styling}
 

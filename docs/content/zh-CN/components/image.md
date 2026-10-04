@@ -28,7 +28,17 @@ import { Image } from '@hina-ui/vue'
 
 ### 外框与图片样式 {#styles}
 
+::: vue
+
 `class`、`style` 设置外框，`imageClass`、`imageStyle` 设置内部的 `img`。`style` 支持字符串、对象和数组；其中的 `aspectRatio` 会覆盖 `ratio`。
+
+:::
+
+::: react
+
+`className`、`style` 设置外框，`imageClass`、`imageStyle` 设置内部的 `img`。`style` 中的 `aspectRatio` 会覆盖 `ratio`。
+
+:::
 
 <Demo name="image/styles" />
 
@@ -58,7 +68,17 @@ import { Image } from '@hina-ui/vue'
 
 ### 解析地址 {#resolver}
 
+::: vue
+
 组件只接收 `src`，不关心它是完整地址还是对象存储中的键。`provideImageResolver` 注入一个函数，由它把 `src` 变成最终地址；处理参数之类的细节由这个函数自行掌握，不必经过组件。没有注入解析器时，`src` 按原样使用。函数还会收到第二个参数说明用途：页面上的图片为 `'image'`，预览时放大查看的大图为 `'preview'`。
+
+:::
+
+::: react
+
+组件只接收 `src`，不关心它是完整地址还是对象存储中的键。用 `ImageResolverProvider` 包住应用或页面，通过 `resolver` 提供一个函数，由它把 `src` 变成最终地址；处理参数之类的细节由这个函数自行掌握，不必经过组件。没有提供解析器时，`src` 按原样使用。函数还会收到第二个参数说明用途：页面上的图片为 `'image'`，预览时放大查看的大图为 `'preview'`。
+
+:::
 
 <Demo name="image/resolver" />
 
@@ -118,6 +138,8 @@ import { Image } from '@hina-ui/vue'
 
 ## API {#api}
 
+::: vue
+
 | 属性          | 类型                                                       | 默认值    | 说明                                           |
 | ------------- | ---------------------------------------------------------- | --------- | ---------------------------------------------- |
 | `src`         | `string`                                                   | —         | 图片地址，会经过解析器                         |
@@ -137,13 +159,52 @@ import { Image } from '@hina-ui/vue'
 | `imageClass`  | `string`                                                   | —         | 追加至 `img` 的类名                            |
 | `imageStyle`  | `StyleValue`                                               | —         | `img` 的内联样式                               |
 
+:::
+
+::: react
+
+| 属性          | 类型                                                       | 默认值    | 说明                                           |
+| ------------- | ---------------------------------------------------------- | --------- | ---------------------------------------------- |
+| `src`         | `string`                                                   | —         | 图片地址，会经过解析器                         |
+| `alt`         | `string`                                                   | `''`      | 替代文本                                       |
+| `fallback`    | `string`                                                   | —         | `src` 失败后改用的地址                         |
+| `fit`         | `'cover' \| 'contain' \| 'fill' \| 'none' \| 'scale-down'` | `'cover'` | 图片如何填满外框                               |
+| `ratio`       | `number`                                                   | —         | 宽除以高，提前占位                             |
+| `lazy`        | `boolean`                                                  | `true`    | 是否等接近视口再加载                           |
+| `rootMargin`  | `string`                                                   | `'200px'` | 提前多少距离开始加载                           |
+| `skeleton`    | `boolean`                                                  | `true`    | 加载期间是否显示骨架                           |
+| `eager`       | `boolean`                                                  | `false`   | 高优先级请求并同步解码                         |
+| `preview`     | `boolean \| string`                                        | `false`   | 是否可以点击放大查看，传入字符串时作为大图地址 |
+| `previewSize` | `{ width: number; height: number }`                        | —         | 最终预览图片的原始像素尺寸，宽高须为有限正数   |
+| `draggable`   | `boolean`                                                  | —         | 图片是否可拖拽                                 |
+| `className`   | `string`                                                   | —         | 追加至外框的类名                               |
+| `style`       | `CSSProperties`                                            | —         | 外框的内联样式                                 |
+| `imageClass`  | `string`                                                   | —         | 追加至 `img` 的类名                            |
+| `imageStyle`  | `CSSProperties`                                            | —         | `img` 的内联样式                               |
+
+:::
+
 | 事件    | 参数                      | 说明               |
 | ------- | ------------------------- | ------------------ |
 | `load`  | `size: { width, height }` | 图片加载完成       |
 | `error` | —                         | 所有地址都已尝试过 |
+
+::: vue
 
 | 插槽       | 说明               |
 | ---------- | ------------------ |
 | `skeleton` | 替换内置的加载骨架 |
 | `empty`    | 没有 `src` 时渲染  |
 | `error`    | 加载失败时渲染     |
+
+:::
+
+::: react
+
+| 属性              | 说明               |
+| ----------------- | ------------------ |
+| `skeletonContent` | 替换内置的加载骨架 |
+| `empty`           | 没有 `src` 时渲染  |
+| `error`           | 加载失败时渲染     |
+
+:::

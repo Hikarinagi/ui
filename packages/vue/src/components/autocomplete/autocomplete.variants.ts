@@ -1,1 +1,1 @@
-export { autocompleteContent, autocompleteList } from '@hina-ui/shared/variants/autocomplete'
+export { autocompleteContent, autocompleteList } from '../../../../shared/src/variants/autocomplete'

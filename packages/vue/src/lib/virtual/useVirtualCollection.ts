@@ -2,6 +2,17 @@ import { computed, nextTick, onScopeDispose, shallowRef, watch, type Ref } from 
 import { useResizeObserver } from '@vueuse/core'
 import { defaultRangeExtractor, observeElementRect } from '@tanstack/vue-virtual'
 import { useVirtualWindow, virtualFlow } from './useVirtualWindow'
+import {
+  VIRTUAL_RECT,
+  centeredOffset,
+  collectionEstimator,
+  collectionOverscan,
+  fallbackRect,
+  mergeRange,
+  overscrolledOffset,
+  scrollMargin,
+  virtualConfig,
+} from '../../../../shared/src/lib/virtual/collection'
 import type { VirtualizeOptions } from './types'
 
 export function useVirtualCollection<T>(options: {
@@ -16,44 +27,26 @@ export function useVirtualCollection<T>(options: {
   estimate?: (item: T) => number
 }) {
   const margin = shallowRef(0)
-  const finite = (value: number | undefined, fallback: number) =>
-    value !== undefined && Number.isFinite(value) ? value : fallback
-  const config = computed(() =>
-    typeof options.config() === 'object'
-      ? (options.config() as Exclude<VirtualizeOptions, boolean>)
-      : {},
-  )
+  const config = computed(() => virtualConfig(options.config()))
   const virtualizer = useVirtualWindow(
     computed(() => {
       const items = options.items()
       const retained = options.retain?.() ?? []
       const initialIndex = options.initialIndex?.() ?? -1
-      const estimateSize = (index: number) =>
-        Math.max(1, finite(config.value.estimateSize, options.estimate?.(items[index]!) ?? 36))
+      const estimateSize = collectionEstimator(items, config.value, options.estimate)
       return {
         count: items.length,
         getScrollElement: () => options.viewport.value ?? null,
-        getItemKey: index => options.key(items[index]!),
+        getItemKey: (index: number) => options.key(items[index]!),
         estimateSize,
-        overscan: Math.max(0, Math.floor(finite(config.value.overscan, 6))),
-        initialRect: { width: 320, height: 320 },
-        initialOffset: () => {
-          if (initialIndex < 0 || initialIndex >= items.length) return 0
-          let offset = (estimateSize(initialIndex) - 320) / 2
-          for (let index = 0; index < initialIndex; index++) offset += estimateSize(index)
-          return Math.max(0, offset)
-        },
+        overscan: collectionOverscan(config.value),
+        initialRect: VIRTUAL_RECT,
+        initialOffset: () => centeredOffset(initialIndex, items.length, estimateSize),
         scrollMargin: margin.value,
         observeElementRect: (instance, callback) =>
-          observeElementRect(instance, rect =>
-            callback({ width: rect.width || 320, height: rect.height || 320 }),
-          ),
-        rangeExtractor: range => {
-          const indexes = [...defaultRangeExtractor(range), ...retained]
-          return [...new Set([...indexes, ...(options.include?.(indexes) ?? [])])]
-            .filter(index => index >= 0 && index < items.length)
-            .sort((a, b) => a - b)
-        },
+          observeElementRect(instance, rect => callback(fallbackRect(rect))),
+        rangeExtractor: range =>
+          mergeRange(defaultRangeExtractor(range), retained, items.length, options.include),
       }
     }),
   )
@@ -73,21 +66,10 @@ export function useVirtualCollection<T>(options: {
     else if (options.viewport.value && element instanceof HTMLElement && element.isConnected)
       virtualizer.value.measureElement(element)
   }
-  function layoutTop(element: HTMLElement) {
-    let top = 0
-    for (
-      let node: HTMLElement | null = element;
-      node;
-      node = node.offsetParent as HTMLElement | null
-    )
-      top += node.offsetTop
-    return top
-  }
   async function refresh() {
     const viewport = options.viewport.value
     const body = options.body.value
-    if (viewport && body?.isConnected)
-      margin.value = Math.max(0, layoutTop(body) - layoutTop(viewport))
+    if (viewport && body?.isConnected) margin.value = scrollMargin(body, viewport)
     virtualizer.value.measure()
     await nextTick()
     for (const child of options.body.value?.children ?? []) measure(child)
@@ -112,14 +94,13 @@ export function useVirtualCollection<T>(options: {
     async () => {
       await nextTick()
       const viewport = options.viewport.value
-      if (
-        viewport &&
-        viewport.scrollTop > Math.max(0, virtualizer.value.getTotalSize() - viewport.clientHeight)
-      ) {
-        virtualizer.value.scrollToOffset(
-          Math.max(0, virtualizer.value.getTotalSize() - viewport.clientHeight),
-        )
-      }
+      if (!viewport) return
+      const offset = overscrolledOffset(
+        viewport.scrollTop,
+        virtualizer.value.getTotalSize(),
+        viewport.clientHeight,
+      )
+      if (offset !== undefined) virtualizer.value.scrollToOffset(offset)
     },
   )
   onScopeDispose(() => {

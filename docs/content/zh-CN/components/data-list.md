@@ -14,11 +14,33 @@ DataList 提供媒体、标题、描述、元信息和操作区的条目结构�
 
 传入 `items`、唯一且稳定的 `itemKey` 和标题字段 `itemTitle`，即可渲染基本列表。标题和描述也接受函数。
 
+::: vue
+
 ```vue
 <DataList :items="items" item-key="id" item-title="name" item-description="description" />
 ```
 
+:::
+
+::: react
+
+```tsx
+<DataList items={items} itemKey="id" itemTitle="name" itemDescription="description" />
+```
+
+:::
+
+::: vue
+
 按需提供 `#media`、`#title`、`#description`、`#meta` 和 `#actions`。这些插槽接收 `{ item, index, key, layout }`，保留完整条目类型。开启分页时，`index` 包含当前页偏移量。提供默认插槽可替换整个条目内容，同时保留列表容器、分页和状态管理。
+
+:::
+
+::: react
+
+按需提供 `renderMedia`、`renderTitle`、`renderDescription`、`renderMeta` 和 `renderActions`。这些渲染函数接收 `{ item, index, key, layout }`，保留完整条目类型。开启分页时，`index` 包含当前页偏移量。提供 `children` 函数可替换整个条目内容，同时保留列表容器、分页和状态管理。
+
+:::
 
 示例使用 [Hikarinagi](https://www.hikarinagi.org) 的公开作品数据快照（2026-09-18），包含名称、开发商、发行日期与封面；详情链接指向原始条目。分页、筛选和远程分页示例使用 1,000 条，虚拟滚动示例使用 5,000 条；排版示例展示其中少量条目。封面由 [Image](/components/image) 展示，操作使用 [Button](/components/button)，长文本提示使用 [Tooltip](/components/tooltip)。
 
@@ -26,9 +48,29 @@ DataList 提供媒体、标题、描述、元信息和操作区的条目结构�
 
 ### 条目结构与布局 {#layout}
 
+::: vue
+
 `layout-toggle` 显示内置布局切换器，也可以通过 `v-model:layout` 或状态插槽的 `setLayout` 控制。切换时保留仍在渲染范围内的条目节点。
 
+:::
+
+::: react
+
+`layoutToggle` 显示内置布局切换器，也可以通过 `layout / onLayoutChange` 或 `renderHeader` 等状态渲染函数收到的 `setLayout` 控制。切换时保留仍在渲染范围内的条目节点。
+
+:::
+
+::: vue
+
 列表中媒体位于文字前方，操作区在宽容器中靠后、窄容器中移至文字下方；卡片中媒体在上，操作区在下。标题和描述默认完整换行，元信息自动换行。需要截断时，可在对应插槽中使用 [Text](/components/text) 的截断能力。
+
+:::
+
+::: react
+
+列表中媒体位于文字前方，操作区在宽容器中靠后、窄容器中移至文字下方；卡片中媒体在上，操作区在下。标题和描述默认完整换行，元信息自动换行。需要截断时，可在对应的渲染函数中使用 [Text](/components/text) 的截断能力。
+
+:::
 
 `mediaRatio` 统一两种布局的媒体比例，省略时列表默认正方形，卡片默认 16:10。`gridMin` 设置最小卡片宽度，容器不足时使用单列；`gridGap` 设置间距。示例通过 [Link](/components/link) 自定义标题，通过 [Toggle](/components/toggle) 添加操作。
 
@@ -40,7 +82,17 @@ DataList 提供媒体、标题、描述、元信息和操作区的条目结构�
 
 `#footer` 与分页共用底部一行，空间不足时换行。翻页只重置列表自身的滚动位置，不滚动外层页面。
 
+::: vue
+
 状态插槽提供 `setPage` 和 `setPageSize`，处理加载状态和页码边界；修改每页条数会回到第一页。示例使用 [Select](/components/select) 修改条数。
+
+:::
+
+::: react
+
+`renderHeader`、`renderFooter`、`renderPagination` 等状态渲染函数提供 `setPage` 和 `setPageSize`，处理加载状态和页码边界；修改每页条数会回到第一页。示例使用 [Select](/components/select) 修改条数。
+
+:::
 
 <Demo name="data-list/pagination" />
 
@@ -72,6 +124,8 @@ DataList 提供媒体、标题、描述、元信息和操作区的条目结构�
 
 `#pagination` 接收与头部、页脚相同的状态和操作方法，可以接入 [Pagination](/components/pagination) 的附属选项。
 
+::: vue
+
 ```vue
 <DataList :items="items" item-key="id" item-title="name" pagination>
   <template #pagination="{ page, pageSize, total, loading, setPage, setPageSize }">
@@ -87,6 +141,34 @@ DataList 提供媒体、标题、描述、元信息和操作区的条目结构�
   </template>
 </DataList>
 ```
+
+:::
+
+::: react
+
+```tsx
+<DataList
+  items={items}
+  itemKey="id"
+  itemTitle="name"
+  pagination
+  renderPagination={({ page, pageSize, total, loading, setPage, setPageSize }) => (
+    <Pagination
+      value={page}
+      pageSize={pageSize}
+      total={total ?? 0}
+      pending={loading}
+      pageSizeOptions={[10, 20, 50]}
+      showInfo
+      onChange={value =>
+        value.pageSize === pageSize ? setPage(value.page) : setPageSize(value.pageSize)
+      }
+    />
+  )}
+/>
+```
+
+:::
 
 ### 虚拟滚动 {#virtual}
 
@@ -107,6 +189,8 @@ DataList 提供媒体、标题、描述、元信息和操作区的条目结构�
 ## API {#api}
 
 ### 属性 {#props}
+
+::: vue
 
 | 属性                            | 类型                                                                | 默认值               | 说明                                     |
 | ------------------------------- | ------------------------------------------------------------------- | -------------------- | ---------------------------------------- |
@@ -135,15 +219,62 @@ DataList 提供媒体、标题、描述、元信息和操作区的条目结构�
 | `contentClass`                  | `string`                                                            | —                    | 所有布局和渲染模式下均作用于条目列表容器 |
 | `itemClass`                     | `string \| ((item, index) => string \| undefined)`                  | —                    | 单个条目类名                             |
 
+:::
+
+::: react
+
+| 属性                            | 类型                                                                | 默认值               | 说明                                     |
+| ------------------------------- | ------------------------------------------------------------------- | -------------------- | ---------------------------------------- |
+| `items`                         | `readonly T[]`                                                      | 必填                 | 完整数组；手动模式下为当前页             |
+| `itemKey`                       | 键字段或 `(item, index) => string \| number`                        | 必填                 | 唯一、稳定的键                           |
+| `itemTitle` / `itemDescription` | 文本字段或 `(item, index) => string \| number \| null \| undefined` | —                    | 标题／描述；对应渲染函数优先             |
+| `mediaRatio`                    | `number`                                                            | —                    | 媒体宽高比                               |
+| `layoutToggle`                  | `boolean`                                                           | `false`              | 显示布局切换器                           |
+| `gridMin`                       | `string`                                                            | `'14rem'`            | 期望的网格最小列宽                       |
+| `gridGap`                       | `'none' \| 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                    | `'md'`               | 网格间距                                 |
+| `size`                          | `'sm' \| 'md' \| 'lg'`                                              | `'md'`               | 列表媒体大小、条目间距及卡片内边距       |
+| `divided`                       | `boolean`                                                           | `true`               | 列表分隔线                               |
+| `pagination`                    | `boolean`                                                           | `false`              | 显示分页                                 |
+| `manual`                        | `boolean`                                                           | `false`              | 当前页数据不再切片                       |
+| `total`                         | `number`                                                            | —                    | 远程总条数；本地模式使用数组长度         |
+| `hasNextPage`                   | `boolean`                                                           | `false`              | 总数未知时是否有下一页                   |
+| `loading`                       | `boolean`                                                           | `false`              | 加载状态，禁止内容交互和分页             |
+| `placeholderCount`              | `number`                                                            | `3` 或每页条数       | 首次加载骨架数量                         |
+| `emptyText`                     | `string`                                                            | 语言包               | 默认空态文字                             |
+| `label`                         | `string`                                                            | —                    | 列表与滚动区的可访问名称                 |
+| `virtualize`                    | `boolean \| DataListVirtualOptions`                                 | `false`              | 启用列表或网格虚拟化                     |
+| `height`                        | `number \| string`                                                  | 自动；虚拟模式 `320` | 内容区固定高度                           |
+| `minHeight`                     | `number \| string`                                                  | `160`                | 未设置固定高度时的内容区最小高度         |
+| `className`                     | `string`                                                            | —                    | 根节点类名                               |
+| `bodyClass`                     | `string`                                                            | —                    | 内容区外框，涵盖加载与空态               |
+| `contentClass`                  | `string`                                                            | —                    | 所有布局和渲染模式下均作用于条目列表容器 |
+| `itemClass`                     | `string \| ((item, index) => string \| undefined)`                  | —                    | 单个条目类名                             |
+
+:::
+
 `DataListVirtualOptions` 包含 `estimateSize`（列表默认 112px、网格默认 280px）、`overscan`（默认 3 行）和 `initialColumns`（默认 1）。其他属性，包括 `dir` 和 `style`，透传到根节点。
 
 ### 双向绑定 {#models}
+
+::: vue
 
 | 模型       | 类型               | 默认值   |
 | ---------- | ------------------ | -------- |
 | `layout`   | `'list' \| 'grid'` | `'list'` |
 | `page`     | `number`           | `1`      |
 | `pageSize` | `number`           | `10`     |
+
+:::
+
+::: react
+
+| 状态       | 类型               | 默认值   |
+| ---------- | ------------------ | -------- |
+| `layout`   | `'list' \| 'grid'` | `'list'` |
+| `page`     | `number`           | `1`      |
+| `pageSize` | `number`           | `10`     |
+
+:::
 
 ### 插槽 {#slots}
 
@@ -161,6 +292,8 @@ DataList 提供媒体、标题、描述、元信息和操作区的条目结构�
 
 ### 事件与实例 {#events}
 
+::: vue
+
 | 名称                             | 参数／类型                                                                  | 说明                                          |
 | -------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------- |
 | `pageChange`                     | `{ page, pageSize }`                                                        | 分页操作或越界修正                            |
@@ -168,6 +301,29 @@ DataList 提供媒体、标题、描述、元信息和操作区的条目结构�
 | `viewport`                       | `HTMLElement \| undefined`                                                  | 设置高度或虚拟化时的滚动容器                  |
 | `scrollToIndex(index, options?)` | `align?: 'start' \| 'center' \| 'end' \| 'auto'; behavior?: ScrollBehavior` | 滚动到当前页内的条目，index 使用全局下标      |
 
+:::
+
+::: react
+
+| 名称                             | 参数／类型                                                                  | 说明                                          |
+| -------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------- |
+| `onPaginationChange`             | `{ page, pageSize }`                                                        | 分页操作或越界修正                            |
+| `onRangeChange`                  | `{ startIndex, endIndex }`                                                  | 虚拟模式可见范围，包含分页偏移；无范围时为 -1 |
+| `viewport`                       | `HTMLElement \| undefined`                                                  | 设置高度或虚拟化时的滚动容器                  |
+| `scrollToIndex(index, options?)` | `align?: 'start' \| 'center' \| 'end' \| 'auto'; behavior?: ScrollBehavior` | 滚动到当前页内的条目，index 使用全局下标      |
+
+:::
+
 `scrollToIndex` 在存在内部滚动容器时只滚动该容器；没有内部容器时，这个显式调用才会滚动外层祖先，让目标条目进入视口。
 
+::: vue
+
 直接修改分页模型不会再次触发 `pageChange`；远程请求应监听模型。所有数据类型均从包根导出，包括 `DataListProps<T>`、`DataListItemSlot<T>`、`DataListState<T>`、`DataListVirtualOptions` 和 `DataListExpose`。
+
+:::
+
+::: react
+
+直接修改受控的 `page` 或 `pageSize` 不会再次调用 `onPaginationChange`；远程请求应根据这两个状态发起。所有数据类型均从包根导出，包括 `DataListProps<T>`、`DataListItemSlot<T>`、`DataListState<T>`、`DataListVirtualOptions` 和 `DataListExpose`。
+
+:::

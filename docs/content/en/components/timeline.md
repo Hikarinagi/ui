@@ -34,7 +34,17 @@ import { Timeline, type TimelineItem } from '@hina-ui/vue'
 
 ### Opposite time {#opposite}
 
+::: vue
+
 `time-position="opposite"` moves time labels to the other side of the axis, with equal-width sides in the vertical layout. `#opposite` replaces that region; providing it reserves space on the opposite side.
+
+:::
+
+::: react
+
+`timePosition="opposite"` moves time labels to the other side of the axis, with equal-width sides in the vertical layout. `renderOpposite` replaces that region; providing it reserves space on the opposite side.
+
+:::
 
 `time` is displayed as supplied. `dateTime` adds a machine-readable value and makes the default time label a `time` element. For localized formatting, place [Time](/components/time) in `#time`.
 
@@ -58,13 +68,33 @@ Items divide the available width equally. For more items, set a minimum width an
 
 `#marker` replaces the node with [Avatar](/components/avatar), [Spinner](/components/spinner) or an icon. `#content` replaces the entire content region, including the default time, title and description. Use `#time`, `#title` or `#description` to replace an individual part.
 
+::: vue
+
 Every slot receives `{ item, index }`. `item` retains custom field types and `index` is its position in the displayed order. This example composes [Card](/components/card) and [Tag](/components/tag) in the content and shows a spinner on a pending item.
+
+:::
+
+::: react
+
+Every render function receives `{ item, index }`. `item` retains custom field types and `index` is its position in the displayed order. This example composes [Card](/components/card) and [Tag](/components/tag) in the content and shows a spinner on a pending item.
+
+:::
 
 <Demo name="timeline/custom" />
 
 ### Reverse order {#reverse}
 
+::: vue
+
 `reverse` reverses the rendered order without mutating the input array. The final connector, slot indexes and alternating positions follow the displayed order.
+
+:::
+
+::: react
+
+`reverse` reverses the rendered order without mutating the input array. The final connector, the indexes passed to render functions and alternating positions follow the displayed order.
+
+:::
 
 <Demo name="timeline/reverse" />
 
@@ -76,10 +106,23 @@ Direction is inherited from an ancestor's `dir`, or set directly with `dir="rtl"
 
 ## Accessibility {#a11y}
 
+::: vue
+
 - The root is an ordered list. Items are read in DOM order; use `aria-label` to name the list.
 - Markers and connectors are decorative and hidden from assistive technology. Keep marker slots non-interactive; put links and buttons in content or opposite slots for normal keyboard access.
 - No extra tab stops or implicit selected, completed or current-step semantics are added.
 - There is no built-in animation. Custom loading indicators follow their own reduced-motion settings.
+
+:::
+
+::: react
+
+- The root is an ordered list. Items are read in DOM order; use `aria-label` to name the list.
+- Markers and connectors are decorative and hidden from assistive technology. Keep `renderMarker` non-interactive; put links and buttons in `renderContent` or `renderOpposite` for normal keyboard access.
+- No extra tab stops or implicit selected, completed or current-step semantics are added.
+- There is no built-in animation. Custom loading indicators follow their own reduced-motion settings.
+
+:::
 
 ## API {#api}
 
@@ -109,7 +152,17 @@ Native attributes such as `dir`, `aria-label` and `style` are forwarded to the r
 | `dateTime`    | `string`           | The time element's `datetime` attribute; does not format or sort items |
 | `tone`        | `TimelineTone`     | Marker color override                                                  |
 
+::: vue
+
 `TimelineTone`: `'accent' | 'neutral' | 'success' | 'warning' | 'danger' | 'info'`. All item fields are optional; slots can supply the full presentation.
+
+:::
+
+::: react
+
+`TimelineTone`: `'accent' | 'neutral' | 'success' | 'warning' | 'danger' | 'info'`. All item fields are optional; render functions can supply the full presentation.
+
+:::
 
 ### Slots {#slots}
 

@@ -40,7 +40,17 @@ A form field lays out one control together with its label, description and error
 
 ### Description {#description}
 
+::: vue
+
 `description` shows a line of help under the control; the slot of the same name takes richer content.
+
+:::
+
+::: react
+
+`description` shows a line of help under the control; it also accepts elements for richer content.
+
+:::
 
 <Demo name="form-field/description" />
 

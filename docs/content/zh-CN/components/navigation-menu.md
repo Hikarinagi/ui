@@ -34,7 +34,17 @@ import {
 
 默认支持鼠标悬停及点击展开。`trigger="click"` 关闭悬停触发，移开鼠标也不会关闭面板。`v-model` 绑定展开项的 `value`，空字符串表示全部关闭；受控使用时为各面板条目指定稳定且唯一的 `value`。
 
+::: vue
+
 选择链接后默认关闭面板，`@select.prevent` 可以阻止关闭，链接本身的跳转不受影响。阻止跳转请使用 `@click.prevent`。
+
+:::
+
+::: react
+
+选择链接后默认关闭面板，在 `onSelect` 中调用 `event.preventDefault()` 可以阻止关闭，链接本身的跳转不受影响。阻止跳转请在 `onClick` 中调用 `event.preventDefault()`。
+
+:::
 
 <Demo name="navigation-menu/controlled" />
 
@@ -66,7 +76,17 @@ import {
 
 ### 路由链接 {#routing}
 
+::: vue
+
 `NavigationMenuLink` 的 `as-child` 将属性和交互传给唯一的子元素，可承接 `RouterLink` 或 `NuxtLink`；也可以通过 `as` 指定组件。`active` 由调用方根据路由状态设置。
+
+:::
+
+::: react
+
+`NavigationMenuLink` 的 `asChild` 将属性和交互传给唯一的子元素，可承接 `next/link`，在 Server Component 中也可使用；也可以在客户端组件中通过 `as` 指定组件。`active` 由调用方根据路由状态设置。
+
+:::
 
 <Demo name="navigation-menu/routing" />
 
@@ -116,7 +136,17 @@ import {
 | `listClass`         | `string`                       | —              | 列表类名                                     |
 | `viewportClass`     | `string`                       | —              | 共享内容视口类名                             |
 
+::: vue
+
 事件 `update:modelValue(value: string)` 返回展开项。默认插槽参数为 `{ value: string }`。
+
+:::
+
+::: react
+
+回调 `onValueChange(value: string)` 返回展开项。`children` 也可以是函数，参数为 `{ value: string }`。
+
+:::
 
 ### NavigationMenuItem {#item-api}
 
@@ -138,7 +168,17 @@ import {
 | `padded` | `boolean` | `true` | 是否保留内边距             |
 | `class`  | `string`  | —      | 内容类名，可控制宽度和布局 |
 
+::: vue
+
 默认插槽是内容。透传 `escapeKeyDown`、`pointerDownOutside`、`focusOutside`、`interactOutside`、`dismiss` 事件；可在相应事件上调用 `preventDefault()` 阻止默认关闭。
+
+:::
+
+::: react
+
+`children` 是内容。透传 `onEscapeKeyDown`、`onPointerDownOutside`、`onFocusOutside`、`onInteractOutside` 回调；可在回调中调用 `event.preventDefault()` 阻止默认关闭。
+
+:::
 
 ### NavigationMenuLink {#link-api}
 
@@ -160,4 +200,14 @@ import {
 | `description` | 替换说明文字                    |
 | `trailing`    | 尾部附加内容                    |
 
+::: vue
+
 `as-child` 时，内容布局由子元素负责，其余内容插槽不渲染。
+
+:::
+
+::: react
+
+`asChild` 时，内容布局由子元素负责，`icon`、`description` 与 `trailing` 不渲染。
+
+:::

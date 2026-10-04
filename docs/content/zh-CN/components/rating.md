@@ -32,7 +32,17 @@ import { Rating } from '@hina-ui/vue'
 
 `max` 为满分，`stars` 为显示的星数。设置 `:max="10" :stars="5"` 时，每颗星代表 2 分，值 `7` 显示为 3.5 颗星。
 
+::: vue
+
 `step` 仍以星为单位：默认 `1` 表示整星，此时每次选择相差 2 分；设为 `0.5` 后每次相差 1 分。`v-model`、`update:modelValue` 和通过 `name` 提交的表单值始终使用实际分值。只读展示按比例填充，不受 `step` 限制。
+
+:::
+
+::: react
+
+`step` 仍以星为单位：默认 `1` 表示整星，此时每次选择相差 2 分；设为 `0.5` 后每次相差 1 分。`value`、`onValueChange` 收到的值和通过 `name` 提交的表单值始终使用实际分值。只读展示按比例填充，不受 `step` 限制。
+
+:::
 
 <Demo name="rating/scale" />
 

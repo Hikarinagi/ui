@@ -14,7 +14,17 @@ links:
 import { Stepper, type StepperItem } from '@hina-ui/vue'
 ```
 
+::: vue
+
 `items` 定义步骤，`v-model` 是从 **1** 开始的当前步骤编号。默认从第一步开始；不绑定 `v-model` 时由组件管理当前步骤，可用 `defaultValue` 设置初始值。
+
+:::
+
+::: react
+
+`items` 定义步骤，`value` 是从 **1** 开始的当前步骤编号，切换时调用 `onValueChange`。默认从第一步开始；不传 `value` 时由组件管理当前步骤，可用 `defaultValue` 设置初始值。
+
+:::
 
 <Demo name="stepper/basic" />
 
@@ -24,7 +34,17 @@ import { Stepper, type StepperItem } from '@hina-ui/vue'
 
 `linear` 默认为 `true`：可以回到之前的步骤，也可以进入紧邻的下一步，但不能直接跳过中间步骤。设为 `false` 后，可进入任意未禁用步骤。
 
+::: vue
+
 线性限制只决定可切换的范围，不代表数据已经通过校验。需要校验时使用 `beforeChange`。直接从外部设置 `v-model` 是调用方主动更新状态，不经过切换限制和校验。
+
+:::
+
+::: react
+
+线性限制只决定可切换的范围，不代表数据已经通过校验。需要校验时使用 `beforeChange`。直接从外部修改 `value` 是调用方主动更新状态，不经过切换限制和校验。
+
+:::
 
 <Demo name="stepper/linear" />
 
@@ -44,9 +64,21 @@ import { Stepper, type StepperItem } from '@hina-ui/vue'
 
 ### 内容与导航 {#content}
 
+::: vue
+
 默认插槽接收当前步骤与导航方法。可组合 [Card](/components/card)、[Button](/components/button) 等组件；只有使用插槽时才渲染内容区。
 
 内容插槽始终挂载，如何切换、保留或重置内部内容由调用方决定。组件实例也暴露 `next()`、`prev()`、`goTo(step)`，与插槽内的方法行为一致。
+
+:::
+
+::: react
+
+`children` 可以是函数，接收当前步骤与导航方法。可组合 [Card](/components/card)、[Button](/components/button) 等组件；只有提供 `children` 时才渲染内容区。
+
+内容区始终挂载，如何切换、保留或重置内部内容由调用方决定。组件 ref 也提供 `next()`、`prev()`、`goTo(step)`，与 `children` 收到的方法行为一致。
+
+:::
 
 <Demo name="stepper/content" />
 
@@ -64,7 +96,17 @@ import { Stepper, type StepperItem } from '@hina-ui/vue'
 
 `#indicator`、`#title`、`#description` 接收原始 `item`、从 0 开始的 `index`、从 1 开始的 `step`、`state`、`active`、`pending` 与 `disabled`。自定义字段会保留类型推导。
 
+::: vue
+
 示例用图标替换默认编号，并在标题中加入 [Tag](/components/tag)。这些插槽位于步骤按钮内部，应只放非交互内容；输入框、链接和其他按钮放在默认内容插槽中。
+
+:::
+
+::: react
+
+示例用图标替换默认编号，并在标题中加入 [Tag](/components/tag)。这些函数返回的内容位于步骤按钮内部，应只放非交互内容；输入框、链接和其他按钮放在 `children` 中。
+
+:::
 
 <Demo name="stepper/custom" />
 
@@ -76,7 +118,17 @@ import { Stepper, type StepperItem } from '@hina-ui/vue'
 
 ### RTL {#rtl}
 
+::: vue
+
 方向继承外层 `dir` 或配置提供器，也可用 `dir="rtl"` 指定。横向排列、连线和方向键导航共同反转。
+
+:::
+
+::: react
+
+方向继承外层 `dir` 或 `ConfigProvider`，也可用 `dir="rtl"` 指定。横向排列、连线和方向键导航共同反转。
+
+:::
 
 <Demo name="stepper/rtl" />
 
@@ -106,7 +158,17 @@ import { Stepper, type StepperItem } from '@hina-ui/vue'
 | `dir`          | `'ltr' \| 'rtl'`             | 继承           | 阅读方向                          |
 | `class`        | `string`                     | —              | 根元素的类                        |
 
+::: vue
+
 空列表的显示步骤为 `0`；越界或无效的当前值仅在呈现时收敛到有效范围，不自动写回模型。`defaultValue` 只用于初始化。
+
+:::
+
+::: react
+
+空列表的显示步骤为 `0`；越界或无效的当前值仅在呈现时收敛到有效范围，不会自动调用 `onValueChange` 写回。`defaultValue` 只用于初始化。
+
+:::
 
 ### StepperItem {#item}
 
@@ -131,7 +193,17 @@ import { Stepper, type StepperItem } from '@hina-ui/vue'
 
 `StepperSlotProps<T>` 为 `{ item, index, step, state, active, pending, disabled }`。`state` 是 `'inactive' | 'active' | 'completed' | 'error'`；`pending` 表示该项正在等待切换校验，`disabled` 表示该项被显式禁用或被线性范围限制。
 
+::: vue
+
 `StepperNavigation<T>` 为 `{ step, item, total, pending, canNext, canPrev, next, prev, goTo }`。空列表时 `item` 为 `undefined`。导航方法返回 `Promise<boolean>`，实际发起模型更新时为 `true`，被阻止、无变化或校验过期时为 `false`。
+
+:::
+
+::: react
+
+`StepperNavigation<T>` 为 `{ step, item, total, pending, canNext, canPrev, next, prev, goTo }`。空列表时 `item` 为 `undefined`。导航方法返回 `Promise<boolean>`，实际发起步骤更新时为 `true`，被阻止、无变化或校验过期时为 `false`。
+
+:::
 
 ### Events {#events}
 
@@ -142,4 +214,14 @@ import { Stepper, type StepperItem } from '@hina-ui/vue'
 
 ### Expose {#expose}
 
+::: vue
+
 `step`、`pending`、`canNext`、`canPrev` 和 `next()`、`prev()`、`goTo(step)` 可通过组件引用访问。`beforeChange` 为 `(nextStep: number, previousStep: number) => boolean | void | Promise<boolean | void>`。
+
+:::
+
+::: react
+
+`step`、`pending`、`canNext`、`canPrev` 和 `next()`、`prev()`、`goTo(step)` 可通过 ref 访问。`beforeChange` 为 `(nextStep: number, previousStep: number) => boolean | void | Promise<boolean | void>`。
+
+:::

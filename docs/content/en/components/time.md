@@ -36,13 +36,33 @@ It refreshes every 30 seconds while the page is open, with no manual update. Hov
 
 ### Following the language {#locale}
 
+::: vue
+
 The order of the date, the spelling of the month and the phrasing of relative time all follow the language provided through `provideUiLocale`.
+
+:::
+
+::: react
+
+The order of the date, the spelling of the month and the phrasing of relative time all follow the language provided through `UiLocaleProvider`.
+
+:::
 
 <Demo name="time/locale" />
 
 ### Values that cannot be parsed {#invalid}
 
+::: vue
+
 When `value` is empty or cannot be parsed, the component shows “unknown time” and renders a `span` instead, so no incorrect `datetime` is emitted. A warning is printed in development.
+
+:::
+
+::: react
+
+When `value` is empty or cannot be parsed, the component shows “unknown time” and renders a `span` instead, so no incorrect `datetime` is output. A warning is printed in development.
+
+:::
 
 <Demo name="time/invalid" />
 

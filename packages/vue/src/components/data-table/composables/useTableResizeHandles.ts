@@ -9,6 +9,10 @@ import {
 } from 'vue'
 import { useEventListener } from '@vueuse/core'
 import type { DataTableColumn } from '../types'
+import {
+  resizeHandlePositions,
+  type DataTableHandlePosition,
+} from '../../../../../shared/src/lib/data-table/resize'
 
 export function useTableResizeHandles<T extends object>(
   element: Ref<HTMLTableElement | undefined>,
@@ -16,7 +20,7 @@ export function useTableResizeHandles<T extends object>(
   columns: Ref<DataTableColumn<T>[]>,
   enabled: () => boolean,
 ) {
-  const positions = shallowRef<Record<string, { inset: number; visible: boolean }>>({})
+  const positions = shallowRef<Record<string, DataTableHandlePosition>>({})
   let frame = 0
   let observer: ResizeObserver | undefined
   function update() {
@@ -35,26 +39,7 @@ export function useTableResizeHandles<T extends object>(
         cell.getBoundingClientRect(),
       ]),
     )
-    let left = box.left
-    let right = box.right
-    for (const column of columns.value) {
-      const rect = cells.get(column.key)
-      if (!rect || !column.pin) continue
-      if ((column.pin === 'start') !== rtl) left = Math.max(left, rect.right)
-      else right = Math.min(right, rect.left)
-    }
-    const next: typeof positions.value = {}
-    for (const column of columns.value) {
-      const rect = cells.get(column.key)
-      if (!rect) continue
-      const start = Math.max(rect.left, column.pin ? box.left : left)
-      const end = Math.min(rect.right, column.pin ? box.right : right)
-      const fromLeft = (column.pin === 'end') !== rtl
-      next[column.key] = {
-        inset: Math.max(0, (fromLeft ? start - rect.left : rect.right - end) / scale),
-        visible: end - start >= 9 * scale - 0.01,
-      }
-    }
+    const next = resizeHandlePositions(columns.value, cells, box, scale, rtl)
     if (JSON.stringify(next) !== JSON.stringify(positions.value)) positions.value = next
   }
   function schedule() {

@@ -34,7 +34,17 @@ import { Empty } from '@hina-ui/vue'
 
 ### 插图 {#illustration}
 
+::: vue
+
 `icon` 插槽也可以放图片。放入插槽的内容不再套圆形底色，尺寸由内容自己决定。
+
+:::
+
+::: react
+
+`icon` 属性也可以放图片。传入 `icon` 的内容不再套圆形底色，尺寸由内容自己决定。
+
+:::
 
 <Demo name="empty/illustration" />
 

@@ -14,6 +14,8 @@ links:
 import { Masonry } from '@hina-ui/vue'
 ```
 
+::: vue
+
 传入数据、稳定的 `get-key` 和条目插槽。默认按当前最短列排列，列数根据**容器宽度**计算。
 
 ```vue
@@ -24,6 +26,20 @@ import { Masonry } from '@hina-ui/vue'
 </Masonry>
 ```
 
+:::
+
+::: react
+
+传入数据、稳定的 `getKey`，再用函数形式的 `children` 渲染每个条目。默认按当前最短列排列，列数根据**容器宽度**计算。`getKey` 与 `children` 都是函数，渲染 Masonry 的组件需要声明 `'use client'`。
+
+```tsx
+<Masonry items={photos} getKey={photo => photo.id} minColumnWidth={200} label="照片">
+  {({ item }) => <Image src={item.src} alt={item.title} ratio={item.width / item.height} />}
+</Masonry>
+```
+
+:::
+
 Masonry 负责布局，不增加卡片外观、点击行为或内部滚动条。用 Card、Image 或自己的内容构成条目；放入 ScrollArea 可使用容器滚动。需要内容对齐、逐行比较时，使用 Grid、DataList 或 DataTable 更合适。
 
 ## 示例 {#examples}
@@ -32,15 +48,45 @@ Masonry 负责布局，不增加卡片外观、点击行为或内部滚动条。
 
 SSR 场景建议提供 `#pending`，用骨架屏或其他占位内容遮住初始化排版。SSR 与客户端初始渲染显示同一份占位，真实条目仍挂载在相同宽度下完成测量，但不可见、不可交互，也不会进入 Tab 顺序；首次布局完成后直接展示已经排好的内容。
 
+::: vue
+
 CSR 也使用同一套行为。**这是组件管理的插槽，没有额外的 `pending` prop。** 首批请求期间传 `loading`，直到数据返回：没有可展示内容时使用 `#pending`，已有布局时使用末尾的 `#loading`，不会把已有列表重新盖住。清空后再次请求视为新的首批加载。
+
+:::
+
+::: react
+
+CSR 也使用同一套行为。**`pending` 只是占位内容，何时显示由组件管理，不需要额外的状态属性。** 首批请求期间传 `loading`，直到数据返回：没有可展示内容时显示 `pending`，已有布局时显示末尾的 `loadingContent`，不会把已有列表重新盖住。清空后再次请求视为新的首批加载。
+
+:::
 
 <Demo name="masonry/pending" />
 
 示例的骨架采用 CSS 多列，卡片高度错落排列，间距跟随 Masonry 的 token。它不需要 JavaScript 测量，SSR 首屏即可呈现瀑布流占位；占位自身不会再经历从 Grid 到瀑布流的切换。
 
+::: vue
+
 `#pending` 等待的是首次布局，不会等待图片下载、字体加载或任意插槽的后续异步请求。图片有尺寸时使用 `ratio` 预留空间；占位与最终列表的总高度仍可能不同，需要控制页面位移时，应为占位设计接近的高度或设置外层最小高度。
 
+:::
+
+::: react
+
+`pending` 等待的是首次布局，不会等待图片下载、字体加载或条目内容的后续异步请求。图片有尺寸时使用 `ratio` 预留空间；占位与最终列表的总高度仍可能不同，需要控制页面位移时，应为占位设计接近的高度或设置外层最小高度。
+
+:::
+
+::: vue
+
 未提供 `#pending` 时沿用可见 Grid 的 SSR 回退。提供后，需要客户端脚本完成初始化才会展示条目；无需针对 SSR / CSR 写两套模板。
+
+:::
+
+::: react
+
+未提供 `pending` 时沿用可见 Grid 的 SSR 回退。提供后，需要客户端脚本完成初始化才会展示条目；无需针对 SSR / CSR 写两套内容。
+
+:::
 
 ### 自适应列数与方向 {#responsive}
 

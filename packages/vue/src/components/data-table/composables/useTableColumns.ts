@@ -10,6 +10,15 @@ import {
 import { cssSize } from '../utils'
 import { allocateWidths, pixelWidth } from '../column-sizing'
 import { columnSizingStyles } from '../column-sizing-styles'
+import {
+  canMoveColumn,
+  cellStyle as layoutCellStyle,
+  controlStyle as layoutControlStyle,
+  headerRows as layoutHeaderRows,
+  moveColumnOrder,
+  pinStyle as layoutPinStyle,
+  type DataTablePinLayout,
+} from '../../../../../shared/src/lib/data-table/layout'
 import { useTableResize } from './useTableResize'
 import { useTableResizeHandles } from './useTableResizeHandles'
 import type { DataTableColumn, DataTableHeader, DataTableProps } from '../types'
@@ -130,106 +139,35 @@ export function useTableColumns<T extends object>(
   function columnStyle(column: DataTableColumn<T>): CSSProperties {
     return { width: cssSize(constrained.value ? widthVariable(column) : column.width) }
   }
+  const pinLayout = (): DataTablePinLayout<T> => ({
+    columns: ctl.visibleColumns.value,
+    constrained: constrained.value,
+    leading: leading.value,
+    trailing: trailing.value,
+    get fixedWidths() {
+      return fixedWidths.value
+    },
+    width,
+  })
   function pinStyle(column: DataTableColumn<T>, head = false): CSSProperties {
-    if (!column.pin) return {}
-    const siblings = ctl.visibleColumns.value.filter(item => item.pin === column.pin)
-    const index = siblings.findIndex(item => item.key === column.key)
-    const preceding = column.pin === 'start' ? siblings.slice(0, index) : siblings.slice(index + 1)
-    const controls = column.pin === 'start' ? leading.value * 48 : trailing.value * 72
-    const offset = `${preceding.reduce(
-      (sum, column) => sum + (constrained.value ? fixedWidths.value[column.key]! : width(column)),
-      controls,
-    )}px`
-    return {
-      position: 'sticky',
-      [column.pin === 'start' ? 'insetInlineStart' : 'insetInlineEnd']: offset,
-      zIndex: head ? 5 : 1,
-      backgroundColor: head ? 'var(--hn-table-head-bg)' : 'var(--hn-table-bg)',
-      boxShadow: `${column.pin === 'start' ? '1px' : '-1px'} 0 0 var(--hn-border)`,
-    }
+    return layoutPinStyle(pinLayout(), column, head)
   }
   function cellStyle(column: DataTableColumn<T>, head = false): CSSProperties {
-    return {
-      ...(constrained.value
-        ? {}
-        : {
-            width: cssSize(column.width),
-            minWidth: cssSize(column.minWidth ?? column.width),
-            maxWidth: cssSize(column.maxWidth),
-          }),
-      ...pinStyle(column, head),
-    }
+    return layoutCellStyle(pinLayout(), column, head)
   }
   function controlStyle(side: 'start' | 'end', index: number, head = false): CSSProperties {
-    return {
-      width: side === 'end' ? '72px' : '48px',
-      minWidth: side === 'end' ? '72px' : '48px',
-      paddingInline: '8px',
-      textAlign: 'center',
-      ...(ctl.visibleColumns.value.some(column => column.pin === side)
-        ? {
-            position: 'sticky',
-            [side === 'start' ? 'insetInlineStart' : 'insetInlineEnd']: `${index * 48}px`,
-            zIndex: head ? 5 : 1,
-            backgroundColor: head ? 'var(--hn-table-head-bg)' : 'var(--hn-table-bg)',
-          }
-        : {}),
-    }
+    return layoutControlStyle(ctl.visibleColumns.value, side, index, head)
   }
-  const headerRows = computed<DataTableHeader<T>[][]>(() => {
-    const paths = new Map<string, DataTableColumn<T>[]>()
-    function visit(columns: DataTableColumn<T>[], parent: DataTableColumn<T>[] = []) {
-      for (const column of columns) {
-        const path = [...parent, column]
-        if (column.children?.length) visit(column.children, path)
-        else paths.set(column.key, path)
-      }
-    }
-    visit(props.columns)
-    const visible = ctl.visibleColumns.value
-    const depth = Math.max(1, ...visible.map(column => paths.get(column.key)!.length))
-    return Array.from({ length: depth }, (_, level) => {
-      const result: DataTableHeader<T>[] = []
-      for (let index = 0; index < visible.length;) {
-        const first = visible[index]!
-        const path = paths.get(first.key)!
-        const column = path[level]
-        if (!column) {
-          index++
-          continue
-        }
-        const leaf = level === path.length - 1
-        let end = index + 1
-        if (!leaf)
-          while (
-            end < visible.length &&
-            paths.get(visible[end]!.key)?.[level]?.key === column.key &&
-            visible[end]!.pin === first.pin
-          )
-            end++
-        const top = Array.from({ length: level }, (_, i) => heights.value[i] ?? 44).reduce(
-          (a, b) => a + b,
-          0,
-        )
-        result.push({
-          ...ctl.headerContext(column),
-          id: leaf ? `leaf:${column.key}` : `${level}:${column.key}:${first.key}`,
-          leaf,
-          colspan: end - index,
-          rowspan: leaf ? depth - level : 1,
-          top,
-          style: {
-            ...(leaf
-              ? cellStyle(column, true)
-              : pinStyle(first.pin === 'end' ? visible[end - 1]! : first, true)),
-            ...(props.stickyHeader ? { top: `${top}px` } : {}),
-          },
-        })
-        index = end
-      }
-      return result
-    })
-  })
+  const headerRows = computed<DataTableHeader<T>[][]>(() =>
+    layoutHeaderRows(
+      props.columns,
+      ctl.visibleColumns.value,
+      heights.value,
+      props.stickyHeader,
+      ctl.headerContext,
+      (column, leaf) => (leaf ? cellStyle(column, true) : pinStyle(column, true)),
+    ),
+  )
   const sizing = computed<CSSProperties>(() =>
     constrained.value
       ? columnSizingStyles(
@@ -251,26 +189,13 @@ export function useTableColumns<T extends object>(
     '--hn-table-viewport-width': available.value ? `${available.value}px` : undefined,
   }))
   function moveColumn(key: string, target: string) {
-    if (ctl.blocked.value || key === target) return
-    const columns = ctl.visibleColumns.value
-    const source = columns.find(column => column.key === key),
-      destination = columns.find(column => column.key === target)
-    if (
-      !source ||
-      !destination ||
-      source.pin !== destination.pin ||
-      source.reorderable === false ||
-      destination.reorderable === false
+    if (ctl.blocked.value || !canMoveColumn(ctl.visibleColumns.value, key, target)) return
+    models.columnOrder.value = moveColumnOrder(
+      models.columnOrder.value,
+      ctl.leaves.value,
+      key,
+      target,
     )
-      return
-    const order = [
-      ...new Set([...models.columnOrder.value, ...ctl.leaves.value.map(column => column.key)]),
-    ]
-    const from = order.indexOf(key),
-      to = order.indexOf(target)
-    order.splice(from, 1)
-    order.splice(to, 0, key)
-    models.columnOrder.value = order
   }
   Object.assign(ctl.api, { setColumnWidth: resizing.setWidth, moveColumn })
   onScopeDispose(() => {

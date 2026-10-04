@@ -40,7 +40,17 @@ The `icon` slot sits before the text and the component sizes it to four units, s
 
 ### Router links {#router}
 
+::: vue
+
 `as` sets what the entry renders as, defaulting to `a`. Pass a router component for client-side navigation and attributes such as `to` pass through. The caller decides which entry is current from the route and passes `active`; the component does no route matching of its own.
+
+:::
+
+::: react
+
+`as` sets what the entry renders as, defaulting to `a`. Pass a router component such as `next/link` for client-side navigation and attributes such as `href` pass through. A Server Component cannot pass a component to `as`, so this composition belongs in a `'use client'` module. The caller decides which entry is current from the route and passes `active`; the component does no route matching of its own.
+
+:::
 
 <Demo name="nav-link/router" />
 
@@ -81,7 +91,17 @@ Navigation labels fade out before the sidebar finishes collapsing and fade in af
 | `asChild`  | `boolean`             | `false` | Let the slot's root element do the rendering         |
 | `class`    | `string`              | —       | Classes appended to the root                         |
 
+::: vue
+
 Remaining attributes pass through to the rendered element, such as `href` or a router component's `to`.
+
+:::
+
+::: react
+
+Remaining attributes pass through to the rendered element, such as `href` or a router component's own props.
+
+:::
 
 ### Slots {#slots}
 

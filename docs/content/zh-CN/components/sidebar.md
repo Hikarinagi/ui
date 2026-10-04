@@ -14,7 +14,17 @@ links:
 import { Sidebar, SidebarGroup, SidebarLabel, SidebarTrigger } from '@hina-ui/vue'
 ```
 
+::: vue
+
 `Sidebar` 放进 [AppShell](/components/app-shell) 的 `sidebar` 插槽，条目写在默认插槽里，通常是一串 [NavLink](/components/nav-link)。它自带导航地标与滚动容器，条目再多也只在栏内滚动。
+
+:::
+
+::: react
+
+`Sidebar` 放进 [AppShell](/components/app-shell) 的 `sidebarContent` 属性，条目写在 `children` 里，通常是一串 [NavLink](/components/nav-link)。它自带导航地标与滚动容器，条目再多也只在栏内滚动。
+
+:::
 
 它的形态由 [AppShell](/components/app-shell) 提供，自身不持有状态。脱离 [AppShell](/components/app-shell) 时它始终是展开形态，也无法收起。
 
@@ -32,6 +42,8 @@ import { Sidebar, SidebarGroup, SidebarLabel, SidebarTrigger } from '@hina-ui/vu
 
 ### 品牌图标与字标 {#brand}
 
+::: vue
+
 `icon` 与 `wordmark` 插槽组成默认页眉。图标位固定为 32 × 32 像素，SVG 和图片按比例显示；字标可以是文字、SVG、[Image](/components/image) 或组合内容。
 
 | 插槽内容            | 展开                   | 收起为 rail            |
@@ -41,23 +53,70 @@ import { Sidebar, SidebarGroup, SidebarLabel, SidebarTrigger } from '@hina-ui/vu
 | 只有 `wordmark`     | 字标从页眉起始位置显示 | 品牌区整体收起         |
 | 均未提供            | 不生成品牌区           | 不生成品牌区           |
 
+:::
+
+::: react
+
+`renderIcon` 与 `renderWordmark` 组成默认页眉。图标位固定为 32 × 32 像素，SVG 和图片按比例显示；字标可以是文字、SVG、[Image](/components/image) 或组合内容。
+
+| 传入的内容                      | 展开                   | 收起为 rail            |
+| ------------------------------- | ---------------------- | ---------------------- |
+| `renderIcon` + `renderWordmark` | 图标与字标并排显示     | 图标保持原位，字标淡出 |
+| 只有 `renderIcon`               | 显示图标               | 保持原位               |
+| 只有 `renderWordmark`           | 字标从页眉起始位置显示 | 品牌区整体收起         |
+| 均未提供                        | 不生成品牌区           | 不生成品牌区           |
+
+:::
+
 有图标时，收起后品牌行保留高度；只有字标时，品牌区连同上下内边距一起收起，导航向上填补空位。重新展开或进入移动端抽屉时，品牌区完整显示。字标自动使用与导航文字相同的过渡，不需要再包 [SidebarLabel](#label)。
 
+::: vue
+
 两个插槽均提供 `{ state }`。传入 `header` 时由它完全接管页眉，`icon` 和 `wordmark` 不再渲染。
+
+:::
+
+::: react
+
+两个函数均接收 `{ state }`。传入 `renderHeader` 时由它完全接管页眉，`renderIcon` 和 `renderWordmark` 不再渲染。
+
+:::
 
 <Demo name="sidebar/brand" />
 
 ### 页眉与页脚 {#slots}
 
+::: vue
+
 `header` 完整替换默认品牌页眉，`footer` 位于条目区下方，两者都不随条目滚动。自定义页眉不会被自动视为 logo 隐藏。
+
+:::
+
+::: react
+
+`renderHeader` 完整替换默认品牌页眉，`renderFooter` 位于条目区下方，两者都不随条目滚动。自定义页眉不会被自动视为 logo 隐藏。
+
+:::
 
 页眉保持展开时的内容宽度。页脚随侧栏实际宽度收起，内部按钮与浮层锚点不会超出 rail。水平排布的头像和文字可使用 [Inline](/components/inline) 并设置 `:wrap="false"`；文字使用 `truncate` 或 `whitespace-nowrap` 避免收起时换行。把文字与附属操作放进 `SidebarLabel`，它会与 [NavLink](/components/nav-link) 的文字一起淡出，展开时延后淡入；标识和 [Avatar](/components/avatar) 留在外面，位置与尺寸保持不变。
 
+::: vue
+
 `SidebarLabel` 不改变内容的占位。rail 形态下其内容不可见、不可交互，也不进入朗读和键盘焦点序列。`header` 和 `footer` 仍提供 `{ state }`，供自定义内容读取当前形态。
+
+:::
+
+::: react
+
+`SidebarLabel` 不改变内容的占位。rail 形态下其内容不可见、不可交互，也不进入朗读和键盘焦点序列。`renderHeader` 和 `renderFooter` 仍接收 `{ state }`，供自定义内容读取当前形态。
+
+:::
 
 <Demo name="sidebar/slots" />
 
 ## 行为 {#behavior}
+
+::: vue
 
 - 三种形态的宽度分别是展开 256 像素、rail 56 像素、隐藏 0 像素，切换时宽度连续过渡。
 - 收起为 rail 时，`SidebarGroup` 强制展开、组标题原位淡出并显示分隔线，标题占位保持不变，已展开的条目不会随收起动作上下移动。
@@ -65,6 +124,19 @@ import { Sidebar, SidebarGroup, SidebarLabel, SidebarTrigger } from '@hina-ui/vu
 - 完全隐藏时，侧栏整体退出交互与键盘焦点序列。
 - 宽度和文字过渡使用 Hina 动画 token；系统开启减弱动态效果时直接切换。
 - 搬入移动端 [Drawer](/components/drawer) 时，侧栏撑满抽屉高度，页脚固定在底部，仅条目区滚动。页眉内默认提供关闭按钮，设置 `:closable="false"` 可隐藏；未提供页眉或品牌插槽时，也不保留按钮行的占位。不重复显示抽屉标题；水平内边距由抽屉提供，页眉、条目区和页脚保留各自的纵向内边距。
+
+:::
+
+::: react
+
+- 三种形态的宽度分别是展开 256 像素、rail 56 像素、隐藏 0 像素，切换时宽度连续过渡。
+- 收起为 rail 时，`SidebarGroup` 强制展开、组标题原位淡出并显示分隔线，标题占位保持不变，已展开的条目不会随收起动作上下移动。
+- 条目区使用不带边缘阴影的 [ScrollArea](/components/scroll-area)，页眉与页脚固定在两端。
+- 完全隐藏时，侧栏整体退出交互与键盘焦点序列。
+- 宽度和文字过渡使用 Hina 动画 token；系统开启减弱动态效果时直接切换。
+- 搬入移动端 [Drawer](/components/drawer) 时，侧栏撑满抽屉高度，页脚固定在底部，仅条目区滚动。页眉内默认提供关闭按钮，设置 `closable={false}` 可隐藏；未提供 `renderHeader`、`renderIcon` 或 `renderWordmark` 时，也不保留按钮行的占位。不重复显示抽屉标题；水平内边距由抽屉提供，页眉、条目区和页脚保留各自的纵向内边距。
+
+:::
 
 ## 无障碍 {#a11y}
 
@@ -84,6 +156,8 @@ import { Sidebar, SidebarGroup, SidebarLabel, SidebarTrigger } from '@hina-ui/vu
 | `closable` | `boolean` | `true`       | 是否显示移动端抽屉的关闭按钮 |
 | `class`    | `string`  | —            | 追加到根元素的类             |
 
+::: vue
+
 | 插槽       | 插槽参数    | 说明                                  |
 | ---------- | ----------- | ------------------------------------- |
 | `default`  | —           | 侧栏条目                              |
@@ -91,6 +165,20 @@ import { Sidebar, SidebarGroup, SidebarLabel, SidebarTrigger } from '@hina-ui/vu
 | `icon`     | `{ state }` | 固定方形区域内的品牌图标，rail 时保留 |
 | `wordmark` | `{ state }` | 品牌字标，rail 时自动淡出             |
 | `footer`   | `{ state }` | 条目区下方的内容                      |
+
+:::
+
+::: react
+
+| 属性             | 参数        | 说明                                                  |
+| ---------------- | ----------- | ----------------------------------------------------- |
+| `children`       | —           | 侧栏条目                                              |
+| `renderHeader`   | `{ state }` | 完整替换页眉，优先于 `renderIcon` 与 `renderWordmark` |
+| `renderIcon`     | `{ state }` | 固定方形区域内的品牌图标，rail 时保留                 |
+| `renderWordmark` | `{ state }` | 品牌字标，rail 时自动淡出                             |
+| `renderFooter`   | `{ state }` | 条目区下方的内容                                      |
+
+:::
 
 ### SidebarGroup {#group}
 
@@ -119,7 +207,17 @@ import { Sidebar, SidebarGroup, SidebarLabel, SidebarTrigger } from '@hina-ui/vu
 
 ### SidebarTrigger {#trigger}
 
+::: vue
+
 切换侧栏形态的按钮，通常放在 [AppShell](/components/app-shell) 的 `header` 插槽里。它没有可配置的行为，脱离 [AppShell](/components/app-shell) 时不渲染。
+
+:::
+
+::: react
+
+切换侧栏形态的按钮，通常放在 [AppShell](/components/app-shell) 的 `header` 属性里。它没有可配置的行为，脱离 [AppShell](/components/app-shell) 时不渲染。
+
+:::
 
 | 属性    | 类型     | 默认值 | 说明             |
 | ------- | -------- | ------ | ---------------- |

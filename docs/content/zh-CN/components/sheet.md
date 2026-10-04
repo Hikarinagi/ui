@@ -16,7 +16,17 @@ links:
 import { Sheet } from '@hina-ui/vue'
 ```
 
+::: vue
+
 `title` 必填，`description` 是标题下面的一行说明。默认插槽是触发器，`content` 插槽是正文，`footer` 插槽是底部操作按钮，`content`、`footer` 和接管内部布局的 `body` 插槽都会收到 `close` 方法。按住顶部把手或标题区域向下拖动，距离足够或快速下滑时关闭，否则弹回。有把手时默认不显示关闭按钮。
+
+:::
+
+::: react
+
+`title` 必填，`description` 是标题下面的一行说明。`children` 是触发器，`renderContent` 返回正文，`renderFooter` 返回底部操作按钮，`renderContent`、`renderFooter` 和接管内部布局的 `renderBody` 都会收到 `close` 方法。按住顶部把手或标题区域向下拖动，距离足够或快速下滑时关闭，否则弹回。有把手时默认不显示关闭按钮。
+
+:::
 
 <Demo name="sheet/basic" />
 
@@ -32,15 +42,45 @@ import { Sheet } from '@hina-ui/vue'
 
 ### 关闭按钮 {#closable}
 
+::: vue
+
 `closable` 默认为 `true`。设为 `false` 只隐藏标题栏中的关闭按钮，按 Esc 和点击遮罩仍可关闭，`locked` 控制这些关闭行为。隐藏标题栏或提供 `body` 时，内置关闭按钮不参与渲染。 Sheet 保持有把手时不显示关闭按钮的默认行为；`:handle="false"` 且标题栏可见时，才由 `closable` 控制按钮是否显示，标题区域仍可拖动。
+
+:::
+
+::: react
+
+`closable` 默认为 `true`。设为 `false` 只隐藏标题栏中的关闭按钮，按 Esc 和点击遮罩仍可关闭，`locked` 控制这些关闭行为。隐藏标题栏或提供 `renderBody` 时，内置关闭按钮不参与渲染。Sheet 保持有把手时不显示关闭按钮的默认行为；`handle={false}` 且标题栏可见时，才由 `closable` 控制按钮是否显示，标题区域仍可拖动。
+
+:::
 
 <Demo name="sheet/closable" />
 
 ### 自定义面板内容 {#body}
 
+::: vue
+
 `#body="{ close }"` 接管面板内部布局，替换默认标题栏、正文和页脚。组件不再添加内容内边距、区域间距或 [ScrollArea](/components/scroll-area) 包装，滚动与底部安全区留白由插槽内容控制。提供空插槽也不会恢复默认布局。
 
+:::
+
+::: react
+
+`renderBody` 接收 `{ close }`，接管面板内部布局，替换默认标题栏、正文和页脚。组件不再添加内容内边距、区域间距或 [ScrollArea](/components/scroll-area) 包装，滚动与底部安全区留白由返回的内容控制。返回空内容也不会恢复默认布局。
+
+:::
+
+::: vue
+
 此时 `header`、`closable` 以及 `icon`、`title`、`content`、`footer` 插槽不参与渲染。`title` 仍必填，标题与提供的说明以视觉隐藏的形式保留；遮罩、焦点约束和 `locked` 继续生效，插槽的 `close()` 可程序化关闭面板。
+
+:::
+
+::: react
+
+此时 `header`、`closable` 以及 `icon`、`titleContent`、`renderContent`、`renderFooter` 不参与渲染。`title` 仍必填，标题与提供的说明以视觉隐藏的形式保留；遮罩、焦点约束和 `locked` 继续生效，`renderBody` 收到的 `close()` 可程序化关闭面板。
+
+:::
 
 `handle` 仍独立控制把手：默认保留在自定义内容上方，只有把手区域可以拖动。设置 `:handle="false"` 后不渲染顶部拖动区域，也不保留它的留白；自定义正文不会成为拖动区域。
 
@@ -50,7 +90,17 @@ import { Sheet } from '@hina-ui/vue'
 
 ### 长内容 {#scroll}
 
+::: vue
+
 超出可用高度的正文在 `content` 插槽内部滚动，标题与页脚保持不动；面板最高占到视口减去顶部留白。
+
+:::
+
+::: react
+
+`renderContent` 返回的正文超出可用高度时在内部滚动，标题与页脚保持不动；面板最高占到视口减去顶部留白。
+
+:::
 
 <Demo name="sheet/scroll" />
 
@@ -58,7 +108,17 @@ import { Sheet } from '@hina-ui/vue'
 
 通过组件 ref 的 `viewport` 获取正文内置 [ScrollArea](/components/scroll-area) 的实际滚动元素。可以读取 `scrollTop`、调用 `scrollTo()`，或将它交给滚动监听、观察器。
 
+::: vue
+
 `viewport` 的类型为 `HTMLElement | undefined`。正文滚动区域初始化完成前、没有 `content` 插槽或内容卸载后为 `undefined`；退场期间仍返回当前元素，再次打开时更新为新的元素。需要在可用时执行操作或绑定监听，可监听 `() => modal.value?.viewport`，并在监听清理函数中解除绑定。
+
+:::
+
+::: react
+
+`viewport` 的类型为 `HTMLElement | undefined`。正文滚动区域初始化完成前、没有 `renderContent` 或内容卸载后为 `undefined`；退场期间仍返回当前元素，再次打开时更新为新的元素。读取 `viewport` 不会触发重新渲染；需要在可用时执行操作或绑定监听，可传入回调 ref：`viewport` 变化时它会以新的实例再次调用，在回调返回的清理函数中解除绑定。
+
+:::
 
 使用 `body` 插槽时，内置滚动区域被替换，`viewport` 为 `undefined`；自定义滚动区域由调用方自行引用。
 
@@ -80,7 +140,17 @@ import { Sheet } from '@hina-ui/vue'
 
 ### 去掉把手 {#handle}
 
+::: vue
+
 `handle` 设为 `false` 不显示顶部的把手；标题栏可见时，右上角改为显示关闭按钮，标题区域仍然可以拖动；`closable=false` 可隐藏关闭按钮。
+
+:::
+
+::: react
+
+`handle` 设为 `false` 不显示顶部的把手；标题栏可见时，右上角改为显示关闭按钮，标题区域仍然可以拖动；`closable={false}` 可隐藏关闭按钮。
+
+:::
 
 <Demo name="sheet/handle" />
 
@@ -88,7 +158,17 @@ import { Sheet } from '@hina-ui/vue'
 
 与 [Dialog](/components/dialog) 一样，设置 `:header="false"` 隐藏标题栏，包括标题、说明和栏内的关闭按钮。`title` 仍然必填，与 `description` 一起保留为辅助技术可读的隐藏内容；此时不渲染 `icon` 和 `title` 插槽。
 
+::: vue
+
 `handle` 独立控制把手。隐藏标题栏后，保留的把手仍可拖动关闭；同时设置 `:handle="false"` 时不渲染顶部拖动区域，正文从正常内边距开始。此时可通过 Esc、遮罩，或插槽的 `close` 方法关闭，`locked` 的规则不变。
+
+:::
+
+::: react
+
+`handle` 独立控制把手。隐藏标题栏后，保留的把手仍可拖动关闭；同时设置 `handle={false}` 时不渲染顶部拖动区域，正文从正常内边距开始。此时可通过 Esc、遮罩，或 `renderContent`、`renderFooter` 收到的 `close` 方法关闭，`locked` 的规则不变。
+
+:::
 
 示例通过页脚的 [Button](/components/button) 调用 `close`。
 
@@ -96,11 +176,25 @@ import { Sheet } from '@hina-ui/vue'
 
 ## 行为 {#behavior}
 
+::: vue
+
 - 多个浮层按打开顺序叠放，后打开的在上方；组件的挂载先后不影响叠放。关闭后保留完整退场动画，再移除浮层。
 - 面板从底边滑入，宽屏上居中并限制最大宽度，窄屏上占满宽度；默认布局底部留出设备的安全区，`body` 模式由自定义内容控制。
 - 拖动只从把手与标题区域开始，正文区域留给滚动；松手时位移超过面板高度的三成，或者下滑速度足够快，面板从松手的位置继续滑出关闭，否则弹回原位。
 - 打开期间页面停止滚动，焦点被限制在面板内，关闭后回到触发器。
 - 按 Esc 或者点击遮罩关闭，`locked` 会同时禁用这两种方式与拖动。
+
+:::
+
+::: react
+
+- 多个浮层按打开顺序叠放，后打开的在上方；组件的挂载先后不影响叠放。关闭后保留完整退场动画，再移除浮层。
+- 面板从底边滑入，宽屏上居中并限制最大宽度，窄屏上占满宽度；默认布局底部留出设备的安全区，`renderBody` 模式由自定义内容控制。
+- 拖动只从把手与标题区域开始，正文区域留给滚动；松手时位移超过面板高度的三成，或者下滑速度足够快，面板从松手的位置继续滑出关闭，否则弹回原位。
+- 打开期间页面停止滚动，焦点被限制在面板内，关闭后回到触发器。
+- 按 Esc 或者点击遮罩关闭，`locked` 会同时禁用这两种方式与拖动。
+
+:::
 
 ## 无障碍 {#a11y}
 

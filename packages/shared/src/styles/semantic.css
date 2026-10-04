@@ -155,9 +155,17 @@
   --hn-skeleton-wave: rgb(255 255 255 / 0.04);
 }
 
+:where(:root) {
+  --hn-font-sans: var(--hn-font-latin), var(--hn-font-cjk), ui-sans-serif, system-ui, sans-serif;
+}
+
+:where(:root:lang(zh)) {
+  --hn-font-sans: var(--hn-font-cjk), var(--hn-font-latin), ui-sans-serif, system-ui, sans-serif;
+}
+
 :root {
-  --hn-font-sans:
-    'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', ui-sans-serif, system-ui, sans-serif;
+  --hn-font-latin: 'Noto Sans';
+  --hn-font-cjk: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei';
   --hn-font-mono:
     'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, 'Noto Sans SC', 'PingFang SC',
     'Microsoft YaHei', monospace;

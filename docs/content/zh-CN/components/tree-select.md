@@ -68,7 +68,17 @@ import { TreeSelect } from '@hina-ui/vue'
 
 ### 虚拟滚动 {#virtual}
 
+::: vue
+
 `virtualize` 按需渲染可见范围附近的条目，与 [VirtualList](/components/virtual-list) 共用测量与滚动底层。默认关闭；可传 `{ estimateSize, overscan }` 调整预估行高和两侧预渲染数量，行高会按实际内容测量。键盘导航覆盖完整数据，禁用项会跳过。 搜索仍处理完整数据。 只对展开后的可见节点进行虚拟化，父子导航与勾选状态不依赖节点是否挂载。 条目离开渲染范围后会卸载；插槽内需要持久保留的状态应按唯一 value 存在外部。
+
+:::
+
+::: react
+
+`virtualize` 按需渲染可见范围附近的条目，与 [VirtualList](/components/virtual-list) 共用测量与滚动底层。默认关闭；可传 `{ estimateSize, overscan }` 调整预估行高和两侧预渲染数量，行高会按实际内容测量。键盘导航覆盖完整数据，禁用项会跳过。搜索仍处理完整数据。只对展开后的可见节点进行虚拟化，父子导航与勾选状态不依赖节点是否挂载。条目离开渲染范围后会卸载；`renderNode` 渲染的内容中需要持久保留的状态应按唯一 value 存在外部。
+
+:::
 
 <Demo name="tree-select/virtual" />
 

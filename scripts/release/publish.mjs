@@ -6,9 +6,11 @@ import {
   git,
   isMain,
   loadConfig,
+  manifestAt,
   parseOptions,
   readJson,
   releaseNotes,
+  releasePackages,
   run,
   tagOf,
 } from './lib.mjs'
@@ -26,24 +28,38 @@ export function isReleaseCommit({ config, sha }, io = services) {
   )
 }
 
-export function releaseCandidate(config = loadConfig(), io = services) {
-  const pkg = readJson(config.package)
-  const previous = JSON.parse(git(['show', 'HEAD^:' + config.package]))
-  if (pkg.version === previous.version) return null
-  if (
-    pkg.private ||
-    pkg.name !== previous.name ||
-    compareVersions(pkg.version, previous.version) <= 0
-  )
-    throw new Error('Release must increase the version of the existing public package')
+export function releaseCandidates(config = loadConfig(), io = services) {
+  const changed = []
+  for (const entry of releasePackages(config)) {
+    const pkg = readJson(entry.package)
+    const previous = manifestAt('HEAD^', entry.package)
+    if (!previous || pkg.version === previous.version || (pkg.private && previous.private)) continue
+    if (
+      pkg.private ||
+      pkg.name !== previous.name ||
+      compareVersions(pkg.version, previous.version) <= 0
+    )
+      throw new Error(
+        `Release must keep ${entry.package} public and named ${previous.name} and increase its version`,
+      )
+    changed.push({ entry, pkg, first: Boolean(previous.private) })
+  }
+  if (!changed.length) return null
   const sha = git(['rev-parse', 'HEAD'])
   if (!isReleaseCommit({ config, sha }, io)) return null
   return {
     config,
-    pkg,
     sha,
-    tag: tagOf(pkg.name, pkg.version),
-    notes: releaseNotes(readFileSync(config.changelog, 'utf8'), pkg.version),
+    packages: changed.map(({ entry, pkg, first }) => ({
+      config,
+      sha,
+      id: entry.id,
+      manifest: entry.package,
+      pkg,
+      first,
+      tag: tagOf(pkg.name, pkg.version),
+      notes: releaseNotes(readFileSync(entry.changelog, 'utf8'), pkg.version),
+    })),
   }
 }
 
@@ -120,13 +136,13 @@ const services = {
   },
   publish(candidate) {
     run('npm', ['publish', '--access', 'public', '--provenance'], {
-      cwd: dirname(candidate.config.package),
+      cwd: dirname(candidate.manifest),
       stdio: 'inherit',
     })
   },
   pushTag: pushReleaseTag,
   createRelease(candidate, latest) {
-    const path = join(process.env.RUNNER_TEMP ?? tmpdir(), 'hina-release-notes.md')
+    const path = join(process.env.RUNNER_TEMP ?? tmpdir(), `hina-release-notes-${candidate.id}.md`)
     writeFileSync(path, candidate.notes)
     run('gh', [
       'release',
@@ -144,64 +160,83 @@ const services = {
   },
 }
 
-export async function checkRelease(candidate, io = services) {
-  const { config, sha, tag } = candidate
-  if (!isReleaseCommit(candidate, io))
+export async function checkRelease(release, io = services) {
+  const { config, sha } = release
+  if (!isReleaseCommit(release, io))
     throw new Error(`Commit ${sha} is not a merged ${config.branch} release PR`)
   const runs = io.github(
     `repos/${config.repo}/actions/workflows/ci.yml/runs?head_sha=${sha}&per_page=100`,
   )
   assertCI(runs.workflow_runs, sha, config.repo)
-  const tagged = io.tagCommit(tag)
-  if (tagged && tagged !== sha) throw new Error(`Tag ${tag} points to a different commit`)
-  const metadata = await io.registry(candidate.pkg.name)
-  const published = assertRegistry(metadata, candidate)
-  const latest = metadata['dist-tags']?.latest
-  const release = io.github(`repos/${config.repo}/releases/tags/${encodeURIComponent(tag)}`, true)
-  if (release && !tagged) throw new Error(`Release ${tag} has no matching git tag`)
-  return { published, released: Boolean(release), latest }
+  const states = []
+  for (const candidate of release.packages) {
+    const { tag } = candidate
+    if (candidate.sha !== sha) throw new Error(`${tag} does not belong to ${sha}`)
+    const tagged = io.tagCommit(tag)
+    if (tagged && tagged !== sha) throw new Error(`Tag ${tag} points to a different commit`)
+    const metadata = await io.registry(candidate.pkg.name)
+    const published = assertRegistry(metadata, candidate)
+    const latest = metadata['dist-tags']?.latest
+    const found = io.github(`repos/${config.repo}/releases/tags/${encodeURIComponent(tag)}`, true)
+    if (found && !tagged) throw new Error(`Release ${tag} has no matching git tag`)
+    states.push({ candidate, published, released: Boolean(found), latest })
+  }
+  return states
 }
 
-export async function publishRelease(candidate, io = services) {
-  const state = await checkRelease(candidate, io)
-  if (!state.published) await io.publish(candidate)
-  if (!state.released) {
+export function checkOutput(states) {
+  const pending = states.filter(state => !state.published).map(state => state.candidate.pkg.name)
+  const candidate = states.some(state => !state.published || !state.released)
+  return `candidate=${candidate}\npublish=${pending.length > 0}\npackages=${pending.join(' ')}\n`
+}
+
+export async function publishRelease(release, io = services) {
+  const states = await checkRelease(release, io)
+  const primary = releasePackages(release.config)[0].id
+  for (const state of states) if (!state.published) await io.publish(state.candidate)
+  for (const { candidate, released, latest } of states) {
+    if (released) continue
     await io.pushTag(candidate)
     await io.createRelease(
       candidate,
-      !state.latest || compareVersions(candidate.pkg.version, state.latest) >= 0,
+      candidate.id === primary && (!latest || compareVersions(candidate.pkg.version, latest) >= 0),
     )
   }
-  return state
+  return states
 }
 
 if (isMain(import.meta.url)) {
   const options = parseOptions(process.argv.slice(2), ['dry', 'check'])
-  const candidate = releaseCandidate()
-  if (!candidate) {
+  const release = releaseCandidates()
+  if (!release) {
     console.log('No merged release PR with a version change at this commit; nothing to publish')
-    if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, 'candidate=false\n')
+    if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, checkOutput([]))
   } else {
     if (git(['status', '--porcelain'])) throw new Error('Publishing requires a clean checkout')
-    git(['merge-base', '--is-ancestor', candidate.sha, 'origin/main'])
-    if (options.dry) console.log(`${candidate.tag} at ${candidate.sha}\n\n${candidate.notes}`)
+    git(['merge-base', '--is-ancestor', release.sha, 'origin/main'])
+    if (options.dry)
+      console.log(
+        release.packages
+          .map(candidate => `${candidate.tag} at ${candidate.sha}\n\n${candidate.notes}`)
+          .join('\n'),
+      )
     else {
       if (
         process.env.GITHUB_ACTIONS !== 'true' ||
-        process.env.GITHUB_REPOSITORY !== candidate.config.repo
+        process.env.GITHUB_REPOSITORY !== release.config.repo
       )
         throw new Error('Publishing runs in the repository Release workflow')
       if (options.check) {
-        const state = await checkRelease(candidate)
+        const states = await checkRelease(release)
         if (process.env.GITHUB_OUTPUT)
-          appendFileSync(
-            process.env.GITHUB_OUTPUT,
-            `candidate=${!state.published || !state.released}\npublish=${!state.published}\n`,
+          appendFileSync(process.env.GITHUB_OUTPUT, checkOutput(states))
+        for (const { candidate, published, released } of states)
+          console.log(
+            `${candidate.tag}: npm=${published}, GitHub=${released}${candidate.first ? ' (first release)' : ''}`,
           )
-        console.log(`${candidate.tag}: npm=${state.published}, GitHub=${state.released}`)
       } else {
-        await publishRelease(candidate)
-        console.log(`Published ${candidate.tag}`)
+        await publishRelease(release)
+        console.log(`Published ${release.packages.map(candidate => candidate.tag).join(', ')}`)
       }
     }
   }

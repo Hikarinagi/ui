@@ -45,4 +45,18 @@ describe('VisuallyHidden', () => {
     expect(style.position).toBe('absolute')
     expect(style.width).toBe('1px')
   })
+
+  it('不对辅助技术隐藏,屏幕阅读器照常读出', () => {
+    const w = mount(VisuallyHidden, { slots: { default: () => '仅读屏' } })
+    expect(w.attributes('aria-hidden')).toBeUndefined()
+  })
+
+  it('as-child 把裁剪样式交给唯一子元素', () => {
+    const w = mount(VisuallyHidden, {
+      props: { asChild: true },
+      slots: { default: () => h('label', '仅读屏') },
+    })
+    expect(w.element.tagName).toBe('LABEL')
+    expect((w.element as HTMLElement).style.position).toBe('absolute')
+  })
 })

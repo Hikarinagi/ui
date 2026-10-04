@@ -38,7 +38,17 @@ import { PrevNext, PrevNextLink } from '@hina-ui/vue'
 
 ### 路由链接 {#router}
 
+::: vue
+
 `as` 指定渲染为何种元素，默认为 `a`。传入路由组件即可获得客户端跳转，`to` 等属性会透传过去。
+
+:::
+
+::: react
+
+`as` 指定渲染为何种元素，默认为 `a`。传入 `next/link` 等路由组件即可获得客户端跳转，`href` 等属性会透传过去。Server Component 无法把组件传给 `as`，这类组合需要放在 `'use client'` 模块中。
+
+:::
 
 <Demo name="prev-next/router" />
 
@@ -79,7 +89,17 @@ import { PrevNext, PrevNextLink } from '@hina-ui/vue'
 | `asChild`   | `boolean`             | `false`      | 由插槽根元素承担渲染       |
 | `class`     | `string`              | —            | 追加到根元素的类           |
 
+::: vue
+
 其余属性透传到实际渲染的元素上，例如 `href` 或路由组件的 `to`。
+
+:::
+
+::: react
+
+其余属性透传到实际渲染的元素上，例如 `href`，或者路由组件自己的属性。
+
+:::
 
 | 插槽      | 说明           |
 | --------- | -------------- |

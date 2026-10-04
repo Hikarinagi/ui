@@ -14,7 +14,17 @@ links:
 import { Form, FormField } from '@hina-ui/vue'
 ```
 
+::: vue
+
 The form keeps the values of a set of fields, their validation rules and the submit action in one place. `values` takes a reactive object, and controls bind to its properties with `v-model` as usual; `rules` takes the validation rules, which run on submit, and the handler of the `submit` event is only called once they all pass. Wrap each field in a [FormField](/components/form-field), which renders the label, the description and the error message and connects the control to the field automatically.
+
+:::
+
+::: react
+
+The form keeps the values of a set of fields, their validation rules and the submit action in one place. `values` takes the current values object, usually from `useState`; controls read and update its fields with `value` and `onValueChange`, passing a new object on change. `rules` takes the validation rules, which run on submit, and `onSubmit` is only called once they all pass. Wrap each field in a [FormField](/components/form-field), which renders the label, the description and the error message and connects the control to the field automatically.
+
+:::
 
 <Demo name="form/basic" />
 
@@ -34,13 +44,33 @@ By default validation runs on submit; after a failed submit every change validat
 
 ### Errors from the server {#server}
 
+::: vue
+
 The server may still reject some fields after a submit. Call `setErrors` through a template ref with a map from field names to error text, and the errors show under their fields; once the value of that field changes, its error clears on its own. An error without a matching field is available as `error` on the default slot for you to display.
+
+:::
+
+::: react
+
+The server may still reject some fields after a submit. Call `setErrors` through a ref with a map from field names to error text, and the errors show under their fields; once the value of that field changes, its error clears on its own. An error without a matching field is available as `error` when `children` is a function, for you to display.
+
+:::
 
 <Demo name="form/server" />
 
 ### Submitting and disabled {#state}
 
+::: vue
+
 When the `submit` handler returns a Promise, the form stays in the submitting state until it settles, every field is disabled, and the `submitting` slot prop drives the loading indicator of the button. `disabled` disables the whole form.
+
+:::
+
+::: react
+
+When `onSubmit` returns a Promise, the form stays in the submitting state until it settles, every field is disabled, and `submitting` passed to a `children` function drives the loading indicator of the button. `disabled` disables the whole form.
+
+:::
 
 <Demo name="form/state" />
 
@@ -62,6 +92,8 @@ When the `submit` handler returns a Promise, the form stays in the submitting st
 
 ### Props {#props}
 
+::: vue
+
 | Prop         | Type                             | Default    | Description                                              |
 | ------------ | -------------------------------- | ---------- | -------------------------------------------------------- |
 | `values`     | `Record<string, unknown>`        | —          | The reactive object that holds the field values          |
@@ -69,6 +101,20 @@ When the `submit` handler returns a Promise, the form stays in the submitting st
 | `validateOn` | `'submit' \| 'blur' \| 'change'` | `'submit'` | When validation runs                                     |
 | `disabled`   | `boolean`                        | `false`    | Whether the whole form is disabled                       |
 | `class`      | `string`                         | —          | Classes appended to the root element                     |
+
+:::
+
+::: react
+
+| Prop         | Type                             | Default    | Description                                              |
+| ------------ | -------------------------------- | ---------- | -------------------------------------------------------- |
+| `values`     | `Record<string, unknown>`        | —          | The object that holds the field values                   |
+| `rules`      | `FormRules`                      | —          | Validation rules, a Standard Schema object or a function |
+| `validateOn` | `'submit' \| 'blur' \| 'change'` | `'submit'` | When validation runs                                     |
+| `disabled`   | `boolean`                        | `false`    | Whether the whole form is disabled                       |
+| `className`  | `string`                         | —          | Classes appended to the root element                     |
+
+:::
 
 ### Slots {#slots}
 

@@ -7,6 +7,7 @@
   import { useWheelRedirect } from './composables/useWheelRedirect'
   import { useLayerLock } from './composables/useLayerLock'
   import { useScrollFocus } from './composables/useScrollFocus'
+  import { scrollAreaOptions } from '../../../../shared/src/lib/scroll-area'
 
   defineOptions({ name: 'HnScrollArea', inheritAttrs: false })
 
@@ -36,25 +37,12 @@
   const host = shallowRef<HTMLElement>()
   const content = shallowRef<HTMLElement>()
 
-  const overflow = {
-    vertical: { x: 'hidden', y: 'scroll' },
-    horizontal: { x: 'scroll', y: 'hidden' },
-    both: { x: 'scroll', y: 'scroll' },
-  } as const
-
   function options() {
-    return {
-      scrollbars: {
-        theme: 'os-theme-dark',
-        visibility: props.scrollbar ? ('auto' as const) : ('hidden' as const),
-        autoHide: props.autoHide,
-        autoHideDelay: 800,
-      },
-      overflow: overflow[props.direction],
-      update: {
-        elementEvents: [['img', 'load']] as Array<[string, string]>,
-      },
-    }
+    return scrollAreaOptions({
+      direction: props.direction,
+      autoHide: props.autoHide,
+      scrollbar: props.scrollbar,
+    })
   }
 
   const { viewport, instance, onEvent } = useOverlayScrollbars(host, content, options)

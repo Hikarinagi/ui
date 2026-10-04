@@ -26,7 +26,17 @@ import { Toggle } from '@hina-ui/vue'
 
 ### 图标型 {#icon}
 
+::: vue
+
 `label` 提供无障碍名称。没有默认文字插槽时，按钮使用正方形的图标型尺寸；同时提供文字时，保留常规按钮内边距。在 `TooltipProvider` 内，`label` 还会作为 [Tooltip](/components/tooltip) 的文字提示。`#pressed-icon` 给出按下时的图标，两个图标之间交叉淡变。
+
+:::
+
+::: react
+
+`label` 提供无障碍名称。没有 `children` 文字时，按钮使用正方形的图标型尺寸；同时提供文字时，保留常规按钮内边距。在 `TooltipProvider` 内，`label` 还会作为 [Tooltip](/components/tooltip) 的文字提示。`pressedIcon` 给出按下时的图标，两个图标之间交叉淡变。
+
+:::
 
 <Demo name="toggle/icon" />
 
@@ -75,6 +85,8 @@ import { Toggle } from '@hina-ui/vue'
 
 ### Props {#props}
 
+::: vue
+
 | 属性         | 类型                                     | 默认值    | 说明                                   |
 | ------------ | ---------------------------------------- | --------- | -------------------------------------- |
 | `modelValue` | `boolean`                                | `false`   | 是否按下                               |
@@ -87,6 +99,25 @@ import { Toggle } from '@hina-ui/vue'
 | `disabled`   | `boolean`                                | `false`   | 是否禁用                               |
 | `ripple`     | `boolean`                                | `true`    | 是否显示按压波纹                       |
 | `class`      | `string`                                 | —         | 追加至按钮元素的类名                   |
+
+:::
+
+::: react
+
+| 属性        | 类型                                     | 默认值    | 说明                                       |
+| ----------- | ---------------------------------------- | --------- | ------------------------------------------ |
+| `value`     | `boolean`                                | `false`   | 是否按下                                   |
+| `label`     | `string`                                 | —         | 无障碍名称；无 `children` 时使用图标型尺寸 |
+| `tooltip`   | `boolean`                                | `true`    | 是否显示 label 对应的文字提示              |
+| `side`      | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'`   | 文字提示的位置                             |
+| `variant`   | `'ghost' \| 'outline'`                   | `'ghost'` | 形态                                       |
+| `size`      | `'sm' \| 'md' \| 'lg'`                   | `'md'`    | 尺寸                                       |
+| `pill`      | `boolean`                                | `false`   | 是否为胶囊形                               |
+| `disabled`  | `boolean`                                | `false`   | 是否禁用                                   |
+| `ripple`    | `boolean`                                | `true`    | 是否显示按压波纹                           |
+| `className` | `string`                                 | —         | 追加至按钮元素的类名                       |
+
+:::
 
 ### 插槽 {#slots}
 

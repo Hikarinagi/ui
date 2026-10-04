@@ -14,7 +14,17 @@ links:
 import { CloseButton } from '@hina-ui/vue'
 ```
 
+::: vue
+
 组件已经内置了图标与无障碍名称，因此不需要传入任何属性。默认名称为“关闭”，监听 `click` 事件即可。
+
+:::
+
+::: react
+
+组件已经内置了图标与无障碍名称，因此不需要传入任何属性。默认名称为“关闭”，传入 `onClick` 即可。
+
+:::
 
 <Demo name="close-button/basic" />
 

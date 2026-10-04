@@ -9,7 +9,7 @@ description: Establish hierarchy through size, weight and spacing, with a shared
 
 ## Fonts and hierarchy {#hierarchy}
 
-Body text uses Noto Sans SC; monospaced content uses JetBrains Mono. Applications load the fonts, and the font tokens include system fallbacks. See [Installation](/guide/installation#fonts) for setup.
+Body text uses Noto Sans for Latin and Noto Sans SC for Chinese; on Chinese pages Noto Sans SC also sets the Latin text. Monospaced content uses JetBrains Mono. Applications load the fonts, and the font tokens include system fallbacks. See [Installation](/guide/installation#fonts) for setup.
 
 Establish hierarchy with size and spacing before adding weight. Use normal weight for body text, medium for control labels and semibold for headings. Avoid emphasizing everything or using faint colors for required reading.
 

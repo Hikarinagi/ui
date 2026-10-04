@@ -1,5 +1,6 @@
 import { createSharedComposable, useMutationObserver } from '@vueuse/core'
 import { onBeforeUnmount, ref, watch, type ShallowRef } from 'vue'
+import { blockWhenInert } from '../../../../../shared/src/lib/scroll-area'
 
 const useBodyPointerLock = createSharedComposable(() => {
   const locked = ref(false)
@@ -22,15 +23,7 @@ export function useLayerLock(viewport: ShallowRef<HTMLElement | undefined>) {
     release = undefined
     const el = viewport.value
     if (!el || !locked.value) return
-    const block = (event: Event) => {
-      if (getComputedStyle(el).pointerEvents === 'none') event.preventDefault()
-    }
-    el.addEventListener('wheel', block, { passive: false, capture: true })
-    el.addEventListener('touchmove', block, { passive: false, capture: true })
-    release = () => {
-      el.removeEventListener('wheel', block, true)
-      el.removeEventListener('touchmove', block, true)
-    }
+    release = blockWhenInert(el)
   }
 
   watch([locked, viewport], apply, { flush: 'post' })

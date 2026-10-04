@@ -82,4 +82,14 @@ The `label` of `ContextMenuSub` is the entry to the submenu and its default slot
 
 ### Items and other parts {#parts}
 
+::: vue
+
 `ContextMenuItem`, `ContextMenuCheckboxItem`, `ContextMenuRadioGroup`, `ContextMenuRadioItem`, `ContextMenuGroup`, `ContextMenuLabel`, `ContextMenuSeparator` and `ContextMenuSub` take exactly the props, slots and events of their DropdownMenu counterparts; see [DropdownMenu](/components/dropdown-menu#item).
+
+:::
+
+::: react
+
+`ContextMenuItem`, `ContextMenuCheckboxItem`, `ContextMenuRadioGroup`, `ContextMenuRadioItem`, `ContextMenuGroup`, `ContextMenuLabel`, `ContextMenuSeparator` and `ContextMenuSub` take exactly the props and callbacks of their DropdownMenu counterparts; see [DropdownMenu](/components/dropdown-menu#item).
+
+:::

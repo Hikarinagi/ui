@@ -1,6 +1,15 @@
 import { computed, type Ref } from 'vue'
 import type { TreeNode, TreeNodeState, TreeValue } from '../types'
-import { checkedState, indexTree, toggleChecked } from '../utils/selection'
+import {
+  expandedTreeKeys,
+  expandedTreeValues,
+  indexTree,
+  nextTreeModel,
+  selectedTreeNodes,
+  treeKey,
+  treeKeyMap,
+  treeStates,
+} from '../utils/selection'
 
 interface Options {
   items: TreeNode[]
@@ -16,39 +25,18 @@ export function useTree(
 ) {
   const initialExpanded = [...props.defaultExpanded]
   const index = computed(() => indexTree(props.items))
-  const states = computed(() => {
-    if (props.multiple)
-      return checkedState(index.value, Array.isArray(model.value) ? model.value : [])
-    return new Map(
-      [...index.value.entries].map(([value, entry]) => [
-        value,
-        {
-          selected: value === model.value,
-          indeterminate: false,
-          disabled: entry.disabled,
-        },
-      ]),
-    )
-  })
-  const selected = computed(() =>
-    [...index.value.entries.values()]
-      .filter(entry => states.value.get(entry.node.value)?.selected)
-      .map(entry => entry.node),
-  )
-  const keys = computed(
-    () => new Map([...index.value.entries].map(([value, entry]) => [key(entry.node), value])),
-  )
+  const states = computed(() => treeStates(index.value, props.multiple, model.value))
+  const selected = computed(() => selectedTreeNodes(index.value, states.value))
+  const keys = computed(() => treeKeyMap(index.value))
   const expanded = computed({
-    get: () => (expandedModel.value ?? initialExpanded).map(value => key({ value })),
+    get: () => expandedTreeKeys(expandedModel.value ?? initialExpanded),
     set: value => {
-      expandedModel.value = value.flatMap(key =>
-        keys.value.has(key) ? [keys.value.get(key)!] : [],
-      )
+      expandedModel.value = expandedTreeValues(keys.value, value)
     },
   })
 
   function key(node: Pick<TreeNode, 'value'>) {
-    return `${typeof node.value}:${node.value}`
+    return treeKey(node)
   }
   function getChildren(node: TreeNode) {
     return node.children?.length ? node.children : undefined
@@ -61,11 +49,7 @@ export function useTree(
     event.preventDefault()
     const node = event.detail.value
     if (!node || state(node).disabled) return
-    model.value = props.multiple
-      ? toggleChecked(index.value, Array.isArray(model.value) ? model.value : [], node.value)
-      : model.value === node.value
-        ? null
-        : node.value
+    model.value = nextTreeModel(index.value, props.multiple, model.value, node.value)
   }
   function toggle(node: TreeNode) {
     if (state(node).disabled || !getChildren(node)) return

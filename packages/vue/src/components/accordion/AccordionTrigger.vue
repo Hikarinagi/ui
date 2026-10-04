@@ -1,11 +1,19 @@
 <script setup lang="ts">
-  import { AccordionHeader, AccordionTrigger as RekaAccordionTrigger } from 'reka-ui'
+  import {
+    AccordionHeader,
+    AccordionTrigger as RekaAccordionTrigger,
+    injectCollapsibleRootContext,
+    useId,
+  } from 'reka-ui'
   import { cn } from '../../lib/cn'
   import Ripple from '../ripple/Ripple.vue'
   import DisclosureIcon from '../disclosure-icon/DisclosureIcon.vue'
   import { accordionTrigger } from './accordion.variants'
 
   defineOptions({ name: 'HnAccordionTrigger' })
+
+  const root = injectCollapsibleRootContext()
+  root.contentId ||= useId(undefined, 'reka-collapsible-content')
 
   const props = withDefaults(
     defineProps<{

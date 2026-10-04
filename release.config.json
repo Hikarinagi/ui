@@ -1,7 +1,17 @@
 {
   "repo": "Hikarinagi/ui",
-  "package": "packages/vue/package.json",
-  "changelog": "packages/vue/CHANGELOG.md",
+  "packages": [
+    {
+      "id": "vue",
+      "package": "packages/vue/package.json",
+      "changelog": "packages/vue/CHANGELOG.md"
+    },
+    {
+      "id": "react",
+      "package": "packages/react/package.json",
+      "changelog": "packages/react/CHANGELOG.md"
+    }
+  ],
   "changesDir": ".changes",
   "branch": "release/next",
   "defaultBump": "patch",

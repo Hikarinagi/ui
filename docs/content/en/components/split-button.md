@@ -14,6 +14,8 @@ links:
 import { SplitButton, DropdownMenuItem } from '@hina-ui/vue'
 ```
 
+::: vue
+
 The primary button emits `click`; the trailing arrow opens the menu. Place alternatives in `#content` and handle each `DropdownMenuItem` through `select`. Use this when one action is the clear default, such as publishing with a save-draft alternative or exporting in a chosen format.
 
 ```vue
@@ -24,6 +26,24 @@ The primary button emits `click`; the trailing arrow opens the menu. Place alter
   </template>
 </SplitButton>
 ```
+
+:::
+
+::: react
+
+The primary button calls `onClick`; the trailing arrow opens the menu. Place alternatives in `renderContent` and handle each `DropdownMenuItem` through `onSelect`. Use this when one action is the clear default, such as publishing with a save-draft alternative or exporting in a chosen format.
+
+```tsx
+<SplitButton
+  menuLabel="More saving options"
+  onClick={save}
+  renderContent={() => <DropdownMenuItem onSelect={saveCopy}>Save a copy</DropdownMenuItem>}
+>
+  Save
+</SplitButton>
+```
+
+:::
 
 Use `ButtonGroup` for equally common actions, or `DropdownMenu` when there is no default action. Selecting a menu item does not automatically change the primary action; the application decides whether to remember the choice.
 
@@ -75,6 +95,8 @@ This example simulates asynchronous publishing. Publishing runs `Form` validatio
 
 ### A link as the primary action {#link}
 
+::: vue
+
 `as` changes only the primary button. Use your router's link component for in-app navigation; attributes such as `to` pass through to it. The menu trigger remains a button.
 
 ```vue
@@ -92,13 +114,62 @@ This example simulates asynchronous publishing. Publishing runs `Form` validatio
 </SplitButton>
 ```
 
+:::
+
+::: react
+
+`as` changes only the primary button. Pass a router link such as `next/link` for in-app navigation; attributes such as `href` pass through to it. The menu trigger remains a button. A Server Component can pass neither the component nor `renderContent`, so this composition belongs in a `'use client'` module.
+
+```tsx
+'use client'
+
+import NextLink from 'next/link'
+import { useRouter } from 'next/navigation'
+import { DropdownMenuItem, SplitButton } from '@hina-ui/react'
+
+export function ButtonDocs() {
+  const router = useRouter()
+
+  return (
+    <SplitButton
+      as={NextLink}
+      href="/components/button"
+      menuLabel="Related documentation"
+      renderContent={() => (
+        <DropdownMenuItem onSelect={() => router.push('/components/button-group')}>
+          View ButtonGroup
+        </DropdownMenuItem>
+      )}
+    >
+      View Button
+    </SplitButton>
+  )
+}
+```
+
+:::
+
 ## Behavior and accessibility {#behavior}
+
+::: vue
 
 - `Tab` reaches the primary action and menu trigger separately. On the primary button, `Enter` or Space runs the action and `ArrowDown` opens the menu. A link keeps native link keyboard behavior.
 - On the menu trigger, `Enter`, Space, or `ArrowDown` opens the menu. Keyboard opening focuses the first available item. Menu navigation, first/last item keys, and typeahead follow `DropdownMenu`.
 - `Escape` closes the menu and returns focus to its trigger. Selecting a regular item also closes it; use `@select.prevent` on that item to keep the menu open.
 - Give `menu-label` a name describing the alternatives. It defaults to the current locale's “More actions”. `label` optionally names the whole group.
 - `#icon` and `#trailing` belong to the primary action. The menu arrow uses `DisclosureIcon` and follows the open state.
+
+:::
+
+::: react
+
+- `Tab` reaches the primary action and menu trigger separately. On the primary button, `Enter` or Space runs the action and `ArrowDown` opens the menu. A link keeps native link keyboard behavior.
+- On the menu trigger, `Enter`, Space, or `ArrowDown` opens the menu. Keyboard opening focuses the first available item. Menu navigation, first/last item keys, and typeahead follow `DropdownMenu`.
+- `Escape` closes the menu and returns focus to its trigger. Selecting a regular item also closes it; call `event.preventDefault()` in that item's `onSelect` to keep the menu open.
+- Give `menuLabel` a name describing the alternatives. It defaults to the current locale's “More actions”. `label` optionally names the whole group.
+- `icon` and `trailing` belong to the primary action. The menu arrow uses `DisclosureIcon` and follows the open state.
+
+:::
 
 ## API {#api}
 
@@ -129,7 +200,17 @@ This example simulates asynchronous publishing. Publishing runs `Form` validatio
 | `style`           | `StyleValue`                                | —                        | Group container styles                              |
 | `menuClass`       | `string`                                    | —                        | Menu content classes                                |
 
+::: vue
+
 Other attributes and listeners, including `id`, `aria-label`, `href`, `to`, and `keydown`, pass through to the primary button.
+
+:::
+
+::: react
+
+Other attributes and handlers, including `id`, `aria-label`, `href`, `target`, and `onKeyDown`, pass through to the primary button.
+
+:::
 
 ### Models {#models}
 
@@ -139,10 +220,23 @@ Other attributes and listeners, including `id`, `aria-label`, `href`, `to`, and 
 
 ### Events {#events}
 
+::: vue
+
 | Event         | Payload      | Description                                                    |
 | ------------- | ------------ | -------------------------------------------------------------- |
 | `click`       | `MouseEvent` | Primary action click; menu interactions do not emit this event |
 | `update:open` | `boolean`    | Menu open state changed                                        |
+
+:::
+
+::: react
+
+| Callback       | Payload      | Description                                            |
+| -------------- | ------------ | ------------------------------------------------------ |
+| `onClick`      | `MouseEvent` | Primary action click; menu interactions do not call it |
+| `onOpenChange` | `boolean`    | Menu open state changed                                |
+
+:::
 
 ### Slots {#slots}
 

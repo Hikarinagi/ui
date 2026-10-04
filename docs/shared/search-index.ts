@@ -1,0 +1,89 @@
+import { readdir, readFile } from 'node:fs/promises'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { loadChangelog } from './changelog-source'
+import { frameworkView } from './framework'
+
+export const CONTENT_ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', 'content')
+const COMMON_LIMIT = 3
+const HEADING = /^(##|###)\s+(.+?)\s*(?:\{#([^}]+)\})?\s*$/gm
+const FENCE = /```[\s\S]*?```/g
+
+export interface SearchHeading {
+  id: string
+  label: string
+  parent?: string
+}
+
+export interface SearchPage {
+  to: string
+  title: string
+  description?: string
+  headings: SearchHeading[]
+}
+
+export type SearchIndex = Record<string, SearchPage[]>
+
+interface Parsed {
+  title: string
+  description?: string
+  headings: SearchHeading[]
+}
+
+function field(meta: string, name: string): string | undefined {
+  const value = meta.match(new RegExp(`^${name}:\\s*(.+)$`, 'm'))?.[1]?.trim()
+  return value?.replace(/^(['"])(.*)\1$/, '$2')
+}
+
+function parse(raw: string): Parsed {
+  const front = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/)
+  const meta = front?.[1] ?? ''
+  const body = (front ? raw.slice(front[0].length) : raw).replace(FENCE, '')
+  const headings: SearchHeading[] = []
+  let parent: string | undefined
+  let sequence = 0
+  const depth = Number(field(meta, 'tocDepth') ?? 3)
+  for (const match of body.matchAll(HEADING)) {
+    const level = match[1]!.length
+    const label = match[2]!.replace(/`/g, '')
+    sequence += 1
+    const id = match[3] ?? `section-${sequence}`
+    if (level === 2) parent = label
+    if (level <= depth) headings.push({ id, label, parent: level === 3 ? parent : undefined })
+  }
+  return { title: field(meta, 'title') ?? '', description: field(meta, 'description'), headings }
+}
+
+function route(name: string): string {
+  const path = `/${name.split('\\').join('/').replace(/\.md$/, '')}`
+  return path.replace(/\/index$/, '') || '/'
+}
+
+export async function pagesOf(
+  locale: string,
+  root = CONTENT_ROOT,
+  adapt: (source: string, path: string) => string = source => frameworkView(source, 'vue'),
+): Promise<SearchPage[]> {
+  const dir = `${join(root, locale)}/`
+  const names = (await readdir(dir, { recursive: true, encoding: 'utf8' })).filter(name =>
+    name.endsWith('.md'),
+  )
+  const parsed = await Promise.all(
+    names.map(async name => ({
+      to: route(name),
+      ...parse(adapt(await loadChangelog(await readFile(dir + name, 'utf8')), route(name))),
+    })),
+  )
+  const frequency = new Map<string, number>()
+  for (const page of parsed) {
+    for (const label of new Set(page.headings.map(heading => heading.label))) {
+      frequency.set(label, (frequency.get(label) ?? 0) + 1)
+    }
+  }
+  return parsed
+    .map(page => ({
+      ...page,
+      headings: page.headings.filter(heading => (frequency.get(heading.label) ?? 0) < COMMON_LIMIT),
+    }))
+    .sort((a, b) => a.to.localeCompare(b.to))
+}

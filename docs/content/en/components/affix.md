@@ -16,11 +16,25 @@ import { Affix } from '@hina-ui/vue'
 
 Wrap the content that should stick. It follows the top of its nearest scrolling region by default; `offset` sets the distance from that edge in pixels.
 
+::: vue
+
 ```vue
 <Affix :offset="16">
   <Card>Toolbar or actions</Card>
 </Affix>
 ```
+
+:::
+
+::: react
+
+```tsx
+<Affix offset={16}>
+  <Card>Toolbar or actions</Card>
+</Affix>
+```
+
+:::
 
 Affix uses native `position: sticky`, preserving layout space, width and DOM identity. It adds no card styling, background, scroll container or movement, scaling or fading animation. Slot content owns its appearance.
 
@@ -28,13 +42,37 @@ Affix uses native `position: sticky`, preserving layout space, width and DOM ide
 
 ### Offset and disabled state {#offset}
 
+::: vue
+
 The first example lets you adjust the offset, disable affixing and complete checklist items. `disabled` restores ordinary flow without losing internal state. Use `#default="{ affixed }"` or `@change` to detect whether the content is at the chosen edge, for example to add a toolbar shadow.
+
+:::
+
+::: react
+
+The first example lets you adjust the offset, disable affixing and complete checklist items. `disabled` restores ordinary flow without losing internal state. Pass `children` as a function that receives `{ affixed }`, or use `onChange`, to detect whether the content is at the chosen edge, for example to add a toolbar shadow.
+
+:::
+
+::: vue
 
 ```vue
 <Affix v-slot="{ affixed }" :offset="16" :disabled="disabled">
   <Card :class="affixed ? 'shadow-md' : 'shadow-none'">Actions</Card>
 </Affix>
 ```
+
+:::
+
+::: react
+
+```tsx
+<Affix offset={16} disabled={disabled}>
+  {({ affixed }) => <Card className={affixed ? 'shadow-md' : 'shadow-none'}>Actions</Card>}
+</Affix>
+```
+
+:::
 
 Prefer changing colors or shadows on state changes. Changing height or margins can repeatedly move the threshold.
 
@@ -57,6 +95,8 @@ Each Affix is constrained by its parent layout region. These headings stick only
 - `overflow: auto / scroll / hidden` establishes a new sticky reference. When clipping should not establish a scroll container, use `overflow: clip` where appropriate. A non-scrolling `overflow: hidden` ancestor prevents page-level sticking.
 - Width, clipping, direction and stacking remain part of the original layout. The default stack level is `z-10`, adjustable through `class`. Use FloatButton for an action that should always be fixed in a viewport corner.
 
+::: vue
+
 ```vue
 <ScrollArea class="h-96">
   <Stack>
@@ -68,11 +108,40 @@ Each Affix is constrained by its parent layout region. These headings stick only
 </ScrollArea>
 ```
 
+:::
+
+::: react
+
+```tsx
+<ScrollArea className="h-96">
+  <Stack>
+    <Affix offset={12}>
+      <Card>Filters and batch actions</Card>
+    </Affix>
+    <DataList items={items} itemKey="id">
+      {({ item }) => item.title}
+    </DataList>
+  </Stack>
+</ScrollArea>
+```
+
+:::
+
 ## SSR and performance {#rendering}
 
 CSS owns positioning, so SSR and the client use the same layout without a measured switch to fixed positioning. Content remains readable and sticky before JavaScript runs.
 
+::: vue
+
 The `affixed` slot value is `false` on the server and synchronizes after mount. Scroll and resize measurements only detect edge state, are batched within a frame, and emit only on changes. They never write positioning or placeholder dimensions on every frame. The state returns to `false` when the parent boundary pushes the element away from the chosen edge.
+
+:::
+
+::: react
+
+The `affixed` value passed to a `children` function is `false` on the server and synchronizes after mount. Scroll and resize measurements only detect edge state, are batched within a frame, and call `onChange` only on changes. They never write positioning or placeholder dimensions on every frame. The state returns to `false` when the parent boundary pushes the element away from the chosen edge.
+
+:::
 
 ## API {#api}
 

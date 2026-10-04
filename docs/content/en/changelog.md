@@ -9,4 +9,10 @@ links:
     href: https://www.npmjs.com/package/@hina-ui/vue
 ---
 
+::: react
+
+> The entries below are the release history of `@hina-ui/vue`. `@hina-ui/react` has not been published yet; once released, it will be versioned in lockstep with the Vue package.
+
+:::
+
 <Changelog />

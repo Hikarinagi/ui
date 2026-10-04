@@ -56,7 +56,17 @@ import { Popover } from '@hina-ui/vue'
 
 `updatePositionStrategy` 默认是 `'optimized'`，在滚动、尺寸和布局变化时更新位置。设置为 `'always'` 后，挂载期间逐帧检查矩形，持续跟随仅有坐标变化的锚点。可以在打开期间切换策略。退场期间继续跟随，锚点清空或所属元素移除后保留最后的位置，卸载后停止测量。
 
+::: vue
+
 需要保持外部焦点时，设置 `:modal="false"` 并使用 `@open-auto-focus.prevent`。
+
+:::
+
+::: react
+
+需要保持外部焦点时，设置 `modal={false}`，并在 `onOpenAutoFocus` 中调用 `event.preventDefault()`。
+
+:::
 
 示例用 [Button](/components/button) 打开面板，并用 [ScrollArea](/components/scroll-area) 提供滚动容器。面板同时跟随坐标变化和容器滚动。
 
@@ -74,7 +84,17 @@ import { Popover } from '@hina-ui/vue'
 
 ### 自定义内边距 {#padded}
 
+::: vue
+
 面板默认带内边距。内容需要延伸到边缘时设置 `padded="false"`，由内容自行安排留白。
+
+:::
+
+::: react
+
+面板默认带内边距。内容需要延伸到边缘时设置 `padded={false}`，由内容自行安排留白。
+
+:::
 
 <Demo name="popover/padded" />
 

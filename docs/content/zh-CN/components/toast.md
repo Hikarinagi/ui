@@ -20,6 +20,8 @@ import { Toaster, toast } from '@hina-ui/vue'
 
 <Demo name="toast/basic" />
 
+::: vue
+
 ```vue
 <template>
   <AppShell>
@@ -28,6 +30,30 @@ import { Toaster, toast } from '@hina-ui/vue'
   </AppShell>
 </template>
 ```
+
+:::
+
+::: react
+
+```tsx
+import type { ReactNode } from 'react'
+import { AppShell, Toaster } from '@hina-ui/react'
+
+export default function RootLayout({ children }: { children: ReactNode }) {
+  return (
+    <html lang="zh-CN">
+      <body>
+        <AppShell>
+          {children}
+          <Toaster />
+        </AppShell>
+      </body>
+    </html>
+  )
+}
+```
+
+:::
 
 ## 示例 {#examples}
 

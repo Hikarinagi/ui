@@ -16,7 +16,17 @@ links:
 import { Slider } from '@hina-ui/vue'
 ```
 
+::: vue
+
 滑块在 `min` 与 `max` 之间取一个数，`v-model` 绑定当前值。拖动过程中值持续更新，松手时另发一次 `commit`。未声明的属性都会传给拇指元素，应当用 `aria-label` 或者 `aria-labelledby` 命名。宽度归布局，滑块本身撑满容器。
+
+:::
+
+::: react
+
+滑块在 `min` 与 `max` 之间取一个数，`value / onValueChange` 绑定当前值。拖动过程中值持续更新，松手时另外调用一次 `onCommit`。未声明的属性都会传给拇指元素，应当用 `aria-label` 或者 `aria-labelledby` 命名。宽度归布局，滑块本身撑满容器。
+
+:::
 
 <Demo name="slider/basic" />
 
@@ -62,7 +72,17 @@ RTL 下最小值在右、最大值在左；右方向键减小数值，左方向�
 
 ### 松手时提交 {#commit}
 
+::: vue
+
 `commit` 只在一次拖动或者一次按键结束时触发，适合触发请求之类代价较高的操作。
+
+:::
+
+::: react
+
+`onCommit` 只在一次拖动或者一次按键结束时调用，适合发起请求之类代价较高的操作。
+
+:::
 
 <Demo name="slider/commit" />
 

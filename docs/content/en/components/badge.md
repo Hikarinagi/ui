@@ -52,13 +52,33 @@ Set `shape="circle"` for a round host. The anchor point moves inward so the badg
 
 ### Custom content {#content}
 
+::: vue
+
 The `content` slot replaces what the badge shows, for example an icon.
 
 Whether the badge renders is still decided by the `content` property, so it must be set to a non-empty value when the slot is used. Provide an accessible name through `label` in that case.
 
+:::
+
+::: react
+
+`content` also accepts an element, for example an icon. Provide an accessible name through `label` in that case.
+
+:::
+
 <Demo name="badge/content" />
 
+::: vue
+
 With `bare` set the badge draws no background or padding and only positions and outlines its content, which decides the size. Put an `Indicator` in the slot to show a status dot on the corner of an avatar.
+
+:::
+
+::: react
+
+With `bare` set the badge draws no background or padding and only positions and outlines its content, which decides the size. Pass an `Indicator` as `content` to show a status dot on the corner of an avatar.
+
+:::
 
 <Demo name="indicator/badge" />
 

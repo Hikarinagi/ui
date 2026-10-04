@@ -14,7 +14,17 @@ links:
 import { Stepper, type StepperItem } from '@hina-ui/vue'
 ```
 
+::: vue
+
 `items` defines the steps. `v-model` is the current step number, starting at **1**. Without a model, the component manages its state and starts at `defaultValue`, or the first step.
+
+:::
+
+::: react
+
+`items` defines the steps. `value` is the current step number, starting at **1**, and `onValueChange` is called on navigation. Without `value`, the component manages its state and starts at `defaultValue`, or the first step.
+
+:::
 
 <Demo name="stepper/basic" />
 
@@ -24,7 +34,17 @@ import { Stepper, type StepperItem } from '@hina-ui/vue'
 
 `linear` defaults to `true`: previous steps and the immediate next step are available, but later steps cannot be reached directly. Set it to `false` to reach any enabled step.
 
+::: vue
+
 Linear navigation limits the allowed range; it does not validate data. Use `beforeChange` for validation. Assigning `v-model` externally updates state directly and does not run navigation restrictions or validation.
+
+:::
+
+::: react
+
+Linear navigation limits the allowed range; it does not validate data. Use `beforeChange` for validation. Changing `value` externally updates state directly and does not run navigation restrictions or validation.
+
+:::
 
 <Demo name="stepper/linear" />
 
@@ -44,9 +64,21 @@ An item's `disabled` prevents entering it; root `disabled` prevents all user nav
 
 ### Content and navigation {#content}
 
+::: vue
+
 The default slot receives the current step and navigation methods. Compose [Card](/components/card), [Button](/components/button) or other components inside it. The content region only renders when this slot is provided.
 
 The slot remains mounted; the caller controls switching, preserving or resetting its contents. The component instance exposes `next()`, `prev()` and `goTo(step)` with the same behavior as the slot methods.
+
+:::
+
+::: react
+
+`children` can be a function that receives the current step and navigation methods. Compose [Card](/components/card), [Button](/components/button) or other components inside it. The content region only renders when `children` is provided.
+
+The content region remains mounted; the caller controls switching, preserving or resetting its contents. The component ref also provides `next()`, `prev()` and `goTo(step)` with the same behavior as the methods passed to `children`.
+
+:::
 
 <Demo name="stepper/content" />
 
@@ -64,7 +96,17 @@ This example uses [FormField](/components/form-field) and [Input](/components/in
 
 `#indicator`, `#title` and `#description` receive the original `item`, zero-based `index`, one-based `step`, `state`, `active`, `pending` and `disabled`. Custom fields retain type inference.
 
+::: vue
+
 This example replaces numbers with icons and adds [Tag](/components/tag) to titles. These slots are inside the step button and should contain non-interactive content. Place inputs, links and other buttons in the default content slot.
+
+:::
+
+::: react
+
+This example replaces numbers with icons and adds [Tag](/components/tag) to titles. What these functions return renders inside the step button and should be non-interactive. Place inputs, links and other buttons in `children`.
+
+:::
 
 <Demo name="stepper/custom" />
 
@@ -76,7 +118,17 @@ This example replaces numbers with icons and adds [Tag](/components/tag) to titl
 
 ### RTL {#rtl}
 
+::: vue
+
 Direction follows an ancestor's `dir` or the configuration provider, or an explicit `dir="rtl"`. Horizontal placement, connectors and arrow navigation reverse together.
+
+:::
+
+::: react
+
+Direction follows an ancestor's `dir` or `ConfigProvider`, or an explicit `dir="rtl"`. Horizontal placement, connectors and arrow navigation reverse together.
+
+:::
 
 <Demo name="stepper/rtl" />
 
@@ -106,7 +158,17 @@ Direction follows an ancestor's `dir` or the configuration provider, or an expli
 | `dir`          | `'ltr' \| 'rtl'`             | Inherited      | Reading direction                       |
 | `class`        | `string`                     | —              | Root element classes                    |
 
+::: vue
+
 An empty list has a displayed step of `0`. Invalid or out-of-range current values are bounded for display without writing back to the model. `defaultValue` only initializes state.
+
+:::
+
+::: react
+
+An empty list has a displayed step of `0`. Invalid or out-of-range current values are bounded for display without calling `onValueChange`. `defaultValue` only initializes state.
+
+:::
 
 ### StepperItem {#item}
 
@@ -131,7 +193,17 @@ Step identity and numbers follow array position. `index` starts at 0 and `step` 
 
 `StepperSlotProps<T>` is `{ item, index, step, state, active, pending, disabled }`. `state` is `'inactive' | 'active' | 'completed' | 'error'`. `pending` identifies the step awaiting validation; `disabled` includes explicit disabling and linear range restrictions.
 
+::: vue
+
 `StepperNavigation<T>` is `{ step, item, total, pending, canNext, canPrev, next, prev, goTo }`. `item` is `undefined` for an empty list. Navigation returns `Promise<boolean>`: `true` when a model update is requested, or `false` when blocked, unchanged or stale.
+
+:::
+
+::: react
+
+`StepperNavigation<T>` is `{ step, item, total, pending, canNext, canPrev, next, prev, goTo }`. `item` is `undefined` for an empty list. Navigation returns `Promise<boolean>`: `true` when a step update is requested, or `false` when blocked, unchanged or stale.
+
+:::
 
 ### Events {#events}
 
@@ -142,4 +214,14 @@ Step identity and numbers follow array position. `index` starts at 0 and `step` 
 
 ### Expose {#expose}
 
+::: vue
+
 Component refs expose `step`, `pending`, `canNext`, `canPrev`, `next()`, `prev()` and `goTo(step)`. `beforeChange` has the signature `(nextStep: number, previousStep: number) => boolean | void | Promise<boolean | void>`.
+
+:::
+
+::: react
+
+The component ref provides `step`, `pending`, `canNext`, `canPrev`, `next()`, `prev()` and `goTo(step)`. `beforeChange` has the signature `(nextStep: number, previousStep: number) => boolean | void | Promise<boolean | void>`.
+
+:::

@@ -1,0 +1,412 @@
+{
+  "banner": {
+    "text": "A UI language built for Vue.",
+    "link": "v{version} is out"
+  },
+  "landing": {
+    "title": "The design system behind {brand}",
+    "subtitle": "Powered by Reka UI and Tailwind CSS v4.",
+    "start": "Get started",
+    "browse": "Browse components",
+    "features": {
+      "modes": {
+        "title": "Dark and compact modes",
+        "body": "Set one attribute on an outer container and the whole interface follows."
+      },
+      "appearance": {
+        "title": "Adjustable appearance",
+        "body": "Colours, radii and motion durations are CSS variables; override them to customise the look."
+      },
+      "a11y": {
+        "title": "Accessible",
+        "body": "Focus management, keyboard operation and screen reader semantics work out of the box."
+      },
+      "scaffolding": {
+        "title": "Typography and scaffolding included",
+        "body": "Build pages without native tags."
+      }
+    },
+    "copyright": "© 2026 Hikarinagi All Right Reserved.",
+    "wall": {
+      "verify": {
+        "label": "Verify account",
+        "hint": "A code has been sent to the linked mailbox.",
+        "resendPrefix": "No code received",
+        "resend": "Resend"
+      },
+      "discard": {
+        "title": "Discard these changes?",
+        "body": "The edits are unsaved and cannot be recovered.",
+        "discard": "Discard",
+        "save": "Keep editing"
+      },
+      "upload": {
+        "label": "Change avatar"
+      },
+      "notice": {
+        "title": "3 new messages",
+        "body": "From three creators you follow."
+      },
+      "stats": {
+        "label": "New followers this month",
+        "delta": "vs last month"
+      },
+      "shelf": {
+        "all": "All",
+        "ongoing": "Mentions",
+        "done": "Following",
+        "label": "Message filter"
+      },
+      "storage": {
+        "label": "Storage",
+        "doc": "Documents",
+        "image": "Images",
+        "video": "Video",
+        "other": "Other"
+      },
+      "ring": {
+        "label": "Sync progress",
+        "hint": "6 devices remaining"
+      },
+      "progress": {
+        "label": "Importing"
+      },
+      "published": {
+        "title": "Export complete",
+        "body": "The file has been saved to your downloads.",
+        "view": "Open",
+        "back": "Back"
+      },
+      "commands": {
+        "placeholder": "Search pages and actions",
+        "pages": "Pages",
+        "home": "Home",
+        "library": "Messages",
+        "bookmarks": "Settings",
+        "settings": "Account",
+        "actions": "Actions",
+        "newReview": "New draft",
+        "newReviewHint": "Start from blank",
+        "theme": "Toggle theme"
+      },
+      "cover": {
+        "title": "あそびのかんけい",
+        "brand": "Fujimi Fantasia Bunko",
+        "tag": "Romcom",
+        "alt": "Asobi no Kankei cover"
+      },
+      "find": {
+        "label": "Search",
+        "placeholder": "Title, author or tag"
+      },
+      "tags": {
+        "label": "Interests",
+        "placeholder": "Add a tag"
+      },
+      "sort": {
+        "label": "Sort by",
+        "date": "Newest",
+        "score": "Popular",
+        "saves": "Relevance"
+      },
+      "actions": {
+        "read": "Open",
+        "save": "Bookmark",
+        "share": "Share",
+        "review": "Edit",
+        "remove": "Remove",
+        "report": "Report"
+      },
+      "chapters": {
+        "label": "Activity log",
+        "item": "Entry {n}"
+      },
+      "workTabs": {
+        "label": "Range",
+        "intro": "Today",
+        "cast": "This week",
+        "staff": "This month",
+        "introBody": "128 visits, up 12% on yesterday.",
+        "castBody": "902 visits, 314 of them from search.",
+        "staffBody": "3,860 visits and 47 items created."
+      },
+      "volumes": {
+        "label": "Price range"
+      },
+      "autoplay": {
+        "label": "Desktop notifications",
+        "hint": "Alert in system notifications on new messages"
+      },
+      "signIn": {
+        "title": "Sign in to Hikarinagi",
+        "body": "Settings and drafts sync across devices once signed in.",
+        "passkey": "Continue with a passkey",
+        "or": "or",
+        "github": "Continue with GitHub"
+      }
+    },
+    "release": "v{version} is out"
+  },
+  "nav": {
+    "start": "Getting started",
+    "components": "Components",
+    "docsNav": "Documentation navigation",
+    "primaryStart": "Guide",
+    "primaryComponents": "Components",
+    "installation": "Installation",
+    "github": "GitHub repository",
+    "design": "Design",
+    "colors": "Color",
+    "typography": "Typography",
+    "layout": "Layout & density",
+    "motion": "Interaction & motion",
+    "changelog": "Changelog"
+  },
+  "page": {
+    "toc": "On this page",
+    "prev": "Previous",
+    "next": "Next",
+    "noPrev": "No previous page",
+    "noNext": "No next page",
+    "notFound": "Page not found"
+  },
+  "actions": {
+    "copyMarkdown": "Copy Markdown",
+    "viewMarkdown": "View Markdown",
+    "openSource": "Open the Markdown source of this page",
+    "more": "More ways to open",
+    "openInChatGPT": "Open in ChatGPT",
+    "openInClaude": "Open in Claude",
+    "ask": "Ask about this page",
+    "prompt": "Read {url} and get ready to answer my questions about the {title} component",
+    "expandCode": "View code",
+    "collapseCode": "Hide code"
+  },
+  "theme": {
+    "label": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "locale": {
+    "label": "Language",
+    "zh-CN": "简体中文",
+    "en": "English"
+  },
+  "search": {
+    "label": "Search",
+    "placeholder": "Search components, sections and actions",
+    "categories": "Categories",
+    "sections": "Sections",
+    "actions": "Actions"
+  },
+  "categories": {
+    "foundation": {
+      "label": "Foundation",
+      "description": "Mechanism primitives the components share."
+    },
+    "typography": {
+      "label": "Typography",
+      "description": "How text, code, lists and quotations are set in body content."
+    },
+    "layout": {
+      "label": "Layout",
+      "description": "Containers that arrange their children — direction, spacing and alignment."
+    },
+    "atoms": {
+      "label": "Atoms",
+      "description": "The smallest reusable units — buttons, tags and badges."
+    },
+    "forms": {
+      "label": "Forms",
+      "description": "Controls for entering, choosing and submitting data."
+    },
+    "overlays": {
+      "label": "Overlays",
+      "description": "Panels and hints that float above the page."
+    },
+    "display": {
+      "label": "Display",
+      "description": "Panels, containers and states that carry and present content."
+    },
+    "data": {
+      "label": "Data",
+      "description": "Components that organise and present sets of data in rows and columns."
+    },
+    "navigation": {
+      "label": "Navigation",
+      "description": "Components that show where you are and move you around the site."
+    },
+    "shell": {
+      "label": "Shell",
+      "description": "The outer frame that carries the interface and divides it into regions."
+    }
+  },
+  "guides": {
+    "installation": "Dependencies, style entry, fonts, dark mode and density",
+    "changelog": "Additions, improvements and fixes across all releases"
+  },
+  "components": {
+    "masonry": "Masonry",
+    "month-grid": "Month display",
+    "carousel": "Browse content with dragging, grouping and optional rotation",
+    "qr-code": "Scannable SVG codes with image export",
+    "affix": "Sticky container",
+    "accordion": "A list of sections that expand and collapse in turn",
+    "alert": "A message bar that appears in the page after something happens",
+    "alert-dialog": "A confirmation dialog that needs an explicit answer",
+    "anchor": "An in-page table of contents that tracks the section you are reading",
+    "app-shell": "The outer frame of an application, holding the sidebar, header and main area",
+    "badge": "Pins an unread count to the corner of its host",
+    "banner": "An announcement bar across the top of the page",
+    "blockquote": "Quotes a passage from elsewhere",
+    "breadcrumb": "Shows where the current page sits in the hierarchy",
+    "button": "Triggers a single action",
+    "button-group": "Joins several buttons into one unit",
+    "card": "Gathers a group of content onto one raised surface",
+    "checkbox": "Ticks one option, or several out of many",
+    "checkbox-group": "A set of checkboxes sharing one array value",
+    "close-button": "Dismisses dialogs, drawers and toasts",
+    "code": "Inline code within body text",
+    "code-block": "A block of code with highlighting and copying",
+    "copy-button": "Writes a piece of text to the clipboard",
+    "context-menu": "A menu that opens at the pointer on right-click or long press",
+    "data-list": "List and grid data views with pagination and custom items",
+    "data-table": "A data table with sorting, filtering, pagination and row selection",
+    "date-field": "Types a date or time segment by segment",
+    "date-picker": "Types a date or picks it from a calendar",
+    "date-range-field": "Types a start and an end date segment by segment",
+    "date-range-picker": "Types a date range or picks it from a calendar",
+    "date-time-picker": "Types a date and time or picks them from a calendar and a time field",
+    "description-list": "Pairs of names and values",
+    "highlight": "A highlight that slides between active items",
+    "hover-card": "A preview card that floats out while hovering a link",
+    "heading": "Headings with semantics and size decoupled",
+    "icon-button": "An icon-only button that requires a name",
+    "kbd": "A keyboard key, for documenting shortcuts",
+    "link": "A text link that can render as a router component",
+    "list": "Ordered and unordered lists",
+    "listbox": "An always-visible list of options",
+    "loading-overlay": "A loading indicator laid over an area, shown after a short wait",
+    "mark": "Marks text, such as search hits",
+    "menubar": "A row of menus, like the menu bar of a desktop app",
+    "meter-group": "A segmented bar showing how parts make up a whole",
+    "multi-select": "Picks several items from a list",
+    "multi-combobox": "Types to search and picks several items",
+    "nav-link": "One entry in a navigation list, marking the current page",
+    "number-format": "Formats numbers for the current language",
+    "page": "The skeleton of a page's content, with a header, body and aside",
+    "pagination": "Selects a page within a numbered range",
+    "panel": "A card with a standard title bar, with places for a title, a count and actions",
+    "number-input": "A field for entering numbers",
+    "password-input": "A password field with a visibility toggle",
+    "pin-input": "Enters a code one character per cell",
+    "prev-next": "A pair of links at the foot of a page leading to its neighbours",
+    "progress": "A bar whose fill shows how much of a task is done",
+    "prose": "A rich text container that styles native tags",
+    "radio-group": "Picks exactly one option from a set",
+    "range-calendar": "Shows a month and picks a date range",
+    "range-slider": "Picks a range within bounds with two thumbs",
+    "rating": "Rates with stars or shows a score",
+    "result": "The outcome of an operation, as success, error, warning or info",
+    "ring-progress": "A ring whose arc shows how much of a task is done",
+    "ripple": "A ripple spreading from the point of contact",
+    "sidebar": "The navigation column on the left of an application, collapsible to a rail of icons",
+    "sheet": "A panel that rises from the bottom of the screen and can be dragged shut",
+    "spinner": "A spinning indicator for work in progress",
+    "spoiler": "Hides spoilers until revealed",
+    "switch": "Toggles between on and off",
+    "splitter": "Panes whose proportions are adjusted by dragging a divider",
+    "table": "Static data organised into rows and columns",
+    "tabs": "Several sets of content shown one at a time in the same place",
+    "tag": "A short label for status, category or attribute",
+    "tags-input": "Enters several values as removable tags",
+    "text": "Body text",
+    "textarea": "A multi-line text field",
+    "time": "Displays time in the current language",
+    "time-field": "Types a time segment by segment",
+    "dropdown-menu": "A set of actions revealed on click",
+    "empty": "A placeholder for an area with nothing in it, saying why and what to do next",
+    "popover": "A small panel that floats out on click",
+    "popconfirm": "A confirmation bubble that floats out next to its trigger",
+    "tooltip": "A short note shown on hover or focus",
+    "tree": "An expandable tree with cascading checkbox selection",
+    "tree-select": "Picks one item from a tree",
+    "dialog": "A modal dialog that interrupts the current task",
+    "drawer": "A modal panel that slides in from the screen edge",
+    "toast": "Short feedback that floats in after an action",
+    "toggle": "A two-state button that stays pressed",
+    "visually-hidden": "Text visible only to screen readers",
+    "stack": "Lays its children out in a single column",
+    "statistic": "A key figure set large, with its label and change",
+    "indicator": "A small dot that shows a status",
+    "inline": "Lays its children out in a row, wrapping when needed",
+    "input": "A single-line text field",
+    "input-group": "Joins addons and buttons with a field into one surface",
+    "avatar": "A round portrait standing for a person or entity",
+    "file-upload": "Picks files by clicking or dropping",
+    "form": "Collects field values, validates them and submits",
+    "form-field": "Pairs a control with its label, description and error",
+    "form-layout": "Groups fields into a grid with a title and description",
+    "flex": "A flex container with full control over its axes",
+    "grid": "A grid container with a fixed number of columns",
+    "simple-grid": "An even grid whose columns follow a minimum width",
+    "container": "Holds page content to a readable width and centres it",
+    "calendar": "Shows a month and picks a date",
+    "callout": "A note written into the content",
+    "collapsible": "A region a single trigger opens and closes",
+    "autocomplete": "Free-text input with caret-aware suggestions",
+    "combobox": "A select that filters as you type",
+    "command-palette": "A keyboard-summoned search panel for picking commands and pages",
+    "disclosure-icon": "An indicator that turns as a region opens and closes",
+    "center": "Centres its content on both axes",
+    "chip": "An item that can be selected or removed",
+    "space": "An empty element that takes up room in a flex container",
+    "aspect-ratio": "Holds its content to a given width-to-height ratio",
+    "divider": "A hairline that separates two pieces of content",
+    "scroll-area": "A scrolling region with overlay scrollbars",
+    "section": "A titled section of content",
+    "segmented-control": "Switches among a few peer options",
+    "search-input": "A field for entering a search query",
+    "select": "Picks one item from a list",
+    "skeleton": "A placeholder that holds the shape of loading content",
+    "slider": "Picks a number within a range by dragging",
+    "image": "An image that loads lazily and falls back when it fails",
+    "lightbox": "A full-screen image preview with controlled visibility and selection",
+    "timeline": "An ordered sequence of events with connected markers",
+    "stepper": "Navigates a sequence of steps with guarded transitions",
+    "toolbar": "Groups buttons, links and toggles with shared keyboard navigation",
+    "navigation-menu": "Composes navigation links and dropdown content panels",
+    "virtual-list": "A virtual list with dynamic item sizes",
+    "editable": "Edit text in place with save and cancel",
+    "split-button": "A primary action joined to a menu of alternatives",
+    "float-button": "A prominent action at the edge of a page or container",
+    "scroll-top": "Return to the top of a page or scroll container"
+  },
+  "designPreview": {
+    "accent": "Accent",
+    "success": "Success",
+    "warning": "Warning",
+    "danger": "Danger",
+    "info": "Information",
+    "foreground": "Text hierarchy",
+    "defaultText": "Primary · content and headings",
+    "mutedText": "Secondary · supporting text",
+    "faintText": "Tertiary · nonessential details",
+    "brandScale": "Brand palette · brand",
+    "typeSample": "Clear, ordered interfaces",
+    "comfortable": "Comfortable",
+    "compact": "Compact",
+    "input": "Enter a value",
+    "primary": "Primary",
+    "secondary": "Secondary",
+    "motionHint": "Same distance, different durations. Respects reduced motion.",
+    "replay": "Play / return"
+  },
+  "design": {
+    "colors": "Semantic colors, themes and customization",
+    "typography": "Type sizes, line heights, weights and hierarchy",
+    "layout": "Spacing, control density, radii and elevation",
+    "motion": "States, motion timing and accessibility"
+  }
+}

@@ -58,7 +58,17 @@ import { Chip } from '@hina-ui/vue'
 
 ### 作为链接 {#link}
 
+::: vue
+
 `as` 设为 `a` 并给出 `href`，条目成为链接，带悬停与按下反馈。接入应用路由时，可通过 `RouterLink` 或 `NuxtLink` 的 `custom` 插槽传入 `href` 与 `navigate`，保留链接语义并使用 SPA 导航。
+
+:::
+
+::: react
+
+`as` 设为 `a` 并给出 `href`，条目成为链接，带悬停与按下反馈。接入应用路由时，在客户端组件中把 `as` 设为 `next/link` 的 `Link` 并给出 `href`，保留链接语义并使用客户端导航。
+
+:::
 
 <Demo name="chip/link" />
 

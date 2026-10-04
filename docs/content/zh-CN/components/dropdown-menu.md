@@ -196,6 +196,8 @@ import { DropdownMenu, DropdownMenuItem } from '@hina-ui/vue'
 
 ### DropdownMenuSub {#sub}
 
+::: vue
+
 | 属性        | 类型      | 默认值  | 说明                         |
 | ----------- | --------- | ------- | ---------------------------- |
 | `open`      | `boolean` | —       | 子菜单是否展开，支持双向绑定 |
@@ -209,6 +211,22 @@ import { DropdownMenu, DropdownMenuItem } from '@hina-ui/vue'
 | `default` | 子菜单中的条目             |
 | `label`   | 父条目的文字，覆盖 `label` |
 | `icon`    | 父条目的前置图标           |
+
+:::
+
+::: react
+
+| 属性        | 类型        | 默认值  | 说明                   |
+| ----------- | ----------- | ------- | ---------------------- |
+| `open`      | `boolean`   | —       | 子菜单是否展开，可受控 |
+| `label`     | `ReactNode` | —       | 父条目的文字           |
+| `disabled`  | `boolean`   | `false` | 是否不可用             |
+| `textValue` | `string`    | —       | 供输入跳转匹配的文本   |
+| `className` | `string`    | —       | 追加至子菜单面板的类名 |
+| `icon`      | `ReactNode` | —       | 父条目的前置图标       |
+| `children`  | `ReactNode` | —       | 子菜单中的条目         |
+
+:::
 
 ### DropdownMenuRadioGroup {#radio-group}
 

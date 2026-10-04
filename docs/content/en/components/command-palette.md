@@ -16,7 +16,17 @@ links:
 import { CommandPalette } from '@hina-ui/vue'
 ```
 
+::: vue
+
 `items` is the list of entries. Each item has at least an `id` and a `label`, and may carry `description`, `keywords`, `icon`, `kbd` and `onSelect`; an object with `label` and `items` is a group. The default slot is the trigger. Selecting an item calls its `onSelect`, then emits `select`, then closes the panel.
+
+:::
+
+::: react
+
+`items` is the list of entries. Each item has at least an `id` and a `label`, and may carry `description`, `keywords`, `icon`, `kbd` and `onSelect`; an object with `label` and `items` is a group. `children` is the trigger. Selecting an item calls the item's `onSelect`, then the component's `onSelect`, then closes the panel.
+
+:::
 
 <Demo name="command-palette/basic" />
 

@@ -24,7 +24,17 @@ The select pairs a trigger with a floating list. `options` supplies the items an
 
 ### Clear {#clearable}
 
+::: vue
+
 `clearable` shows a clear button when a value is set and the field is enabled. Activating it sets `v-model` to `null` and emits `clear`. Focus returns to the trigger and the list stays closed.
+
+:::
+
+::: react
+
+`clearable` shows a clear button when a value is set and the field is enabled. Activating it calls `onValueChange` with `null`, then `onClear`. Focus returns to the trigger and the list stays closed.
+
+:::
 
 <Demo name="select/clearable" />
 
@@ -38,7 +48,17 @@ A group carries a `label` and its `options`, and can be mixed with plain options
 
 The `option` slot customises each row in the list and the `value` slot customises what the trigger shows; both receive the current option.
 
+::: vue
+
 The complete option type is inferred from `options`. Slot parameters preserve additional fields and their types; `v-model` still binds to `value`. Use `SelectOption<{ icon: Component }>` to declare extra fields; the example reads the icon directly from `option.icon`.
+
+:::
+
+::: react
+
+The complete option type is inferred from `options`. Render function parameters preserve additional fields and their types; `value / onValueChange` still binds to `value`. Use `SelectOption<{ icon: LucideIcon }>` to declare extra fields; the example reads the icon directly from `option.icon`.
+
+:::
 
 <Demo name="select/custom" />
 
@@ -68,7 +88,17 @@ Inside a [FormField](/components/form-field) the label points at the trigger, an
 
 ### Virtual scrolling {#virtual}
 
+::: vue
+
 `virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Rows unmount outside the rendered range; keep persistent slot state outside the row, keyed by its unique value.
+
+:::
+
+::: react
+
+`virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Rows unmount outside the rendered range; keep persistent state of content rendered by `renderOption` outside the row, keyed by its unique value.
+
+:::
 
 <Demo name="select/virtual" />
 

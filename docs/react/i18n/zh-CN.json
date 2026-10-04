@@ -1,0 +1,18 @@
+{
+  "banner": {
+    "text": "为 React 构建的界面语言。"
+  },
+  "landing": {
+    "title": "驱动 {brand} 的设计系统",
+    "subtitle": "基于 Tailwind CSS v4 构建。"
+  },
+  "framework": {
+    "label": "框架",
+    "vue": "Vue",
+    "react": "React"
+  },
+  "markdown": {
+    "adjustable": "可调属性：{props}。",
+    "separator": "、"
+  }
+}

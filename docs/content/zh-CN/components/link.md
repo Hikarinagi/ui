@@ -34,7 +34,17 @@ import { Link } from '@hina-ui/vue'
 
 ### 路由链接 {#router}
 
+::: vue
+
 `as` 接受组件，可以渲染为 `NuxtLink` 或者其他路由组件，此时按该组件的属性书写，例如 `to`。
+
+:::
+
+::: react
+
+`as` 接受组件，可以渲染为 `next/link` 或者其他路由组件，此时按该组件的属性书写，例如 `href`。也可以设置 `asChild`，把路由链接作为唯一的子元素。
+
+:::
 
 <Demo name="link/router" />
 

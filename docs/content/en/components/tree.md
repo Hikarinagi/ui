@@ -18,7 +18,17 @@ import { Tree, type TreeNode, type TreeValue } from '@hina-ui/vue'
 
 `Tree` renders a tree directly. Use [TreeSelect](/components/tree-select) for a single-selection popup with a trigger. Supply nodes through `items` and nested levels through `children`. Clicking the disclosure arrow only expands or collapses the node; clicking its text or pressing Space or Enter changes selection.
 
+::: vue
+
 Single selection is the default. `v-model` holds the node's `value`; selecting it again clears the value to `null`.
+
+:::
+
+::: react
+
+Single selection is the default. `value` holds the node's `value`; selecting it again clears the selection and calls `onValueChange` with `null`.
+
+:::
 
 <Demo name="tree/basic" />
 
@@ -26,11 +36,41 @@ Single selection is the default. `v-model` holds the node's `value`; selecting i
 
 ### Multiple checks and indeterminate parents {#multiple}
 
+::: vue
+
 Set `multiple` to display checkboxes and bind `v-model` to a `TreeValue[]`. Checking a parent selects all available descendants; unchecking it clears them. Clicking an indeterminate parent completes the selection. Parents show a minus when some descendants are checked and a check when all available children are checked.
+
+:::
+
+::: react
+
+Set `multiple` to display checkboxes and `value` becomes a `TreeValue[]`. Checking a parent selects all available descendants; unchecking it clears them. Clicking an indeterminate parent completes the selection. Parents show a minus when some descendants are checked and a check when all available children are checked.
+
+:::
+
+::: vue
 
 States are derived from the entire tree. Collapsing nodes does not clear selection or change indeterminate states. Updates contain every fully checked node, including automatically checked parents; indeterminate parents are excluded. Known nodes follow tree preorder, and bound values absent from the current `items` are preserved.
 
+:::
+
+::: react
+
+States are derived from the entire tree. Collapsing nodes does not clear selection or change indeterminate states. `onValueChange` receives every fully checked node, including automatically checked parents; indeterminate parents are excluded. Known nodes follow tree preorder, and values absent from the current `items` are preserved.
+
+:::
+
+::: vue
+
 External values can contain only leaves; parent states are derived automatically. Passing a parent value checks its available descendants. Initialization, expansion, and data refresh do not emit selection changes by themselves. Checkboxes share the visuals and motion of [Checkbox](/components/checkbox).
+
+:::
+
+::: react
+
+External values can contain only leaves; parent states are derived automatically. Passing a parent value checks its available descendants. Initialization, expansion, and data refresh do not call `onValueChange` by themselves. Checkboxes share the visuals and motion of [Checkbox](/components/checkbox).
+
+:::
 
 <Demo name="tree/multiple" />
 
@@ -42,7 +82,17 @@ External values can contain only leaves; parent states are derived automatically
 
 ### Custom nodes {#custom}
 
+::: vue
+
 The `node` slot replaces the text area; `trailing` sits at the end of the row. Both receive the original node and its `selected`, `indeterminate`, `expanded`, and `disabled` states. `selected` means fully selected; an indeterminate node has `selected: false` and `indeterminate: true`. The disclosure arrow and checkbox remain provided by the component.
+
+:::
+
+::: react
+
+`renderNode` replaces the text area; `renderTrailing` sits at the end of the row. Both receive the original node and its `selected`, `indeterminate`, `expanded`, and `disabled` states. `selected` means fully selected; an indeterminate node has `selected: false` and `indeterminate: true`. The disclosure arrow and checkbox remain provided by the component.
+
+:::
 
 The example uses [Tag](/components/tag) to show full and partial selection.
 
@@ -70,7 +120,17 @@ An empty tree displays localized text, replaceable through the `empty` slot. Emp
 
 ### Virtual scrolling {#virtual}
 
+::: vue
+
 `virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Only expanded, visible nodes participate in the window; parent-child navigation and selection do not depend on mounted rows. `maxHeight` defaults to `320px` and applies only with virtualization enabled. It accepts a number or CSS length. Rows unmount outside the rendered range; keep persistent slot state outside the row, keyed by its unique value.
+
+:::
+
+::: react
+
+`virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Only expanded, visible nodes participate in the window; parent-child navigation and selection do not depend on mounted rows. `maxHeight` defaults to `320px` and applies only with virtualization enabled. It accepts a number or CSS length. Rows unmount outside the rendered range; keep persistent state of content rendered by `renderNode` and `renderTrailing` outside the row, keyed by its unique value.
+
+:::
 
 <Demo name="tree/virtual" />
 
@@ -128,7 +188,17 @@ export interface TreeNodeSlot {
 }
 ```
 
+::: vue
+
 Each `value` must be unique within the tree. Numeric `1` and string `'1'` are distinct values. `description` appears below the label by default; the slot's `disabled` state includes inherited disabling from ancestors and the whole component.
+
+:::
+
+::: react
+
+Each `value` must be unique within the tree. Numeric `1` and string `'1'` are distinct values. `description` appears below the label by default; the `disabled` state passed to render functions includes inherited disabling from ancestors and the whole component.
+
+:::
 
 ```ts
 type VirtualizeOptions = boolean | { estimateSize?: number; overscan?: number }

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import { computed, shallowRef } from 'vue'
   import ScrollArea from '../scroll-area/ScrollArea.vue'
   import { cn } from '../../lib/cn'
   import { tableWrapper, type TableVariants } from './table.variants'
@@ -15,10 +16,18 @@
     }>(),
     { variant: 'primary', hover: true, stickyHeader: false },
   )
+
+  const area = shallowRef<InstanceType<typeof ScrollArea> | null>(null)
+
+  defineExpose({
+    viewport: computed(() => area.value?.viewport),
+    instance: computed(() => area.value?.instance),
+  })
 </script>
 
 <template>
   <ScrollArea
+    ref="area"
     :direction="props.stickyHeader ? 'both' : 'horizontal'"
     :class="
       cn(

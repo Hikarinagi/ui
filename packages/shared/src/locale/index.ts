@@ -1,0 +1,52 @@
+import type { PartialUiMessages, UiMessages } from './types'
+
+export function mergeUiMessages(base: UiMessages, patch: PartialUiMessages): UiMessages {
+  return {
+    qrCode: { ...base.qrCode, ...patch.qrCode },
+    carousel: { ...base.carousel, ...patch.carousel },
+    monthGrid: { ...base.monthGrid, ...patch.monthGrid },
+    masonry: { ...base.masonry, ...patch.masonry },
+    splitButton: { ...base.splitButton, ...patch.splitButton },
+    editable: { ...base.editable, ...patch.editable },
+    tag: patch.tag ?? base.tag,
+    common: { ...base.common, ...patch.common },
+    stepper: { ...base.stepper, ...patch.stepper },
+    banner: { ...base.banner, ...patch.banner },
+    pagination: { ...base.pagination, ...patch.pagination },
+    table: { ...base.table, ...patch.table },
+    select: { ...base.select, ...patch.select },
+    upload: { ...base.upload, ...patch.upload },
+    time: { ...base.time, ...patch.time },
+    scroll: { ...base.scroll, ...patch.scroll },
+    virtualList: { ...base.virtualList, ...patch.virtualList },
+    dataList: { ...base.dataList, ...patch.dataList },
+    toast: { ...base.toast, ...patch.toast },
+    spoiler: { ...base.spoiler, ...patch.spoiler },
+    codeblock: { ...base.codeblock, ...patch.codeblock },
+    splitter: { ...base.splitter, ...patch.splitter },
+    sidebar: { ...base.sidebar, ...patch.sidebar },
+    anchor: { ...base.anchor, ...patch.anchor },
+    breadcrumb: { ...base.breadcrumb, ...patch.breadcrumb },
+    lightbox: { ...base.lightbox, ...patch.lightbox },
+    chip: { ...base.chip, ...patch.chip },
+    numberInput: { ...base.numberInput, ...patch.numberInput },
+    passwordInput: { ...base.passwordInput, ...patch.passwordInput },
+    tree: { ...base.tree, ...patch.tree },
+    treeSelect: { ...base.treeSelect, ...patch.treeSelect },
+    combobox: { ...base.combobox, ...patch.combobox },
+    slider: { ...base.slider, ...patch.slider },
+    pinInput: { ...base.pinInput, ...patch.pinInput },
+    dateField: { ...base.dateField, ...patch.dateField },
+    dateRangeField: { ...base.dateRangeField, ...patch.dateRangeField },
+    calendar: { ...base.calendar, ...patch.calendar },
+    datePicker: { ...base.datePicker, ...patch.datePicker },
+    dateTimePicker: { ...base.dateTimePicker, ...patch.dateTimePicker },
+    rating: { ...base.rating, ...patch.rating },
+    form: { ...base.form, ...patch.form },
+    command: { ...base.command, ...patch.command },
+  }
+}
+
+export { zhCN } from './zh-CN'
+export { enUS } from './en-US'
+export type { UiMessages, PartialUiMessages } from './types'

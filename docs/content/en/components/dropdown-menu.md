@@ -80,7 +80,17 @@ Wrap a set of mutually exclusive options in `DropdownMenuRadioGroup`, and the cu
 
 `anchor` accepts `OverlayAnchor | null`. Omit the default slot and control visibility with `v-model:open`. The menu waits for its anchor. Changing the anchor while open updates positioning; clearing it on close preserves the exit position.
 
+::: vue
+
 When both the default slot and `anchor` are provided, the slot controls triggering and `anchor` controls positioning. The caller manages click and keyboard behavior, `aria-haspopup="menu"`, and `aria-expanded` on the external element. Keyboard navigation inside the menu stays the same. Positioning follows the same rules as [Popover](/components/popover#anchor).
+
+:::
+
+::: react
+
+When both `children` and `anchor` are provided, `children` controls triggering and `anchor` controls positioning. The caller manages click and keyboard behavior, `aria-haspopup="menu"`, and `aria-expanded` on the external element. Keyboard navigation inside the menu stays the same. Positioning follows the same rules as [Popover](/components/popover#anchor).
+
+:::
 
 <Demo name="dropdown-menu/anchor" />
 
@@ -196,6 +206,8 @@ Takes only `class`; its default slot holds the items of one group.
 
 ### DropdownMenuSub {#sub}
 
+::: vue
+
 | Prop        | Type      | Default | Description                                   |
 | ----------- | --------- | ------- | --------------------------------------------- |
 | `open`      | `boolean` | —       | Whether the submenu is open; supports v-model |
@@ -209,6 +221,22 @@ Takes only `class`; its default slot holds the items of one group.
 | `default` | The items of the submenu                   |
 | `label`   | Text of the parent item, overrides `label` |
 | `icon`    | Leading icon of the parent item            |
+
+:::
+
+::: react
+
+| Prop        | Type        | Default | Description                                    |
+| ----------- | ----------- | ------- | ---------------------------------------------- |
+| `open`      | `boolean`   | —       | Whether the submenu is open; can be controlled |
+| `label`     | `ReactNode` | —       | Text of the parent item                        |
+| `disabled`  | `boolean`   | `false` | Whether the parent item is unavailable         |
+| `textValue` | `string`    | —       | Text used for type-ahead matching              |
+| `className` | `string`    | —       | Classes appended to the submenu panel          |
+| `icon`      | `ReactNode` | —       | Leading icon of the parent item                |
+| `children`  | `ReactNode` | —       | The items of the submenu                       |
+
+:::
 
 ### DropdownMenuRadioGroup {#radio-group}
 

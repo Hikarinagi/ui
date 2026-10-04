@@ -1,10 +1,17 @@
 <script setup lang="ts">
-  import { CollapsibleTrigger as RekaCollapsibleTrigger } from 'reka-ui'
+  import {
+    CollapsibleTrigger as RekaCollapsibleTrigger,
+    injectCollapsibleRootContext,
+    useId,
+  } from 'reka-ui'
   import { cn } from '../../lib/cn'
   import Button from '../button/Button.vue'
   import DisclosureIcon from '../disclosure-icon/DisclosureIcon.vue'
 
   defineOptions({ name: 'HnCollapsibleTrigger' })
+
+  const root = injectCollapsibleRootContext()
+  root.contentId ||= useId(undefined, 'reka-collapsible-content')
 
   const props = withDefaults(
     defineProps<{

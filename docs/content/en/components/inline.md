@@ -48,7 +48,17 @@ Inline is a horizontal flex container: its children sit centred on the cross axi
 
 `as` changes the rendered tag; use `nav` for navigation.
 
+::: vue
+
 It also accepts Vue components, such as `:as="RouterLink"` or `:as="NuxtLink"`. Import the component or obtain it through `resolveComponent`; object, functional and async components are supported. Layout classes, extra attributes, event listeners and the default slot are forwarded without an extra wrapper. Custom components must forward attributes and classes to their rendered root.
+
+:::
+
+::: react
+
+It also accepts components, such as `as={Link}` with `Link` from `next/link`. Layout classes, extra attributes, event handlers and `children` are forwarded without an extra wrapper. Custom components must forward `className` and other props to their rendered root.
+
+:::
 
 <Demo name="inline/as" />
 

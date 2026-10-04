@@ -74,7 +74,17 @@ Inside a [FormField](/components/form-field) the label points at the trigger, an
 
 ### Virtual scrolling {#virtual}
 
+::: vue
+
 `virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Rows unmount outside the rendered range; keep persistent slot state outside the row, keyed by its unique value.
+
+:::
+
+::: react
+
+`virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Rows unmount outside the rendered range; keep persistent state of content rendered by `renderOption` outside the row, keyed by its unique value.
+
+:::
 
 <Demo name="multi-select/virtual" />
 

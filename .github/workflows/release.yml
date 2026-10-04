@@ -87,9 +87,14 @@ jobs:
       - name: Install dependencies
         if: steps.release.outputs.publish == 'true'
         run: pnpm install --frozen-lockfile
-      - name: Build package
+      - name: Build packages
         if: steps.release.outputs.publish == 'true'
-        run: pnpm --filter @hina-ui/vue build
-      - name: Publish package and GitHub release
+        env:
+          PACKAGES: ${{ steps.release.outputs.packages }}
+        run: |
+          for name in $PACKAGES; do
+            pnpm --filter "$name" --fail-if-no-match build
+          done
+      - name: Publish packages and GitHub releases
         if: steps.release.outputs.candidate == 'true'
         run: node scripts/release/publish.mjs

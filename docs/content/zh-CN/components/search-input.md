@@ -14,7 +14,17 @@ links:
 import { SearchInput } from '@hina-ui/vue'
 ```
 
+::: vue
+
 搜索输入框起始处带搜索图标，有内容时末尾出现清除按钮，`v-model` 绑定关键词。按 Enter 发出 `search` 事件并附带当前值，按 Esc 清空。未声明的属性都会传给 `input`。
+
+:::
+
+::: react
+
+搜索输入框起始处带搜索图标，有内容时末尾出现清除按钮，`value / onValueChange` 绑定关键词。按 Enter 调用 `onSearch` 并传入当前值，按 Esc 清空。未声明的属性都会传给 `input`。
+
+:::
 
 <Demo name="search-input/basic" />
 

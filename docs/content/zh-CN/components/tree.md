@@ -18,7 +18,17 @@ import { Tree, type TreeNode, type TreeValue } from '@hina-ui/vue'
 
 `Tree` 直接渲染树形列表；需要带触发器的单选浮层时，使用 [TreeSelect](/components/tree-select)。通过 `items` 提供节点，`children` 定义下一级。点击展开箭头只改变展开状态，点击节点文字或按空格、Enter 改变选择。
 
+::: vue
+
 默认单选，`v-model` 为节点的 `value`，再次点击当前节点会取消选择并写入 `null`。
+
+:::
+
+::: react
+
+默认单选，`value` 为节点的 `value`，再次点击当前节点会取消选择，并以 `null` 调用 `onValueChange`。
+
+:::
 
 <Demo name="tree/basic" />
 
@@ -28,9 +38,29 @@ import { Tree, type TreeNode, type TreeValue } from '@hina-ui/vue'
 
 设置 `multiple` 显示勾选框，`v-model` 改为 `TreeValue[]`。勾选父节点会选中所有可用后代，取消父节点会清除这些选择；点击半选父节点会补全勾选。部分后代被选中时，父节点显示横线；全部可用子节点选中后，父节点显示勾选。
 
+::: vue
+
 状态按完整树计算，折叠不会清除选择或改变半选结果。更新事件返回所有完整勾选节点的值，包含自动勾选的父节点；半选节点不写入数组。已知节点按树的前序排列，未出现在当前 `items` 中的绑定值会保留。
 
+:::
+
+::: react
+
+状态按完整树计算，折叠不会清除选择或改变半选结果。`onValueChange` 收到所有完整勾选节点的值，包含自动勾选的父节点；半选节点不写入数组。已知节点按树的前序排列，未出现在当前 `items` 中的值会保留。
+
+:::
+
+::: vue
+
 外部回填可以只传叶子值，父节点状态会自动推导；传入父节点值会勾选它的可用后代。组件不会仅因初始化、展开或数据刷新而主动改写绑定值。勾选框沿用 [Checkbox](/components/checkbox) 的视觉与动效。
+
+:::
+
+::: react
+
+外部回填可以只传叶子值，父节点状态会自动推导；传入父节点值会勾选它的可用后代。组件不会仅因初始化、展开或数据刷新而调用 `onValueChange`。勾选框沿用 [Checkbox](/components/checkbox) 的视觉与动效。
+
+:::
 
 <Demo name="tree/multiple" />
 
@@ -70,7 +100,17 @@ import { Tree, type TreeNode, type TreeValue } from '@hina-ui/vue'
 
 ### 虚拟滚动 {#virtual}
 
+::: vue
+
 `virtualize` 按需渲染可见范围附近的条目，与 [VirtualList](/components/virtual-list) 共用测量与滚动底层。默认关闭；可传 `{ estimateSize, overscan }` 调整预估行高和两侧预渲染数量，行高会按实际内容测量。键盘导航覆盖完整数据，禁用项会跳过。 只对展开后的可见节点进行虚拟化，父子导航与勾选状态不依赖节点是否挂载。 `maxHeight` 默认 `320px`，仅开启虚拟化时生效，可传数字或 CSS 长度。 条目离开渲染范围后会卸载；插槽内需要持久保留的状态应按唯一 value 存在外部。
+
+:::
+
+::: react
+
+`virtualize` 按需渲染可见范围附近的条目，与 [VirtualList](/components/virtual-list) 共用测量与滚动底层。默认关闭；可传 `{ estimateSize, overscan }` 调整预估行高和两侧预渲染数量，行高会按实际内容测量。键盘导航覆盖完整数据，禁用项会跳过。只对展开后的可见节点进行虚拟化，父子导航与勾选状态不依赖节点是否挂载。`maxHeight` 默认 `320px`，仅开启虚拟化时生效，可传数字或 CSS 长度。条目离开渲染范围后会卸载；`renderNode` 与 `renderTrailing` 渲染的内容中需要持久保留的状态应按唯一 value 存在外部。
+
+:::
 
 <Demo name="tree/virtual" />
 

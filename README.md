@@ -1,8 +1,12 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/banner-dark.png">
+  <img alt="Hina UI: the design system behind Hikarinagi, open source for Vue and React" width="900" src=".github/assets/banner-light.png">
+</picture>
+
 <h1 align="center">Hina UI</h1>
-<p align="center">An elegant, restrained Vue 3 component library.</p>
 <p align="center">English | <a href="./README.zh-CN.md">中文</a></p>
 
-Powered by [Reka UI](https://reka-ui.com) and [Tailwind CSS v4](https://tailwindcss.com). The components cover typography, layout, overlays and page scaffolding.
+Built on [Tailwind CSS v4](https://tailwindcss.com).
 
 - **Dark and compact modes** Set one attribute on an outer container and the whole interface follows.
 - **Adjustable appearance** Colours, radii and motion durations are CSS variables; override them to customise the look.
@@ -11,12 +15,15 @@ Powered by [Reka UI](https://reka-ui.com) and [Tailwind CSS v4](https://tailwind
 
 ## Documentation
 
-[hinaui.dev](https://hinaui.dev)
+- Vue: [hinaui.dev](https://hinaui.dev)
+- React: [react.hinaui.dev](https://react.hinaui.dev)
 
 ## Installation
 
 ```bash
 pnpm add @hina-ui/vue
+# or
+pnpm add @hina-ui/react
 ```
 
 ## Contributing

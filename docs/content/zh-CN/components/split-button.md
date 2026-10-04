@@ -14,6 +14,8 @@ links:
 import { SplitButton, DropdownMenuItem } from '@hina-ui/vue'
 ```
 
+::: vue
+
 主按钮点击触发 `click`，尾部箭头打开菜单。将附加操作放进 `#content`，通过 `DropdownMenuItem` 的 `select` 处理选择。适合“立即发布 / 保存草稿”“导出 / 选择格式”等有明确默认操作的场景。
 
 ```vue
@@ -24,6 +26,24 @@ import { SplitButton, DropdownMenuItem } from '@hina-ui/vue'
   </template>
 </SplitButton>
 ```
+
+:::
+
+::: react
+
+主按钮点击调用 `onClick`，尾部箭头打开菜单。将附加操作放进 `renderContent`，通过 `DropdownMenuItem` 的 `onSelect` 处理选择。适合“立即发布 / 保存草稿”“导出 / 选择格式”等有明确默认操作的场景。
+
+```tsx
+<SplitButton
+  menuLabel="其他保存方式"
+  onClick={save}
+  renderContent={() => <DropdownMenuItem onSelect={saveCopy}>另存副本</DropdownMenuItem>}
+>
+  保存
+</SplitButton>
+```
+
+:::
 
 如果几项操作同样常用，用 `ButtonGroup`；只有菜单而没有默认操作，用 `DropdownMenu`。菜单选择不会自动改变主按钮，是否记住所选操作由调用方决定。
 
@@ -75,6 +95,8 @@ import { SplitButton, DropdownMenuItem } from '@hina-ui/vue'
 
 ### 主操作作为链接 {#link}
 
+::: vue
+
 `as` 只改变主按钮。应用内导航传入路由组件，`to` 等属性透传到该组件；菜单触发器仍是普通按钮。
 
 ```vue
@@ -88,13 +110,62 @@ import { SplitButton, DropdownMenuItem } from '@hina-ui/vue'
 </SplitButton>
 ```
 
+:::
+
+::: react
+
+`as` 只改变主按钮。应用内导航传入 `next/link` 等路由组件，`href` 等属性透传到该组件；菜单触发器仍是普通按钮。组件和 `renderContent` 都无法从 Server Component 传入，这类组合需要放在 `'use client'` 模块中。
+
+```tsx
+'use client'
+
+import NextLink from 'next/link'
+import { useRouter } from 'next/navigation'
+import { DropdownMenuItem, SplitButton } from '@hina-ui/react'
+
+export function ButtonDocs() {
+  const router = useRouter()
+
+  return (
+    <SplitButton
+      as={NextLink}
+      href="/components/button"
+      menuLabel="相关文档"
+      renderContent={() => (
+        <DropdownMenuItem onSelect={() => router.push('/components/button-group')}>
+          查看 ButtonGroup
+        </DropdownMenuItem>
+      )}
+    >
+      查看 Button
+    </SplitButton>
+  )
+}
+```
+
+:::
+
 ## 行为与无障碍 {#behavior}
+
+::: vue
 
 - `Tab` 分别访问主按钮与菜单按钮。主按钮按 `Enter` 或空格执行操作，按 `ArrowDown` 打开菜单；链接形态遵循链接的键盘行为。
 - 菜单按钮按 `Enter`、空格或 `ArrowDown` 打开菜单，键盘打开时聚焦首个可用项。菜单沿用 `DropdownMenu` 的方向键、首尾跳转和字符搜索。
 - `Escape` 关闭菜单并将焦点返回菜单按钮。点选普通菜单项后同样关闭；需要保留菜单时在该项上使用 `@select.prevent`。
 - `menu-label` 应描述附加操作，默认使用当前语言的“更多操作”。`label` 为整组提供可选的无障碍名称。
 - `#icon` 和 `#trailing` 只属于主操作；菜单箭头使用 `DisclosureIcon`，随打开状态变化。
+
+:::
+
+::: react
+
+- `Tab` 分别访问主按钮与菜单按钮。主按钮按 `Enter` 或空格执行操作，按 `ArrowDown` 打开菜单；链接形态遵循链接的键盘行为。
+- 菜单按钮按 `Enter`、空格或 `ArrowDown` 打开菜单，键盘打开时聚焦首个可用项。菜单沿用 `DropdownMenu` 的方向键、首尾跳转和字符搜索。
+- `Escape` 关闭菜单并将焦点返回菜单按钮。点选普通菜单项后同样关闭；需要保留菜单时在该项的 `onSelect` 中调用 `event.preventDefault()`。
+- `menuLabel` 应描述附加操作，默认使用当前语言的“更多操作”。`label` 为整组提供可选的无障碍名称。
+- `icon` 和 `trailing` 只属于主操作；菜单箭头使用 `DisclosureIcon`，随打开状态变化。
+
+:::
 
 ## API {#api}
 
@@ -125,7 +196,17 @@ import { SplitButton, DropdownMenuItem } from '@hina-ui/vue'
 | `style`           | `StyleValue`                                | —                    | 组容器的样式               |
 | `menuClass`       | `string`                                    | —                    | 菜单内容的类名             |
 
+::: vue
+
 其他属性和事件监听器（例如 `id`、`aria-label`、`href`、`to`、`keydown`）透传到主按钮。
+
+:::
+
+::: react
+
+其他属性和事件处理函数（例如 `id`、`aria-label`、`href`、`target`、`onKeyDown`）透传到主按钮。
+
+:::
 
 ### Models {#models}
 
@@ -135,10 +216,23 @@ import { SplitButton, DropdownMenuItem } from '@hina-ui/vue'
 
 ### Events {#events}
 
+::: vue
+
 | 事件          | 参数         | 说明                           |
 | ------------- | ------------ | ------------------------------ |
 | `click`       | `MouseEvent` | 主操作点击；菜单不会触发此事件 |
 | `update:open` | `boolean`    | 菜单打开状态变化               |
+
+:::
+
+::: react
+
+| 回调           | 参数         | 说明                           |
+| -------------- | ------------ | ------------------------------ |
+| `onClick`      | `MouseEvent` | 主操作点击；菜单操作不会调用它 |
+| `onOpenChange` | `boolean`    | 菜单打开状态变化               |
+
+:::
 
 ### Slots {#slots}
 

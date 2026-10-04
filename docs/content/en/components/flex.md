@@ -52,7 +52,17 @@ When the direction or alignment differs between breakpoints, override it with Ta
 
 ### Root element {#as}
 
+::: vue
+
 `as` accepts a tag name or Vue component, such as `as="section"`, `:as="RouterLink"` or `:as="NuxtLink"`. Import the component or obtain it through `resolveComponent`; object, functional and async components are supported. Layout classes, extra attributes, event listeners and the default slot are forwarded without an extra wrapper. Custom components must forward attributes and classes to their rendered root.
+
+:::
+
+::: react
+
+`as` accepts a tag name or a component, such as `as="section"` or `as={Link}` with `Link` from `next/link`. Layout classes, extra attributes, event handlers and `children` are forwarded without an extra wrapper. Custom components must forward `className` and other props to their rendered root.
+
+:::
 
 ## API {#api}
 

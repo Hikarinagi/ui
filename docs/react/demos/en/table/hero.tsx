@@ -1,0 +1,30 @@
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@hina-ui/react'
+
+const games = [
+  { title: 'ATRI -My Dear Moments-', brand: 'ANIPLEX.EXE', date: '2020-06-19' },
+  { title: 'Summer Pockets', brand: 'Key', date: '2018-06-29' },
+  { title: 'サクラノ詩', brand: '枕', date: '2015-10-23' },
+]
+
+export default function Demo() {
+  return (
+    <Table caption="Selected titles" className="w-full max-w-xl">
+      <TableHeader>
+        <TableRow>
+          <TableHead>Title</TableHead>
+          <TableHead>Brand</TableHead>
+          <TableHead align="end">Release</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {games.map(game => (
+          <TableRow key={game.title}>
+            <TableCell>{game.title}</TableCell>
+            <TableCell>{game.brand}</TableCell>
+            <TableCell align="end">{game.date}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  )
+}

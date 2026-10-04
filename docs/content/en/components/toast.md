@@ -20,6 +20,8 @@ Put one `Toaster` at the root of the app and call `toast()` from anywhere. It re
 
 <Demo name="toast/basic" />
 
+::: vue
+
 ```vue
 <template>
   <AppShell>
@@ -28,6 +30,30 @@ Put one `Toaster` at the root of the app and call `toast()` from anywhere. It re
   </AppShell>
 </template>
 ```
+
+:::
+
+::: react
+
+```tsx
+import type { ReactNode } from 'react'
+import { AppShell, Toaster } from '@hina-ui/react'
+
+export default function RootLayout({ children }: { children: ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        <AppShell>
+          {children}
+          <Toaster />
+        </AppShell>
+      </body>
+    </html>
+  )
+}
+```
+
+:::
 
 ## Examples {#examples}
 

@@ -1,4 +1,5 @@
 import { computed, watch, type Ref } from 'vue'
+import { paginationInteger } from '../../../../../shared/src/lib/pagination'
 import type { PaginationChange, PaginationState } from '../types'
 
 interface PaginationOptions {
@@ -10,9 +11,7 @@ interface PaginationOptions {
   pending?: boolean
 }
 
-export function paginationInteger(value: number, fallback: number, minimum: number) {
-  return Number.isFinite(value) ? Math.max(minimum, Math.floor(value)) : fallback
-}
+export { paginationInteger }
 
 export function usePagination(
   props: PaginationOptions,

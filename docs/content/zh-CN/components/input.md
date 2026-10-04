@@ -14,7 +14,17 @@ links:
 import { Input } from '@hina-ui/vue'
 ```
 
+::: vue
+
 输入框渲染为原生 `input`，`v-model` 绑定文本。未声明的属性都会传给 `input`，`type`、`placeholder`、`maxlength`、`autocomplete` 等属性照常可用。
+
+:::
+
+::: react
+
+输入框渲染为原生 `input`，`value / onValueChange` 绑定文本。未声明的属性都会传给 `input`，`type`、`placeholder`、`maxLength`、`autoComplete` 等属性照常可用。
+
+:::
 
 <Demo name="input/basic" />
 
@@ -22,7 +32,17 @@ import { Input } from '@hina-ui/vue'
 
 ### 附属内容 {#adornments}
 
+::: vue
+
 `leading` 与 `trailing` 插槽位于输入区两侧，用于放置图标、单位或者快捷键提示。每个插槽占一个与输入框等高的方格，内容居中。
+
+:::
+
+::: react
+
+`leading` 与 `trailing` 属性位于输入区两侧，用于放置图标、单位或者快捷键提示。每一侧占一个与输入框等高的方格，内容居中。
+
+:::
 
 <Demo name="input/adornments" />
 
@@ -73,9 +93,21 @@ import { Input } from '@hina-ui/vue'
 
 ## 无障碍 {#a11y}
 
+::: vue
+
 - 应当配合 `label` 元素或者 `aria-label` 提供名称。
 - 插槽中的图标是装饰性的，需要说明含义时给图标加 `aria-label`。
 - `invalid` 同时设置 `aria-invalid`，`loading` 同时设置 `aria-busy`。清除按钮的名称随语言包本地化。
+
+:::
+
+::: react
+
+- 应当配合 `label` 元素或者 `aria-label` 提供名称。
+- `leading` 与 `trailing` 中的图标是装饰性的，需要说明含义时给图标加 `aria-label`。
+- `invalid` 同时设置 `aria-invalid`，`loading` 同时设置 `aria-busy`。清除按钮的名称随语言包本地化。
+
+:::
 
 ## API {#api}
 

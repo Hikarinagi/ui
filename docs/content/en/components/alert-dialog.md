@@ -38,9 +38,29 @@ Changing `confirmDelay` while open restarts the countdown with the new value; se
 
 ### Asynchronous confirm {#async}
 
+::: vue
+
 Pass the confirmation handler through `onConfirm` or `@confirm`. When it returns a Promise or PromiseLike, the dialog waits for completion before closing. The confirm button shows a loading indicator, and Cancel and Esc are unavailable while pending.
 
+:::
+
+::: react
+
+Pass the confirmation handler through `onConfirm`. When it returns a Promise or PromiseLike, the dialog waits for completion before closing. The confirm button shows a loading indicator, and Cancel and Esc are unavailable while pending.
+
+:::
+
+::: vue
+
 The component catches synchronous throws and asynchronous rejections and emits the original reason through `error`. The dialog stays open and the buttons become available for retry. Use `@error` to update an error message.
+
+:::
+
+::: react
+
+The component catches synchronous throws and asynchronous rejections and passes the original reason to `onError`. The dialog stays open and the buttons become available for retry. Use `onError` to update an error message.
+
+:::
 
 <Demo name="alert-dialog/async" />
 

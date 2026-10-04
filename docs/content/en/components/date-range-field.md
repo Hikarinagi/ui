@@ -30,7 +30,17 @@ The date range field puts a start and an end set of date segments in one field, 
 
 ### Range {#range}
 
+::: vue
+
 `min` and `max` bound both sides. When either side falls outside them, or the end date is before the start date, the field shows as invalid but the value is still emitted. `placeholder` sets the date the segments start from while the field is empty, today by default.
+
+:::
+
+::: react
+
+`min` and `max` bound both sides. When either side falls outside them, or the end date is before the start date, the field shows as invalid but the value still updates. `placeholder` sets the date the segments start from while the field is empty, today by default.
+
+:::
 
 <Demo name="date-range-field/range" />
 
@@ -60,10 +70,23 @@ Inside a [FormField](/components/form-field) the label is linked to the whole ra
 
 ## Behavior {#behavior}
 
+::: vue
+
 - Clicking a segment starts typing; a click on the blank area focuses the first empty segment, which is the first end segment once the start date is complete.
 - Each segment accepts digits only and moves on once complete, and the last start segment moves into the end date; the left and right arrow keys move between segments, up and down step the value and Backspace clears the current segment.
 - A side is emitted only when every one of its segments is filled; clearing any segment makes that side `null`.
 - An end before the start, or either side outside `min` and `max`, is still emitted and marked invalid.
+
+:::
+
+::: react
+
+- Clicking a segment starts typing; a click on the blank area focuses the first empty segment, which is the first end segment once the start date is complete.
+- Each segment accepts digits only and moves on once complete, and the last start segment moves into the end date; the left and right arrow keys move between segments, up and down step the value and Backspace clears the current segment.
+- A side updates only when every one of its segments is filled; clearing any segment makes that side `null`.
+- An end before the start, or either side outside `min` and `max`, still updates the value and is marked invalid.
+
+:::
 
 ## Accessibility {#a11y}
 

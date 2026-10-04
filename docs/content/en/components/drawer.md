@@ -16,7 +16,17 @@ links:
 import { Drawer } from '@hina-ui/vue'
 ```
 
+::: vue
+
 `title` is required and `description` is the line under it. The default slot is the trigger, the `content` slot is the body, and the `footer` slot holds the actions. The `content`, `footer`, and custom-layout `body` slots receive a `close` method.
+
+:::
+
+::: react
+
+`title` is required and `description` is the line under it. `children` is the trigger, `renderContent` renders the body and `renderFooter` renders the actions. `renderContent`, `renderFooter`, and the custom-layout `renderBody` all receive a `close` method.
+
+:::
 
 <Demo name="drawer/basic" />
 
@@ -40,15 +50,45 @@ Set `:header="false"` to hide the header, including its title, description, and 
 
 ### Close button {#closable}
 
+::: vue
+
 `closable` defaults to `true`. Setting it to `false` only hides the header's close button. Escape and clicking the scrim still close the panel; `locked` controls these dismissal behaviors. The built-in close button is not rendered with a hidden header or a `body` slot.
+
+:::
+
+::: react
+
+`closable` defaults to `true`. Setting it to `false` only hides the header's close button. Escape and clicking the scrim still close the panel; `locked` controls these dismissal behaviors. The built-in close button is not rendered with a hidden header or `renderBody`.
+
+:::
 
 <Demo name="drawer/closable" />
 
 ### Custom panel content {#body}
 
+::: vue
+
 `#body="{ close }"` takes over the internal layout, replacing the default header, content, and footer. The component no longer adds content padding, region gaps, or a [ScrollArea](/components/scroll-area) wrapper. The slot controls scrolling and bottom safe-area spacing. An empty slot still replaces the default layout.
 
+:::
+
+::: react
+
+`renderBody` takes over the internal layout, replacing the default header, content, and footer. The component no longer adds content padding, region gaps, or a [ScrollArea](/components/scroll-area) wrapper. The returned content controls scrolling and bottom safe-area spacing. Returning empty content still replaces the default layout.
+
+:::
+
+::: vue
+
 In this mode, `header`, `closable`, and the `icon`, `title`, `content`, and `footer` slots do not participate in rendering. `title` is still required; it and the supplied description remain visually hidden. The scrim, focus trap, and `locked` remain active, and the slot's `close()` can close the panel programmatically.
+
+:::
+
+::: react
+
+In this mode, `header`, `closable`, and the `icon`, `titleContent`, `renderContent`, and `renderFooter` props do not participate in rendering. `title` is still required; it and the supplied description remain visually hidden. The scrim, focus trap, and `locked` remain active, and the `close()` passed to `renderBody` can close the panel programmatically.
+
+:::
 
 The example uses [CloseButton](/components/close-button), [ScrollArea](/components/scroll-area), and [Button](/components/button) to compose a flush header, a separate scroll area, and a fixed footer.
 
@@ -74,7 +114,17 @@ A list of `NavLink`s inside a drawer is the navigation menu of a narrow screen. 
 
 ### Long content {#scroll}
 
+::: vue
+
 Content past the available height scrolls inside the `content` slot while the title and footer stay put.
+
+:::
+
+::: react
+
+Content past the available height scrolls inside the body rendered by `renderContent` while the title and footer stay put.
+
+:::
 
 <Demo name="drawer/scroll" />
 
@@ -82,9 +132,29 @@ Content past the available height scrolls inside the `content` slot while the ti
 
 Use the component ref's `viewport` to access the actual scrollable element of its built-in [ScrollArea](/components/scroll-area). Read `scrollTop`, call `scrollTo()`, or pass it to scroll listeners and observers.
 
+::: vue
+
 `viewport` has type `HTMLElement | undefined`. It is `undefined` before the content scroll area initializes, without a `content` slot, and after content unmounts. It remains available during exit and updates to a new element on reopening. Watch `() => modal.value?.viewport` to act when ready or attach listeners, and remove listeners in the watch cleanup callback.
 
+:::
+
+::: react
+
+`viewport` has type `HTMLElement | undefined`. It is `undefined` before the content scroll area initializes, without `renderContent`, and after content unmounts. It remains available during exit and updates to a new element on reopening. The ref handle is passed again whenever `viewport` becomes available or changes. To act when ready or attach listeners, use a `useState` setter as a callback ref, attach listeners in an effect that depends on `drawer?.viewport`, and remove them in the effect cleanup.
+
+:::
+
+::: vue
+
 With a `body` slot, the built-in scroll area is replaced and `viewport` is `undefined`. Reference a custom scroll area directly.
+
+:::
+
+::: react
+
+With `renderBody`, the built-in scroll area is replaced and `viewport` is `undefined`. Reference a custom scroll area directly.
+
+:::
 
 The example uses [Button](/components/button) to scroll with `viewport.scrollTo()`.
 
@@ -104,16 +174,41 @@ With `locked`, neither Escape nor a click on the scrim closes the drawer, and an
 
 ## Behaviour {#behavior}
 
+::: vue
+
 - Overlays stack in opening order, with the latest above earlier overlays, regardless of component mount order. Closing preserves the full exit animation before removing the overlay.
 - The page is locked from scrolling while the drawer is open, focus is trapped inside the panel, and it returns to the trigger on close.
 - Escape or a click on the scrim closes the drawer; `locked` disables both.
 - The default body uses [ScrollArea](/components/scroll-area); a `body` slot controls its own scrolling.
 
+:::
+
+::: react
+
+- Overlays stack in opening order, with the latest above earlier overlays, regardless of component mount order. Closing preserves the full exit animation before removing the overlay.
+- The page is locked from scrolling while the drawer is open, focus is trapped inside the panel, and it returns to the trigger on close.
+- Escape or a click on the scrim closes the drawer; `locked` disables both.
+- The default body uses [ScrollArea](/components/scroll-area); content from `renderBody` controls its own scrolling.
+
+:::
+
 ## Accessibility {#a11y}
+
+::: vue
 
 - The panel is a `role="dialog"`, with `title` and `description` wired to `aria-labelledby` and `aria-describedby`.
 - The title renders as an `<h2>`. With a hidden header or a `body` slot, the `title` prop provides a visually hidden heading.
 - The close button carries an accessible name taken from the current language.
+
+:::
+
+::: react
+
+- The panel is a `role="dialog"`, with `title` and `description` wired to `aria-labelledby` and `aria-describedby`.
+- The title renders as an `<h2>`. With a hidden header or `renderBody`, the `title` prop provides a visually hidden heading.
+- The close button carries an accessible name taken from the current language.
+
+:::
 
 ## API {#api}
 

@@ -1,19 +1,10 @@
 import { computed } from 'vue'
-import type { AnchorItem, AnchorSlotItem } from '../types'
+import { anchorEntries } from '../../../../../shared/src/lib/anchor'
+import type { AnchorItem } from '../types'
 import { useScrollSpy } from './useScrollSpy'
 
 export function useAnchor<T extends AnchorItem>(items: () => T[]) {
-  const entries = computed(() =>
-    items().flatMap(item => [
-      { id: item.id, label: item.label, depth: 0, item: item as AnchorSlotItem<T> },
-      ...(item.children ?? []).map(child => ({
-        id: child.id,
-        label: child.label,
-        depth: 1,
-        item: child as AnchorSlotItem<T>,
-      })),
-    ]),
-  )
+  const entries = computed(() => anchorEntries(items()))
 
   return { entries, ...useScrollSpy(() => entries.value) }
 }

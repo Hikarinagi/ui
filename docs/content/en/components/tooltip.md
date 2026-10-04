@@ -12,9 +12,21 @@ links:
 
 ## Usage {#usage}
 
+::: vue
+
 ```ts
 import { Tooltip, vTooltip } from '@hina-ui/vue'
 ```
+
+:::
+
+::: react
+
+```ts
+import { Tooltip } from '@hina-ui/react'
+```
+
+:::
 
 The default slot is the trigger and the `content` prop is the text of the tooltip. It appears on pointer hover or keyboard focus, and goes away when the pointer leaves or Escape is pressed.
 
@@ -26,6 +38,8 @@ Tooltip needs a `TooltipProvider` above it, and [AppShell](/components/app-shell
 
 ## Examples {#examples}
 
+::: vue
+
 ### Directive {#directive}
 
 Import `vTooltip` to apply `v-tooltip` directly to an existing element. A string binds the text; an object accepts `content`, `side`, `align`, `sideOffset`, `disabled` and `class`. Changes update the tooltip. An empty string, `null`, `undefined` or `false` hides it.
@@ -33,6 +47,18 @@ Import `vTooltip` to apply `v-tooltip` directly to an existing element. A string
 The directive shares `TooltipProvider` delay and skip-delay state, styling, positioning and keyboard focus behaviour with the component. It preserves existing `aria-describedby` values and removes its popup and listeners when the element unmounts. Text is rendered as plain text; use the component's `content` slot for rich content.
 
 <Demo name="tooltip/directive" />
+
+:::
+
+::: react
+
+### Wrapping existing elements {#directive}
+
+There is no tooltip directive in React; wrap the existing element in `Tooltip` instead. `children` must be a single element that accepts a ref and event props, either a native element or a component rendering a single element. Changes to `content`, `side`, `disabled` and the other props update the tooltip.
+
+<Demo name="tooltip/directive" />
+
+:::
 
 ### Placement {#placement}
 
@@ -84,6 +110,8 @@ With `disabled`, no overlay is built and only the trigger is rendered.
 
 ### Tooltip {#props}
 
+::: vue
+
 | Prop         | Type                                     | Default    | Description                                                       |
 | ------------ | ---------------------------------------- | ---------- | ----------------------------------------------------------------- |
 | `content`    | `string`                                 | —          | The text of the tooltip                                           |
@@ -99,11 +127,32 @@ With `disabled`, no overlay is built and only the trigger is rendered.
 | `default` | The trigger                          |
 | `content` | Tooltip content, overrides `content` |
 
+:::
+
+::: react
+
+| Prop         | Type                                     | Default    | Description                                                       |
+| ------------ | ---------------------------------------- | ---------- | ----------------------------------------------------------------- |
+| `content`    | `ReactNode`                              | —          | Tooltip content, text or other elements                           |
+| `side`       | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'`    | Which side it appears on                                          |
+| `align`      | `'start' \| 'center' \| 'end'`           | `'center'` | How it lines up with the trigger                                  |
+| `sideOffset` | `number`                                 | `8`        | Distance from the trigger                                         |
+| `open`       | `boolean`                                | —          | Controlled visibility; hover and keyboard focus decide when unset |
+| `disabled`   | `boolean`                                | `false`    | Whether the tooltip is disabled                                   |
+| `className`  | `string`                                 | —          | Classes appended to the tooltip                                   |
+| `children`   | `ReactElement`                           | —          | The trigger, a single element                                     |
+
+:::
+
+::: vue
+
 ### vTooltip {#directive-api}
 
 Import `vTooltip` locally to use `v-tooltip` in a template, or register it globally with `app.directive('tooltip', vTooltip)`. An ancestor `TooltipProvider` is required. Native elements and components rendering a single element can be hosts.
 
 `TooltipDirectiveValue` is `string | TooltipDirectiveOptions | null | undefined | false`. `TooltipDirectiveOptions` requires `content: string` and accepts the Tooltip properties above except `open`.
+
+:::
 
 ### TooltipProvider {#provider}
 

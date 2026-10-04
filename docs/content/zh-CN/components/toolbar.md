@@ -65,7 +65,17 @@ import {
 
 ### 组合控件 {#composition}
 
+::: vue
+
 将 `ToolbarButton` 放入 [DropdownMenu](/components/dropdown-menu) 或 [Popover](/components/popover) 的触发器插槽，可保留浮层与工具栏各自的键盘行为。
+
+:::
+
+::: react
+
+将 `ToolbarButton` 作为 [DropdownMenu](/components/dropdown-menu) 或 [Popover](/components/popover) 的触发器传入 `children`，可保留浮层与工具栏各自的键盘行为。
+
+:::
 
 `as-child` 把行为和属性合并到唯一子控件，不额外嵌套按钮。示例复用 [Toggle](/components/toggle)。自定义子控件需要把属性和事件转发到实际可聚焦元素；禁用、加载状态应设置在 `ToolbarButton` 上，使其同步退出方向键导航。
 
@@ -73,7 +83,17 @@ import {
 
 ### RTL {#rtl}
 
+::: vue
+
 `dir="rtl"` 同时调整排列和左右方向键。未传入时继承 [ConfigProvider](https://reka-ui.com/docs/utilities/config-provider) 的方向，或最近祖先的 `dir`。
+
+:::
+
+::: react
+
+`dir="rtl"` 同时调整排列和左右方向键。未传入时继承 `ConfigProvider` 的方向，或最近祖先的 `dir`。
+
+:::
 
 <Demo name="toolbar/rtl" />
 

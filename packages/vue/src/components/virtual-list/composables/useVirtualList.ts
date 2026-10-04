@@ -3,6 +3,15 @@ import { useResizeObserver } from '@vueuse/core'
 import { defaultRangeExtractor, type VirtualItem } from '@tanstack/vue-virtual'
 import { useDirection } from '../../../lib/useDirection'
 import { useVirtualWindow, virtualFlow } from '../../../lib/virtual/useVirtualWindow'
+import {
+  listContentStyle,
+  listEstimator,
+  listInitialRect,
+  listItemStyle,
+  listRootStyle,
+  nonnegative,
+  retainIndex,
+} from '../../../../../shared/src/lib/virtual/list'
 import { prefersReducedMotion } from '../../../motion'
 import type ScrollArea from '../../scroll-area/ScrollArea.vue'
 import type {
@@ -11,10 +20,6 @@ import type {
   VirtualListRange,
   VirtualListScrollOptions,
 } from '../types'
-
-function nonnegative(value: number) {
-  return Number.isFinite(value) ? Math.max(0, value) : 0
-}
 
 export function useVirtualList<T>(
   props: VirtualListProps<T>,
@@ -38,16 +43,11 @@ export function useVirtualList<T>(
       const items = props.items
       const itemKeys = keys.value
       const retained = focusedIndex.value
-      const estimate = props.estimateSize ?? 48
       return {
         count: items.length,
         getScrollElement: () => viewport.value ?? null,
         getItemKey: (index: number) => itemKeys[index]!,
-        estimateSize: (index: number) =>
-          Math.max(
-            1,
-            nonnegative(typeof estimate === 'function' ? estimate(items[index]!, index) : estimate),
-          ),
+        estimateSize: listEstimator(items, props.estimateSize),
         horizontal: horizontal.value,
         isRtl: direction.value === 'rtl',
         overscan: Math.floor(nonnegative(props.overscan ?? 5)),
@@ -55,15 +55,9 @@ export function useVirtualList<T>(
         paddingStart: nonnegative(props.paddingStart ?? 0),
         paddingEnd: nonnegative(props.paddingEnd ?? 0),
         initialOffset: nonnegative(props.initialOffset ?? 0),
-        initialRect: props.initialRect ?? {
-          width: 320,
-          height: typeof props.height === 'number' ? props.height : 320,
-        },
-        rangeExtractor: (range: Parameters<typeof defaultRangeExtractor>[0]) => {
-          const indexes = defaultRangeExtractor(range)
-          if (retained >= 0 && !indexes.includes(retained)) indexes.push(retained)
-          return indexes.sort((a, b) => a - b)
-        },
+        initialRect: listInitialRect(props.initialRect, props.height),
+        rangeExtractor: (range: Parameters<typeof defaultRangeExtractor>[0]) =>
+          retainIndex(defaultRangeExtractor(range), retained),
       }
     }),
   )
@@ -76,31 +70,11 @@ export function useVirtualList<T>(
       key: keys.value[entry.index]!,
     })),
   )
-  const contentStyle = computed<CSSProperties>(() => {
-    const { before: start, after: end } = flow.value
-    return horizontal.value
-      ? {
-          width: 'max-content',
-          height: '100%',
-          paddingInlineStart: `${start}px`,
-          paddingInlineEnd: `${end}px`,
-        }
-      : { width: '100%', paddingBlockStart: `${start}px`, paddingBlockEnd: `${end}px` }
-  })
-  const rootStyle = computed<CSSProperties>(() => ({
-    height: typeof props.height === 'string' ? props.height : `${props.height ?? 320}px`,
-  }))
+  const contentStyle = computed<CSSProperties>(() => listContentStyle(flow.value, horizontal.value))
+  const rootStyle = computed<CSSProperties>(() => listRootStyle(props.height))
 
   function itemStyle(entry: VirtualItem & { gapBefore: number }): CSSProperties {
-    return horizontal.value
-      ? {
-          marginInlineStart: `${entry.gapBefore}px`,
-          width: props.dynamic === false ? `${entry.size}px` : undefined,
-        }
-      : {
-          marginBlockStart: `${entry.gapBefore}px`,
-          height: props.dynamic === false ? `${entry.size}px` : undefined,
-        }
+    return listItemStyle(entry, horizontal.value, props.dynamic)
   }
 
   function measureElement(element: unknown) {

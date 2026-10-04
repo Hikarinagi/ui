@@ -32,7 +32,17 @@ With `step` set to `0.5` every star splits into two halves, so scores such as 2.
 
 `max` sets the maximum score and `stars` sets the displayed star count. With `:max="10" :stars="5"`, each star represents 2 points and a value of `7` displays 3.5 stars.
 
+::: vue
+
 `step` remains measured in stars: the default `1` selects whole stars, changing the score by 2 points; `0.5` changes it by 1 point. `v-model`, `update:modelValue`, and form values submitted through `name` always use the actual score. Read-only ratings fill proportionally, regardless of `step`.
+
+:::
+
+::: react
+
+`step` remains measured in stars: the default `1` selects whole stars, changing the score by 2 points; `0.5` changes it by 1 point. `value`, the value passed to `onValueChange`, and form values submitted through `name` always use the actual score. Read-only ratings fill proportionally, regardless of `step`.
+
+:::
 
 <Demo name="rating/scale" />
 

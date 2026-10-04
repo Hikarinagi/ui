@@ -14,7 +14,17 @@ links:
 import { Input } from '@hina-ui/vue'
 ```
 
+::: vue
+
 The field renders a native `input` with `v-model` bound to its text. Attributes it does not declare land on the `input`, so `type`, `placeholder`, `maxlength`, `autocomplete` and the like work as usual.
+
+:::
+
+::: react
+
+The field renders a native `input` with `value / onValueChange` bound to its text. Attributes it does not declare land on the `input`, so `type`, `placeholder`, `maxLength`, `autoComplete` and the like work as usual.
+
+:::
 
 <Demo name="input/basic" />
 
@@ -22,7 +32,17 @@ The field renders a native `input` with `v-model` bound to its text. Attributes 
 
 ### Adornments {#adornments}
 
+::: vue
+
 The `leading` and `trailing` slots sit on either side of the text area, for icons, units or shortcut hints. Each slot takes a square as tall as the field, with its content centred.
+
+:::
+
+::: react
+
+The `leading` and `trailing` props sit on either side of the text area, for icons, units or shortcut hints. Each side takes a square as tall as the field, with its content centred.
+
+:::
 
 <Demo name="input/adornments" />
 
@@ -73,9 +93,21 @@ Inside a [FormField](/components/form-field) the label points at the input throu
 
 ## Accessibility {#a11y}
 
+::: vue
+
 - Pair it with a `label` element or an `aria-label` for its name.
 - Slot icons are decorative; give an icon an `aria-label` when its meaning matters.
 - `invalid` also sets `aria-invalid` and `loading` sets `aria-busy`. The clear button is named from the locale pack.
+
+:::
+
+::: react
+
+- Pair it with a `label` element or an `aria-label` for its name.
+- Icons in `leading` and `trailing` are decorative; give an icon an `aria-label` when its meaning matters.
+- `invalid` also sets `aria-invalid` and `loading` sets `aria-busy`. The clear button is named from the locale pack.
+
+:::
 
 ## API {#api}
 

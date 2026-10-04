@@ -43,7 +43,17 @@ The application supplies `locateToken`, key/value classification, and suggestion
 
 ### Remote suggestions {#remote}
 
+::: vue
+
 `loading` shows a spinner and list status while preserving text. Replacing `options` clears the old highlight; new results never automatically highlight the first item. Customize empty and loading messages through `#empty` and `#loading`.
+
+:::
+
+::: react
+
+`loading` shows a spinner and list status while preserving text. Replacing `options` clears the old highlight; new results never automatically highlight the first item. Customize empty and loading messages through `empty` and `loadingContent`.
+
+:::
 
 The caller owns requests, debouncing, cancellation, and stale-response handling. This example fetches static JSON shipped with the documentation and filters it in the caller. Replace that request with a search endpoint using the same data flow.
 
@@ -59,7 +69,17 @@ The input uses the same sizes and variants as [Input](/components/input). [FormF
 
 Use `FormField`'s `name` to connect validation rules. Errors and the disabled state during submission reach the input automatically. Suggestions help complete text; custom values remain valid for submission.
 
+::: vue
+
 Connect `@submit` to the `Form` instance's `submit()`: Enter accepts a highlighted suggestion, or validates and submits the form when nothing is highlighted. The Save button uses the same validation flow.
+
+:::
+
+::: react
+
+Call `submit()` on the `Form` ref from `onSubmit`: Enter accepts a highlighted suggestion, or validates and submits the form when nothing is highlighted. The Save button uses the same validation flow.
+
+:::
 
 <Demo name="autocomplete/form" />
 
@@ -73,13 +93,33 @@ Connect `@submit` to the `Form` instance's `submit()`: Enter accepts a highlight
 - IME composition does not select, submit, or clear. Suggestions update after composition ends.
 - Blur preserves text. `readonly` permits focus, text selection, and copying without opening suggestions; `disabled` prevents interaction.
 
+::: vue
+
 The input, list, and candidates use `combobox`, `listbox`, and `option` roles with `aria-activedescendant` linking the active option. Provide [FormField](/components/form-field), an associated label, or `aria-label`. Option slots are for presentation; avoid nested buttons, links, or other independently interactive controls.
+
+:::
+
+::: react
+
+The input, list, and candidates use `combobox`, `listbox`, and `option` roles with `aria-activedescendant` linking the active option. Provide [FormField](/components/form-field), an associated label, or `aria-label`. Content returned by `renderOption` is for presentation; avoid nested buttons, links, or other independently interactive controls.
+
+:::
 
 ## API {#api}
 
 ### Props {#props}
 
+::: vue
+
 `T extends AutocompleteOption` is inferred from `options`. Extra business fields retain their types in callbacks and slots.
+
+:::
+
+::: react
+
+`T extends AutocompleteOption` is inferred from `options`. Extra business fields retain their types in callbacks and render functions.
+
+:::
 
 | Prop            | Type                                                        | Default     | Description                                                                                          |
 | --------------- | ----------------------------------------------------------- | ----------- | ---------------------------------------------------------------------------------------------------- |
@@ -99,6 +139,8 @@ The input, list, and candidates use `combobox`, `listbox`, and `option` roles wi
 
 ### Slots {#slots}
 
+::: vue
+
 | Slot       | Props                            | Description                                                         |
 | ---------- | -------------------------------- | ------------------------------------------------------------------- |
 | `leading`  | —                                | Leading icon or adornment                                           |
@@ -106,6 +148,20 @@ The input, list, and candidates use `combobox`, `listbox`, and `option` roles wi
 | `option`   | `{ option: T, active: boolean }` | Candidate content; row interaction and accessibility remain managed |
 | `empty`    | —                                | Empty results message                                               |
 | `loading`  | —                                | Loading message inside the list                                     |
+
+:::
+
+::: react
+
+| Prop             | Props                            | Description                                                         |
+| ---------------- | -------------------------------- | ------------------------------------------------------------------- |
+| `leading`        | —                                | Leading icon or adornment                                           |
+| `trailing`       | —                                | Shortcut hint or state marker; follows logical direction in RTL     |
+| `renderOption`   | `{ option: T, active: boolean }` | Candidate content; row interaction and accessibility remain managed |
+| `empty`          | —                                | Empty results message                                               |
+| `loadingContent` | —                                | Loading message inside the list                                     |
+
+:::
 
 ### Events {#events}
 
@@ -120,7 +176,17 @@ The input, list, and candidates use `combobox`, `listbox`, and `option` roles wi
 
 ### Exposed instance {#expose}
 
+::: vue
+
 `input` exposes the native `HTMLInputElement`, including `setSelectionRange()`. `focus()` and `blur()` control input focus. The instance is available after mounting.
+
+:::
+
+::: react
+
+`input` on the ref is the native `HTMLInputElement`, including `setSelectionRange()`. `focus()` and `blur()` control input focus. The ref is available after mounting.
+
+:::
 
 ### Types {#types}
 

@@ -12,9 +12,21 @@ links:
 
 ## 用法 {#usage}
 
+::: vue
+
 ```ts
 import { Tooltip, vTooltip } from '@hina-ui/vue'
 ```
+
+:::
+
+::: react
+
+```ts
+import { Tooltip } from '@hina-ui/react'
+```
+
+:::
 
 默认插槽是触发器，`content` 属性是提示的文字。指针悬停或键盘聚焦时显示，指针移开或按 Esc 时隐藏。
 
@@ -26,6 +38,8 @@ Tooltip 需要外层有 `TooltipProvider`，[AppShell](/components/app-shell) �
 
 ## 示例 {#examples}
 
+::: vue
+
 ### 指令 {#directive}
 
 导入 `vTooltip` 后，可以直接在已有元素上使用 `v-tooltip`。字符串绑定提示文字；对象绑定 `content`、`side`、`align`、`sideOffset`、`disabled` 和 `class`。绑定值变化时提示同步更新，空字符串、`null`、`undefined` 或 `false` 隐藏提示。
@@ -33,6 +47,18 @@ Tooltip 需要外层有 `TooltipProvider`，[AppShell](/components/app-shell) �
 指令与组件共享 `TooltipProvider` 的延迟和跳过延迟状态，沿用相同的样式、定位与键盘焦点规则。它保留元素已有的 `aria-describedby`，元素卸载时移除提示及事件监听。提示文字作为纯文本渲染；需要富内容时使用组件的 `content` 插槽。
 
 <Demo name="tooltip/directive" />
+
+:::
+
+::: react
+
+### 包裹已有元素 {#directive}
+
+React 版没有提示指令，直接用 `Tooltip` 包裹已有元素。`children` 必须是单个能接收 ref 与事件属性的元素，原生元素与渲染为单一元素的组件都可以。`content`、`side`、`disabled` 等属性变化时提示同步更新。
+
+<Demo name="tooltip/directive" />
+
+:::
 
 ### 位置 {#placement}
 
@@ -84,6 +110,8 @@ Tooltip 需要外层有 `TooltipProvider`，[AppShell](/components/app-shell) �
 
 ### Tooltip {#props}
 
+::: vue
+
 | 属性         | 类型                                     | 默认值     | 说明                                         |
 | ------------ | ---------------------------------------- | ---------- | -------------------------------------------- |
 | `content`    | `string`                                 | —          | 提示的文字                                   |
@@ -99,11 +127,32 @@ Tooltip 需要外层有 `TooltipProvider`，[AppShell](/components/app-shell) �
 | `default` | 触发器                     |
 | `content` | 提示的内容，优先于同名属性 |
 
+:::
+
+::: react
+
+| 属性         | 类型                                     | 默认值     | 说明                                         |
+| ------------ | ---------------------------------------- | ---------- | -------------------------------------------- |
+| `content`    | `ReactNode`                              | —          | 提示的内容，可以是文字或其他元素             |
+| `side`       | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'`    | 出现在哪一侧                                 |
+| `align`      | `'start' \| 'center' \| 'end'`           | `'center'` | 与触发器的对齐方式                           |
+| `sideOffset` | `number`                                 | `8`        | 与触发器的距离                               |
+| `open`       | `boolean`                                | —          | 受控的显示状态，未传入时由悬停与键盘焦点决定 |
+| `disabled`   | `boolean`                                | `false`    | 是否禁用提示                                 |
+| `className`  | `string`                                 | —          | 追加到提示上的类名                           |
+| `children`   | `ReactElement`                           | —          | 触发器，必须是单个元素                       |
+
+:::
+
+::: vue
+
 ### vTooltip {#directive-api}
 
 局部导入 `vTooltip` 即可在模板中使用 `v-tooltip`；也可以通过 `app.directive('tooltip', vTooltip)` 全局注册。需要外层有 `TooltipProvider`。原生元素与渲染为单一元素的组件都可以作为宿主。
 
 `TooltipDirectiveValue` 为 `string | TooltipDirectiveOptions | null | undefined | false`。`TooltipDirectiveOptions` 必须包含 `content: string`，其他字段与上方 Tooltip 属性相同，不包含 `open`。
+
+:::
 
 ### TooltipProvider {#provider}
 

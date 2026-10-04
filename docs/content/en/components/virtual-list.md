@@ -14,7 +14,17 @@ links:
 import { VirtualList, type VirtualListExpose } from '@hina-ui/vue'
 ```
 
+::: vue
+
 Supply `items` and a `getKey` function returning a unique, stable string or number. The default slot receives `{ item, index }` and preserves the full item type. Avoid array positions as keys when data can change or move.
+
+:::
+
+::: react
+
+Supply `items` and a `getKey` function returning a unique, stable string or number. `children` is a function that receives `{ item, index }` and preserves the full item type. Avoid array positions as keys when data can change or move. `getKey` and `children` are functions, so the component that renders VirtualList needs `'use client'`.
+
+:::
 
 The component includes [ScrollArea](/components/scroll-area) and defaults to a height of `320px`. `height` accepts pixels or a CSS length; `100%` requires a parent with a definite height. Item content and appearance are customizable. There is no default border, selection state, or click behavior. The first example contains ten thousand items and uses [Tag](/components/tag) for trailing content.
 
@@ -38,11 +48,31 @@ Use `gap` for spacing between items and `paddingStart` / `paddingEnd` for leadin
 
 ### Scrolling and visible ranges {#scroll}
 
+::: vue
+
 Use a component reference to call `scrollToIndex(index, { align, behavior })` or `scrollToOffset(offset, { behavior })`. Indexes start at `0`. Alignment supports `start`, `center`, `end`, and `auto`; the default `auto` scrolls only when the target is outside the viewport. Out-of-range indexes are clamped to the first or last item.
+
+:::
+
+::: react
+
+Use the component ref to call `scrollToIndex(index, { align, behavior })` or `scrollToOffset(offset, { behavior })`. Indexes start at `0`. Alignment supports `start`, `center`, `end`, and `auto`; the default `auto` scrolls only when the target is outside the viewport. Out-of-range indexes are clamped to the first or last item.
+
+:::
 
 `behavior="smooth"` enables smooth scrolling, falling back to immediate scrolling when reduced motion is requested. Long jumps with dynamic sizes continue to adjust as the target area is measured. Use fixed mode when exact sizes are known.
 
+::: vue
+
 `rangeChange` reports the first and last visible indexes, excluding overscan and additional items retained for focus. It can drive incremental loading; request state and whether more data exists remain under your control. This example uses [NumberInput](/components/number-input) to choose an item.
+
+:::
+
+::: react
+
+`onRangeChange` receives the first and last visible indexes, excluding overscan and additional items retained for focus. It can drive incremental loading; request state and whether more data exists remain under your control. This example uses [NumberInput](/components/number-input) to choose an item.
+
+:::
 
 <Demo name="virtual-list/scroll" />
 
@@ -54,7 +84,17 @@ With `orientation="horizontal"`, `estimateSize` describes width and `height` con
 
 ### Loading and empty states {#states}
 
+::: vue
+
 `loading` uses [LoadingOverlay](/components/loading-overlay) to center an indicator over the list while preserving existing items, scroll position, and viewport dimensions. The indicator is also centered when there are no items, and empty content is hidden during loading. Use `#loading` to replace the overlay content, `#empty` to replace empty content, or `emptyText` to change the default empty message.
+
+:::
+
+::: react
+
+`loading` uses [LoadingOverlay](/components/loading-overlay) to center an indicator over the list while preserving existing items, scroll position, and viewport dimensions. The indicator is also centered when there are no items, and empty content is hidden during loading. Use `loadingContent` to replace the overlay content, `empty` to replace empty content, or `emptyText` to change the default empty message.
+
+:::
 
 The example combines [Switch](/components/switch) and [Empty](/components/empty). The component does not fetch or clear data.
 
@@ -106,17 +146,43 @@ Other native attributes reach the root. Customize item appearance with `itemClas
 
 ### Slots {#slots}
 
+::: vue
+
 | Slot      | Props                        | Description              |
 | --------- | ---------------------------- | ------------------------ |
 | `default` | `{ item: T, index: number }` | Item content             |
 | `empty`   | —                            | No items and not loading |
 | `loading` | —                            | Loading content          |
 
+:::
+
+::: react
+
+| Prop             | Props                        | Description              |
+| ---------------- | ---------------------------- | ------------------------ |
+| `children`       | `{ item: T, index: number }` | Item content             |
+| `empty`          | —                            | No items and not loading |
+| `loadingContent` | —                            | Loading content          |
+
+:::
+
 ### Events {#events}
+
+::: vue
 
 | Event         | Payload                                    | Description                                                                                           |
 | ------------- | ------------------------------------------ | ----------------------------------------------------------------------------------------------------- |
 | `rangeChange` | `{ startIndex: number; endIndex: number }` | Emitted initially and when the visible range changes; both indexes are `-1` when no items are visible |
+
+:::
+
+::: react
+
+| Callback        | Payload                                    | Description                                                                                          |
+| --------------- | ------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
+| `onRangeChange` | `{ startIndex: number; endIndex: number }` | Called initially and when the visible range changes; both indexes are `-1` when no items are visible |
+
+:::
 
 ### Expose {#expose}
 

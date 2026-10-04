@@ -10,6 +10,8 @@ links:
 
 ## Usage {#usage}
 
+::: vue
+
 ```vue
 <script setup lang="ts">
   import { QRCode } from '@hina-ui/vue'
@@ -19,6 +21,20 @@ links:
   <QRCode value="https://hinaui.dev" label="Hina UI documentation" />
 </template>
 ```
+
+:::
+
+::: react
+
+```tsx
+import { QRCode } from '@hina-ui/react'
+
+export function ShareCode() {
+  return <QRCode value="https://hinaui.dev" label="Hina UI documentation" />
+}
+```
+
+:::
 
 `value` is the original string to encode, including links, Unicode and plain text. The component neither visits links nor interprets their parameters. Use `label` to describe the purpose to assistive technology, and provide a separate accessible link when appropriate.
 
@@ -56,6 +72,8 @@ Export snapshots the current colors and embeds the logo, so the file needs no pa
 
 <Demo name="qr-code/export" />
 
+::: vue
+
 ```ts
 import { ref } from 'vue'
 import type { QRCodeExpose } from '@hina-ui/vue'
@@ -64,6 +82,35 @@ const code = ref<QRCodeExpose>()
 const png = await code.value?.toBlob({ scale: 3 })
 const svg = await code.value?.toBlob({ type: 'image/svg+xml' })
 ```
+
+:::
+
+::: react
+
+```tsx
+'use client'
+
+import { useRef } from 'react'
+import { Button, QRCode, type QRCodeExpose } from '@hina-ui/react'
+
+export function ShareCode() {
+  const code = useRef<QRCodeExpose>(null)
+
+  async function exportCode() {
+    const png = await code.current?.toBlob({ scale: 3 })
+    const svg = await code.current?.toBlob({ type: 'image/svg+xml' })
+  }
+
+  return (
+    <>
+      <QRCode ref={code} value="https://hinaui.dev" />
+      <Button onClick={exportCode}>Export</Button>
+    </>
+  )
+}
+```
+
+:::
 
 ## API {#api}
 
