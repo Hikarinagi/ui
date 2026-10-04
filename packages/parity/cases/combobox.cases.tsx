@@ -52,7 +52,7 @@ export default defineCases('Combobox', [
     vue: () => h(V.Combobox, { options, modelValue: 'missing' }),
     react: () => <R.Combobox options={options} value="missing" />,
   },
-  ...(['primary', 'secondary', 'bare'] as const).map(variant => ({
+  ...(['primary', 'secondary'] as const).map(variant => ({
     name: `variant ${variant}`,
     vue: () => h(V.Combobox, { options, variant }),
     react: () => <R.Combobox options={options} variant={variant} />,

@@ -1,4 +1,5 @@
-import { h } from 'vue'
+import { h, type CSSProperties as VueCSSProperties } from 'vue'
+import type { CSSProperties } from 'react'
 import { Plus } from '@hina-ui/vue/../node_modules/@lucide/vue'
 import { Plus as ReactPlus } from '@hina-ui/react/../node_modules/lucide-react'
 import VFloatButton from '@hina-ui/vue/components/float-button/FloatButton.vue'
@@ -10,7 +11,10 @@ import { lucide } from '@hina-ui/react/lib/icon'
 import { defineCases } from '../src/cases'
 
 const PlusIcon = lucide(ReactPlus)
-type Options = Partial<Omit<FloatButtonProps, 'ref' | 'children'>> & Record<string, unknown>
+type Options = Partial<Omit<FloatButtonProps, 'ref' | 'children' | 'as' | 'style'>> & {
+  as?: 'a' | 'button'
+  style?: CSSProperties & VueCSSProperties
+}
 
 function vueCase(props: Options) {
   const { className, ...rest } = props
@@ -20,7 +24,7 @@ function vueCase(props: Options) {
 
 function reactCase(props: Options) {
   return () => (
-    <FloatButton label="新建项目" {...(props as Partial<FloatButtonProps>)}>
+    <FloatButton label="新建项目" {...props}>
       <PlusIcon />
     </FloatButton>
   )

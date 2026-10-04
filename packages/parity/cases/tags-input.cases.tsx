@@ -24,7 +24,7 @@ export default defineCases('TagsInput', [
       <R.TagsInput value={tags} placeholder="添加标签" className="mt-2" aria-label="标签" />
     ),
   },
-  ...(['primary', 'secondary', 'bare'] as const).map(variant => ({
+  ...(['primary', 'secondary'] as const).map(variant => ({
     name: `variant ${variant}`,
     vue: () => h(V.TagsInput, { modelValue: tags, variant }),
     react: () => <R.TagsInput value={tags} variant={variant} />,

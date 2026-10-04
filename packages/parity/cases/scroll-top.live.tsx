@@ -8,7 +8,10 @@ import type { ScrollTopProps } from '@hina-ui/react/components/scroll-top/types'
 import { TooltipProvider } from '@hina-ui/react/components/tooltip/TooltipProvider'
 import { defineLiveCases, frames } from '../src/live'
 
-type Options = Omit<ScrollTopProps, 'target' | 'ref'> & { provider?: boolean }
+type Options = Pick<
+  ScrollTopProps,
+  'label' | 'extended' | 'size' | 'variant' | 'tone' | 'shape' | 'position' | 'offset'
+> & { provider?: boolean }
 
 const scrollerStyle = 'height:200px;width:300px;overflow:auto'
 

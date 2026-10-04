@@ -60,8 +60,9 @@ const English = defineComponent({
 })
 
 function vueProps(props: Props) {
-  const { value, className, expanded, onValueChange, onExpandedChange, ...rest } = props
+  const { items, value, className, expanded, onValueChange, onExpandedChange, ...rest } = props
   return {
+    items,
     ...(rest as Record<string, unknown>),
     ...(value !== undefined ? { modelValue: value } : {}),
     ...(expanded !== undefined ? { expanded } : {}),

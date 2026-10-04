@@ -37,7 +37,12 @@ const reactSlots = {
   renderFooter: ({ close }: { close: () => void }) => <Button onClick={close}>完成</Button>,
 }
 
-function pair(name: string, props: Partial<SheetProps> & Record<string, unknown>) {
+type Options = Pick<
+  SheetProps,
+  'description' | 'header' | 'closable' | 'handle' | 'locked' | 'className'
+>
+
+function pair(name: string, props: Options) {
   const { className, ...rest } = props
   return {
     name,
@@ -101,7 +106,7 @@ export default defineLiveCases('Sheet', [
         {...reactSlots}
         handle={false}
         icon={<svg data-icon="" />}
-        title={<span>自定义标题</span>}
+        titleContent={<span>自定义标题</span>}
       >
         {reactTrigger}
       </Sheet>

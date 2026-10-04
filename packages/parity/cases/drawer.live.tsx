@@ -38,7 +38,12 @@ const reactSlots = {
   renderFooter: ({ close }: { close: () => void }) => <Button onClick={close}>应用</Button>,
 }
 
-function pair(name: string, props: Partial<DrawerProps> & Record<string, unknown>) {
+type Options = Pick<
+  DrawerProps,
+  'description' | 'side' | 'size' | 'header' | 'closable' | 'locked' | 'className'
+>
+
+function pair(name: string, props: Options) {
   const { className, ...rest } = props
   return {
     name,
@@ -69,7 +74,12 @@ export default defineLiveCases('Drawer', [
         title: () => h('span', '自定义标题'),
       }),
     react: () => (
-      <Drawer {...base} {...reactSlots} icon={<svg data-icon="" />} title={<span>自定义标题</span>}>
+      <Drawer
+        {...base}
+        {...reactSlots}
+        icon={<svg data-icon="" />}
+        titleContent={<span>自定义标题</span>}
+      >
         {reactTrigger}
       </Drawer>
     ),

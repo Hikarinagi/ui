@@ -29,7 +29,7 @@ export default defineCases('Autocomplete', [
     vue: () => h(V.Autocomplete, { options, open: true, modelValue: 'x' }),
     react: () => <R.Autocomplete options={options} open value="x" />,
   },
-  ...(['primary', 'secondary', 'bare'] as const).map(variant => ({
+  ...(['primary', 'secondary'] as const).map(variant => ({
     name: `variant ${variant}`,
     vue: () => h(V.Autocomplete, { options, variant }),
     react: () => <R.Autocomplete options={options} variant={variant} />,

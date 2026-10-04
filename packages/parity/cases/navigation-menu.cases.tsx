@@ -305,7 +305,7 @@ export default defineCases('NavigationMenu', [
       </NavigationMenu>
     ),
   },
-  ...['sm', 'lg'].map(size => ({
+  ...(['sm', 'lg'] as const).map(size => ({
     name: `asChild link inherits ${size} size`,
     vue: () =>
       h(VNavigationMenu, { label: 'Links', size }, () =>
@@ -316,7 +316,7 @@ export default defineCases('NavigationMenu', [
         ),
       ),
     react: () => (
-      <NavigationMenu label="Links" size={size as 'sm' | 'lg'}>
+      <NavigationMenu label="Links" size={size}>
         <NavigationMenuItem>
           <NavigationMenuLink asChild active>
             <a href="#custom">Custom</a>

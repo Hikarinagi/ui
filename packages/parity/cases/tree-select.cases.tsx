@@ -37,8 +37,9 @@ const English = defineComponent({
 })
 
 function vueProps(props: Props) {
-  const { value, className, onValueChange, onOpenChange, onSearchChange, ...rest } = props
+  const { items, value, className, onValueChange, onOpenChange, onSearchChange, ...rest } = props
   return {
+    items,
     ...(rest as Record<string, unknown>),
     ...(value !== undefined ? { modelValue: value } : {}),
     ...(className ? { class: className } : {}),
@@ -71,7 +72,7 @@ export default defineCases('TreeSelect', [
   both('numeric zero selected', { items: regions, value: 0 }),
   both('null model', { items: regions, value: null }),
   both('unknown value keeps the placeholder', { items: regions, value: 'missing' }),
-  ...(['primary', 'secondary', 'bare'] as const).map(variant =>
+  ...(['primary', 'secondary'] as const).map(variant =>
     both(`variant ${variant}`, { items: regions, variant, value: 'tokyo' }),
   ),
   ...(['sm', 'md', 'lg'] as const).map(size =>

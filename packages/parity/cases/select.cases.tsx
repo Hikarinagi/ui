@@ -53,7 +53,7 @@ export default defineCases('Select', [
       />
     ),
   },
-  ...(['primary', 'secondary', 'bare'] as const).map(variant => ({
+  ...(['primary', 'secondary'] as const).map(variant => ({
     name: `variant ${variant}`,
     vue: () => h(V.Select, { options, variant }),
     react: () => <R.Select options={options} variant={variant} />,

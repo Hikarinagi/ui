@@ -1,4 +1,5 @@
-import { defineComponent, h } from 'vue'
+import { defineComponent, h, type CSSProperties as VueCSSProperties } from 'vue'
+import type { CSSProperties } from 'react'
 import VSplitButton from '@hina-ui/vue/components/split-button/SplitButton.vue'
 import VDropdownMenuItem from '@hina-ui/vue/components/dropdown-menu/DropdownMenuItem.vue'
 import { provideUiLocale, enUS as vueEnUS } from '@hina-ui/vue/locale'
@@ -11,11 +12,12 @@ import { defineCases, type ParityCase } from '../src/cases'
 const content = () => h(VDropdownMenuItem, () => 'Save draft')
 const renderContent = () => <DropdownMenuItem>Save draft</DropdownMenuItem>
 
-function pair(
-  name: string,
-  props: Record<string, unknown>,
-  reactProps: Partial<SplitButtonProps> & Record<string, unknown> = props,
-): ParityCase {
+type Props = Partial<Omit<SplitButtonProps, 'ref' | 'style' | `on${string}`>> & {
+  class?: string
+  style?: CSSProperties & VueCSSProperties
+}
+
+function pair(name: string, props: Props, reactProps: Props = props): ParityCase {
   return {
     name,
     vue: () => h(VSplitButton, props, { default: () => 'Publish', content }),

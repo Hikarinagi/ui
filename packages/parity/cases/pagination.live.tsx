@@ -4,7 +4,7 @@ import { userEvent } from 'vitest/browser'
 import { vi } from 'vitest'
 import VPagination from '@hina-ui/vue/components/pagination/Pagination.vue'
 import VTooltipProvider from '@hina-ui/vue/components/tooltip/TooltipProvider.vue'
-import { Pagination } from '@hina-ui/react/components/pagination/Pagination'
+import { Pagination, type PaginationProps } from '@hina-ui/react/components/pagination/Pagination'
 import { TooltipProvider } from '@hina-ui/react/components/tooltip/TooltipProvider'
 import { defineLiveCases, frames, type LiveCase } from '../src/live'
 
@@ -62,7 +62,11 @@ async function tooltip() {
 const style = 'padding:80px 40px;width:720px'
 const reactStyle = { padding: '80px 40px', width: 720 }
 
-function uncontrolled(name: string, props: Record<string, unknown>, extra: Partial<LiveCase>) {
+type Options = Partial<
+  Pick<PaginationProps, 'total' | 'showFirstLast' | 'showInfo' | 'showJump' | 'pageSizeOptions'>
+> & { page?: number }
+
+function uncontrolled(name: string, props: Options, extra: Partial<LiveCase>) {
   const { page, ...rest } = props
   return {
     name,
@@ -76,7 +80,7 @@ function uncontrolled(name: string, props: Record<string, unknown>, extra: Parti
       ]),
     react: () => (
       <div style={reactStyle}>
-        <Pagination total={250} {...(rest as object)} defaultValue={page as number | undefined} />
+        <Pagination total={250} {...rest} defaultValue={page} />
       </div>
     ),
     settle: mounted,

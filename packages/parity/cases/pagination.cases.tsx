@@ -16,11 +16,13 @@ const English = defineComponent({
 type Props = Omit<R.PaginationProps, 'children'>
 
 function vueProps(props: Props) {
-  const { value, pageSize, className, renderList, renderPage, renderEllipsis, ...rest } = props
+  const { total, value, pageSize, className, renderList, renderPage, renderEllipsis, ...rest } =
+    props
   void renderList
   void renderPage
   void renderEllipsis
   return {
+    total,
     ...(rest as Record<string, unknown>),
     ...(value !== undefined ? { modelValue: value } : {}),
     ...(pageSize !== undefined ? { pageSize } : {}),

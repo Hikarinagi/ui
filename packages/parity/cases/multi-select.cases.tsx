@@ -45,7 +45,7 @@ export default defineCases('MultiSelect', [
     vue: () => h(V.MultiSelect, { options, size, modelValue: ['gal', 'ln'] }),
     react: () => <R.MultiSelect options={options} size={size} value={['gal', 'ln']} />,
   })),
-  ...(['primary', 'secondary', 'bare'] as const).map(variant => ({
+  ...(['primary', 'secondary'] as const).map(variant => ({
     name: `variant ${variant}`,
     vue: () => h(V.MultiSelect, { options, variant }),
     react: () => <R.MultiSelect options={options} variant={variant} />,

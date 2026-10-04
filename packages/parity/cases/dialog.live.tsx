@@ -294,7 +294,7 @@ export default defineLiveCases('Dialog', [
       <Dialog
         {...base}
         icon={<svg data-icon="" viewBox="0 0 24 24" />}
-        title={<span>自定义标题</span>}
+        titleContent={<span>自定义标题</span>}
         renderContent={reactContent}
         renderFooter={reactFooter}
       >

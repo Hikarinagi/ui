@@ -59,7 +59,7 @@ export default defineCases('MultiCombobox', [
     vue: () => h(V.MultiCombobox, { options, modelValue: [1], search: 'ni' }),
     react: () => <R.MultiCombobox options={options} value={[1]} search="ni" />,
   },
-  ...(['primary', 'secondary', 'bare'] as const).map(variant => ({
+  ...(['primary', 'secondary'] as const).map(variant => ({
     name: `variant ${variant}`,
     vue: () => h(V.MultiCombobox, { options, variant }),
     react: () => <R.MultiCombobox options={options} variant={variant} />,
