@@ -1,8 +1,8 @@
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { Primitive } from 'reka-ui'
   import { cn } from '../../lib/cn'
   import { heading, type HeadingVariants } from './heading.variants'
+  import { Primitive } from '../../primitives/primitive'
 
   defineOptions({ name: 'HnHeading' })
 

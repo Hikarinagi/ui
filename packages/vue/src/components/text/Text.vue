@@ -1,7 +1,8 @@
 <script setup lang="ts">
-  import { Primitive, type PrimitiveProps } from 'reka-ui'
   import { cn } from '../../lib/cn'
   import { text, type TextVariants } from './text.variants'
+  import type { PrimitiveProps } from '../../primitives/primitive'
+  import { Primitive } from '../../primitives/primitive'
 
   defineOptions({ name: 'HnText' })
 

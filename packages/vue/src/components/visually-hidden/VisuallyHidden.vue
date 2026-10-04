@@ -1,5 +1,6 @@
 <script setup lang="ts">
-  import { Primitive, type PrimitiveProps } from 'reka-ui'
+  import type { PrimitiveProps } from '../../primitives/primitive'
+  import { Primitive } from '../../primitives/primitive'
 
   defineOptions({ name: 'HnVisuallyHidden' })
 

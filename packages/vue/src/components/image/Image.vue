@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import { computed, onBeforeUnmount, shallowRef, useId, watch, type StyleValue } from 'vue'
-  import { Primitive } from 'reka-ui'
   import { cn } from '../../lib/cn'
   import { useRequiredLabel } from '../../lib/a11y'
   import Skeleton from '../skeleton/Skeleton.vue'
@@ -10,6 +9,7 @@
   import { useImage } from './composables/useImage'
   import { useImageGroup } from './context'
   import { useImageResolver } from './resolver'
+  import { Primitive } from '../../primitives/primitive'
 
   defineOptions({ name: 'HnImage', inheritAttrs: false })
 

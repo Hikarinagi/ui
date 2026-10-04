@@ -2,7 +2,6 @@
   import {
     NavigationMenuLink as RekaNavigationMenuLink,
     type NavigationMenuLinkEmits,
-    type PrimitiveProps,
   } from 'reka-ui'
   import { cn } from '../../lib/cn'
   import { useNavigationMenu } from './context'
@@ -11,6 +10,7 @@
     navigationMenuLink,
     navigationMenuIcon,
   } from './navigation-menu.variants'
+  import type { PrimitiveProps } from '../../primitives/primitive'
 
   defineOptions({ name: 'HnNavigationMenuLink', inheritAttrs: false })
   const props = withDefaults(

@@ -1,14 +1,13 @@
 <script lang="ts">
-  import type { PrimitiveProps } from 'reka-ui'
-
   export interface NumberFieldDecrementProps extends PrimitiveProps {
     disabled?: boolean
   }
 </script>
 
 <script setup lang="ts">
-  import { Primitive } from 'reka-ui'
   import { useNumberFieldStep } from './context'
+  import type { PrimitiveProps } from '../primitive'
+  import { Primitive } from '../primitive'
 
   const props = withDefaults(defineProps<NumberFieldDecrementProps>(), { as: 'button' })
   const { primitiveElement, attributes } = useNumberFieldStep('decrease', props)

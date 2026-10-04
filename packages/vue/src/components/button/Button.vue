@@ -1,12 +1,13 @@
 <script setup lang="ts">
   import { computed, useSlots } from 'vue'
-  import { Primitive, type PrimitiveProps } from 'reka-ui'
   import { cn } from '../../lib/cn'
   import { useAccessibleName } from '../../lib/a11y'
   import { button, buttonIconBox, type ButtonVariants } from './button.variants'
   import IconSlot from './IconSlot.vue'
   import Ripple from '../ripple/Ripple.vue'
   import Spinner from '../spinner/Spinner.vue'
+  import type { PrimitiveProps } from '../../primitives/primitive'
+  import { Primitive } from '../../primitives/primitive'
 
   defineOptions({ name: 'HnButton' })
 

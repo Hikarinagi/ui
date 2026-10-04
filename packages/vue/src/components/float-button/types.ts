@@ -1,6 +1,6 @@
 import type { StyleValue } from 'vue'
-import type { PrimitiveProps } from 'reka-ui'
 import type { ButtonVariants } from '../button/button.variants'
+import type { PrimitiveProps } from '../../primitives/primitive'
 
 export interface FloatButtonProps {
   label: string

@@ -1,11 +1,12 @@
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { Primitive, type PrimitiveProps } from 'reka-ui'
   import { cn } from '../../lib/cn'
   import { Passthrough } from '../../lib/passthrough'
   import Tooltip from '../tooltip/Tooltip.vue'
   import { useSidebar } from '../sidebar/context'
   import { navLink, navLinkLabel } from './nav-link.variants'
+  import type { PrimitiveProps } from '../../primitives/primitive'
+  import { Primitive } from '../../primitives/primitive'
 
   defineOptions({ name: 'HnNavLink', inheritAttrs: false })
 

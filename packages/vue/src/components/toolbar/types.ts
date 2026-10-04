@@ -1,5 +1,5 @@
-import type { PrimitiveProps } from 'reka-ui'
 import type { ButtonVariants } from '../button/button.variants'
+import type { PrimitiveProps } from '../../primitives/primitive'
 
 export type ToolbarOrientation = 'horizontal' | 'vertical'
 export type ToolbarSize = 'sm' | 'md' | 'lg'

@@ -1,12 +1,9 @@
 <script lang="ts">
-  import type { PrimitiveProps } from 'reka-ui'
-
   export interface NumberFieldInputProps extends PrimitiveProps {}
 </script>
 
 <script setup lang="ts">
   import { computed, nextTick, onMounted, ref, watch } from 'vue'
-  import { Primitive } from 'reka-ui'
   import {
     deepActiveElement,
     numberFieldInputAttributes,
@@ -16,6 +13,8 @@
   } from '../../../../shared/src/primitives/number-field'
   import { usePrimitiveElement } from '../utils/usePrimitiveElement'
   import { injectNumberFieldRootContext } from './context'
+  import type { PrimitiveProps } from '../primitive'
+  import { Primitive } from '../primitive'
 
   const props = withDefaults(defineProps<NumberFieldInputProps>(), { as: 'input' })
 
