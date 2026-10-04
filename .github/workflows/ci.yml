@@ -106,8 +106,8 @@ jobs:
           if-no-files-found: ignore
           retention-days: 7
 
-  image-layout:
-    name: image layout (${{ matrix.browser }})
+  cross-engine:
+    name: cross-engine (${{ matrix.browser }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -122,14 +122,20 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @hina-ui/vue exec playwright install --with-deps ${{ matrix.browser }}
-      - run: pnpm test:browser src/components/image/Image.layout.browser.test.ts
+      - run: pnpm test:browser .layout.browser.test
+        env:
+          HINA_TEST_BROWSER: ${{ matrix.browser }}
+      - run: pnpm test:browser:react .layout.browser.test
+        if: success() || failure()
         env:
           HINA_TEST_BROWSER: ${{ matrix.browser }}
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: image-layout-failures-${{ matrix.browser }}
-          path: packages/vue/src/**/__screenshots__/**
+          name: cross-engine-failures-${{ matrix.browser }}
+          path: |
+            packages/vue/src/**/__screenshots__/**
+            packages/react/src/**/__screenshots__/**
           if-no-files-found: ignore
           retention-days: 7
 
