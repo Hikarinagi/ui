@@ -1,5 +1,27 @@
 # @hina-ui/vue
 
+## [1.7.6](https://github.com/Hikarinagi/ui/compare/@hina-ui/vue@1.7.5...@hina-ui/vue@1.7.6) (2026-10-04)
+
+### Added
+
+- **Tabs** Expose the scroll viewport element and OverlayScrollbars instance on TabsList through its ref.
+- **SearchInput** Expose focus() and clear() through the component ref, matching Input.
+- **PasswordInput** Expose focus() and clear() through the component ref, matching Input.
+- **Table** Expose the scroll viewport element and OverlayScrollbars instance through the component ref.
+
+### Changed
+
+- **Styles** Latin text now uses Noto Sans; when the root element's lang is Chinese, Noto Sans SC stays first. The new --hn-font-latin and --hn-font-cjk tokens set the two parts of --hn-font-sans. Applications need to load Noto Sans.
+- **NumberInput** Build NumberInput on Hina's own NumberField primitive instead of Reka UI's, with identical markup and behavior. Add @internationalized/number as a direct dependency; it was previously installed through reka-ui.
+
+### Fixed
+
+- **Collapsible** Point the trigger's aria-controls at the content from the first render instead of leaving it empty until a later update.
+- **Ripple** Clear pending press timers when the ripple unmounts.
+- **Accordion** Point each trigger's aria-controls at its content from the first render instead of leaving it empty until a later update.
+- **FormField** Error and description messages no longer jump by the field's row gap on the first frame of their enter animation.
+- **VisuallyHidden** Keep visually hidden content in the accessibility tree so screen readers announce it, including Badge and Indicator labels and the FormField required hint. Support as and asChild directly; MultiSelect keeps its native form select hidden from assistive technology.
+
 ## [1.7.5](https://github.com/Hikarinagi/ui/compare/@hina-ui/vue@1.7.4...@hina-ui/vue@1.7.5) (2026-09-27)
 
 ### Fixed
