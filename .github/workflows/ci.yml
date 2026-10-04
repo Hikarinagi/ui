@@ -40,7 +40,7 @@ jobs:
       - run: pnpm test
 
   browser:
-    name: browser (${{ matrix.shard }}/4)
+    name: vue browser (${{ matrix.shard }}/4)
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -65,8 +65,12 @@ jobs:
           retention-days: 7
 
   react-browser:
-    name: react browser
+    name: react browser (${{ matrix.shard }}/4)
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -76,18 +80,22 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @hina-ui/react exec playwright install --with-deps chromium
-      - run: pnpm test:browser:react
+      - run: pnpm test:browser:react --shard=${{ matrix.shard }}/4
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: react-browser-failures
+          name: react-browser-failures-${{ matrix.shard }}
           path: packages/react/src/**/__screenshots__/**
           if-no-files-found: ignore
           retention-days: 7
 
   parity:
-    name: parity live
+    name: parity live (${{ matrix.shard }}/4)
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -98,10 +106,12 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @hina-ui/parity exec playwright install --with-deps chromium
       - run: pnpm --filter @hina-ui/parity test:browser
+        env:
+          HINA_PARITY_SHARD: ${{ matrix.shard }}/4
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: parity-failures
+          name: parity-failures-${{ matrix.shard }}
           path: packages/parity/test/__screenshots__/**
           if-no-files-found: ignore
           retention-days: 7

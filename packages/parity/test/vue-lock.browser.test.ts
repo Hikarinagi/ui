@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { commands } from 'vitest/browser'
 import { normalizeMarkup } from '../src/normalize'
 import { liveVue, type LiveSuite } from '../src/live'
+import { inShard } from '../src/shard'
 import type { VueLockKind, VueLockRecord, VueLockState } from '../src/vue-lock'
 import '../src/browser.css'
 
@@ -15,7 +16,7 @@ declare module 'vitest/browser' {
 const modules = import.meta.glob<{ default: LiveSuite }>('../cases/*.live.tsx')
 
 describe('Vue live lock', () => {
-  for (const [path, load] of Object.entries(modules)) {
+  for (const [path, load] of inShard(Object.entries(modules))) {
     const file = path.slice('../cases/'.length).replace(/\.live\.tsx$/, '')
     it(file, { timeout: 180_000 }, async ({ skip }) => {
       const { update, record } = await commands.readVueLock('live', file)

@@ -15,6 +15,9 @@ if (browser !== 'chromium' && browser !== 'firefox' && browser !== 'webkit') {
 
 export default defineConfig({
   plugins: [vue(), react(), tailwindcss()],
+  define: {
+    'import.meta.env.HINA_PARITY_SHARD': JSON.stringify(process.env.HINA_PARITY_SHARD ?? '1/1'),
+  },
   resolve: {
     alias: [
       { find: /^@hina-ui\/vue$/, replacement: source('../vue/src/index.ts') },
