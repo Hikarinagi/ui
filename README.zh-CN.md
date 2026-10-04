@@ -1,8 +1,12 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/banner-dark.png">
+  <img alt="Hina UI: the design system behind Hikarinagi, open source for Vue and React" width="900" src=".github/assets/banner-light.png">
+</picture>
+
 <h1 align="center">Hina UI</h1>
-<p align="center">The design system behind Hikarinagi, open source for Vue and React.</p>
 <p align="center"><a href="./README.md">English</a> | 中文</p>
 
-基于 [Tailwind CSS v4](https://tailwindcss.com) 构建，两个框架共用一套设计语言，组件、样式与行为一致。组件覆盖排版、布局、浮层与页面骨架。
+基于 [Tailwind CSS v4](https://tailwindcss.com) 构建。
 
 - **深色模式与紧凑模式** 在外层容器设置一个属性，整片界面随之切换，组件不必逐个适配。
 - **外观可调** 颜色、圆角、动效时长都是 CSS 变量，覆盖变量即可自定义外观。

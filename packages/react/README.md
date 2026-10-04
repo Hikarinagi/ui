@@ -1,5 +1,9 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Hikarinagi/ui/main/.github/assets/banner-dark.png">
+  <img alt="Hina UI: the design system behind Hikarinagi, open source for Vue and React" width="900" src="https://raw.githubusercontent.com/Hikarinagi/ui/main/.github/assets/banner-light.png">
+</picture>
+
 <h1 align="center">Hina UI for React</h1>
-<p align="center">The design system behind Hikarinagi, open source for React.</p>
 
 Built on React 19 and [Tailwind CSS v4](https://tailwindcss.com), with the same components, styles and behavior as [`@hina-ui/vue`](https://www.npmjs.com/package/@hina-ui/vue). The components cover typography, layout, overlays and page scaffolding.
 

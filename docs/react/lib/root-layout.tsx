@@ -29,8 +29,11 @@ const mono = JetBrains_Mono({
 })
 
 export const rootMetadata: Metadata = {
+  metadataBase: new URL('https://react.hinaui.dev'),
   title: { default: 'Hina UI for React', template: '%s · Hina UI for React' },
   icons: { icon: '/favicon.png' },
+  openGraph: { images: [{ url: '/og.png', width: 2560, height: 1344 }] },
+  twitter: { card: 'summary_large_image' },
 }
 
 export function DocsRoot({ locale, children }: { locale: Locale; children: ReactNode }) {

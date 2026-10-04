@@ -113,6 +113,12 @@ export default defineNuxtConfig({
     head: {
       titleTemplate: '%s · Hina UI',
       link: [{ rel: 'icon', type: 'image/png', href: '/favicon.png' }],
+      meta: [
+        { property: 'og:image', content: 'https://hinaui.dev/og.png' },
+        { property: 'og:image:width', content: '2560' },
+        { property: 'og:image:height', content: '1344' },
+        { name: 'twitter:card', content: 'summary_large_image' },
+      ],
     },
   },
   colorMode: {
