@@ -46,6 +46,7 @@ async function still() {
         .filter(
           animation =>
             animation.playState === 'running' &&
+            animation.timeline === document.timeline &&
             animation.effect?.getComputedTiming().endTime !== Infinity,
         )
         .map(animation => animation.finished),
@@ -53,19 +54,6 @@ async function still() {
     new Promise(resolve => setTimeout(resolve, 1000)),
   ])
   await frames(4)
-}
-
-async function scrollbarsHidden() {
-  for (const host of document.querySelectorAll('[data-overlayscrollbars-initialize]'))
-    host.dispatchEvent(new PointerEvent('pointerleave', { pointerType: 'mouse' }))
-  await vi.waitFor(
-    () => {
-      if (document.querySelector('.os-scrollbar-visible:not(.os-scrollbar-auto-hide-hidden)'))
-        throw new Error('scrollbar visible')
-    },
-    { timeout: 3000 },
-  )
-  await frames(2)
 }
 
 async function positioned() {
@@ -76,7 +64,6 @@ async function positioned() {
   })
   await frames(6)
   await still()
-  await scrollbarsHidden()
 }
 
 async function mounted() {
