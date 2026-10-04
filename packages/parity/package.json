@@ -1,0 +1,41 @@
+{
+  "name": "@hina-ui/parity",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run && NODE_ENV=production vitest run test/vue-lock.test.ts",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.json",
+    "test:browser": "vitest run -c vitest.browser.config.ts",
+    "coverage:update": "HINA_UPDATE_PENDING=1 vitest run test/exports.test.ts",
+    "api:update": "HINA_UPDATE_API_PENDING=1 vitest run test/api.test.ts",
+    "vue-lock": "vitest run test/vue-lock.test.ts && NODE_ENV=production vitest run test/vue-lock.test.ts && vitest run -c vitest.browser.config.ts test/vue-lock.browser.test.ts",
+    "vue-lock:update": "HINA_UPDATE_VUE_LOCK=${HINA_UPDATE_VUE_LOCK:-1} pnpm run vue-lock",
+    "directives:fix": "node --experimental-strip-types src/fix-client-directives.ts"
+  },
+  "devDependencies": {
+    "@hina-ui/react": "workspace:*",
+    "@hina-ui/shared": "workspace:*",
+    "@hina-ui/vue": "workspace:*",
+    "@tailwindcss/vite": "^4.3.0",
+    "@types/node": "^26.4.1",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "@vitejs/plugin-vue": "^6.0.7",
+    "@vitest/browser": "^4.1.11",
+    "@vitest/browser-playwright": "^4.1.11",
+    "parse5": "^8.0.1",
+    "playwright": "^1.62.1",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "reka-ui": "^2.10.4",
+    "tailwindcss": "^4.3.0",
+    "typescript": "^5.8.0",
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11",
+    "vue": "^3.5.33",
+    "vue-component-meta": "3.3.11",
+    "vue-tsc": "^3.3.1"
+  }
+}

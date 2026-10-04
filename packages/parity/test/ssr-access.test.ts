@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { topLevelBrowserAccess } from './ssr-access'
+import { topLevelBrowserAccess } from '../src/ssr-access'
 
 describe('SSR top-level access constraint', () => {
   it.each([
@@ -34,6 +34,20 @@ describe('SSR top-level access constraint', () => {
       '<script lang="ts">const a = document.body</script>' +
       '<script setup lang="ts">const b = window.innerWidth; const read = () => document.body</script>' +
       '<template><p>window.innerWidth</p></template>'
-    expect(topLevelBrowserAccess(source, true)).toEqual(['document.body', 'window.innerWidth'])
+    expect(topLevelBrowserAccess(source, 'Component.vue')).toEqual([
+      'document.body',
+      'window.innerWidth',
+    ])
+  })
+
+  it('parses React components as TSX', () => {
+    const source = [
+      'const root = document.body',
+      'export function Panel() {',
+      '  const width = window.innerWidth',
+      '  return <div style={{ width }} />',
+      '}',
+    ].join('\n')
+    expect(topLevelBrowserAccess(source, 'Panel.tsx')).toEqual(['document.body'])
   })
 })

@@ -1,8 +1,15 @@
 import ts from 'typescript'
 import { parse } from 'vue/compiler-sfc'
 
-function browserAccess(text: string) {
-  const file = ts.createSourceFile('source.ts', text, ts.ScriptTarget.Latest, true)
+function browserAccess(text: string, name = 'source.ts') {
+  const kind = name.endsWith('.tsx') ? ts.ScriptKind.TSX : ts.ScriptKind.TS
+  const file = ts.createSourceFile(
+    name.endsWith('.tsx') ? 'source.tsx' : 'source.ts',
+    text,
+    ts.ScriptTarget.Latest,
+    true,
+    kind,
+  )
   const options = { noLib: true, noResolve: true }
   const host = ts.createCompilerHost(options)
   host.getSourceFile = name => (name === file.fileName ? file : undefined)
@@ -43,8 +50,8 @@ function browserAccess(text: string) {
   return hits
 }
 
-export function topLevelBrowserAccess(text: string, vue = false) {
-  if (!vue) return browserAccess(text)
+export function topLevelBrowserAccess(text: string, file = 'source.ts') {
+  if (!file.endsWith('.vue')) return browserAccess(text, file)
   const { descriptor } = parse(text)
   return [descriptor.script, descriptor.scriptSetup].flatMap(script =>
     script ? browserAccess(script.content) : [],

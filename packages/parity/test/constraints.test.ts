@@ -1,11 +1,12 @@
 import { readFileSync, readdirSync } from 'node:fs'
 import { join, relative, sep } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { topLevelBrowserAccess } from './ssr-access'
+import { topLevelBrowserAccess } from '../src/ssr-access'
 
-const root = process.cwd()
-const srcDir = join(root, 'src')
-const sharedDir = join(root, '../shared/src')
+const root = join(process.cwd(), '..')
+const vueDir = join(root, 'vue/src')
+const reactDir = join(root, 'react/src')
+const sharedDir = join(root, 'shared/src')
 const stylesDir = join(sharedDir, 'styles')
 const tokens = readdirSync(stylesDir)
   .filter(f => f.endsWith('.css'))
@@ -17,11 +18,13 @@ function walk(dir: string): string[] {
   return readdirSync(dir, { withFileTypes: true }).flatMap(e => {
     const full = join(dir, e.name)
     if (e.isDirectory()) return walk(full)
-    return /\.(vue|ts)$/.test(e.name) && !/\.test\.ts$/.test(e.name) ? [full] : []
+    return /\.(vue|tsx?)$/.test(e.name) && !/\.test\.tsx?$/.test(e.name) ? [full] : []
   })
 }
 
-const componentFiles = [...walk(srcDir), ...walk(sharedDir)]
+const vueFiles = walk(vueDir)
+const reactFiles = walk(reactDir)
+const componentFiles = [...vueFiles, ...reactFiles, ...walk(sharedDir)]
 
 function findAll(pattern: RegExp, files = componentFiles) {
   const hits: string[] = []
@@ -36,8 +39,8 @@ function findAll(pattern: RegExp, files = componentFiles) {
 }
 
 describe('动效必须取自 token', () => {
-  it('组件源码中无字面量时长', () => {
-    expect(findAll(/\b\d+m?s\b(?!-)/)).toEqual([])
+  it('组件源码中无字面量时长,零时长表示不播放动画,不属于动效取值', () => {
+    expect(findAll(/\b(?!0+m?s\b)\d+m?s\b(?!-)/)).toEqual([])
   })
 
   it('组件源码中无字面量缓动曲线,cssEase 转换只许存在于 motion.ts', () => {
@@ -107,13 +110,27 @@ describe('hover / press 只许走三条轴(README「hover 与 press」)', () => 
 
 describe('L0 约定', () => {
   it('Reka CSS 变量只允许出现在 Vue 适配层', () => {
-    const files = componentFiles.filter(f => !f.startsWith(join(srcDir, 'lib', 'reka') + sep))
+    const files = componentFiles.filter(f => !f.startsWith(join(vueDir, 'lib', 'reka') + sep))
     expect(findAll(/--reka-[\w-]+/, files)).toEqual([])
     expect(tokens.match(/--reka-[\w-]+/g) ?? []).toEqual([])
   })
 
+  it('Radix CSS 变量只允许出现在 React 适配层与移植的 primitive', () => {
+    const files = componentFiles.filter(
+      f =>
+        !f.startsWith(join(reactDir, 'lib', 'radix') + sep) &&
+        !f.startsWith(join(reactDir, 'primitives') + sep),
+    )
+    expect(findAll(/--radix-[\w-]+/, files)).toEqual([])
+    expect(tokens.match(/--radix-[\w-]+/g) ?? []).toEqual([])
+  })
+
   it('组件不得使用裸 Teleport,浮层一律经 Reka 的 Portal 部件', () => {
-    expect(findAll(/<Teleport\b/)).toEqual([])
+    expect(findAll(/<Teleport\b/, vueFiles)).toEqual([])
+  })
+
+  it('组件不得直接 createPortal,浮层一律经 Radix 的 Portal 部件', () => {
+    expect(findAll(/\bcreatePortal\b/, reactFiles)).toEqual([])
   })
 })
 
@@ -124,11 +141,11 @@ describe('国际化与 SSR', () => {
     )
   })
 
-  it('模块顶层不访问 window / document', () => {
+  it('模块顶层不访问 window / document', { timeout: 60_000 }, () => {
     const hits: string[] = []
     for (const file of componentFiles) {
       const text = readFileSync(file, 'utf8')
-      for (const access of topLevelBrowserAccess(text, file.endsWith('.vue'))) {
+      for (const access of topLevelBrowserAccess(text, file)) {
         hits.push(`${relative(root, file)}: ${access}`)
       }
     }
