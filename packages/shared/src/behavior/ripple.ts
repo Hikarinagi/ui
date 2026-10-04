@@ -33,6 +33,15 @@ export function createRipple(options: RippleOptions) {
   let initialSize = 0
   let rippleScale = ''
   let rippleSize = ''
+  const timers = new Set<number>()
+
+  function later(callback: () => void, ms: number) {
+    const timer = window.setTimeout(() => {
+      timers.delete(timer)
+      callback()
+    }, ms)
+    timers.add(timer)
+  }
 
   const isTouch = ({ pointerType }: PointerEvent) => pointerType === 'touch'
 
@@ -122,7 +131,7 @@ export function createRipple(options: RippleOptions) {
       options.onPressedChange(false)
       return
     }
-    window.setTimeout(() => {
+    later(() => {
       if (growAnimation !== animation) return
       options.onPressedChange(false)
     }, MINIMUM_PRESS_MS - playedMs)
@@ -139,7 +148,7 @@ export function createRipple(options: RippleOptions) {
     if (checkBoundsAfterContextMenu && !inBounds(event)) return
     checkBoundsAfterContextMenu = false
     state = STATE.touchDelay
-    window.setTimeout(() => {
+    later(() => {
       if (state !== STATE.touchDelay) return
       state = STATE.holding
       startPress(event)
@@ -202,6 +211,8 @@ export function createRipple(options: RippleOptions) {
   }
 
   function disconnect() {
+    for (const timer of timers) window.clearTimeout(timer)
+    timers.clear()
     if (!host) return
     for (const [name, fn] of listeners) host.removeEventListener(name, fn, true)
     host = null
