@@ -1,12 +1,16 @@
 # Hina UI for React — documentation
 
-Next.js App Router site for `@hina-ui/react`, served from `react.hinaui.dev` on a Node runtime (Vercel). The Vue documentation (`docs/vue`, Nuxt, GitHub Pages) stays the reference site; both sites render the same written content (`docs/content`) and use the framework-free modules, locale strings and public assets in `docs/shared`.
+Next.js App Router site for `@hina-ui/react`, served from `react.hinaui.dev` on Cloudflare Workers through OpenNext. The Vue documentation (`docs/vue`, Nuxt, GitHub Pages) stays the reference site; both sites render the same written content (`docs/content`) and use the framework-free modules, locale strings and public assets in `docs/shared`.
 
 ## Principles
 
 - **One body of prose.** Pages are read from `docs/content/<locale>/**/*.md` at render time; nothing is copied. Framework differences are applied when rendering, not by forking the text.
 - **Server Components first.** Every page is a React Server Component: it reads Markdown and demo sources from disk, renders Markdown into Hina components and highlights code with shiki on the server. Static Hina components (`Text`, `Stack`, `Table`, `Card`…) render without shipping JavaScript; only interactive components and demos that use state hydrate. This is the SSR showcase the site exists to make.
 - **Demos are parity fixtures.** Every demo in `demos/<locale>/<component>/<name>.tsx` mirrors `docs/vue/app/demos/<locale>/<component>/<name>.vue`. `packages/parity/test/demos.test.ts` renders both on the server and requires identical markup, so documenting a component also proves it behaves like the Vue one in every documented usage.
+
+## Deployment
+
+`pnpm --filter @hina-ui/docs-react deploy` builds the site with OpenNext and deploys the `hina-ui-docs-react` Worker to `react.hinaui.dev`. It uses the local Wrangler login; `pnpm --filter @hina-ui/docs-react preview` runs the same build locally. Configuration lives in `wrangler.jsonc` and `open-next.config.ts`.
 
 ## Rendering pipeline
 
@@ -47,6 +51,6 @@ A demo that uses state, handlers or passes functions or components as data start
 
 ## Status
 
-Done: content loading and Markdown rendering with API rewriting, server highlighting, `DemoBox` with collapsible source, per-page routes and demo maps, site chrome (`AppShell`, sidebar from `docs/shared/nav.ts`, table of contents via `Anchor`, prev/next, banner, GitHub stars, `Toaster`), landing page and wall, category grids, components overview, design pages, changelog, `Playground`, `.md` endpoints, shared `docs/shared/public` assets, zero-native-tags lint, `vercel.json` and the CI job. Demos are checked for `'use client'` by `packages/parity/test/client-directive.test.ts`.
+Done: content loading and Markdown rendering with API rewriting, server highlighting, `DemoBox` with collapsible source, per-page routes and demo maps, site chrome (`AppShell`, sidebar from `docs/shared/nav.ts`, table of contents via `Anchor`, prev/next, banner, GitHub stars, `Toaster`), landing page and wall, category grids, components overview, design pages, changelog, `Playground`, `.md` endpoints, shared `docs/shared/public` assets, zero-native-tags lint, the Cloudflare deployment and the CI job. Demos are checked for `'use client'` by `packages/parity/test/client-directive.test.ts`.
 
 Next: theme and locale toggles, search on `CommandPalette`, Copy Markdown, SSR showcase pages, the remaining demo twins, React release notes in the changelog.

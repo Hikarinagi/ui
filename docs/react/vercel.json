@@ -1,7 +1,0 @@
-{
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": "nextjs",
-  "installCommand": "pnpm install --frozen-lockfile",
-  "buildCommand": "pnpm run build",
-  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- . ../content ../shared ../../packages/react ../../packages/shared ../../packages/parity/src/api/mapping.ts ../../packages/vue/CHANGELOG.md ../../pnpm-lock.yaml"
-}

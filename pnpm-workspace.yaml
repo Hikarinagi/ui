@@ -6,6 +6,7 @@ allowBuilds:
   esbuild: false
   unrs-resolver: false
   vue-demi: false
+  workerd: false
 overrides:
   framer-motion: 13.2.0
   motion-dom: 13.2.0

@@ -7,6 +7,8 @@
     "dev": "node scripts/generate.mjs && next dev --port 3731",
     "build": "node scripts/generate.mjs && next build",
     "start": "next start",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "typecheck": "node scripts/generate.mjs && tsc --noEmit -p tsconfig.json",
     "lint": "eslint .",
     "test": "node --import ./test/setup.ts --test test/*.test.ts"
@@ -27,6 +29,7 @@
     "yaml": "^2.9.0"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "^1.20.8",
     "@tailwindcss/postcss": "^4.3.0",
     "@types/markdown-it": "^14.2.0",
     "@types/node": "^26.4.1",
@@ -35,6 +38,7 @@
     "@typescript-eslint/parser": "^8.69.0",
     "eslint": "^10.9.1",
     "tailwindcss": "^4.3.0",
-    "typescript": "^5.8.0"
+    "typescript": "^5.8.0",
+    "wrangler": "^4.147.0"
   }
 }

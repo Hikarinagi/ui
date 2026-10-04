@@ -5,3 +5,5 @@
 /app/en/**/page.tsx
 /components/wordmark-svg.ts
 next-env.d.ts
+.open-next/
+.wrangler/
