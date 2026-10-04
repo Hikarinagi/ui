@@ -44,13 +44,14 @@ function serializedBody() {
   const hidden = [...document.querySelectorAll('[data-overlayscrollbars="host"]')].filter(
     unrendered,
   )
-  if (!hidden.length) return document.body.innerHTML
   const marks = hidden.map((host, index) => {
     host.setAttribute('data-parity-unrendered', String(index))
     return host
   })
   const copy = document.body.cloneNode(true) as HTMLElement
   for (const host of marks) host.removeAttribute('data-parity-unrendered')
+  for (const scrollbar of copy.querySelectorAll('.os-scrollbar'))
+    scrollbar.classList.remove('os-scrollbar-auto-hide-hidden')
   for (const host of copy.querySelectorAll('[data-parity-unrendered]')) {
     host.removeAttribute('data-parity-unrendered')
     for (const scrollbar of host.querySelectorAll<HTMLElement>(':scope > .os-scrollbar')) {
