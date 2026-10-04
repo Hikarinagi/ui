@@ -1,5 +1,6 @@
 import { computed, shallowRef, watchEffect } from 'vue'
-import { injectConfigProviderContext, type Direction } from 'reka-ui'
+import { injectConfigProviderContext } from '../primitives/utils/config'
+import type { Direction } from '../primitives/utils/useDirection'
 
 export function useDirection(dir: () => Direction | undefined) {
   const root = shallowRef<HTMLElement>()

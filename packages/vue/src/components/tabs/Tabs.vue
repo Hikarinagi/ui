@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { TabsRoot } from 'reka-ui'
+  import { TabsRoot } from '../../primitives/tabs'
   import { useId } from 'vue'
   import { cn } from '../../lib/cn'
   import { provideTabsStyle } from './context'

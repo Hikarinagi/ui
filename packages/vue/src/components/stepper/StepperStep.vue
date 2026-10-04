@@ -7,7 +7,7 @@
     StepperDescription,
     StepperIndicator,
     StepperSeparator,
-  } from 'reka-ui'
+  } from '../../primitives/stepper'
   import { useUiLocale } from '../../locale'
   import Spinner from '../spinner/Spinner.vue'
   import { stepperIndicator, stepperTrigger } from './stepper.variants'

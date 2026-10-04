@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { ToolbarToggleItem as RekaToolbarToggleItem } from 'reka-ui'
+  import { ToolbarToggleItem as RekaToolbarToggleItem } from '../../primitives/toolbar'
   import { cn } from '../../lib/cn'
   import ToolbarControl from './ToolbarControl.vue'
   import { useToolbar, useToolbarGroup } from './context'

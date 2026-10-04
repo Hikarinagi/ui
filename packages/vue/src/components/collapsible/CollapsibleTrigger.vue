@@ -2,8 +2,8 @@
   import {
     CollapsibleTrigger as RekaCollapsibleTrigger,
     injectCollapsibleRootContext,
-    useId,
-  } from 'reka-ui'
+  } from '../../primitives/collapsible'
+  import { useId } from '../../primitives/utils/useId'
   import { cn } from '../../lib/cn'
   import Button from '../button/Button.vue'
   import DisclosureIcon from '../disclosure-icon/DisclosureIcon.vue'

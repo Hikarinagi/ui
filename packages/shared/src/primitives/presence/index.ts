@@ -20,9 +20,14 @@ export interface PresenceController {
   dispose: () => void
 }
 
+export interface PresenceOptions {
+  fillForwards?: boolean
+}
+
 export function createPresence(
   initial: boolean,
   onStateChange: (state: PresenceState) => void,
+  { fillForwards = true }: PresenceOptions = {},
 ): PresenceController {
   let state: PresenceState = initial ? 'mounted' : 'unmounted'
   let present = initial
@@ -55,7 +60,7 @@ export function createPresence(
     if (current.includes(CSS.escape(event.animationName))) {
       emit(state === 'mounted' ? 'after-enter' : 'after-leave')
       send('ANIMATION_END')
-      if (!present) {
+      if (fillForwards && !present) {
         const element = node
         const fillMode = element.style.animationFillMode
         element.style.animationFillMode = 'forwards'

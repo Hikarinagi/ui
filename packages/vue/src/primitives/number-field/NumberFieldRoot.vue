@@ -33,7 +33,7 @@
     type FunctionalComponent,
     type Ref,
   } from 'vue'
-  import { injectConfigProviderContext } from 'reka-ui'
+  import { injectConfigProviderContext } from '../utils/config'
   import {
     boundNumberFieldValue,
     commitNumberFieldText,

@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { PaginationRoot } from 'reka-ui'
+  import { PaginationRoot } from '../../primitives/pagination'
   import { cn } from '../../lib/cn'
   import { useDirection } from '../../lib/useDirection'
   import { useUiLocale } from '../../locale'

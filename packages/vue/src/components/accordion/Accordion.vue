@@ -1,5 +1,6 @@
 <script setup lang="ts">
-  import { AccordionRoot, useForwardPropsEmits, type AccordionRootEmits } from 'reka-ui'
+  import { AccordionRoot, type AccordionRootEmits } from '../../primitives/accordion'
+  import { useForwardPropsEmits } from '../../primitives/utils/useForwardPropsEmits'
   import { cn } from '../../lib/cn'
   import { accordion } from './accordion.variants'
 

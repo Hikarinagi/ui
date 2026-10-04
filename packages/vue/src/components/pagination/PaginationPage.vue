@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { useTemplateRef } from 'vue'
-  import { PaginationListItem } from 'reka-ui'
+  import { PaginationListItem } from '../../primitives/pagination'
   import Button from '../button/Button.vue'
   import { vTooltip } from '../tooltip/directive'
   import { useUiLocale } from '../../locale'

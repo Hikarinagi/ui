@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { Check, Minus } from '@lucide/vue'
-  import { CheckboxRoot } from 'reka-ui'
+  import { CheckboxRoot } from '../../primitives/checkbox'
   import { useSlots } from 'vue'
   import { cn } from '../../lib/cn'
   import { useFieldControl } from '../form-field/context'

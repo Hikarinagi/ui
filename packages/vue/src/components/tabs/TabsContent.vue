@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { TabsContent } from 'reka-ui'
+  import { TabsContent } from '../../primitives/tabs'
   import { cn } from '../../lib/cn'
 
   defineOptions({ name: 'HnTabsContent' })

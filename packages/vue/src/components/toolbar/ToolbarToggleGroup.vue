@@ -1,6 +1,7 @@
 <script setup lang="ts" generic="T extends string | string[] = string | string[]">
   import { computed } from 'vue'
-  import { ToolbarToggleGroup as RekaToolbarToggleGroup, type AcceptableValue } from 'reka-ui'
+  import { ToolbarToggleGroup as RekaToolbarToggleGroup } from '../../primitives/toolbar'
+  import type { AcceptableValue } from '../../primitives/utils/types'
   import { cn } from '../../lib/cn'
   import { useToolbar, provideToolbarGroup } from './context'
   import { toolbarGroup } from './toolbar.variants'

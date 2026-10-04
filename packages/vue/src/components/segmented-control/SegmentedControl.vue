@@ -1,5 +1,6 @@
 <script setup lang="ts" generic="T extends SelectOption = SelectOption">
-  import { ToggleGroupItem, ToggleGroupRoot, type AcceptableValue } from 'reka-ui'
+  import { ToggleGroupItem, ToggleGroupRoot } from '../../primitives/toggle-group'
+  import type { AcceptableValue } from '../../primitives/utils/types'
   import { computed, useId, useSlots } from 'vue'
   import { cn } from '../../lib/cn'
   import { useFieldControl } from '../form-field/context'

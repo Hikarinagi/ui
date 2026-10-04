@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { SplitterResizeHandle } from 'reka-ui'
+  import { SplitterResizeHandle } from '../../primitives/splitter'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
 

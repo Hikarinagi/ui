@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { SliderRoot, SliderTrack } from 'reka-ui'
+  import { SliderRoot, SliderTrack } from '../../primitives/slider'
   import { computed, toRef } from 'vue'
   import { cn } from '../../lib/cn'
   import { useFieldControl } from '../form-field/context'

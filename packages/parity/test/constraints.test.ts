@@ -109,8 +109,12 @@ describe('hover / press 只许走三条轴(README「hover 与 press」)', () => 
 })
 
 describe('L0 约定', () => {
-  it('Reka CSS 变量只允许出现在 Vue 适配层', () => {
-    const files = componentFiles.filter(f => !f.startsWith(join(vueDir, 'lib', 'reka') + sep))
+  it('Reka CSS 变量只允许出现在 Vue 适配层与移植的 primitive', () => {
+    const files = componentFiles.filter(
+      f =>
+        !f.startsWith(join(vueDir, 'lib', 'reka') + sep) &&
+        !f.startsWith(join(vueDir, 'primitives') + sep),
+    )
     expect(findAll(/--reka-[\w-]+/, files)).toEqual([])
     expect(tokens.match(/--reka-[\w-]+/g) ?? []).toEqual([])
   })

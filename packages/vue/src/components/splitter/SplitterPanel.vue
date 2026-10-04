@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { SplitterPanel as RekaSplitterPanel } from 'reka-ui'
+  import { SplitterPanel as RekaSplitterPanel } from '../../primitives/splitter'
   import { cn } from '../../lib/cn'
 
   defineOptions({ name: 'HnSplitterPanel' })

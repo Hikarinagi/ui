@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { SplitterGroup } from 'reka-ui'
+  import { SplitterGroup } from '../../primitives/splitter'
   import { cn } from '../../lib/cn'
 
   defineOptions({ name: 'HnSplitter' })

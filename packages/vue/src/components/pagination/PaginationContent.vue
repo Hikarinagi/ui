@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { shallowRef } from 'vue'
-  import { PaginationList } from 'reka-ui'
+  import { PaginationList } from '../../primitives/pagination'
   import { cn } from '../../lib/cn'
   import PaginationPages from './PaginationPages.vue'
   import { paginationList } from './pagination.variants'

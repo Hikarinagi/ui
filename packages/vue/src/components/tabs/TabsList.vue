@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { computed, shallowRef } from 'vue'
-  import { TabsList } from 'reka-ui'
+  import { TabsList } from '../../primitives/tabs'
   import ScrollArea from '../scroll-area/ScrollArea.vue'
   import { cn } from '../../lib/cn'
   import { useTabsStyle } from './context'

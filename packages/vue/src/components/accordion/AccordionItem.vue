@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { AccordionItem as RekaAccordionItem } from 'reka-ui'
+  import { AccordionItem as RekaAccordionItem } from '../../primitives/accordion'
   import { cn } from '../../lib/cn'
 
   defineOptions({ name: 'HnAccordionItem' })

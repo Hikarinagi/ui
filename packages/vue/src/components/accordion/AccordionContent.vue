@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { AccordionContent as RekaAccordionContent } from 'reka-ui'
+  import { AccordionContent as RekaAccordionContent } from '../../primitives/accordion'
   import { cn } from '../../lib/cn'
   import { rekaAccordionStyle } from '../../lib/reka/styles'
   import { useCollapseGap } from '../../lib/collapse'
