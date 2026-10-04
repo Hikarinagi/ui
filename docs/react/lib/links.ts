@@ -9,6 +9,10 @@ export function reactHref(href: string): string | undefined {
     .replace(/\/packages\/vue\/src\/(.+)\.vue$/, '/packages/react/src/$1.tsx')
     .replace(/\/packages\/vue\/src\/(index\.ts|styles\/tokens\.css)$/, '/packages/react/src/$1')
     .replace('https://motion.dev/docs/vue-', 'https://motion.dev/docs/react-')
+    .replace(
+      'https://www.npmjs.com/package/@hina-ui/vue',
+      'https://www.npmjs.com/package/@hina-ui/react',
+    )
 }
 
 export function reactLinks<T extends DocLink>(links: T[] = []): T[] {

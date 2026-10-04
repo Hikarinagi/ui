@@ -35,7 +35,7 @@ const config: NextConfig = {
       '../content/**/*.md',
       '../shared/hina-wordmark.svg',
       './demos/**/*.tsx',
-      '../../packages/vue/CHANGELOG.md',
+      '../../packages/react/CHANGELOG.md',
       './node_modules/@lobehub/icons-static-svg/icons/openai.svg',
     ],
     '/docs-public/**': ['../shared/public/**/*'],
