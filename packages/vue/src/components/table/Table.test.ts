@@ -67,3 +67,15 @@ describe('结构与语义', () => {
     await expectNoA11yViolations(w.element)
   })
 })
+
+describe('实例方法', () => {
+  it('暴露内部滚动区域的 viewport 与 instance', async () => {
+    const w = mount(Table, { attachTo: document.body })
+    for (let index = 0; index < 4; index += 1)
+      await new Promise(resolve => requestAnimationFrame(resolve))
+    const exposed = w.vm as unknown as { viewport?: HTMLElement; instance?: unknown }
+    expect(exposed.viewport).toBeInstanceOf(HTMLElement)
+    expect(exposed.instance).toBeTruthy()
+    w.unmount()
+  })
+})

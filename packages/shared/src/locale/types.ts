@@ -1,0 +1,225 @@
+export interface UiMessages {
+  qrCode: {
+    label: string
+    empty: string
+    expired: string
+    scanned: string
+    error: string
+    refresh: string
+  }
+  carousel: {
+    label: string
+    role: string
+    slide: string
+    prev: string
+    next: string
+    choose: string
+    play: string
+    pause: string
+    empty: string
+    position: (index: number, total: number) => string
+    goTo: (index: number) => string
+  }
+  monthGrid: { today: string }
+  masonry: { empty: string }
+  splitButton: { more: string }
+  editable: { edit: string; save: string; placeholder: string; failed: string }
+  tag: string
+  stepper: {
+    label: string
+    progress: (step: number, total: number) => string
+    completed: string
+    error: string
+  }
+  common: {
+    close: string
+    copy: string
+    copied: string
+    clear: string
+    loading: string
+    confirm: string
+    cancel: string
+  }
+  banner: {
+    prev: string
+    next: string
+  }
+  pagination: {
+    rangeLabel: (from: number, to: number, total: number) => string
+    pageCountLabel: (page: number, count: number) => string
+    pageSizeLabel: string
+    pageSizeOption: (n: number) => string
+    jumpLabel: string
+    previousPagesLabel: (n: number) => string
+    nextPagesLabel: (n: number) => string
+    choosePage: string
+    choosePageHint: string
+    navLabel: string
+    prev: string
+    next: string
+    first: string
+    last: string
+    pageLabel: (n: number) => string
+    totalLabel: (n: number) => string
+  }
+  table: {
+    edit: string
+    save: string
+    cancel: string
+    editFailed: string
+    selectPage: string
+    selectFiltered: string
+    expand: string
+    collapse: string
+    moveRow: string
+    moveColumn: string
+    resizeColumn: string
+
+    noColumns: string
+    empty: string
+    loading: string
+    sortAsc: string
+    sortDesc: string
+    sortNone: string
+    selectRow: string
+    selectAll: string
+  }
+  select: {
+    placeholder: string
+    empty: string
+    optionCountLabel: (n: number) => string
+  }
+  upload: {
+    choose: string
+    dropHint: string
+    tooLargeLabel: (readableSize: string) => string
+    remove: string
+    removeFile: (name: string) => string
+  }
+  time: {
+    justNow: string
+    unknown: string
+  }
+  scroll: {
+    regionLabel: string
+    backToTop: string
+  }
+  virtualList: {
+    empty: string
+  }
+  dataList: {
+    empty: string
+    list: string
+    grid: string
+    layout: string
+  }
+  toast: {
+    regionLabel: string
+  }
+  spoiler: {
+    revealLabel: string
+    hideLabel: string
+  }
+  codeblock: {
+    copy: string
+  }
+  splitter: {
+    handleLabel: string
+  }
+  sidebar: {
+    navLabel: string
+    toggleLabel: string
+  }
+  anchor: {
+    navLabel: string
+  }
+  breadcrumb: {
+    navLabel: string
+  }
+  lightbox: {
+    zoomIn: string
+    zoomOut: string
+    resetZoom: string
+    actualSize: string
+    rotate: string
+    download: string
+    loadingLarge: string
+  }
+  chip: {
+    remove: string
+  }
+  numberInput: {
+    increase: string
+    decrease: string
+  }
+  passwordInput: {
+    show: string
+    hide: string
+  }
+  tree: {
+    empty: string
+  }
+  treeSelect: {
+    search: string
+  }
+  combobox: {
+    placeholder: string
+    toggle: string
+  }
+  slider: {
+    minimum: string
+    maximum: string
+  }
+  pinInput: {
+    cellLabel: (index: number, total: number) => string
+  }
+  dateField: {
+    year: string
+    month: string
+    day: string
+    hour: string
+    minute: string
+    second: string
+    dayPeriod: string
+  }
+  dateRangeField: {
+    start: string
+    end: string
+    separator: string
+  }
+  datePicker: {
+    open: string
+  }
+  dateTimePicker: {
+    time: string
+  }
+  rating: {
+    star: (value: number) => string
+    label: (value: number, max: number) => string
+    score: (value: number, max: number) => string
+  }
+  form: {
+    required: string
+  }
+  command: {
+    label: string
+    placeholder: string
+    empty: string
+  }
+  calendar: {
+    label: string
+    prev: string
+    next: string
+    prevYear: string
+    nextYear: string
+    prevYears: string
+    nextYears: string
+    pickMonth: string
+    pickYear: string
+    weekStartsOn: 0 | 1 | 2 | 3 | 4 | 5 | 6
+  }
+}
+
+export type PartialUiMessages = {
+  [K in keyof UiMessages]?: UiMessages[K] extends object ? Partial<UiMessages[K]> : UiMessages[K]
+}

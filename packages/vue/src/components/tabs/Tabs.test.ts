@@ -108,3 +108,31 @@ describe('a11y', () => {
     await expectNoA11yViolations(harness({ size: 'lg' }).element as HTMLElement)
   })
 })
+
+describe('实例方法', () => {
+  it('TabsList 暴露内部滚动区域的 viewport 与 instance', async () => {
+    let exposed: { viewport?: HTMLElement; instance?: unknown } | undefined
+    const w = mount(
+      defineComponent({
+        setup: () => () =>
+          h(Tabs, { defaultValue: 'a' }, () =>
+            h(
+              TabsList,
+              {
+                ref: (value: unknown) => {
+                  exposed = (value ?? undefined) as typeof exposed
+                },
+              },
+              () => h(TabsTrigger, { value: 'a' }, () => 'A'),
+            ),
+          ),
+      }),
+      { attachTo: document.body },
+    )
+    for (let index = 0; index < 4; index += 1)
+      await new Promise(resolve => requestAnimationFrame(resolve))
+    expect(exposed?.viewport).toBeInstanceOf(HTMLElement)
+    expect(exposed?.instance).toBeTruthy()
+    w.unmount()
+  })
+})

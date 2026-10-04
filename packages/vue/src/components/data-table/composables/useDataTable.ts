@@ -9,8 +9,32 @@ import {
   isRowAction,
   positiveInteger,
   rowId,
-  rowKey,
 } from '../utils'
+import {
+  ariaSort,
+  canGoNext,
+  clampedPage,
+  compareValues,
+  displayValue as formatValue,
+  engineSelection,
+  engineSorting,
+  engineState,
+  keyOf as rowKeyOf,
+  labelOf as rowLabelOf,
+  modelSelection,
+  modelSorting,
+  nextColumnFilters,
+  orderColumns,
+  pageCount as countPages,
+  selectionState,
+  sortLabel,
+  tableQuery,
+  toggleKey,
+  toggleSelection,
+  totalRows,
+  uniqueSelectable,
+  valueOf as cellValue,
+} from '../../../../../shared/src/lib/data-table/state'
 import type {
   DataTableApi,
   DataTableColumn,
@@ -53,18 +77,9 @@ export function useDataTable<T extends object>(
   const collator = computed(
     () => new Intl.Collator(t.value.tag, { numeric: true, sensitivity: 'base' }),
   )
-  const keyOf = (row: T) =>
-    typeof props.rowKey === 'function' ? props.rowKey(row) : (row[props.rowKey] as DataTableKey)
-  const labelOf = (row: T) =>
-    String(
-      typeof props.rowLabel === 'function'
-        ? props.rowLabel(row)
-        : props.rowLabel === undefined
-          ? keyOf(row)
-          : row[props.rowLabel],
-    )
-  const valueOf = (row: T, column: DataTableColumn<T>) =>
-    column.accessor ? column.accessor(row) : row[column.field ?? (column.key as keyof T)]
+  const keyOf = (row: T) => rowKeyOf(row, props.rowKey)
+  const labelOf = (row: T) => rowLabelOf(row, props.rowLabel, keyOf)
+  const valueOf = (row: T, column: DataTableColumn<T>) => cellValue(row, column)
   const selectable = (row: T) =>
     typeof props.selectable === 'function' ? props.selectable(row) : !!props.selectable
   const expandable = (row: T) =>
@@ -84,11 +99,7 @@ export function useDataTable<T extends object>(
       sortUndefined: 'last',
       sortFn: (a, b, id) => {
         if (column.sort) return column.sort(a.original, b.original)
-        const left = a.getValue(id),
-          right = b.getValue(id)
-        if (typeof left === 'number' && typeof right === 'number') return left - right
-        if (left instanceof Date && right instanceof Date) return left.getTime() - right.getTime()
-        return compare.compare(String(left), String(right))
+        return compareValues(a.getValue(id), b.getValue(id), compare)
       },
     }))
   })
@@ -122,73 +133,65 @@ export function useDataTable<T extends object>(
         ? column.filter(row.original, query)
         : filterValue(row.getValue(id), query, 'contains', t.value.tag)
     },
-    state: computed(() => ({
-      sorting: models.sorting.value.map(sort => ({ id: sort.key, desc: sort.desc })),
-      globalFilter: models.filter.value.trim(),
-      columnFilters: models.columnFilters.value
-        .filter(filter => leaves.value.some(column => column.key === filter.key))
-        .map(filter => ({ id: filter.key, value: filter.value })),
-      grouping: models.grouping.value.filter(key =>
-        leaves.value.some(column => column.key === key),
+    state: computed(() =>
+      engineState(
+        leaves.value,
+        {
+          sorting: models.sorting.value,
+          filter: models.filter.value,
+          columnFilters: models.columnFilters.value,
+          grouping: models.grouping.value,
+          selected: models.selected.value,
+          expanded: models.expanded.value,
+          expandedGroups: models.expandedGroups.value,
+          hiddenColumns: models.hiddenColumns.value,
+        },
+        page.value,
+        pageSize.value,
       ),
-      expanded: Object.fromEntries(
-        [...models.expanded.value.map(rowId), ...models.expandedGroups.value].map(key => [
-          key,
-          true,
-        ]),
-      ),
-      pagination: { pageIndex: page.value - 1, pageSize: pageSize.value },
-      rowSelection: Object.fromEntries(
-        models.selected.value.map(key => [rowId(key), true as const]),
-      ),
-      columnVisibility: Object.fromEntries(models.hiddenColumns.value.map(key => [key, false])),
-    })),
+    ),
     onSortingChange: updater => {
       if (blocked.value) return
-      const current = models.sorting.value.map(sort => ({ id: sort.key, desc: sort.desc }))
+      const current = engineSorting(models.sorting.value)
       const next = typeof updater === 'function' ? updater(current) : updater
-      models.sorting.value = next.map(sort => ({ key: sort.id, desc: sort.desc }))
+      models.sorting.value = modelSorting(next)
     },
     onRowSelectionChange: updater => {
       if (blocked.value) return
-      const current = Object.fromEntries(
-        models.selected.value.map(key => [rowId(key), true as const]),
-      )
+      const current = engineSelection(models.selected.value)
       const next = typeof updater === 'function' ? updater(current) : updater
-      models.selected.value = Object.keys(next)
-        .filter(key => next[key])
-        .map(rowKey)
+      models.selected.value = modelSelection(next)
     },
   })
-  const visibleColumns = computed(() => {
-    const visible = leaves.value.filter(column => !models.hiddenColumns.value.includes(column.key))
-    const order = [...new Set([...models.columnOrder.value, ...visible.map(column => column.key)])]
-    return visible.sort((a, b) => {
-      const rank = (column: DataTableColumn<T>) =>
-        column.pin === 'start' ? 0 : column.pin === 'end' ? 2 : 1
-      return rank(a) - rank(b) || order.indexOf(a.key) - order.indexOf(b.key)
-    })
-  })
+  const visibleColumns = computed(() =>
+    orderColumns(leaves.value, models.hiddenColumns.value, models.columnOrder.value),
+  )
   const knownTotal = computed(() => !props.manual || props.total !== undefined)
   const total = computed(() =>
-    props.manual
-      ? Math.max(0, Math.floor(Number.isFinite(props.total) ? props.total! : props.rows.length))
-      : table.getPreExpandedRowModel().rows.length,
+    totalRows(
+      props.manual,
+      props.total,
+      props.rows.length,
+      () => table.getPreExpandedRowModel().rows.length,
+    ),
   )
-  const pageCount = computed(() => Math.max(1, Math.ceil(total.value / pageSize.value)))
+  const pageCount = computed(() => countPages(total.value, pageSize.value))
   const canNext = computed(() =>
-    knownTotal.value
-      ? page.value < pageCount.value
-      : (props.hasNextPage ?? props.rows.length >= pageSize.value),
+    canGoNext(
+      knownTotal.value,
+      page.value,
+      pageCount.value,
+      props.hasNextPage,
+      props.rows.length,
+      pageSize.value,
+    ),
   )
   function toggleExpanded(key: DataTableKey, value?: boolean) {
     if (blocked.value) return
     const row = table.getCoreRowModel().rowsById[rowId(key)]
     if (!row?.getCanExpand()) return
     const next = value ?? !models.expanded.value.includes(key)
-    models.expanded.value = next
-      ? [...new Set([...models.expanded.value, key])]
-      : models.expanded.value.filter(item => item !== key)
+    models.expanded.value = toggleKey(models.expanded.value, key, next)
   }
   function toggleSelected(key: DataTableKey, value?: boolean) {
     if (blocked.value) return
@@ -225,9 +228,7 @@ export function useDataTable<T extends object>(
             toggleExpanded: value => {
               if (blocked.value) return
               const next = value ?? !models.expandedGroups.value.includes(row.id)
-              models.expandedGroups.value = next
-                ? [...new Set([...models.expandedGroups.value, row.id])]
-                : models.expandedGroups.value.filter(key => key !== row.id)
+              models.expandedGroups.value = toggleKey(models.expandedGroups.value, row.id, next)
             },
             aggregate: key => {
               const column = leaves.value.find(column => column.key === key)
@@ -244,43 +245,28 @@ export function useDataTable<T extends object>(
       return { ...context, id: row.id, label: labelOf(row.original), group }
     }),
   )
-  const selectionRows = computed(() => {
-    const source =
+  const selectionRows = computed(() =>
+    uniqueSelectable(
       props.selectAll === 'filtered'
         ? table.getFilteredRowModel().flatRows
-        : table.getRowModel().rows.flatMap(row => (row.getIsGrouped() ? row.getLeafRows() : [row]))
-    return [...new Map(source.filter(row => row.getCanSelect()).map(row => [row.id, row])).values()]
-  })
-  const pageSelection = computed(() => {
-    const eligible = selectionRows.value
-    if (!eligible.length) return false
-    const count = eligible.filter(row => row.getIsSelected()).length
-    return count === eligible.length
-      ? true
-      : count || eligible.some(row => row.getIsSomeSelected())
-        ? 'indeterminate'
-        : false
-  })
+        : table.getRowModel().rows.flatMap(row => (row.getIsGrouped() ? row.getLeafRows() : [row])),
+    ),
+  )
+  const pageSelection = computed(() => selectionState(selectionRows.value))
   const selectionDisabled = computed(() => blocked.value || !selectionRows.value.length)
   function togglePage(selected: boolean | 'indeterminate') {
     if (blocked.value || props.selectionMode === 'single') return
-    const keys = new Set(models.selected.value)
-    for (const row of selectionRows.value) {
-      const descendants = props.selectChildren === false ? [row] : [row, ...row.getLeafRows()]
-      for (const item of descendants)
-        if (item.getCanSelect()) {
-          if (selected === true) keys.add(keyOf(item.original))
-          else keys.delete(keyOf(item.original))
-        }
-    }
-    models.selected.value = [...keys]
+    models.selected.value = toggleSelection(
+      models.selected.value,
+      selectionRows.value,
+      selected,
+      props.selectChildren !== false,
+      keyOf,
+    )
   }
   function setFilter(column: string, value: unknown) {
     if (blocked.value) return
-    const next = models.columnFilters.value.filter(filter => filter.key !== column)
-    if (value != null && value !== '' && !(Array.isArray(value) && !value.length))
-      next.push({ key: column, value })
-    models.columnFilters.value = next
+    models.columnFilters.value = nextColumnFilters(models.columnFilters.value, column, value)
   }
   function headerContext(column: DataTableColumn<T>) {
     const engine = leaves.value.some(item => item.key === column.key)
@@ -294,17 +280,8 @@ export function useDataTable<T extends object>(
       sortIndex: engine?.getSortIndex() ?? -1,
       filterValue: models.columnFilters.value.find(filter => filter.key === column.key)?.value,
       setFilter: (value: unknown) => setFilter(column.key, value),
-      nextLabel:
-        next === 'asc'
-          ? t.value.table.sortAsc
-          : next === 'desc'
-            ? t.value.table.sortDesc
-            : t.value.table.sortNone,
-      ariaSort: sorting
-        ? sorting === 'asc'
-          ? ('ascending' as const)
-          : ('descending' as const)
-        : undefined,
+      nextLabel: sortLabel(next, t.value.table),
+      ariaSort: ariaSort(sorting),
       toggleSort: (multi = false) => {
         if (!blocked.value && column.sortable)
           engine?.toggleSorting(undefined, !!props.multiSort && multi)
@@ -328,9 +305,7 @@ export function useDataTable<T extends object>(
     toggleExpanded,
     setFilter,
     setColumnHidden: (key: string, hidden: boolean) => {
-      models.hiddenColumns.value = hidden
-        ? [...new Set([...models.hiddenColumns.value, key])]
-        : models.hiddenColumns.value.filter(value => value !== key)
+      models.hiddenColumns.value = toggleKey(models.hiddenColumns.value, key, hidden)
     },
   })
   const state = computed<DataTableState<T>>(() => ({
@@ -363,8 +338,14 @@ export function useDataTable<T extends object>(
   watch(
     [pageCount, page, () => props.loading, () => props.pagination, knownTotal],
     () => {
-      if (props.pagination && !props.loading && knownTotal.value && page.value > pageCount.value)
-        models.page.value = pageCount.value
+      const target = clampedPage(
+        props.pagination,
+        props.loading,
+        knownTotal.value,
+        page.value,
+        pageCount.value,
+      )
+      if (target !== undefined) models.page.value = target
     },
     { immediate: true },
   )
@@ -378,14 +359,14 @@ export function useDataTable<T extends object>(
       models.grouping.value,
     ],
     () => {
-      onChange({
-        page: page.value,
-        pageSize: pageSize.value,
-        sorting: models.sorting.value.map(sort => ({ ...sort })),
-        filter: models.filter.value,
-        columnFilters: models.columnFilters.value.map(filter => ({ ...filter })),
-        grouping: [...models.grouping.value],
-      })
+      onChange(
+        tableQuery(page.value, pageSize.value, {
+          sorting: models.sorting.value,
+          filter: models.filter.value,
+          columnFilters: models.columnFilters.value,
+          grouping: models.grouping.value,
+        }),
+      )
     },
     { deep: true, flush: 'post' },
   )
@@ -395,8 +376,7 @@ export function useDataTable<T extends object>(
     onRowClick(row, event)
   }
   function displayValue(row: T, column: DataTableColumn<T>) {
-    const value = valueOf(row, column)
-    return column.format ? column.format(value, row) : value == null ? '—' : String(value)
+    return formatValue(row, column)
   }
   return {
     api,

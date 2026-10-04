@@ -1,14 +1,14 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { ChevronDown, ChevronUp } from '@lucide/vue'
+  import { useForwardPropsEmits } from 'reka-ui'
   import {
     NumberFieldDecrement,
     NumberFieldIncrement,
     NumberFieldInput,
     NumberFieldRoot,
-    useForwardPropsEmits,
     type NumberFieldRootEmits,
-  } from 'reka-ui'
+  } from '../../primitives/number-field'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
   import { useFieldControl } from '../form-field/context'

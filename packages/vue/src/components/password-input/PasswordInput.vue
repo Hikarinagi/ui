@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import { shallowRef } from 'vue'
   import { Eye, EyeOff } from '@lucide/vue'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
@@ -20,10 +21,15 @@
   const visible = defineModel<boolean>('visible', { default: false })
 
   const t = useUiLocale()
+
+  const base = shallowRef<InstanceType<typeof InputBase> | null>(null)
+
+  defineExpose({ clear: () => base.value?.clear(), focus: () => base.value?.focus() })
 </script>
 
 <template>
   <InputBase
+    ref="base"
     v-bind="$attrs"
     v-model="model"
     :type="visible ? 'text' : 'password'"

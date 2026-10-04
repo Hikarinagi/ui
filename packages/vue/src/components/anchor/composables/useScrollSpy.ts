@@ -1,70 +1,54 @@
 import { useIntersectionObserver } from '@vueuse/core'
 import { computed, onMounted, shallowRef, watch } from 'vue'
-import { prefersReducedMotion } from '../../../motion'
+import {
+  SCROLL_SPY_OPTIONS,
+  applyIntersections,
+  coveredEntries,
+  coveredSpan,
+  hashTarget,
+  jumpToAnchor,
+  sameTargets,
+  spyTargets,
+  type SpyEntry,
+} from '../../../../../shared/src/lib/anchor'
 
-export interface SpyEntry {
-  id: string
-  label: string
-  depth: number
-}
+export type { SpyEntry }
 
 export function useScrollSpy(entries: () => SpyEntry[]) {
   const visible = shallowRef<ReadonlySet<string>>(new Set())
   const targets = shallowRef<Array<HTMLElement | null>>([])
   const intersecting = new Set<string>()
 
-  const covered = computed(() => entries().filter(entry => visible.value.has(entry.id)))
+  const covered = computed(() => coveredEntries(entries(), visible.value))
   const current = computed(() => covered.value[0]?.id)
-  const span = computed(() => {
-    const rows = entries().flatMap((entry, index) => (visible.value.has(entry.id) ? [index] : []))
-    return rows.length ? `${rows[0]! + 1} / ${rows.at(-1)! + 2}` : undefined
-  })
+  const span = computed(() => coveredSpan(entries(), visible.value))
 
   useIntersectionObserver(
     targets,
     observed => {
-      for (const entry of observed) {
-        if (entry.isIntersecting && entry.intersectionRatio > 0) intersecting.add(entry.target.id)
-        else intersecting.delete(entry.target.id)
-      }
-      visible.value = intersecting.size
-        ? new Set(intersecting)
-        : new Set(current.value ? [current.value] : [])
+      visible.value = applyIntersections(intersecting, observed, current.value)
     },
-    { rootMargin: '0px 0px -15% 0px', threshold: [0, Number.EPSILON] },
+    SCROLL_SPY_OPTIONS,
   )
-
-  function targetOf(id: string) {
-    return document.getElementById(id)
-  }
 
   function locate() {
     intersecting.clear()
-    targets.value = entries().map(({ id }) => targetOf(id))
+    targets.value = spyTargets(entries())
   }
 
   onMounted(() => {
-    const hash = decodeURIComponent(location.hash.slice(1))
-    if (hash && entries().some(entry => entry.id === hash)) visible.value = new Set([hash])
+    const hash = hashTarget(entries())
+    if (hash) visible.value = new Set([hash])
     locate()
     watch(entries, (next, previous) => {
-      if (
-        next.length === previous.length &&
-        next.every((entry, index) => entry.id === previous[index]?.id)
-      )
-        return
+      if (sameTargets(next, previous)) return
       visible.value = new Set()
       locate()
     })
   })
 
   function jump(event: MouseEvent, id: string) {
-    const el = targetOf(id)
-    if (!el) return
-    event.preventDefault()
-    el.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'start' })
-    history.replaceState(history.state, '', `#${id}`)
-    visible.value = new Set([id])
+    if (jumpToAnchor(event, id)) visible.value = new Set([id])
   }
 
   return { visible, covered, current, span, jump }

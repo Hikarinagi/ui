@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import { shallowRef } from 'vue'
   import { Search } from '@lucide/vue'
   import { cn } from '../../lib/cn'
   import InputBase from '../input/InputBase.vue'
@@ -27,10 +28,15 @@
     model.value = ''
     emit('clear')
   }
+
+  const base = shallowRef<InstanceType<typeof InputBase> | null>(null)
+
+  defineExpose({ clear: () => base.value?.clear(), focus: () => base.value?.focus() })
 </script>
 
 <template>
   <InputBase
+    ref="base"
     type="search"
     enterkeyhint="search"
     v-bind="$attrs"

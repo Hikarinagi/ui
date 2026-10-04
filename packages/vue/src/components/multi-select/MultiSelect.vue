@@ -1,11 +1,10 @@
 <script setup lang="ts" generic="T extends SelectOption = SelectOption">
   import { computed, ref } from 'vue'
-  import { SelectRoot, SelectTrigger } from 'reka-ui'
+  import { SelectRoot, SelectTrigger, VisuallyHidden } from 'reka-ui'
   import { cn } from '../../lib/cn'
   import type { VirtualizeOptions } from '../../lib/virtual/types'
   import { useUiLocale } from '../../locale'
   import Chip from '../chip/Chip.vue'
-  import VisuallyHidden from '../visually-hidden/VisuallyHidden.vue'
   import { X } from '@lucide/vue'
   import InputAction from '../input/InputAction.vue'
   import DisclosureIcon from '../disclosure-icon/DisclosureIcon.vue'

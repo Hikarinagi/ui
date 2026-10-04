@@ -345,7 +345,7 @@ describe('virtual choice lists', () => {
     list.element.focus()
     await userEvent.keyboard('{End}')
     await vi.waitFor(() => expect(active()?.textContent).toContain('Item 09998'))
-    await userEvent.keyboard('{Control>}a{/Control}')
+    await userEvent.keyboard('{ControlOrMeta>}a{/ControlOrMeta}')
     await vi.waitFor(() => expect(value.value).toHaveLength(9998))
     expect(value.value).not.toContain(0)
     expect(value.value).not.toContain(9999)

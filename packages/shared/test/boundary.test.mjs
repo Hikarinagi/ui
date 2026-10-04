@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { readFileSync, readdirSync } from 'node:fs'
-import { dirname, join, relative, resolve, sep } from 'node:path'
+import { basename, dirname, join, relative, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { test } from 'node:test'
 import ts from 'typescript'
@@ -17,7 +17,15 @@ function files(directory) {
 }
 
 test('shared source imports stay within the layer or approved framework-independent dependencies', () => {
-  const allowed = new Set(['clsx', 'tailwind-merge', 'tailwind-variants', 'uqr'])
+  const allowed = new Set([
+    '@internationalized/date',
+    '@internationalized/number',
+    'clsx',
+    'tailwind-merge',
+    'shiki',
+    'tailwind-variants',
+    'uqr',
+  ])
   for (const file of files(source).filter(file => file.endsWith('.ts'))) {
     const tree = ts.createSourceFile(file, readFileSync(file, 'utf8'), ts.ScriptTarget.Latest, true)
     const inspect = node => {
@@ -29,7 +37,8 @@ test('shared source imports stay within the layer or approved framework-independ
       if (ts.isCallExpression(node)) {
         const dynamic = node.expression.kind === ts.SyntaxKind.ImportKeyword
         const required = ts.isIdentifier(node.expression) && node.expression.text === 'require'
-        assert.ok(!dynamic && !required, `Unexpected runtime module loading: ${file}`)
+        assert.ok(!required, `Unexpected require: ${file}`)
+        if (dynamic) specifier = node.arguments[0]
       }
       if (specifier) {
         assert.ok(ts.isStringLiteral(specifier), `Unresolved import: ${file}`)
@@ -41,11 +50,14 @@ test('shared source imports stay within the layer or approved framework-independ
             `Import escapes shared source: ${file}: ${name}`,
           )
         } else {
+          const owner = name.startsWith('@')
+            ? name.split('/').slice(0, 2).join('/')
+            : name.split('/')[0]
           assert.ok(
-            allowed.has(name),
+            allowed.has(owner),
             `Framework or undeclared abstraction dependency: ${file}: ${name}`,
           )
-          assert.ok(manifest.dependencies[name], `Missing dependency: ${name}`)
+          assert.ok(manifest.dependencies[owner], `Missing dependency: ${owner}`)
         }
       }
       ts.forEachChild(node, inspect)
@@ -56,6 +68,7 @@ test('shared source imports stay within the layer or approved framework-independ
 
 test('shared source contains no framework components or primitive CSS bindings', () => {
   for (const file of files(source)) {
+    if (basename(file) === 'LICENSE') continue
     assert.ok(/\.(ts|css)$/.test(file), `Unexpected shared source: ${relative(root, file)}`)
     const content = readFileSync(file, 'utf8')
     assert.doesNotMatch(content, /--(?:reka|radix)-|data-(?:reka|radix)-/)
@@ -63,15 +76,17 @@ test('shared source contains no framework components or primitive CSS bindings',
   }
 })
 
-test('the internal workspace layer is not a published Vue dependency', () => {
-  const vue = JSON.parse(readFileSync(join(root, '../vue/package.json'), 'utf8'))
+test('the internal workspace layer is bundled into each framework package, never published', () => {
   assert.equal(manifest.private, true)
-  assert.equal(vue.dependencies[manifest.name], undefined)
-  assert.equal(vue.devDependencies[manifest.name], 'workspace:*')
-  for (const [name, version] of Object.entries(manifest.dependencies))
-    assert.equal(
-      vue.dependencies[name],
-      version,
-      `Bundled shared dependency must be available to consumers: ${name}`,
-    )
+  for (const adapter of ['vue', 'react']) {
+    const framework = JSON.parse(readFileSync(join(root, `../${adapter}/package.json`), 'utf8'))
+    assert.equal(framework.dependencies[manifest.name], undefined)
+    assert.equal(framework.devDependencies[manifest.name], 'workspace:*')
+    for (const [name, version] of Object.entries(manifest.dependencies))
+      assert.equal(
+        framework.dependencies[name],
+        version,
+        `Bundled shared dependency must be available to ${adapter} consumers: ${name}`,
+      )
+  }
 })

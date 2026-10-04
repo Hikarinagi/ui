@@ -133,7 +133,7 @@ describe.each(['primary', 'secondary', 'bare'] as const)(
         ),
       )
 
-      await userEvent.keyboard('{Control>}a{/Control}{Backspace}')
+      await userEvent.keyboard('{ControlOrMeta>}a{/ControlOrMeta}{Backspace}')
       await vi.waitFor(() => expect(root.offsetHeight).toBe(two))
     })
   },

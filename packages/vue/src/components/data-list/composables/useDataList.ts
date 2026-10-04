@@ -1,6 +1,7 @@
 import { computed, watch, type Ref } from 'vue'
 import { paginationInteger } from '../../pagination/composables/usePagination'
 import { cn } from '../../../lib/cn'
+import { dataListText } from '../../../../../shared/src/lib/data-list'
 import { dataListItem } from '../data-list.variants'
 import type {
   DataListKey,
@@ -21,10 +22,7 @@ export function useDataList<T>(
 ) {
   const layout = computed(() => layoutModel?.value ?? props.layout ?? 'list')
   function text(item: T, index: number, field: DataListTextField<T> | undefined) {
-    const value = typeof field === 'function' ? field(item, index) : field ? item[field] : undefined
-    return value !== '' && (typeof value === 'string' || typeof value === 'number')
-      ? value
-      : undefined
+    return dataListText(item, index, field)
   }
   const pageSize = computed(() => paginationInteger(sizeModel.value, 10, 1))
   const total = computed(() =>

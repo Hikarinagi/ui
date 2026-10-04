@@ -1,28 +1,23 @@
 import { computed, onBeforeUnmount, reactive, watch } from 'vue'
+import {
+  toastCardHeight,
+  toastItemStyle,
+  toastLayout,
+  type ToastSlot,
+} from '../../../../../shared/src/lib/toast-layout'
 import { toastState, type ToastItem } from '../store'
 
-export const VISIBLE_STACK = 3
-
-const GAP = 12
-const CARD_CHROME_BLOCK = 34
+export { VISIBLE_STACK } from '../../../../../shared/src/lib/toast-layout'
 
 export function useToastLayout() {
   const heights = reactive(new Map<number | string, number>())
   const observers = new Map<number | string, { observer: ResizeObserver; el: HTMLElement }>()
-  const lastLayout = new Map<number | string, { index: number; offset: number }>()
+  const lastLayout = new Map<number | string, ToastSlot>()
 
   const openItems = computed(() => toastState.items.filter(item => item.open))
 
   const layout = computed(() => {
-    const map = new Map<number | string, { index: number; offset: number }>()
-    const open = openItems.value
-    let offset = 0
-    for (let i = open.length - 1; i >= 0; i -= 1) {
-      const item = open[i]!
-      const index = open.length - 1 - i
-      map.set(item.id, { index, offset })
-      offset += (heights.get(item.id) ?? 0) + GAP
-    }
+    const map = toastLayout(openItems.value, id => heights.get(id))
     for (const [id, slot] of map) lastLayout.set(id, slot)
     return map
   })
@@ -37,14 +32,7 @@ export function useToastLayout() {
   }
 
   function itemStyle(item: ToastItem) {
-    const slot = slotOf(item)
-    const selfHeight = heights.get(item.id)
-    return {
-      '--hn-t-index': String(slot.index),
-      '--hn-t-offset': `${slot.offset}px`,
-      ...(selfHeight ? { '--hn-t-self-h': `${selfHeight}px` } : {}),
-      ...(frontHeight.value > 0 ? { '--hn-t-front-h': `${frontHeight.value}px` } : {}),
-    }
+    return toastItemStyle(slotOf(item), heights.get(item.id), frontHeight.value)
   }
 
   function setItemRef(id: number | string, refValue: unknown) {
@@ -54,10 +42,10 @@ export function useToastLayout() {
     if (existing?.el === el) return
     existing?.observer.disconnect()
     const observer = new ResizeObserver(() => {
-      heights.set(id, el.offsetHeight + CARD_CHROME_BLOCK)
+      heights.set(id, toastCardHeight(el))
     })
     observer.observe(el)
-    heights.set(id, el.offsetHeight + CARD_CHROME_BLOCK)
+    heights.set(id, toastCardHeight(el))
     observers.set(id, { observer, el })
   }
 

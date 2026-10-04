@@ -1,5 +1,9 @@
 import { nextTick, onScopeDispose, shallowRef, watch, type Ref } from 'vue'
 import { clampWidth, resizeBoundary, resizeBounds, resizeWidths } from '../column-sizing'
+import {
+  pinnedMaximumWidth,
+  resizeAffectedColumns,
+} from '../../../../../shared/src/lib/data-table/resize'
 import type { DataTableColumn, DataTableProps } from '../types'
 import type { DataTableController, DataTableModels } from './useDataTable'
 
@@ -25,14 +29,8 @@ export function useTableResize<T extends object>(
   let release: (() => void) | undefined
   const boundary = (column: DataTableColumn<T>) =>
     resizeBoundary(ctl.visibleColumns.value, column, props.resizeMode ?? 'fit')
-  const affectedColumns = (column: DataTableColumn<T>) => {
-    const edge = boundary(column)
-    return edge?.neighbor
-      ? edge.side === 'start'
-        ? [edge.neighbor, column]
-        : [column, edge.neighbor]
-      : [column]
-  }
+  const affectedColumns = (column: DataTableColumn<T>) =>
+    resizeAffectedColumns(ctl.visibleColumns.value, column, props.resizeMode ?? 'fit')
   const resizeLabel = (column: DataTableColumn<T>) =>
     affectedColumns(column)
       .map(item => item.label)
@@ -42,16 +40,14 @@ export function useTableResize<T extends object>(
       .map(item => `${item.label}: ${Math.round(widths.value[item.key]!)}px`)
       .join(' / ')
   const minimumTotalWidth = () => (props.resizeMode === 'expand' ? Math.max(0, available.value) : 0)
-  const maximumWidth = (column: DataTableColumn<T>, source: Record<string, number>) => {
-    if (!column.pin || boundary(column)?.neighbor?.pin) return Infinity
-    const columns = ctl.visibleColumns.value
-    const otherPinned = columns.reduce(
-      (sum, item) => sum + (item.pin && item.key !== column.key ? source[item.key]! : 0),
-      0,
+  const maximumWidth = (column: DataTableColumn<T>, source: Record<string, number>) =>
+    pinnedMaximumWidth(
+      ctl.visibleColumns.value,
+      column,
+      props.resizeMode ?? 'fit',
+      source,
+      available.value,
     )
-    const center = columns.some(item => !item.pin) ? 48 : 0
-    return Math.max(source[column.key]!, available.value - otherPinned - center)
-  }
   const bounds = (column: DataTableColumn<T>) =>
     resizeBounds(
       column,

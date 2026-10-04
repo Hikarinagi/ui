@@ -1,5 +1,10 @@
 import { computed, nextTick, onScopeDispose, shallowRef, type Ref, type CSSProperties } from 'vue'
 import { rowId } from '../utils'
+import {
+  dropColumnOrder,
+  reorderPosition,
+  reorderedRows,
+} from '../../../../../shared/src/lib/data-table/layout'
 import type { DataTableKey, DataTableProps, DataTableReorder } from '../types'
 import type { DataTableController, DataTableModels } from './useDataTable'
 
@@ -59,12 +64,16 @@ export function useTableDrag<T extends object>(
     if (!source) return
     const from = source.findIndex(item => ctl.keyOf(item) === key),
       to = source.findIndex(item => ctl.keyOf(item) === targetKey)
-    const position = before === undefined ? to : to + (before ? 0 : 1) - (from < to ? 1 : 0)
+    const position = reorderPosition(from, to, before)
     if (position === from) return
-    const rows = [...source]
-    rows.splice(from, 1)
-    rows.splice(position, 0, row.original)
-    onReorder({ row: row.original, target: target.original, parent, from, to: position, rows })
+    onReorder({
+      row: row.original,
+      target: target.original,
+      parent,
+      from,
+      to: position,
+      rows: reorderedRows(source, from, position, row.original),
+    })
   }
   function start(kind: 'row' | 'column', key: string, label: string, event: PointerEvent) {
     if (event.button !== 0 || ctl.blocked.value || (kind === 'row' && !ordered.value)) return
@@ -209,12 +218,13 @@ export function useTableDrag<T extends object>(
       cleanup?.()
       if (!apply || !destination) return
       if (kind === 'column') {
-        const order = [
-          ...new Set([...models.columnOrder.value, ...ctl.leaves.value.map(column => column.key)]),
-        ]
-        order.splice(order.indexOf(key), 1)
-        order.splice(order.indexOf(destination.target) + (destination.before ? 0 : 1), 0, key)
-        models.columnOrder.value = order
+        models.columnOrder.value = dropColumnOrder(
+          models.columnOrder.value,
+          ctl.leaves.value,
+          key,
+          destination.target,
+          destination.before,
+        )
       } else {
         const all = ctl.table.getCoreRowModel().rowsById
         const row = all[key],

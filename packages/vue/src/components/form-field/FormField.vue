@@ -39,7 +39,8 @@
   const form = injectForm()
 
   const root = shallowRef<HTMLElement | null>(null)
-  const hooks = collapseHooks('y', () => root.value)
+  const body = shallowRef<HTMLElement | null>(null)
+  const hooks = collapseHooks('y', () => body.value)
 
   const id = useId()
   const labelId = useId()
@@ -111,7 +112,7 @@
           <slot name="description">{{ props.description }}</slot>
         </p>
       </div>
-      <div data-hn-form-field-body :class="formFieldContent()">
+      <div ref="body" data-hn-form-field-body :class="formFieldContent()">
         <div
           data-hn-form-field-control
           :class="formFieldControl({ orientation: contentOrientation })"

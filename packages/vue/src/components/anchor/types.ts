@@ -1,8 +1,1 @@
-export interface AnchorItem {
-  id: string
-  label: string
-  children?: AnchorItem[]
-}
-
-export type AnchorSlotItem<T extends AnchorItem> =
-  T | (T extends { children?: AnchorItem[] } ? NonNullable<T['children']>[number] : never)
+export type { AnchorItem, AnchorSlotItem } from '../../../../shared/src/lib/anchor'
