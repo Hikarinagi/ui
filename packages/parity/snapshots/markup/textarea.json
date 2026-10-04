@@ -1,0 +1,166 @@
+{
+  "default": [
+    "<div data-hn-textarea=\"\" style=\"--hn-textarea-rows:3;\" class=\"text-fg flex w-full min-w-0 cursor-text flex-col overflow-hidden rounded-md border font-medium data-disabled:cursor-not-allowed data-disabled:opacity-50 hn-field border-line [--hn-field-bg:var(--hn-surface)] [--hn-field-shadow:var(--hn-shadow-sm)] text-base [--hn-textarea-h:var(--hn-control-h-md)] [--hn-textarea-px:var(--hn-control-px-md)] h-[calc((var(--hn-textarea-rows)_-_1)_*_1lh_+_var(--hn-textarea-h))] resize-y\">",
+    "  <div class=\"hn-scroll-area relative grid grid-cols-1 grid-rows-1 overflow-hidden min-h-0 grow\">",
+    "    <div data-overlayscrollbars-initialize=\"\" class=\"min-h-0 w-full\">",
+    "      <div data-overlayscrollbars-contents=\"\">",
+    "        <!--[-->",
+    "        <textarea rows=\"3\" class=\"block w-full resize-none overflow-hidden bg-transparent text-inherit outline-none [font:inherit] px-[var(--hn-textarea-px)] py-[calc((var(--hn-textarea-h)_-_1lh)/2_-_var(--hn-textarea-border-w,1px))] placeholder:text-faint placeholder:font-normal disabled:cursor-not-allowed\">",
+    "        <!--]-->",
+    "    <!---->"
+  ],
+  "attrs go to the native textarea": [
+    "<div data-hn-textarea=\"\" style=\"--hn-textarea-rows:3;\" class=\"text-fg flex w-full min-w-0 cursor-text flex-col overflow-hidden rounded-md border font-medium data-disabled:cursor-not-allowed data-disabled:opacity-50 hn-field border-line [--hn-field-bg:var(--hn-surface)] [--hn-field-shadow:var(--hn-shadow-sm)] text-base [--hn-textarea-h:var(--hn-control-h-md)] [--hn-textarea-px:var(--hn-control-px-md)] h-[calc((var(--hn-textarea-rows)_-_1)_*_1lh_+_var(--hn-textarea-h))] resize-y\">",
+    "  <div class=\"hn-scroll-area relative grid grid-cols-1 grid-rows-1 overflow-hidden min-h-0 grow\">",
+    "    <div data-overlayscrollbars-initialize=\"\" class=\"min-h-0 w-full\">",
+    "      <div data-overlayscrollbars-contents=\"\">",
+    "        <!--[-->",
+    "        <textarea placeholder=\"写点什么\" maxlength=\"200\" aria-label=\"评论\" id=\"t\" rows=\"3\" class=\"block w-full resize-none overflow-hidden bg-transparent text-inherit outline-none [font:inherit] px-[var(--hn-textarea-px)] py-[calc((var(--hn-textarea-h)_-_1lh)/2_-_var(--hn-textarea-border-w,1px))] placeholder:text-faint placeholder:font-normal disabled:cursor-not-allowed\">",
+    "        <!--]-->",
+    "    <!---->"
+  ],
+  "value and rows": [
+    "<div data-hn-textarea=\"\" style=\"--hn-textarea-rows:5;\" class=\"text-fg flex w-full min-w-0 cursor-text flex-col overflow-hidden rounded-md border font-medium data-disabled:cursor-not-allowed data-disabled:opacity-50 hn-field border-line [--hn-field-bg:var(--hn-surface)] [--hn-field-shadow:var(--hn-shadow-sm)] text-base [--hn-textarea-h:var(--hn-control-h-md)] [--hn-textarea-px:var(--hn-control-px-md)] h-[calc((var(--hn-textarea-rows)_-_1)_*_1lh_+_var(--hn-textarea-h))] resize-y\">",
+    "  <div class=\"hn-scroll-area relative grid grid-cols-1 grid-rows-1 overflow-hidden min-h-0 grow\">",
+    "    <div data-overlayscrollbars-initialize=\"\" class=\"min-h-0 w-full\">",
+    "      <div data-overlayscrollbars-contents=\"\">",
+    "        <!--[-->",
+    "        <textarea rows=\"5\" class=\"block w-full resize-none overflow-hidden bg-transparent text-inherit outline-none [font:inherit] px-[var(--hn-textarea-px)] py-[calc((var(--hn-textarea-h)_-_1lh)/2_-_var(--hn-textarea-border-w,1px))] placeholder:text-faint placeholder:font-normal disabled:cursor-not-allowed\">",
+    "          \"一\\n二\"",
+    "        <!--]-->",
+    "    <!---->"
+  ],
+  "variant primary": [
+    "<div data-hn-textarea=\"\" style=\"--hn-textarea-rows:3;\" class=\"text-fg flex w-full min-w-0 cursor-text flex-col overflow-hidden rounded-md border font-medium data-disabled:cursor-not-allowed data-disabled:opacity-50 hn-field border-line [--hn-field-bg:var(--hn-surface)] [--hn-field-shadow:var(--hn-shadow-sm)] text-base [--hn-textarea-h:var(--hn-control-h-md)] [--hn-textarea-px:var(--hn-control-px-md)] h-[calc((var(--hn-textarea-rows)_-_1)_*_1lh_+_var(--hn-textarea-h))] resize-y\">",
+    "  <div class=\"hn-scroll-area relative grid grid-cols-1 grid-rows-1 overflow-hidden min-h-0 grow\">",
+    "    <div data-overlayscrollbars-initialize=\"\" class=\"min-h-0 w-full\">",
+    "      <div data-overlayscrollbars-contents=\"\">",
+    "        <!--[-->",
+    "        <textarea placeholder=\"primary\" rows=\"3\" class=\"block w-full resize-none overflow-hidden bg-transparent text-inherit outline-none [font:inherit] px-[var(--hn-textarea-px)] py-[calc((var(--hn-textarea-h)_-_1lh)/2_-_var(--hn-textarea-border-w,1px))] placeholder:text-faint placeholder:font-normal disabled:cursor-not-allowed\">",
+    "        <!--]-->",
+    "    <!---->"
+  ],
+  "variant secondary": [
+    "<div data-hn-textarea=\"\" style=\"--hn-textarea-rows:3;\" class=\"text-fg flex w-full min-w-0 cursor-text flex-col overflow-hidden rounded-md border font-medium data-disabled:cursor-not-allowed data-disabled:opacity-50 hn-field border-transparent [--hn-field-bg:var(--hn-bg-inset)] text-base [--hn-textarea-h:var(--hn-control-h-md)] [--hn-textarea-px:var(--hn-control-px-md)] h-[calc((var(--hn-textarea-rows)_-_1)_*_1lh_+_var(--hn-textarea-h))] resize-y\">",
+    "  <div class=\"hn-scroll-area relative grid grid-cols-1 grid-rows-1 overflow-hidden min-h-0 grow\">",
+    "    <div data-overlayscrollbars-initialize=\"\" class=\"min-h-0 w-full\">",
+    "      <div data-overlayscrollbars-contents=\"\">",
+    "        <!--[-->",
+    "        <textarea placeholder=\"secondary\" rows=\"3\" class=\"block w-full resize-none overflow-hidden bg-transparent text-inherit outline-none [font:inherit] px-[var(--hn-textarea-px)] py-[calc((var(--hn-textarea-h)_-_1lh)/2_-_var(--hn-textarea-border-w,1px))] placeholder:text-faint placeholder:font-normal disabled:cursor-not-allowed\">",
+    "        <!--]-->",
+    "    <!---->"
+  ],
+  "variant bare": [
+    "<div data-hn-textarea=\"\" style=\"--hn-textarea-rows:3;\" class=\"text-fg flex w-full min-w-0 cursor-text flex-col overflow-hidden font-medium data-disabled:cursor-not-allowed data-disabled:opacity-50 rounded-none border-0 bg-transparent shadow-none outline-none [--hn-textarea-border-w:0px] text-base [--hn-textarea-h:var(--hn-control-h-md)] [--hn-textarea-px:var(--hn-control-px-md)] h-[calc((var(--hn-textarea-rows)_-_1)_*_1lh_+_var(--hn-textarea-h))] resize-y\">",
+    "  <div class=\"hn-scroll-area relative grid grid-cols-1 grid-rows-1 overflow-hidden min-h-0 grow\">",
+    "    <div data-overlayscrollbars-initialize=\"\" class=\"min-h-0 w-full\">",
+    "      <div data-overlayscrollbars-contents=\"\">",
+    "        <!--[-->",
+    "        <textarea placeholder=\"bare\" rows=\"3\" class=\"block w-full resize-none overflow-hidden bg-transparent text-inherit outline-none [font:inherit] px-[var(--hn-textarea-px)] py-[calc((var(--hn-textarea-h)_-_1lh)/2_-_var(--hn-textarea-border-w,1px))] placeholder:text-faint placeholder:font-normal disabled:cursor-not-allowed\">",
+    "        <!--]-->",
+    "    <!---->"
+  ],
+  "size sm with one row": [
+    "<div data-hn-textarea=\"\" style=\"--hn-textarea-rows:1;\" class=\"text-fg flex w-full min-w-0 cursor-text flex-col overflow-hidden rounded-md border font-medium data-disabled:cursor-not-allowed data-disabled:opacity-50 hn-field border-line [--hn-field-bg:var(--hn-surface)] [--hn-field-shadow:var(--hn-shadow-sm)] text-sm [--hn-textarea-h:var(--hn-control-h-sm)] [--hn-textarea-px:var(--hn-control-px-sm)] h-[calc((var(--hn-textarea-rows)_-_1)_*_1lh_+_var(--hn-textarea-h))] resize-y\">",
+    "  <div class=\"hn-scroll-area relative grid grid-cols-1 grid-rows-1 overflow-hidden min-h-0 grow\">",
+    "    <div data-overlayscrollbars-initialize=\"\" class=\"min-h-0 w-full\">",
+    "      <div data-overlayscrollbars-contents=\"\">",
+    "        <!--[-->",
+    "        <textarea placeholder=\"sm\" rows=\"1\" class=\"block w-full resize-none overflow-hidden bg-transparent text-inherit outline-none [font:inherit] px-[var(--hn-textarea-px)] py-[calc((var(--hn-textarea-h)_-_1lh)/2_-_var(--hn-textarea-border-w,1px))] placeholder:text-faint placeholder:font-normal disabled:cursor-not-allowed\">",
+    "        <!--]-->",
+    "    <!---->"
+  ],
+  "size md with one row": [
+    "<div data-hn-textarea=\"\" style=\"--hn-textarea-rows:1;\" class=\"text-fg flex w-full min-w-0 cursor-text flex-col overflow-hidden rounded-md border font-medium data-disabled:cursor-not-allowed data-disabled:opacity-50 hn-field border-line [--hn-field-bg:var(--hn-surface)] [--hn-field-shadow:var(--hn-shadow-sm)] text-base [--hn-textarea-h:var(--hn-control-h-md)] [--hn-textarea-px:var(--hn-control-px-md)] h-[calc((var(--hn-textarea-rows)_-_1)_*_1lh_+_var(--hn-textarea-h))] resize-y\">",
+    "  <div class=\"hn-scroll-area relative grid grid-cols-1 grid-rows-1 overflow-hidden min-h-0 grow\">",
+    "    <div data-overlayscrollbars-initialize=\"\" class=\"min-h-0 w-full\">",
+    "      <div data-overlayscrollbars-contents=\"\">",
+    "        <!--[-->",
+    "        <textarea placeholder=\"md\" rows=\"1\" class=\"block w-full resize-none overflow-hidden bg-transparent text-inherit outline-none [font:inherit] px-[var(--hn-textarea-px)] py-[calc((var(--hn-textarea-h)_-_1lh)/2_-_var(--hn-textarea-border-w,1px))] placeholder:text-faint placeholder:font-normal disabled:cursor-not-allowed\">",
+    "        <!--]-->",
+    "    <!---->"
+  ],
+  "size lg with one row": [
+    "<div data-hn-textarea=\"\" style=\"--hn-textarea-rows:1;\" class=\"text-fg flex w-full min-w-0 cursor-text flex-col overflow-hidden rounded-md border font-medium data-disabled:cursor-not-allowed data-disabled:opacity-50 hn-field border-line [--hn-field-bg:var(--hn-surface)] [--hn-field-shadow:var(--hn-shadow-sm)] text-md [--hn-textarea-h:var(--hn-control-h-lg)] [--hn-textarea-px:var(--hn-control-px-lg)] h-[calc((var(--hn-textarea-rows)_-_1)_*_1lh_+_var(--hn-textarea-h))] resize-y\">",
+    "  <div class=\"hn-scroll-area relative grid grid-cols-1 grid-rows-1 overflow-hidden min-h-0 grow\">",
+    "    <div data-overlayscrollbars-initialize=\"\" class=\"min-h-0 w-full\">",
+    "      <div data-overlayscrollbars-contents=\"\">",
+    "        <!--[-->",
+    "        <textarea placeholder=\"lg\" rows=\"1\" class=\"block w-full resize-none overflow-hidden bg-transparent text-inherit outline-none [font:inherit] px-[var(--hn-textarea-px)] py-[calc((var(--hn-textarea-h)_-_1lh)/2_-_var(--hn-textarea-border-w,1px))] placeholder:text-faint placeholder:font-normal disabled:cursor-not-allowed\">",
+    "        <!--]-->",
+    "    <!---->"
+  ],
+  "autosize": [
+    "<div data-hn-textarea=\"\" style=\"--hn-textarea-rows:3;\" class=\"text-fg flex w-full min-w-0 cursor-text flex-col overflow-hidden rounded-md border font-medium data-disabled:cursor-not-allowed data-disabled:opacity-50 hn-field border-line [--hn-field-bg:var(--hn-surface)] [--hn-field-shadow:var(--hn-shadow-sm)] text-base [--hn-textarea-h:var(--hn-control-h-md)] [--hn-textarea-px:var(--hn-control-px-md)] min-h-[calc((var(--hn-textarea-rows)_-_1)_*_1lh_+_var(--hn-textarea-h))] max-h-[calc((var(--hn-textarea-max-rows)_-_1)_*_1lh_+_var(--hn-textarea-h))] resize-none\">",
+    "  <div class=\"hn-scroll-area relative grid grid-cols-1 grid-rows-1 overflow-hidden min-h-0 grow\">",
+    "    <div data-overlayscrollbars-initialize=\"\" class=\"min-h-0 w-full\">",
+    "      <div data-overlayscrollbars-contents=\"\">",
+    "        <!--[-->",
+    "        <textarea rows=\"3\" class=\"block w-full resize-none overflow-hidden bg-transparent text-inherit outline-none [font:inherit] px-[var(--hn-textarea-px)] py-[calc((var(--hn-textarea-h)_-_1lh)/2_-_var(--hn-textarea-border-w,1px))] placeholder:text-faint placeholder:font-normal disabled:cursor-not-allowed\">",
+    "          \"简介\"",
+    "        <!--]-->",
+    "    <!---->"
+  ],
+  "autosize with bounds": [
+    "<div data-hn-textarea=\"\" style=\"--hn-textarea-rows:2;--hn-textarea-max-rows:5;\" class=\"text-fg flex w-full min-w-0 cursor-text flex-col overflow-hidden rounded-md border font-medium data-disabled:cursor-not-allowed data-disabled:opacity-50 hn-field border-line [--hn-field-bg:var(--hn-surface)] [--hn-field-shadow:var(--hn-shadow-sm)] text-base [--hn-textarea-h:var(--hn-control-h-md)] [--hn-textarea-px:var(--hn-control-px-md)] min-h-[calc((var(--hn-textarea-rows)_-_1)_*_1lh_+_var(--hn-textarea-h))] max-h-[calc((var(--hn-textarea-max-rows)_-_1)_*_1lh_+_var(--hn-textarea-h))] resize-none\">",
+    "  <div class=\"hn-scroll-area relative grid grid-cols-1 grid-rows-1 overflow-hidden min-h-0 grow\">",
+    "    <div data-overlayscrollbars-initialize=\"\" class=\"min-h-0 w-full\">",
+    "      <div data-overlayscrollbars-contents=\"\">",
+    "        <!--[-->",
+    "        <textarea rows=\"2\" class=\"block w-full resize-none overflow-hidden bg-transparent text-inherit outline-none [font:inherit] px-[var(--hn-textarea-px)] py-[calc((var(--hn-textarea-h)_-_1lh)/2_-_var(--hn-textarea-border-w,1px))] placeholder:text-faint placeholder:font-normal disabled:cursor-not-allowed\">",
+    "        <!--]-->",
+    "    <!---->"
+  ],
+  "autosize keeps rows": [
+    "<div data-hn-textarea=\"\" style=\"--hn-textarea-rows:4;\" class=\"text-fg flex w-full min-w-0 cursor-text flex-col overflow-hidden rounded-md border font-medium data-disabled:cursor-not-allowed data-disabled:opacity-50 hn-field border-line [--hn-field-bg:var(--hn-surface)] [--hn-field-shadow:var(--hn-shadow-sm)] text-base [--hn-textarea-h:var(--hn-control-h-md)] [--hn-textarea-px:var(--hn-control-px-md)] min-h-[calc((var(--hn-textarea-rows)_-_1)_*_1lh_+_var(--hn-textarea-h))] max-h-[calc((var(--hn-textarea-max-rows)_-_1)_*_1lh_+_var(--hn-textarea-h))] resize-none\">",
+    "  <div class=\"hn-scroll-area relative grid grid-cols-1 grid-rows-1 overflow-hidden min-h-0 grow\">",
+    "    <div data-overlayscrollbars-initialize=\"\" class=\"min-h-0 w-full\">",
+    "      <div data-overlayscrollbars-contents=\"\">",
+    "        <!--[-->",
+    "        <textarea rows=\"4\" class=\"block w-full resize-none overflow-hidden bg-transparent text-inherit outline-none [font:inherit] px-[var(--hn-textarea-px)] py-[calc((var(--hn-textarea-h)_-_1lh)/2_-_var(--hn-textarea-border-w,1px))] placeholder:text-faint placeholder:font-normal disabled:cursor-not-allowed\">",
+    "        <!--]-->",
+    "    <!---->"
+  ],
+  "resize none": [
+    "<div data-hn-textarea=\"\" style=\"--hn-textarea-rows:3;\" class=\"text-fg flex w-full min-w-0 cursor-text flex-col overflow-hidden rounded-md border font-medium data-disabled:cursor-not-allowed data-disabled:opacity-50 hn-field border-line [--hn-field-bg:var(--hn-surface)] [--hn-field-shadow:var(--hn-shadow-sm)] text-base [--hn-textarea-h:var(--hn-control-h-md)] [--hn-textarea-px:var(--hn-control-px-md)] h-[calc((var(--hn-textarea-rows)_-_1)_*_1lh_+_var(--hn-textarea-h))] resize-none\">",
+    "  <div class=\"hn-scroll-area relative grid grid-cols-1 grid-rows-1 overflow-hidden min-h-0 grow\">",
+    "    <div data-overlayscrollbars-initialize=\"\" class=\"min-h-0 w-full\">",
+    "      <div data-overlayscrollbars-contents=\"\">",
+    "        <!--[-->",
+    "        <textarea rows=\"3\" class=\"block w-full resize-none overflow-hidden bg-transparent text-inherit outline-none [font:inherit] px-[var(--hn-textarea-px)] py-[calc((var(--hn-textarea-h)_-_1lh)/2_-_var(--hn-textarea-border-w,1px))] placeholder:text-faint placeholder:font-normal disabled:cursor-not-allowed\">",
+    "        <!--]-->",
+    "    <!---->"
+  ],
+  "invalid": [
+    "<div data-hn-textarea=\"\" data-invalid=\"\" style=\"--hn-textarea-rows:3;\" class=\"text-fg flex w-full min-w-0 cursor-text flex-col overflow-hidden rounded-md border font-medium data-disabled:cursor-not-allowed data-disabled:opacity-50 hn-field border-line [--hn-field-bg:var(--hn-surface)] [--hn-field-shadow:var(--hn-shadow-sm)] text-base [--hn-textarea-h:var(--hn-control-h-md)] [--hn-textarea-px:var(--hn-control-px-md)] h-[calc((var(--hn-textarea-rows)_-_1)_*_1lh_+_var(--hn-textarea-h))] resize-y\">",
+    "  <div class=\"hn-scroll-area relative grid grid-cols-1 grid-rows-1 overflow-hidden min-h-0 grow\">",
+    "    <div data-overlayscrollbars-initialize=\"\" class=\"min-h-0 w-full\">",
+    "      <div data-overlayscrollbars-contents=\"\">",
+    "        <!--[-->",
+    "        <textarea rows=\"3\" aria-invalid=\"true\" class=\"block w-full resize-none overflow-hidden bg-transparent text-inherit outline-none [font:inherit] px-[var(--hn-textarea-px)] py-[calc((var(--hn-textarea-h)_-_1lh)/2_-_var(--hn-textarea-border-w,1px))] placeholder:text-faint placeholder:font-normal disabled:cursor-not-allowed\">",
+    "          \"简介不能少于二十个字。\"",
+    "        <!--]-->",
+    "    <!---->"
+  ],
+  "disabled": [
+    "<div data-hn-textarea=\"\" data-disabled=\"\" style=\"--hn-textarea-rows:3;\" class=\"text-fg flex w-full min-w-0 cursor-text flex-col overflow-hidden rounded-md border font-medium data-disabled:cursor-not-allowed data-disabled:opacity-50 hn-field border-line [--hn-field-bg:var(--hn-surface)] [--hn-field-shadow:var(--hn-shadow-sm)] text-base [--hn-textarea-h:var(--hn-control-h-md)] [--hn-textarea-px:var(--hn-control-px-md)] h-[calc((var(--hn-textarea-rows)_-_1)_*_1lh_+_var(--hn-textarea-h))] resize-y\">",
+    "  <div class=\"hn-scroll-area relative grid grid-cols-1 grid-rows-1 overflow-hidden min-h-0 grow\">",
+    "    <div data-overlayscrollbars-initialize=\"\" class=\"min-h-0 w-full\">",
+    "      <div data-overlayscrollbars-contents=\"\">",
+    "        <!--[-->",
+    "        <textarea rows=\"3\" disabled=\"\" class=\"block w-full resize-none overflow-hidden bg-transparent text-inherit outline-none [font:inherit] px-[var(--hn-textarea-px)] py-[calc((var(--hn-textarea-h)_-_1lh)/2_-_var(--hn-textarea-border-w,1px))] placeholder:text-faint placeholder:font-normal disabled:cursor-not-allowed\">",
+    "          \"审核期间不能修改简介。\"",
+    "        <!--]-->",
+    "    <!---->"
+  ],
+  "class": [
+    "<div data-hn-textarea=\"\" style=\"--hn-textarea-rows:3;\" class=\"text-fg flex min-w-0 cursor-text flex-col overflow-hidden rounded-md border font-medium data-disabled:cursor-not-allowed data-disabled:opacity-50 hn-field border-line [--hn-field-bg:var(--hn-surface)] [--hn-field-shadow:var(--hn-shadow-sm)] text-base [--hn-textarea-h:var(--hn-control-h-md)] [--hn-textarea-px:var(--hn-control-px-md)] h-[calc((var(--hn-textarea-rows)_-_1)_*_1lh_+_var(--hn-textarea-h))] resize-y w-full max-w-md\">",
+    "  <div class=\"hn-scroll-area relative grid grid-cols-1 grid-rows-1 overflow-hidden min-h-0 grow\">",
+    "    <div data-overlayscrollbars-initialize=\"\" class=\"min-h-0 w-full\">",
+    "      <div data-overlayscrollbars-contents=\"\">",
+    "        <!--[-->",
+    "        <textarea rows=\"3\" class=\"block w-full resize-none overflow-hidden bg-transparent text-inherit outline-none [font:inherit] px-[var(--hn-textarea-px)] py-[calc((var(--hn-textarea-h)_-_1lh)/2_-_var(--hn-textarea-border-w,1px))] placeholder:text-faint placeholder:font-normal disabled:cursor-not-allowed\">",
+    "        <!--]-->",
+    "    <!---->"
+  ]
+}

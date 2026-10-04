@@ -1,0 +1,14 @@
+{
+  "default": [
+    "<mark class=\"hn-mark\">",
+    "  <!--[-->",
+    "  \"香辛料\"",
+    "  <!--]-->"
+  ],
+  "class and attributes": [
+    "<mark class=\"hn-mark font-medium\" data-hit=\"1\">",
+    "  <!--[-->",
+    "  \"命中词\"",
+    "  <!--]-->"
+  ]
+}

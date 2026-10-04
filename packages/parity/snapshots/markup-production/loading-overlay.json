@@ -1,0 +1,98 @@
+{
+  "hidden renders nothing": [
+    "<div class=\"relative h-40\">",
+    "  <!--[-->",
+    "  <!---->",
+    "  <!---->",
+    "  <!--]-->"
+  ],
+  "visible inside the delay renders only the blocker": [
+    "<div class=\"relative h-40\">",
+    "  <!--[-->",
+    "  <div data-hn-loading-blocker=\"\" aria-hidden=\"true\" class=\"absolute inset-0 z-10\">",
+    "  <!---->",
+    "  <!--]-->"
+  ],
+  "fixed blocker": [
+    "<div class=\"relative h-40\">",
+    "  <!--[-->",
+    "  <div data-hn-loading-blocker=\"\" aria-hidden=\"true\" class=\"fixed inset-0 z-(--hn-z-overlay)\">",
+    "  <!---->",
+    "  <!--]-->"
+  ],
+  "zero delay shows the overlay with the default spinner": [
+    "<div class=\"relative h-40\">",
+    "  <!--[-->",
+    "  <!---->",
+    "  <div data-hn-loading-overlay=\"\" class=\"bg-veil flex flex-col items-center justify-center gap-3 absolute inset-0 z-10\">",
+    "    <!--[-->",
+    "    <span role=\"status\" aria-label=\"加载中\" class=\"inline-block shrink-0 rounded-full border-current border-e-transparent align-[-0.125em] size-4 border-2\" style=\"animation:hn-spin var(--hn-spin-duration) var(--hn-ease-linear) infinite;\">",
+    "    <!---->",
+    "    <!--]-->",
+    "  <!--]-->"
+  ],
+  "text, size sm and class": [
+    "<div class=\"relative h-40\">",
+    "  <!--[-->",
+    "  <!---->",
+    "  <div data-hn-loading-overlay=\"\" class=\"bg-veil flex flex-col items-center justify-center gap-3 absolute inset-0 z-10 rounded-lg\">",
+    "    <!--[-->",
+    "    <span role=\"status\" aria-label=\"正在保存\" class=\"inline-block shrink-0 rounded-full border-current border-e-transparent align-[-0.125em] size-3.5 border-[1.5px]\" style=\"animation:hn-spin var(--hn-spin-duration) var(--hn-ease-linear) infinite;\">",
+    "    <p class=\"text-sm text-muted font-normal\" aria-hidden=\"true\">",
+    "      <!--[-->",
+    "      \"正在保存\"",
+    "      <!--]-->",
+    "    <!--]-->",
+    "  <!--]-->"
+  ],
+  "text, size md and class": [
+    "<div class=\"relative h-40\">",
+    "  <!--[-->",
+    "  <!---->",
+    "  <div data-hn-loading-overlay=\"\" class=\"bg-veil flex flex-col items-center justify-center gap-3 absolute inset-0 z-10 rounded-lg\">",
+    "    <!--[-->",
+    "    <span role=\"status\" aria-label=\"正在保存\" class=\"inline-block shrink-0 rounded-full border-current border-e-transparent align-[-0.125em] size-4 border-2\" style=\"animation:hn-spin var(--hn-spin-duration) var(--hn-ease-linear) infinite;\">",
+    "    <p class=\"text-sm text-muted font-normal\" aria-hidden=\"true\">",
+    "      <!--[-->",
+    "      \"正在保存\"",
+    "      <!--]-->",
+    "    <!--]-->",
+    "  <!--]-->"
+  ],
+  "text, size lg and class": [
+    "<div class=\"relative h-40\">",
+    "  <!--[-->",
+    "  <!---->",
+    "  <div data-hn-loading-overlay=\"\" class=\"bg-veil flex flex-col items-center justify-center gap-3 absolute inset-0 z-10 rounded-lg\">",
+    "    <!--[-->",
+    "    <span role=\"status\" aria-label=\"正在保存\" class=\"inline-block shrink-0 rounded-full border-current border-e-transparent align-[-0.125em] size-5 border-2\" style=\"animation:hn-spin var(--hn-spin-duration) var(--hn-ease-linear) infinite;\">",
+    "    <p class=\"text-sm text-muted font-normal\" aria-hidden=\"true\">",
+    "      <!--[-->",
+    "      \"正在保存\"",
+    "      <!--]-->",
+    "    <!--]-->",
+    "  <!--]-->"
+  ],
+  "fixed overlay": [
+    "<div class=\"relative h-40\">",
+    "  <!--[-->",
+    "  <!---->",
+    "  <div data-hn-loading-overlay=\"\" class=\"bg-veil flex flex-col items-center justify-center gap-3 fixed inset-0 z-(--hn-z-overlay)\">",
+    "    <!--[-->",
+    "    <span role=\"status\" aria-label=\"加载中\" class=\"inline-block shrink-0 rounded-full border-current border-e-transparent align-[-0.125em] size-4 border-2\" style=\"animation:hn-spin var(--hn-spin-duration) var(--hn-ease-linear) infinite;\">",
+    "    <!---->",
+    "    <!--]-->",
+    "  <!--]-->"
+  ],
+  "default slot replaces the spinner and text": [
+    "<div class=\"relative h-40\">",
+    "  <!--[-->",
+    "  <!---->",
+    "  <div data-hn-loading-overlay=\"\" class=\"bg-veil flex flex-col items-center justify-center gap-3 absolute inset-0 z-10\">",
+    "    <!--[-->",
+    "    <span data-custom=\"\">",
+    "      \"整理中\"",
+    "    <!--]-->",
+    "  <!--]-->"
+  ]
+}

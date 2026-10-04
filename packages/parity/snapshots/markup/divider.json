@@ -1,0 +1,58 @@
+{
+  "default horizontal separator": [
+    "<div data-orientation=\"horizontal\" role=\"separator\" class=\"bg-line h-px w-full\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "vertical": [
+    "<div data-orientation=\"vertical\" aria-orientation=\"vertical\" role=\"separator\" class=\"bg-line w-px self-stretch\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "decorative": [
+    "<div data-orientation=\"horizontal\" role=\"none\" class=\"bg-line h-px w-full\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "vertical decorative short line": [
+    "<div data-orientation=\"vertical\" role=\"none\" class=\"bg-line w-px h-6 self-center\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "label": [
+    "<div class=\"flex w-full items-center gap-3\">",
+    "  <div data-orientation=\"horizontal\" role=\"none\" class=\"bg-line h-px flex-1\">",
+    "    <!--[-->",
+    "    <!--]-->",
+    "  <span class=\"text-faint shrink-0 text-sm\">",
+    "    <!--[-->",
+    "    \"第三卷\"",
+    "    <!--]-->",
+    "  <div data-orientation=\"horizontal\" role=\"none\" class=\"bg-line h-px flex-1\">",
+    "    <!--[-->",
+    "    <!--]-->"
+  ],
+  "label with class and attributes": [
+    "<div class=\"flex w-full items-center gap-3 my-4\" id=\"or\">",
+    "  <div data-orientation=\"horizontal\" role=\"none\" class=\"bg-line h-px flex-1\">",
+    "    <!--[-->",
+    "    <!--]-->",
+    "  <span class=\"text-faint shrink-0 text-sm\">",
+    "    <!--[-->",
+    "    \"或者\"",
+    "    <!--]-->",
+    "  <div data-orientation=\"horizontal\" role=\"none\" class=\"bg-line h-px flex-1\">",
+    "    <!--[-->",
+    "    <!--]-->"
+  ],
+  "vertical ignores the label slot": [
+    "<div data-orientation=\"vertical\" aria-orientation=\"vertical\" role=\"separator\" class=\"bg-line w-px self-stretch\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "attributes reach the separator": [
+    "<div data-orientation=\"horizontal\" role=\"separator\" class=\"bg-line h-px w-full my-2\" aria-label=\"Chapter break\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ]
+}

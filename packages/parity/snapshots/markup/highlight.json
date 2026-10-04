@@ -1,0 +1,20 @@
+{
+  "default": [
+    "<div aria-hidden=\"true\" data-hn-highlight=\"\" class=\"pointer-events-none\">"
+  ],
+  "as li with axis x": [
+    "<li aria-hidden=\"true\" data-hn-highlight=\"\" class=\"pointer-events-none absolute inset-0\">"
+  ],
+  "as li with axis y": [
+    "<li aria-hidden=\"true\" data-hn-highlight=\"\" class=\"pointer-events-none absolute inset-0\">"
+  ],
+  "as li with axis both": [
+    "<li aria-hidden=\"true\" data-hn-highlight=\"\" class=\"pointer-events-none absolute inset-0\">"
+  ],
+  "shared layout id is not an attribute": [
+    "<div aria-hidden=\"true\" data-hn-highlight=\"\" class=\"pointer-events-none bg-surface absolute inset-0 -z-10 rounded-md shadow-sm\">"
+  ],
+  "style falls through": [
+    "<div aria-hidden=\"true\" data-hn-highlight=\"\" class=\"pointer-events-none bg-accent-soft col-start-1 -z-10 rounded-md\" style=\"grid-row:2 / 4;\">"
+  ]
+}

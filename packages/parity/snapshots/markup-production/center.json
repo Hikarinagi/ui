@@ -1,0 +1,20 @@
+{
+  "default block flex": [
+    "<div class=\"flex items-center justify-center\">",
+    "  <!--[-->",
+    "  <p>",
+    "    \"居中内容\"",
+    "  <!--]-->"
+  ],
+  "inline": [
+    "<div class=\"inline-flex items-center justify-center gap-1\">",
+    "  <!--[-->",
+    "  \"Link\"",
+    "  <!--]-->"
+  ],
+  "as figure with attributes": [
+    "<figure class=\"flex items-center justify-center h-32\" aria-label=\"Figure\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ]
+}

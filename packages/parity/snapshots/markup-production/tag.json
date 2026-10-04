@@ -1,0 +1,159 @@
+{
+  "default": [
+    "<span class=\"inline-flex shrink-0 items-center gap-1 rounded-sm border border-transparent font-medium whitespace-nowrap select-none h-5 px-1.5 text-xs [&_svg]:size-3 bg-subtle text-fg\">",
+    "  <!--[-->",
+    "  \"科幻\"",
+    "  <!--]-->"
+  ],
+  "soft neutral": [
+    "<span class=\"inline-flex shrink-0 items-center gap-1 rounded-sm border border-transparent font-medium whitespace-nowrap select-none h-5 px-1.5 text-xs [&_svg]:size-3 bg-subtle text-fg\">",
+    "  <!--[-->",
+    "  \"标签\"",
+    "  <!--]-->"
+  ],
+  "soft accent": [
+    "<span class=\"inline-flex shrink-0 items-center gap-1 rounded-sm border border-transparent font-medium whitespace-nowrap select-none h-5 px-1.5 text-xs [&_svg]:size-3 bg-accent-soft text-accent-text\">",
+    "  <!--[-->",
+    "  \"标签\"",
+    "  <!--]-->"
+  ],
+  "soft success": [
+    "<span class=\"inline-flex shrink-0 items-center gap-1 rounded-sm border border-transparent font-medium whitespace-nowrap select-none h-5 px-1.5 text-xs [&_svg]:size-3 bg-success-soft text-success-text\">",
+    "  <!--[-->",
+    "  \"标签\"",
+    "  <!--]-->"
+  ],
+  "soft warning": [
+    "<span class=\"inline-flex shrink-0 items-center gap-1 rounded-sm border border-transparent font-medium whitespace-nowrap select-none h-5 px-1.5 text-xs [&_svg]:size-3 bg-warning-soft text-warning-text\">",
+    "  <!--[-->",
+    "  \"标签\"",
+    "  <!--]-->"
+  ],
+  "soft danger": [
+    "<span class=\"inline-flex shrink-0 items-center gap-1 rounded-sm border border-transparent font-medium whitespace-nowrap select-none h-5 px-1.5 text-xs [&_svg]:size-3 bg-danger-soft text-danger-text\">",
+    "  <!--[-->",
+    "  \"标签\"",
+    "  <!--]-->"
+  ],
+  "soft info": [
+    "<span class=\"inline-flex shrink-0 items-center gap-1 rounded-sm border border-transparent font-medium whitespace-nowrap select-none h-5 px-1.5 text-xs [&_svg]:size-3 bg-info-soft text-info-text\">",
+    "  <!--[-->",
+    "  \"标签\"",
+    "  <!--]-->"
+  ],
+  "solid neutral": [
+    "<span class=\"inline-flex shrink-0 items-center gap-1 rounded-sm border border-transparent font-medium whitespace-nowrap select-none h-5 px-1.5 text-xs [&_svg]:size-3 bg-neutral-solid text-neutral-solid-on\">",
+    "  <!--[-->",
+    "  \"标签\"",
+    "  <!--]-->"
+  ],
+  "solid accent": [
+    "<span class=\"inline-flex shrink-0 items-center gap-1 rounded-sm border border-transparent font-medium whitespace-nowrap select-none h-5 px-1.5 text-xs [&_svg]:size-3 bg-accent text-accent-on\">",
+    "  <!--[-->",
+    "  \"标签\"",
+    "  <!--]-->"
+  ],
+  "solid success": [
+    "<span class=\"inline-flex shrink-0 items-center gap-1 rounded-sm border border-transparent font-medium whitespace-nowrap select-none h-5 px-1.5 text-xs [&_svg]:size-3 bg-success text-success-on\">",
+    "  <!--[-->",
+    "  \"标签\"",
+    "  <!--]-->"
+  ],
+  "solid warning": [
+    "<span class=\"inline-flex shrink-0 items-center gap-1 rounded-sm border border-transparent font-medium whitespace-nowrap select-none h-5 px-1.5 text-xs [&_svg]:size-3 bg-warning text-warning-on\">",
+    "  <!--[-->",
+    "  \"标签\"",
+    "  <!--]-->"
+  ],
+  "solid danger": [
+    "<span class=\"inline-flex shrink-0 items-center gap-1 rounded-sm border border-transparent font-medium whitespace-nowrap select-none h-5 px-1.5 text-xs [&_svg]:size-3 bg-danger text-danger-on\">",
+    "  <!--[-->",
+    "  \"标签\"",
+    "  <!--]-->"
+  ],
+  "solid info": [
+    "<span class=\"inline-flex shrink-0 items-center gap-1 rounded-sm border border-transparent font-medium whitespace-nowrap select-none h-5 px-1.5 text-xs [&_svg]:size-3 bg-info text-info-on\">",
+    "  <!--[-->",
+    "  \"标签\"",
+    "  <!--]-->"
+  ],
+  "outline neutral": [
+    "<span class=\"inline-flex shrink-0 items-center gap-1 rounded-sm border font-medium whitespace-nowrap select-none border-line h-5 px-1.5 text-xs [&_svg]:size-3 text-muted\">",
+    "  <!--[-->",
+    "  \"标签\"",
+    "  <!--]-->"
+  ],
+  "outline accent": [
+    "<span class=\"inline-flex shrink-0 items-center gap-1 rounded-sm border font-medium whitespace-nowrap select-none border-line h-5 px-1.5 text-xs [&_svg]:size-3 text-accent-text\">",
+    "  <!--[-->",
+    "  \"标签\"",
+    "  <!--]-->"
+  ],
+  "outline success": [
+    "<span class=\"inline-flex shrink-0 items-center gap-1 rounded-sm border font-medium whitespace-nowrap select-none border-line h-5 px-1.5 text-xs [&_svg]:size-3 text-success-text\">",
+    "  <!--[-->",
+    "  \"标签\"",
+    "  <!--]-->"
+  ],
+  "outline warning": [
+    "<span class=\"inline-flex shrink-0 items-center gap-1 rounded-sm border font-medium whitespace-nowrap select-none border-line h-5 px-1.5 text-xs [&_svg]:size-3 text-warning-text\">",
+    "  <!--[-->",
+    "  \"标签\"",
+    "  <!--]-->"
+  ],
+  "outline danger": [
+    "<span class=\"inline-flex shrink-0 items-center gap-1 rounded-sm border font-medium whitespace-nowrap select-none border-line h-5 px-1.5 text-xs [&_svg]:size-3 text-danger-text\">",
+    "  <!--[-->",
+    "  \"标签\"",
+    "  <!--]-->"
+  ],
+  "outline info": [
+    "<span class=\"inline-flex shrink-0 items-center gap-1 rounded-sm border font-medium whitespace-nowrap select-none border-line h-5 px-1.5 text-xs [&_svg]:size-3 text-info-text\">",
+    "  <!--[-->",
+    "  \"标签\"",
+    "  <!--]-->"
+  ],
+  "size md": [
+    "<span class=\"inline-flex shrink-0 items-center gap-1 rounded-sm border border-transparent font-medium whitespace-nowrap select-none h-6 px-2 text-sm [&_svg]:size-3.5 bg-subtle text-fg\">",
+    "  <!--[-->",
+    "  \"标签\"",
+    "  <!--]-->"
+  ],
+  "pill solid accent": [
+    "<span class=\"inline-flex shrink-0 items-center gap-1 border border-transparent font-medium whitespace-nowrap select-none h-5 px-1.5 text-xs [&_svg]:size-3 rounded-full bg-accent text-accent-on\">",
+    "  <!--[-->",
+    "  \"胶囊\"",
+    "  <!--]-->"
+  ],
+  "as li": [
+    "<ul>",
+    "  <li class=\"inline-flex shrink-0 items-center gap-1 rounded-sm border border-transparent font-medium whitespace-nowrap select-none h-5 px-1.5 text-xs [&_svg]:size-3 bg-subtle text-fg\">",
+    "    <!--[-->",
+    "    \"科幻\"",
+    "    <!--]-->",
+    "  <li class=\"inline-flex shrink-0 items-center gap-1 rounded-sm border border-transparent font-medium whitespace-nowrap select-none h-5 px-1.5 text-xs [&_svg]:size-3 bg-subtle text-fg\">",
+    "    <!--[-->",
+    "    \"悬疑\"",
+    "    <!--]-->"
+  ],
+  "icon and text": [
+    "<span class=\"inline-flex shrink-0 items-center gap-1 rounded-sm border border-transparent font-medium whitespace-nowrap select-none h-5 px-1.5 text-xs [&_svg]:size-3 bg-success-soft text-success-text\">",
+    "  <!--[-->",
+    "  <svg data-icon=\"\">",
+    "  \"已通过\"",
+    "  <!--]-->"
+  ],
+  "truncating content with class merge": [
+    "<span class=\"inline-flex shrink-0 items-center gap-1 rounded-sm border border-transparent font-medium whitespace-nowrap select-none h-5 px-1.5 text-xs [&_svg]:size-3 bg-accent-soft text-accent-text max-w-40\">",
+    "  <!--[-->",
+    "  <span class=\"text-base text-fg font-normal truncate\">",
+    "    <!--[-->",
+    "    \"很长很长的标签名称\"",
+    "    <!--]-->",
+    "  <!--]-->"
+  ],
+  "as child": [
+    "<a class=\"inline-flex shrink-0 items-center gap-1 rounded-sm border border-transparent font-medium whitespace-nowrap select-none h-5 px-1.5 text-xs [&_svg]:size-3 bg-info-soft text-info-text\" href=\"/tags/x\">",
+    "  \"X\""
+  ]
+}

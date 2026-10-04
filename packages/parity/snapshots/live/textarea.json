@@ -1,0 +1,36 @@
+{
+  "initial markup with a value": [
+    "<html-root style=\"\">",
+    "<body-root>",
+    "<div id=\"parity-host\" data-v-app=\"\">",
+    "  <div data-hn-textarea=\"\" class=\"text-fg flex w-full min-w-0 cursor-text flex-col overflow-hidden rounded-md border font-medium data-disabled:cursor-not-allowed data-disabled:opacity-50 hn-field border-line [--hn-field-bg:var(--hn-surface)] [--hn-field-shadow:var(--hn-shadow-sm)] text-base [--hn-textarea-h:var(--hn-control-h-md)] [--hn-textarea-px:var(--hn-control-px-md)] h-[calc((var(--hn-textarea-rows)_-_1)_*_1lh_+_var(--hn-textarea-h))] resize-y\" style=\"--hn-textarea-rows: 2;\">",
+    "    <div class=\"hn-scroll-area relative grid grid-cols-1 grid-rows-1 overflow-hidden min-h-0 grow\">",
+    "      <div data-overlayscrollbars-initialize=\"\" class=\"min-h-0 w-full\" data-overlayscrollbars=\"host\">",
+    "        <div data-overlayscrollbars-contents=\"\" data-overlayscrollbars-viewport=\"scrollbarHidden overflowXHidden overflowYScroll\" tabindex=\"-1\" style=\"margin-right: 0px; margin-bottom: 0px; margin-left: 0px; top: 0px; right: auto; left: 0px; width: calc(100% + 0px); padding: 0px;\">",
+    "          <textarea aria-label=\"简介\" rows=\"2\" class=\"block w-full resize-none overflow-hidden bg-transparent text-inherit outline-none [font:inherit] px-[var(--hn-textarea-px)] py-[calc((var(--hn-textarea-h)_-_1lh)/2_-_var(--hn-textarea-border-w,1px))] placeholder:text-faint placeholder:font-normal disabled:cursor-not-allowed\" style=\"height: 106px;\">",
+    "        <div class=\"os-scrollbar os-scrollbar-auto-hide os-scrollbar-cornerless os-scrollbar-handle-interactive os-scrollbar-horizontal os-scrollbar-unusable os-theme-dark\" style=\"--os-viewport-percent: 1; --os-scroll-direction: 0;\">",
+    "          <div class=\"os-scrollbar-track\">",
+    "            <div class=\"os-scrollbar-handle\">",
+    "        <div class=\"os-scrollbar os-scrollbar-auto-hide os-scrollbar-cornerless os-scrollbar-handle-interactive os-scrollbar-vertical os-scrollbar-visible os-theme-dark\" style=\"--os-viewport-percent: 0.5472; --os-scroll-direction: 0;\">",
+    "          <div class=\"os-scrollbar-track\">",
+    "            <div class=\"os-scrollbar-handle\">",
+    "      <!--v-if-->"
+  ],
+  "autosize grows while typing": [
+    "<html-root style=\"\">",
+    "<body-root>",
+    "<div id=\"parity-host\" data-v-app=\"\">",
+    "  <div data-hn-textarea=\"\" class=\"text-fg flex w-full min-w-0 cursor-text flex-col overflow-hidden rounded-md border font-medium data-disabled:cursor-not-allowed data-disabled:opacity-50 hn-field border-line [--hn-field-bg:var(--hn-surface)] [--hn-field-shadow:var(--hn-shadow-sm)] text-base [--hn-textarea-h:var(--hn-control-h-md)] [--hn-textarea-px:var(--hn-control-px-md)] min-h-[calc((var(--hn-textarea-rows)_-_1)_*_1lh_+_var(--hn-textarea-h))] max-h-[calc((var(--hn-textarea-max-rows)_-_1)_*_1lh_+_var(--hn-textarea-h))] resize-none\" style=\"--hn-textarea-rows: 2; --hn-textarea-max-rows: 4;\">",
+    "    <div class=\"hn-scroll-area relative grid grid-cols-1 grid-rows-1 overflow-hidden min-h-0 grow\">",
+    "      <div data-overlayscrollbars-initialize=\"\" class=\"min-h-0 w-full\" data-overlayscrollbars=\"host\">",
+    "        <div data-overlayscrollbars-contents=\"\" data-overlayscrollbars-viewport=\"scrollbarHidden overflowXHidden overflowYHidden\" tabindex=\"-1\" style=\"margin-right: 0px; margin-bottom: 0px; margin-left: 0px; top: 0px; right: auto; left: 0px; width: calc(100% + 0px); padding: 0px;\">",
+    "          <textarea aria-label=\"简介\" rows=\"2\" class=\"block w-full resize-none overflow-hidden bg-transparent text-inherit outline-none [font:inherit] px-[var(--hn-textarea-px)] py-[calc((var(--hn-textarea-h)_-_1lh)/2_-_var(--hn-textarea-border-w,1px))] placeholder:text-faint placeholder:font-normal disabled:cursor-not-allowed\" style=\"height: 82px;\">",
+    "        <div class=\"os-scrollbar os-scrollbar-auto-hide os-scrollbar-cornerless os-scrollbar-handle-interactive os-scrollbar-horizontal os-scrollbar-unusable os-theme-dark\" style=\"--os-viewport-percent: 1; --os-scroll-direction: 0;\">",
+    "          <div class=\"os-scrollbar-track\">",
+    "            <div class=\"os-scrollbar-handle\">",
+    "        <div class=\"os-scrollbar os-scrollbar-auto-hide os-scrollbar-cornerless os-scrollbar-handle-interactive os-scrollbar-unusable os-scrollbar-vertical os-theme-dark\" style=\"--os-viewport-percent: 1; --os-scroll-direction: 0;\">",
+    "          <div class=\"os-scrollbar-track\">",
+    "            <div class=\"os-scrollbar-handle\">",
+    "      <!--v-if-->"
+  ]
+}

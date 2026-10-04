@@ -1,0 +1,662 @@
+{
+  "ArrowDown": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-arrow-down-icon lucide-arrow-down\">",
+    "  <path d=\"M12 5v14\">",
+    "  <path d=\"m19 12-7 7-7-7\">"
+  ],
+  "ArrowDown with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-arrow-down-icon lucide-arrow-down shrink-0\" aria-label=\"ArrowDown\">",
+    "  <path d=\"M12 5v14\">",
+    "  <path d=\"m19 12-7 7-7-7\">"
+  ],
+  "ArrowLeft": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-arrow-left-icon lucide-arrow-left\">",
+    "  <path d=\"m12 19-7-7 7-7\">",
+    "  <path d=\"M19 12H5\">"
+  ],
+  "ArrowLeft with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-arrow-left-icon lucide-arrow-left shrink-0\" aria-label=\"ArrowLeft\">",
+    "  <path d=\"m12 19-7-7 7-7\">",
+    "  <path d=\"M19 12H5\">"
+  ],
+  "ArrowRight": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-arrow-right-icon lucide-arrow-right\">",
+    "  <path d=\"M5 12h14\">",
+    "  <path d=\"m12 5 7 7-7 7\">"
+  ],
+  "ArrowRight with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-arrow-right-icon lucide-arrow-right shrink-0\" aria-label=\"ArrowRight\">",
+    "  <path d=\"M5 12h14\">",
+    "  <path d=\"m12 5 7 7-7 7\">"
+  ],
+  "ArrowUp": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-arrow-up-icon lucide-arrow-up\">",
+    "  <path d=\"m5 12 7-7 7 7\">",
+    "  <path d=\"M12 19V5\">"
+  ],
+  "ArrowUp with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-arrow-up-icon lucide-arrow-up shrink-0\" aria-label=\"ArrowUp\">",
+    "  <path d=\"m5 12 7-7 7 7\">",
+    "  <path d=\"M12 19V5\">"
+  ],
+  "ArrowUpRight": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-arrow-up-right-icon lucide-arrow-up-right\">",
+    "  <path d=\"M7 7h10v10\">",
+    "  <path d=\"M7 17 17 7\">"
+  ],
+  "ArrowUpRight with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-arrow-up-right-icon lucide-arrow-up-right shrink-0\" aria-label=\"ArrowUpRight\">",
+    "  <path d=\"M7 7h10v10\">",
+    "  <path d=\"M7 17 17 7\">"
+  ],
+  "BookOpen": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-book-open-icon lucide-book-open\">",
+    "  <path d=\"M12 5v16\">",
+    "  <path d=\"M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z\">"
+  ],
+  "BookOpen with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-book-open-icon lucide-book-open shrink-0\" aria-label=\"BookOpen\">",
+    "  <path d=\"M12 5v16\">",
+    "  <path d=\"M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z\">"
+  ],
+  "CalendarClock": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-calendar-clock-icon lucide-calendar-clock\">",
+    "  <path d=\"M16 14v2.2l1.6 1\">",
+    "  <path d=\"M16 2v3\">",
+    "  <path d=\"M21 7.338V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h2.338\">",
+    "  <path d=\"M3 9h5.859\">",
+    "  <path d=\"M8 2v3\">",
+    "  <circle cx=\"16\" cy=\"16\" r=\"6\">"
+  ],
+  "CalendarClock with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-calendar-clock-icon lucide-calendar-clock shrink-0\" aria-label=\"CalendarClock\">",
+    "  <path d=\"M16 14v2.2l1.6 1\">",
+    "  <path d=\"M16 2v3\">",
+    "  <path d=\"M21 7.338V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h2.338\">",
+    "  <path d=\"M3 9h5.859\">",
+    "  <path d=\"M8 2v3\">",
+    "  <circle cx=\"16\" cy=\"16\" r=\"6\">"
+  ],
+  "CalendarDays": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-calendar-days-icon lucide-calendar-days\">",
+    "  <path d=\"M8 2v3\">",
+    "  <path d=\"M16 2v3\">",
+    "  <rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\">",
+    "  <path d=\"M3 9h18\">",
+    "  <path d=\"M8 13h.01\">",
+    "  <path d=\"M12 13h.01\">",
+    "  <path d=\"M16 13h.01\">",
+    "  <path d=\"M8 17h.01\">",
+    "  <path d=\"M12 17h.01\">",
+    "  <path d=\"M16 17h.01\">"
+  ],
+  "CalendarDays with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-calendar-days-icon lucide-calendar-days shrink-0\" aria-label=\"CalendarDays\">",
+    "  <path d=\"M8 2v3\">",
+    "  <path d=\"M16 2v3\">",
+    "  <rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\">",
+    "  <path d=\"M3 9h18\">",
+    "  <path d=\"M8 13h.01\">",
+    "  <path d=\"M12 13h.01\">",
+    "  <path d=\"M16 13h.01\">",
+    "  <path d=\"M8 17h.01\">",
+    "  <path d=\"M12 17h.01\">",
+    "  <path d=\"M16 17h.01\">"
+  ],
+  "CalendarRange": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-calendar-range-icon lucide-calendar-range\">",
+    "  <rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\">",
+    "  <path d=\"M16 2v3\">",
+    "  <path d=\"M3 9h18\">",
+    "  <path d=\"M8 2v3\">",
+    "  <path d=\"M17 13h-6\">",
+    "  <path d=\"M13 17H7\">",
+    "  <path d=\"M7 13h.01\">",
+    "  <path d=\"M17 17h.01\">"
+  ],
+  "CalendarRange with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-calendar-range-icon lucide-calendar-range shrink-0\" aria-label=\"CalendarRange\">",
+    "  <rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\">",
+    "  <path d=\"M16 2v3\">",
+    "  <path d=\"M3 9h18\">",
+    "  <path d=\"M8 2v3\">",
+    "  <path d=\"M17 13h-6\">",
+    "  <path d=\"M13 17H7\">",
+    "  <path d=\"M7 13h.01\">",
+    "  <path d=\"M17 17h.01\">"
+  ],
+  "Check": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-check-icon lucide-check\">",
+    "  <path d=\"M20 6 9 17l-5-5\">"
+  ],
+  "Check with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-check-icon lucide-check shrink-0\" aria-label=\"Check\">",
+    "  <path d=\"M20 6 9 17l-5-5\">"
+  ],
+  "ChevronDown": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-chevron-down-icon lucide-chevron-down\">",
+    "  <path d=\"m6 9 6 6 6-6\">"
+  ],
+  "ChevronDown with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-chevron-down-icon lucide-chevron-down shrink-0\" aria-label=\"ChevronDown\">",
+    "  <path d=\"m6 9 6 6 6-6\">"
+  ],
+  "ChevronLeft": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-chevron-left-icon lucide-chevron-left\">",
+    "  <path d=\"m15 18-6-6 6-6\">"
+  ],
+  "ChevronLeft with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-chevron-left-icon lucide-chevron-left shrink-0\" aria-label=\"ChevronLeft\">",
+    "  <path d=\"m15 18-6-6 6-6\">"
+  ],
+  "ChevronRight": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-chevron-right-icon lucide-chevron-right\">",
+    "  <path d=\"m9 18 6-6-6-6\">"
+  ],
+  "ChevronRight with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-chevron-right-icon lucide-chevron-right shrink-0\" aria-label=\"ChevronRight\">",
+    "  <path d=\"m9 18 6-6-6-6\">"
+  ],
+  "ChevronsLeft": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-chevrons-left-icon lucide-chevrons-left\">",
+    "  <path d=\"m11 17-5-5 5-5\">",
+    "  <path d=\"m18 17-5-5 5-5\">"
+  ],
+  "ChevronsLeft with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-chevrons-left-icon lucide-chevrons-left shrink-0\" aria-label=\"ChevronsLeft\">",
+    "  <path d=\"m11 17-5-5 5-5\">",
+    "  <path d=\"m18 17-5-5 5-5\">"
+  ],
+  "ChevronsRight": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-chevrons-right-icon lucide-chevrons-right\">",
+    "  <path d=\"m6 17 5-5-5-5\">",
+    "  <path d=\"m13 17 5-5-5-5\">"
+  ],
+  "ChevronsRight with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-chevrons-right-icon lucide-chevrons-right shrink-0\" aria-label=\"ChevronsRight\">",
+    "  <path d=\"m6 17 5-5-5-5\">",
+    "  <path d=\"m13 17 5-5-5-5\">"
+  ],
+  "ChevronsUpDown": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-chevrons-up-down-icon lucide-chevrons-up-down\">",
+    "  <path d=\"m7 15 5 5 5-5\">",
+    "  <path d=\"m7 9 5-5 5 5\">"
+  ],
+  "ChevronsUpDown with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-chevrons-up-down-icon lucide-chevrons-up-down shrink-0\" aria-label=\"ChevronsUpDown\">",
+    "  <path d=\"m7 15 5 5 5-5\">",
+    "  <path d=\"m7 9 5-5 5 5\">"
+  ],
+  "ChevronUp": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-chevron-up-icon lucide-chevron-up\">",
+    "  <path d=\"m18 15-6-6-6 6\">"
+  ],
+  "ChevronUp with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-chevron-up-icon lucide-chevron-up shrink-0\" aria-label=\"ChevronUp\">",
+    "  <path d=\"m18 15-6-6-6 6\">"
+  ],
+  "CircleAlert": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-circle-alert-icon lucide-circle-alert\">",
+    "  <circle cx=\"12\" cy=\"12\" r=\"10\">",
+    "  <line x1=\"12\" x2=\"12\" y1=\"8\" y2=\"12\">",
+    "  <line x1=\"12\" x2=\"12.01\" y1=\"16\" y2=\"16\">"
+  ],
+  "CircleAlert with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-circle-alert-icon lucide-circle-alert shrink-0\" aria-label=\"CircleAlert\">",
+    "  <circle cx=\"12\" cy=\"12\" r=\"10\">",
+    "  <line x1=\"12\" x2=\"12\" y1=\"8\" y2=\"12\">",
+    "  <line x1=\"12\" x2=\"12.01\" y1=\"16\" y2=\"16\">"
+  ],
+  "CircleCheck": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-circle-check-icon lucide-circle-check\">",
+    "  <circle cx=\"12\" cy=\"12\" r=\"10\">",
+    "  <path d=\"m16 9-5.5 5.5L8 12\">"
+  ],
+  "CircleCheck with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-circle-check-icon lucide-circle-check shrink-0\" aria-label=\"CircleCheck\">",
+    "  <circle cx=\"12\" cy=\"12\" r=\"10\">",
+    "  <path d=\"m16 9-5.5 5.5L8 12\">"
+  ],
+  "CircleX": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-circle-x-icon lucide-circle-x\">",
+    "  <circle cx=\"12\" cy=\"12\" r=\"10\">",
+    "  <path d=\"m15 9-6 6\">",
+    "  <path d=\"m9 9 6 6\">"
+  ],
+  "CircleX with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-circle-x-icon lucide-circle-x shrink-0\" aria-label=\"CircleX\">",
+    "  <circle cx=\"12\" cy=\"12\" r=\"10\">",
+    "  <path d=\"m15 9-6 6\">",
+    "  <path d=\"m9 9 6 6\">"
+  ],
+  "Copy": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-copy-icon lucide-copy\">",
+    "  <rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\" ry=\"2\">",
+    "  <path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\">"
+  ],
+  "Copy with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-copy-icon lucide-copy shrink-0\" aria-label=\"Copy\">",
+    "  <rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\" ry=\"2\">",
+    "  <path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\">"
+  ],
+  "Download": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-download-icon lucide-download\">",
+    "  <path d=\"M12 15V3\">",
+    "  <path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\">",
+    "  <path d=\"m7 10 5 5 5-5\">"
+  ],
+  "Download with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-download-icon lucide-download shrink-0\" aria-label=\"Download\">",
+    "  <path d=\"M12 15V3\">",
+    "  <path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\">",
+    "  <path d=\"m7 10 5 5 5-5\">"
+  ],
+  "Eye": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-eye-icon lucide-eye\">",
+    "  <path d=\"M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0\">",
+    "  <circle cx=\"12\" cy=\"12\" r=\"3\">"
+  ],
+  "Eye with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-eye-icon lucide-eye shrink-0\" aria-label=\"Eye\">",
+    "  <path d=\"M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0\">",
+    "  <circle cx=\"12\" cy=\"12\" r=\"3\">"
+  ],
+  "EyeOff": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-eye-off-icon lucide-eye-off\">",
+    "  <path d=\"M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49\">",
+    "  <path d=\"M14.084 14.158a3 3 0 0 1-4.242-4.242\">",
+    "  <path d=\"M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143\">",
+    "  <path d=\"m2 2 20 20\">"
+  ],
+  "EyeOff with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-eye-off-icon lucide-eye-off shrink-0\" aria-label=\"EyeOff\">",
+    "  <path d=\"M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49\">",
+    "  <path d=\"M14.084 14.158a3 3 0 0 1-4.242-4.242\">",
+    "  <path d=\"M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143\">",
+    "  <path d=\"m2 2 20 20\">"
+  ],
+  "File": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-file-icon lucide-file\">",
+    "  <path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\">",
+    "  <path d=\"M14 2v5a1 1 0 0 0 1 1h5\">"
+  ],
+  "File with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-file-icon lucide-file shrink-0\" aria-label=\"File\">",
+    "  <path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\">",
+    "  <path d=\"M14 2v5a1 1 0 0 0 1 1h5\">"
+  ],
+  "FileIcon": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-file-icon lucide-file\">",
+    "  <path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\">",
+    "  <path d=\"M14 2v5a1 1 0 0 0 1 1h5\">"
+  ],
+  "FileIcon with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-file-icon lucide-file shrink-0\" aria-label=\"FileIcon\">",
+    "  <path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\">",
+    "  <path d=\"M14 2v5a1 1 0 0 0 1 1h5\">"
+  ],
+  "GripVertical": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-grip-vertical-icon lucide-grip-vertical\">",
+    "  <circle cx=\"9\" cy=\"12\" r=\"1\">",
+    "  <circle cx=\"9\" cy=\"5\" r=\"1\">",
+    "  <circle cx=\"9\" cy=\"19\" r=\"1\">",
+    "  <circle cx=\"15\" cy=\"12\" r=\"1\">",
+    "  <circle cx=\"15\" cy=\"5\" r=\"1\">",
+    "  <circle cx=\"15\" cy=\"19\" r=\"1\">"
+  ],
+  "GripVertical with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-grip-vertical-icon lucide-grip-vertical shrink-0\" aria-label=\"GripVertical\">",
+    "  <circle cx=\"9\" cy=\"12\" r=\"1\">",
+    "  <circle cx=\"9\" cy=\"5\" r=\"1\">",
+    "  <circle cx=\"9\" cy=\"19\" r=\"1\">",
+    "  <circle cx=\"15\" cy=\"12\" r=\"1\">",
+    "  <circle cx=\"15\" cy=\"5\" r=\"1\">",
+    "  <circle cx=\"15\" cy=\"19\" r=\"1\">"
+  ],
+  "House": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-house-icon lucide-house\">",
+    "  <path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\">",
+    "  <path d=\"M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\">"
+  ],
+  "House with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-house-icon lucide-house shrink-0\" aria-label=\"House\">",
+    "  <path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\">",
+    "  <path d=\"M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\">"
+  ],
+  "Inbox": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-inbox-icon lucide-inbox\">",
+    "  <polyline points=\"22 12 16 12 14 15 10 15 8 12 2 12\">",
+    "  <path d=\"M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z\">"
+  ],
+  "Inbox with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-inbox-icon lucide-inbox shrink-0\" aria-label=\"Inbox\">",
+    "  <polyline points=\"22 12 16 12 14 15 10 15 8 12 2 12\">",
+    "  <path d=\"M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z\">"
+  ],
+  "Info": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-info-icon lucide-info\">",
+    "  <circle cx=\"12\" cy=\"12\" r=\"10\">",
+    "  <path d=\"M12 16v-4\">",
+    "  <path d=\"M12 8h.01\">"
+  ],
+  "Info with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-info-icon lucide-info shrink-0\" aria-label=\"Info\">",
+    "  <circle cx=\"12\" cy=\"12\" r=\"10\">",
+    "  <path d=\"M12 16v-4\">",
+    "  <path d=\"M12 8h.01\">"
+  ],
+  "LayoutGrid": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-layout-grid-icon lucide-layout-grid\">",
+    "  <rect width=\"7\" height=\"7\" x=\"3\" y=\"3\" rx=\"1\">",
+    "  <rect width=\"7\" height=\"7\" x=\"14\" y=\"3\" rx=\"1\">",
+    "  <rect width=\"7\" height=\"7\" x=\"14\" y=\"14\" rx=\"1\">",
+    "  <rect width=\"7\" height=\"7\" x=\"3\" y=\"14\" rx=\"1\">"
+  ],
+  "LayoutGrid with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-layout-grid-icon lucide-layout-grid shrink-0\" aria-label=\"LayoutGrid\">",
+    "  <rect width=\"7\" height=\"7\" x=\"3\" y=\"3\" rx=\"1\">",
+    "  <rect width=\"7\" height=\"7\" x=\"14\" y=\"3\" rx=\"1\">",
+    "  <rect width=\"7\" height=\"7\" x=\"14\" y=\"14\" rx=\"1\">",
+    "  <rect width=\"7\" height=\"7\" x=\"3\" y=\"14\" rx=\"1\">"
+  ],
+  "Lightbulb": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-lightbulb-icon lucide-lightbulb\">",
+    "  <path d=\"M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5\">",
+    "  <path d=\"M9 18h6\">",
+    "  <path d=\"M10 22h4\">"
+  ],
+  "Lightbulb with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-lightbulb-icon lucide-lightbulb shrink-0\" aria-label=\"Lightbulb\">",
+    "  <path d=\"M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5\">",
+    "  <path d=\"M9 18h6\">",
+    "  <path d=\"M10 22h4\">"
+  ],
+  "List": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-list-icon lucide-list\">",
+    "  <path d=\"M3 5h.01\">",
+    "  <path d=\"M3 12h.01\">",
+    "  <path d=\"M3 19h.01\">",
+    "  <path d=\"M8 5h13\">",
+    "  <path d=\"M8 12h13\">",
+    "  <path d=\"M8 19h13\">"
+  ],
+  "List with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-list-icon lucide-list shrink-0\" aria-label=\"List\">",
+    "  <path d=\"M3 5h.01\">",
+    "  <path d=\"M3 12h.01\">",
+    "  <path d=\"M3 19h.01\">",
+    "  <path d=\"M8 5h13\">",
+    "  <path d=\"M8 12h13\">",
+    "  <path d=\"M8 19h13\">"
+  ],
+  "Mail": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-mail-icon lucide-mail\">",
+    "  <path d=\"m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7\">",
+    "  <rect x=\"2\" y=\"4\" width=\"20\" height=\"16\" rx=\"2\">"
+  ],
+  "Mail with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-mail-icon lucide-mail shrink-0\" aria-label=\"Mail\">",
+    "  <path d=\"m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7\">",
+    "  <rect x=\"2\" y=\"4\" width=\"20\" height=\"16\" rx=\"2\">"
+  ],
+  "Megaphone": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-megaphone-icon lucide-megaphone\">",
+    "  <path d=\"M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z\">",
+    "  <path d=\"M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14\">",
+    "  <path d=\"M8 6v8\">"
+  ],
+  "Megaphone with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-megaphone-icon lucide-megaphone shrink-0\" aria-label=\"Megaphone\">",
+    "  <path d=\"M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z\">",
+    "  <path d=\"M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14\">",
+    "  <path d=\"M8 6v8\">"
+  ],
+  "Minus": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-minus-icon lucide-minus\">",
+    "  <path d=\"M5 12h14\">"
+  ],
+  "Minus with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-minus-icon lucide-minus shrink-0\" aria-label=\"Minus\">",
+    "  <path d=\"M5 12h14\">"
+  ],
+  "MoreHorizontal": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-ellipsis-icon lucide-ellipsis\">",
+    "  <circle cx=\"12\" cy=\"12\" r=\"1\">",
+    "  <circle cx=\"19\" cy=\"12\" r=\"1\">",
+    "  <circle cx=\"5\" cy=\"12\" r=\"1\">"
+  ],
+  "MoreHorizontal with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-ellipsis-icon lucide-ellipsis shrink-0\" aria-label=\"MoreHorizontal\">",
+    "  <circle cx=\"12\" cy=\"12\" r=\"1\">",
+    "  <circle cx=\"19\" cy=\"12\" r=\"1\">",
+    "  <circle cx=\"5\" cy=\"12\" r=\"1\">"
+  ],
+  "PanelLeft": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-panel-left-icon lucide-panel-left\">",
+    "  <rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\">",
+    "  <path d=\"M9 3v18\">"
+  ],
+  "PanelLeft with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-panel-left-icon lucide-panel-left shrink-0\" aria-label=\"PanelLeft\">",
+    "  <rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\">",
+    "  <path d=\"M9 3v18\">"
+  ],
+  "Pause": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-pause-icon lucide-pause\">",
+    "  <rect x=\"14\" y=\"3\" width=\"5\" height=\"18\" rx=\"1\">",
+    "  <rect x=\"5\" y=\"3\" width=\"5\" height=\"18\" rx=\"1\">"
+  ],
+  "Pause with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-pause-icon lucide-pause shrink-0\" aria-label=\"Pause\">",
+    "  <rect x=\"14\" y=\"3\" width=\"5\" height=\"18\" rx=\"1\">",
+    "  <rect x=\"5\" y=\"3\" width=\"5\" height=\"18\" rx=\"1\">"
+  ],
+  "Pencil": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-pencil-icon lucide-pencil\">",
+    "  <path d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\">",
+    "  <path d=\"m15 5 4 4\">"
+  ],
+  "Pencil with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-pencil-icon lucide-pencil shrink-0\" aria-label=\"Pencil\">",
+    "  <path d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\">",
+    "  <path d=\"m15 5 4 4\">"
+  ],
+  "Play": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-play-icon lucide-play\">",
+    "  <path d=\"M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z\">"
+  ],
+  "Play with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-play-icon lucide-play shrink-0\" aria-label=\"Play\">",
+    "  <path d=\"M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z\">"
+  ],
+  "Plus": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus-icon lucide-plus\">",
+    "  <path d=\"M5 12h14\">",
+    "  <path d=\"M12 5v14\">"
+  ],
+  "Plus with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus-icon lucide-plus shrink-0\" aria-label=\"Plus\">",
+    "  <path d=\"M5 12h14\">",
+    "  <path d=\"M12 5v14\">"
+  ],
+  "QrCode": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-qr-code-icon lucide-qr-code\">",
+    "  <rect width=\"5\" height=\"5\" x=\"3\" y=\"3\" rx=\"1\">",
+    "  <rect width=\"5\" height=\"5\" x=\"16\" y=\"3\" rx=\"1\">",
+    "  <rect width=\"5\" height=\"5\" x=\"3\" y=\"16\" rx=\"1\">",
+    "  <path d=\"M21 16h-3a2 2 0 0 0-2 2v3\">",
+    "  <path d=\"M21 21v.01\">",
+    "  <path d=\"M12 7v3a2 2 0 0 1-2 2H7\">",
+    "  <path d=\"M3 12h.01\">",
+    "  <path d=\"M12 3h.01\">",
+    "  <path d=\"M12 16v.01\">",
+    "  <path d=\"M16 12h1\">",
+    "  <path d=\"M21 12v.01\">",
+    "  <path d=\"M12 21v-1\">"
+  ],
+  "QrCode with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-qr-code-icon lucide-qr-code shrink-0\" aria-label=\"QrCode\">",
+    "  <rect width=\"5\" height=\"5\" x=\"3\" y=\"3\" rx=\"1\">",
+    "  <rect width=\"5\" height=\"5\" x=\"16\" y=\"3\" rx=\"1\">",
+    "  <rect width=\"5\" height=\"5\" x=\"3\" y=\"16\" rx=\"1\">",
+    "  <path d=\"M21 16h-3a2 2 0 0 0-2 2v3\">",
+    "  <path d=\"M21 21v.01\">",
+    "  <path d=\"M12 7v3a2 2 0 0 1-2 2H7\">",
+    "  <path d=\"M3 12h.01\">",
+    "  <path d=\"M12 3h.01\">",
+    "  <path d=\"M12 16v.01\">",
+    "  <path d=\"M16 12h1\">",
+    "  <path d=\"M21 12v.01\">",
+    "  <path d=\"M12 21v-1\">"
+  ],
+  "RefreshCw": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-refresh-cw-icon lucide-refresh-cw\">",
+    "  <path d=\"M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8\">",
+    "  <path d=\"M21 3v5h-5\">",
+    "  <path d=\"M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16\">",
+    "  <path d=\"M8 16H3v5\">"
+  ],
+  "RefreshCw with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-refresh-cw-icon lucide-refresh-cw shrink-0\" aria-label=\"RefreshCw\">",
+    "  <path d=\"M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8\">",
+    "  <path d=\"M21 3v5h-5\">",
+    "  <path d=\"M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16\">",
+    "  <path d=\"M8 16H3v5\">"
+  ],
+  "RotateCw": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-rotate-cw-icon lucide-rotate-cw\">",
+    "  <path d=\"M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8\">",
+    "  <path d=\"M21 3v5h-5\">"
+  ],
+  "RotateCw with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-rotate-cw-icon lucide-rotate-cw shrink-0\" aria-label=\"RotateCw\">",
+    "  <path d=\"M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8\">",
+    "  <path d=\"M21 3v5h-5\">"
+  ],
+  "Scan": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-scan-icon lucide-scan\">",
+    "  <path d=\"M3 7V5a2 2 0 0 1 2-2h2\">",
+    "  <path d=\"M17 3h2a2 2 0 0 1 2 2v2\">",
+    "  <path d=\"M21 17v2a2 2 0 0 1-2 2h-2\">",
+    "  <path d=\"M7 21H5a2 2 0 0 1-2-2v-2\">"
+  ],
+  "Scan with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-scan-icon lucide-scan shrink-0\" aria-label=\"Scan\">",
+    "  <path d=\"M3 7V5a2 2 0 0 1 2-2h2\">",
+    "  <path d=\"M17 3h2a2 2 0 0 1 2 2v2\">",
+    "  <path d=\"M21 17v2a2 2 0 0 1-2 2h-2\">",
+    "  <path d=\"M7 21H5a2 2 0 0 1-2-2v-2\">"
+  ],
+  "Search": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-search-icon lucide-search\">",
+    "  <path d=\"m21 21-4.34-4.34\">",
+    "  <circle cx=\"11\" cy=\"11\" r=\"8\">"
+  ],
+  "Search with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-search-icon lucide-search shrink-0\" aria-label=\"Search\">",
+    "  <path d=\"m21 21-4.34-4.34\">",
+    "  <circle cx=\"11\" cy=\"11\" r=\"8\">"
+  ],
+  "Shrink": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-shrink-icon lucide-shrink\">",
+    "  <path d=\"m15 15 6 6m-6-6v4.8m0-4.8h4.8\">",
+    "  <path d=\"M9 19.8V15m0 0H4.2M9 15l-6 6\">",
+    "  <path d=\"M15 4.2V9m0 0h4.8M15 9l6-6\">",
+    "  <path d=\"M9 4.2V9m0 0H4.2M9 9 3 3\">"
+  ],
+  "Shrink with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-shrink-icon lucide-shrink shrink-0\" aria-label=\"Shrink\">",
+    "  <path d=\"m15 15 6 6m-6-6v4.8m0-4.8h4.8\">",
+    "  <path d=\"M9 19.8V15m0 0H4.2M9 15l-6 6\">",
+    "  <path d=\"M15 4.2V9m0 0h4.8M15 9l6-6\">",
+    "  <path d=\"M9 4.2V9m0 0H4.2M9 9 3 3\">"
+  ],
+  "Star": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-star-icon lucide-star\">",
+    "  <path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z\">"
+  ],
+  "Star with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-star-icon lucide-star shrink-0\" aria-label=\"Star\">",
+    "  <path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z\">"
+  ],
+  "TrendingDown": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-trending-down-icon lucide-trending-down\">",
+    "  <path d=\"M16 17h6v-6\">",
+    "  <path d=\"m22 17-8.5-8.5-5 5L2 7\">"
+  ],
+  "TrendingDown with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-trending-down-icon lucide-trending-down shrink-0\" aria-label=\"TrendingDown\">",
+    "  <path d=\"M16 17h6v-6\">",
+    "  <path d=\"m22 17-8.5-8.5-5 5L2 7\">"
+  ],
+  "TrendingUp": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-trending-up-icon lucide-trending-up\">",
+    "  <path d=\"M16 7h6v6\">",
+    "  <path d=\"m22 7-8.5 8.5-5-5L2 17\">"
+  ],
+  "TrendingUp with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-trending-up-icon lucide-trending-up shrink-0\" aria-label=\"TrendingUp\">",
+    "  <path d=\"M16 7h6v6\">",
+    "  <path d=\"m22 7-8.5 8.5-5-5L2 17\">"
+  ],
+  "TriangleAlert": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-triangle-alert-icon lucide-triangle-alert\">",
+    "  <path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\">",
+    "  <path d=\"M12 9v4\">",
+    "  <path d=\"M12 17h.01\">"
+  ],
+  "TriangleAlert with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-triangle-alert-icon lucide-triangle-alert shrink-0\" aria-label=\"TriangleAlert\">",
+    "  <path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\">",
+    "  <path d=\"M12 9v4\">",
+    "  <path d=\"M12 17h.01\">"
+  ],
+  "Upload": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-upload-icon lucide-upload\">",
+    "  <path d=\"M12 3v12\">",
+    "  <path d=\"m17 8-5-5-5 5\">",
+    "  <path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\">"
+  ],
+  "Upload with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-upload-icon lucide-upload shrink-0\" aria-label=\"Upload\">",
+    "  <path d=\"M12 3v12\">",
+    "  <path d=\"m17 8-5-5-5 5\">",
+    "  <path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\">"
+  ],
+  "User": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-user-icon lucide-user\">",
+    "  <path d=\"M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2\">",
+    "  <circle cx=\"12\" cy=\"7\" r=\"4\">"
+  ],
+  "User with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-user-icon lucide-user shrink-0\" aria-label=\"User\">",
+    "  <path d=\"M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2\">",
+    "  <circle cx=\"12\" cy=\"7\" r=\"4\">"
+  ],
+  "ZoomIn": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-zoom-in-icon lucide-zoom-in\">",
+    "  <circle cx=\"11\" cy=\"11\" r=\"8\">",
+    "  <line x1=\"21\" x2=\"16.65\" y1=\"21\" y2=\"16.65\">",
+    "  <line x1=\"11\" x2=\"11\" y1=\"8\" y2=\"14\">",
+    "  <line x1=\"8\" x2=\"14\" y1=\"11\" y2=\"11\">"
+  ],
+  "ZoomIn with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-zoom-in-icon lucide-zoom-in shrink-0\" aria-label=\"ZoomIn\">",
+    "  <circle cx=\"11\" cy=\"11\" r=\"8\">",
+    "  <line x1=\"21\" x2=\"16.65\" y1=\"21\" y2=\"16.65\">",
+    "  <line x1=\"11\" x2=\"11\" y1=\"8\" y2=\"14\">",
+    "  <line x1=\"8\" x2=\"14\" y1=\"11\" y2=\"11\">"
+  ],
+  "ZoomOut": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-zoom-out-icon lucide-zoom-out\">",
+    "  <circle cx=\"11\" cy=\"11\" r=\"8\">",
+    "  <line x1=\"21\" x2=\"16.65\" y1=\"21\" y2=\"16.65\">",
+    "  <line x1=\"8\" x2=\"14\" y1=\"11\" y2=\"11\">"
+  ],
+  "ZoomOut with size, stroke, class and label": [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-zoom-out-icon lucide-zoom-out shrink-0\" aria-label=\"ZoomOut\">",
+    "  <circle cx=\"11\" cy=\"11\" r=\"8\">",
+    "  <line x1=\"21\" x2=\"16.65\" y1=\"21\" y2=\"16.65\">",
+    "  <line x1=\"8\" x2=\"14\" y1=\"11\" y2=\"11\">"
+  ]
+}

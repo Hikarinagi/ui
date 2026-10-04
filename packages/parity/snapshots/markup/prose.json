@@ -1,0 +1,37 @@
+{
+  "default": [
+    "<div class=\"hn-prose max-w-xl\">",
+    "  <!--[-->",
+    "  <h2>",
+    "    \"狼と香辛料\"",
+    "  <p>",
+    "    \"这是一段来自后端的富文本。\"",
+    "  <blockquote>",
+    "    \"书页翻动的声音\"",
+    "  <ul>",
+    "    <li>",
+    "      \"第一卷 启航\"",
+    "    <li>",
+    "      \"第二卷 远洋\"",
+    "  <!--]-->"
+  ],
+  "as article": [
+    "<article class=\"hn-prose max-w-lg\">",
+    "  <!--[-->",
+    "  <h3>",
+    "    \"渲染为 article\"",
+    "  <!--]-->"
+  ],
+  "inner html": [
+    "<div class=\"hn-prose max-w-lg\">",
+    "  <h3>",
+    "    \"标题\"",
+    "  <p>",
+    "    \"一段来自接口的 HTML。\""
+  ],
+  "as child": [
+    "<section class=\"hn-prose\" id=\"s\">",
+    "  <p>",
+    "    \"段落\""
+  ]
+}

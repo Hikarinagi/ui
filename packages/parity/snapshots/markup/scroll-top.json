@@ -1,0 +1,10 @@
+{
+  "renders no button before mount with the default target": [
+    "<div>",
+    "  <!---->"
+  ],
+  "renders no button before mount with a getter target": [
+    "<div>",
+    "  <!---->"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "default": [
+    "<blockquote class=\"hn-blockquote max-w-lg\">",
+    "  <!--[-->",
+    "  \"设计的第一要务\"",
+    "  <!--]-->",
+    "  <!---->"
+  ],
+  "with cite": [
+    "<blockquote class=\"hn-blockquote\">",
+    "  <!--[-->",
+    "  \"书页翻动的声音\"",
+    "  <!--]-->",
+    "  <footer class=\"text-faint mt-2 text-sm\">",
+    "    \"—— 夏目漱石\""
+  ],
+  "empty cite renders no footer": [
+    "<blockquote class=\"hn-blockquote\">",
+    "  <!--[-->",
+    "  \"引用\"",
+    "  <!--]-->",
+    "  <!---->"
+  ],
+  "paragraphs with merged class and attributes": [
+    "<blockquote class=\"hn-blockquote flex max-w-lg flex-col gap-3\" id=\"q\">",
+    "  <!--[-->",
+    "  <p>",
+    "    \"最初的版本\"",
+    "  <p>",
+    "    \"后来加进去的\"",
+    "  <!--]-->",
+    "  <footer class=\"text-faint mt-2 text-sm\">",
+    "    \"—— 访谈记录\""
+  ]
+}

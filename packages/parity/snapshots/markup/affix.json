@@ -1,0 +1,35 @@
+{
+  "default top": [
+    "<div data-hn-affix=\"\" data-position=\"top\" class=\"min-w-0 flow-root [inset-block-start:var(--hn-affix-offset)] sticky z-10\" style=\"--hn-affix-offset:0px;\">",
+    "  <!--[-->",
+    "  <button>",
+    "    \"Save\"",
+    "  <!--]-->"
+  ],
+  "top as aside with offset and scoped content": [
+    "<aside data-hn-affix=\"\" data-position=\"top\" class=\"min-w-0 flow-root [inset-block-start:var(--hn-affix-offset)] sticky z-10\" style=\"--hn-affix-offset:16px;\" aria-label=\"Actions\">",
+    "  <!--[-->",
+    "  <button>",
+    "    \"Save false\"",
+    "  <!--]-->"
+  ],
+  "bottom as aside with offset and scoped content": [
+    "<aside data-hn-affix=\"\" data-position=\"bottom\" class=\"min-w-0 flow-root [inset-block-end:var(--hn-affix-offset)] sticky z-10\" style=\"--hn-affix-offset:16px;\" aria-label=\"Actions\">",
+    "  <!--[-->",
+    "  <button>",
+    "    \"Save false\"",
+    "  <!--]-->"
+  ],
+  "disabled with a non-finite offset": [
+    "<div data-hn-affix=\"\" data-position=\"top\" data-disabled=\"\" class=\"min-w-0 flow-root relative [inset-block-start:auto] [inset-block-end:auto]\" style=\"--hn-affix-offset:0px;\">",
+    "  <!--[-->",
+    "  \"Content\"",
+    "  <!--]-->"
+  ],
+  "negative offset, class and caller style": [
+    "<div data-hn-affix=\"\" data-position=\"top\" class=\"min-w-0 flow-root [inset-block-start:var(--hn-affix-offset)] sticky z-10 bg-surface\" style=\"--hn-affix-offset:-8px;padding-block:4px;\" id=\"toolbar\">",
+    "  <!--[-->",
+    "  \"Toolbar\"",
+    "  <!--]-->"
+  ]
+}

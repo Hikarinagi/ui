@@ -1,0 +1,56 @@
+{
+  "default auto-fill": [
+    "<div style=\"--hn-simple-grid-min:14rem;\" class=\"grid grid-cols-[repeat(auto-fill,minmax(var(--hn-simple-grid-min),1fr))] gap-x-[var(--hn-inline-gap)] gap-y-[var(--hn-stack-gap)]\">",
+    "  <!--[-->",
+    "  <p>",
+    "    \"甲\"",
+    "  <p>",
+    "    \"乙\"",
+    "  <!--]-->"
+  ],
+  "fit with custom min": [
+    "<div style=\"--hn-simple-grid-min:10rem;\" class=\"grid grid-cols-[repeat(auto-fit,minmax(var(--hn-simple-grid-min),1fr))] gap-x-[var(--hn-inline-gap)] gap-y-[var(--hn-stack-gap)]\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "gap none": [
+    "<div style=\"--hn-simple-grid-min:14rem;\" class=\"grid grid-cols-[repeat(auto-fill,minmax(var(--hn-simple-grid-min),1fr))] gap-0\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "gap xs": [
+    "<div style=\"--hn-simple-grid-min:14rem;\" class=\"grid grid-cols-[repeat(auto-fill,minmax(var(--hn-simple-grid-min),1fr))] gap-1\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "gap sm": [
+    "<div style=\"--hn-simple-grid-min:14rem;\" class=\"grid grid-cols-[repeat(auto-fill,minmax(var(--hn-simple-grid-min),1fr))] gap-2\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "gap md": [
+    "<div style=\"--hn-simple-grid-min:14rem;\" class=\"grid grid-cols-[repeat(auto-fill,minmax(var(--hn-simple-grid-min),1fr))] gap-x-[var(--hn-inline-gap)] gap-y-[var(--hn-stack-gap)]\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "gap lg": [
+    "<div style=\"--hn-simple-grid-min:14rem;\" class=\"grid grid-cols-[repeat(auto-fill,minmax(var(--hn-simple-grid-min),1fr))] gap-6\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "gap xl": [
+    "<div style=\"--hn-simple-grid-min:14rem;\" class=\"grid grid-cols-[repeat(auto-fill,minmax(var(--hn-simple-grid-min),1fr))] gap-8\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "as ul with caller style": [
+    "<ul style=\"--hn-simple-grid-min:14rem;max-width:40rem;\" class=\"grid grid-cols-[repeat(auto-fill,minmax(var(--hn-simple-grid-min),1fr))] gap-x-[var(--hn-inline-gap)] gap-y-[var(--hn-stack-gap)] w-full\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "caller style wins over the min variable": [
+    "<div style=\"--hn-simple-grid-min:5rem;\" class=\"grid grid-cols-[repeat(auto-fill,minmax(var(--hn-simple-grid-min),1fr))] gap-x-[var(--hn-inline-gap)] gap-y-[var(--hn-stack-gap)]\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ]
+}

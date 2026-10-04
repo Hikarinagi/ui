@@ -3,6 +3,8 @@ import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
 import react from '@vitejs/plugin-react'
 
+process.env.TZ = 'UTC'
+
 const source = (path: string) => fileURLToPath(new URL(path, import.meta.url))
 
 export default defineConfig({

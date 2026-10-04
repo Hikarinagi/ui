@@ -1,0 +1,10 @@
+{
+  "defaults": [
+    "<div aria-hidden=\"true\" class=\"hn-ripple\">",
+    "  <div class=\"hn-ripple-surface\">"
+  ],
+  "class, style and attributes fall through to the root": [
+    "<div aria-hidden=\"false\" class=\"hn-ripple rounded-full\" style=\"opacity:0.5;\" id=\"ripple\" data-testid=\"ripple\">",
+    "  <div class=\"hn-ripple-surface\">"
+  ]
+}

@@ -75,7 +75,7 @@ export default defineConfig({
     fileParallelism: false,
     browser: {
       enabled: true,
-      provider: playwright(),
+      provider: playwright({ contextOptions: { timezoneId: 'UTC' } }),
       headless: true,
       instances: [{ browser }],
       commands: {

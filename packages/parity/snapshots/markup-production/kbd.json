@@ -1,0 +1,14 @@
+{
+  "default": [
+    "<kbd class=\"hn-kbd\">",
+    "  <!--[-->",
+    "  \"Esc\"",
+    "  <!--]-->"
+  ],
+  "class and attributes": [
+    "<kbd class=\"hn-kbd text-xs\" aria-label=\"Control\">",
+    "  <!--[-->",
+    "  \"Ctrl\"",
+    "  <!--]-->"
+  ]
+}

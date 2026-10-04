@@ -1,0 +1,36 @@
+{
+  "default accent": [
+    "<a class=\"hn-link cursor-pointer [--hn-link-color:var(--hn-accent-text)]\" href=\"#usage\">",
+    "  <!--[-->",
+    "  \"回到用法一节\"",
+    "  <!--]-->"
+  ],
+  "neutral tone": [
+    "<a class=\"hn-link cursor-pointer [--hn-link-color:var(--hn-fg-default)]\" href=\"#tones\">",
+    "  <!--[-->",
+    "  \"中性色链接\"",
+    "  <!--]-->"
+  ],
+  "underline with external attributes": [
+    "<a data-underline=\"\" class=\"hn-link cursor-pointer [--hn-link-color:var(--hn-accent-text)]\" href=\"https://example.com\" target=\"_blank\" rel=\"noreferrer\">",
+    "  <!--[-->",
+    "  \"仓库首页\"",
+    "  <!--]-->"
+  ],
+  "underline false and class merge": [
+    "<a class=\"hn-link [--hn-link-color:var(--hn-accent-text)] cursor-default font-medium\" href=\"#\">",
+    "  <!--[-->",
+    "  \"链接\"",
+    "  <!--]-->"
+  ],
+  "as button": [
+    "<button class=\"hn-link cursor-pointer [--hn-link-color:var(--hn-accent-text)]\" type=\"button\">",
+    "  <!--[-->",
+    "  \"按钮样式的链接\"",
+    "  <!--]-->"
+  ],
+  "as child": [
+    "<a data-underline=\"\" class=\"hn-link cursor-pointer [--hn-link-color:var(--hn-accent-text)]\" href=\"/docs\">",
+    "  \"Docs\""
+  ]
+}

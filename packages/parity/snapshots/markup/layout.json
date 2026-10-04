@@ -1,0 +1,67 @@
+{
+  "Stack": [
+    "<div class=\"flex flex-col gap-[var(--hn-stack-gap)]\">",
+    "  <!--[-->",
+    "  <span>",
+    "    \"a\"",
+    "  <span>",
+    "    \"b\"",
+    "  <!--]-->"
+  ],
+  "Stack as section with gap, align and justify": [
+    "<section class=\"flex flex-col gap-6 items-center justify-between\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "Inline wraps by default": [
+    "<div class=\"flex gap-2 items-baseline flex-wrap\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "Inline without wrap": [
+    "<ul class=\"flex gap-[var(--hn-inline-gap)] items-center flex-nowrap\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "Flex": [
+    "<div class=\"flex flex-col flex-wrap gap-[var(--hn-stack-gap)] p-2\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "Card": [
+    "<div class=\"bg-surface border-line block rounded-lg border shadow-sm p-[var(--hn-panel-p)]\">",
+    "  <!--[-->",
+    "  \"Body\"",
+    "  <!--]-->"
+  ],
+  "Card as a link": [
+    "<a class=\"bg-surface border-line block rounded-lg border shadow-sm p-[var(--hn-panel-p)]\" href=\"/docs\" target=\"_blank\" rel=\"noopener\">",
+    "  <!--[-->",
+    "  \"Body\"",
+    "  <!--]-->"
+  ],
+  "Card asChild lends its classes to the child": [
+    "<a class=\"bg-surface border-line block rounded-lg border shadow-sm overflow-hidden p-2 block\" href=\"/docs\">",
+    "  \"Body\""
+  ],
+  "Card asChild with several children merges into the first, as Reka Slot does": [
+    "<!--[-->",
+    "<a class=\"bg-surface border-line block rounded-lg border shadow-sm p-[var(--hn-panel-p)]\" href=\"/docs\">",
+    "  \"Docs\"",
+    "<span>",
+    "  \"tail\"",
+    "<!--]-->"
+  ],
+  "Stack as a link": [
+    "<a class=\"flex flex-col gap-2\" href=\"/docs\">",
+    "  <!--[-->",
+    "  \"Docs\"",
+    "  <!--]-->"
+  ],
+  "Card unpadded as article": [
+    "<article class=\"bg-surface border-line block rounded-lg border shadow-sm overflow-hidden\">",
+    "  <!--[-->",
+    "  \"Body\"",
+    "  <!--]-->"
+  ]
+}

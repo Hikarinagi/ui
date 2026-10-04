@@ -4,6 +4,7 @@ import { normalizeMarkup } from '../src/normalize'
 import { liveVue, type LiveSuite } from '../src/live'
 import { inShard } from '../src/shard'
 import type { VueLockKind, VueLockRecord, VueLockState } from '../src/vue-lock'
+import { startVueLockClock } from '../src/vue-lock-clock'
 import '../src/browser.css'
 
 declare module 'vitest/browser' {
@@ -19,6 +20,7 @@ describe('Vue live lock', () => {
   for (const [path, load] of inShard(Object.entries(modules))) {
     const file = path.slice('../cases/'.length).replace(/\.live\.tsx$/, '')
     it(file, { timeout: 180_000 }, async ({ skip }) => {
+      startVueLockClock()
       const { update, record } = await commands.readVueLock('live', file)
       if (!update && !record) return skip('no Vue live lock recorded')
       const suite = (await load()).default

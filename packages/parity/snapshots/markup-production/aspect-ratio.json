@@ -1,0 +1,60 @@
+{
+  "default 16:9 with class on the outer shell": [
+    "<div class=\"[&_img]:size-full [&_img]:object-cover [&_video]:size-full [&_video]:object-cover w-40\">",
+    "  <div style=\"position: relative; width: 100%; padding-bottom: 56.25%\" data-reka-aspect-ratio-wrapper=\"\">",
+    "    <div style=\"position:absolute;inset:0px;\">",
+    "      <!--[-->",
+    "      <!--[-->",
+    "      <div>",
+    "        \"内容\"",
+    "      <!--]-->",
+    "      <!--]-->"
+  ],
+  "ratio 1": [
+    "<div class=\"[&_img]:size-full [&_img]:object-cover [&_video]:size-full [&_video]:object-cover bg-inset overflow-hidden rounded-md\">",
+    "  <div style=\"position: relative; width: 100%; padding-bottom: 100%\" data-reka-aspect-ratio-wrapper=\"\">",
+    "    <div style=\"position:absolute;inset:0px;\">",
+    "      <!--[-->",
+    "      <!--[-->",
+    "      <video src=\"/sample.webm\" aria-label=\"Sample\">",
+    "      <!--]-->",
+    "      <!--]-->"
+  ],
+  "ratio 0.75": [
+    "<div class=\"[&_img]:size-full [&_img]:object-cover [&_video]:size-full [&_video]:object-cover bg-inset overflow-hidden rounded-md\">",
+    "  <div style=\"position: relative; width: 100%; padding-bottom: 133.33333333333331%\" data-reka-aspect-ratio-wrapper=\"\">",
+    "    <div style=\"position:absolute;inset:0px;\">",
+    "      <!--[-->",
+    "      <!--[-->",
+    "      <video src=\"/sample.webm\" aria-label=\"Sample\">",
+    "      <!--]-->",
+    "      <!--]-->"
+  ],
+  "ratio 1.3333333333333333": [
+    "<div class=\"[&_img]:size-full [&_img]:object-cover [&_video]:size-full [&_video]:object-cover bg-inset overflow-hidden rounded-md\">",
+    "  <div style=\"position: relative; width: 100%; padding-bottom: 75%\" data-reka-aspect-ratio-wrapper=\"\">",
+    "    <div style=\"position:absolute;inset:0px;\">",
+    "      <!--[-->",
+    "      <!--[-->",
+    "      <video src=\"/sample.webm\" aria-label=\"Sample\">",
+    "      <!--]-->",
+    "      <!--]-->"
+  ],
+  "ratio 2.3333333333333335": [
+    "<div class=\"[&_img]:size-full [&_img]:object-cover [&_video]:size-full [&_video]:object-cover bg-inset overflow-hidden rounded-md\">",
+    "  <div style=\"position: relative; width: 100%; padding-bottom: 42.857142857142854%\" data-reka-aspect-ratio-wrapper=\"\">",
+    "    <div style=\"position:absolute;inset:0px;\">",
+    "      <!--[-->",
+    "      <!--[-->",
+    "      <video src=\"/sample.webm\" aria-label=\"Sample\">",
+    "      <!--]-->",
+    "      <!--]-->"
+  ],
+  "attributes fall through to the outer shell": [
+    "<div class=\"[&_img]:size-full [&_img]:object-cover [&_video]:size-full [&_video]:object-cover\" id=\"cover\" data-kind=\"cover\" style=\"max-width:20rem;\">",
+    "  <div style=\"position: relative; width: 100%; padding-bottom: 56.25%\" data-reka-aspect-ratio-wrapper=\"\">",
+    "    <div style=\"position:absolute;inset:0px;\">",
+    "      <!--[-->",
+    "      <!--]-->"
+  ]
+}
