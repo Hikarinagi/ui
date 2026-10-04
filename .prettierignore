@@ -10,9 +10,9 @@ pnpm-lock.yaml
 
 CHANGELOG.md
 packages/parity/snapshots/
-docs-react/.next
-docs-react/next-env.d.ts
-docs-react/demos/pages
-docs-react/components/wordmark-svg.ts
-docs-react/app/(zh)/**/page.tsx
-docs-react/app/en/**/page.tsx
+docs/react/.next
+docs/react/next-env.d.ts
+docs/react/demos/pages
+docs/react/components/wordmark-svg.ts
+docs/react/app/(zh)/**/page.tsx
+docs/react/app/en/**/page.tsx

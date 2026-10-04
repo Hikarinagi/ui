@@ -1,7 +1,7 @@
 packages:
   - 'packages/*'
-  - 'docs'
-  - 'docs-react'
+  - 'docs/vue'
+  - 'docs/react'
 allowBuilds:
   esbuild: false
   unrs-resolver: false

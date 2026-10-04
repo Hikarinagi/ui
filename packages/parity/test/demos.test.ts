@@ -10,9 +10,9 @@ import { normalizeMarkup } from '../src/normalize'
 import { renderReact, renderVue } from '../src/render'
 
 const react = import.meta.glob<{ default: ComponentType }>(
-  '../../../docs-react/demos/{zh-CN,en}/**/*.tsx',
+  '../../../docs/react/demos/{zh-CN,en}/**/*.tsx',
 )
-const vue = import.meta.glob<{ default: Component }>('../../../docs/app/demos/*/**/*.vue')
+const vue = import.meta.glob<{ default: Component }>('../../../docs/vue/app/demos/*/**/*.vue')
 
 const NUXT_ONLY = /from '#(?:components|app|imports)'|useI18n\(|NuxtLink|navigateTo\(/
 
@@ -47,8 +47,8 @@ describe('documentation demos render identically in Vue and React', () => {
   })
 
   for (const [path, load] of Object.entries(react)) {
-    const name = path.replace('../../../docs-react/demos/', '').replace(/\.tsx$/, '')
-    const twin = `../../../docs/app/demos/${name}.vue`
+    const name = path.replace('../../../docs/react/demos/', '').replace(/\.tsx$/, '')
+    const twin = `../../../docs/vue/app/demos/${name}.vue`
     const difference = KNOWN_DIFFERENCES[name]
     if (difference) {
       it.skip(`${name} (${difference})`)

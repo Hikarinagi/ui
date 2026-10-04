@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest'
 import { clientReasons, hasClientDirective } from '../src/client-directive'
 
 const source = join(process.cwd(), '..', 'react', 'src')
-const demos = join(process.cwd(), '..', '..', 'docs-react', 'demos')
+const demos = join(process.cwd(), '..', '..', 'docs', 'react', 'demos')
 
 function walk(directory: string): string[] {
   return readdirSync(directory, { withFileTypes: true }).flatMap(entry => {

@@ -2,7 +2,7 @@ import { execFileSync } from 'node:child_process'
 import { readdirSync, readFileSync } from 'node:fs'
 import { join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { frameworkView } from '../docs/framework.ts'
+import { frameworkView } from '../docs/shared/framework.ts'
 
 const root = fileURLToPath(new URL('..', import.meta.url))
 const content = join(root, 'docs', 'content')

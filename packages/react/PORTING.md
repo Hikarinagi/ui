@@ -9,7 +9,7 @@ The Vue component is the specification. Its source, its tests and its documentat
 - Every file in `packages/vue/src/components/<name>/`, including composables, utils, types and tests.
 - The shared variants it uses: `packages/shared/src/variants/<name>.ts` and any shared CSS in `packages/shared/src/styles/` that targets its classes or data attributes.
 - The components it imports from sibling directories. If one of them is not yet available in React, stop and report the dependency instead of inlining a substitute.
-- The docs page, in particular the prose under "行为" and the demos in `docs/app/demos/zh-CN/<name>/`, which show supported combinations.
+- The docs page, in particular the prose under "行为" and the demos in `docs/vue/app/demos/zh-CN/<name>/`, which show supported combinations.
 - For Reka primitives: the Reka source in `packages/vue/node_modules/reka-ui/dist/<Primitive>/`. The DOM Reka produces is part of the specification.
 
 ## 2. Move framework-free logic to shared
@@ -73,7 +73,7 @@ Runtime constraints are enforced by `packages/parity/test/constraints.test.ts` a
 
 ## 4. Export
 
-Add the component and its public types to the barrel for its documentation category in `src/exports/<category>.ts` (the category is the one in `docs/app/nav.ts`). Export the same names and types as `packages/vue/src/index.ts`, renamed only as the architecture mapping table says (`provide*` → `*Provider`). Do not edit `src/index.ts` or `packages/parity/coverage/pending.json`.
+Add the component and its public types to the barrel for its documentation category in `src/exports/<category>.ts` (the category is the one in `docs/shared/nav.ts`). Export the same names and types as `packages/vue/src/index.ts`, renamed only as the architecture mapping table says (`provide*` → `*Provider`). Do not edit `src/index.ts` or `packages/parity/coverage/pending.json`.
 
 ## 5. Prove parity
 
@@ -81,7 +81,7 @@ Markup: add `packages/parity/cases/<name>.cases.tsx`. Each case renders the same
 
 Live markup: overlays and anything rendered only after mount or interaction need `packages/parity/cases/<name>.live.tsx` (see `cases/tooltip.live.tsx`). Each live case mounts Vue, then React, in Chromium, runs `interact`, waits in `settle` (for example until the popper wrapper is positioned) and compares the whole body. Run with `cd packages/parity && npx vitest run -c vitest.browser.config.ts`.
 
-Demos: for every Vue demo in `docs/app/demos/<locale>/<name>/*.vue` (both `zh-CN` and `en`), write the React twin at `docs-react/demos/<locale>/<name>/<same name>.tsx`. Use the public `@hina-ui/react` API exactly as a user would, `lucide-react` icons directly, and `'use client'` only when the demo has state or handlers. `packages/parity/test/demos.test.ts` renders each pair on the server and requires identical markup (user-supplied lucide icons are compared by their paths). Demos that depend on Nuxt-only APIs are skipped by that test but still need a twin for the documentation site.
+Demos: for every Vue demo in `docs/vue/app/demos/<locale>/<name>/*.vue` (both `zh-CN` and `en`), write the React twin at `docs/react/demos/<locale>/<name>/<same name>.tsx`. Use the public `@hina-ui/react` API exactly as a user would, `lucide-react` icons directly, and `'use client'` only when the demo has state or handlers. `packages/parity/test/demos.test.ts` renders each pair on the server and requires identical markup (user-supplied lucide icons are compared by their paths). Demos that depend on Nuxt-only APIs are skipped by that test but still need a twin for the documentation site.
 
 Behavior: translate every Vue browser test (`*.browser.test.ts`) into `<Name>.browser.test.tsx` with the same `describe` / `it` titles and the same assertions; only the mounting changes (`test/mount.tsx`). Translate Vue unit tests that assert behavior not visible in markup (emitted values, controlled state, keyboard handlers under happy-dom) into `<Name>.test.tsx` with `@testing-library/react`. A Vue assertion that cannot hold in React is a parity failure to report, not a test to delete.
 

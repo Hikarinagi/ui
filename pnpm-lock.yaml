@@ -226,11 +226,81 @@ importers:
         specifier: ^3.9.6
         version: 3.9.6
 
-  docs:
+  docs/react:
+    dependencies:
+      '@hina-ui/react':
+        specifier: workspace:*
+        version: link:../../packages/react
+      '@lobehub/icons-static-svg':
+        specifier: ^1.94.0
+        version: 1.94.0
+      lucide-react:
+        specifier: 1.41.0
+        version: 1.41.0(react@19.3.0)
+      markdown-it:
+        specifier: 14.3.1
+        version: 14.3.1
+      markdown-it-attrs:
+        specifier: ^5.0.1
+        version: 5.0.1(markdown-it@14.3.1)
+      motion:
+        specifier: 13.2.0
+        version: 13.2.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      next:
+        specifier: 16.3.8
+        version: 16.3.8(@babel/core@7.29.7(supports-color@10.2.2))(@types/node@26.4.1)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      react:
+        specifier: ^19.3.0
+        version: 19.3.0
+      react-dom:
+        specifier: ^19.3.0
+        version: 19.3.0(react@19.3.0)
+      shiki:
+        specifier: 4.0.2
+        version: 4.0.2
+      simple-icons:
+        specifier: ^16.29.0
+        version: 16.29.0
+      valibot:
+        specifier: ^1.4.0
+        version: 1.4.2(typescript@5.9.3)
+      yaml:
+        specifier: ^2.9.0
+        version: 2.9.0
+    devDependencies:
+      '@tailwindcss/postcss':
+        specifier: ^4.3.0
+        version: 4.3.3
+      '@types/markdown-it':
+        specifier: ^14.2.0
+        version: 14.2.0
+      '@types/node':
+        specifier: ^26.4.1
+        version: 26.4.1
+      '@types/react':
+        specifier: ^19.3.0
+        version: 19.3.0
+      '@types/react-dom':
+        specifier: ^19.3.0
+        version: 19.3.0(@types/react@19.3.0)
+      '@typescript-eslint/parser':
+        specifier: ^8.69.0
+        version: 8.69.0(eslint@10.10.0(jiti@2.7.0)(supports-color@10.2.2))(supports-color@10.2.2)(typescript@5.9.3)
+      eslint:
+        specifier: ^10.9.1
+        version: 10.10.0(jiti@2.7.0)(supports-color@10.2.2)
+      tailwindcss:
+        specifier: ^4.3.0
+        version: 4.3.3
+      typescript:
+        specifier: ^5.8.0
+        version: 5.9.3
+
+  docs/vue:
     dependencies:
       '@hina-ui/vue':
         specifier: workspace:*
-        version: link:../packages/vue
+        version: link:../../packages/vue
       '@lobehub/icons-static-svg':
         specifier: ^1.94.0
         version: 1.94.0
@@ -301,76 +371,6 @@ importers:
       vue-tsc:
         specifier: ^3.3.11
         version: 3.3.11(typescript@6.0.3)
-
-  docs-react:
-    dependencies:
-      '@hina-ui/react':
-        specifier: workspace:*
-        version: link:../packages/react
-      '@lobehub/icons-static-svg':
-        specifier: ^1.94.0
-        version: 1.94.0
-      lucide-react:
-        specifier: 1.41.0
-        version: 1.41.0(react@19.3.0)
-      markdown-it:
-        specifier: 14.3.1
-        version: 14.3.1
-      markdown-it-attrs:
-        specifier: ^5.0.1
-        version: 5.0.1(markdown-it@14.3.1)
-      motion:
-        specifier: 13.2.0
-        version: 13.2.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
-      next:
-        specifier: 16.3.8
-        version: 16.3.8(@babel/core@7.29.7(supports-color@10.2.2))(@types/node@26.4.1)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
-      react:
-        specifier: ^19.3.0
-        version: 19.3.0
-      react-dom:
-        specifier: ^19.3.0
-        version: 19.3.0(react@19.3.0)
-      shiki:
-        specifier: 4.0.2
-        version: 4.0.2
-      simple-icons:
-        specifier: ^16.29.0
-        version: 16.29.0
-      valibot:
-        specifier: ^1.4.0
-        version: 1.4.2(typescript@5.9.3)
-      yaml:
-        specifier: ^2.9.0
-        version: 2.9.0
-    devDependencies:
-      '@tailwindcss/postcss':
-        specifier: ^4.3.0
-        version: 4.3.3
-      '@types/markdown-it':
-        specifier: ^14.2.0
-        version: 14.2.0
-      '@types/node':
-        specifier: ^26.4.1
-        version: 26.4.1
-      '@types/react':
-        specifier: ^19.3.0
-        version: 19.3.0
-      '@types/react-dom':
-        specifier: ^19.3.0
-        version: 19.3.0(@types/react@19.3.0)
-      '@typescript-eslint/parser':
-        specifier: ^8.69.0
-        version: 8.69.0(eslint@10.10.0(jiti@2.7.0)(supports-color@10.2.2))(supports-color@10.2.2)(typescript@5.9.3)
-      eslint:
-        specifier: ^10.9.1
-        version: 10.10.0(jiti@2.7.0)(supports-color@10.2.2)
-      tailwindcss:
-        specifier: ^4.3.0
-        version: 4.3.3
-      typescript:
-        specifier: ^5.8.0
-        version: 5.9.3
 
   packages/parity:
     devDependencies:
