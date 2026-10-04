@@ -16,11 +16,25 @@ import { Affix } from '@hina-ui/vue'
 
 将需要吸附的内容放进 Affix。默认贴到最近滚动区域的顶部，`offset` 设置与边缘的距离，单位 px。
 
+::: vue
+
 ```vue
 <Affix :offset="16">
   <Card>工具栏或操作区</Card>
 </Affix>
 ```
+
+:::
+
+::: react
+
+```tsx
+<Affix offset={16}>
+  <Card>工具栏或操作区</Card>
+</Affix>
+```
+
+:::
 
 Affix 使用原生 `position: sticky`，保留原来的布局空间、宽度和 DOM 节点。它不添加卡片、背景或滚动容器，也不为吸附加入位移、缩放或淡入淡出动画。外观由插槽内容决定。
 
@@ -28,13 +42,37 @@ Affix 使用原生 `position: sticky`，保留原来的布局空间、宽度和 
 
 ### 顶部偏移与禁用 {#offset}
 
+::: vue
+
 顶部示例可以调整偏移、禁用吸附并勾选检查项。`disabled` 使内容恢复普通流，保留内部状态。用 `#default="{ affixed }"` 或 `@change` 获取当前是否贴到指定边缘；例如给已吸附的工具栏添加阴影。
+
+:::
+
+::: react
+
+顶部示例可以调整偏移、禁用吸附并勾选检查项。`disabled` 使内容恢复普通流，保留内部状态。将 `children` 写成接收 `{ affixed }` 的函数，或使用 `onChange`，获取当前是否贴到指定边缘；例如给已吸附的工具栏添加阴影。
+
+:::
+
+::: vue
 
 ```vue
 <Affix v-slot="{ affixed }" :offset="16" :disabled="disabled">
   <Card :class="affixed ? 'shadow-md' : 'shadow-none'">操作区</Card>
 </Affix>
 ```
+
+:::
+
+::: react
+
+```tsx
+<Affix offset={16} disabled={disabled}>
+  {({ affixed }) => <Card className={affixed ? 'shadow-md' : 'shadow-none'}>操作区</Card>}
+</Affix>
+```
+
+:::
 
 状态改变时尽量只调整颜色、边框颜色或阴影，避免改变高度和外边距，反复推动吸附阈值。
 
@@ -57,6 +95,8 @@ Affix 使用原生 `position: sticky`，保留原来的布局空间、宽度和 
 - `overflow: auto / scroll / hidden` 会改变吸附参照；用于裁剪但不希望建立滚动区域时，可在适用场景使用 `overflow: clip`。不要跨过一个不滚动的 `overflow: hidden` 祖先去期待页面级吸附。
 - 自动跟随容器宽度，保留原来的裁剪、方向和层叠关系。默认层级为 `z-10`，可通过 `class` 调整。需要一直固定在窗口角落的操作入口使用 FloatButton。
 
+::: vue
+
 ```vue
 <ScrollArea class="h-96">
   <Stack>
@@ -68,11 +108,40 @@ Affix 使用原生 `position: sticky`，保留原来的布局空间、宽度和 
 </ScrollArea>
 ```
 
+:::
+
+::: react
+
+```tsx
+<ScrollArea className="h-96">
+  <Stack>
+    <Affix offset={12}>
+      <Card>筛选与批量操作</Card>
+    </Affix>
+    <DataList items={items} itemKey="id">
+      {({ item }) => item.title}
+    </DataList>
+  </Stack>
+</ScrollArea>
+```
+
+:::
+
 ## SSR 与性能 {#rendering}
 
 吸附由 CSS 完成，SSR 首屏与客户端使用相同布局，没有测量后切成 fixed 的阶段。即使 JavaScript 尚未执行，内容仍可读，吸附仍生效。
 
+::: vue
+
 `affixed` 插槽值在服务端为 `false`，挂载后同步当前边缘状态。滚动与尺寸变化只用于状态检测，同一帧合并处理，状态未改变时不触发事件；不会逐帧写入定位或占位尺寸。父区域结束、离开指定边缘时状态恢复为 `false`。
+
+:::
+
+::: react
+
+`children` 函数收到的 `affixed` 在服务端为 `false`，挂载后同步当前边缘状态。滚动与尺寸变化只用于状态检测，同一帧合并处理，状态未改变时不调用 `onChange`；不会逐帧写入定位或占位尺寸。父区域结束、离开指定边缘时状态恢复为 `false`。
+
+:::
 
 ## API {#api}
 

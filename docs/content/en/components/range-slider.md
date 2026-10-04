@@ -64,9 +64,21 @@ Inside a [FormField](/components/form-field) the label is linked to the slider g
 
 ## Behaviour {#behavior}
 
+::: vue
+
 - Clicking the track moves the nearer thumb there; dragging moves only the thumb being held, and the thumbs never cross.
 - Tab lands on each thumb in turn; the arrow keys move only the focused one.
 - The value updates continuously while dragging, and `commit` fires once on release.
+
+:::
+
+::: react
+
+- Clicking the track moves the nearer thumb there; dragging moves only the thumb being held, and the thumbs never cross.
+- Tab lands on each thumb in turn; the arrow keys move only the focused one.
+- The value updates continuously while dragging, and `onCommit` is called once on release.
+
+:::
 
 ## Accessibility {#a11y}
 

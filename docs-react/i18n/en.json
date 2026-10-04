@@ -1,0 +1,18 @@
+{
+  "banner": {
+    "text": "A UI language built for React."
+  },
+  "landing": {
+    "title": "An elegant, restrained React component library",
+    "subtitle": "Built on Tailwind CSS v4. The components cover typography, layout, overlays and page scaffolding."
+  },
+  "framework": {
+    "label": "Framework",
+    "vue": "Vue",
+    "react": "React"
+  },
+  "markdown": {
+    "adjustable": "Adjustable props: {props}.",
+    "separator": ", "
+  }
+}

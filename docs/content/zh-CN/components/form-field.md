@@ -40,7 +40,17 @@ import { FormField } from '@hina-ui/vue'
 
 ### 说明文字 {#description}
 
+::: vue
+
 `description` 在控件下方显示一段说明，也可以用同名插槽放入更丰富的内容。
+
+:::
+
+::: react
+
+`description` 在控件下方显示一段说明，也可以传入元素放入更丰富的内容。
+
+:::
 
 <Demo name="form-field/description" />
 

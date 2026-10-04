@@ -44,7 +44,17 @@ The default slot is the trigger and the `content` slot is what floats out. Click
 
 `anchor` accepts `OverlayAnchor | null`. Set it to omit the default slot and control visibility with `v-model:open`. The panel waits until the anchor is available. Changing the anchor while open updates the position; clearing it on close preserves the exit position.
 
+::: vue
+
 When both the default slot and `anchor` are provided, the slot controls triggering and `anchor` controls positioning. The caller manages click and keyboard behavior, `aria-haspopup`, and `aria-expanded` on external elements.
+
+:::
+
+::: react
+
+When both `children` and `anchor` are provided, `children` controls triggering and `anchor` controls positioning. The caller manages click and keyboard behavior, `aria-haspopup`, and `aria-expanded` on external elements.
+
+:::
 
 <Demo name="popover/anchor" />
 
@@ -56,7 +66,17 @@ The optional `contextElement` identifies the element associated with those coord
 
 `updatePositionStrategy` defaults to `'optimized'`, updating on scrolling, resizing, and layout changes. Set it to `'always'` to check the rectangle every frame while mounted, including coordinate changes without DOM events. The strategy can change while open. Tracking continues throughout exit; clearing the anchor or removing its context element preserves the last position. Measurement stops after unmount.
 
+::: vue
+
 To preserve external focus, set `:modal="false"` and use `@open-auto-focus.prevent`.
+
+:::
+
+::: react
+
+To preserve external focus, set `modal={false}` and call `event.preventDefault()` in `onOpenAutoFocus`.
+
+:::
 
 The example opens with [Button](/components/button) and uses [ScrollArea](/components/scroll-area) as its scroll container. The panel follows changing coordinates and container scrolling.
 
@@ -74,7 +94,17 @@ Use `interactOutside` to prevent dismissal from outside pointer or focus interac
 
 ### Custom padding {#padded}
 
+::: vue
+
 The panel is padded by default. Set `padded="false"` when the content should reach the edges and arrange its own spacing.
+
+:::
+
+::: react
+
+The panel is padded by default. Set `padded={false}` when the content should reach the edges and arrange its own spacing.
+
+:::
 
 <Demo name="popover/padded" />
 

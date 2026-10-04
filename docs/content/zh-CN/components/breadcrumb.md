@@ -32,7 +32,17 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbSeparator } from '@hina-ui/vue'
 
 ### 路由链接 {#router}
 
+::: vue
+
 `as` 指定该项渲染为何种元素，默认为 `a`。在 Nuxt 或 Vue Router 中传入路由组件即可获得客户端跳转，其余属性（`to`、`href` 等）会透传到该元素上。
+
+:::
+
+::: react
+
+`as` 指定该项渲染为何种元素或组件，默认为 `a`。在 Next.js 中传入 `next/link` 的 `Link` 即可获得客户端跳转，其余属性（如 `href`）会透传到该元素上。
+
+:::
 
 需要完全接管渲染时用 `as-child`，此时项的样式类会合并到插槽根元素上。
 

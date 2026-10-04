@@ -1,0 +1,9 @@
+import { Card, Text } from '@hina-ui/react'
+
+export default function Demo() {
+  return (
+    <Card className="w-full max-w-sm">
+      <Text>卡片自带背景色、一条细边框与一层阴影，内容置于默认插槽中。</Text>
+    </Card>
+  )
+}

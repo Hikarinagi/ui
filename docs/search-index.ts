@@ -1,9 +1,11 @@
 import { readdir, readFile } from 'node:fs/promises'
+import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { Plugin } from 'vite'
 import { loadChangelog } from './changelog-source'
+import { frameworkView } from './framework'
 
-const CONTENT_ROOT = fileURLToPath(new URL('./content/', import.meta.url))
+const CONTENT_ROOT = join(dirname(fileURLToPath(import.meta.url)), 'content')
 const ID = 'virtual:docs-search'
 const RESOLVED = `\0${ID}`
 const COMMON_LIMIT = 3
@@ -60,15 +62,19 @@ function route(name: string): string {
   return path.replace(/\/index$/, '') || '/'
 }
 
-async function pagesOf(locale: string): Promise<SearchPage[]> {
-  const dir = `${CONTENT_ROOT}${locale}/`
+export async function pagesOf(
+  locale: string,
+  root = CONTENT_ROOT,
+  adapt: (source: string, path: string) => string = source => frameworkView(source, 'vue'),
+): Promise<SearchPage[]> {
+  const dir = `${join(root, locale)}/`
   const names = (await readdir(dir, { recursive: true, encoding: 'utf8' })).filter(name =>
     name.endsWith('.md'),
   )
   const parsed = await Promise.all(
     names.map(async name => ({
       to: route(name),
-      ...parse(await loadChangelog(await readFile(dir + name, 'utf8'))),
+      ...parse(adapt(await loadChangelog(await readFile(dir + name, 'utf8')), route(name))),
     })),
   )
   const frequency = new Map<string, number>()

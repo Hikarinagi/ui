@@ -54,11 +54,25 @@ The calendar shows one month as a grid and a click picks a day. `v-model` binds 
 
 ## Behavior {#behavior}
 
+::: vue
+
 - A click picks the day; clicking the picked day again does not clear it.
 - The arrow keys move focus by day and by week, Home and End jump to the ends of the week, PageUp and PageDown page by month, and Enter or Space picks the focused day.
 - Moving focus out of the month pages automatically.
 - Clicking the heading opens the month view, and clicking the year there opens the year view, twelve years at a time; picking a year returns to the month view, picking a month returns to the day view on that month, and Esc steps back one level. All three views share the same width and height, so switching never jumps.
 - `placeholder` sets the month shown, the current month by default; after paging or switching views a date inside the new view is emitted as `update:placeholder`, so `v-model:placeholder` tracks or controls the shown month.
+
+:::
+
+::: react
+
+- A click picks the day; clicking the picked day again does not clear it.
+- The arrow keys move focus by day and by week, Home and End jump to the ends of the week, PageUp and PageDown page by month, and Enter or Space picks the focused day.
+- Moving focus out of the month pages automatically.
+- Clicking the heading opens the month view, and clicking the year there opens the year view, twelve years at a time; picking a year returns to the month view, picking a month returns to the day view on that month, and Esc steps back one level. All three views share the same width and height, so switching never jumps.
+- `placeholder` sets the month shown, the current month by default; after paging or switching views `onPlaceholderChange` is called with a date inside the new view, so `placeholder / onPlaceholderChange` tracks or controls the shown month.
+
+:::
 
 ## Accessibility {#a11y}
 

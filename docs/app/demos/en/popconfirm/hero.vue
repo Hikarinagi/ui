@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { Button, Popconfirm, Stack, Text } from '@hina-ui/vue'
+  import { Button, Inline, Popconfirm, Stack, Text } from '@hina-ui/vue'
 
   const comments = ref([
     'Great chapter, looking forward to the next one.',
@@ -15,10 +15,9 @@
 
 <template>
   <Stack gap="sm" align="stretch" class="w-96">
-    <Stack
+    <Inline
       v-for="(comment, index) in comments"
       :key="comment"
-      direction="row"
       align="center"
       justify="between"
       gap="sm"
@@ -33,7 +32,7 @@
       >
         <Button size="sm" variant="ghost" tone="neutral">Delete</Button>
       </Popconfirm>
-    </Stack>
+    </Inline>
     <Text v-if="!comments.length" tone="muted" size="sm">No comments left.</Text>
   </Stack>
 </template>

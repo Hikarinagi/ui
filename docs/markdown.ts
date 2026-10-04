@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url'
 import Markdown from 'unplugin-vue-markdown/vite'
 import attrs from 'markdown-it-attrs'
 import { loadChangelog } from './changelog-source'
+import { frameworkBlocks } from './framework'
 import { tokenize, tokensToHtml } from '../packages/vue/src/components/code-block/highlighter'
 
 const DEMOS_ROOT = fileURLToPath(new URL('./app/demos/', import.meta.url))
@@ -91,7 +92,7 @@ export function markdown() {
     include: [/\.md$/],
     headEnabled: false,
     wrapperDiv: false,
-    markdownUses: [[attrs, { allowedAttributes: ['id'] }]],
+    markdownUses: [[attrs, { allowedAttributes: ['id'] }], frameworkBlocks('vue')],
     markdownSetup(md) {
       md.core.ruler.push('hn-document', state => {
         const id = (state.env as { id?: string }).id

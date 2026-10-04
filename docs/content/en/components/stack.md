@@ -42,7 +42,17 @@ Stack is a vertical flex container: its children run down the page, spaced by `g
 
 `as` changes the rendered tag; use `ul` or `ol` for a list.
 
+::: vue
+
 It also accepts Vue components, such as `:as="RouterLink"` or `:as="NuxtLink"`. Import the component or obtain it through `resolveComponent`; object, functional and async components are supported. Layout classes, extra attributes, event listeners and the default slot are forwarded without an extra wrapper. Custom components must forward attributes and classes to their rendered root.
+
+:::
+
+::: react
+
+It also accepts React components, such as `as={Link}` with `next/link`. Layout classes, extra attributes, event handlers and `children` are forwarded without an extra wrapper. Custom components must forward `className` and other props to their rendered root.
+
+:::
 
 <Demo name="stack/as" />
 

@@ -1,0 +1,25 @@
+import { Plus } from 'lucide-react'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Text } from '@hina-ui/react'
+
+export default function Demo() {
+  return (
+    <Accordion className="w-full max-w-md">
+      <AccordionItem value="intro">
+        <AccordionTrigger icon={<Plus />}>Synopsis</AccordionTrigger>
+        <AccordionContent>
+          <Text tone="muted" size="sm">
+            On my first day at the new school I met a girl on the roof holding an old camera.
+          </Text>
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="staff">
+        <AccordionTrigger icon={false}>Staff</AccordionTrigger>
+        <AccordionContent>
+          <Text tone="muted" size="sm">
+            Story, script and art are all by the same author.
+          </Text>
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  )
+}

@@ -1,0 +1,20 @@
+import { Card, Heading, Ripple, Stack, Text } from '@hina-ui/react'
+
+export default function Demo() {
+  return (
+    <Card
+      as="button"
+      className="hn-interactive hn-state-layer hn-press-lg w-full max-w-sm text-start"
+    >
+      <Ripple />
+      <Stack gap="xs">
+        <Heading level={3} size="base">
+          The whole card is one press target
+        </Heading>
+        <Text tone="muted" size="sm">
+          Ink on hover and a ripple on press — the caller opts into both.
+        </Text>
+      </Stack>
+    </Card>
+  )
+}

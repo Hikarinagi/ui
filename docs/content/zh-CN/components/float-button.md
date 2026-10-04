@@ -16,11 +16,35 @@ import { FloatButton } from '@hina-ui/vue'
 
 默认固定在视口的逻辑右下角。通过 `label` 提供操作名称，默认插槽放图标。浮动按钮适合新建、帮助这类跨内容区域的常用操作；行内操作继续使用 `Button` 或 `IconButton`。
 
+::: vue
+
 ```vue
 <FloatButton label="新建笔记" @click="createNote"><Plus /></FloatButton>
 ```
 
+:::
+
+::: react
+
+```tsx
+<FloatButton label="新建笔记" onClick={createNote}>
+  <Plus />
+</FloatButton>
+```
+
+:::
+
+::: vue
+
 整页使用时放在应用壳外层，避免祖先的 `transform` 改变固定定位的参照。组件不传送到 `body`，保留当前位置的主题、方向和组件上下文。上面的演示使用 `position="absolute"`，将按钮限制在预览面板内。
+
+:::
+
+::: react
+
+整页使用时放在应用壳外层，避免祖先的 `transform` 改变固定定位的参照。组件不通过 portal 渲染到 `body`，保留当前位置的主题、方向和组件上下文。上面的演示使用 `position="absolute"`，将按钮限制在预览面板内。
+
+:::
 
 ## 示例 {#examples}
 
@@ -50,7 +74,19 @@ import { FloatButton } from '@hina-ui/vue'
 
 ### 应用内导航 {#link}
 
+::: vue
+
 将 `as` 设置为路由组件，`to` 等属性透传到实际操作节点。这样可以保留 SPA 导航。
+
+:::
+
+::: react
+
+`FloatButton` 的属性类型只包含按钮属性，没有 `href`。需要跳转到其他页面时，在客户端组件中用 `next/navigation` 的 `useRouter`，在 `onClick` 中调用 `router.push`。
+
+:::
+
+::: vue
 
 ```vue
 <FloatButton :as="NuxtLink" :to="localePath('/components')" label="组件文档">
@@ -58,9 +94,34 @@ import { FloatButton } from '@hina-ui/vue'
 </FloatButton>
 ```
 
+:::
+
+::: react
+
+```tsx
+'use client'
+
+import { useRouter } from 'next/navigation'
+import { BookOpen } from 'lucide-react'
+import { FloatButton } from '@hina-ui/react'
+
+export function DocsShortcut() {
+  const router = useRouter()
+  return (
+    <FloatButton label="组件文档" onClick={() => router.push('/components')}>
+      <BookOpen />
+    </FloatButton>
+  )
+}
+```
+
+:::
+
 ## API {#api}
 
 ### Props {#props}
+
+::: vue
 
 | 属性          | 类型                                                         | 默认值         | 说明                                                  |
 | ------------- | ------------------------------------------------------------ | -------------- | ----------------------------------------------------- |
@@ -83,6 +144,34 @@ import { FloatButton } from '@hina-ui/vue'
 | `type`        | `'button' \| 'submit' \| 'reset'`                            | `'button'`     | 按钮类型                                              |
 | `class`       | `string`                                                     | —              | 按钮类名                                              |
 | `style`       | `StyleValue`                                                 | —              | 按钮样式                                              |
+
+:::
+
+::: react
+
+| 属性          | 类型                                                         | 默认值         | 说明                                                  |
+| ------------- | ------------------------------------------------------------ | -------------- | ----------------------------------------------------- |
+| `label`       | `string`                                                     | 必填           | 操作名称，同时用于无障碍和 Tooltip                    |
+| `visible`     | `boolean`                                                    | `true`         | 显示按钮，变化时播放过渡                              |
+| `position`    | `'fixed' \| 'absolute' \| 'static'`                          | `'fixed'`      | 定位方式                                              |
+| `placement`   | `'top-start' \| 'top-end' \| 'bottom-start' \| 'bottom-end'` | `'bottom-end'` | 定位角落，静态布局时无效                              |
+| `offset`      | `number \| string`                                           | `6 × spacing`  | 边距，数字单位为 px；固定定位取边距与安全区中的较大值 |
+| `size`        | `'sm' \| 'md' \| 'lg'`                                       | `'md'`         | 按钮尺寸                                              |
+| `shape`       | `'circle' \| 'square'`                                       | `'circle'`     | 圆形或圆角方形                                        |
+| `extended`    | `boolean`                                                    | `false`        | 显示文字标签                                          |
+| `variant`     | `'solid' \| 'soft' \| 'outline'`                             | `'solid'`      | 按钮外观                                              |
+| `tone`        | `'accent' \| 'neutral' \| 'danger'`                          | `'accent'`     | 按钮色调                                              |
+| `tooltip`     | `boolean`                                                    | `true`         | 图标形态下显示 Tooltip                                |
+| `tooltipSide` | `'top' \| 'right' \| 'bottom' \| 'left'`                     | `'top'`        | Tooltip 首选方向                                      |
+| `loading`     | `boolean`                                                    | `false`        | 加载中并禁止操作                                      |
+| `disabled`    | `boolean`                                                    | `false`        | 禁用操作                                              |
+| `ripple`      | `boolean`                                                    | `true`         | 涟漪反馈                                              |
+| `as`          | `string \| Component`                                        | `'button'`     | 实际操作元素或组件                                    |
+| `type`        | `'button' \| 'submit' \| 'reset'`                            | `'button'`     | 按钮类型                                              |
+| `className`   | `string`                                                     | —              | 按钮类名                                              |
+| `style`       | `CSSProperties`                                              | —              | 按钮样式                                              |
+
+:::
 
 原生属性和事件透传到按钮，例如 `id`、`form` 和 `@click`。
 

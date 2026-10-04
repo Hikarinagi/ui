@@ -14,6 +14,8 @@ links:
 import { MonthGrid } from '@hina-ui/vue'
 ```
 
+::: vue
+
 `v-model:month` controls the displayed month as `YYYY-MM`. The default slot receives each day's metadata and renders below its date number. Add text, status or independent actions.
 
 ```vue
@@ -26,18 +28,58 @@ import { MonthGrid } from '@hina-ui/vue'
 </MonthGrid>
 ```
 
+:::
+
+::: react
+
+`month / onMonthChange` controls the displayed month as `YYYY-MM`. `children` is a function that receives each day's metadata; what it returns renders below the date number. Add text, status or independent actions. `children` and the `render*` props are functions, so the component that passes them needs `'use client'`.
+
+```tsx
+<MonthGrid month={month} onMonthChange={setMonth} today="2026-09-21" label="Team schedule">
+  {({ date }) =>
+    eventsByDate[date]?.map(event => (
+      <Text key={event.id} size="xs">
+        {event.title}
+      </Text>
+    ))
+  }
+</MonthGrid>
+```
+
+:::
+
 | Task                                            | Component             |
 | ----------------------------------------------- | --------------------- |
 | Select a date for a form                        | Calendar / DatePicker |
 | Browse daily content or act on a particular day | MonthGrid             |
 
+::: vue
+
 MonthGrid has no selected date, selection highlight or whole-cell click event. Compose buttons, links and overlays inside its slots without nested buttons or intercepted keyboard events.
+
+:::
+
+::: react
+
+MonthGrid has no selected date, selection highlight or whole-cell click callback. Compose buttons, links and overlays in the content returned by `children` or `renderDay`, without nested buttons or intercepted keyboard events.
+
+:::
 
 ## Examples {#examples}
 
 ### Customize around the default date {#check-in}
 
+::: vue
+
 `#day-trailing` adds status, holidays or counts beside the date. The component keeps date formatting, today's marker and the accessible name. Use `#date` to change only the date content inside the existing `time` element; keep this slot to text and decoration, with interactive controls in the other slots.
+
+:::
+
+::: react
+
+`renderDayTrailing` adds status, holidays or counts beside the date. The component keeps date formatting, today's marker and the accessible name. Use `renderDate` to change only the date content inside the existing `time` element; keep `renderDate` to text and decoration, with interactive controls in `children` or `renderDay`.
+
+:::
 
 This example hides the built-in header and uses `cellClass` for full-cell check-in and day-off backgrounds. The default slot holds today's action. Records belong to the application.
 
@@ -45,13 +87,25 @@ This example hides the built-in header and uses `cellClass` for full-cell check-
 
 ### Full day content and room rates {#prices}
 
+::: vue
+
 `#day` replaces the entire content area, including the date header and default content. The component still owns the table cell and its layout wrapper. Set `dayPadding=0` and let the slot button handle its padding to fill the content area.
+
+:::
+
+::: react
+
+`renderDay` replaces the entire content area, including the date header and default content. The component still owns the table cell and its layout wrapper. Set `dayPadding={0}` and let the button returned by `renderDay` handle its padding to fill the content area.
+
+:::
 
 This example combines dates, prices, stock, sold-out states and application selection. Buttons own their disabled state and `aria-pressed`; MonthGrid does not hold a booking value.
 
 <Demo name="month-grid/prices" />
 
 ### Add actions without replacing navigation {#actions}
+
+::: vue
 
 The schedule example uses `#header-actions` to add a category filter while keeping the month heading, month/year picker and navigation. Actions wrap onto a separate row in narrow containers. The slot receives the same context as `#header`.
 
@@ -63,7 +117,40 @@ The schedule example uses `#header-actions` to add a category filter while keepi
 </MonthGrid>
 ```
 
+:::
+
+::: react
+
+The schedule example uses `renderHeaderActions` to add a category filter while keeping the month heading, month/year picker and navigation. Actions wrap onto a separate row in narrow containers. `renderHeaderActions` receives the same context as `renderHeader`.
+
+```tsx
+<MonthGrid
+  month={month}
+  onMonthChange={setMonth}
+  renderHeaderActions={() => (
+    <Select
+      value={category}
+      onValueChange={setCategory}
+      options={categories}
+      aria-label="Schedule category"
+    />
+  )}
+/>
+```
+
+:::
+
+::: vue
+
 Providing `#header` replaces the whole header, including the default actions area. Set `:show-header="false"` to remove the header and its spacing while retaining the table's accessible name.
+
+:::
+
+::: react
+
+Providing `renderHeader` replaces the whole header, including the default actions area. Set `showHeader={false}` to remove the header and its spacing while retaining the table's accessible name.
+
+:::
 
 ### Cell styling and layout {#customization}
 
@@ -74,15 +161,45 @@ Providing `#header` replaces the whole header, including the default actions are
 | `dayMinHeight` | Minimum content height    | Size the day independently of header controls         |
 | `dayPadding`   | Content padding           | Compact layouts or full-area actions                  |
 
+::: vue
+
 Both class props accept a string or `(day: MonthGridDay) => string | undefined`. Callbacks receive the date slot context, including for adjacent-month cells whose content is hidden. Classes merge with defaults so callers can override them without descendant selectors.
+
+:::
+
+::: react
+
+Both class props accept a string or `(day: MonthGridDay) => string | undefined`. Functions receive the same context as `children`, including for adjacent-month cells whose content is hidden. Classes merge with defaults so callers can override them without descendant selectors.
+
+:::
 
 Both dimension props accept numbers in pixels or CSS lengths such as `112`, `'7rem'` or `'var(--my-calendar-spacing)'`. Padding also accepts shorthand such as `'4px 8px'`. Omitted values use Hina sizes and responsive spacing. Minimum height does not clip content: extra content can grow its row. Entry limits and “more” controls belong to the application.
 
 ### Custom header and date bounds {#header}
 
+::: vue
+
 `#header` exposes the displayed month, date range and navigation methods that respect the bounds. Replace the header with a select or your own toolbar. This example also demonstrates variable week counts, adjacent-month visibility and Sunday-first weeks.
 
+:::
+
+::: react
+
+`renderHeader` exposes the displayed month, date range and navigation methods that respect the bounds. Replace the header with a select or your own toolbar. This example also demonstrates variable week counts, adjacent-month visibility and Sunday-first weeks.
+
+:::
+
+::: vue
+
 `min` and `max` use `YYYY-MM-DD`. Navigation stays within their months, and out-of-range days receive `isDisabled`. **Bind `:disabled="isDisabled"` on slot actions yourself**; the component does not interfere with application content.
+
+:::
+
+::: react
+
+`min` and `max` use `YYYY-MM-DD`. Navigation stays within their months, and out-of-range days receive `isDisabled`. **Set `disabled={isDisabled}` on actions returned by `children` or `renderDay` yourself**; the component does not interfere with application content.
+
+:::
 
 <Demo name="month-grid/header" />
 
@@ -93,6 +210,8 @@ The default header includes previous/next month, a current-month shortcut and a 
 Set `:show-today="false"` to hide the current-month shortcut. `disabled` stops default navigation and sets every day's `isDisabled` to true. Custom headers should honor `canPrev`, `canNext` and `canToday`.
 
 ### Loading data {#data}
+
+::: vue
 
 `range-change` fires after client mount, then when the month, first weekday or week count changes. It provides the month and the table's first and last ISO dates, allowing requests to include adjacent months.
 
@@ -106,7 +225,25 @@ Set `:show-today="false"` to hide the current-month shortcut. `disabled` stops d
 
 Requests, loading feedback, failures and stale-response handling belong to the caller. Prefetch SSR data from the known month at page level instead of depending on the client-only event. The range always describes the whole table, even when adjacent-month content is hidden.
 
+:::
+
+::: react
+
+`onRangeChange` is called after client mount, then when the month, first weekday or week count changes. It receives the month and the table's first and last ISO dates, allowing requests to include adjacent months.
+
+```tsx
+<MonthGrid month={month} onMonthChange={setMonth} onRangeChange={loadRange}>
+  {({ date }) => <Text size="xs">{summaries[date]}</Text>}
+</MonthGrid>
+```
+
+Requests, loading feedback, failures and stale-response handling belong to the caller. Prefetch SSR data from the known month at page level instead of depending on the client-only `onRangeChange`. The range always describes the whole table, even when adjacent-month content is hidden.
+
+:::
+
 ## First paint and layout {#rendering}
+
+::: vue
 
 - The server renders weekday headings, all date cells and slot content directly. Layout needs no browser measurement.
 - Today defaults to UTC so server and browser local time zones do not disagree. Pass `timeZone` for a fixed business zone. Pass the same `today` and `month` from the page when hydration must remain identical across midnight as well.
@@ -115,15 +252,40 @@ Requests, loading feedback, failures and stale-response handling belong to the c
 - Dates use the Gregorian calendar with localized month and weekday names. Week start follows the locale unless overridden. Direction is inherited and RTL is supported.
 - Invalid months fall back to today's month. Valid out-of-range months display the nearest allowed month. Invalid bounds are ignored; reversed bounds are ignored together. These fallbacks do not rewrite the caller's model automatically.
 
+:::
+
+::: react
+
+- The server renders weekday headings, all date cells and supplied content directly. Layout needs no browser measurement.
+- Today defaults to UTC so server and browser local time zones do not disagree. Pass `timeZone` for a fixed business zone. Pass the same `today` and `month` from the page when hydration must remain identical across midnight as well.
+- Six fixed weeks keep the row count stable between months. With `fixedWeeks={false}`, the table uses the four to six weeks needed by that month.
+- `size` provides default day and control dimensions. `dayMinHeight` and `dayPadding` independently override day layout. Content can grow naturally; narrow containers reduce default padding. Limit long event lists or show counts, then open details in a Popover or Dialog.
+- Dates use the Gregorian calendar with localized month and weekday names. Week start follows the locale unless overridden. Direction is inherited and RTL is supported.
+- Invalid months fall back to today's month. Valid out-of-range months display the nearest allowed month. Invalid bounds are ignored; reversed bounds are ignored together. These fallbacks do not call `onMonthChange`; the caller's `month` keeps its value.
+
+:::
+
 ## Accessibility {#a11y}
 
 The display uses a native table, caption and weekday headers with `scope="col"`. Default date numbers are time elements with full date names, and today has `aria-current="date"`. Cells do not form a selectable ARIA grid or add Tab stops.
 
+::: vue
+
 Slot buttons and links retain their normal Tab order. When replacing entire cells, preserve date names and provide accessible names for actions and status icons.
+
+:::
+
+::: react
+
+Buttons and links returned by `children` and the `render*` props retain their normal Tab order. When replacing entire cells, preserve date names and provide accessible names for actions and status icons.
+
+:::
 
 ## API {#api}
 
 ### Props {#props}
+
+::: vue
 
 | Prop              | Type                                                     | Default                   | Description                                                          |
 | ----------------- | -------------------------------------------------------- | ------------------------- | -------------------------------------------------------------------- |
@@ -147,7 +309,37 @@ Slot buttons and links retain their normal Tab order. When replacing entire cell
 | `cellClass`       | `string \| ((day: MonthGridDay) => string \| undefined)` | —                         | Styles for date td elements                                          |
 | `dayClass`        | `string \| ((day: MonthGridDay) => string \| undefined)` | —                         | Styles for date content wrappers                                     |
 
+:::
+
+::: react
+
+| Prop              | Type                                                     | Default                   | Description                                                          |
+| ----------------- | -------------------------------------------------------- | ------------------------- | -------------------------------------------------------------------- |
+| `month`           | `string`                                                 | Today's month             | `YYYY-MM`, can be controlled                                         |
+| `dir`             | `'ltr' \| 'rtl'`                                         | Inherited                 | Direction for the table and month/year picker                        |
+| `today`           | `string`                                                 | Computed in the time zone | `YYYY-MM-DD`, overrides automatic calculation                        |
+| `timeZone`        | `string`                                                 | `'UTC'`                   | IANA time zone for calculating today                                 |
+| `min` / `max`     | `string`                                                 | —                         | Date bounds as `YYYY-MM-DD`                                          |
+| `weekStartsOn`    | `0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6`                        | Locale                    | First weekday; 0 is Sunday                                           |
+| `weekdayFormat`   | `'narrow' \| 'short' \| 'long'`                          | `'short'`                 | Weekday label format                                                 |
+| `fixedWeeks`      | `boolean`                                                | `true`                    | Always render six weeks                                              |
+| `showOutsideDays` | `boolean`                                                | `true`                    | Render adjacent-month content; false preserves blank cells           |
+| `showToday`       | `boolean`                                                | `true`                    | Show the current-month shortcut in the default header                |
+| `disabled`        | `boolean`                                                | `false`                   | Disable default navigation and provide disabled metadata             |
+| `size`            | `'sm' \| 'md' \| 'lg'`                                   | `'md'`                    | Cell and navigation size                                             |
+| `label`           | `string`                                                 | Localized “Calendar”      | Table name; the current month is appended                            |
+| `className`       | `string`                                                 | —                         | Root styling; native attributes and style also reach the root        |
+| `showHeader`      | `boolean`                                                | `true`                    | Render the built-in header or `renderHeader`; false leaves no spacer |
+| `dayMinHeight`    | `number \| string`                                       | From size                 | Minimum day content height; numbers are pixels, content can grow     |
+| `dayPadding`      | `number \| string`                                       | Responsive                | Day content padding; numbers are pixels, use 0 for full-area actions |
+| `cellClass`       | `string \| ((day: MonthGridDay) => string \| undefined)` | —                         | Styles for date td elements                                          |
+| `dayClass`        | `string \| ((day: MonthGridDay) => string \| undefined)` | —                         | Styles for date content wrappers                                     |
+
+:::
+
 ### Slots {#slots}
+
+::: vue
 
 | Slot             | Context                     | Description                                                                                                       |
 | ---------------- | --------------------------- | ----------------------------------------------------------------------------------------------------------------- |
@@ -159,6 +351,23 @@ Slot buttons and links retain their normal Tab order. When replacing entire cell
 | `header-actions` | `MonthGridHeader`           | Actions beside default navigation; wraps on narrow containers                                                     |
 | `weekday`        | `{ day, label, fullLabel }` | Weekday heading; day is 0–6                                                                                       |
 | `footer`         | `{ month, start, end }`     | Supplementary table content                                                                                       |
+
+:::
+
+::: react
+
+| Prop                  | Context                     | Description                                                                                                                         |
+| --------------------- | --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `children`            | `MonthGridDay`              | Content below the date header                                                                                                       |
+| `renderDay`           | `MonthGridDay`              | Replaces the content area, preserving td and layout wrapper; takes precedence over `renderDate`, `renderDayTrailing` and `children` |
+| `renderDate`          | `MonthGridDay`              | Content inside time, preserving date semantics and today's marker                                                                   |
+| `renderDayTrailing`   | `MonthGridDay`              | Supplementary content beside the default date                                                                                       |
+| `renderHeader`        | `MonthGridHeader`           | Replaces the complete navigation header                                                                                             |
+| `renderHeaderActions` | `MonthGridHeader`           | Actions beside default navigation; wraps on narrow containers                                                                       |
+| `renderWeekday`       | `{ day, label, fullLabel }` | Weekday heading; day is 0–6                                                                                                         |
+| `renderFooter`        | `{ month, start, end }`     | Supplementary table content                                                                                                         |
+
+:::
 
 `MonthGridDay` includes `date` (ISO date), `day` (day number), `dayLabel` (localized number text), `weekday` (0–6, Sunday is 0), `label` (full date name), `isToday`, `isPast`, `isFuture`, `isOutside` and `isDisabled`. Past/future compare dates against the same `today`. The caller defines weekends, holidays and business availability.
 

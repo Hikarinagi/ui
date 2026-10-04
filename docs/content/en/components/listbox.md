@@ -44,9 +44,21 @@ The complete option type is inferred from `options`. Slot parameters preserve ad
 
 ### Trailing content {#trailing}
 
+::: vue
+
 `#trailing="{ option, selected }"` replaces the entire trailing area. Without this slot the existing check indicator and its reserved space remain. When the slot is provided, an empty result intentionally removes the tail, including its gap; it does not restore the default indicator. Use `<template #trailing />` to omit it for every row, or conditional content to omit it for individual options.
 
 Custom trailing content determines its own width. The example uses `selected` to switch between a [Tag](/components/tag) and a check icon, and returns empty content for some options. The `option` and `trailing` slots receive the same selection state for grouped and plain options, single and multiple selection.
+
+:::
+
+::: react
+
+`renderTrailing` receives `{ option, selected }` and replaces the entire trailing area. Without `renderTrailing` the existing check indicator and its reserved space remain. When it is provided, an empty result intentionally removes the tail, including its gap; it does not restore the default indicator. Use `renderTrailing={() => null}` to omit it for every row, or return `null` conditionally to omit it for individual options.
+
+Custom trailing content determines its own width. The example uses `selected` to switch between a [Tag](/components/tag) and a check icon, and returns empty content for some options. `renderOption` and `renderTrailing` receive the same selection state for grouped and plain options, single and multiple selection.
+
+:::
 
 <Demo name="listbox/trailing" />
 
@@ -86,7 +98,17 @@ Inside a [FormField](/components/form-field) the label is linked to the list thr
 
 ### Virtual scrolling {#virtual}
 
+::: vue
+
 `virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Rows unmount outside the rendered range; keep persistent slot state outside the row, keyed by its unique value.
+
+:::
+
+::: react
+
+`virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Rows unmount outside the rendered range; keep persistent state of content rendered by `renderOption` and `renderTrailing` outside the row, keyed by its unique value.
+
+:::
 
 <Demo name="listbox/virtual" />
 

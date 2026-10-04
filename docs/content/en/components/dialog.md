@@ -16,7 +16,17 @@ links:
 import { Dialog } from '@hina-ui/vue'
 ```
 
+::: vue
+
 `title` is required and `description` is the line under it. The default slot is the trigger, the `content` slot is the body, and the `footer` slot holds the actions. The `content`, `footer` and `body` slots receive a `close` method; `body` replaces the entire interior layout.
+
+:::
+
+::: react
+
+`title` is required and `description` is the line under it. `children` is the trigger, `renderContent` renders the body and `renderFooter` renders the actions. `renderContent`, `renderFooter` and `renderBody`, which takes over the entire interior layout, all receive a `close` method.
+
+:::
 
 <Demo name="dialog/basic" />
 
@@ -44,9 +54,29 @@ The `icon` slot displays a decorative icon before the title. The `title` slot re
 
 ### Custom panel content {#body}
 
+::: vue
+
 `#body="{ close }"` replaces the entire panel interior, including the default header, content and footer. The component adds no inner padding, section gaps or [ScrollArea](/components/scroll-area) wrapper; the slot controls its own padding and scrolling. An empty slot does not restore the default layout.
 
+:::
+
+::: react
+
+`renderBody` replaces the entire panel interior, including the default header, content and footer. The component adds no inner padding, section gaps or [ScrollArea](/components/scroll-area) wrapper; the returned content controls its own padding and scrolling. Returning empty content does not restore the default layout.
+
+:::
+
+::: vue
+
 In this mode, `header`, `closable`, and the `icon`, `title`, `content` and `footer` slots do not affect rendering. The required `title` and any provided description remain visually hidden. Size, placement, the scrim, focus containment and `locked` still apply. The slot's `close()` method can close the dialog programmatically.
+
+:::
+
+::: react
+
+In this mode, `header`, `closable`, and the `icon`, `titleContent`, `renderContent` and `renderFooter` props do not affect rendering. The required `title` and any provided description remain visually hidden. Size, placement, the scrim, focus containment and `locked` still apply. The `close()` method passed to `renderBody` can close the dialog programmatically.
+
+:::
 
 The example places actions at the top and keeps a toolbar at the bottom. [Textarea](/components/textarea) grows with its content, while [ScrollArea](/components/scroll-area) controls scrolling in the middle.
 
@@ -80,7 +110,17 @@ Without `placement`, the dialog is centred on a wide screen and sits along the b
 
 ### Long content {#scroll}
 
+::: vue
+
 In the default layout, content past the available height scrolls inside the `content` slot while the title and footer stay put. The panel itself never runs past the viewport.
+
+:::
+
+::: react
+
+In the default layout, content past the available height scrolls inside the body rendered by `renderContent` while the title and footer stay put. The panel itself never runs past the viewport.
+
+:::
 
 <Demo name="dialog/scroll" />
 
@@ -88,7 +128,17 @@ In the default layout, content past the available height scrolls inside the `con
 
 Use the component ref's `viewport` to access the actual scrollable element of its built-in [ScrollArea](/components/scroll-area). Read `scrollTop`, call `scrollTo()`, or pass it to scroll listeners and observers.
 
+::: vue
+
 `viewport` has type `HTMLElement | undefined`. It is `undefined` before the content scroll area initializes, without a `content` slot, and after content unmounts. It remains available during exit and updates to a new element on reopening. Watch `() => modal.value?.viewport` to act when ready or attach listeners, and remove listeners in the watch cleanup callback.
+
+:::
+
+::: react
+
+`viewport` has type `HTMLElement | undefined`. It is `undefined` before the content scroll area initializes, without `renderContent`, and after content unmounts. It remains available during exit and updates to a new element on reopening. The ref handle is passed again whenever `viewport` becomes available or changes. To act when ready or attach listeners, use a `useState` setter as a callback ref, attach listeners in an effect that depends on `modal?.viewport`, and remove them in the effect cleanup.
+
+:::
 
 The `body` slot replaces the built-in scroll area, so `viewport` is `undefined`. Reference any custom scroll area directly.
 
@@ -116,9 +166,21 @@ With `locked`, neither Escape nor a click on the scrim closes the dialog, and a 
 
 ## Accessibility {#a11y}
 
+::: vue
+
 - The panel is a `role="dialog"`, with `title` and `description` wired to `aria-labelledby` and `aria-describedby`.
 - The title renders as an `<h2>`. Hiding the header or providing `body` retains a visually hidden title generated from the `title` prop.
 - The close button carries an accessible name taken from the current language.
+
+:::
+
+::: react
+
+- The panel is a `role="dialog"`, with `title` and `description` wired to `aria-labelledby` and `aria-describedby`.
+- The title renders as an `<h2>`. Hiding the header or providing `renderBody` retains a visually hidden title generated from the `title` prop.
+- The close button carries an accessible name taken from the current language.
+
+:::
 
 ## API {#api}
 

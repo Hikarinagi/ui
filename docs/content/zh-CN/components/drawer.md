@@ -16,7 +16,17 @@ links:
 import { Drawer } from '@hina-ui/vue'
 ```
 
+::: vue
+
 `title` 必填，`description` 是标题下面的一行说明。默认插槽是触发器，`content` 插槽是正文，`footer` 插槽是底部的操作按钮。`content`、`footer` 和接管内部布局的 `body` 插槽都会收到 `close` 方法。
+
+:::
+
+::: react
+
+`title` 必填，`description` 是标题下面的一行说明。`children` 是触发器，`renderContent` 渲染正文，`renderFooter` 渲染底部的操作按钮。`renderContent`、`renderFooter` 和接管内部布局的 `renderBody` 都会收到 `close` 方法。
+
+:::
 
 <Demo name="drawer/basic" />
 
@@ -40,7 +50,17 @@ import { Drawer } from '@hina-ui/vue'
 
 ### 关闭按钮 {#closable}
 
+::: vue
+
 `closable` 默认为 `true`。设为 `false` 只隐藏标题栏中的关闭按钮，按 Esc 和点击遮罩仍可关闭，`locked` 控制这些关闭行为。隐藏标题栏或提供 `body` 时，内置关闭按钮不参与渲染。
+
+:::
+
+::: react
+
+`closable` 默认为 `true`。设为 `false` 只隐藏标题栏中的关闭按钮，按 Esc 和点击遮罩仍可关闭，`locked` 控制这些关闭行为。隐藏标题栏或提供 `renderBody` 时，内置关闭按钮不参与渲染。
+
+:::
 
 <Demo name="drawer/closable" />
 
@@ -74,7 +94,17 @@ import { Drawer } from '@hina-ui/vue'
 
 ### 长内容 {#scroll}
 
+::: vue
+
 超出可用高度的内容在 `content` 插槽内部滚动，标题和页脚保持不动。
+
+:::
+
+::: react
+
+超出可用高度的内容在 `renderContent` 渲染的正文区域内滚动，标题和页脚保持不动。
+
+:::
 
 <Demo name="drawer/scroll" />
 
@@ -82,7 +112,17 @@ import { Drawer } from '@hina-ui/vue'
 
 通过组件 ref 的 `viewport` 获取正文内置 [ScrollArea](/components/scroll-area) 的实际滚动元素。可以读取 `scrollTop`、调用 `scrollTo()`，或将它交给滚动监听、观察器。
 
+::: vue
+
 `viewport` 的类型为 `HTMLElement | undefined`。正文滚动区域初始化完成前、没有 `content` 插槽或内容卸载后为 `undefined`；退场期间仍返回当前元素，再次打开时更新为新的元素。需要在可用时执行操作或绑定监听，可监听 `() => modal.value?.viewport`，并在监听清理函数中解除绑定。
+
+:::
+
+::: react
+
+`viewport` 的类型为 `HTMLElement | undefined`。正文滚动区域初始化完成前、没有 `renderContent` 或内容卸载后为 `undefined`；退场期间仍返回当前元素，再次打开时更新为新的元素。`viewport` 可用或变化时 ref 句柄会重新传入；需要在可用时执行操作或绑定监听，可用 `useState` 的 setter 作为回调 ref，在依赖 `drawer?.viewport` 的 effect 中绑定，并在 effect 的清理函数中解除绑定。
+
+:::
 
 使用 `body` 插槽时，内置滚动区域被替换，`viewport` 为 `undefined`；自定义滚动区域由调用方自行引用。
 
@@ -104,16 +144,41 @@ import { Drawer } from '@hina-ui/vue'
 
 ## 行为 {#behavior}
 
+::: vue
+
 - 多个浮层按打开顺序叠放，后打开的在上方；组件的挂载先后不影响叠放。关闭后保留完整退场动画，再移除浮层。
 - 抽屉打开期间页面停止滚动，焦点被限制在面板内部，关闭后回到触发器。
 - 按 Esc 或点击遮罩关闭抽屉，`locked` 会同时禁用这两种方式。
 - 默认正文区域使用 [ScrollArea](/components/scroll-area)；`body` 的滚动由调用方控制。
 
+:::
+
+::: react
+
+- 多个浮层按打开顺序叠放，后打开的在上方；组件的挂载先后不影响叠放。关闭后保留完整退场动画，再移除浮层。
+- 抽屉打开期间页面停止滚动，焦点被限制在面板内部，关闭后回到触发器。
+- 按 Esc 或点击遮罩关闭抽屉，`locked` 会同时禁用这两种方式。
+- 默认正文区域使用 [ScrollArea](/components/scroll-area)；`renderBody` 的滚动由调用方控制。
+
+:::
+
 ## 无障碍 {#a11y}
+
+::: vue
 
 - 面板是 `role="dialog"`，`title` 和 `description` 分别关联到 `aria-labelledby` 和 `aria-describedby`。
 - 标题渲染为 `<h2>`；隐藏标题栏或提供 `body` 时，保留由 `title` 属性生成的视觉隐藏标题。
 - 关闭按钮带有无障碍名称，文字取自当前语言。
+
+:::
+
+::: react
+
+- 面板是 `role="dialog"`，`title` 和 `description` 分别关联到 `aria-labelledby` 和 `aria-describedby`。
+- 标题渲染为 `<h2>`；隐藏标题栏或提供 `renderBody` 时，保留由 `title` 属性生成的视觉隐藏标题。
+- 关闭按钮带有无障碍名称，文字取自当前语言。
+
+:::
 
 ## API {#api}
 

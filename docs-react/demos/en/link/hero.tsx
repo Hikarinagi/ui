@@ -1,0 +1,13 @@
+import { Link, Text } from '@hina-ui/react'
+
+export default function Demo() {
+  return (
+    <Text className="max-w-lg">
+      The full list of components lives on the{' '}
+      <Link href="https://github.com/Hikarinagi/ui" target="_blank" rel="noreferrer" underline>
+        repository home page
+      </Link>
+      , and the style variables are covered in the installation guide.
+    </Text>
+  )
+}

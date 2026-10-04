@@ -44,9 +44,21 @@ import { Listbox } from '@hina-ui/vue'
 
 ### 尾部内容 {#trailing}
 
+::: vue
+
 `#trailing="{ option, selected }"` 接管整个行尾区域。未提供此插槽时，保留原有的勾选指示器和占位；提供后若返回空内容，该行不再保留尾部与间距，也不会恢复默认指示器。可用 `<template #trailing />` 清除所有行的尾部，或用条件渲染只清除部分行。
 
 自定义尾部的宽度由内容决定。示例通过 `selected` 在 [Tag](/components/tag) 与勾选图标之间切换，并对部分选项返回空内容。`option` 与 `trailing` 获取相同的选中状态，支持普通选项、分组选项、单选与多选。
+
+:::
+
+::: react
+
+`renderTrailing` 接收 `{ option, selected }`，接管整个行尾区域。未提供 `renderTrailing` 时，保留原有的勾选指示器和占位；提供后若返回空内容，该行不再保留尾部与间距，也不会恢复默认指示器。可用 `renderTrailing={() => null}` 清除所有行的尾部，或按条件返回 `null` 只清除部分行。
+
+自定义尾部的宽度由内容决定。示例通过 `selected` 在 [Tag](/components/tag) 与勾选图标之间切换，并对部分选项返回空内容。`renderOption` 与 `renderTrailing` 获取相同的选中状态，支持普通选项、分组选项、单选与多选。
+
+:::
 
 <Demo name="listbox/trailing" />
 
@@ -86,7 +98,17 @@ import { Listbox } from '@hina-ui/vue'
 
 ### 虚拟滚动 {#virtual}
 
+::: vue
+
 `virtualize` 按需渲染可见范围附近的条目，与 [VirtualList](/components/virtual-list) 共用测量与滚动底层。默认关闭；可传 `{ estimateSize, overscan }` 调整预估行高和两侧预渲染数量，行高会按实际内容测量。键盘导航覆盖完整数据，禁用项会跳过。 条目离开渲染范围后会卸载；插槽内需要持久保留的状态应按唯一 value 存在外部。
+
+:::
+
+::: react
+
+`virtualize` 按需渲染可见范围附近的条目，与 [VirtualList](/components/virtual-list) 共用测量与滚动底层。默认关闭；可传 `{ estimateSize, overscan }` 调整预估行高和两侧预渲染数量，行高会按实际内容测量。键盘导航覆盖完整数据，禁用项会跳过。条目离开渲染范围后会卸载；`renderOption` 与 `renderTrailing` 渲染的内容中需要持久保留的状态应按唯一 value 存在外部。
+
+:::
 
 <Demo name="listbox/virtual" />
 

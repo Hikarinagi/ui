@@ -22,7 +22,17 @@ It paints nothing of its own. Background, radius and stacking all come from `cla
 
 ### Moving between items {#shared}
 
+::: vue
+
 Render it inside the currently active item, toggled with `v-if`, and give it an `id`. When the active item changes the old block unmounts and a new one mounts inside the new item; the shared `id` lets Motion fly it from the old position to the new one. Generate the `id` with `useId()` so several instances on one page do not interfere.
+
+:::
+
+::: react
+
+Render it inside the currently active item, conditionally on the active state (for example `{active && <Highlight id={id} />}`), and give it an `id`. When the active item changes the old block unmounts and a new one mounts inside the new item; the shared `id` lets Motion fly it from the old position to the new one. Generate the `id` with React's `useId()` so several instances on one page do not interfere.
+
+:::
 
 The example above does exactly this: every button holds an `absolute inset-0` highlight, and only the active one renders it.
 

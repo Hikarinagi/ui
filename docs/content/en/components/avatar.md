@@ -40,6 +40,8 @@ Initials follow the writing system: a Chinese, Japanese or Korean name gives its
 
 Overlap spacing and separator rings apply directly to the group's outer child elements. A custom avatar wrapped in a trigger does not need to forward group layout classes to its inner avatar. The wrapper's rounding and decoration remain under the custom component's control.
 
+::: vue
+
 Custom children can import `useAvatarGroup` from the package root to read the group size reactively. It returns `null` outside a group. For example, preserve an individual avatar's size override in a custom component:
 
 ```ts
@@ -51,7 +53,36 @@ const group = useAvatarGroup()
 const size = computed(() => props.size ?? group?.value.size ?? 'md')
 ```
 
+:::
+
+::: react
+
+Custom children can import `useAvatarGroup` from the package root to read the group size. It returns `null` outside a group. For example, preserve an individual avatar's size override in a custom component:
+
+```tsx
+'use client'
+
+import { Avatar, useAvatarGroup, type AvatarVariants } from '@hina-ui/react'
+
+export function MemberAvatar({ name, size }: { name: string; size?: AvatarVariants['size'] }) {
+  const group = useAvatarGroup()
+  return <Avatar name={name} size={size ?? group?.size ?? 'md'} />
+}
+```
+
+:::
+
+::: vue
+
 `max` counts entries supplied by the default slot, including a `v-for` directly in that slot. Multiple avatars rendered inside a custom component are not counted separately; supply one avatar per slot entry when an accurate `+N` is required.
+
+:::
+
+::: react
+
+`max` counts the entries in `children`; arrays such as `members.map(...)` and fragments written directly there are flattened and counted. Multiple avatars rendered inside a custom component are not counted separately; supply one avatar per child when an accurate `+N` is required.
+
+:::
 
 ### Custom content {#custom}
 
@@ -61,10 +92,23 @@ The default slot replaces the built-in fallback with an icon or a short piece of
 
 ## Behaviour {#behavior}
 
+::: vue
+
 - The avatar is rendered by [Image](/components/image), so its address goes through `provideImageResolver` too and a skeleton holds the circle while it loads.
 - The picture fills the circle with `object-fit: cover`, so an image of a different aspect ratio is not stretched.
 - The fallback shows when there is no `src` or the picture fails; a failed picture is removed.
 - Image's other props can be written straight on Avatar — `fallback`, `lazy`, `eager` and the rest are passed through.
+
+:::
+
+::: react
+
+- The avatar is rendered by [Image](/components/image), so its address goes through the resolver from `ImageResolverProvider` too and a skeleton holds the circle while it loads.
+- The picture fills the circle with `object-fit: cover`, so an image of a different aspect ratio is not stretched.
+- The fallback shows when there is no `src` or the picture fails; a failed picture is removed.
+- Image's other props can be written straight on Avatar — `fallback`, `lazy`, `eager` and the rest are passed through.
+
+:::
 
 ## Accessibility {#a11y}
 
@@ -99,7 +143,17 @@ The default slot replaces the built-in fallback with an icon or a short piece of
 
 ### useAvatarGroup {#group-context}
 
+::: vue
+
 `useAvatarGroup()` returns `ComputedRef<AvatarGroupContext> | null`. `AvatarGroupContext` is also exported from the package root.
+
+:::
+
+::: react
+
+`useAvatarGroup()` returns `AvatarGroupContext | null`. `AvatarGroupContext` is also exported from the package root.
+
+:::
 
 | Field  | Type                     | Description                                                           |
 | ------ | ------------------------ | --------------------------------------------------------------------- |

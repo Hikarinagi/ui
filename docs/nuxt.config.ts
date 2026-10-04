@@ -73,7 +73,7 @@ export default defineNuxtConfig({
     },
   },
   css: ['~/assets/css/main.css'],
-  watch: ['markdown.ts', 'search-index.ts', 'changelog.ts', 'changelog-source.ts'],
+  watch: ['markdown.ts', 'framework.ts', 'search-index.ts', 'changelog.ts', 'changelog-source.ts'],
   nitro: {
     rollupConfig: {
       treeshake: false,

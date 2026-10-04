@@ -26,7 +26,17 @@ import { MultiCombobox } from '@hina-ui/vue'
 
 ### 远程搜索 {#remote}
 
+::: vue
+
 `ignoreFilter` 关闭本地筛选，`v-model:search` 提供输入文字，远程搜索结果直接传给 `options`。`selectedOptions` 单独提供已选项资料，[Chip](/components/chip) 按 `v-model` 中的值解析名称；这些资料不会自动加入下拉列表，也不会增加选中项。
+
+:::
+
+::: react
+
+`ignoreFilter` 关闭本地筛选，`search / onSearchChange` 提供输入文字，远程搜索结果直接传给 `options`。`selectedOptions` 单独提供已选项资料，[Chip](/components/chip) 按 `value` 中的值解析名称；这些资料不会自动加入下拉列表，也不会增加选中项。
+
+:::
 
 组件会记住选项名称，替换或清空搜索结果后，已选标签仍显示名称；外部资料异步到达或名称更新时同步显示。同一值同时出现在两份资料中时，标签名称以 `selectedOptions` 为准。搜索结果如果包含已选值，该行正常显示勾选状态。
 
@@ -70,7 +80,17 @@ import { MultiCombobox } from '@hina-ui/vue'
 
 ### 虚拟滚动 {#virtual}
 
+::: vue
+
 `virtualize` 按需渲染可见范围附近的条目，与 [VirtualList](/components/virtual-list) 共用测量与滚动底层。默认关闭；可传 `{ estimateSize, overscan }` 调整预估行高和两侧预渲染数量，行高会按实际内容测量。键盘导航覆盖完整数据，禁用项会跳过。 搜索仍处理完整数据。 条目离开渲染范围后会卸载；插槽内需要持久保留的状态应按唯一 value 存在外部。
+
+:::
+
+::: react
+
+`virtualize` 按需渲染可见范围附近的条目，与 [VirtualList](/components/virtual-list) 共用测量与滚动底层。默认关闭；可传 `{ estimateSize, overscan }` 调整预估行高和两侧预渲染数量，行高会按实际内容测量。键盘导航覆盖完整数据，禁用项会跳过。搜索仍处理完整数据。条目离开渲染范围后会卸载；`renderOption` 渲染的内容中需要持久保留的状态应按唯一 value 存在外部。
+
+:::
 
 <Demo name="multi-combobox/virtual" />
 

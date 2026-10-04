@@ -26,7 +26,17 @@ It differs from `Switch` by occasion: a switch stands for a setting, always carr
 
 ### Icon only {#icon}
 
+::: vue
+
 `label` supplies the accessible name. Without a default text slot, the button uses square, icon-only sizing; with text, it keeps normal button padding. Inside a `TooltipProvider`, the label also appears in a [Tooltip](/components/tooltip). `#pressed-icon` supplies the icon for the pressed state; the two icons cross-fade.
+
+:::
+
+::: react
+
+`label` supplies the accessible name. Without text in `children`, the button uses square, icon-only sizing; with text, it keeps normal button padding. Inside a `TooltipProvider`, the label also appears in a [Tooltip](/components/tooltip). `pressedIcon` supplies the icon for the pressed state; the two icons cross-fade.
+
+:::
 
 <Demo name="toggle/icon" />
 
@@ -75,6 +85,8 @@ Inside a [FormField](/components/form-field) the error message is rendered by th
 
 ### Props {#props}
 
+::: vue
+
 | Prop         | Type                                     | Default   | Description                                                         |
 | ------------ | ---------------------------------------- | --------- | ------------------------------------------------------------------- |
 | `modelValue` | `boolean`                                | `false`   | Whether it is pressed                                               |
@@ -87,6 +99,25 @@ Inside a [FormField](/components/form-field) the error message is rendered by th
 | `disabled`   | `boolean`                                | `false`   | Whether it is disabled                                              |
 | `ripple`     | `boolean`                                | `true`    | Whether to show the press ripple                                    |
 | `class`      | `string`                                 | —         | Classes appended to the button element                              |
+
+:::
+
+::: react
+
+| Prop        | Type                                     | Default   | Description                                               |
+| ----------- | ---------------------------------------- | --------- | --------------------------------------------------------- |
+| `value`     | `boolean`                                | `false`   | Whether it is pressed                                     |
+| `label`     | `string`                                 | —         | Accessible name; uses icon-only sizing without `children` |
+| `tooltip`   | `boolean`                                | `true`    | Whether to show a tooltip for the label                   |
+| `side`      | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'`   | Tooltip placement                                         |
+| `variant`   | `'ghost' \| 'outline'`                   | `'ghost'` | Variant                                                   |
+| `size`      | `'sm' \| 'md' \| 'lg'`                   | `'md'`    | Size                                                      |
+| `pill`      | `boolean`                                | `false`   | Whether it is pill-shaped                                 |
+| `disabled`  | `boolean`                                | `false`   | Whether it is disabled                                    |
+| `ripple`    | `boolean`                                | `true`    | Whether to show the press ripple                          |
+| `className` | `string`                                 | —         | Classes appended to the button element                    |
+
+:::
 
 ### Slots {#slots}
 

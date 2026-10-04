@@ -32,7 +32,17 @@ The separator is a right-pointing chevron by default. The default slot replaces 
 
 ### Router links {#router}
 
+::: vue
+
 `as` sets what an item renders as, defaulting to `a`. Pass a router component in Nuxt or Vue Router for client-side navigation; remaining attributes such as `to` and `href` pass through to that element.
+
+:::
+
+::: react
+
+`as` sets what an item renders as, a tag or a component, defaulting to `a`. Pass `Link` from `next/link` for client-side navigation in Next.js; remaining attributes such as `href` pass through to that element.
+
+:::
 
 Use `as-child` to take over rendering entirely, in which case the item's classes are merged onto the slot's root element.
 

@@ -14,11 +14,33 @@ DataList provides media, title, description, metadata, and action regions. The s
 
 Pass `items`, a unique stable `itemKey`, and `itemTitle` for a basic list. Title and description fields also accept functions.
 
+::: vue
+
 ```vue
 <DataList :items="items" item-key="id" item-title="name" item-description="description" />
 ```
 
+:::
+
+::: react
+
+```tsx
+<DataList items={items} itemKey="id" itemTitle="name" itemDescription="description" />
+```
+
+:::
+
+::: vue
+
 Add `#media`, `#title`, `#description`, `#meta`, and `#actions` as needed. Each receives `{ item, index, key, layout }` with the full item type. With pagination, `index` includes the page offset. The default slot replaces the entire item while retaining the list container, pagination, and state handling.
+
+:::
+
+::: react
+
+Add `renderMedia`, `renderTitle`, `renderDescription`, `renderMeta`, and `renderActions` as needed. Each receives `{ item, index, key, layout }` with the full item type. With pagination, `index` includes the page offset. A `children` function replaces the entire item while retaining the list container, pagination, and state handling.
+
+:::
 
 Examples use a snapshot of public works from [Hikarinagi](https://www.hikarinagi.org), retrieved on 2026-09-18, including names, developers, release dates, and covers. Detail links lead to the original entries. Pagination, filtering, and remote pagination use 1,000 distinct items; virtual scrolling uses 5,000. Layout examples show a small selection. Covers use [Image](/components/image), actions use [Button](/components/button), and truncated text uses [Tooltip](/components/tooltip).
 
@@ -26,9 +48,29 @@ Examples use a snapshot of public works from [Hikarinagi](https://www.hikarinagi
 
 ### Item structure and layout {#layout}
 
+::: vue
+
 Enable `layout-toggle` for the built-in layout control, or use `v-model:layout` and the state slot's `setLayout`. Switching layouts preserves item nodes that remain within the rendered range.
 
+:::
+
+::: react
+
+Enable `layoutToggle` for the built-in layout control, or use `layout / onLayoutChange` and the `setLayout` passed to state render props such as `renderHeader`. Switching layouts preserves item nodes that remain within the rendered range.
+
+:::
+
+::: vue
+
 List media sits before the text. Actions appear after the text in wide containers and below it in narrow containers. Cards place media above the text and actions at the bottom. Titles and descriptions wrap without a line limit; metadata wraps too. Use [Text](/components/text) in the corresponding slot when truncation is needed.
+
+:::
+
+::: react
+
+List media sits before the text. Actions appear after the text in wide containers and below it in narrow containers. Cards place media above the text and actions at the bottom. Titles and descriptions wrap without a line limit; metadata wraps too. Use [Text](/components/text) in the corresponding render prop when truncation is needed.
+
+:::
 
 `mediaRatio` sets the media aspect ratio for both layouts. Without it, lists use a square and cards use 16:10. `gridMin` sets the preferred minimum card width, falling back to one column in narrower containers; `gridGap` controls spacing. This example customizes titles with [Link](/components/link) and actions with [Toggle](/components/toggle).
 
@@ -40,7 +82,17 @@ Enable `pagination` and pass the full array. DataList slices the current page an
 
 `#footer` shares the bottom row with pagination and wraps when space is limited. Changing pages resets only the list’s own scroll position, preserving ancestor scroll positions.
 
+::: vue
+
 State slots expose `setPage` and `setPageSize`, respecting loading and page boundaries. Changing page size returns to page one. The example uses [Select](/components/select).
+
+:::
+
+::: react
+
+State render props such as `renderHeader`, `renderFooter` and `renderPagination` expose `setPage` and `setPageSize`, respecting loading and page boundaries. Changing page size returns to page one. The example uses [Select](/components/select).
+
+:::
 
 <Demo name="data-list/pagination" />
 
@@ -72,6 +124,8 @@ When items already exist, `loading` preserves them, blocks item interaction and 
 
 `#pagination` receives the same state and actions as the header and footer, allowing additional [Pagination](/components/pagination) options.
 
+::: vue
+
 ```vue
 <DataList :items="items" item-key="id" item-title="name" pagination>
   <template #pagination="{ page, pageSize, total, loading, setPage, setPageSize }">
@@ -87,6 +141,34 @@ When items already exist, `loading` preserves them, blocks item interaction and 
   </template>
 </DataList>
 ```
+
+:::
+
+::: react
+
+```tsx
+<DataList
+  items={items}
+  itemKey="id"
+  itemTitle="name"
+  pagination
+  renderPagination={({ page, pageSize, total, loading, setPage, setPageSize }) => (
+    <Pagination
+      value={page}
+      pageSize={pageSize}
+      total={total ?? 0}
+      pending={loading}
+      pageSizeOptions={[10, 20, 50]}
+      showInfo
+      onChange={value =>
+        value.pageSize === pageSize ? setPage(value.page) : setPageSize(value.pageSize)
+      }
+    />
+  )}
+/>
+```
+
+:::
 
 ### Virtual scrolling {#virtual}
 
@@ -107,6 +189,8 @@ Use `initialColumns` to estimate a virtual grid's server column count; the defau
 ## API {#api}
 
 ### Props {#props}
+
+::: vue
 
 | Prop                            | Type                                                                   | Default              | Description                                                |
 | ------------------------------- | ---------------------------------------------------------------------- | -------------------- | ---------------------------------------------------------- |
@@ -135,15 +219,62 @@ Use `initialColumns` to estimate a virtual grid's server column count; the defau
 | `contentClass`                  | `string`                                                               | —                    | Item list container in every layout and rendering mode     |
 | `itemClass`                     | `string \| ((item, index) => string \| undefined)`                     | —                    | Individual item classes                                    |
 
+:::
+
+::: react
+
+| Prop                            | Type                                                                   | Default              | Description                                                       |
+| ------------------------------- | ---------------------------------------------------------------------- | -------------------- | ----------------------------------------------------------------- |
+| `items`                         | `readonly T[]`                                                         | Required             | Full array, or the current page in manual mode                    |
+| `itemKey`                       | Key field or `(item, index) => string \| number`                       | Required             | Unique, stable key                                                |
+| `itemTitle` / `itemDescription` | Text field or `(item, index) => string \| number \| null \| undefined` | —                    | Title and description; corresponding render props take precedence |
+| `mediaRatio`                    | `number`                                                               | —                    | Media aspect ratio                                                |
+| `layoutToggle`                  | `boolean`                                                              | `false`              | Show the layout control                                           |
+| `gridMin`                       | `string`                                                               | `'14rem'`            | Preferred minimum grid column width                               |
+| `gridGap`                       | `'none' \| 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                       | `'md'`               | Grid spacing                                                      |
+| `size`                          | `'sm' \| 'md' \| 'lg'`                                                 | `'md'`               | List media size, item spacing, and card padding                   |
+| `divided`                       | `boolean`                                                              | `true`               | List dividers                                                     |
+| `pagination`                    | `boolean`                                                              | `false`              | Show pagination                                                   |
+| `manual`                        | `boolean`                                                              | `false`              | Do not slice the current page                                     |
+| `total`                         | `number`                                                               | —                    | Remote total; local mode uses array length                        |
+| `hasNextPage`                   | `boolean`                                                              | `false`              | Whether another unknown-total page exists                         |
+| `loading`                       | `boolean`                                                              | `false`              | Loading state; block content interaction and paging               |
+| `placeholderCount`              | `number`                                                               | `3` or page size     | Initial skeleton count                                            |
+| `emptyText`                     | `string`                                                               | Locale               | Default empty text                                                |
+| `label`                         | `string`                                                               | —                    | Accessible list and scroll region name                            |
+| `virtualize`                    | `boolean \| DataListVirtualOptions`                                    | `false`              | Virtualize lists or grids                                         |
+| `height`                        | `number \| string`                                                     | Auto; virtual: `320` | Fixed body height                                                 |
+| `minHeight`                     | `number \| string`                                                     | `160`                | Minimum body height without a fixed height                        |
+| `className`                     | `string`                                                               | —                    | Root classes                                                      |
+| `bodyClass`                     | `string`                                                               | —                    | Body frame, including loading and empty states                    |
+| `contentClass`                  | `string`                                                               | —                    | Item list container in every layout and rendering mode            |
+| `itemClass`                     | `string \| ((item, index) => string \| undefined)`                     | —                    | Individual item classes                                           |
+
+:::
+
 `DataListVirtualOptions` includes `estimateSize` (112px for lists, 280px for grids), `overscan` (3 rows), and `initialColumns` (1). Other attributes, including `dir` and `style`, forward to the root.
 
 ### Models {#models}
+
+::: vue
 
 | Model      | Type               | Default  |
 | ---------- | ------------------ | -------- |
 | `layout`   | `'list' \| 'grid'` | `'list'` |
 | `page`     | `number`           | `1`      |
 | `pageSize` | `number`           | `10`     |
+
+:::
+
+::: react
+
+| State      | Type               | Default  |
+| ---------- | ------------------ | -------- |
+| `layout`   | `'list' \| 'grid'` | `'list'` |
+| `page`     | `number`           | `1`      |
+| `pageSize` | `number`           | `10`     |
+
+:::
 
 ### Slots {#slots}
 
@@ -161,6 +292,8 @@ Use `initialColumns` to estimate a virtual grid's server column count; the defau
 
 ### Events and instance {#events}
 
+::: vue
+
 | Name                             | Parameters / type                                                           | Description                                                       |
 | -------------------------------- | --------------------------------------------------------------------------- | ----------------------------------------------------------------- |
 | `pageChange`                     | `{ page, pageSize }`                                                        | Paging actions or boundary corrections                            |
@@ -168,6 +301,29 @@ Use `initialColumns` to estimate a virtual grid's server column count; the defau
 | `viewport`                       | `HTMLElement \| undefined`                                                  | Scroll container when height or virtualization is enabled         |
 | `scrollToIndex(index, options?)` | `align?: 'start' \| 'center' \| 'end' \| 'auto'; behavior?: ScrollBehavior` | Scroll to an item within the current page, using its global index |
 
+:::
+
+::: react
+
+| Name                             | Parameters / type                                                           | Description                                                       |
+| -------------------------------- | --------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| `onPaginationChange`             | `{ page, pageSize }`                                                        | Paging actions or boundary corrections                            |
+| `onRangeChange`                  | `{ startIndex, endIndex }`                                                  | Visible virtual range, including page offset; -1 when unavailable |
+| `viewport`                       | `HTMLElement \| undefined`                                                  | Scroll container when height or virtualization is enabled         |
+| `scrollToIndex(index, options?)` | `align?: 'start' \| 'center' \| 'end' \| 'auto'; behavior?: ScrollBehavior` | Scroll to an item within the current page, using its global index |
+
+:::
+
 `scrollToIndex` scrolls only the internal viewport when one exists. Without an internal viewport, this explicit call scrolls ancestors to bring the target item into view.
 
+::: vue
+
 Direct model changes do not emit `pageChange` again; watch the models for remote requests. Public data types are exported from the package root, including `DataListProps<T>`, `DataListItemSlot<T>`, `DataListState<T>`, `DataListVirtualOptions`, and `DataListExpose`.
+
+:::
+
+::: react
+
+Changing the controlled `page` or `pageSize` directly does not call `onPaginationChange` again; drive remote requests from those two values. Public data types are exported from the package root, including `DataListProps<T>`, `DataListItemSlot<T>`, `DataListState<T>`, `DataListVirtualOptions`, and `DataListExpose`.
+
+:::

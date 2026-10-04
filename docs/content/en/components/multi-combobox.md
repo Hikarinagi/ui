@@ -26,7 +26,17 @@ It differs from `MultiSelect` in whether you type: a multi select picks from a f
 
 ### Remote search {#remote}
 
+::: vue
+
 `ignoreFilter` disables local filtering, and `v-model:search` provides the input text. Pass remote search results directly to `options`. Supply selected item data separately through `selectedOptions`; each [Chip](/components/chip) resolves its name from the values in `v-model`. This data neither adds dropdown candidates nor selects additional values.
+
+:::
+
+::: react
+
+`ignoreFilter` disables local filtering, and `search / onSearchChange` provides the input text. Pass remote search results directly to `options`. Supply selected item data separately through `selectedOptions`; each [Chip](/components/chip) resolves its name from the values in `value`. This data neither adds dropdown candidates nor selects additional values.
+
+:::
 
 Names are remembered when search results are replaced or cleared. Asynchronously supplied or updated names are reflected in the chips. When both sources contain the same value, `selectedOptions` takes precedence for the chip name. A selected value returned by the search still appears as a checked candidate.
 
@@ -70,7 +80,17 @@ Inside a [FormField](/components/form-field) the label points at the input, and 
 
 ### Virtual scrolling {#virtual}
 
+::: vue
+
 `virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Search still processes the full dataset. Rows unmount outside the rendered range; keep persistent slot state outside the row, keyed by its unique value.
+
+:::
+
+::: react
+
+`virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Search still processes the full dataset. Rows unmount outside the rendered range; keep persistent state of content rendered by `renderOption` outside the row, keyed by its unique value.
+
+:::
 
 <Demo name="multi-combobox/virtual" />
 

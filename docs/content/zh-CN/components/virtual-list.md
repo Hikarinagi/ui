@@ -14,7 +14,17 @@ links:
 import { VirtualList, type VirtualListExpose } from '@hina-ui/vue'
 ```
 
+::: vue
+
 `items` 提供数据，`getKey` 返回每项唯一、稳定的字符串或数字标识，默认插槽接收 `{ item, index }`，保留 `item` 的完整类型。更新或重排数据时不要用数组位置作为 key。
+
+:::
+
+::: react
+
+`items` 提供数据，`getKey` 返回每项唯一、稳定的字符串或数字标识，`children` 是函数，接收 `{ item, index }`，保留 `item` 的完整类型。更新或重排数据时不要用数组位置作为 key。`getKey` 与 `children` 都是函数，渲染 VirtualList 的组件需要声明 `'use client'`。
+
+:::
 
 组件内置 [ScrollArea](/components/scroll-area)，默认高度为 `320px`。`height` 可传像素数或 CSS 长度；设为 `100%` 时父容器需要有确定高度。外观和条目内容由调用方定义，组件本身不增加边框、选中态或点击行为。首个示例包含一万项，并在尾部组合了 [Tag](/components/tag)。
 
@@ -38,23 +48,63 @@ import { VirtualList, type VirtualListExpose } from '@hina-ui/vue'
 
 ### 滚动与可见范围 {#scroll}
 
+::: vue
+
 通过组件引用调用 `scrollToIndex(index, { align, behavior })` 或 `scrollToOffset(offset, { behavior })`。索引从 `0` 开始，`align` 支持 `start`、`center`、`end` 和 `auto`；默认 `auto` 只在目标超出视口时滚动。越界索引会限制到首尾项。
+
+:::
+
+::: react
+
+通过 ref 调用 `scrollToIndex(index, { align, behavior })` 或 `scrollToOffset(offset, { behavior })`。索引从 `0` 开始，`align` 支持 `start`、`center`、`end` 和 `auto`；默认 `auto` 只在目标超出视口时滚动。越界索引会限制到首尾项。
+
+:::
 
 `behavior="smooth"` 开启平滑滚动，系统要求减弱动态效果时使用即时滚动。动态尺寸的远距离跳转会随着目标附近的实际测量继续校正；已知尺寸时使用固定模式可获得精确位置。
 
+::: vue
+
 `rangeChange` 返回实际可见的首尾索引，不包含预渲染和保留焦点的额外条目。可据此按需追加数据；请求状态和是否还有数据由调用方控制。示例使用 [NumberInput](/components/number-input) 指定目标。
+
+:::
+
+::: react
+
+`onRangeChange` 收到实际可见的首尾索引，不包含预渲染和保留焦点的额外条目。可据此按需追加数据；请求状态和是否还有数据由调用方控制。示例使用 [NumberInput](/components/number-input) 指定目标。
+
+:::
 
 <Demo name="virtual-list/scroll" />
 
 ### 横向与 RTL {#horizontal}
 
+::: vue
+
 `orientation="horizontal"` 时，`estimateSize` 表示宽度，`height` 控制容器高度。动态模式下在插槽内给内容定义自然宽度；固定模式直接使用声明宽度。`dir` 可显式设置，也会继承方向。RTL 下条目从右向左排列，滚动方法仍使用正数逻辑偏移。
+
+:::
+
+::: react
+
+`orientation="horizontal"` 时，`estimateSize` 表示宽度，`height` 控制容器高度。动态模式下给 `children` 返回的内容定义自然宽度；固定模式直接使用声明宽度。`dir` 可显式设置，也会继承方向。RTL 下条目从右向左排列，滚动方法仍使用正数逻辑偏移。
+
+:::
 
 <Demo name="virtual-list/horizontal" />
 
 ### 加载与空态 {#states}
 
+::: vue
+
 `loading` 使用 [LoadingOverlay](/components/loading-overlay) 在列表中央显示加载提示，保留已有条目和滚动位置，不改变滚动视口的尺寸。没有条目时也居中显示，加载时不显示空态。`#loading` 替换加载层的内容，`#empty` 替换空态，空态也可以用 `emptyText` 修改默认文案。
+
+:::
+
+::: react
+
+`loading` 使用 [LoadingOverlay](/components/loading-overlay) 在列表中央显示加载提示，保留已有条目和滚动位置，不改变滚动视口的尺寸。没有条目时也居中显示，加载时不显示空态。`loadingContent` 替换加载层的内容，`empty` 替换空态，空态也可以用 `emptyText` 修改默认文案。
+
+:::
 
 示例组合 [Switch](/components/switch) 和 [Empty](/components/empty)。组件不请求数据，也不清空已有数据。
 
@@ -106,11 +156,25 @@ import { VirtualList, type VirtualListExpose } from '@hina-ui/vue'
 
 ### Slots {#slots}
 
+::: vue
+
 | 插槽      | 参数                         | 说明                   |
 | --------- | ---------------------------- | ---------------------- |
 | `default` | `{ item: T, index: number }` | 条目内容               |
 | `empty`   | —                            | 无条目且未加载时的内容 |
 | `loading` | —                            | 加载中的内容           |
+
+:::
+
+::: react
+
+| 属性             | 参数                         | 说明                   |
+| ---------------- | ---------------------------- | ---------------------- |
+| `children`       | `{ item: T, index: number }` | 条目内容               |
+| `empty`          | —                            | 无条目且未加载时的内容 |
+| `loadingContent` | —                            | 加载中的内容           |
+
+:::
 
 ### Events {#events}
 

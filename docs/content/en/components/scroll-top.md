@@ -16,11 +16,25 @@ import { ScrollTop } from '@hina-ui/vue'
 
 Without `target`, the component listens to `window` and appears after scrolling more than 300px. Activation resets only the vertical position, preserving horizontal scroll.
 
+::: vue
+
 ```vue
 <ScrollTop />
 ```
 
+:::
+
+::: react
+
+```tsx
+<ScrollTop />
+```
+
+:::
+
 When an `AppShell`, `ScrollArea`, or Dialog content viewport handles scrolling, pass its exposed viewport. **Scroll target and button placement are independent**: `target` controls which element scrolls, while `position` controls where the button sits.
+
+::: vue
 
 ```vue
 <Card class="relative" :padded="false">
@@ -29,7 +43,43 @@ When an `AppShell`, `ScrollArea`, or Dialog content viewport handles scrolling, 
 </Card>
 ```
 
+:::
+
+::: react
+
+```tsx
+'use client'
+
+import { useRef } from 'react'
+import { Card, ScrollArea, ScrollTop, type ScrollAreaHandle } from '@hina-ui/react'
+
+export function History() {
+  const area = useRef<ScrollAreaHandle>(null)
+
+  return (
+    <Card className="relative" padded={false}>
+      <ScrollArea ref={area} className="h-72">
+        …
+      </ScrollArea>
+      <ScrollTop target={() => area.current?.viewport} position="absolute" />
+    </Card>
+  )
+}
+```
+
+:::
+
+::: vue
+
 For `AppShell`, use `() => shell?.mainViewport`. With default fixed positioning, mount the button near the outside of your shell. For a local panel, place it outside the scroll area but inside the positioned container so it does not scroll away with the content.
+
+:::
+
+::: react
+
+For `AppShell`, use `() => shell.current?.mainViewport`. With default fixed positioning, mount the button near the outside of your shell. For a local panel, place it outside the scroll area but inside the positioned container so it does not scroll away with the content.
+
+:::
 
 ## Examples {#examples}
 
@@ -37,7 +87,17 @@ For `AppShell`, use `() => shell?.mainViewport`. With default fixed positioning,
 
 Reuse `FloatButton` sizes, shapes, visible labels, and positioning. Scrolling is smooth by default; `behavior="instant"` jumps immediately. Reduced-motion preferences always force instant scrolling.
 
+::: vue
+
 The button remains mounted while a keyboard user still has focus on it, then hides after focus leaves. Alternatively, use `focus-target` to move focus to a heading at the top. The destination must be focusable, for example a heading with `tabindex="-1"`.
+
+:::
+
+::: react
+
+The button remains mounted while a keyboard user still has focus on it, then hides after focus leaves. Alternatively, use `focusTarget` to move focus to a heading at the top. The destination must be focusable, for example a heading with `tabIndex={-1}`.
+
+:::
 
 <Demo name="scroll-top/custom" />
 
@@ -49,11 +109,25 @@ A getter follows `ScrollArea` initialization, unmounting, and replacement. An em
 
 ## Behavior {#behavior}
 
+::: vue
+
 - Uses a passive scroll listener on its target without polling every frame or scanning content.
 - Does not read target getters or render a visible button on the server; it measures scroll position after mounting.
 - Appears when the vertical scroll position is strictly greater than `threshold`. Threshold changes take effect reactively.
 - `loading` and `disabled` block scrolling through both clicks and exposed methods.
 - `@click.prevent` cancels the default action. `click` reports activation, not completion of smooth scrolling.
+
+:::
+
+::: react
+
+- Uses a passive scroll listener on its target without polling every frame or scanning content.
+- Does not read target getters or render a visible button on the server; it measures scroll position after mounting.
+- Appears when the vertical scroll position is strictly greater than `threshold`. Threshold changes take effect immediately.
+- `loading` and `disabled` block scrolling through both clicks and the ref's `scrollToTop`.
+- Calling `event.preventDefault()` in `onClick` cancels the default action. `onClick` reports activation, not completion of smooth scrolling.
+
+:::
 
 ## API {#api}
 

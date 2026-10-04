@@ -28,7 +28,17 @@ The picture waits until it comes near the viewport, with a skeleton holding the 
 
 ### Container and image styles {#styles}
 
+::: vue
+
 `class` and `style` apply to the outer box; `imageClass` and `imageStyle` apply to the inner `img`. `style` accepts strings, objects and arrays. Its `aspectRatio` overrides `ratio`.
+
+:::
+
+::: react
+
+`className` and `style` apply to the outer box; `imageClass` and `imageStyle` apply to the inner `img`. An `aspectRatio` in `style` overrides `ratio`.
+
+:::
 
 <Demo name="image/styles" />
 
@@ -58,7 +68,17 @@ Without `src` the component renders the `empty` slot. When a picture fails and t
 
 ### Resolving addresses {#resolver}
 
+::: vue
+
 The component only takes `src`, and does not care whether it is a full address or a key in object storage. `provideImageResolver` injects a function that turns `src` into the final address; anything like processing parameters belongs to that function and never has to travel through the component. Without a resolver, `src` is used as it is. The function also receives a second argument naming the purpose: `'image'` for the picture on the page, `'preview'` for the large picture shown in the preview.
+
+:::
+
+::: react
+
+The component only takes `src`, and does not care whether it is a full address or a key in object storage. Wrap the app or page in `ImageResolverProvider` and pass a function through `resolver` that turns `src` into the final address; anything like processing parameters belongs to that function and never has to travel through the component. Without a resolver, `src` is used as it is. The function also receives a second argument naming the purpose: `'image'` for the picture on the page, `'preview'` for the large picture shown in the preview.
+
+:::
 
 <Demo name="image/resolver" />
 
@@ -118,6 +138,8 @@ Put several pictures inside an `ImageGroup` and opening any of them lets you mov
 
 ## API {#api}
 
+::: vue
+
 | Prop          | Type                                                       | Default   | Description                                                                       |
 | ------------- | ---------------------------------------------------------- | --------- | --------------------------------------------------------------------------------- |
 | `src`         | `string`                                                   | —         | The address, passed through the resolver                                          |
@@ -137,13 +159,52 @@ Put several pictures inside an `ImageGroup` and opening any of them lets you mov
 | `imageClass`  | `string`                                                   | —         | Classes appended to the `img`                                                     |
 | `imageStyle`  | `StyleValue`                                               | —         | Inline styles for the `img`                                                       |
 
+:::
+
+::: react
+
+| Prop          | Type                                                       | Default   | Description                                                                       |
+| ------------- | ---------------------------------------------------------- | --------- | --------------------------------------------------------------------------------- |
+| `src`         | `string`                                                   | —         | The address, passed through the resolver                                          |
+| `alt`         | `string`                                                   | `''`      | Alternative text                                                                  |
+| `fallback`    | `string`                                                   | —         | Loaded when `src` fails                                                           |
+| `fit`         | `'cover' \| 'contain' \| 'fill' \| 'none' \| 'scale-down'` | `'cover'` | How the picture fills its box                                                     |
+| `ratio`       | `number`                                                   | —         | Width divided by height, reserved in advance                                      |
+| `lazy`        | `boolean`                                                  | `true`    | Wait until it nears the viewport                                                  |
+| `rootMargin`  | `string`                                                   | `'200px'` | How early loading starts                                                          |
+| `skeleton`    | `boolean`                                                  | `true`    | Whether a skeleton shows while loading                                            |
+| `eager`       | `boolean`                                                  | `false`   | Request at high priority, decode in sync                                          |
+| `preview`     | `boolean \| string`                                        | `false`   | Opens for a closer look; an address becomes the large source                      |
+| `previewSize` | `{ width: number; height: number }`                        | —         | Intrinsic dimensions of the final preview image; both must be finite and positive |
+| `draggable`   | `boolean`                                                  | —         | Whether the picture can be dragged                                                |
+| `className`   | `string`                                                   | —         | Classes appended to the box                                                       |
+| `style`       | `CSSProperties`                                            | —         | Inline styles for the outer box                                                   |
+| `imageClass`  | `string`                                                   | —         | Classes appended to the `img`                                                     |
+| `imageStyle`  | `CSSProperties`                                            | —         | Inline styles for the `img`                                                       |
+
+:::
+
 | Event   | Payload                   | Description                  |
 | ------- | ------------------------- | ---------------------------- |
 | `load`  | `size: { width, height }` | The picture has loaded       |
 | `error` | —                         | Every address has been tried |
+
+::: vue
 
 | Slot       | Description                            |
 | ---------- | -------------------------------------- |
 | `skeleton` | Replaces the built-in loading skeleton |
 | `empty`    | Rendered when there is no `src`        |
 | `error`    | Rendered when loading has failed       |
+
+:::
+
+::: react
+
+| Prop              | Description                            |
+| ----------------- | -------------------------------------- |
+| `skeletonContent` | Replaces the built-in loading skeleton |
+| `empty`           | Rendered when there is no `src`        |
+| `error`           | Rendered when loading has failed       |
+
+:::

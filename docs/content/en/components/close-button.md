@@ -14,7 +14,17 @@ links:
 import { CloseButton } from '@hina-ui/vue'
 ```
 
+::: vue
+
 The icon and the accessible name are built in, so no property is required. The default name is “Close”; just listen for `click`.
+
+:::
+
+::: react
+
+The icon and the accessible name are built in, so no property is required. The default name is “Close”; just pass `onClick`.
+
+:::
 
 <Demo name="close-button/basic" />
 

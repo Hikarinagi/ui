@@ -30,13 +30,33 @@ The time field splits a time into hour and minute segments. Each segment accepts
 
 ### Minute step {#step}
 
+::: vue
+
 `minuteStep` steps the minute segment by a fixed amount and snaps typed minutes to the nearest step, for slots planned by the quarter or half hour.
+
+:::
+
+::: react
+
+`minuteStep` steps the minute segment by a fixed amount and snaps typed minutes to the nearest step, for schedules planned by the quarter or half hour.
+
+:::
 
 <Demo name="time-field/step" />
 
 ### Range {#range}
 
+::: vue
+
 `min` and `max` bound the accepted range; a value outside it shows as invalid but is still emitted. `placeholder` sets the time the segments start from while the field is empty, the current time by default.
+
+:::
+
+::: react
+
+`min` and `max` bound the accepted range; a value outside it shows as invalid but is still passed to `onValueChange`. `placeholder` sets the time the segments start from while the field is empty, the current time by default.
+
+:::
 
 <Demo name="time-field/range" />
 
@@ -66,10 +86,23 @@ Inside a [FormField](/components/form-field) the label is linked to the whole ti
 
 ## Behavior {#behavior}
 
+::: vue
+
 - Clicking a segment starts typing; a click on the blank area focuses the first empty segment.
 - Each segment accepts digits only and moves on once complete; the left and right arrow keys move between segments, up and down step the value and Backspace clears the current segment.
 - A value is emitted only when every segment is filled; clearing any segment makes the value `null`.
 - Values outside `min` or `max` are still emitted and marked invalid.
+
+:::
+
+::: react
+
+- Clicking a segment starts typing; a click on the blank area focuses the first empty segment.
+- Each segment accepts digits only and moves on once complete; the left and right arrow keys move between segments, up and down step the value and Backspace clears the current segment.
+- `onValueChange` receives a value only when every segment is filled; clearing any segment makes the value `null`.
+- Values outside `min` or `max` are still passed on and marked invalid.
+
+:::
 
 ## Accessibility {#a11y}
 

@@ -24,7 +24,17 @@ Click to edit. The input receives focus and selects its text. Enter or focus lea
 
 ### Activation and submission {#activation}
 
+::: vue
+
 `activationMode` supports click, double click and manual activation. Click and double-click modes both accept Enter or Space when focused; Tab alone does not start editing. Manual mode uses the edit button, `v-model:editing`, or the exposed `edit()` method.
+
+:::
+
+::: react
+
+`activationMode` supports click, double click and manual activation. Click and double-click modes both accept Enter or Space when focused; Tab alone does not start editing. Manual mode uses the edit button, `editing / onEditingChange`, or `edit()` on the ref.
+
+:::
 
 `submitMode` determines keyboard and blur submission. The explicit save control always works:
 
@@ -43,19 +53,69 @@ Multiline editing uses [Textarea](/components/textarea). Content beyond `rows` s
 
 ### Async saving and retry {#async}
 
+::: vue
+
 Pass a function using `:on-save="save"`. It receives the new and previous values and may return a Promise. The model updates and `submit` fires only after success. Unchanged values exit editing without another save.
+
+:::
+
+::: react
+
+Pass a function using `onSave={save}`. It receives the new and previous values and may return a Promise. `onValueChange` and `onSubmit` are called only after success. Unchanged values exit editing without another save.
+
+:::
+
+::: vue
 
 While saving, the draft and input stay visible, a loading indicator appears, and repeated submission and cancellation are blocked. Throwing an `Error` displays its message; other failures use the localized fallback. The `error` event receives the original error. Failure preserves the draft for retry or cancellation; editing clears the old error. Use `onSave` for requests the component must await, rather than an async `@submit` listener: `submit` is a success notification.
 
+:::
+
+::: react
+
+While saving, the draft and input stay visible, a loading indicator appears, and repeated submission and cancellation are blocked. Throwing an `Error` displays its message; other failures use the localized fallback. `onError` receives the original error. Failure preserves the draft for retry or cancellation; editing clears the old error. Use `onSave` for requests the component must await, rather than an async `onSubmit` callback: `onSubmit` is a success notification.
+
+:::
+
+::: vue
+
 External model updates, closing `editing`, disabling the control, making it read-only, or unmounting invalidate outstanding results. They cannot overwrite a newer value. Network cancellation remains the caller's responsibility.
+
+:::
+
+::: react
+
+External `value` updates, closing `editing`, disabling the control, making it read-only, or unmounting invalidate outstanding results. They cannot overwrite a newer value. Network cancellation remains the caller's responsibility.
+
+:::
 
 <Demo name="editable/async" />
 
 ### Custom preview and controls {#custom}
 
+::: vue
+
 `#preview` changes how the value is displayed while keeping activation and focus management. In click and double-click modes the preview is a button, so do not nest interactive controls or links inside it. `#actions` provides state and methods for a custom action area.
 
+:::
+
+::: react
+
+`renderPreview` changes how the value is displayed while keeping activation and focus management. In click and double-click modes the preview is a button, so do not nest interactive controls or links inside it. `renderActions` provides state and methods for a custom action area.
+
+:::
+
+::: vue
+
 Set `:controls="false"` to hide built-in controls. With manual activation or submission, supply the corresponding actions through slots or exposed methods.
+
+:::
+
+::: react
+
+Set `controls={false}` to hide built-in controls. With manual activation or submission, supply the corresponding actions through `renderActions` or ref methods.
+
+:::
 
 <Demo name="editable/custom" />
 
@@ -75,6 +135,8 @@ The three sizes share Input's typography, height and padding. Single-line previe
 
 ## Keyboard and focus {#keyboard}
 
+::: vue
+
 - Preview: Tab focuses; Enter or Space starts editing. Manual mode uses the edit control.
 - Single-line input: Enter follows `submitMode` without submitting an outer form.
 - Multiline input: Enter inserts a newline; Ctrl / ⌘ + Enter follows `submitMode`.
@@ -82,9 +144,24 @@ The three sizes share Input's typography, height and padding. Single-line previe
 - Saving and cancellation return focus to the preview if focus is still inside the component. They do not take focus back from another control.
 - Initial `editing=true` renders the editor during SSR without grabbing focus on mount. Later transitions into editing focus it automatically.
 
+:::
+
+::: react
+
+- Preview: Tab focuses; Enter or Space starts editing. Manual mode uses the edit control.
+- Single-line input: Enter follows `submitMode` without submitting an outer form.
+- Multiline input: Enter inserts a newline; Ctrl / ⌘ + Enter follows `submitMode`.
+- Esc cancels the draft without closing a surrounding Dialog. Composition and pending saves block cancellation.
+- Saving and cancellation return focus to the preview if focus is still inside the component. They do not take focus back from another control.
+- An initial `editing` or `defaultEditing` of `true` renders the editor during SSR without grabbing focus on mount. Later transitions into editing focus it automatically.
+
+:::
+
 ## API {#api}
 
 ### Props {#props}
+
+::: vue
 
 | Prop             | Type                                      | Default        | Description                                    |
 | ---------------- | ----------------------------------------- | -------------- | ---------------------------------------------- |
@@ -106,6 +183,33 @@ The three sizes share Input's typography, height and padding. Single-line previe
 | `readonly`       | `boolean`                                 | `false`        | Read-only text; allows selection and copying   |
 | `invalid`        | `boolean`                                 | `false`        | Mark the field invalid                         |
 | `class`          | `string`                                  | —              | Root classes                                   |
+
+:::
+
+::: react
+
+| Prop             | Type                                      | Default        | Description                                    |
+| ---------------- | ----------------------------------------- | -------------- | ---------------------------------------------- |
+| `value`          | `string`                                  | `''`           | Committed text; can be controlled              |
+| `editing`        | `boolean`                                 | `false`        | Edit state; can be controlled                  |
+| `activationMode` | `'click' \| 'dblclick' \| 'manual'`       | `'click'`      | How to begin editing                           |
+| `submitMode`     | `'enter' \| 'blur' \| 'both' \| 'manual'` | `'both'`       | Keyboard and blur submission                   |
+| `selectOnFocus`  | `boolean`                                 | `true`         | Select all text on entering edit mode          |
+| `multiline`      | `boolean`                                 | `false`        | Use a textarea                                 |
+| `rows`           | `number`                                  | `3`            | Initial textarea rows                          |
+| `controls`       | `boolean`                                 | `true`         | Show default actions                           |
+| `onSave`         | `EditableSave`                            | —              | Awaited callback before updating the value     |
+| `placeholder`    | `string`                                  | Localized text | Empty preview and input placeholder            |
+| `name`           | `string`                                  | —              | Native form field name for the committed value |
+| `required`       | `boolean`                                 | `false`        | Prevent committing an empty value              |
+| `maxlength`      | `number`                                  | —              | Input length limit                             |
+| `size`           | `'sm' \| 'md' \| 'lg'`                    | `'md'`         | Size                                           |
+| `disabled`       | `boolean`                                 | `false`        | Disable editing                                |
+| `readonly`       | `boolean`                                 | `false`        | Read-only text; allows selection and copying   |
+| `invalid`        | `boolean`                                 | `false`        | Mark the field invalid                         |
+| `className`      | `string`                                  | —              | Root classes                                   |
+
+:::
 
 Other attributes such as `id`, `aria-label`, and `autocomplete` go to the active preview or input. `class` styles the root; `style` styles the active preview or input.
 
@@ -129,7 +233,17 @@ Other attributes such as `id`, `aria-label`, and `autocomplete` go to the active
 
 ### Exposed methods and types {#expose}
 
+::: vue
+
 Instances expose `edit()`, `submit(): Promise<boolean>`, `cancel()`, `focus()`, and the current `input`, `draft`, `saving`, and `error`. `input` exists only while editing on the client. `submit()` returns whether editing completed successfully. `cancel()` has no effect during saving.
+
+:::
+
+::: react
+
+The ref exposes `edit()`, `submit(): Promise<boolean>`, `cancel()`, `focus()`, and the current `input`, `draft`, `saving`, and `error`. `input` exists only while editing on the client. `submit()` returns whether editing completed successfully. `cancel()` has no effect during saving.
+
+:::
 
 ```ts
 type EditableSave = (value: string, previousValue: string) => void | Promise<void>

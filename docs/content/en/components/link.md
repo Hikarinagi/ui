@@ -34,7 +34,17 @@ Use `accent` for ordinary links in body text and navigation, and `neutral` where
 
 ### Router links {#router}
 
+::: vue
+
 `as` accepts a component, so the link can render as `NuxtLink` or another router component. Its properties are then written as that component expects, for example `to`.
+
+:::
+
+::: react
+
+`as` accepts a component, so the link can render as `next/link` or another router component. Its properties are then written as that component expects, for example `href`. You can also set `asChild` and pass the router link as the only child.
+
+:::
 
 <Demo name="link/router" />
 

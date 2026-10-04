@@ -36,7 +36,17 @@ import { Time } from '@hina-ui/vue'
 
 ### 随语言变化 {#locale}
 
+::: vue
+
 日期的顺序、月份的写法与相对时间的措辞都跟随 `provideUiLocale` 提供的语言。
+
+:::
+
+::: react
+
+日期的顺序、月份的写法与相对时间的措辞都跟随 `UiLocaleProvider` 提供的语言。
+
+:::
 
 <Demo name="time/locale" />
 

@@ -16,7 +16,17 @@ links:
 import { Sheet } from '@hina-ui/vue'
 ```
 
+::: vue
+
 `title` is required and `description` is the line under it. The default slot is the trigger, `content` holds the body, and `footer` holds the actions. The `content`, `footer`, and custom-layout `body` slots receive a `close` method. Dragging the handle or title area downward closes the sheet once it travels far or fast enough; otherwise it snaps back. The close button is hidden by default when a handle is shown.
+
+:::
+
+::: react
+
+`title` is required and `description` is the line under it. `children` is the trigger, `renderContent` returns the body, and `renderFooter` returns the actions. `renderContent`, `renderFooter`, and the custom-layout `renderBody` receive a `close` method. Dragging the handle or title area downward closes the sheet once it travels far or fast enough; otherwise it snaps back. The close button is hidden by default when a handle is shown.
+
+:::
 
 <Demo name="sheet/basic" />
 
@@ -32,15 +42,45 @@ The example includes a [Tag](/components/tag) in the title.
 
 ### Close button {#closable}
 
+::: vue
+
 `closable` defaults to `true`. Setting it to `false` only hides the header's close button. Escape and clicking the scrim still close the panel; `locked` controls these dismissal behaviors. The built-in close button is not rendered with a hidden header or a `body` slot. Sheet keeps its default behavior of hiding the close button when the handle is shown. With `:handle="false"` and a visible header, `closable` controls the button; the title area remains draggable.
+
+:::
+
+::: react
+
+`closable` defaults to `true`. Setting it to `false` only hides the header's close button. Escape and clicking the scrim still close the panel; `locked` controls these dismissal behaviors. The built-in close button is not rendered with a hidden header or with `renderBody`. Sheet keeps its default behavior of hiding the close button when the handle is shown. With `handle={false}` and a visible header, `closable` controls the button; the title area remains draggable.
+
+:::
 
 <Demo name="sheet/closable" />
 
 ### Custom panel content {#body}
 
+::: vue
+
 `#body="{ close }"` takes over the internal layout, replacing the default header, content, and footer. The component no longer adds content padding, region gaps, or a [ScrollArea](/components/scroll-area) wrapper. The slot controls scrolling and bottom safe-area spacing. An empty slot still replaces the default layout.
 
+:::
+
+::: react
+
+`renderBody` receives `{ close }` and takes over the internal layout, replacing the default header, content, and footer. The component no longer adds content padding, region gaps, or a [ScrollArea](/components/scroll-area) wrapper. The returned content controls scrolling and bottom safe-area spacing. An empty result still replaces the default layout.
+
+:::
+
+::: vue
+
 In this mode, `header`, `closable`, and the `icon`, `title`, `content`, and `footer` slots do not participate in rendering. `title` is still required; it and the supplied description remain visually hidden. The scrim, focus trap, and `locked` remain active, and the slot's `close()` can close the panel programmatically.
+
+:::
+
+::: react
+
+In this mode, `header`, `closable`, `icon`, `titleContent`, `renderContent`, and `renderFooter` do not participate in rendering. `title` is still required; it and the supplied description remain visually hidden. The scrim, focus trap, and `locked` remain active, and the `close()` passed to `renderBody` can close the panel programmatically.
+
+:::
 
 `handle` still controls the handle independently. It stays above the custom content by default, and only its region can start a drag. Setting `:handle="false"` removes the top drag region and its spacing. Custom body content does not become draggable.
 
@@ -50,7 +90,17 @@ The example uses [CloseButton](/components/close-button), [ScrollArea](/componen
 
 ### Long content {#scroll}
 
+::: vue
+
 Content taller than the available height scrolls inside the `content` slot while the title and footer stay put; the sheet grows up to the viewport minus a margin at the top.
+
+:::
+
+::: react
+
+Content returned by `renderContent` scrolls internally when it is taller than the available height, while the title and footer stay put; the sheet grows up to the viewport minus a margin at the top.
+
+:::
 
 <Demo name="sheet/scroll" />
 
@@ -58,9 +108,29 @@ Content taller than the available height scrolls inside the `content` slot while
 
 Use the component ref's `viewport` to access the actual scrollable element of its built-in [ScrollArea](/components/scroll-area). Read `scrollTop`, call `scrollTo()`, or pass it to scroll listeners and observers.
 
+::: vue
+
 `viewport` has type `HTMLElement | undefined`. It is `undefined` before the content scroll area initializes, without a `content` slot, and after content unmounts. It remains available during exit and updates to a new element on reopening. Watch `() => modal.value?.viewport` to act when ready or attach listeners, and remove listeners in the watch cleanup callback.
 
+:::
+
+::: react
+
+`viewport` has type `HTMLElement | undefined`. It is `undefined` before the content scroll area initializes, without `renderContent`, and after content unmounts. It remains available during exit and updates to a new element on reopening. Reading `viewport` does not trigger a re-render; to act when ready or attach listeners, pass a callback ref. It is called again with a new instance whenever `viewport` changes; remove listeners in the cleanup function it returns.
+
+:::
+
+::: vue
+
 With a `body` slot, the built-in scroll area is replaced and `viewport` is `undefined`. Reference a custom scroll area directly.
+
+:::
+
+::: react
+
+With `renderBody`, the built-in scroll area is replaced and `viewport` is `undefined`. Reference a custom scroll area directly.
+
+:::
 
 The example uses [Button](/components/button) to scroll with `viewport.scrollTo()`.
 
@@ -80,7 +150,17 @@ With `locked`, dragging, Esc and clicking the scrim no longer close the sheet, a
 
 ### Without the handle {#handle}
 
+::: vue
+
 `handle` set to `false` hides the handle. When the header is visible, a close button appears in its corner and the title area can still be dragged. Set `closable=false` to hide the button.
+
+:::
+
+::: react
+
+`handle` set to `false` hides the handle. When the header is visible, a close button appears in its corner and the title area can still be dragged. Set `closable={false}` to hide the button.
+
+:::
 
 <Demo name="sheet/handle" />
 
@@ -88,7 +168,17 @@ With `locked`, dragging, Esc and clicking the scrim no longer close the sheet, a
 
 As with [Dialog](/components/dialog), set `:header="false"` to hide the header, including its title, description, and close button. `title` is still required; it and `description` remain available to assistive technology as visually hidden content. The `icon` and `title` slots are not rendered.
 
+::: vue
+
 `handle` controls the handle independently. With the header hidden, the remaining handle still supports drag-to-dismiss. Also setting `:handle="false"` removes the top drag region, so content starts at the regular padding. Esc, the scrim, and the slots' `close` method can still close the sheet; `locked` keeps its existing behavior.
+
+:::
+
+::: react
+
+`handle` controls the handle independently. With the header hidden, the remaining handle still supports drag-to-dismiss. Also setting `handle={false}` removes the top drag region, so content starts at the regular padding. Esc, the scrim, and the `close` method passed to `renderContent` and `renderFooter` can still close the sheet; `locked` keeps its existing behavior.
+
+:::
 
 The example calls `close` from a footer [Button](/components/button).
 
@@ -96,11 +186,25 @@ The example calls `close` from a footer [Button](/components/button).
 
 ## Behavior {#behavior}
 
+::: vue
+
 - Overlays stack in opening order, with the latest above earlier overlays, regardless of component mount order. Closing preserves the full exit animation before removing the overlay.
 - The sheet slides in from the bottom edge, centered with a maximum width on wide screens and full width on narrow ones, leaving room for the device's safe area at the bottom in the default layout. Custom `body` content controls its own safe-area spacing.
 - Dragging starts only on the handle and the title area, leaving the body to scrolling; on release the sheet keeps sliding out from where it was let go when it has travelled more than three tenths of its height or fast enough, and snaps back otherwise.
 - The page stops scrolling while it is open, focus is trapped inside, and focus returns to the trigger on close.
 - Esc and clicking the scrim close it; `locked` disables both along with dragging.
+
+:::
+
+::: react
+
+- Overlays stack in opening order, with the latest above earlier overlays, regardless of component mount order. Closing preserves the full exit animation before removing the overlay.
+- The sheet slides in from the bottom edge, centered with a maximum width on wide screens and full width on narrow ones, leaving room for the device's safe area at the bottom in the default layout. Content from `renderBody` controls its own safe-area spacing.
+- Dragging starts only on the handle and the title area, leaving the body to scrolling; on release the sheet keeps sliding out from where it was let go when it has travelled more than three tenths of its height or fast enough, and snaps back otherwise.
+- The page stops scrolling while it is open, focus is trapped inside, and focus returns to the trigger on close.
+- Esc and clicking the scrim close it; `locked` disables both along with dragging.
+
+:::
 
 ## Accessibility {#a11y}
 

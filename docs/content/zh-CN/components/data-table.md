@@ -16,17 +16,47 @@ import { DataTable, type DataTableColumn } from '@hina-ui/vue'
 
 传入 `rows`、`columns` 与稳定的 `rowKey`。默认只显示表格，其他控件按需开启。样式对齐 [Table](/components/table)，支持密度、深色模式与 RTL。
 
+::: vue
+
 列、插槽、回调与实例 API 保留原始行类型。数据变化时传入新数组，以便重新计算数据处理结果。
+
+:::
+
+::: react
+
+列、渲染函数、回调与 ref API 保留原始行类型。数据变化时传入新数组，以便重新计算数据处理结果。
+
+:::
 
 ## 示例 {#examples}
 
 ### 单元格 {#cells}
 
+::: vue
+
 `cell-key` 替换指定列的内容，`cell` 作为公共后备。插槽提供带类型的原始 `row`、`column`、`value`、稳定的 `key`、源数组中的 `index`、`depth`，以及选择、展开的方法。`field` 可指定其他字段，`accessor` 优先级更高。`format` 只影响显示。专属 `cell-key` 的优先级高于通用 `cell`。
+
+:::
+
+::: react
+
+`renderCell` 渲染数据单元格的内容，用 `column.key` 区分列；返回 `undefined` 时显示默认内容。它接收带类型的原始 `row`、`column`、`value`、稳定的 `key`、源数组中的 `index`、`depth`，以及选择、展开的方法。`field` 可指定其他字段，`accessor` 优先级更高。`format` 只影响显示。
+
+:::
 
 `align` 同时作用于表头与单元格。`rowClickable` 支持点击、Enter 和 Space，并触发 `rowClick`；单元格内的交互控件保留自己的行为。`rowContextmenu` 提供原始行和事件，自定义菜单时由调用方执行 `event.preventDefault()`。
 
+::: vue
+
 名称列通过 `#cell-name` 组合 [Avatar](/components/avatar) 与两行 [Text](/components/text)，状态列通过 `#cell-status` 渲染 [Tag](/components/tag)。通用 `#cell` 根据 `column.key` 为数量列组合 [Progress](/components/progress) 与数值。插槽替换单元格内容，外围单元格、对齐与排序仍由 DataTable 管理。
+
+:::
+
+::: react
+
+`renderCell` 根据 `column.key` 为名称列组合 [Avatar](/components/avatar) 与两行 [Text](/components/text)，为状态列渲染 [Tag](/components/tag)，为数量列组合 [Progress](/components/progress) 与数值。它只替换单元格内容，外围单元格、对齐与排序仍由 DataTable 管理。
+
+:::
 
 <Demo name="data-table/cells" />
 
@@ -34,7 +64,17 @@ import { DataTable, type DataTableColumn } from '@hina-ui/vue'
 
 列设置 `sortable: true` 后，表头按升序、降序、取消排序循环。`v-model:sorting` 存储 `{ key, desc }[]`，`multi-sort` 允许 Shift 点击追加排序。数字与日期按值比较，字符串按当前语言自然排序，缺失值始终放在末尾。`sort(a, b)` 自定义升序比较。
 
+::: vue
+
 `header-key` / `header` 提供 `sorting`、`sortIndex` 和 `toggleSort(multi?)`；自定义表头仍保留外围单元格与 `aria-sort`。
+
+:::
+
+::: react
+
+`renderHeader` 接收 `sorting`、`sortIndex` 和 `toggleSort(multi?)`，同样用 `column.key` 区分列，返回 `undefined` 时显示默认表头；自定义表头仍保留外围单元格与 `aria-sort`。
+
+:::
 
 <Demo name="data-table/sorting" />
 
@@ -42,7 +82,17 @@ import { DataTable, type DataTableColumn } from '@hina-ui/vue'
 
 `v-model:filter` 在参与筛选的列中进行不区分大小写的子串匹配。`filterable: false` 将列排除出全局筛选，`filter(row, query)` 自定义该列的匹配方式。隐藏列仍可参与，任一列匹配即可保留该行。
 
+::: vue
+
 可在 `toolbar` 中放置 [SearchInput](/components/search-input)。防抖、请求与过期响应处理由调用方管理。
+
+:::
+
+::: react
+
+可在 `renderToolbar` 中放置 [SearchInput](/components/search-input)。防抖、请求与过期响应处理由调用方管理。
+
+:::
 
 <Demo name="data-table/filtering" />
 
@@ -50,7 +100,17 @@ import { DataTable, type DataTableColumn } from '@hina-ui/vue'
 
 `v-model:columnFilters` 存储 `{ key, value }[]`，各列条件取交集，并与全局筛选同时生效。`filterMode` 支持 `contains`、`equals`、`in`（数组）和 `range`（`[min, max]`，任一边界可为空）。数字、布尔值和日期保留原类型，`filterValue(row, value)` 可自定义匹配。
 
+::: vue
+
 表头插槽提供 `filterValue` 与 `setFilter(value)`。传入 `null`、`undefined`、空字符串或空数组清除该列条件。筛选控件按需添加，示例使用 [Select](/components/select)。
+
+:::
+
+::: react
+
+`renderHeader` 还接收 `filterValue` 与 `setFilter(value)`。传入 `null`、`undefined`、空字符串或空数组清除该列条件。筛选控件按需添加，示例使用 [Select](/components/select)。
+
+:::
 
 <Demo name="data-table/column-filters" />
 
@@ -72,15 +132,45 @@ import { DataTable, type DataTableColumn } from '@hina-ui/vue'
 
 `pagination` 启用 [Pagination](/components/pagination)，`page` 从 1 开始，`pageSize` 默认 10。排序、全局或列筛选、分组及每页数量改变后复位到第一页；`:auto-reset-page="false"` 可保留当前页。已知总数时，数据减少会将越界页码调回有效范围。
 
+::: vue
+
 默认页脚只显示分页控件。如需总数、每页数量或跳页输入，可在 `footer` 中组合 [Pagination](/components/pagination)。
+
+:::
+
+::: react
+
+默认页脚只显示分页控件。如需总数、每页数量或跳页输入，可在 `renderFooter` 中组合 [Pagination](/components/pagination)。
+
+:::
 
 <Demo name="data-table/pagination" />
 
 ### 远程数据 {#remote}
 
+::: vue
+
 `manual` 同时绕过本地筛选、排序、分组与分页。`rows` 为当前请求结果，`total` 提供远程总数。受控模型可从 URL 或 store 初始化。
 
+:::
+
+::: react
+
+`manual` 同时绕过本地筛选、排序、分组与分页。`rows` 为当前请求结果，`total` 提供远程总数。受控状态可从 URL 或 store 初始化。
+
+:::
+
+::: vue
+
 `change` 在同一更新周期稳定后发出一次完整的 `{ page, pageSize, sorting, filter, columnFilters, grouping }`。挂载时不触发，首次请求、取消与过期响应处理由调用方负责。
+
+:::
+
+::: react
+
+`onChange` 在同一更新周期稳定后调用一次，参数为完整的 `{ page, pageSize, sorting, filter, columnFilters, grouping }`。挂载时不调用，首次请求、取消与过期响应处理由调用方负责。
+
+:::
 
 `loading` 保留现有行，阻止其交互，并使用 [LoadingOverlay](/components/loading-overlay)。加载期间临时清空结果不会收缩页码。
 
@@ -106,7 +196,17 @@ import { DataTable, type DataTableColumn } from '@hina-ui/vue'
 
 调宽手柄位于所属表头的可见范围内，并与固定区分隔线分开。横向滚动或调宽后，部分被固定列遮挡的表头仍保留可操作的手柄；完全离开可见区的手柄不参与点击和键盘导航。悬停通过 [Tooltip](/components/tooltip) 显示受影响的列名，拖动时显示各列的当前像素宽度。`fit` 的共享手柄同时标明相邻两列，`expand` 只标明当前列。交互调整固定列宽度时，为中间非固定列保留至少 48px 的可视区域。
 
+::: vue
+
 聚焦边界后，左右方向键每次调整 1px，Shift 调整 10px，Home/End 到达可调整范围的边界。Esc 撤销当前拖动。`v-model:columnWidths` 存储手动指定的像素宽度。`fit` 只记录调整的两列，其他未指定宽度的列继续分配容器剩余空间；`expand` 同时记录其余列的显示宽度，以保证它们不会一起变化。仅按下再松开手柄不会写入宽度，Esc 恢复本次拖动前的设置。清空该模型可恢复自动分配。交互调宽使用数字边界；静态列也支持 CSS 长度。
+
+:::
+
+::: react
+
+聚焦边界后，左右方向键每次调整 1px，Shift 调整 10px，Home/End 到达可调整范围的边界。Esc 撤销当前拖动。`columnWidths / onColumnWidthsChange` 存储手动指定的像素宽度。`fit` 只记录调整的两列，其他未指定宽度的列继续分配容器剩余空间；`expand` 同时记录其余列的显示宽度，以保证它们不会一起变化。仅按下再松开手柄不会写入宽度，Esc 恢复本次拖动前的设置。清空 `columnWidths`可恢复自动分配。交互调宽使用数字边界；静态列也支持 CSS 长度。
+
+:::
 
 `reorderColumns` 允许直接拖动叶子表头，列预览与插入线显示松手后的落点。轻点仍执行排序，拖动不会触发排序，Esc 取消重排。聚焦表头后也可使用 Alt + 左右方向键。`v-model:columnOrder` 存储列键，重排限制在同一固定区域内。列的 `resizable: false`、`reorderable: false` 分别禁用调宽与重排。`layout="fixed"`、调宽、截断或虚拟化会约束表格布局。
 
@@ -116,15 +216,45 @@ import { DataTable, type DataTableColumn } from '@hina-ui/vue'
 
 ### 多级表头与汇总 {#headers}
 
+::: vue
+
 嵌套列的 `children` 生成多级表头。父列负责标签与表头插槽，叶子列负责数据、排序与布局。隐藏或重排叶子列会自动更新跨行、跨列范围。
 
+:::
+
+::: react
+
+嵌套列的 `children` 生成多级表头。父列负责标签与表头内容（`renderHeader`），叶子列负责数据、排序与布局。隐藏或重排叶子列会自动更新跨行、跨列范围。
+
+:::
+
+::: vue
+
 `aggregate` 支持 `sum`、`min`、`max`、`mean`、`count`、`uniqueCount` 或函数。`footer: true` 显示该聚合结果，也可用字符串或 `(rows) => text` 自定义。汇总使用当前已加载且符合筛选的所有行，包含折叠行。`footer-key` 替换单个汇总单元格，`summary` 替换 `<tfoot>` 内部内容，应返回表格行。
+
+:::
+
+::: react
+
+`aggregate` 支持 `sum`、`min`、`max`、`mean`、`count`、`uniqueCount` 或函数。`footer: true` 显示该聚合结果，也可用字符串或 `(rows) => text` 自定义。汇总使用当前已加载且符合筛选的所有行，包含折叠行。`renderColumnFooter` 替换单个汇总单元格，`renderSummary` 替换 `<tfoot>` 内部内容，应返回表格行。
+
+:::
 
 <Demo name="data-table/headers" />
 
 ### 行展开 {#expansion}
 
+::: vue
+
 `expandable` 添加展开控件，也可传入函数限定可展开行。`v-model:expanded` 存储行键。`expansion` 接收行上下文，内容显示在该行下方并跨越全部列。展开内容不额外占用分页名额。
+
+:::
+
+::: react
+
+`expandable` 添加展开控件，也可传入函数限定可展开行。`expanded / onExpandedChange` 存储行键。`renderExpansion` 接收行上下文，内容显示在该行下方并跨越全部列。展开内容不额外占用分页名额。
+
+:::
 
 <Demo name="data-table/expansion" />
 
@@ -140,19 +270,49 @@ import { DataTable, type DataTableColumn } from '@hina-ui/vue'
 
 `v-model:grouping` 按顺序存储分组列键，`v-model:expandedGroups` 控制生成的分组键，与数据行的 `expanded` 分开保存。多个列键产生嵌套分组，分页按最外层分组计数。
 
+::: vue
+
 默认分组行显示分组值、数量及列聚合结果。`group` 提供分组的 `key`、`column`、`value`、`rows`、`depth`、`expanded`、`toggleExpanded()` 和 `aggregate(columnKey)`。分组行不可选择或编辑。远程模式由数据源负责分组，可用 `getChildren` 表达返回的层级。
+
+:::
+
+::: react
+
+默认分组行显示分组值、数量及列聚合结果。`renderGroup` 接收分组的 `key`、`column`、`value`、`rows`、`depth`、`expanded`、`toggleExpanded()` 和 `aggregate(columnKey)`。分组行不可选择或编辑。远程模式由数据源负责分组，可用 `getChildren` 表达返回的层级。
+
+:::
 
 <Demo name="data-table/grouping" />
 
 ### 单元格与整行编辑 {#editing}
 
+::: vue
+
 设置列的 `editable` 与 `editMode="cell" | "row"`。双击单元格，或聚焦后按 Enter 进入编辑；整行模式提供编辑按钮。`editor-key` / `editor` 替换输入控件，接收 `value`、`updateValue`、`pending`、`error`、`commit` 和 `cancel`。保存、取消与错误反馈仍由组件负责。示例用 [Select](/components/select) 替换一列编辑器。
+
+:::
+
+::: react
+
+设置列的 `editable` 与 `editMode="cell" | "row"`。双击单元格，或聚焦后按 Enter 进入编辑；整行模式提供编辑按钮。`renderEditor` 替换输入控件（用 `column.key` 区分列），接收 `value`、`updateValue`、`pending`、`error`、`commit` 和 `cancel`。保存、取消与错误反馈仍由组件负责。示例用 [Select](/components/select) 替换一列编辑器。
+
+:::
 
 草稿不会直接修改传入数据。`parse` 转换草稿值，`validate` 同步或异步返回错误字符串或 `undefined`。`onSave(edit)` 可返回 Promise；等待期间禁止重复提交。抛错会保留草稿、显示错误并触发 `editError`，不会留下未处理的拒绝。
 
 成功后触发 `edit`，参数为 `{ key, row, column?, values }`，其中 `values` 按列键组织。调用方负责应用修改，包括将 accessor 列映射回原始字段。`onSave` 在 `edit` 之前执行一次，不要在两处重复发送请求。默认输入框支持 Enter 保存与 Escape 取消。
 
+::: vue
+
 整行编辑的保存错误在行下方显示一次；列 `validate` 返回的错误只显示在对应字段，`error` 插槽参数也只包含该字段的校验错误。编辑器通过 [InputGroup](/components/input-group) 的 `bare` 变体统一尺寸和外观，自定义插槽中的 [Input](/components/input)、[Select](/components/select) 等控件会继承嵌入样式。
+
+:::
+
+::: react
+
+整行编辑的保存错误在行下方显示一次；列 `validate` 返回的错误只显示在对应字段，`renderEditor` 收到的 `error` 也只包含该字段的校验错误。编辑器通过 [InputGroup](/components/input-group) 的 `bare` 变体统一尺寸和外观，自定义编辑器中的 [Input](/components/input)、[Select](/components/select) 等控件会继承嵌入样式。
+
+:::
 
 <Demo name="data-table/editing" />
 
@@ -166,7 +326,17 @@ import { DataTable, type DataTableColumn } from '@hina-ui/vue'
 
 ### 滚动 {#scroll}
 
+::: vue
+
 横向溢出限制在 [ScrollArea](/components/scroll-area) 内。`maxHeight` 限制滚动区高度，`stickyHeader` 固定表头。`class` 作用于完整 DataTable，`tableClass` 作用于滚动区。实例暴露 `viewport` 与原生表格 `element`。
+
+:::
+
+::: react
+
+横向溢出限制在 [ScrollArea](/components/scroll-area) 内。`maxHeight` 限制滚动区高度，`stickyHeader` 固定表头。`className` 作用于完整 DataTable，`tableClass` 作用于滚动区。ref 暴露 `viewport` 与原生表格 `element`。
+
+:::
 
 <Demo name="data-table/scroll" />
 
@@ -186,7 +356,17 @@ import { DataTable, type DataTableColumn } from '@hina-ui/vue'
 
 ### 空状态与加载 {#states}
 
+::: vue
+
 `emptyText` 替换默认提示，`empty` 可放入 [Empty](/components/empty) 等自定义内容。`loading` 插槽替换 [LoadingOverlay](/components/loading-overlay) 的内容，应保留状态播报。
+
+:::
+
+::: react
+
+`emptyText` 替换默认提示，`empty` 可放入 [Empty](/components/empty) 等自定义内容。`loadingContent` 替换 [LoadingOverlay](/components/loading-overlay) 的内容，应保留状态播报。
+
+:::
 
 <Demo name="data-table/states" />
 
@@ -329,7 +509,17 @@ import { DataTable, type DataTableColumn } from '@hina-ui/vue'
 
 ### 实例 {#instance}
 
+::: vue
+
 实例暴露 `element: HTMLTableElement | undefined`、`viewport: HTMLElement | undefined`、`state: DataTableState<T>` 与 `api: DataTableApi<T>`，工具栏与页脚插槽也提供同一份 API。
+
+:::
+
+::: react
+
+ref 暴露 `element: HTMLTableElement | undefined`、`viewport: HTMLElement | undefined`、`state: DataTableState<T>` 与 `api: DataTableApi<T>`，`renderToolbar` 与 `renderFooter` 也收到同一份 API。
+
+:::
 
 | 方法                              | 返回值          | 说明                                                 |
 | --------------------------------- | --------------- | ---------------------------------------------------- |

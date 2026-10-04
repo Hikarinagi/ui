@@ -32,7 +32,17 @@ Tracking is based on an element's visibility in the viewport, so the content wor
 
 ### Trailing content {#trailing}
 
+::: vue
+
 `#trailing` receives `{ item, active }` for non-interactive content such as a [Tag](/components/tag), text or an icon. `item` is the original entry, including custom fields. Both top-level and second-level entries support the slot.
+
+:::
+
+::: react
+
+`renderTrailing` receives `{ item, active }` for non-interactive content such as a [Tag](/components/tag), text or an icon. `item` is the original entry, including custom fields. Both top-level and second-level entries support it.
+
+:::
 
 `active` matches `aria-current="location"`. When several sections are visible, only the first visible entry in directory order is `active`; the existing visible-range highlight is unchanged.
 

@@ -30,7 +30,17 @@ The date field splits a date into year, month and day segments. Each segment acc
 
 ### Range {#range}
 
+::: vue
+
 `min` and `max` bound the accepted range; a value outside it puts the field into the invalid state but is still emitted. `placeholder` sets the date the segments start from while the field is empty, today by default.
+
+:::
+
+::: react
+
+`min` and `max` bound the accepted range; a value outside it puts the field into the invalid state but the value still updates. `placeholder` sets the date the segments start from while the field is empty, today by default.
+
+:::
 
 <Demo name="date-field/range" />
 
@@ -60,10 +70,23 @@ Inside a [FormField](/components/form-field) the label is linked to the whole da
 
 ## Behavior {#behavior}
 
+::: vue
+
 - Clicking a segment or the blank area of the field starts typing; a click on the blank area focuses the first empty segment.
 - Each segment accepts digits only and moves on once complete; the left and right arrow keys move between segments, up and down step the value and Backspace clears the current segment.
 - A value is emitted only when every segment is filled; clearing any segment makes the value `null`.
 - Values outside `min` or `max` are still emitted and marked invalid.
+
+:::
+
+::: react
+
+- Clicking a segment or the blank area of the field starts typing; a click on the blank area focuses the first empty segment.
+- Each segment accepts digits only and moves on once complete; the left and right arrow keys move between segments, up and down step the value and Backspace clears the current segment.
+- The value updates only when every segment is filled; clearing any segment makes the value `null`.
+- Values outside `min` or `max` still update the value and are marked invalid.
+
+:::
 
 ## Accessibility {#a11y}
 

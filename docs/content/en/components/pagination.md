@@ -54,7 +54,17 @@ Set `page-size-options` to display the size selector and bind it with `v-model:p
 
 ### Total and page size {#range}
 
+::: vue
+
 External changes to `total` or `page-size` preserve the current page when it remains valid. Otherwise the page is clamped to the last page and `v-model` updates. External changes to valid controlled values do not echo a `change` event.
+
+:::
+
+::: react
+
+External changes to `total` or `pageSize` preserve the current page when it remains valid. Otherwise the page is clamped to the last page and `onValueChange` is called. External changes to valid controlled values do not echo an `onChange` call.
+
+:::
 
 <Demo name="pagination/range" />
 
@@ -76,7 +86,17 @@ A temporary total of `0` while loading does not overwrite the bound page. Out-of
 
 ### Hide single-page navigation {#hidden}
 
+::: vue
+
 `hide-single-page` hides the navigation when there is at most one page. The `#list` slot remains mounted.
+
+:::
+
+::: react
+
+`hideSinglePage` hides the navigation when there is at most one page. Content from `renderList` remains mounted.
+
+:::
 
 <Demo name="pagination/hidden" />
 
@@ -94,7 +114,17 @@ When page content is truncated, hovering or focusing the button with a keyboard 
 
 ### States {#states}
 
+::: vue
+
 `disabled` disables every control. Backward controls are disabled on the first page and forward controls on the last page. With `total="0"`, page `1` remains and all direction controls are disabled.
+
+:::
+
+::: react
+
+`disabled` disables every control. Backward controls are disabled on the first page and forward controls on the last page. With `total={0}`, page `1` remains and all direction controls are disabled.
+
+:::
 
 <Demo name="pagination/states" />
 
@@ -114,10 +144,23 @@ This example uses [Text](/components/text) to change the selected page's font we
 
 ## Behavior {#behavior}
 
+::: vue
+
 - The current page is limited to `1` through the page count. The count is `Math.ceil(total / pageSize)`, with a minimum of `1`.
 - A user action that changes the page or size emits `change` once. Selecting the current value does not emit it. Automatic correction of an out-of-range page also emits `change`.
 - The size selector always includes the current size and removes duplicate, non-integer and non-positive options.
 - Controls wrap when space is limited. Reduce visible pages with `sibling-count` and `show-edges`.
+
+:::
+
+::: react
+
+- The current page is limited to `1` through the page count. The count is `Math.ceil(total / pageSize)`, with a minimum of `1`.
+- A user action that changes the page or size calls `onChange` once. Selecting the current value does not call it. Automatic correction of an out-of-range page also calls `onChange`.
+- The size selector always includes the current size and removes duplicate, non-integer and non-positive options.
+- Controls wrap when space is limited. Reduce visible pages with `siblingCount` and `showEdges`.
+
+:::
 
 ## Accessibility {#a11y}
 
@@ -173,7 +216,17 @@ Other attributes are forwarded to the outer `div`, which contains the navigation
 
 ### Composition and types {#composition}
 
+::: vue
+
 `PaginationContent` renders pages and navigation buttons and accepts the same `#page` and `#ellipsis` slots. `PaginationInfo` provides `#default(PaginationState)`. `PaginationSize` and `PaginationJump` render the size selector and page input. All four accept `class` and must be placed in the default slot of `Pagination`.
+
+:::
+
+::: react
+
+`PaginationContent` renders pages and navigation buttons and accepts the same `renderPage` and `renderEllipsis`. `children` of `PaginationInfo` can be a function `(state: PaginationState) => ReactNode`. `PaginationSize` and `PaginationJump` render the size selector and page input. All four accept `className` and must be placed in `children` of `Pagination`.
+
+:::
 
 ```ts
 interface PaginationChange {

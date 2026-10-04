@@ -109,7 +109,17 @@ accent 用于主操作，neutral 用于次要操作与取消，danger 用于不�
 
 ### 第三方登录 {#sign-in}
 
+::: vue
+
 设置 `block` 使按钮占满容器宽度，品牌图标放置于前置插槽。
+
+:::
+
+::: react
+
+设置 `block` 使按钮占满容器宽度，品牌图标通过 `icon` 传入。
+
+:::
 
 <Demo name="button/sign-in" />
 
@@ -125,15 +135,37 @@ accent 用于主操作，neutral 用于次要操作与取消，danger 用于不�
 
 ### 作为链接 {#link}
 
+::: vue
+
 通过 `as` 将按钮渲染为 `a` 元素或者 `NuxtLink`，外观与交互保持一致。
+
+:::
+
+::: react
+
+通过 `as` 将按钮渲染为 `a` 元素或者 `next/link` 的 `Link`，外观与交互保持一致。
+
+:::
 
 <Demo name="button/link" />
 
 仅需链接外观而不需要按钮语义时，应使用 `Link` 组件，而非 `variant="link"`。
 
+::: vue
+
 如果目标组件需要自行渲染根元素，改用 `asChild`：按钮不渲染自身，而是将类名与行为合并至唯一的子元素。
 
+:::
+
+::: react
+
+如果目标组件需要自行渲染根元素，改用 `asChild`：按钮不渲染自身，而是将类名与行为合并至唯一的子元素。Server Component 不能通过 `as` 把 `Link` 这类组件传给按钮，此时同样使用 `asChild`。
+
+:::
+
 此模式下，图标、波纹和加载指示等内容由子元素负责。`loading` 仍会设置忙碌状态并拦截点击。
+
+::: vue
 
 ```vue
 <template>
@@ -142,6 +174,25 @@ accent 用于主操作，neutral 用于次要操作与取消，danger 用于不�
   </Button>
 </template>
 ```
+
+:::
+
+::: react
+
+```tsx
+import Link from 'next/link'
+import { Button } from '@hina-ui/react'
+
+export function GetStarted() {
+  return (
+    <Button asChild>
+      <Link href="/guide/installation">开始使用</Link>
+    </Button>
+  )
+}
+```
+
+:::
 
 ## 自定义样式 {#styling}
 

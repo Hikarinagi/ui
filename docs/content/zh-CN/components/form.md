@@ -14,7 +14,17 @@ links:
 import { Form, FormField } from '@hina-ui/vue'
 ```
 
+::: vue
+
 表单把一组字段的值、校验规则与提交动作放在一处。`values` 传入一个响应式对象，各控件照常用 `v-model` 绑定到它的属性；`rules` 传入校验规则，提交时先校验，全部通过才调用 `submit` 事件的处理函数。每个字段用 [FormField](/components/form-field) 包住，标签、说明与错误信息由它渲染，控件会自动与字段关联。
+
+:::
+
+::: react
+
+表单把一组字段的值、校验规则与提交动作放在一处。`values` 传入当前的值对象（通常来自 `useState`），各控件用 `value` 与 `onValueChange` 读写其中的字段，修改时传入新的对象；`rules` 传入校验规则，提交时先校验，全部通过才调用 `onSubmit`。每个字段用 [FormField](/components/form-field) 包住，标签、说明与错误信息由它渲染，控件会自动与字段关联。
+
+:::
 
 <Demo name="form/basic" />
 
@@ -34,13 +44,33 @@ import { Form, FormField } from '@hina-ui/vue'
 
 ### 服务端返回的错误 {#server}
 
+::: vue
+
 提交之后服务端也可能拒绝某些字段。通过模板引用调用 `setErrors`，传入字段名到错误文字的映射，错误显示在对应的字段下；该字段的值被修改后，这条错误自动清除。没有对应字段的错误可以从默认插槽的 `error` 取得，自行展示。
+
+:::
+
+::: react
+
+提交之后服务端也可能拒绝某些字段。通过 ref 调用 `setErrors`，传入字段名到错误文字的映射，错误显示在对应的字段下；该字段的值被修改后，这条错误自动清除。没有对应字段的错误可以把 `children` 写成函数，从参数的 `error` 取得，自行展示。
+
+:::
 
 <Demo name="form/server" />
 
 ### 提交中与禁用 {#state}
 
+::: vue
+
 `submit` 的处理函数返回 Promise 时，表单在其结束前处于提交中状态，所有字段禁用，插槽参数 `submitting` 可用于按钮的加载指示。`disabled` 禁用整个表单。
+
+:::
+
+::: react
+
+`onSubmit` 返回 Promise 时，表单在其结束前处于提交中状态，所有字段禁用，`children` 函数参数中的 `submitting` 可用于按钮的加载指示。`disabled` 禁用整个表单。
+
+:::
 
 <Demo name="form/state" />
 
@@ -62,6 +92,8 @@ import { Form, FormField } from '@hina-ui/vue'
 
 ### Props {#props}
 
+::: vue
+
 | 属性         | 类型                             | 默认值     | 说明                                       |
 | ------------ | -------------------------------- | ---------- | ------------------------------------------ |
 | `values`     | `Record<string, unknown>`        | —          | 字段值所在的响应式对象                     |
@@ -69,6 +101,20 @@ import { Form, FormField } from '@hina-ui/vue'
 | `validateOn` | `'submit' \| 'blur' \| 'change'` | `'submit'` | 校验时机                                   |
 | `disabled`   | `boolean`                        | `false`    | 是否禁用整个表单                           |
 | `class`      | `string`                         | —          | 追加至根元素的类名                         |
+
+:::
+
+::: react
+
+| 属性         | 类型                             | 默认值     | 说明                                       |
+| ------------ | -------------------------------- | ---------- | ------------------------------------------ |
+| `values`     | `Record<string, unknown>`        | —          | 字段值所在的对象                           |
+| `rules`      | `FormRules`                      | —          | 校验规则，Standard Schema 对象或者校验函数 |
+| `validateOn` | `'submit' \| 'blur' \| 'change'` | `'submit'` | 校验时机                                   |
+| `disabled`   | `boolean`                        | `false`    | 是否禁用整个表单                           |
+| `className`  | `string`                         | —          | 追加至根元素的类名                         |
+
+:::
 
 ### 插槽 {#slots}
 

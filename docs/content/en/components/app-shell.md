@@ -30,11 +30,31 @@ The component is one viewport tall by default. A frame embedded within a page ca
 
 The state can be bound two-way with `v-model:sidebar`, taking `expanded`, `rail` or `hidden`. Bind it when the current form has to be read or set from elsewhere; otherwise leave the component to manage it.
 
+::: vue
+
 Logos, avatars and entries in expanded groups stay in place during collapse. [Sidebar brand slots](/components/sidebar#brand) handle icon and wordmark visibility automatically; [SidebarLabel](/components/sidebar#label) provides the same transition for custom header and footer content.
+
+:::
+
+::: react
+
+Logos, avatars and entries in expanded groups stay in place during collapse. [Sidebar's `renderIcon` and `renderWordmark`](/components/sidebar#brand) handle icon and wordmark visibility automatically; [SidebarLabel](/components/sidebar#label) provides the same transition for custom header and footer content.
+
+:::
 
 <Demo name="app-shell/collapsible" />
 
+::: vue
+
 `@size-stable` fires once after a desktop sidebar change finishes, including changes without an animation. Use it to resize expensive charts. When using this event, disable the chart's continuous resize observer to avoid doing both. Descendant `ScrollArea` instances automatically defer measurements during the sidebar transition and catch up when it finishes; native scrolling remains available.
+
+:::
+
+::: react
+
+`onSizeStable` is called once after a desktop sidebar change finishes, including changes without an animation. Use it to resize expensive charts. When using this callback, disable the chart's continuous resize observer to avoid doing both. Descendant `ScrollArea` instances automatically defer measurements during the sidebar transition and catch up when it finishes; native scrolling remains available.
+
+:::
 
 ### Scrolling the main area {#scroll}
 
@@ -101,7 +121,20 @@ A [Banner](/components/banner) in the `banner` slot spans the whole shell. When 
 
 ### Expose {#expose}
 
+::: vue
+
 | Name           | Type                       | Description                              |
 | -------------- | -------------------------- | ---------------------------------------- |
 | `mainViewport` | `HTMLElement \| undefined` | Viewport element of the main scroll area |
 | `mainArea`     | `ScrollArea \| undefined`  | The main area's scroll container         |
+
+:::
+
+::: react
+
+| Name           | Type                            | Description                              |
+| -------------- | ------------------------------- | ---------------------------------------- |
+| `mainViewport` | `HTMLElement \| undefined`      | Viewport element of the main scroll area |
+| `mainArea`     | `ScrollAreaHandle \| undefined` | Ref handle of the main scroll area       |
+
+:::

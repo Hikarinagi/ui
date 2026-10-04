@@ -73,7 +73,17 @@ Use `ToolbarButton` as the trigger of [DropdownMenu](/components/dropdown-menu) 
 
 ### RTL {#rtl}
 
+::: vue
+
 `dir="rtl"` changes layout and left/right arrow behavior together. When omitted, direction comes from [ConfigProvider](https://reka-ui.com/docs/utilities/config-provider) or the nearest ancestor's `dir`.
+
+:::
+
+::: react
+
+`dir="rtl"` changes layout and left/right arrow behavior together. When omitted, direction comes from `ConfigProvider` or the nearest ancestor's `dir`.
+
+:::
 
 <Demo name="toolbar/rtl" />
 

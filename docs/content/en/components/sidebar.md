@@ -14,7 +14,17 @@ links:
 import { Sidebar, SidebarGroup, SidebarLabel, SidebarTrigger } from '@hina-ui/vue'
 ```
 
+::: vue
+
 `Sidebar` goes in the `sidebar` slot of an [AppShell](/components/app-shell), with its entries — usually a run of [NavLink](/components/nav-link) — in the default slot. It brings its own navigation landmark and scroll container, so a long list scrolls within the column.
+
+:::
+
+::: react
+
+`Sidebar` goes in the `sidebarContent` prop of an [AppShell](/components/app-shell), with its entries — usually a run of [NavLink](/components/nav-link) — in `children`. It brings its own navigation landmark and scroll container, so a long list scrolls within the column.
+
+:::
 
 Its form comes from [AppShell](/components/app-shell); it holds no state of its own. Outside an [AppShell](/components/app-shell) it is always expanded and cannot be collapsed.
 
@@ -32,6 +42,8 @@ Every [NavLink](/components/nav-link) inside the sidebar should carry a `label`:
 
 ### Brand icon and wordmark {#brand}
 
+::: vue
+
 The `icon` and `wordmark` slots form the default header. The icon occupies a fixed 32 × 32 pixel box; SVGs and images preserve their proportions. The wordmark accepts text, SVG, [Image](/components/image), or composed content.
 
 | Slots provided      | Expanded                             | Rail                                    |
@@ -41,23 +53,70 @@ The `icon` and `wordmark` slots form the default header. The icon occupies a fix
 | Only `wordmark`     | Wordmark aligned to the header start | Entire brand region collapses           |
 | Neither             | No brand region                      | No brand region                         |
 
+:::
+
+::: react
+
+`renderIcon` and `renderWordmark` form the default header. The icon occupies a fixed 32 × 32 pixel box; SVGs and images preserve their proportions. The wordmark accepts text, SVG, [Image](/components/image), or composed content.
+
+| Props provided                  | Expanded                             | Rail                                    |
+| ------------------------------- | ------------------------------------ | --------------------------------------- |
+| `renderIcon` + `renderWordmark` | Icon and wordmark side by side       | Icon stays in place; wordmark fades out |
+| Only `renderIcon`               | Icon visible                         | Stays in place                          |
+| Only `renderWordmark`           | Wordmark aligned to the header start | Entire brand region collapses           |
+| Neither                         | No brand region                      | No brand region                         |
+
+:::
+
 With an icon, the brand row retains its height in rail form. With only a wordmark, the entire brand region collapses, including its vertical padding, and the navigation moves up to fill the space. Expanding the sidebar or opening the mobile drawer shows the full brand region. The wordmark automatically shares the navigation label transition without a [SidebarLabel](#label) wrapper.
 
+::: vue
+
 Both slots receive `{ state }`. Providing `header` fully replaces the default header; `icon` and `wordmark` are then not rendered.
+
+:::
+
+::: react
+
+Both functions receive `{ state }`. Providing `renderHeader` fully replaces the default header; `renderIcon` and `renderWordmark` are then not rendered.
+
+:::
 
 <Demo name="sidebar/brand" />
 
 ### Header and footer {#slots}
 
+::: vue
+
 The `header` slot fully replaces the default brand header, while `footer` sits below the entries. Neither scrolls with the entries. Custom headers are not automatically hidden as logos.
+
+:::
+
+::: react
+
+`renderHeader` fully replaces the default brand header, while `renderFooter` sits below the entries. Neither scrolls with the entries. Custom headers are not automatically hidden as logos.
+
+:::
 
 The header retains its expanded content width. The footer follows the sidebar width so buttons and overlay anchors stay within the rail. For horizontal avatar and label layouts, use [Inline](/components/inline) with `:wrap="false"` and `truncate` or `whitespace-nowrap` on text to avoid wrapping during collapse. Wrap text and secondary actions in `SidebarLabel` to fade them out with [NavLink](/components/nav-link) labels and delay their fade-in on expansion. Keep the logo and [Avatar](/components/avatar) outside it so their size and position stay fixed.
 
+::: vue
+
 `SidebarLabel` preserves its layout space. In rail form, its contents are hidden from view, interaction, screen readers and keyboard focus. The `header` and `footer` slots still provide `{ state }` for custom content that needs the current form.
+
+:::
+
+::: react
+
+`SidebarLabel` preserves its layout space. In rail form, its contents are hidden from view, interaction, screen readers and keyboard focus. `renderHeader` and `renderFooter` still receive `{ state }` for custom content that needs the current form.
+
+:::
 
 <Demo name="sidebar/slots" />
 
 ## Behaviour {#behavior}
+
+::: vue
 
 - The three forms are 256 pixels wide when expanded, 56 as a rail and 0 when hidden, and the width transitions continuously between them.
 - Collapsed to a rail, `SidebarGroup` is forced open, its heading fades into a divider while retaining the same space. Entries in expanded groups keep their vertical positions.
@@ -65,6 +124,19 @@ The header retains its expanded content width. The footer follows the sidebar wi
 - When fully hidden, the entire sidebar leaves interaction and keyboard focus.
 - Width and label transitions use Hina motion tokens and switch instantly with reduced motion enabled.
 - Inside the mobile [Drawer](/components/drawer), the sidebar fills the drawer height with the footer pinned to the bottom and only the entries scrolling. The header includes a close button by default. Set `:closable="false"` to hide it; with no header or brand slots, the button row leaves no empty space. The drawer title is not duplicated. Horizontal padding comes from the drawer; the header, entries and footer retain their vertical padding.
+
+:::
+
+::: react
+
+- The three forms are 256 pixels wide when expanded, 56 as a rail and 0 when hidden, and the width transitions continuously between them.
+- Collapsed to a rail, `SidebarGroup` is forced open, its heading fades into a divider while retaining the same space. Entries in expanded groups keep their vertical positions.
+- The entry area uses [ScrollArea](/components/scroll-area) without edge shadows; the header and footer stay fixed at either end.
+- When fully hidden, the entire sidebar leaves interaction and keyboard focus.
+- Width and label transitions use Hina motion tokens and switch instantly with reduced motion enabled.
+- Inside the mobile [Drawer](/components/drawer), the sidebar fills the drawer height with the footer pinned to the bottom and only the entries scrolling. The header includes a close button by default. Set `closable={false}` to hide it; without `renderHeader`, `renderIcon` or `renderWordmark`, the button row leaves no empty space. The drawer title is not duplicated. Horizontal padding comes from the drawer; the header, entries and footer retain their vertical padding.
+
+:::
 
 ## Accessibility {#a11y}
 
@@ -84,6 +156,8 @@ The header retains its expanded content width. The footer follows the sidebar wi
 | `closable` | `boolean` | `true`             | Whether to show the mobile drawer close button |
 | `class`    | `string`  | —                  | Classes appended to the root                   |
 
+::: vue
+
 | Slot       | Slot props  | Description                                                 |
 | ---------- | ----------- | ----------------------------------------------------------- |
 | `default`  | —           | Sidebar entries                                             |
@@ -91,6 +165,20 @@ The header retains its expanded content width. The footer follows the sidebar wi
 | `icon`     | `{ state }` | Brand icon in a fixed square box, retained in rail form     |
 | `wordmark` | `{ state }` | Brand wordmark, automatically faded out in rail form        |
 | `footer`   | `{ state }` | Content below the entries                                   |
+
+:::
+
+::: react
+
+| Prop             | Render props | Description                                                                       |
+| ---------------- | ------------ | --------------------------------------------------------------------------------- |
+| `children`       | —            | Sidebar entries                                                                   |
+| `renderHeader`   | `{ state }`  | Fully replaces the header, taking priority over `renderIcon` and `renderWordmark` |
+| `renderIcon`     | `{ state }`  | Brand icon in a fixed square box, retained in rail form                           |
+| `renderWordmark` | `{ state }`  | Brand wordmark, automatically faded out in rail form                              |
+| `renderFooter`   | `{ state }`  | Content below the entries                                                         |
+
+:::
 
 ### SidebarGroup {#group}
 
@@ -119,7 +207,17 @@ Controls the visibility of custom labels and secondary content in rail form. Alw
 
 ### SidebarTrigger {#trigger}
 
+::: vue
+
 The button that switches the sidebar's form, usually placed in the `header` slot of [AppShell](/components/app-shell). It has nothing to configure and does not render outside an [AppShell](/components/app-shell).
+
+:::
+
+::: react
+
+The button that switches the sidebar's form, usually placed in the `header` prop of [AppShell](/components/app-shell). It has nothing to configure and does not render outside an [AppShell](/components/app-shell).
+
+:::
 
 | Prop    | Type     | Default | Description                  |
 | ------- | -------- | ------- | ---------------------------- |

@@ -58,7 +58,17 @@ A `disabled` chip ignores clicks, and its remove button is disabled as well.
 
 ### As a link {#link}
 
+::: vue
+
 With `as` set to `a` and an `href`, the chip becomes a link with hover and press feedback. To use application routing, pass `href` and `navigate` from the `custom` slot of `RouterLink` or `NuxtLink`, preserving link semantics and SPA navigation.
+
+:::
+
+::: react
+
+With `as` set to `a` and an `href`, the chip becomes a link with hover and press feedback. To use application routing, set `as` to `Link` from `next/link` with an `href` inside a client component, preserving link semantics and client-side navigation.
+
+:::
 
 <Demo name="chip/link" />
 

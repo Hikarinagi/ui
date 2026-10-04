@@ -52,7 +52,17 @@ Flex 开放了 flex 布局的四个属性：`direction`、`align`、`justify` �
 
 ### 根元素 {#as}
 
+::: vue
+
 `as` 接受标签名或 Vue 组件，例如 `as="section"`、`:as="RouterLink"` 或 `:as="NuxtLink"`。组件须先导入或通过 `resolveComponent` 解析；对象组件、函数式组件和异步组件均可使用。布局类名、额外属性、事件监听器和默认插槽会传给该组件，不增加包裹层；自定义组件需将属性和类名传到实际根元素。
+
+:::
+
+::: react
+
+`as` 接受标签名或组件，例如 `as="section"` 或 `next/link` 的 `as={Link}`。布局类名、额外属性、事件处理函数和 `children` 会传给该组件，不增加包裹层；自定义组件需将 `className` 等属性传到实际渲染的根元素。
+
+:::
 
 ## API {#api}
 

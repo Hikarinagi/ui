@@ -16,7 +16,17 @@ links:
 import { CommandPalette } from '@hina-ui/vue'
 ```
 
+::: vue
+
 `items` 是条目列表。每个条目至少有 `id` 与 `label`，可以带 `description`、`keywords`、`icon`、`kbd` 与 `onSelect`；带有 `label` 与 `items` 的对象是一个分组。默认插槽是触发器。选中条目时先调用该条目的 `onSelect`，再触发 `select` 事件，然后关闭面板。
+
+:::
+
+::: react
+
+`items` 是条目列表。每个条目至少有 `id` 与 `label`，可以带 `description`、`keywords`、`icon`、`kbd` 与 `onSelect`；带有 `label` 与 `items` 的对象是一个分组。`children` 是触发器。选中条目时先调用该条目的 `onSelect`，再调用组件的 `onSelect`，然后关闭面板。
+
+:::
 
 <Demo name="command-palette/basic" />
 

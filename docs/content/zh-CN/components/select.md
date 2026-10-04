@@ -24,7 +24,17 @@ import { Select } from '@hina-ui/vue'
 
 ### 清除 {#clearable}
 
+::: vue
+
 `clearable` 在有值且未禁用时显示清除按钮。点击后将 `v-model` 设为 `null` 并触发 `clear`，焦点回到触发器，列表保持关闭。
+
+:::
+
+::: react
+
+`clearable` 在有值且未禁用时显示清除按钮。点击后以 `null` 调用 `onValueChange`，再调用 `onClear`，焦点回到触发器，列表保持关闭。
+
+:::
 
 <Demo name="select/clearable" />
 
@@ -38,7 +48,17 @@ import { Select } from '@hina-ui/vue'
 
 `option` 插槽定制列表中每一项的内容，`value` 插槽定制触发器里显示的内容，两者都能拿到当前选项。
 
+::: vue
+
 组件从 `options` 推断完整选项类型，插槽中的 `option` 保留额外字段及其类型；`v-model` 仍绑定 `value`。可用 `SelectOption<{ icon: Component }>` 声明额外字段，示例直接通过 `option.icon` 读取图标。
+
+:::
+
+::: react
+
+组件从 `options` 推断完整选项类型，渲染函数中的 `option` 保留额外字段及其类型；`value / onValueChange` 仍绑定 `value`。可用 `SelectOption<{ icon: LucideIcon }>` 声明额外字段，示例直接通过 `option.icon` 读取图标。
+
+:::
 
 <Demo name="select/custom" />
 
@@ -68,7 +88,17 @@ import { Select } from '@hina-ui/vue'
 
 ### 虚拟滚动 {#virtual}
 
+::: vue
+
 `virtualize` 按需渲染可见范围附近的条目，与 [VirtualList](/components/virtual-list) 共用测量与滚动底层。默认关闭；可传 `{ estimateSize, overscan }` 调整预估行高和两侧预渲染数量，行高会按实际内容测量。键盘导航覆盖完整数据，禁用项会跳过。 条目离开渲染范围后会卸载；插槽内需要持久保留的状态应按唯一 value 存在外部。
+
+:::
+
+::: react
+
+`virtualize` 按需渲染可见范围附近的条目，与 [VirtualList](/components/virtual-list) 共用测量与滚动底层。默认关闭；可传 `{ estimateSize, overscan }` 调整预估行高和两侧预渲染数量，行高会按实际内容测量。键盘导航覆盖完整数据，禁用项会跳过。条目离开渲染范围后会卸载；`renderOption` 渲染的内容中需要持久保留的状态应按唯一 value 存在外部。
+
+:::
 
 <Demo name="select/virtual" />
 

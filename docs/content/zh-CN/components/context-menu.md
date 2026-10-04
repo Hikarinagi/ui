@@ -82,4 +82,14 @@ import { ContextMenu, ContextMenuItem } from '@hina-ui/vue'
 
 ### 条目与其他子件 {#parts}
 
+::: vue
+
 `ContextMenuItem`、`ContextMenuCheckboxItem`、`ContextMenuRadioGroup`、`ContextMenuRadioItem`、`ContextMenuGroup`、`ContextMenuLabel`、`ContextMenuSeparator` 与 `ContextMenuSub` 的属性、插槽与事件与 DropdownMenu 的同名子件完全一致，见 [DropdownMenu](/components/dropdown-menu#item)。
+
+:::
+
+::: react
+
+`ContextMenuItem`、`ContextMenuCheckboxItem`、`ContextMenuRadioGroup`、`ContextMenuRadioItem`、`ContextMenuGroup`、`ContextMenuLabel`、`ContextMenuSeparator` 与 `ContextMenuSub` 的属性与回调与 DropdownMenu 的同名子件完全一致，见 [DropdownMenu](/components/dropdown-menu#item)。
+
+:::

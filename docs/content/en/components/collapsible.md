@@ -44,7 +44,17 @@ With `disabled` the trigger stops responding and the content keeps its current s
 
 The `icon` slot swaps the indicator's glyph while the component keeps owning the rotation. Setting `icon` to `false` hides the indicator entirely.
 
+::: vue
+
 `as-child` lends the behaviour to the sole child, which puts both the appearance and the indicator in your hands. Every change of skin — a text link, an outline, a full-width row with an icon slot — goes this way; drop in a `DisclosureIcon` and it still finds the state. The example at the top of this page is exactly that, with `variant="link"`.
+
+:::
+
+::: react
+
+`asChild` lends the behaviour to the sole child, which puts both the appearance and the indicator in your hands. Every change of skin — a text link, an outline, a full-width row with room for an icon — goes this way; drop in a `DisclosureIcon` and it still finds the state. The example at the top of this page is exactly that, with `variant="link"`.
+
+:::
 
 The component forwards no appearance props: a disclosure toggle only has to express open and closed, and taking on a button's full range of looks would grow this API into a second Button. Changing the skin means bringing the whole trigger.
 

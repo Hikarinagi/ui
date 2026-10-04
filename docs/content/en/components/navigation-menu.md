@@ -34,7 +34,17 @@ import {
 
 Mouse hover and click both open panels by default. `trigger="click"` disables hover activation and keeps the panel open when the pointer leaves. `v-model` binds the expanded item's `value`; an empty string closes all panels. Give panel items stable, unique values when controlling expansion.
 
+::: vue
+
 Selecting a link closes the panel. `@select.prevent` keeps it open without preventing link navigation. Use `@click.prevent` to prevent navigation itself.
+
+:::
+
+::: react
+
+Selecting a link closes the panel. Calling `event.preventDefault()` in `onSelect` keeps it open without preventing link navigation. Call `event.preventDefault()` in `onClick` to prevent navigation itself.
+
+:::
 
 <Demo name="navigation-menu/controlled" />
 
@@ -66,7 +76,17 @@ Both triggers and links support `disabled`. Disabled entries cannot activate and
 
 ### Router links {#routing}
 
+::: vue
+
 `NavigationMenuLink` with `as-child` forwards attributes and behavior to its single child, including `RouterLink` or `NuxtLink`. Alternatively, pass a component through `as`. Set `active` from your route state.
+
+:::
+
+::: react
+
+`NavigationMenuLink` with `asChild` forwards attributes and behavior to its single child, including `next/link`, and works in Server Components. Alternatively, pass a component through `as` in a client component. Set `active` from your route state.
+
+:::
 
 <Demo name="navigation-menu/routing" />
 
@@ -116,7 +136,17 @@ Direction inherits from an ancestor's `dir` or Reka's global configuration, or c
 | `listClass`         | `string`                       | —              | List classes                                                                        |
 | `viewportClass`     | `string`                       | —              | Shared content viewport classes                                                     |
 
+::: vue
+
 The `update:modelValue(value: string)` event returns the expanded item. The default slot receives `{ value: string }`.
+
+:::
+
+::: react
+
+The `onValueChange(value: string)` callback returns the expanded item. `children` can also be a function that receives `{ value: string }`.
+
+:::
 
 ### NavigationMenuItem {#item-api}
 
@@ -138,7 +168,17 @@ The default slot provides the label, `icon` provides a leading icon, and `traili
 | `padded` | `boolean` | `true`  | Apply default padding                       |
 | `class`  | `string`  | —       | Content classes, including width and layout |
 
+::: vue
+
 The default slot provides the content. Forwards `escapeKeyDown`, `pointerDownOutside`, `focusOutside`, `interactOutside`, and `dismiss` events. Call `preventDefault()` on the corresponding interaction event to prevent dismissal.
+
+:::
+
+::: react
+
+`children` provides the content. Forwards the `onEscapeKeyDown`, `onPointerDownOutside`, `onFocusOutside`, and `onInteractOutside` callbacks. Call `event.preventDefault()` in the corresponding callback to prevent dismissal.
+
+:::
 
 ### NavigationMenuLink {#link-api}
 
@@ -160,4 +200,14 @@ The default slot provides the content. Forwards `escapeKeyDown`, `pointerDownOut
 | `description` | Replace the description text                  |
 | `trailing`    | Trailing content                              |
 
+::: vue
+
 With `as-child`, the child owns its content layout and the other content slots are not rendered.
+
+:::
+
+::: react
+
+With `asChild`, the child owns its content layout and `icon`, `description`, and `trailing` are not rendered.
+
+:::

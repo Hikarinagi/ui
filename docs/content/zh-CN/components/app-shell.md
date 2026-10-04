@@ -30,11 +30,31 @@ import { AppShell } from '@hina-ui/vue'
 
 侧栏状态可以用 `v-model:sidebar` 双向绑定，取值为 `expanded`、`rail`、`hidden`。需要在别处读出或写入当前形态时绑定它，否则交给组件自己维护即可。
 
+::: vue
+
 收起过程中标识、头像和已展开条目的位置保持不变。[Sidebar 的品牌插槽](/components/sidebar#brand) 自动处理图标与字标的显隐；自定义页眉与页脚内容可通过 [SidebarLabel](/components/sidebar#label) 使用相同过渡。
+
+:::
+
+::: react
+
+收起过程中标识、头像和已展开条目的位置保持不变。[Sidebar 的 `renderIcon` 与 `renderWordmark`](/components/sidebar#brand) 自动处理图标与字标的显隐；自定义页眉与页脚内容可通过 [SidebarLabel](/components/sidebar#label) 使用相同过渡。
+
+:::
 
 <Demo name="app-shell/collapsible" />
 
+::: vue
+
 桌面侧栏切换完成后触发一次 `@size-stable`，无动画的切换也会触发。图表等测量成本较高的内容可以在此时调整尺寸；使用这个事件时，应关闭图表自身的持续尺寸监听，避免重复响应。内部的 `ScrollArea` 会在侧栏过渡期间暂缓测量，结束后统一更新，期间仍可正常滚动。
+
+:::
+
+::: react
+
+桌面侧栏切换完成后调用一次 `onSizeStable`，无动画的切换也会调用。图表等测量成本较高的内容可以在此时调整尺寸；使用这个回调时，应关闭图表自身的持续尺寸监听，避免重复响应。内部的 `ScrollArea` 会在侧栏过渡期间暂缓测量，结束后统一更新，期间仍可正常滚动。
+
+:::
 
 ### 主区域滚动 {#scroll}
 
@@ -101,7 +121,20 @@ import { AppShell } from '@hina-ui/vue'
 
 ### Expose {#expose}
 
+::: vue
+
 | 名称           | 类型                       | 说明                     |
 | -------------- | -------------------------- | ------------------------ |
 | `mainViewport` | `HTMLElement \| undefined` | 主区域滚动容器的视口元素 |
 | `mainArea`     | `ScrollArea \| undefined`  | 主区域的滚动容器组件     |
+
+:::
+
+::: react
+
+| 名称           | 类型                            | 说明                      |
+| -------------- | ------------------------------- | ------------------------- |
+| `mainViewport` | `HTMLElement \| undefined`      | 主区域滚动容器的视口元素  |
+| `mainArea`     | `ScrollAreaHandle \| undefined` | 主区域滚动容器的 ref 句柄 |
+
+:::

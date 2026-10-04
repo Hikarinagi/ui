@@ -16,17 +16,47 @@ import { DataTable, type DataTableColumn } from '@hina-ui/vue'
 
 Pass `rows`, `columns` and a stable `rowKey`. Only the table appears by default; every additional control is optional. Styling follows [Table](/components/table), including density, dark mode and RTL.
 
+::: vue
+
 Columns, slots, callbacks and the instance API retain the original row type. Supply a new array when data changes so the data pipeline recalculates.
+
+:::
+
+::: react
+
+Columns, render props, callbacks and the ref API retain the original row type. Supply a new array when data changes so the data pipeline recalculates.
+
+:::
 
 ## Examples {#examples}
 
 ### Cells {#cells}
 
+::: vue
+
 `cell-key` replaces one column's content; `cell` is the shared fallback. They receive the original typed `row`, `column`, `value`, stable `key`, source `index`, `depth` and selection/expansion helpers. `field` reads another field and `accessor` takes precedence. `format` affects display only. A dedicated `cell-key` slot takes precedence over the shared `cell` slot.
+
+:::
+
+::: react
+
+`renderCell` renders data cell content; tell columns apart with `column.key`, and return `undefined` to keep the default content. It receives the original typed `row`, `column`, `value`, stable `key`, source `index`, `depth` and selection/expansion helpers. `field` reads another field and `accessor` takes precedence. `format` affects display only.
+
+:::
 
 `align` applies to headers and cells. `rowClickable` emits `rowClick` for click, Enter and Space; actions inside cells keep their own behavior. `rowContextmenu` forwards the original row and event; call `event.preventDefault()` when providing a custom menu.
 
+::: vue
+
 The name column uses `#cell-name` to combine [Avatar](/components/avatar) with two lines of [Text](/components/text), while `#cell-status` renders [Tag](/components/tag). The shared `#cell` slot checks `column.key` to combine [Progress](/components/progress) with the count. Slots replace cell content; DataTable retains the surrounding cells, alignment and sorting.
+
+:::
+
+::: react
+
+`renderCell` checks `column.key` to combine [Avatar](/components/avatar) with two lines of [Text](/components/text) in the name column, render [Tag](/components/tag) in the status column and combine [Progress](/components/progress) with the count. It replaces cell content only; DataTable retains the surrounding cells, alignment and sorting.
+
+:::
 
 <Demo name="data-table/cells" />
 
@@ -34,7 +64,17 @@ The name column uses `#cell-name` to combine [Avatar](/components/avatar) with t
 
 Set `sortable: true` per column. Headers cycle ascending → descending → unsorted. `v-model:sorting` stores `{ key, desc }[]`; `multi-sort` allows Shift-click to append sorting. Numbers and dates compare by value, strings use locale-aware natural ordering, and missing values stay last. `sort(a, b)` supplies an ascending comparator.
 
+::: vue
+
 `header-key` / `header` receive `sorting`, `sortIndex` and `toggleSort(multi?)`; custom headers keep the surrounding cell and `aria-sort`.
+
+:::
+
+::: react
+
+`renderHeader` receives `sorting`, `sortIndex` and `toggleSort(multi?)`; it also tells columns apart with `column.key` and falls back to the default header when it returns `undefined`. Custom headers keep the surrounding cell and `aria-sort`.
+
+:::
 
 <Demo name="data-table/sorting" />
 
@@ -42,7 +82,17 @@ Set `sortable: true` per column. Headers cycle ascending → descending → unso
 
 `v-model:filter` matches a case-insensitive substring across participating columns. `filterable: false` excludes a column from global filtering; `filter(row, query)` customizes its matcher. Hidden columns still participate. A match in any column includes the row.
 
+::: vue
+
 Use [SearchInput](/components/search-input) in `toolbar`. Debouncing, requests and stale-response handling belong to the caller.
+
+:::
+
+::: react
+
+Use [SearchInput](/components/search-input) in `renderToolbar`. Debouncing, requests and stale-response handling belong to the caller.
+
+:::
 
 <Demo name="data-table/filtering" />
 
@@ -50,7 +100,17 @@ Use [SearchInput](/components/search-input) in `toolbar`. Debouncing, requests a
 
 `v-model:columnFilters` stores `{ key, value }[]`. Filters combine with AND and also respect global filtering. `filterMode` supports `contains`, `equals`, `in` (an array) and `range` (`[min, max]`, with either bound nullable). Numbers, booleans and dates retain their types. `filterValue(row, value)` provides custom matching.
 
+::: vue
+
 Each header slot receives `filterValue` and `setFilter(value)`. Passing `null`, `undefined`, an empty string or an empty array removes the filter. Controls are optional; this example uses [Select](/components/select).
+
+:::
+
+::: react
+
+`renderHeader` also receives `filterValue` and `setFilter(value)`. Passing `null`, `undefined`, an empty string or an empty array removes the filter. Controls are optional; this example uses [Select](/components/select).
+
+:::
 
 <Demo name="data-table/column-filters" />
 
@@ -72,15 +132,45 @@ The header affects eligible rows on the current page. `selectAll="filtered"` ins
 
 `pagination` enables [Pagination](/components/pagination). `page` starts at 1 and `pageSize` defaults to 10. Sorting, global/column filtering, grouping and page-size changes reset the page; `:auto-reset-page="false"` retains it. Known totals clamp an out-of-range page after data shrinks.
 
+::: vue
+
 The default footer contains only page controls. Compose [Pagination](/components/pagination) in `footer` for optional totals, page-size selection or a jump input.
+
+:::
+
+::: react
+
+The default footer contains only page controls. Compose [Pagination](/components/pagination) in `renderFooter` for optional totals, page-size selection or a jump input.
+
+:::
 
 <Demo name="data-table/pagination" />
 
 ### Remote data {#remote}
 
+::: vue
+
 `manual` bypasses local filtering, sorting, grouping and pagination together. `rows` is the current response; `total` supplies the remote total. Controlled models can initialize from a URL or store.
 
+:::
+
+::: react
+
+`manual` bypasses local filtering, sorting, grouping and pagination together. `rows` is the current response; `total` supplies the remote total. Controlled state can be initialized from a URL or store.
+
+:::
+
+::: vue
+
 `change` emits `{ page, pageSize, sorting, filter, columnFilters, grouping }` once after changes in the same update cycle settle. It does not emit on mount. The caller makes the first request and handles cancellation and stale responses.
+
+:::
+
+::: react
+
+`onChange` is called once with `{ page, pageSize, sorting, filter, columnFilters, grouping }` after changes in the same update cycle settle. It is not called on mount. The caller makes the first request and handles cancellation and stale responses.
+
+:::
 
 `loading` preserves existing rows, blocks their interactions and uses [LoadingOverlay](/components/loading-overlay). Temporarily empty results do not clamp the page while loading.
 
@@ -106,7 +196,17 @@ Columns accept `width`, `minWidth`, `maxWidth` and logical `pin: 'start' | 'end'
 
 Resize grips stay within the visible portion of their own header, separate from pinned-region dividers. Partially covered headers retain a usable grip; fully hidden grips are excluded from hit testing and keyboard navigation. Hover shows the affected column names through [Tooltip](/components/tooltip); dragging displays each column’s current pixel width. A shared `fit` handle names both adjacent columns; `expand` names only the current column. Interactive resizing of pinned columns leaves at least 48px visible for center columns.
 
+::: vue
+
 Focus a boundary to resize with Left/Right by one pixel, Shift by ten, or Home/End to the available limits. Escape cancels the current drag. `v-model:columnWidths` stores manual pixel widths. `fit` records only the two adjusted columns, leaving unspecified columns free to share remaining container space. `expand` also records the other rendered widths so those columns stay unchanged. Pressing and releasing without dragging does not write widths; Escape restores the previous settings. Clear the model to restore automatic allocation. Use numeric bounds for resizing; static columns also accept CSS lengths.
+
+:::
+
+::: react
+
+Focus a boundary to resize with Left/Right by one pixel, Shift by ten, or Home/End to the available limits. Escape cancels the current drag. `columnWidths / onColumnWidthsChange` stores manual pixel widths. `fit` records only the two adjusted columns, leaving unspecified columns free to share remaining container space. `expand` also records the other rendered widths so those columns stay unchanged. Pressing and releasing without dragging does not write widths; Escape restores the previous settings. Clear `columnWidths` to restore automatic allocation. Use numeric bounds for resizing; static columns also accept CSS lengths.
+
+:::
 
 `reorderColumns` makes leaf headers draggable. A column preview and insertion line show the drop position. Clicking still sorts; dragging does not trigger sorting. Escape cancels a drag. Focus a header and use Alt + Left/Right to reorder with the keyboard. `v-model:columnOrder` stores keys. Reordering stays within the same pinned region; `resizable: false` and `reorderable: false` disable the respective operation. `layout="fixed"`, resizing, truncation or virtualization constrain the table layout.
 
@@ -116,15 +216,45 @@ The example uses [Select](/components/select) to switch resize modes and [Button
 
 ### Grouped headers and summaries {#headers}
 
+::: vue
+
 Nested column `children` create multilevel headers. Parent columns supply labels and header slots; leaf columns supply data, sorting and layout. Hidden or reordered leaves update spans automatically.
 
+:::
+
+::: react
+
+Nested column `children` create multilevel headers. Parent columns supply labels and header content (`renderHeader`); leaf columns supply data, sorting and layout. Hidden or reordered leaves update spans automatically.
+
+:::
+
+::: vue
+
 `aggregate` accepts `sum`, `min`, `max`, `mean`, `count`, `uniqueCount` or a function. `footer: true` displays that aggregate; a string or `(rows) => text` supplies custom output. Summaries use all filtered loaded rows, including collapsed rows. `footer-key` replaces one summary cell; `summary` replaces the contents of `<tfoot>` and should return table rows.
+
+:::
+
+::: react
+
+`aggregate` accepts `sum`, `min`, `max`, `mean`, `count`, `uniqueCount` or a function. `footer: true` displays that aggregate; a string or `(rows) => text` supplies custom output. Summaries use all filtered loaded rows, including collapsed rows. `renderColumnFooter` replaces one summary cell; `renderSummary` replaces the contents of `<tfoot>` and should return table rows.
+
+:::
 
 <Demo name="data-table/headers" />
 
 ### Row expansion {#expansion}
 
+::: vue
+
 `expandable` adds row toggles and can be a predicate. `v-model:expanded` stores row keys. `expansion` receives the row context and renders below it across all columns. Expanding does not consume another pagination slot.
+
+:::
+
+::: react
+
+`expandable` adds row toggles and can be a predicate. `expanded / onExpandedChange` stores row keys. `renderExpansion` receives the row context and renders below it across all columns. Expanded content does not count toward the page size.
+
+:::
 
 <Demo name="data-table/expansion" />
 
@@ -140,19 +270,49 @@ Selection includes descendants by default and parents show a mixed state when on
 
 `v-model:grouping` stores column keys in grouping order. `v-model:expandedGroups` controls generated group keys, independently of data-row `expanded` keys. Multiple columns produce nested groups. Pagination counts outer groups.
 
+::: vue
+
 Default group rows display the grouping value, count and column aggregates. `group` receives the group `key`, `column`, `value`, `rows`, `depth`, `expanded`, `toggleExpanded()` and `aggregate(columnKey)`. Group rows cannot be selected or edited. In manual mode the data source owns grouping; `getChildren` can represent its hierarchy.
+
+:::
+
+::: react
+
+Default group rows display the grouping value, count and column aggregates. `renderGroup` receives the group `key`, `column`, `value`, `rows`, `depth`, `expanded`, `toggleExpanded()` and `aggregate(columnKey)`. Group rows cannot be selected or edited. In manual mode the data source owns grouping; `getChildren` can represent its hierarchy.
+
+:::
 
 <Demo name="data-table/grouping" />
 
 ### Cell and row editing {#editing}
 
+::: vue
+
 Set column `editable` and `editMode="cell" | "row"`. Double-click or focus a cell and press Enter to edit; row mode supplies an edit button. `editor-key` / `editor` replace the input and receive `value`, `updateValue`, `pending`, `error`, `commit` and `cancel`. Save/cancel controls and error feedback remain component-owned. The example uses [Select](/components/select) for one editor.
+
+:::
+
+::: react
+
+Set column `editable` and `editMode="cell" | "row"`. Double-click or focus a cell and press Enter to edit; row mode supplies an edit button. `renderEditor` replaces the input (tell columns apart with `column.key`) and receives `value`, `updateValue`, `pending`, `error`, `commit` and `cancel`. Save/cancel controls and error feedback remain component-owned. The example uses [Select](/components/select) for one editor.
+
+:::
 
 Drafts do not mutate input rows. `parse` converts draft values; `validate` returns an error string or `undefined`, synchronously or asynchronously. `onSave(edit)` may return a promise. While pending, duplicate saves are blocked. Rejection keeps the draft open, displays the error and emits `editError`; it does not create an unhandled rejection.
 
 Success emits `edit` with `{ key, row, column?, values }`; `values` is keyed by column key. The caller applies changes, including mapping accessor-backed columns. `onSave` runs once before `edit`; do not send the same request from both. Default inputs support Enter to save and Escape to cancel.
 
+::: vue
+
 In row mode, save errors appear once below the row. Column validation errors appear at the corresponding field and are exposed through its `error` slot parameter. Editors use the `bare` variant of [InputGroup](/components/input-group); [Input](/components/input), [Select](/components/select), and other compatible controls in custom slots inherit its embedded appearance and size.
+
+:::
+
+::: react
+
+In row mode, save errors appear once below the row. Column validation errors appear at the corresponding field and are passed to `renderEditor` as `error`. Editors use the `bare` variant of [InputGroup](/components/input-group); [Input](/components/input), [Select](/components/select), and other compatible controls in custom editors inherit its embedded appearance and size.
+
+:::
 
 <Demo name="data-table/editing" />
 
@@ -166,7 +326,17 @@ Dragging is disabled while sorting, filtering or grouping changes the displayed 
 
 ### Scrolling {#scroll}
 
+::: vue
+
 Horizontal overflow stays inside [ScrollArea](/components/scroll-area). `maxHeight` limits the scroll area and `stickyHeader` pins headers. `class` applies to the entire DataTable; `tableClass` applies to its scroll area. The instance exposes `viewport` and the native table `element`.
+
+:::
+
+::: react
+
+Horizontal overflow stays inside [ScrollArea](/components/scroll-area). `maxHeight` limits the scroll area and `stickyHeader` pins headers. `className` applies to the entire DataTable; `tableClass` applies to its scroll area. The ref exposes `viewport` and the native table `element`.
+
+:::
 
 <Demo name="data-table/scroll" />
 
@@ -186,7 +356,17 @@ Export follows visible column order and excludes `exportable: false` columns. `c
 
 ### Empty and loading states {#states}
 
+::: vue
+
 `emptyText` replaces the default message; `empty` accepts custom content such as [Empty](/components/empty). The `loading` slot customizes [LoadingOverlay](/components/loading-overlay) content and should retain a status announcement.
+
+:::
+
+::: react
+
+`emptyText` replaces the default message; `empty` accepts custom content such as [Empty](/components/empty). `loadingContent` customizes [LoadingOverlay](/components/loading-overlay) content and should retain a status announcement.
+
+:::
 
 <Demo name="data-table/states" />
 
@@ -329,7 +509,17 @@ The component retains native table semantics, multilevel header scopes and row p
 
 ### Instance {#instance}
 
+::: vue
+
 The instance exposes `element: HTMLTableElement | undefined`, `viewport: HTMLElement | undefined`, `state: DataTableState<T>` and `api: DataTableApi<T>`. The same API is available in toolbar/footer slot props.
+
+:::
+
+::: react
+
+The ref exposes `element: HTMLTableElement | undefined`, `viewport: HTMLElement | undefined`, `state: DataTableState<T>` and `api: DataTableApi<T>`. `renderToolbar` and `renderFooter` receive the same API.
+
+:::
 
 | Method                            | Returns         | Description                                        |
 | --------------------------------- | --------------- | -------------------------------------------------- |

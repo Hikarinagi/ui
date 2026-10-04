@@ -1,4 +1,5 @@
 import { expandChangelog } from '../../changelog'
+import { frameworkView } from '../../framework'
 
 const DEMO = /<Demo\s+name="([^"]+)"\s*\/>/g
 const PLAYGROUND = /<Playground\b[\s\S]*?\/>/g
@@ -29,8 +30,9 @@ export default defineEventHandler(async event => {
 
   const locale = raw.startsWith('/en/') ? 'en' : 'zh-CN'
   const path = locale === 'en' ? raw.slice(3) : raw
-  let source = await read('content', `${locale}${path}`)
-  if (source === undefined) return
+  const stored = await read('content', `${locale}${path}`)
+  if (stored === undefined) return
+  let source = frameworkView(stored, 'vue')
   if (source.includes('<Changelog />')) {
     const changelog = await read('release', 'CHANGELOG.md')
     if (changelog === undefined)

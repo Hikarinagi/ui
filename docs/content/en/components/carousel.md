@@ -16,6 +16,8 @@ import { Carousel } from '@hina-ui/vue'
 
 Provide `items`, a stable `getKey`, and the content of each slide. There is no imposed card or image design.
 
+::: vue
+
 ```vue
 <Carousel v-model:index="index" :items="works" :get-key="work => work.id" indicators>
   <template #default="{ item }">
@@ -23,6 +25,18 @@ Provide `items`, a stable `getKey`, and the content of each slide. There is no i
   </template>
 </Carousel>
 ```
+
+:::
+
+::: react
+
+```tsx
+<Carousel index={index} onIndexChange={setIndex} items={works} getKey={work => work.id} indicators>
+  {({ item }) => <Image src={item.cover} alt={item.title} ratio={16 / 9} draggable={false} />}
+</Carousel>
+```
+
+:::
 
 `index` counts **snap positions**, not necessarily items. With one full-width slide per view they match; grouped or partially visible cards may produce fewer snaps. `snapCount` and navigation controls always refer to the measured snap list. `visibleItems` contains item indices.
 
@@ -34,7 +48,17 @@ Portrait, square and landscape covers keep their original proportions. Each card
 
 `slides-to-scroll="auto"` groups slides using the measured container and individual card widths, rather than a fixed number of cards per group. Drag the slider to resize the container continuously: snap counts and navigation update automatically, without calling `refresh()` or observing widths in application code. Changes to individual card dimensions also trigger measurement.
 
+::: vue
+
 The `controls` slot replaces the whole default control row. It receives current state and navigation methods; the slide slot receives the original item, index, visibility and readiness. Switching direction also updates drag and keyboard behavior.
+
+:::
+
+::: react
+
+`renderControls` replaces the whole default control row. It receives current state and navigation methods; a `children` function receives the original item, index, visibility and readiness. Switching direction also updates drag and keyboard behavior.
+
+:::
 
 <Demo name="carousel/grouped" />
 
@@ -42,9 +66,21 @@ The `controls` slot replaces the whole default control row. It receives current 
 
 The default picker emphasizes the current position with a capsule. Hit targets keep a fixed size, so changing selection does not shift neighboring controls. Transitions use Hina motion tokens and respect reduced motion.
 
+::: vue
+
 - `#indicator="{ index, active, snapCount }"` replaces each item's appearance with a thumbnail, number or graphic. Carousel retains the button, selection action, keyboard focus and accessible name. Do not nest links or buttons inside it.
 - `#indicators` replaces the entire picker while preserving the previous and next buttons. It receives all `CarouselControls` state and methods plus `viewportId` for `aria-controls`, supporting progress bars, counters and custom navigation.
 - Either slot enables the indicator region without the `indicators` prop. `#controls` still replaces the whole navigation row and takes precedence over both slots.
+
+:::
+
+::: react
+
+- `renderIndicator` receives `{ index, active, snapCount }` and replaces each item's appearance with a thumbnail, number or graphic. Carousel retains the button, selection action, keyboard focus and accessible name. Do not nest links or buttons inside it.
+- `renderIndicators` replaces the entire picker while preserving the previous and next buttons. It receives all `CarouselControls` state and methods plus `viewportId` for `aria-controls`, supporting progress bars, counters and custom navigation.
+- Either one enables the indicator region without the `indicators` prop. `renderControls` still replaces the whole navigation row and takes precedence over both.
+
+:::
 
 Switch between the default, thumbnails and progress without resetting the carousel. This example has one item per snap, so each thumbnail can use `index` to look up its item. For grouped layouts, `index` still refers to a snap, not an item.
 
@@ -79,6 +115,8 @@ This example starts at index `2`. Server HTML already displays the third slide, 
 
 ## Behavior and customization {#behavior}
 
+::: vue
+
 - The default slot supports images, links, forms and arbitrary composed content. Card height is content-driven; no forced aspect ratio or automatic height transition is added.
 - `align="center"` centers snaps. Edge containment can override this alignment to avoid blank space; use `:contain-scroll="false"` when intentional space at either end is part of the design.
 - `drag-free` allows the track to rest between snaps. The model still identifies the nearest selected snap.
@@ -87,6 +125,21 @@ This example starts at index `2`. Server HTML already displays the third slide, 
 - Offscreen items become inert after measuring visibility. Slide labels and the live position announcement are localized. Automatic rotation does not announce every change.
 - `data-ready` and `data-orientation` are on the root; slide wrappers expose `data-visible`. Class overrides are merged after defaults.
 - Gesture motion follows Hina's motion scale and reduced-motion preference. Autoplay intervals are independent of animation timing.
+
+:::
+
+::: react
+
+- `children` supports images, links, forms and arbitrary composed content. Card height is content-driven; no forced aspect ratio or automatic height transition is added.
+- `align="center"` centers snaps. Edge containment can override this alignment to avoid blank space; use `containScroll={false}` when intentional space at either end is part of the design.
+- `dragFree` allows the track to rest between snaps. `index` still identifies the nearest selected snap.
+- Pointer dragging uses the slide track. On image content, set `draggable={false}` to avoid the browser's native image drag.
+- The viewport accepts direction-aware arrow keys and Home / End. Nested inputs, links and buttons retain their own keyboard behavior. Navigation buttons keep focus when changing slides.
+- Offscreen items become inert after measuring visibility. Slide labels and the live position announcement are localized. Automatic rotation does not announce every change.
+- `data-ready` and `data-orientation` are on the root; slide wrappers expose `data-visible`. `className` overrides are merged after defaults.
+- Gesture motion follows Hina's motion scale and reduced-motion preference. Autoplay intervals are independent of animation timing.
+
+:::
 
 ## API {#api}
 
@@ -127,7 +180,17 @@ This example starts at index `2`. Server HTML already displays the third slide, 
 
 ### Events and exposed controls {#events}
 
+::: vue
+
 `ready` fires when the engine first initializes with nonempty measurable content; `select` fires when the selected snap changes. Both carry `CarouselState`:
+
+:::
+
+::: react
+
+`onReady` is called when the engine first initializes with nonempty measurable content; `onSelect` is called when the selected snap changes. Both receive `CarouselState`:
+
+:::
 
 ```ts
 interface CarouselState {
@@ -141,7 +204,17 @@ interface CarouselState {
 }
 ```
 
+::: vue
+
 The exposed `state` and the `controls` slot update reactively. A select event can precede motion settling; use live `visibleItems` for the currently visible content.
+
+:::
+
+::: react
+
+The `state` on the ref and the props passed to `renderControls` stay current. `onSelect` can be called before motion settles; use live `visibleItems` for the currently visible content.
+
+:::
 
 `CarouselControls` adds `prev()`, `next()`, `scrollTo(index, instant?)`, `play()` and `pause()`. The component ref exposes the same methods, `state`, `element`, `viewport` and `refresh()`. Normal size changes are observed automatically; use `refresh()` to request a new measurement after an unusual external layout change.
 

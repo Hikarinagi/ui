@@ -16,7 +16,17 @@ links:
 import { Slider } from '@hina-ui/vue'
 ```
 
+::: vue
+
 The slider picks a number between `min` and `max`, bound with `v-model`. The value updates continuously while dragging, and `commit` fires once on release. Attributes it does not declare land on the thumb, so name it with `aria-label` or `aria-labelledby`. Width belongs to the layout; the slider fills its container.
+
+:::
+
+::: react
+
+The slider picks a number between `min` and `max`, bound with `value / onValueChange`. The value updates continuously while dragging, and `onCommit` is called once on release. Attributes it does not declare land on the thumb, so name it with `aria-label` or `aria-labelledby`. Width belongs to the layout; the slider fills its container.
+
+:::
 
 <Demo name="slider/basic" />
 
@@ -62,7 +72,17 @@ The value label is a [Tooltip](/components/tooltip) with the thumb as its trigge
 
 ### Commit on release {#commit}
 
+::: vue
+
 `commit` fires only when a drag or a key press ends, which suits expensive work such as sending a request.
+
+:::
+
+::: react
+
+`onCommit` is called only when a drag or a key press ends, which suits expensive work such as sending a request.
+
+:::
 
 <Demo name="slider/commit" />
 

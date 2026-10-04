@@ -76,12 +76,27 @@ This example enables `hn-transition-base` when switching anchors while the card 
 
 ## Behavior {#behavior}
 
+::: vue
+
 - Opens after the pointer rests for `openDelay` and closes `closeDelay` after it leaves; moving into the card keeps it open.
 - Focusing the slotted trigger opens after `openDelay`; moving focus away closes after `closeDelay`.
 - Returning during the close delay cancels closing. Once the exit animation starts, the content is no longer interactive and hovering its previous area does not reopen it.
 - A click outside the card or Esc closes it as well.
 - The card does not stop the page from scrolling, and the rest of the page stays interactive.
 - Touch does not open it.
+
+:::
+
+::: react
+
+- Opens after the pointer rests for `openDelay` and closes `closeDelay` after it leaves; moving into the card keeps it open.
+- Focusing the trigger in `children` opens after `openDelay`; moving focus away closes after `closeDelay`.
+- Returning during the close delay cancels closing. Once the exit animation starts, the content is no longer interactive and hovering its previous area does not reopen it.
+- A click outside the card or Esc closes it as well.
+- The card does not stop the page from scrolling, and the rest of the page stays interactive.
+- Touch does not open it.
+
+:::
 
 ## Accessibility {#a11y}
 

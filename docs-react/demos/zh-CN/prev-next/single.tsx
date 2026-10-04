@@ -1,0 +1,29 @@
+import { PrevNext, PrevNextLink, Stack, Text } from '@hina-ui/react'
+
+export default function Demo() {
+  return (
+    <Stack gap="lg" className="w-full max-w-2xl">
+      <Stack gap="sm">
+        <Text size="sm" tone="faint">
+          只有下一项
+        </Text>
+        <PrevNext>
+          <PrevNextLink direction="next" href="#">
+            第 I 章
+          </PrevNextLink>
+        </PrevNext>
+      </Stack>
+
+      <Stack gap="sm">
+        <Text size="sm" tone="faint">
+          只有上一项
+        </Text>
+        <PrevNext>
+          <PrevNextLink direction="prev" href="#">
+            第十二章 终章
+          </PrevNextLink>
+        </PrevNext>
+      </Stack>
+    </Stack>
+  )
+}

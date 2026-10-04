@@ -1,0 +1,40 @@
+{
+  "name": "@hina-ui/docs-react",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "demos": "node scripts/generate.mjs",
+    "dev": "node scripts/generate.mjs && next dev --port 3731",
+    "build": "node scripts/generate.mjs && next build",
+    "start": "next start",
+    "typecheck": "node scripts/generate.mjs && tsc --noEmit -p tsconfig.json",
+    "lint": "eslint .",
+    "test": "node --import ./test/setup.ts --test test/*.test.ts"
+  },
+  "dependencies": {
+    "@hina-ui/react": "workspace:*",
+    "@lobehub/icons-static-svg": "^1.94.0",
+    "lucide-react": "1.41.0",
+    "markdown-it": "14.3.1",
+    "markdown-it-attrs": "^5.0.1",
+    "motion": "13.2.0",
+    "next": "16.3.8",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "shiki": "4.0.2",
+    "simple-icons": "^16.29.0",
+    "valibot": "^1.4.0",
+    "yaml": "^2.9.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.0",
+    "@types/markdown-it": "^14.2.0",
+    "@types/node": "^26.4.1",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@typescript-eslint/parser": "^8.69.0",
+    "eslint": "^10.9.1",
+    "tailwindcss": "^4.3.0",
+    "typescript": "^5.8.0"
+  }
+}
