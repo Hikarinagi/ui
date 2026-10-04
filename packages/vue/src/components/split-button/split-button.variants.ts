@@ -1,1 +1,1 @@
-export * from '@hina-ui/shared/variants/split-button'
+export * from '../../../../shared/src/variants/split-button'

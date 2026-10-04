@@ -30,7 +30,8 @@ export default defineConfig({
       output: {
         preserveModules: true,
         preserveModulesRoot: fileURLToPath(new URL('..', import.meta.url)),
-        entryFileNames: 'esm/[name].js',
+        entryFileNames: ({ name }) =>
+          `esm/${name.includes('node_modules/') ? `vendor/${name.split('node_modules/').pop()}` : name}.js`,
       },
     },
   },

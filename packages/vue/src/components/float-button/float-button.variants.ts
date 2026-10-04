@@ -1,1 +1,1 @@
-export * from '@hina-ui/shared/variants/float-button'
+export * from '../../../../shared/src/variants/float-button'

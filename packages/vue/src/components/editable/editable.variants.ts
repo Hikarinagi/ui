@@ -1,1 +1,1 @@
-export * from '@hina-ui/shared/variants/editable'
+export * from '../../../../shared/src/variants/editable'

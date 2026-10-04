@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
 import { cpSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { dirname, join } from 'node:path'
+import { dirname, join, relative, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = fileURLToPath(new URL('../', import.meta.url))
@@ -56,6 +56,19 @@ if (!target) throw new Error(`Unknown framework package: ${adapter}`)
 const library = join(root, 'packages', adapter)
 const temporary = mkdtempSync(join(tmpdir(), `hina-package-consumer-${adapter}-`))
 const json = path => JSON.parse(readFileSync(path, 'utf8'))
+const specifiers =
+  /\b(?:from|import|require)\s*\(?\s*(["'])([^"'\r\n]+)\1|<reference\s+(?:path|types)\s*=\s*(["'])([^"'\r\n]+)\3/g
+const unshippable = specifier =>
+  specifier === '@hina-ui/shared' ||
+  specifier.startsWith('@hina-ui/shared/') ||
+  /(?:^|\/)node_modules\//.test(specifier)
+
+function shippedModules(directory) {
+  return readdirSync(directory, { recursive: true, withFileTypes: true })
+    .filter(entry => entry.isFile() && /\.(?:d\.[cm]?ts|[cm]?js)$/.test(entry.name))
+    .map(entry => join(entry.parentPath, entry.name))
+    .filter(file => !relative(directory, file).split(sep).includes('node_modules'))
+}
 
 function run(command, args, cwd = temporary, capture = false) {
   const result = spawnSync(command, args, {
@@ -96,10 +109,23 @@ try {
   )
   console.log(`Installing tarball into ${temporary}`)
   run('npm', ['install', '--ignore-scripts', '--no-audit', '--no-fund'])
-  const distribution = join(temporary, `node_modules/@hina-ui/${adapter}/dist`)
-  const runtime = readdirSync(distribution)
-    .filter(name => name.endsWith('.js'))
-    .map(name => readFileSync(join(distribution, name), 'utf8'))
+  const installed = join(temporary, `node_modules/@hina-ui/${adapter}`)
+  const distribution = join(installed, 'dist')
+  const modules = shippedModules(installed)
+  const leaks = modules.flatMap(file =>
+    [...readFileSync(file, 'utf8').matchAll(specifiers)]
+      .map(match => match[2] ?? match[4])
+      .filter(unshippable)
+      .map(specifier => `${relative(installed, file)}: ${specifier}`),
+  )
+  assert.deepEqual(
+    leaks,
+    [],
+    'Shipped modules must not reference @hina-ui/shared or a node_modules path',
+  )
+  const runtime = modules
+    .filter(file => /\.[cm]?js$/.test(file))
+    .map(file => readFileSync(file, 'utf8'))
     .join('\n')
   assert.ok(
     !/from\s*["']overlayscrollbars["']/.test(runtime),
