@@ -2,7 +2,6 @@
 
 import type { HTMLAttributes, ReactNode } from 'react'
 import { CalendarRange } from 'lucide-react'
-import { useControllableState } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import type { DateRangeValue } from '../../../../shared/src/lib/date'
 import { lucide } from '../../lib/icon'
@@ -24,6 +23,7 @@ import { InputGroupScope } from '../input-group/InputGroupScope'
 import { InputAction } from '../input/InputAction'
 import { inputEmbedded, inputHost, type InputVariants } from '../input/input.variants'
 import { RangeCalendar } from '../range-calendar/RangeCalendar'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 const CalendarRangeIcon = lucide(CalendarRange)
 

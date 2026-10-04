@@ -9,7 +9,6 @@ import type {
   ReactNode,
   Ref,
 } from 'react'
-import { useControllableState } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import { devWarn } from '../../lib/dev'
 import { hasContent } from '../../lib/content'
@@ -19,6 +18,7 @@ import { Ripple } from '../ripple/Ripple'
 import { CloseButton } from '../close-button/CloseButton'
 import { IconSlot } from './IconSlot'
 import { chip, chipRemove, type ChipVariants } from './chip.variants'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export interface ChipProps
   extends

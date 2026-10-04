@@ -15,24 +15,22 @@ import {
   type PointerEvent as ReactPointerEvent,
   type ReactNode,
 } from 'react'
-import { Portal as RadixPortal } from 'radix-ui'
-import {
-  DismissableLayer,
-  FocusScope,
-  Presence,
-  useCallbackRef,
-  useComposedRefs,
-  useControllableState,
-  useLayoutEffect,
-} from 'radix-ui/internal'
 import { hideOthers } from 'aria-hidden'
 import { Primitive, type PrimitiveElementProps } from '../../lib/primitive'
 import { useBodyScrollLock } from '../body-scroll-lock'
 import { usePortalContainer } from '../../lib/config'
 import { focus, focusFirst, getActiveElement, getTabbableCandidates } from './focus'
 import { guardLayer } from '../utils/dismissable'
+import { DismissableLayer } from '../dismissable-layer'
+import { FocusScope } from '../focus-scope'
+import { Portal as HnPortal } from '../portal'
+import { Presence } from '../presence'
+import { useCallbackRef } from '../utils/callback-ref'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useControllableState } from '../utils/controllable-state'
+import { useLayoutEffect } from '../utils/layout-effect'
 
-type LayerProps = ComponentProps<typeof DismissableLayer.Root>
+type LayerProps = ComponentProps<typeof DismissableLayer>
 export type PointerDownOutsideEvent = Parameters<NonNullable<LayerProps['onPointerDownOutside']>>[0]
 export type FocusOutsideEvent = Parameters<NonNullable<LayerProps['onFocusOutside']>>[0]
 
@@ -182,9 +180,9 @@ export function DialogPortal({
   if (disabled) return <>{children}</>
   const target = typeof to === 'string' ? (mounted ? document.querySelector(to) : null) : to
   return (
-    <RadixPortal.Root asChild container={target ?? configured ?? undefined}>
+    <HnPortal asChild container={target ?? configured ?? undefined}>
       <>{children}</>
-    </RadixPortal.Root>
+    </HnPortal>
   )
 }
 
@@ -197,7 +195,7 @@ export function DialogOverlay({ forceMount, ref, ...props }: DialogOverlayProps)
   if (!context.modal) return null
   const keep = !!forceMount || !context.unmountOnHide
   return (
-    <Presence.Root present={!!forceMount || context.open}>
+    <Presence present={!!forceMount || context.open}>
       {keep ? (
         ({ present }) => (
           <DialogOverlayImpl
@@ -210,7 +208,7 @@ export function DialogOverlay({ forceMount, ref, ...props }: DialogOverlayProps)
       ) : (
         <DialogOverlayImpl {...props} ref={ref} present shown />
       )}
-    </Presence.Root>
+    </Presence>
   )
 }
 
@@ -267,7 +265,7 @@ export function DialogContent({ forceMount, ref, ...props }: DialogContentProps)
   const keep = !!forceMount || !context.unmountOnHide
   const Impl = context.modal ? DialogContentModal : DialogContentNonModal
   return (
-    <Presence.Root present={!!forceMount || context.open}>
+    <Presence present={!!forceMount || context.open}>
       {keep ? (
         ({ present }) => (
           <Impl
@@ -281,7 +279,7 @@ export function DialogContent({ forceMount, ref, ...props }: DialogContentProps)
       ) : (
         <Impl key={context.modal ? 0 : 1} {...props} ref={ref} present shown />
       )}
-    </Presence.Root>
+    </Presence>
   )
 }
 
@@ -446,7 +444,9 @@ function DialogContentImpl({
     return () => {
       if (!container) return
       const event = new CustomEvent(AUTOFOCUS_ON_UNMOUNT, { bubbles: false, cancelable: true })
-      const handler = (unmount: Event) => closeAutoFocus(unmount)
+      const handler = (unmount: Event) => {
+        if (unmount === event) closeAutoFocus(unmount)
+      }
       container.addEventListener(AUTOFOCUS_ON_UNMOUNT, handler)
       container.dispatchEvent(event)
       container.setAttribute('data-focus-scope-unmounting', '')
@@ -468,7 +468,7 @@ function DialogContentImpl({
   }, [])
 
   return (
-    <FocusScope.Root
+    <FocusScope
       asChild
       loop
       trapped={trapFocus}
@@ -484,7 +484,7 @@ function DialogContentImpl({
       }}
       onUnmountAutoFocus={event => event.preventDefault()}
     >
-      <DismissableLayer.Root
+      <DismissableLayer
         asChild
         disableOutsidePointerEvents={disableOutsidePointerEvents}
         onEscapeKeyDown={onEscapeKeyDown}
@@ -506,8 +506,8 @@ function DialogContentImpl({
           data-dismissable-layer=""
           ref={composedRef}
         />
-      </DismissableLayer.Root>
-    </FocusScope.Root>
+      </DismissableLayer>
+    </FocusScope>
   )
 }
 

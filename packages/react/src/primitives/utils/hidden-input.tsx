@@ -9,8 +9,8 @@ import {
   type InputHTMLAttributes,
   type Ref,
 } from 'react'
-import { useComposedRefs } from 'radix-ui/internal'
 import { PrimitiveVisuallyHidden } from '../visually-hidden'
+import { useComposedRefs } from './compose-refs'
 
 const subscribe = () => () => {}
 

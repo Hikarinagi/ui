@@ -1,7 +1,6 @@
 'use client'
 
 import { useMemo } from 'react'
-import { useComposedRefs } from 'radix-ui/internal'
 import { ToolbarRoot } from '../../primitives/toolbar'
 import { cn } from '../../lib/cn'
 import { useAccessibleName } from '../../lib/a11y'
@@ -9,6 +8,7 @@ import { useDirection } from '../stepper/hooks/useDirection'
 import { ToolbarContext } from './context'
 import { toolbar } from './toolbar.variants'
 import type { ToolbarProps } from './types'
+import { useComposedRefs } from '../../primitives/utils/compose-refs'
 
 export function Toolbar({
   label,

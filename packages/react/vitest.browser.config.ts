@@ -22,8 +22,6 @@ export default defineConfig({
       'react-dom/client',
       'react-dom/server',
       'vitest-browser-react',
-      'radix-ui',
-      'radix-ui/internal',
       'motion/react',
       'lucide-react',
       'aria-hidden',

@@ -12,7 +12,6 @@ import {
   type Ref,
   type RefObject,
 } from 'react'
-import { useComposedRefs } from 'radix-ui/internal'
 import {
   endOfMonth,
   getLocalTimeZone,
@@ -47,6 +46,7 @@ import {
   type CalendarPagingProps,
 } from './shared'
 import type { Matcher, PageFunction } from './use-calendar'
+import { useComposedRefs } from '../utils/compose-refs'
 
 interface MonthPickerContextValue {
   locale: string

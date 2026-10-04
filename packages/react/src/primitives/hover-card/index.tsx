@@ -16,15 +16,7 @@ import {
   type Ref,
   type RefObject,
 } from 'react'
-import { Portal as RadixPortal } from 'radix-ui'
 import { usePortalContainer } from '../../lib/config'
-import {
-  DismissableLayer,
-  Presence,
-  composeEventHandlers,
-  useComposedRefs,
-  useControllableState,
-} from 'radix-ui/internal'
 import { Primitive } from '../../lib/primitive'
 import {
   PopperArrow,
@@ -49,6 +41,12 @@ import {
 } from '../utils/grace-area'
 
 export type { FocusOutsideEvent, PointerDownOutsideEvent } from '../utils/dismissable'
+import { DismissableLayer } from '../dismissable-layer'
+import { Portal as HnPortal } from '../portal'
+import { Presence } from '../presence'
+import { composeEventHandlers } from '../utils/compose-event-handlers'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useControllableState } from '../utils/controllable-state'
 
 export interface HoverCardReference {
   getBoundingClientRect: () => Pick<
@@ -254,9 +252,9 @@ export interface HoverCardPortalProps {
 export function HoverCardPortal({ to, children }: HoverCardPortalProps) {
   const configured = usePortalContainer()
   return (
-    <RadixPortal.Root asChild container={to ?? configured}>
+    <HnPortal asChild container={to ?? configured}>
       {children}
-    </RadixPortal.Root>
+    </HnPortal>
   )
 }
 
@@ -274,7 +272,7 @@ export function HoverCardContent({ forceMount, onPointerEnter, ...props }: Hover
   const latest = useRef(context)
   latest.current = context
   return (
-    <Presence.Root present={!!forceMount || context.open}>
+    <Presence present={!!forceMount || context.open}>
       <HoverCardContentImpl
         {...props}
         onPointerEnter={composeEventHandlers(
@@ -282,7 +280,7 @@ export function HoverCardContent({ forceMount, onPointerEnter, ...props }: Hover
           excludeTouch(() => latest.current.handlers.onOpen()),
         )}
       />
-    </Presence.Root>
+    </Presence>
   )
 }
 
@@ -434,7 +432,7 @@ function HoverCardContentImpl({
   const getLayer = () => layer.current
 
   return (
-    <DismissableLayer.Root
+    <DismissableLayer
       asChild
       disableOutsidePointerEvents={false}
       onEscapeKeyDown={onEscapeKeyDown}
@@ -471,7 +469,7 @@ function HoverCardContentImpl({
           latest.current.isPointerDownOnContentRef.current = true
         })}
       />
-    </DismissableLayer.Root>
+    </DismissableLayer>
   )
 }
 

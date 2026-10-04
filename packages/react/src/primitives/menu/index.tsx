@@ -19,16 +19,6 @@ import {
   type Ref,
   type RefObject,
 } from 'react'
-import { Portal as RadixPortal } from 'radix-ui'
-import {
-  DismissableLayer,
-  FocusGuards,
-  FocusScope,
-  Presence,
-  useCallbackRef,
-  useComposedRefs,
-  useControllableState,
-} from 'radix-ui/internal'
 import { hideOthers } from 'aria-hidden'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { usePortalContainer } from '../../lib/config'
@@ -76,6 +66,14 @@ import {
 
 export type { FocusOutsideEvent, PointerDownOutsideEvent } from '../utils/dismissable'
 export type { CheckedState, Direction } from './utils'
+import { DismissableLayer } from '../dismissable-layer'
+import { FocusScope } from '../focus-scope'
+import { Portal as HnPortal } from '../portal'
+import { Presence } from '../presence'
+import { useCallbackRef } from '../utils/callback-ref'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useControllableState } from '../utils/controllable-state'
+import { useFocusGuards } from '../utils/focus-guards'
 
 type DataAttributes = { [attribute: `data-${string}`]: string | undefined }
 
@@ -319,9 +317,9 @@ export interface MenuPortalProps {
 export function MenuPortal({ to, children }: MenuPortalProps) {
   const container = usePortalContainer()
   return (
-    <RadixPortal.Root asChild container={to ?? container}>
+    <HnPortal asChild container={to ?? container}>
       {children}
-    </RadixPortal.Root>
+    </HnPortal>
   )
 }
 
@@ -359,9 +357,9 @@ export function MenuContent({ forceMount, ...props }: MenuContentProps) {
   const menu = useMenuContext('MenuContent')
   const root = useMenuRootContext('MenuContent')
   return (
-    <Presence.Root present={!!forceMount || menu.open}>
+    <Presence present={!!forceMount || menu.open}>
       {root.modal ? <MenuRootContentModal {...props} /> : <MenuRootContentNonModal {...props} />}
-    </Presence.Root>
+    </Presence>
   )
 }
 
@@ -441,7 +439,7 @@ function MenuContentImpl({
   const contentRef = useRef<HTMLElement | null>(null)
   const composedRef = useComposedRefs(ref, contentRef, setContent)
   const [lockScroll] = useState(disableOutsidePointerEvents)
-  FocusGuards.useFocusGuards()
+  useFocusGuards()
   useBodyScrollLock(lockScroll)
 
   const search = useRef('')
@@ -513,7 +511,9 @@ function MenuContentImpl({
     return () => {
       if (!container) return
       const event = new CustomEvent(AUTOFOCUS_ON_UNMOUNT, { bubbles: false, cancelable: true })
-      const handler = (unmount: Event) => closeAutoFocus(unmount)
+      const handler = (unmount: Event) => {
+        if (unmount === event) closeAutoFocus(unmount)
+      }
       container.addEventListener(AUTOFOCUS_ON_UNMOUNT, handler)
       container.dispatchEvent(event)
       container.setAttribute('data-focus-scope-unmounting', '')
@@ -645,7 +645,7 @@ function MenuContentImpl({
 
   return (
     <MenuContentContext value={contentContext}>
-      <FocusScope.Root
+      <FocusScope
         asChild
         trapped={trapFocus}
         onMountAutoFocus={event => {
@@ -656,7 +656,7 @@ function MenuContentImpl({
         }}
         onUnmountAutoFocus={event => event.preventDefault()}
       >
-        <DismissableLayer.Root
+        <DismissableLayer
           asChild
           disableOutsidePointerEvents={disableOutsidePointerEvents}
           onEscapeKeyDown={onEscapeKeyDown}
@@ -701,8 +701,8 @@ function MenuContentImpl({
               handleRovingFocus(event)
             }}
           />
-        </DismissableLayer.Root>
-      </FocusScope.Root>
+        </DismissableLayer>
+      </FocusScope>
     </MenuContentContext>
   )
 }
@@ -948,9 +948,9 @@ export interface MenuItemIndicatorProps
 export function MenuItemIndicator({ forceMount, as = 'span', ...props }: MenuItemIndicatorProps) {
   const { checked } = useContext(MenuItemIndicatorContext)
   return (
-    <Presence.Root present={!!forceMount || isIndeterminate(checked) || checked === true}>
+    <Presence present={!!forceMount || isIndeterminate(checked) || checked === true}>
       <Primitive as={as} data-state={getCheckedState(checked)} {...props} />
-    </Presence.Root>
+    </Presence>
   )
 }
 
@@ -1129,7 +1129,7 @@ export function MenuSubContent({
   if (!sub.contentId.current) sub.contentId.current = id
 
   return (
-    <Presence.Root present={!!forceMount || menu.open}>
+    <Presence present={!!forceMount || menu.open}>
       <MenuContentImpl
         {...props}
         prioritizePosition={prioritizePosition}
@@ -1172,7 +1172,7 @@ export function MenuSubContent({
           onKeyDown?.(event)
         }}
       />
-    </Presence.Root>
+    </Presence>
   )
 }
 

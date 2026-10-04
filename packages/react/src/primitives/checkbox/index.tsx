@@ -12,13 +12,15 @@ import {
   type ReactNode,
   type Ref,
 } from 'react'
-import { composeEventHandlers, useComposedRefs, useControllableState } from 'radix-ui/internal'
-import { Direction as RadixDirection } from 'radix-ui'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { RovingFocusGroup, RovingFocusItem } from '../roving-focus'
 import type { Direction, Orientation } from '../roving-focus'
 import { isEqual, isValueEqualOrExist } from '../toggle-group/model'
 import { VisuallyHiddenInput, useCurrentElement, useFormControl } from '../utils/hidden-input'
+import { composeEventHandlers } from '../utils/compose-event-handlers'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useControllableState } from '../utils/controllable-state'
+import { useDirection } from '../utils/direction'
 
 type DataAttributes = { [attribute: `data-${string}`]: string | undefined }
 
@@ -75,7 +77,7 @@ export function CheckboxGroupRoot({
   children,
   ...attrs
 }: CheckboxGroupRootProps) {
-  const dir = RadixDirection.useDirection(dirProp)
+  const dir = useDirection(dirProp)
   const [element, setElement] = useCurrentElement<HTMLElement>()
   const composedRef = useComposedRefs(ref, setElement)
   const isFormControl = useFormControl(element)

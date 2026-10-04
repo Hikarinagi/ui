@@ -2,8 +2,6 @@
 
 import { useRef, useState, type ButtonHTMLAttributes, type ReactNode, type Ref } from 'react'
 import { X } from 'lucide-react'
-import { Direction } from 'radix-ui'
-import { useControllableState } from 'radix-ui/internal'
 import { SelectRoot, SelectTrigger } from '../../primitives/select'
 import { cn } from '../../lib/cn'
 import { lucide } from '../../lib/icon'
@@ -24,6 +22,8 @@ import { SelectList } from './SelectList'
 import { selectButton, selectClearSlot, selectHost, selectValue } from './select.variants'
 import { useClearTransition } from './hooks/useClearTransition'
 import { flattenOptions, type SelectItems, type SelectOption } from './types'
+import { useControllableState } from '../../primitives/utils/controllable-state'
+import { useDirection } from '../../primitives/utils/direction'
 
 const XIcon = lucide(X)
 
@@ -86,7 +86,7 @@ export function Select<T extends SelectOption = SelectOption>({
 }: SelectProps<T>) {
   const t = useUiLocale()
   const group = useInputGroup()
-  const direction = Direction.useDirection(undefined)
+  const direction = useDirection(undefined)
   const [keyboard, setKeyboard] = useState(false)
   const [host, setHost] = useState<HTMLDivElement | null>(null)
   const trigger = useRef<HTMLElement | null>(null)

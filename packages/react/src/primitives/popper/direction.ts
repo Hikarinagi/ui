@@ -1,8 +1,8 @@
 'use client'
 
-import { Direction as RadixDirection } from 'radix-ui'
 import type { Direction } from './utils'
+import { useDirection } from '../utils/direction'
 
 export function usePopperDirection(dir?: Direction | (string & {})): Direction {
-  return RadixDirection.useDirection(dir as Direction | undefined)
+  return useDirection(dir as Direction | undefined)
 }

@@ -12,7 +12,6 @@ import {
   type Ref,
 } from 'react'
 import { Check, Pencil, X } from 'lucide-react'
-import { useControllableState } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import { lucide } from '../../lib/icon'
 import { useUiLocale } from '../../locale'
@@ -29,6 +28,7 @@ import {
   editablePreviewText,
 } from './editable.variants'
 import type { EditableControls, EditableProps } from './types'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 const CheckIcon = lucide(Check)
 const PencilIcon = lucide(Pencil)

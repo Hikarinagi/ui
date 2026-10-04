@@ -14,13 +14,11 @@ import {
   type Ref,
   type RefObject,
 } from 'react'
-import {
-  Presence,
-  composeEventHandlers,
-  useComposedRefs,
-  useControllableState,
-} from 'radix-ui/internal'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
+import { Presence } from '../presence'
+import { composeEventHandlers } from '../utils/compose-event-handlers'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useControllableState } from '../utils/controllable-state'
 
 interface CollapsibleRootContextValue {
   contentId: RefObject<string>
@@ -126,9 +124,9 @@ export function CollapsibleContent({ forceMount, ...props }: CollapsibleContentP
   const id = useId()
   if (!root.contentId.current) root.contentId.current = id
   return (
-    <Presence.Root present={!!forceMount || root.open}>
+    <Presence present={!!forceMount || root.open}>
       {({ present }) => <CollapsibleContentImpl {...props} present={present} />}
-    </Presence.Root>
+    </Presence>
   )
 }
 

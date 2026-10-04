@@ -2,7 +2,6 @@
 
 import { useId, useImperativeHandle, type CSSProperties, type FocusEvent } from 'react'
 import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Pause, Play } from 'lucide-react'
-import { useControllableState } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import { hasContent } from '../../lib/content'
 import { lucide } from '../../lib/icon'
@@ -22,6 +21,7 @@ import {
   carouselViewport,
 } from './carousel.variants'
 import type { CarouselProps } from './types'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 const ChevronDownIcon = lucide(ChevronDown)
 const ChevronLeftIcon = lucide(ChevronLeft)

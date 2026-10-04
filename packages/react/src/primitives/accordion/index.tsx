@@ -12,11 +12,13 @@ import {
   type Ref,
   type RefObject,
 } from 'react'
-import { Direction } from 'radix-ui'
-import { composeEventHandlers, useComposedRefs, useControllableState } from 'radix-ui/internal'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { CollapsibleContent, CollapsibleRoot, CollapsibleTrigger } from '../collapsible'
 import { arrowNavigation } from './arrow-navigation'
+import { composeEventHandlers } from '../utils/compose-event-handlers'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useControllableState } from '../utils/controllable-state'
+import { useDirection } from '../utils/direction'
 
 type DataAttributes = { [attribute: `data-${string}`]: string | undefined }
 type AccordionType = 'single' | 'multiple'
@@ -89,7 +91,7 @@ export function AccordionRoot({
   ref,
   ...attrs
 }: AccordionRootProps) {
-  const direction = Direction.useDirection(dir)
+  const direction = useDirection(dir)
   const parentElement = useRef<HTMLElement | null>(null)
   const composedRef = useComposedRefs(ref, parentElement)
   const resolvedType = defaultType(type, value, defaultValue)

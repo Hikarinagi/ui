@@ -12,7 +12,6 @@ import {
   type SyntheticEvent,
 } from 'react'
 import { X } from 'lucide-react'
-import { useControllableState } from 'radix-ui/internal'
 import { SelectRoot, SelectTrigger } from '../../primitives/select'
 import { PrimitiveVisuallyHidden } from '../../primitives/visually-hidden'
 import { cn } from '../../lib/cn'
@@ -35,6 +34,7 @@ import {
 import { SelectList } from '../select/SelectList'
 import { flattenOptions, type SelectItems, type SelectOption } from '../select/types'
 import { multiSelectChips, multiSelectTrigger } from './multi-select.variants'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 const XIcon = lucide(X)
 const EMPTY: Array<string | number> = []

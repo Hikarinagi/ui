@@ -1,6 +1,5 @@
 'use client'
 
-import { useComposedRefs } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import { useCollapseGap } from '../../lib/collapse'
 import { radixAccordionStyle } from '../../lib/radix/styles'
@@ -9,6 +8,7 @@ import {
   type AccordionContentProps as AccordionContentPrimitiveProps,
 } from '../../primitives/accordion'
 import { accordionContent } from './accordion.variants'
+import { useComposedRefs } from '../../primitives/utils/compose-refs'
 
 export interface AccordionContentProps extends Omit<
   AccordionContentPrimitiveProps,

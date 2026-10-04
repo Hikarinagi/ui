@@ -1,8 +1,8 @@
 'use client'
 
 import { useCallback, useLayoutEffect, useReducer, useRef, useState } from 'react'
-import { Direction } from 'radix-ui'
 import { useConfig } from '../../../lib/config'
+import { useDirection as useResolvedDirection } from '../../utils/direction'
 
 export interface Model<T> {
   value: T
@@ -125,5 +125,5 @@ export function useLocale(locale: string | undefined) {
 }
 
 export function useDirection(dir: 'ltr' | 'rtl' | undefined) {
-  return Direction.useDirection(dir) as 'ltr' | 'rtl'
+  return useResolvedDirection(dir)
 }

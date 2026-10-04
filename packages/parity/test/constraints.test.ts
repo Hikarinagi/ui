@@ -129,8 +129,13 @@ describe('L0 约定', () => {
     expect(findAll(/<Teleport\b/, vueFiles)).toEqual([])
   })
 
-  it('组件不得直接 createPortal,浮层一律经 Radix 的 Portal 部件', () => {
-    expect(findAll(/\bcreatePortal\b/, reactFiles)).toEqual([])
+  it('组件不得直接 createPortal,浮层一律经 primitives/portal', () => {
+    expect(
+      findAll(
+        /\bcreatePortal\b/,
+        reactFiles.filter(file => !file.endsWith('/primitives/portal/index.tsx')),
+      ),
+    ).toEqual([])
   })
 })
 

@@ -20,14 +20,6 @@ import {
   type RefObject,
 } from 'react'
 import { flushSync } from 'react-dom'
-import { Direction, Portal as RadixPortal } from 'radix-ui'
-import {
-  DismissableLayer,
-  Presence,
-  useComposedRefs,
-  useControllableState,
-  useLayoutEffect,
-} from 'radix-ui/internal'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { PrimitiveVisuallyHidden } from '../visually-hidden'
 import { getActiveElement, navigateByArrow } from '../stepper/arrow-navigation'
@@ -42,6 +34,13 @@ import {
   removeFromTabOrder,
   whenMouse,
 } from './utils'
+import { DismissableLayer } from '../dismissable-layer'
+import { Portal as HnPortal } from '../portal'
+import { Presence } from '../presence'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useControllableState } from '../utils/controllable-state'
+import { useDirection } from '../utils/direction'
+import { useLayoutEffect } from '../utils/layout-effect'
 
 type DataAttributes = { [attribute: `data-${string}`]: string | undefined }
 type Orientation = 'horizontal' | 'vertical'
@@ -155,7 +154,7 @@ export function NavigationMenuRoot({
   ref,
   ...attrs
 }: NavigationMenuRootProps) {
-  const dir = Direction.useDirection(dirProp)
+  const dir = useDirection(dirProp)
   const [modelValue = '', setModelValue] = useControllableState<string>({
     prop: value,
     defaultProp: defaultValue ?? '',
@@ -591,9 +590,9 @@ function NavigationPresence({
   children: (present: boolean) => ReactElement
 }) {
   return (
-    <Presence.Root present={present}>
+    <Presence present={present}>
       {forceMount ? ({ present: isPresent }) => children(isPresent) : children(true)}
-    </Presence.Root>
+    </Presence>
   )
 }
 
@@ -645,9 +644,9 @@ export function NavigationMenuContent({ forceMount, ...props }: NavigationMenuCo
     </NavigationPresence>
   )
   return menu.viewport ? (
-    <RadixPortal.Root asChild container={menu.viewport}>
+    <HnPortal asChild container={menu.viewport}>
       {presence}
-    </RadixPortal.Root>
+    </HnPortal>
   ) : (
     presence
   )
@@ -793,7 +792,7 @@ function NavigationMenuContentImpl({
   }
 
   return (
-    <DismissableLayer.Root
+    <DismissableLayer
       asChild
       disableOutsidePointerEvents={disableOutsidePointerEvents}
       onEscapeKeyDown={handleEscapeKeyDown}
@@ -812,7 +811,7 @@ function NavigationMenuContentImpl({
         ref={composedRef}
         onKeyDown={chain(handleKeyDown, event => onKeyDown?.(event))}
       />
-    </DismissableLayer.Root>
+    </DismissableLayer>
   )
 }
 

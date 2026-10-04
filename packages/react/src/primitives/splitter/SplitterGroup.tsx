@@ -2,8 +2,6 @@
 
 import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import type { CSSProperties, HTMLAttributes, ReactNode, Ref } from 'react'
-import { Direction as RadixDirection } from 'radix-ui'
-import { useComposedRefs } from 'radix-ui/internal'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { PanelGroupContext, type PanelGroupApi, type PanelGroupContextValue } from './context'
 import { areEqual } from './utils/arrays'
@@ -48,6 +46,8 @@ import type {
   PanelGroupStorage,
   ResizeEvent,
 } from './utils/types'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useDirection } from '../utils/direction'
 
 const LOCAL_STORAGE_DEBOUNCE_INTERVAL = 100
 
@@ -594,7 +594,7 @@ export function SplitterGroup({
 }: SplitterGroupProps) {
   const generatedId = useId()
   const groupId = id || `reka-splitter-group-${generatedId}`
-  const dir = RadixDirection.useDirection()
+  const dir = useDirection()
   const element = useRef<HTMLElement>(null)
   const composedRef = useComposedRefs(ref, element)
   const [layout, setLayout] = useState<number[]>([])

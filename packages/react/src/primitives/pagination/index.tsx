@@ -11,9 +11,9 @@ import {
   type ReactNode,
   type Ref,
 } from 'react'
-import { composeEventHandlers } from 'radix-ui/internal'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { getRange, transform, type PaginationItems } from './utils'
+import { composeEventHandlers } from '../utils/compose-event-handlers'
 
 export type { PaginationItems } from './utils'
 

@@ -1,7 +1,6 @@
 'use client'
 
 import { useMemo, useRef, type HTMLAttributes, type Ref } from 'react'
-import { useComposedRefs, useControllableState } from 'radix-ui/internal'
 import { getLocalTimeZone, today, type DateValue } from '@internationalized/date'
 import { cn } from '../../lib/cn'
 import {
@@ -40,6 +39,8 @@ import {
 } from '../calendar/calendar.variants'
 import { useRangeAnchor } from './hooks/useRangeAnchor'
 import { rangeCalendarCell, rangeCalendarDay } from './range-calendar.variants'
+import { useComposedRefs } from '../../primitives/utils/compose-refs'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export interface RangeCalendarProps extends Omit<
   HTMLAttributes<HTMLElement>,

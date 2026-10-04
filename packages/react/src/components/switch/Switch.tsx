@@ -1,7 +1,6 @@
 'use client'
 
 import type { ButtonHTMLAttributes, ReactNode, Ref } from 'react'
-import { useControllableState } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import { hasContent } from '../../lib/content'
 import { SwitchRoot } from '../../primitives/switch'
@@ -15,6 +14,7 @@ import {
   type CheckboxVariants,
 } from '../checkbox/checkbox.variants'
 import { switchThumb, switchTrack, type SwitchVariants } from './switch.variants'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export interface SwitchProps extends Omit<
   ButtonHTMLAttributes<HTMLElement>,

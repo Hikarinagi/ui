@@ -1,7 +1,6 @@
 'use client'
 
 import { Children, type ReactNode } from 'react'
-import { useControllableState } from 'radix-ui/internal'
 import {
   HoverCardContent,
   HoverCardPortal,
@@ -13,6 +12,7 @@ import { hasContent } from '../../lib/content'
 import { cn } from '../../lib/cn'
 import { Card } from '../card/Card'
 import { HoverCardAnchor } from './HoverCardAnchor'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export interface HoverCardProps {
   anchor?: OverlayAnchor | null

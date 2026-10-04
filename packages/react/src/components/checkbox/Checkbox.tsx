@@ -2,7 +2,6 @@
 
 import type { ButtonHTMLAttributes, ReactNode, Ref } from 'react'
 import { Check, Minus } from 'lucide-react'
-import { useControllableState } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import { hasContent } from '../../lib/content'
 import { lucide } from '../../lib/icon'
@@ -18,6 +17,7 @@ import {
   checkboxTitleText,
   type CheckboxVariants,
 } from './checkbox.variants'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 const CheckIcon = lucide(Check)
 const MinusIcon = lucide(Minus)

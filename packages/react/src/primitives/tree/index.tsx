@@ -15,8 +15,6 @@ import {
   type ReactNode,
   type Ref,
 } from 'react'
-import { Direction as RadixDirection } from 'radix-ui'
-import { useComposedRefs } from 'radix-ui/internal'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { RovingFocusGroup, RovingFocusItem } from '../roving-focus'
 import { getActiveElement } from '../roving-focus/utils'
@@ -30,6 +28,8 @@ import {
 } from '../listbox/utils'
 import { useVModel } from '../listbox/useVModel'
 import { flatten } from './utils'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useDirection } from '../utils/direction'
 
 export { flatten } from './utils'
 
@@ -181,7 +181,7 @@ export function TreeRoot<T extends TreeValue = TreeValue>({
   ref,
   ...attrs
 }: TreeRootProps<T>) {
-  const dir = RadixDirection.useDirection(dirProp) as Direction
+  const dir = useDirection(dirProp) as Direction
   const [modelValue, setModelValue, modelRef] = usePassiveModel<unknown>(
     valueProp,
     defaultValue ?? (multiple ? [] : undefined),

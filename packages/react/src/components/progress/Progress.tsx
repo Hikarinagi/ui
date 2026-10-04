@@ -1,6 +1,5 @@
 'use client'
 
-import { Progress as ProgressPrimitive } from 'radix-ui'
 import type { CSSProperties, HTMLAttributes, Ref } from 'react'
 import { cn } from '../../lib/cn'
 import { useProgressValue, type ProgressFormat } from './hooks/useProgressValue'
@@ -12,6 +11,7 @@ import {
   progressValue,
   type ProgressVariants,
 } from './progress.variants'
+import { ProgressIndicator, ProgressRoot } from '../../primitives/progress'
 
 export type { ProgressFormat }
 
@@ -52,7 +52,7 @@ export function Progress({
           {showValue && text ? <span className={progressValue()}>{text}</span> : null}
         </div>
       ) : null}
-      <ProgressPrimitive.Root
+      <ProgressRoot
         aria-label={name}
         aria-valuetext={format ? text : undefined}
         {...attrs}
@@ -60,8 +60,8 @@ export function Progress({
         max={max}
         className={progressTrack({ size })}
       >
-        <ProgressPrimitive.Indicator className={progressBar({ tone })} />
-      </ProgressPrimitive.Root>
+        <ProgressIndicator className={progressBar({ tone })} />
+      </ProgressRoot>
     </div>
   )
 }

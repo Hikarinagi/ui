@@ -3,7 +3,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import type { HTMLAttributes, ReactNode, Ref } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { useControllableState } from 'radix-ui/internal'
 import { stepBetween, type SlideDirection } from '../../../../shared/src/lib/banner'
 import { cn } from '../../lib/cn'
 import { useCollapseHooks } from '../../lib/collapse'
@@ -27,6 +26,7 @@ import {
 import { useAutoplay } from './hooks/useAutoplay'
 import { bannerIcons } from './icons'
 import type { BannerNotice } from './types'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 const ChevronLeftIcon = lucide(ChevronLeft)
 const ChevronRightIcon = lucide(ChevronRight)

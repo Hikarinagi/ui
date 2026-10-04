@@ -15,8 +15,6 @@ import {
   type ReactNode,
   type Ref,
 } from 'react'
-import { Direction as RadixDirection, Slot } from 'radix-ui'
-import { composeEventHandlers, useComposedRefs } from 'radix-ui/internal'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { RovingFocusGroup, RovingFocusItem } from '../roving-focus'
 import type { Direction, Orientation } from '../roving-focus'
@@ -27,6 +25,10 @@ import {
   useFormControl,
   useServerRender,
 } from '../utils/hidden-input'
+import { composeEventHandlers } from '../utils/compose-event-handlers'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useDirection } from '../utils/direction'
+import { Slot } from '../utils/slot'
 
 type DataAttributes = { [attribute: `data-${string}`]: string | undefined }
 
@@ -86,7 +88,7 @@ export function RadioGroupRoot({
   children,
   ...attrs
 }: RadioGroupRootProps) {
-  const dir = RadixDirection.useDirection(dirProp)
+  const dir = useDirection(dirProp)
   const [element, setElement] = useCurrentElement<HTMLElement>()
   const composedRef = useComposedRefs(ref, setElement)
   const isFormControl = useFormControl(element)
@@ -332,6 +334,6 @@ export function RadioGroupIndicator({
     'data-disabled': item.disabled ? '' : undefined,
     ...attrs,
   }
-  if (asChild) return <Slot.Root {...props} />
+  if (asChild) return <Slot {...props} />
   return <Primitive as={as} {...props} />
 }

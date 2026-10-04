@@ -1,7 +1,6 @@
 'use client'
 
 import { useMemo, type CSSProperties, type HTMLAttributes, type Ref } from 'react'
-import { useControllableState } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import { useDirection } from '../../lib/useDirection'
 import { useUiLocale } from '../../locale'
@@ -17,6 +16,7 @@ import {
   sliderTrack,
   type SliderVariants,
 } from './slider.variants'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export interface SliderProps extends Omit<
   HTMLAttributes<HTMLElement>,

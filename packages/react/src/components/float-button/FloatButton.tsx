@@ -1,7 +1,6 @@
 'use client'
 
 import { useImperativeHandle, useRef, useState, type CSSProperties } from 'react'
-import { useComposedRefs } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import { hasContent } from '../../lib/content'
 import { Transition } from '../../lib/transition/Transition'
@@ -9,6 +8,7 @@ import { Button } from '../button/Button'
 import { floatButton } from './float-button.variants'
 import { TooltipTarget } from './TooltipTarget'
 import type { FloatButtonProps } from './types'
+import { useComposedRefs } from '../../primitives/utils/compose-refs'
 
 function enter(element: HTMLElement) {
   element.removeAttribute('inert')

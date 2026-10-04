@@ -2,7 +2,6 @@
 
 import { useState, type HTMLAttributes, type ReactNode, type Ref } from 'react'
 import { Search } from 'lucide-react'
-import { useControllableState } from 'radix-ui/internal'
 import {
   ListboxContent,
   ListboxFilter,
@@ -28,6 +27,7 @@ import {
 } from './command-palette.variants'
 import type { CommandItem, CommandItems } from './types'
 import { useCommandItems, type CommandOption } from './hooks/useCommandItems'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 const SearchIcon = lucide(Search)
 

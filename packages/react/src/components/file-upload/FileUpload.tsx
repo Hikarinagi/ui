@@ -8,7 +8,6 @@ import {
   type ReactNode,
 } from 'react'
 import { File as FileGlyph, Upload, X } from 'lucide-react'
-import { useControllableState } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import { hasContent } from '../../lib/content'
 import { lucide } from '../../lib/icon'
@@ -33,6 +32,7 @@ import {
   type FileUploadRejection,
 } from '../../../../shared/src/lib/file-upload/select'
 import { formatSize } from '../../../../shared/src/lib/file-upload/size'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export type {
   FileUploadReason,

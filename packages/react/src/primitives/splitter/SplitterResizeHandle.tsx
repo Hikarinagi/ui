@@ -2,7 +2,6 @@
 
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import type { CSSProperties, FocusEvent, HTMLAttributes, ReactNode, Ref } from 'react'
-import { useComposedRefs } from 'radix-ui/internal'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { usePanelGroupContext } from './context'
 import { assert } from './utils/assert'
@@ -18,6 +17,7 @@ import type {
   ResizeHandlerAction,
   ResizeHandlerState,
 } from './utils/types'
+import { useComposedRefs } from '../utils/compose-refs'
 
 const isBrowser = typeof document !== 'undefined'
 

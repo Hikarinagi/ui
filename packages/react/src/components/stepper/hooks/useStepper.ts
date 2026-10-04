@@ -1,8 +1,8 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useControllableState } from 'radix-ui/internal'
 import type { StepperItem, StepperNavigation, StepperProps, StepperSlotProps } from '../types'
+import { useControllableState } from '../../../primitives/utils/controllable-state'
 
 type StepperOptions<T extends StepperItem> = Pick<
   StepperProps<T>,

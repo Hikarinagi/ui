@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useImperativeHandle, useRef, useState, type KeyboardEvent } from 'react'
-import { useComposedRefs, useControllableState } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import { useDirection } from '../../lib/useDirection'
 import { useUiLocale } from '../../locale'
@@ -11,6 +10,8 @@ import { DisclosureIcon } from '../disclosure-icon/DisclosureIcon'
 import { DropdownMenu } from '../dropdown-menu/DropdownMenu'
 import { splitButton, splitButtonAction } from './split-button.variants'
 import type { SplitButtonProps } from './types'
+import { useComposedRefs } from '../../primitives/utils/compose-refs'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export function SplitButton({
   as = 'button',

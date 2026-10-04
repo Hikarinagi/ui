@@ -11,7 +11,6 @@ import {
   type ReactNode,
   type Ref,
 } from 'react'
-import { useComposedRefs } from 'radix-ui/internal'
 import {
   Time,
   getLocalTimeZone,
@@ -53,6 +52,7 @@ import {
 } from '../date-field/date/segment-input'
 import type { SegmentStore } from '../date-field/date/use-date-field'
 import { kbd, normalizeDateStep, normalizeHourCycle, type DateStep } from '../date-field/date/utils'
+import { useComposedRefs } from '../utils/compose-refs'
 
 export type { TimeValue } from '../date-field/date/comparators'
 

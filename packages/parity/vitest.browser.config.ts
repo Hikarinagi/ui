@@ -25,7 +25,7 @@ export default defineConfig({
       { find: /^@hina-ui\/react$/, replacement: source('../react/src/index.ts') },
       { find: /^@hina-ui\/react\/(.*)$/, replacement: `${source('../react/src')}/$1` },
     ],
-    dedupe: ['vue', 'react', 'react-dom', 'reka-ui', 'radix-ui'],
+    dedupe: ['vue', 'react', 'react-dom', 'reka-ui'],
   },
   optimizeDeps: {
     entries: ['cases/*.live.tsx', 'test/*.browser.test.ts'],
@@ -36,8 +36,6 @@ export default defineConfig({
       'react/jsx-runtime',
       'react-dom',
       'react-dom/client',
-      '@hina-ui/react > radix-ui',
-      '@hina-ui/react > radix-ui/internal',
       '@hina-ui/react > aria-hidden',
       '@hina-ui/react > @floating-ui/react-dom',
       '@hina-ui/react > lucide-react',

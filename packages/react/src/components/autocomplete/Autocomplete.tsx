@@ -7,7 +7,6 @@ import {
   type ReactNode,
   type Ref,
 } from 'react'
-import { useControllableState } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import { hasContent } from '../../lib/content'
 import { radixPopoverStyle } from '../../lib/radix/styles'
@@ -36,6 +35,7 @@ import type {
   CompletionContext,
   CompletionEdit,
 } from './types'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export interface AutocompleteHandle {
   readonly input: HTMLInputElement | undefined

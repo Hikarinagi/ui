@@ -15,8 +15,6 @@ import {
   type MouseEvent,
   type Ref,
 } from 'react'
-import { Direction as RadixDirection } from 'radix-ui'
-import { composeEventHandlers, useComposedRefs, useControllableState } from 'radix-ui/internal'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import {
   ENTRY_FOCUS,
@@ -31,6 +29,10 @@ import {
 
 export type { Direction, Orientation } from './utils'
 export { ITEM_DATA_ATTR } from './utils'
+import { composeEventHandlers } from '../utils/compose-event-handlers'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useControllableState } from '../utils/controllable-state'
+import { useDirection } from '../utils/direction'
 
 type DataAttributes = { [attribute: `data-${string}`]: string | undefined }
 
@@ -87,7 +89,7 @@ export function RovingFocusGroup({
   ref,
   ...attrs
 }: RovingFocusGroupProps) {
-  const dir = RadixDirection.useDirection(dirProp)
+  const dir = useDirection(dirProp)
   const [currentTabStopId = null, setCurrentTabStopId] = useControllableState<string | null>({
     prop: currentTabStopIdProp,
     defaultProp: defaultCurrentTabStopId ?? null,

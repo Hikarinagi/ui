@@ -16,15 +16,7 @@ import {
   type Ref,
   type RefObject,
 } from 'react'
-import { Portal as RadixPortal } from 'radix-ui'
 import { usePortalContainer } from '../../lib/config'
-import {
-  DismissableLayer,
-  Presence,
-  composeEventHandlers,
-  useComposedRefs,
-  useControllableState,
-} from 'radix-ui/internal'
 import { Primitive } from '../../lib/primitive'
 import { PrimitiveVisuallyHidden } from '../visually-hidden'
 import {
@@ -44,6 +36,12 @@ import {
   pointsFromRect,
   type Polygon,
 } from '../utils/grace-area'
+import { DismissableLayer } from '../dismissable-layer'
+import { Portal as HnPortal } from '../portal'
+import { Presence } from '../presence'
+import { composeEventHandlers } from '../utils/compose-event-handlers'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useControllableState } from '../utils/controllable-state'
 
 const TOOLTIP_OPEN = 'tooltip.open'
 
@@ -353,11 +351,11 @@ export function TooltipPortal({ forceMount, container, children }: TooltipPortal
   const context = useRootContext('TooltipPortal')
   return (
     <PortalContext value={{ forceMount }}>
-      <Presence.Root present={!!forceMount || context.open}>
-        <RadixPortal.Root asChild container={container ?? configured}>
+      <Presence present={!!forceMount || context.open}>
+        <HnPortal asChild container={container ?? configured}>
           {children}
-        </RadixPortal.Root>
-      </Presence.Root>
+        </HnPortal>
+      </Presence>
     </PortalContext>
   )
 }
@@ -375,13 +373,13 @@ export function TooltipContent(props: TooltipContentProps) {
   const { forceMount = portal.forceMount, side = 'top', ...contentProps } = props
   const context = useRootContext('TooltipContent')
   return (
-    <Presence.Root present={!!forceMount || context.open}>
+    <Presence present={!!forceMount || context.open}>
       {context.disableHoverableContent ? (
         <TooltipContentImpl side={side} {...contentProps} />
       ) : (
         <TooltipContentHoverable side={side} {...contentProps} />
       )}
-    </Presence.Root>
+    </Presence>
   )
 }
 
@@ -479,7 +477,7 @@ function TooltipContentImpl({
   }, [trigger, onClose])
 
   return (
-    <DismissableLayer.Root
+    <DismissableLayer
       asChild
       disableOutsidePointerEvents={false}
       onEscapeKeyDown={onEscapeKeyDown}
@@ -513,7 +511,7 @@ function TooltipContentImpl({
           {ariaLabelProp ?? text}
         </PrimitiveVisuallyHidden>
       </PopperContent>
-    </DismissableLayer.Root>
+    </DismissableLayer>
   )
 }
 

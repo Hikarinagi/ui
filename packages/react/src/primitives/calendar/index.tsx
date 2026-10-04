@@ -11,7 +11,6 @@ import {
   type Ref,
   type RefObject,
 } from 'react'
-import { useComposedRefs } from 'radix-ui/internal'
 import {
   getLocalTimeZone,
   isEqualDay,
@@ -568,3 +567,4 @@ export {
   YearPickerPrev,
 } from './year-picker'
 export type { YearPickerRootProps, YearPickerSlotProps } from './year-picker'
+import { useComposedRefs } from '../utils/compose-refs'

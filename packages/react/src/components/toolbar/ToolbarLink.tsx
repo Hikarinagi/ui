@@ -1,11 +1,11 @@
 'use client'
 
 import type { AnchorHTMLAttributes, KeyboardEvent } from 'react'
-import { composeEventHandlers } from 'radix-ui/internal'
 import { ToolbarButton as PrimitiveToolbarButton } from '../../primitives/toolbar'
 import { ToolbarControl } from './ToolbarControl'
 import { useToolbar } from './context'
 import type { ToolbarControlProps } from './types'
+import { composeEventHandlers } from '../../primitives/utils/compose-event-handlers'
 
 export interface ToolbarLinkProps
   extends ToolbarControlProps, Pick<AnchorHTMLAttributes<HTMLElement>, 'href' | 'target' | 'rel'> {}

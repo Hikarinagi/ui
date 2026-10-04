@@ -18,13 +18,13 @@ import {
   type KeyboardEvent as ReactKeyboardEvent,
   type Ref,
 } from 'react'
-import { Direction as RadixDirection } from 'radix-ui'
-import { useComposedRefs } from 'radix-ui/internal'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { COLLECTION_ITEM, createCollection, isEqual, type Collection } from '../listbox/utils'
 import { useVModel } from '../listbox/useVModel'
 import { VisuallyHiddenInput, useFormControl } from '../utils/hidden-input'
 import { useComposing } from '../utils/composing'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useDirection } from '../utils/direction'
 
 type DataAttributes = { [attribute: `data-${string}`]: string | undefined }
 type Direction = 'ltr' | 'rtl'
@@ -134,7 +134,7 @@ export function TagsInputRoot({
   children,
   ...attrs
 }: TagsInputRootProps) {
-  const dir = RadixDirection.useDirection(dirProp)
+  const dir = useDirection(dirProp)
   const [modelValue, setModelState] = useVModel<AcceptableInputValue[] | null>(
     valueProp,
     defaultValue,

@@ -2,7 +2,6 @@
 
 import type { InputHTMLAttributes, KeyboardEvent, MouseEvent, Ref } from 'react'
 import { X } from 'lucide-react'
-import { useControllableState } from 'radix-ui/internal'
 import { TagsInputInput, TagsInputItem, TagsInputRoot } from '../../primitives/tags-input'
 import { cn } from '../../lib/cn'
 import { lucide } from '../../lib/icon'
@@ -14,6 +13,7 @@ import { InputAction } from '../input/InputAction'
 import { inputActionSlot, inputHost, type InputVariants } from '../input/input.variants'
 import { TagsInputChip } from './TagsInputChip'
 import { tagsInputControl, tagsInputHost, tagsInputList } from './tags-input.variants'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 const XIcon = lucide(X)
 const EMPTY: string[] = []

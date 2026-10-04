@@ -1,12 +1,12 @@
 'use client'
 
 import { useMemo, type HTMLAttributes, type Ref } from 'react'
-import { useControllableState } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import { useUiLocale } from '../../locale'
 import { PinInputInput, PinInputRoot, type PinInputValue } from '../../primitives/pin-input'
 import { useFieldControl } from '../form-field/context'
 import { pinInput, pinInputCell, type PinInputVariants } from './pin-input.variants'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export interface PinInputProps extends Omit<
   HTMLAttributes<HTMLElement>,

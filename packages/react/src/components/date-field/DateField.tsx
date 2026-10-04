@@ -9,7 +9,6 @@ import {
   type Ref,
 } from 'react'
 import { X } from 'lucide-react'
-import { useControllableState } from 'radix-ui/internal'
 import type { DateValue } from '@internationalized/date'
 import { cn } from '../../lib/cn'
 import { hasContent } from '../../lib/content'
@@ -34,6 +33,7 @@ import {
 } from '../input/input.variants'
 import { useSegmentFocus } from './hooks/useSegmentFocus'
 import { dateFieldControl, dateFieldHost, dateFieldSegment } from './date-field.variants'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 const XIcon = lucide(X)
 

@@ -18,14 +18,6 @@ import {
   type CompositionEvent as ReactCompositionEvent,
   type Ref,
 } from 'react'
-import { Direction as RadixDirection, Portal as RadixPortal } from 'radix-ui'
-import {
-  DismissableLayer,
-  FocusGuards,
-  FocusScope,
-  Presence,
-  useComposedRefs,
-} from 'radix-ui/internal'
 import { usePortalContainer } from '../../lib/config'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { useRenderTick } from '../../lib/virtual/useRenderTick'
@@ -59,6 +51,13 @@ import {
 } from '../utils/dismissable'
 
 export type { FocusOutsideEvent, PointerDownOutsideEvent } from '../utils/dismissable'
+import { DismissableLayer } from '../dismissable-layer'
+import { FocusScope } from '../focus-scope'
+import { Portal as HnPortal } from '../portal'
+import { Presence } from '../presence'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useDirection } from '../utils/direction'
+import { useFocusGuards } from '../utils/focus-guards'
 
 type DataAttributes = { [attribute: `data-${string}`]: string | undefined }
 type Direction = 'ltr' | 'rtl'
@@ -224,7 +223,7 @@ export function ComboboxRoot({
   children,
   ...attrs
 }: ComboboxRootProps) {
-  const dir = RadixDirection.useDirection(dirProp)
+  const dir = useDirection(dirProp)
   const [modelValue, setModel] = useVModel<unknown>(
     valueProp,
     defaultValue ?? (multiple ? [] : undefined),
@@ -789,9 +788,9 @@ export interface ComboboxPortalProps {
 export function ComboboxPortal({ to, children }: ComboboxPortalProps) {
   const configured = usePortalContainer()
   return (
-    <RadixPortal.Root asChild container={to ?? configured}>
+    <HnPortal asChild container={to ?? configured}>
       {children}
-    </RadixPortal.Root>
+    </HnPortal>
   )
 }
 
@@ -831,9 +830,9 @@ export function ComboboxContent({ forceMount, ...props }: ComboboxContentProps) 
   const id = useId()
   if (!root.contentId.current) root.contentId.current = id
   return (
-    <Presence.Root present={!!forceMount || root.open}>
+    <Presence present={!!forceMount || root.open}>
       <ComboboxContentImpl {...props} />
-    </Presence.Root>
+    </Presence>
   )
 }
 
@@ -878,7 +877,7 @@ function ComboboxContentImpl({
     root.onContentPositionChange(contentId, position)
   }
 
-  FocusGuards.useFocusGuards()
+  useFocusGuards()
   useBodyScrollLock(!!bodyLock)
 
   const isEmpty = root.ignoreFilter ? root.itemCount === 0 : root.filterState.count === 0
@@ -951,12 +950,12 @@ function ComboboxContentImpl({
 
   return (
     <ListboxContent asChild>
-      <FocusScope.Root
+      <FocusScope
         asChild
         onMountAutoFocus={event => event.preventDefault()}
         onUnmountAutoFocus={event => event.preventDefault()}
       >
-        <DismissableLayer.Root
+        <DismissableLayer
           asChild
           disableOutsidePointerEvents={!!disableOutsidePointerEvents}
           onDismiss={() => root.onOpenChange(false)}
@@ -997,8 +996,8 @@ function ComboboxContentImpl({
               {children}
             </Primitive>
           )}
-        </DismissableLayer.Root>
-      </FocusScope.Root>
+        </DismissableLayer>
+      </FocusScope>
     </ListboxContent>
   )
 }

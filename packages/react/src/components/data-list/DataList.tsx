@@ -1,7 +1,6 @@
 'use client'
 
 import { useImperativeHandle, useRef } from 'react'
-import { useControllableState } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import { hasContent } from '../../lib/content'
 import { useUiLocale } from '../../locale'
@@ -30,6 +29,7 @@ import type {
   DataListProps,
   DataListState,
 } from './types'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export function DataList<T>(props: DataListProps<T>) {
   const {

@@ -11,7 +11,6 @@ import {
   type ReactNode,
   type Ref,
 } from 'react'
-import { composeEventHandlers, useComposedRefs, useControllableState } from 'radix-ui/internal'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { useCurrentElement } from '../utils/hidden-input'
 import {
@@ -21,6 +20,9 @@ import {
   type RadioGroupItemProps,
 } from '../radio-group'
 import type { Direction, Orientation } from '../roving-focus'
+import { composeEventHandlers } from '../utils/compose-event-handlers'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useControllableState } from '../utils/controllable-state'
 
 type DataAttributes = { [attribute: `data-${string}`]: string | undefined }
 

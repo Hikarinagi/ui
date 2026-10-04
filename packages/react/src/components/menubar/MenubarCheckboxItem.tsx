@@ -2,7 +2,6 @@
 
 import type { HTMLAttributes, ReactNode, Ref } from 'react'
 import { Check } from 'lucide-react'
-import { useControllableState } from 'radix-ui/internal'
 import {
   MenubarCheckboxItem as PrimitiveMenubarCheckboxItem,
   MenubarItemIndicator,
@@ -10,6 +9,7 @@ import {
 import { lucide } from '../../lib/icon'
 import { cn } from '../../lib/cn'
 import { dropdownItem } from '../dropdown-menu/dropdown-menu.variants'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 const CheckIcon = lucide(Check)
 

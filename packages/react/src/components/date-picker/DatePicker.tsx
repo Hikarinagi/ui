@@ -2,7 +2,6 @@
 
 import type { HTMLAttributes, ReactNode } from 'react'
 import { CalendarDays } from 'lucide-react'
-import { useControllableState } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import { lucide } from '../../lib/icon'
 import { useUiLocale } from '../../locale'
@@ -23,6 +22,7 @@ import { InputGroupScope } from '../input-group/InputGroupScope'
 import { InputAction } from '../input/InputAction'
 import { inputEmbedded, inputHost, type InputVariants } from '../input/input.variants'
 import { datePickerContent } from './date-picker.variants'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 const CalendarDaysIcon = lucide(CalendarDays)
 

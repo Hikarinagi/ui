@@ -19,7 +19,6 @@ import {
   type Ref,
   type RefObject,
 } from 'react'
-import { useComposedRefs, useControllableState } from 'radix-ui/internal'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { usePopperDirection } from '../popper'
 import { RovingFocusGroup, RovingFocusItem } from '../roving-focus'
@@ -36,6 +35,8 @@ import {
   type MenuSubTriggerProps,
 } from '../menu'
 import { ITEM_SELECTOR, buttonAttributes, wrapArray } from '../menu/utils'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useControllableState } from '../utils/controllable-state'
 
 export {
   MenuArrow as MenubarArrow,

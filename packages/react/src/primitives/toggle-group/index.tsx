@@ -8,12 +8,12 @@ import {
   type ReactNode,
   type Ref,
 } from 'react'
-import { Direction as RadixDirection } from 'radix-ui'
-import { composeEventHandlers } from 'radix-ui/internal'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { RovingFocusGroup, RovingFocusItem } from '../roving-focus'
 import type { Direction, Orientation } from '../roving-focus'
 import { isEqual, isValueEqualOrExist, useVModel } from './model'
+import { composeEventHandlers } from '../utils/compose-event-handlers'
+import { useDirection } from '../utils/direction'
 
 export { isEqual, isValueEqualOrExist, useVModel } from './model'
 
@@ -126,7 +126,7 @@ export function ToggleGroupRoot({
   children,
   ...attrs
 }: ToggleGroupRootProps) {
-  const dir = RadixDirection.useDirection(dirProp)
+  const dir = useDirection(dirProp)
   const resolvedType = defaultType(type, value, defaultValue)
   const [modelValue, setModelValue] = useVModel<ToggleGroupValue>(
     value,

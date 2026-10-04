@@ -16,10 +16,12 @@ import {
   type ReactNode,
   type Ref,
 } from 'react'
-import { Direction as RadixDirection, Separator } from 'radix-ui'
-import { useComposedRefs, useControllableState } from 'radix-ui/internal'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { getActiveElement, navigateByArrow } from './arrow-navigation'
+import { Separator as HnSeparator } from '../separator'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useControllableState } from '../utils/controllable-state'
+import { useDirection } from '../utils/direction'
 
 export type StepperState = 'completed' | 'active' | 'inactive'
 type Orientation = 'horizontal' | 'vertical'
@@ -91,7 +93,7 @@ export function StepperRoot({
   children,
   ...attrs
 }: StepperRootProps) {
-  const dir = RadixDirection.useDirection(dirProp)
+  const dir = useDirection(dirProp)
   const [modelValue, setModelValue] = useControllableState<number | undefined>({
     prop: value,
     defaultProp: defaultValue,
@@ -333,7 +335,7 @@ export function StepperSeparator({
   const rootContext = useStepperRootContext('StepperSeparator')
   const itemContext = useStepperItemContext('StepperSeparator')
   return (
-    <Separator.Root
+    <HnSeparator
       decorative
       orientation={rootContext.orientation}
       data-state={itemContext.state}

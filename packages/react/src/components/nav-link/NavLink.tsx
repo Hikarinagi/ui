@@ -8,13 +8,13 @@ import {
   type ReactNode,
   type Ref,
 } from 'react'
-import { Slot } from 'radix-ui'
 import { cn } from '../../lib/cn'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { Tooltip } from '../tooltip/Tooltip'
 import { useSidebar } from '../sidebar/context'
 import { navLink, navLinkLabel } from './nav-link.variants'
 import { resolveChild } from '../../lib/children'
+import { Slot } from '../../primitives/utils/slot'
 
 export interface NavLinkProps extends PrimitiveProps, AnchorHTMLAttributes<HTMLElement> {
   active?: boolean
@@ -85,9 +85,9 @@ function SlotFirst({ nodes: given, ...props }: { nodes: ReactNode[] } & Record<s
   const index = nodes.findIndex(node => isValidElement(node))
   return nodes.map((node, position) =>
     position === index ? (
-      <Slot.Root key={(node as ReactElement).key ?? position} {...props}>
+      <Slot key={(node as ReactElement).key ?? position} {...props}>
         {node}
-      </Slot.Root>
+      </Slot>
     ) : (
       node
     ),

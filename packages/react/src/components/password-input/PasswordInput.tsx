@@ -1,13 +1,13 @@
 'use client'
 
 import { Eye, EyeOff } from 'lucide-react'
-import { useControllableState } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import { lucide } from '../../lib/icon'
 import { Transition } from '../../lib/transition/Transition'
 import { useUiLocale } from '../../locale'
 import { InputBase, type InputBaseProps } from '../input/InputBase'
 import { InputAction } from '../input/InputAction'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 const EyeIcon = lucide(Eye)
 const EyeOffIcon = lucide(EyeOff)

@@ -1,7 +1,6 @@
 'use client'
 
 import type { ReactNode } from 'react'
-import { useControllableState } from 'radix-ui/internal'
 import {
   AlertDialogCancel,
   AlertDialogDescription,
@@ -29,6 +28,7 @@ import {
   alertDialogCountdown,
   alertDialogHeader,
 } from './alert-dialog.variants'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export interface AlertDialogProps {
   title: string

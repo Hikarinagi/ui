@@ -15,13 +15,6 @@ import {
   type Ref,
   type RefObject,
 } from 'react'
-import { Direction as RadixDirection } from 'radix-ui'
-import {
-  composeEventHandlers,
-  useComposedRefs,
-  useControllableState,
-  useSize,
-} from 'radix-ui/internal'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { VisuallyHiddenInput, useCurrentElement, useFormControl } from '../utils/hidden-input'
 import {
@@ -39,6 +32,11 @@ import {
   linearScale,
   roundValue,
 } from './utils'
+import { composeEventHandlers } from '../utils/compose-event-handlers'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useControllableState } from '../utils/controllable-state'
+import { useDirection } from '../utils/direction'
+import { useSize } from '../utils/size'
 
 type DataAttributes = { [attribute: `data-${string}`]: string | undefined }
 type Direction = 'ltr' | 'rtl'
@@ -134,7 +132,7 @@ export function SliderRoot({
   ref,
   ...attrs
 }: SliderRootProps) {
-  const dir = RadixDirection.useDirection(dirProp)
+  const dir = useDirection(dirProp)
   const [element, setElement] = useCurrentElement<HTMLElement>()
   const composedRef = useComposedRefs(ref, setElement)
   const isFormControl = useFormControl(element)

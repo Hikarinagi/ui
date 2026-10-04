@@ -12,9 +12,11 @@ import {
   type ReactNode,
   type Ref,
 } from 'react'
-import { composeEventHandlers, useComposedRefs, useControllableState } from 'radix-ui/internal'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { VisuallyHiddenInput, useCurrentElement, useFormControl } from '../utils/hidden-input'
+import { composeEventHandlers } from '../utils/compose-event-handlers'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useControllableState } from '../utils/controllable-state'
 
 type DataAttributes = { [attribute: `data-${string}`]: string | undefined }
 

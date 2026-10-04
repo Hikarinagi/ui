@@ -2,7 +2,6 @@
 
 import type { ReactNode } from 'react'
 import { ChevronRight } from 'lucide-react'
-import { useControllableState } from 'radix-ui/internal'
 import {
   MenubarPortal,
   MenubarSub as PrimitiveMenubarSub,
@@ -14,6 +13,7 @@ import { Card } from '../card/Card'
 import { cn } from '../../lib/cn'
 import { dropdownItem } from '../dropdown-menu/dropdown-menu.variants'
 import { menubarContent } from './menubar.variants'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 const ChevronRightIcon = lucide(ChevronRight)
 

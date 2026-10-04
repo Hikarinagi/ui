@@ -2,7 +2,6 @@
 
 import type { InputHTMLAttributes, MouseEvent, ReactNode, Ref } from 'react'
 import { X } from 'lucide-react'
-import { useControllableState } from 'radix-ui/internal'
 import {
   ComboboxAnchor,
   ComboboxInput,
@@ -32,6 +31,7 @@ import {
 import type { SelectItems, SelectOption } from '../select/types'
 import { useCombobox, type ComboboxValue } from './hooks/useCombobox'
 import { ComboboxList } from './ComboboxList'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 const XIcon = lucide(X)
 

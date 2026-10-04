@@ -3,9 +3,9 @@
 import { cloneElement, useLayoutEffect, useRef, useState, type ReactElement, type Ref } from 'react'
 import { flushSync } from 'react-dom'
 import clsx from 'clsx'
-import { useComposedRefs } from 'radix-ui/internal'
 import { resolveChild } from '../children'
 import { forceReflow, nextFrame, whenTransitionEnds } from './timing'
+import { useComposedRefs } from '../../primitives/utils/compose-refs'
 
 export interface TransitionHooks {
   onBeforeEnter?: (element: HTMLElement) => void
