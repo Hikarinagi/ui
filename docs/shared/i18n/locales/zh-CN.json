@@ -5,7 +5,7 @@
   },
   "landing": {
     "title": "The design system behind Hikarinagi",
-    "subtitle": "由 Reka UI 和 Tailwind CSS v4 驱动，组件覆盖排版、布局、浮层与页面骨架。",
+    "subtitle": "由 Reka UI 和 Tailwind CSS v4 驱动。",
     "start": "开始使用",
     "browse": "浏览组件",
     "features": {

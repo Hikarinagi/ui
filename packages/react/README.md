@@ -5,7 +5,7 @@
 
 <h1 align="center">Hina UI for React</h1>
 
-Built on React 19 and [Tailwind CSS v4](https://tailwindcss.com), with the same components, styles and behavior as [`@hina-ui/vue`](https://www.npmjs.com/package/@hina-ui/vue). The components cover typography, layout, overlays and page scaffolding.
+Built on React 19 and [Tailwind CSS v4](https://tailwindcss.com).
 
 - **Server Components first** Static components render as React Server Components; interactive ones are marked `'use client'`.
 - **Dark and compact modes** Set one attribute on an outer container and the whole interface follows.

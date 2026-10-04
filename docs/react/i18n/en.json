@@ -4,7 +4,7 @@
   },
   "landing": {
     "title": "The design system behind Hikarinagi",
-    "subtitle": "Built on Tailwind CSS v4. The components cover typography, layout, overlays and page scaffolding."
+    "subtitle": "Built on Tailwind CSS v4."
   },
   "framework": {
     "label": "Framework",

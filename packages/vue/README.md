@@ -5,7 +5,7 @@
 
 <h1 align="center">Hina UI for Vue</h1>
 
-Built on Vue 3, [Reka UI](https://reka-ui.com) and [Tailwind CSS v4](https://tailwindcss.com), with the same components, styles and behavior as [`@hina-ui/react`](https://www.npmjs.com/package/@hina-ui/react). The components cover typography, layout, overlays and page scaffolding.
+Built on Vue 3, [Reka UI](https://reka-ui.com) and [Tailwind CSS v4](https://tailwindcss.com).
 
 - **Dark and compact modes** Set one attribute on an outer container and the whole interface follows.
 - **Adjustable appearance** Colours, radii and motion durations are CSS variables; override them to customise the look.

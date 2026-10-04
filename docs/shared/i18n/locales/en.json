@@ -5,7 +5,7 @@
   },
   "landing": {
     "title": "The design system behind Hikarinagi",
-    "subtitle": "Powered by Reka UI and Tailwind CSS v4. The components cover typography, layout, overlays and page scaffolding.",
+    "subtitle": "Powered by Reka UI and Tailwind CSS v4.",
     "start": "Get started",
     "browse": "Browse components",
     "features": {
