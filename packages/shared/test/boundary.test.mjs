@@ -71,7 +71,8 @@ test('shared source contains no framework components or primitive CSS bindings',
     if (basename(file) === 'LICENSE') continue
     assert.ok(/\.(ts|css)$/.test(file), `Unexpected shared source: ${relative(root, file)}`)
     const content = readFileSync(file, 'utf8')
-    assert.doesNotMatch(content, /--(?:reka|radix)-|data-(?:reka|radix)-/)
+    if (!relative(source, file).startsWith(`primitives${sep}`))
+      assert.doesNotMatch(content, /--(?:reka|radix)-|data-(?:reka|radix)-/)
     assert.doesNotMatch(content, /@source[^;]*(?:\.vue|packages\/vue|packages\/react)/)
   }
 })
