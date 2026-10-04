@@ -1,6 +1,7 @@
 ---
 type: fixed
 scope: VisuallyHidden
+packages: vue
 ---
 
 Keep visually hidden content in the accessibility tree so screen readers announce it, including Badge and Indicator labels and the FormField required hint. Support as and asChild directly; MultiSelect keeps its native form select hidden from assistive technology.

@@ -16,34 +16,52 @@ import { test } from 'node:test'
 import {
   bumpVersion,
   compareVersions,
+  lockstepNote,
   nextVersion,
   parseChange,
   parseOptions,
   readChanges,
   releaseNotes,
+  releasePackages,
   renderNotes,
 } from './lib.mjs'
 import { applyRelease, planRelease } from './prepare.mjs'
 import {
   assertCI,
   assertRegistry,
+  checkOutput,
   checkRelease,
   isReleaseCommit,
   publishRelease,
-  releaseCandidate,
+  releaseCandidates,
 } from './publish.mjs'
 
 const config = JSON.parse(readFileSync(new URL('../../release.config.json', import.meta.url)))
+const [vue, react] = config.packages
 const scripts = dirname(fileURLToPath(import.meta.url))
+const home = process.cwd()
 const note = { type: 'added', scope: 'Dialog', text: 'Add a title slot.' }
 const sha = 'a'.repeat(40)
-const candidate = {
-  config,
-  pkg: { name: '@hina-ui/vue', version: '1.7.1' },
-  tag: '@hina-ui/vue@1.7.1',
-  sha,
-  notes: '### Fixed\n\n- **Dialog** Fix focus.\n',
+const tree = tag => `https://github.com/${config.repo}/tree/${tag}`
+const compare = (from, to) => `https://github.com/${config.repo}/compare/${from}...${to}`
+
+function candidateFor(id, version = '1.7.1') {
+  const name = `@hina-ui/${id}`
+  return {
+    config,
+    sha,
+    id,
+    manifest: `packages/${id}/package.json`,
+    pkg: { name, version },
+    first: false,
+    tag: `${name}@${version}`,
+    notes: '### Fixed\n\n- **Dialog** Fix focus.\n',
+  }
 }
+
+const candidate = candidateFor('vue')
+const releaseOf = (...ids) => ({ config, sha, packages: ids.map(id => candidateFor(id)) })
+const single = releaseOf('vue')
 const passing = {
   head_sha: sha,
   head_branch: 'main',
@@ -64,11 +82,14 @@ function releasePull(commit = sha) {
   }
 }
 
-function fixture(t) {
+const manifest = (name, version, extra = {}) =>
+  `${JSON.stringify({ name, version, ...extra }, null, 2)}\n`
+const versionOf = path => JSON.parse(readFileSync(path, 'utf8')).version
+
+function fixture(t, reactManifest = {}) {
   const root = mkdtempSync(join(tmpdir(), 'hina-release-test-'))
-  const original = process.cwd()
   t.after(() => {
-    process.chdir(original)
+    process.chdir(home)
     rmSync(root, { recursive: true, force: true })
   })
   const write = (path, content) => {
@@ -87,51 +108,48 @@ function fixture(t) {
   git(['config', 'user.name', 'Release Test'])
   git(['config', 'user.email', 'release@example.invalid'])
   write('release.config.json', JSON.stringify(config))
-  write(
-    config.package,
-    JSON.stringify({ name: candidate.pkg.name, version: '1.7.0' }, null, 2) + '\n',
-  )
-  write(
-    config.changelog,
-    '# @hina-ui/vue\n\n## 1.7.0\n\n### Minor Changes\n\n- Existing history.\n',
-  )
+  write(vue.package, manifest('@hina-ui/vue', '1.7.0'))
+  write(react.package, manifest('@hina-ui/react', '1.7.0', reactManifest))
+  write(vue.changelog, '# @hina-ui/vue\n\n## 1.7.0\n\n### Minor Changes\n\n- Existing history.\n')
   write('.changes/README.md', 'Change records')
   commit('baseline')
   process.chdir(root)
   return { root, write, git, commit }
 }
 
-function record(type = 'added', level) {
-  return `---\ntype: ${type}\nscope: Dialog\n${level ? `level: ${level}\n` : ''}---\n\nAdd a title slot.\n`
+function record(type = 'added', level, packages) {
+  return `---\ntype: ${type}\nscope: Dialog\n${level ? `level: ${level}\n` : ''}${packages ? `packages: ${packages}\n` : ''}---\n\nAdd a title slot.\n`
 }
 
 function publication(overrides = {}) {
   const calls = []
-  let npm = false
-  let tag = null
-  let release = null
+  const npm = new Map()
+  const tags = new Set()
+  const releases = new Set()
   const io = {
     github(path) {
       if (path.includes('/commits/')) return [releasePull()]
-      return path.includes('/actions/') ? { workflow_runs: [passing] } : release
+      if (path.includes('/actions/')) return { workflow_runs: [passing] }
+      return releases.has(decodeURIComponent(path.split('/releases/tags/')[1])) ? { id: 1 } : null
     },
-    registry: async () => ({ versions: npm ? { '1.7.1': { gitHead: sha } } : {} }),
-    tagCommit: () => tag,
-    publish: async () => {
-      calls.push('npm')
-      npm = true
+    registry: async name =>
+      npm.has(name) ? { versions: { [npm.get(name)]: { gitHead: sha } } } : {},
+    tagCommit: tag => (tags.has(tag) ? sha : null),
+    publish: async candidate => {
+      calls.push(`npm:${candidate.id}`)
+      npm.set(candidate.pkg.name, candidate.pkg.version)
     },
-    pushTag: async () => {
-      calls.push('tag')
-      tag = sha
+    pushTag: async candidate => {
+      calls.push(`tag:${candidate.id}`)
+      tags.add(candidate.tag)
     },
-    createRelease: async () => {
-      calls.push('release')
-      release = { id: 1 }
+    createRelease: async (candidate, latest) => {
+      calls.push(`release:${candidate.id}${latest ? ':latest' : ''}`)
+      releases.add(candidate.tag)
     },
     ...overrides,
   }
-  return { calls, io }
+  return { calls, io, npm, tags, releases }
 }
 
 test('repository change records conform to the release schema', () => {
@@ -194,6 +212,50 @@ test('change records reject malformed or ambiguous metadata before writing', () 
     assert.throws(() => parseChange(raw, 'note', config))
 })
 
+test('change records may restrict themselves to configured packages', () => {
+  assert.equal(parseChange(record(), 'note', config).packages, undefined)
+  assert.deepEqual(parseChange(record('added', undefined, 'vue'), 'note', config).packages, ['vue'])
+  assert.deepEqual(parseChange(record('fixed', 'minor', '[react, vue]'), 'note', config).packages, [
+    'react',
+    'vue',
+  ])
+  for (const packages of [
+    'angular',
+    '[]',
+    '[vue, ]',
+    '[vue, vue]',
+    'vue, react',
+    '[vue',
+    'vue]',
+    '[vue, angular]',
+  ])
+    assert.throws(
+      () => parseChange(record('added', undefined, packages), 'note', config),
+      /note: packages must be one of vue, react/,
+    )
+  assert.throws(() =>
+    parseChange(record('added', undefined, 'vue\npackages: react'), 'note', config),
+  )
+})
+
+test('release config lists packages and still reads the legacy single-package shape', () => {
+  assert.deepEqual(
+    releasePackages(config).map(entry => entry.id),
+    ['vue', 'react'],
+  )
+  assert.deepEqual(releasePackages({ package: vue.package, changelog: vue.changelog }), [vue])
+  for (const invalid of [
+    { packages: [] },
+    {},
+    { packages: [vue], package: vue.package },
+    { packages: [vue, { ...react, id: 'vue' }] },
+    { packages: [vue, { ...react, package: vue.package }] },
+    { packages: [{ ...vue, id: 'Vue' }] },
+    { packages: [{ id: 'vue', package: vue.package }] },
+  ])
+    assert.throws(() => releasePackages(invalid), /release\.config\.json/)
+})
+
 test('changelog groups notes by type and retains paragraphs and existing legacy notes', () => {
   const notes = renderNotes(
     [note, { type: 'fixed', scope: 'Image', text: 'Fix sizing.\n\nKeep explicit bounds.' }],
@@ -224,13 +286,16 @@ test('preview is read-only; preparation consumes records once and preserves chan
   const output = execFileSync(process.execPath, [join(scripts, 'prepare.mjs'), '--dry'], {
     encoding: 'utf8',
   })
-  assert.match(output, /1\.7\.0 -> 1\.7\.1/)
+  assert.match(output, /@hina-ui\/vue: 1\.7\.0 -> 1\.7\.1/)
+  assert.match(output, /@hina-ui\/react: 1\.7\.0 -> 1\.7\.1/)
   assert.equal(f.git(['status', '--porcelain']), '')
   const plan = planRelease()
   applyRelease(plan)
-  assert.equal(JSON.parse(readFileSync(config.package)).version, '1.7.1')
-  assert.ok(readFileSync(config.changelog, 'utf8').includes('Existing history.'))
-  assert.equal(releaseNotes(readFileSync(config.changelog, 'utf8'), '1.7.1'), plan.notes)
+  assert.equal(versionOf(vue.package), '1.7.1')
+  assert.equal(versionOf(react.package), '1.7.1')
+  assert.ok(readFileSync(vue.changelog, 'utf8').includes('Existing history.'))
+  assert.equal(releaseNotes(readFileSync(vue.changelog, 'utf8'), '1.7.1'), plan.packages[0].notes)
+  assert.equal(releaseNotes(readFileSync(react.changelog, 'utf8'), '1.7.1'), plan.packages[1].notes)
   assert.equal(existsSync('.changes/dialog.md'), false)
   assert.equal(existsSync('.changes/README.md'), true)
   assert.equal(planRelease(), null)
@@ -258,22 +323,33 @@ test('only the version-changing commit of a merged release PR becomes a release 
   const f = fixture(t)
   f.write('.changes/dialog.md', record())
   f.commit('add capability')
-  assert.equal(releaseCandidate(), null)
+  assert.equal(releaseCandidates(), null)
   f.git(['checkout', '-b', 'release/next'])
   applyRelease(planRelease())
   f.commit('prepare release')
-  assert.equal(releaseCandidate(config, { github: () => [] }), null)
+  assert.equal(releaseCandidates(config, { github: () => [] }), null)
   f.git(['checkout', 'main'])
   f.write('other.txt', 'another change')
   f.commit('other work')
   f.git(['merge', '--no-ff', 'release/next', '-m', 'Merge release'])
   const merged = f.git(['rev-parse', 'HEAD'])
   const io = { github: () => [releasePull(merged)] }
-  assert.equal(releaseCandidate(config, io).sha, merged)
-  assert.equal(releaseCandidate(config, io).pkg.version, '1.7.1')
+  const release = releaseCandidates(config, io)
+  assert.equal(release.sha, merged)
+  assert.deepEqual(
+    release.packages.map(item => [item.tag, item.sha, item.manifest]),
+    [
+      ['@hina-ui/vue@1.7.1', merged, vue.package],
+      ['@hina-ui/react@1.7.1', merged, react.package],
+    ],
+  )
+  assert.equal(
+    release.packages[1].notes,
+    releaseNotes(readFileSync(react.changelog, 'utf8'), '1.7.1'),
+  )
   f.write('other.txt', 'later change')
   f.commit('later work')
-  assert.equal(releaseCandidate(), null)
+  assert.equal(releaseCandidates(), null)
 })
 
 test('syncing main release history into dev cannot publish a version from the wrong parent', t => {
@@ -289,10 +365,10 @@ test('syncing main release history into dev cannot publish a version from the wr
   const released = f.git(['rev-parse', 'HEAD'])
   f.git(['checkout', 'dev'])
   f.git(['merge', '--no-ff', 'main', '-m', 'Sync main release history'])
-  assert.equal(JSON.parse(f.git(['show', `HEAD^:${config.package}`])).version, '1.7.0')
-  assert.equal(JSON.parse(readFileSync(config.package)).version, '1.7.1')
-  assert.equal(releaseCandidate(config, { github: () => [] }), null)
-  assert.equal(releaseCandidate(config, { github: () => [releasePull(released)] }), null)
+  assert.equal(JSON.parse(f.git(['show', `HEAD^:${vue.package}`])).version, '1.7.0')
+  assert.equal(versionOf(vue.package), '1.7.1')
+  assert.equal(releaseCandidates(config, { github: () => [] }), null)
+  assert.equal(releaseCandidates(config, { github: () => [releasePull(released)] }), null)
   assert.equal(readChanges(config).length, 1)
 })
 
@@ -317,7 +393,7 @@ for (const method of ['squash', 'rebase']) {
       f.git(['merge', '--ff-only', config.branch])
     }
     const merged = f.git(['rev-parse', 'HEAD'])
-    assert.equal(releaseCandidate(config, { github: () => [releasePull(merged)] }).sha, merged)
+    assert.equal(releaseCandidates(config, { github: () => [releasePull(merged)] }).sha, merged)
   })
 }
 
@@ -344,7 +420,10 @@ test('publication refuses missing release provenance before any registry or writ
         assert.fail('Registry must not be accessed')
       },
     })
-    await assert.rejects(publishRelease(candidate, io), /not a merged release\/next release PR/)
+    await assert.rejects(
+      publishRelease(releaseOf('vue', 'react'), io),
+      /not a merged release\/next release PR/,
+    )
     assert.deepEqual(calls, [])
   }
   const { calls, io } = publication({
@@ -352,7 +431,7 @@ test('publication refuses missing release provenance before any registry or writ
       throw new Error('GitHub unavailable')
     },
   })
-  await assert.rejects(publishRelease(candidate, io), /GitHub unavailable/)
+  await assert.rejects(publishRelease(releaseOf('vue', 'react'), io), /GitHub unavailable/)
   assert.deepEqual(calls, [])
 })
 
@@ -379,6 +458,8 @@ test('pnpm change:add invokes the repository CLI instead of a package-manager bu
     encoding: 'utf8',
   })
   assert.ok(help.includes('Example: pnpm change:add added Dialog'))
+  assert.ok(help.includes('[--package <vue|react>]'))
+  assert.ok(help.includes('--package vue'))
   assert.ok(help.includes(`The default version bump is ${config.defaultBump}.`))
 })
 
@@ -406,6 +487,10 @@ test('change CLI rejects invalid arguments with usage and never creates a record
     ['fixed', 'Image', '  '],
     ['fixed', 'Image', 'Fix sizing.', 'tiny'],
     ['fixed', 'Image', 'Fix sizing.', 'patch', 'extra'],
+    ['fixed', 'Image', 'Fix sizing.', '--package', 'angular'],
+    ['fixed', 'Image', 'Fix sizing.', '--package'],
+    ['fixed', 'Image', 'Fix sizing.', '--package=vue,'],
+    ['fixed', 'Image', 'Fix sizing.', '--packages', 'vue'],
   ]) {
     const result = spawnSync(process.execPath, [join(scripts, 'change.mjs'), ...args], {
       encoding: 'utf8',
@@ -415,6 +500,31 @@ test('change CLI rejects invalid arguments with usage and never creates a record
     assert.equal(result.stdout, '')
     assert.equal(f.git(['status', '--porcelain']), '')
   }
+})
+
+test('change CLI restricts records with repeated or comma-separated --package flags', t => {
+  fixture(t)
+  const add = (scope, ...flags) => {
+    const file = execFileSync(
+      process.execPath,
+      [join(scripts, 'change.mjs'), 'fixed', scope, 'Fix sizing.', ...flags],
+      { encoding: 'utf8' },
+    ).trim()
+    return {
+      raw: readFileSync(file, 'utf8'),
+      parsed: parseChange(readFileSync(file, 'utf8'), file, config),
+    }
+  }
+  const one = add('Vue', '--package', 'vue')
+  assert.match(one.raw, /^packages: vue$/m)
+  assert.deepEqual(one.parsed.packages, ['vue'])
+  const repeated = add('Both', '--package', 'react', '--package', 'vue', 'minor')
+  assert.match(repeated.raw, /^packages: \[vue, react\]$/m)
+  assert.equal(repeated.parsed.level, 'minor')
+  assert.deepEqual(add('Comma', '--package=react,vue').parsed.packages, ['vue', 'react'])
+  assert.deepEqual(add('Spaced', '--package', 'react, react').parsed.packages, ['react'])
+  assert.equal(add('All').parsed.packages, undefined)
+  assert.equal(readChanges(config).length, 5)
 })
 
 test('change CLI creates every configured category and preserves explicit release levels', t => {
@@ -472,10 +582,10 @@ test('existing npm versions must belong to this commit and latest cannot move ba
 
 test('publication proceeds npm then tag then GitHub and repeating it does no writes', async () => {
   const { calls, io } = publication()
-  await publishRelease(candidate, io)
-  assert.deepEqual(calls, ['npm', 'tag', 'release'])
+  await publishRelease(single, io)
+  assert.deepEqual(calls, ['npm:vue', 'tag:vue', 'release:vue:latest'])
   calls.length = 0
-  await publishRelease(candidate, io)
+  await publishRelease(single, io)
   assert.deepEqual(calls, [])
 })
 
@@ -485,12 +595,12 @@ test('failure after npm publication is retryable without publishing npm again', 
   io.createRelease = async () => {
     throw new Error('GitHub unavailable')
   }
-  await assert.rejects(publishRelease(candidate, io), /GitHub unavailable/)
-  assert.deepEqual(calls, ['npm', 'tag'])
+  await assert.rejects(publishRelease(single, io), /GitHub unavailable/)
+  assert.deepEqual(calls, ['npm:vue', 'tag:vue'])
   calls.length = 0
   io.createRelease = create
-  await publishRelease(candidate, io)
-  assert.deepEqual(calls, ['tag', 'release'])
+  await publishRelease(single, io)
+  assert.deepEqual(calls, ['tag:vue', 'release:vue:latest'])
 })
 
 test('registry, CI and tag failures stop publishing without swallowing errors', async () => {
@@ -509,7 +619,8 @@ test('registry, CI and tag failures stop publishing without swallowing errors', 
     },
   ]) {
     const { calls, io } = publication(override)
-    await assert.rejects(checkRelease(candidate, io))
+    await assert.rejects(checkRelease(releaseOf('vue', 'react'), io))
+    await assert.rejects(publishRelease(releaseOf('vue', 'react'), io))
     assert.deepEqual(calls, [])
   }
 })
@@ -560,15 +671,33 @@ if (args[0] === 'api') {
         ...extra,
       },
     })
-  const version = () =>
-    JSON.parse(f.git(['show', `refs/remotes/origin/${config.branch}:${config.package}`])).version
+  const versions = () =>
+    config.packages.map(
+      entry =>
+        JSON.parse(f.git(['show', `refs/remotes/origin/${config.branch}:${entry.package}`]))
+          .version,
+    )
+  const version = () => {
+    const [first, ...rest] = versions()
+    assert.ok(rest.every(value => value === first))
+    return first
+  }
   assert.throws(() => invoke({ BUMP: 'minor', GH_FAKE_FAIL_CI: 'true' }))
   assert.equal(version(), '1.8.0')
+  assert.ok(
+    f
+      .git(['show', `refs/remotes/origin/${config.branch}:${react.changelog}`])
+      .startsWith('# @hina-ui/react\n\n## [1.8.0]'),
+  )
   f.git(['checkout', 'main'])
-  invoke()
+  assert.match(
+    invoke(),
+    /Unchanged release PR: chore\(release\): @hina-ui\/vue@1\.8\.0, @hina-ui\/react@1\.8\.0/,
+  )
   assert.equal(version(), '1.8.0')
   assert.equal(JSON.parse(readFileSync(stateFile)).dispatches, 1)
   f.git(['reset', '--hard', 'HEAD'])
+  f.git(['clean', '-fd', '--', 'packages'])
   f.write('.changes/image.md', record('fixed').replaceAll('Dialog', 'Image'))
   f.commit('add fix')
   f.git(['push', 'origin', 'main'])
@@ -579,6 +708,8 @@ if (args[0] === 'api') {
   assert.ok(updated.body.includes('**Image**'))
   assert.equal(updated.dispatches, 2)
   f.git(['checkout', 'main'])
+  f.git(['reset', '--hard', 'HEAD'])
+  f.git(['clean', '-fd', '--', 'packages'])
   invoke({ BUMP: 'patch' })
   assert.equal(version(), '1.7.1')
 })
@@ -594,9 +725,9 @@ test('backfilling an older GitHub release does not replace the latest release', 
       latest = value
     },
   })
-  await publishRelease(candidate, io)
+  await publishRelease(single, io)
   assert.equal(latest, false)
-  assert.deepEqual(calls, ['tag'])
+  assert.deepEqual(calls, ['tag:vue'])
 })
 
 test('annotated release tags use the bot identity in a checkout without git identity', t => {
@@ -657,10 +788,305 @@ test('a tag failure after npm publication retries only the tag and GitHub releas
   io.pushTag = async () => {
     throw new Error('Tag creation failed')
   }
-  await assert.rejects(publishRelease(candidate, io), /Tag creation failed/)
-  assert.deepEqual(calls, ['npm'])
+  await assert.rejects(publishRelease(single, io), /Tag creation failed/)
+  assert.deepEqual(calls, ['npm:vue'])
   calls.length = 0
   io.pushTag = push
-  await publishRelease(candidate, io)
-  assert.deepEqual(calls, ['tag', 'release'])
+  await publishRelease(single, io)
+  assert.deepEqual(calls, ['tag:vue', 'release:vue:latest'])
+})
+
+test('lockstep preparation bumps every package and gives each changelog only its records', t => {
+  const f = fixture(t, { description: 'React', sideEffects: ['**/*.css'] })
+  f.git(['tag', '@hina-ui/vue@1.7.0'])
+  f.write('.changes/a-shared.md', record().replace('Dialog', 'Shared'))
+  f.write('.changes/b-vue.md', record('fixed', undefined, 'vue').replace('Dialog', 'VueOnly'))
+  f.write('.changes/c-react.md', record('added', undefined, 'react').replace('Dialog', 'ReactOnly'))
+  f.write(
+    '.changes/d-both.md',
+    record('changed', undefined, '[vue, react]').replace('Dialog', 'Both'),
+  )
+  f.commit('records')
+  const plan = planRelease()
+  assert.equal(plan.current, '1.7.0')
+  assert.equal(plan.version, '1.7.1')
+  assert.equal(plan.title, 'chore(release): @hina-ui/vue@1.7.1, @hina-ui/react@1.7.1')
+  assert.deepEqual(
+    plan.packages.map(entry => [entry.id, entry.tag, entry.first]),
+    [
+      ['vue', '@hina-ui/vue@1.7.1', false],
+      ['react', '@hina-ui/react@1.7.1', true],
+    ],
+  )
+  applyRelease(plan)
+  assert.deepEqual(JSON.parse(readFileSync(react.package, 'utf8')), {
+    name: '@hina-ui/react',
+    version: '1.7.1',
+    description: 'React',
+    sideEffects: ['**/*.css'],
+  })
+  const vueLog = readFileSync(vue.changelog, 'utf8')
+  const reactLog = readFileSync(react.changelog, 'utf8')
+  const vueNotes = releaseNotes(vueLog, '1.7.1')
+  const reactNotes = releaseNotes(reactLog, '1.7.1')
+  for (const scope of ['Shared', 'VueOnly', 'Both']) assert.ok(vueNotes.includes(`**${scope}**`))
+  assert.ok(!vueNotes.includes('ReactOnly'))
+  for (const scope of ['Shared', 'ReactOnly', 'Both'])
+    assert.ok(reactNotes.includes(`**${scope}**`))
+  assert.ok(!reactNotes.includes('VueOnly'))
+  assert.ok(
+    vueLog.startsWith(
+      `# @hina-ui/vue\n\n## [1.7.1](${compare('@hina-ui/vue@1.7.0', '@hina-ui/vue@1.7.1')}) (`,
+    ),
+  )
+  assert.ok(vueLog.endsWith('- Existing history.\n'))
+  assert.ok(
+    reactLog.startsWith(`# @hina-ui/react\n\n## [1.7.1](${tree('@hina-ui/react@1.7.1')}) (`),
+  )
+  assert.ok(reactLog.endsWith('\n') && !reactLog.endsWith('\n\n'))
+  assert.equal(readChanges(config).length, 0)
+  assert.equal(planRelease(), null)
+})
+
+test('a package without records still gets the version and a lockstep changelog entry', t => {
+  const f = fixture(t)
+  f.write('.changes/dialog.md', record('fixed', undefined, 'vue'))
+  f.commit('vue record')
+  const output = execFileSync(process.execPath, [join(scripts, 'prepare.mjs'), '--dry'], {
+    encoding: 'utf8',
+  })
+  assert.ok(output.includes(`## @hina-ui/react\n\n${lockstepNote}\n`))
+  assert.match(output, /@hina-ui\/react: 1\.7\.0 -> 1\.7\.1 \(first release\)/)
+  const plan = planRelease()
+  assert.equal(plan.packages[1].notes, `${lockstepNote}\n`)
+  assert.deepEqual(plan.packages[1].changes, [])
+  applyRelease(plan)
+  assert.equal(versionOf(react.package), '1.7.1')
+  assert.equal(releaseNotes(readFileSync(react.changelog, 'utf8'), '1.7.1'), `${lockstepNote}\n`)
+  assert.ok(releaseNotes(readFileSync(vue.changelog, 'utf8'), '1.7.1').includes('**Dialog**'))
+  assert.ok(!readFileSync(vue.changelog, 'utf8').includes(lockstepNote))
+})
+
+test('planning rejects mismatched versions and private packages without writing', t => {
+  for (const [reactManifest, pattern] of [
+    [
+      { version: '1.6.0' },
+      /Packages must share one version: @hina-ui\/vue 1\.7\.0, @hina-ui\/react 1\.6\.0/,
+    ],
+    [{ private: true }, /@hina-ui\/react is private or unnamed in packages\/react\/package\.json/],
+    [{ private: true, version: '0.0.0' }, /private or unnamed[\s\S]*share one version/],
+  ]) {
+    const f = fixture(t, reactManifest)
+    f.write('.changes/dialog.md', record('fixed', undefined, 'vue'))
+    f.commit('record')
+    assert.throws(() => planRelease(), pattern)
+    const preview = spawnSync(process.execPath, [join(scripts, 'prepare.mjs'), '--dry'], {
+      encoding: 'utf8',
+    })
+    assert.equal(preview.status, 1)
+    assert.match(preview.stderr, /^Cannot plan a lockstep release:\n- /)
+    assert.match(preview.stderr, pattern)
+    assert.doesNotMatch(preview.stderr, /\n\s+at /)
+    const prepare = spawnSync(process.execPath, [join(scripts, 'prepare.mjs')], {
+      encoding: 'utf8',
+    })
+    assert.equal(prepare.status, 1)
+    assert.equal(f.git(['status', '--porcelain']), '')
+  }
+})
+
+test('existing tags for any package in the release block planning', t => {
+  const f = fixture(t)
+  f.write('.changes/dialog.md', record('fixed', undefined, 'vue'))
+  f.git(['tag', '@hina-ui/react@1.7.1'])
+  assert.throws(() => planRelease(), /Tag already exists: @hina-ui\/react@1.7.1/)
+})
+
+function releaseBranch(f, manifests) {
+  f.git(['checkout', '-b', config.branch])
+  for (const [entry, name, version, extra] of manifests) {
+    f.write(entry.package, manifest(name, version, extra))
+    f.write(
+      entry.changelog,
+      `# ${name}\n\n## [${version}](${tree(`${name}@${version}`)}) (2026-10-04)\n\n${lockstepNote}\n`,
+    )
+  }
+  f.commit('prepare release')
+  f.git(['checkout', 'main'])
+  f.git(['merge', '--no-ff', config.branch, '-m', 'Merge release'])
+  const merged = f.git(['rev-parse', 'HEAD'])
+  return { merged, io: { github: () => [releasePull(merged)] } }
+}
+
+test('a private package becomes publishable when the release makes it public', t => {
+  const f = fixture(t, { private: true, version: '0.0.0' })
+  const { merged, io } = releaseBranch(f, [
+    [vue, '@hina-ui/vue', '1.7.1'],
+    [react, '@hina-ui/react', '1.7.1'],
+  ])
+  const release = releaseCandidates(config, io)
+  assert.equal(release.sha, merged)
+  assert.deepEqual(
+    release.packages.map(item => [item.id, item.tag, item.first]),
+    [
+      ['vue', '@hina-ui/vue@1.7.1', false],
+      ['react', '@hina-ui/react@1.7.1', true],
+    ],
+  )
+  assert.equal(release.packages[1].notes, `${lockstepNote}\n`)
+  assert.equal(releaseCandidates(config, { github: () => [] }), null)
+})
+
+test('first releases keep the name, visibility and version checks', t => {
+  const unreleased = { private: true, version: '0.0.1' }
+  for (const { from, to, error, ids } of [
+    { from: unreleased, to: ['@hina-ui/react-dom', '1.7.1'], error: /named @hina-ui\/react/ },
+    { from: unreleased, to: ['@hina-ui/react', '0.0.0'], error: /increase its version/ },
+    { from: {}, to: ['@hina-ui/react', '1.7.1', { private: true }], error: /public/ },
+    { from: unreleased, to: ['@hina-ui/react', '0.0.2', { private: true }], ids: ['vue'] },
+  ]) {
+    const f = fixture(t, from)
+    const { io } = releaseBranch(f, [
+      [vue, '@hina-ui/vue', '1.7.1'],
+      [react, ...to],
+    ])
+    if (error) assert.throws(() => releaseCandidates(config, io), error)
+    else
+      assert.deepEqual(
+        releaseCandidates(config, io).packages.map(item => item.id),
+        ids,
+      )
+  }
+})
+
+test('merging a branch that introduces a package does not make it a release candidate', t => {
+  const f = fixture(t)
+  f.git(['rm', '-r', '-q', 'packages/react'])
+  f.commit('main without react')
+  f.git(['checkout', '-b', 'feat/react'])
+  f.write(react.package, manifest('@hina-ui/react', '1.7.0'))
+  f.commit('add react')
+  f.git(['checkout', 'main'])
+  f.git(['merge', '--no-ff', 'feat/react', '-m', 'Merge react'])
+  const merged = f.git(['rev-parse', 'HEAD'])
+  assert.equal(releaseCandidates(config, { github: () => [releasePull(merged)] }), null)
+  assert.equal(releaseCandidates(config, { github: () => [] }), null)
+})
+
+test('several packages publish to npm first, then get their own tag and GitHub release', async () => {
+  const notes = []
+  const { calls, io, npm, tags, releases } = publication()
+  const create = io.createRelease
+  io.createRelease = async (item, latest) => {
+    notes.push([item.tag, item.notes])
+    await create(item, latest)
+  }
+  const release = releaseOf('vue', 'react')
+  release.packages[1].notes = `${lockstepNote}\n`
+  await publishRelease(release, io)
+  assert.deepEqual(calls, [
+    'npm:vue',
+    'npm:react',
+    'tag:vue',
+    'release:vue:latest',
+    'tag:react',
+    'release:react',
+  ])
+  assert.deepEqual(
+    [...npm],
+    [
+      ['@hina-ui/vue', '1.7.1'],
+      ['@hina-ui/react', '1.7.1'],
+    ],
+  )
+  assert.deepEqual([...tags], ['@hina-ui/vue@1.7.1', '@hina-ui/react@1.7.1'])
+  assert.deepEqual([...releases], ['@hina-ui/vue@1.7.1', '@hina-ui/react@1.7.1'])
+  assert.deepEqual(notes, [
+    ['@hina-ui/vue@1.7.1', candidate.notes],
+    ['@hina-ui/react@1.7.1', `${lockstepNote}\n`],
+  ])
+  calls.length = 0
+  await publishRelease(release, io)
+  assert.deepEqual(calls, [])
+})
+
+test('a rerun after a partial multi-package release publishes only what is missing', async () => {
+  const { calls, io } = publication()
+  const publish = io.publish
+  io.publish = async item => {
+    if (item.id === 'react') throw new Error('npm unavailable')
+    await publish(item)
+  }
+  const release = releaseOf('vue', 'react')
+  await assert.rejects(publishRelease(release, io), /npm unavailable/)
+  assert.deepEqual(calls, ['npm:vue'])
+  calls.length = 0
+  io.publish = publish
+  await publishRelease(release, io)
+  assert.deepEqual(calls, [
+    'npm:react',
+    'tag:vue',
+    'release:vue:latest',
+    'tag:react',
+    'release:react',
+  ])
+
+  const done = publication()
+  await publishRelease(releaseOf('vue'), done.io)
+  done.calls.length = 0
+  await publishRelease(release, done.io)
+  assert.deepEqual(done.calls, ['npm:react', 'tag:react', 'release:react'])
+})
+
+test('a conflict on any package stops the whole release before any write', async () => {
+  for (const override of [
+    {
+      registry: async name =>
+        name === '@hina-ui/react' ? { versions: { '1.7.1': { gitHead: 'b'.repeat(40) } } } : {},
+    },
+    {
+      registry: async name =>
+        name === '@hina-ui/react' ? { 'dist-tags': { latest: '1.8.0' } } : {},
+    },
+    { tagCommit: tag => (tag === '@hina-ui/react@1.7.1' ? 'b'.repeat(40) : null) },
+    {
+      github: path => {
+        if (path.includes('/commits/')) return [releasePull()]
+        if (path.includes('/actions/')) return { workflow_runs: [passing] }
+        return path.includes('react') ? { id: 1 } : null
+      },
+    },
+  ]) {
+    const { calls, io } = publication(override)
+    await assert.rejects(publishRelease(releaseOf('vue', 'react'), io))
+    assert.deepEqual(calls, [])
+  }
+})
+
+test('the release check reports whether to publish and which packages to build', async () => {
+  assert.equal(checkOutput([]), 'candidate=false\npublish=false\npackages=\n')
+  const { io } = publication()
+  const release = releaseOf('vue', 'react')
+  assert.equal(
+    checkOutput(await checkRelease(release, io)),
+    'candidate=true\npublish=true\npackages=@hina-ui/vue @hina-ui/react\n',
+  )
+  await io.publish(release.packages[0])
+  assert.equal(
+    checkOutput(await checkRelease(release, io)),
+    'candidate=true\npublish=true\npackages=@hina-ui/react\n',
+  )
+  await io.publish(release.packages[1])
+  await io.pushTag(release.packages[0])
+  await io.createRelease(release.packages[0], true)
+  assert.equal(
+    checkOutput(await checkRelease(release, io)),
+    'candidate=true\npublish=false\npackages=\n',
+  )
+  await io.pushTag(release.packages[1])
+  await io.createRelease(release.packages[1], false)
+  assert.equal(
+    checkOutput(await checkRelease(release, io)),
+    'candidate=false\npublish=false\npackages=\n',
+  )
 })
