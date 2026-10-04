@@ -3,7 +3,6 @@
   <img alt="Hina UI: the design system behind Hikarinagi, open source for Vue and React" width="900" src=".github/assets/banner-light.png">
 </picture>
 
-<h1 align="center">Hina UI</h1>
 <p align="center"><a href="./README.md">English</a> | 中文</p>
 
 基于 [Tailwind CSS v4](https://tailwindcss.com) 构建。
