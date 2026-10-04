@@ -10,7 +10,7 @@ Next.js App Router site for `@hina-ui/react`, served from `react.hinaui.dev` on 
 
 ## Deployment
 
-`pnpm --filter @hina-ui/docs-react deploy` builds the site with OpenNext and deploys the `hina-ui-docs-react` Worker to `react.hinaui.dev`. It uses the local Wrangler login; `pnpm --filter @hina-ui/docs-react preview` runs the same build locally. Configuration lives in `wrangler.jsonc` and `open-next.config.ts`.
+The `React docs` workflow deploys the site on every push to `main`: `pnpm --filter @hina-ui/docs-react run deploy` builds it with OpenNext and deploys the `hina-ui-docs-react` Worker to `react.hinaui.dev`, using the `CLOUDFLARE_API_TOKEN` secret and the `CLOUDFLARE_ACCOUNT_ID` variable. Run the same command locally to deploy with your Wrangler login; `pnpm --filter @hina-ui/docs-react run preview` serves the build locally. Configuration lives in `wrangler.jsonc` and `open-next.config.ts`.
 
 ## Rendering pipeline
 
