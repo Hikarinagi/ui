@@ -18,6 +18,7 @@ export default defineConfig({
   },
   test: {
     environment: 'node',
+    globalSetup: ['test/generate-docs.ts'],
     server: { deps: { inline: [/docs\/react/] } },
     include: ['test/**/*.test.ts'],
     exclude: ['**/node_modules/**', 'test/**/*.browser.test.ts'],

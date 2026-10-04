@@ -7,6 +7,7 @@ dist/
 .nitro/
 .cache/
 coverage/
+!packages/parity/coverage/
 *.tsbuildinfo
 *.log
 __screenshots__/
