@@ -22,6 +22,7 @@ interface State {
   length?: number
   size?: 'sm' | 'md' | 'lg'
   type?: 'text' | 'number'
+  otp?: boolean
 }
 
 async function mountPin(props: Partial<State> = {}) {
@@ -33,6 +34,7 @@ async function mountPin(props: Partial<State> = {}) {
         length={state.length}
         size={state.size}
         type={state.type}
+        otp={state.otp}
         value={value}
         aria-label="验证码"
         onValueChange={next => {
@@ -66,6 +68,17 @@ describe('pin-input · 输入', () => {
     await userEvent.keyboard('{Backspace}')
     await vi.waitFor(() => expect(document.activeElement).toBe(cells()[2]))
     await vi.waitFor(() => expect(state.modelValue).toBe('12'))
+  })
+
+  it('一次性验证码模式下每输入一位焦点进入下一格', async () => {
+    const { state, cells } = await mountPin({ length: 4, type: 'number', otp: true })
+    cells()[0]!.focus()
+    for (const [index, key] of ['1', '2', '3'].entries()) {
+      await userEvent.keyboard(key)
+      await vi.waitFor(() => expect(document.activeElement).toBe(cells()[index + 1]))
+    }
+    await userEvent.keyboard('4')
+    await vi.waitFor(() => expect(state.modelValue).toBe('1234'))
   })
 
   it('粘贴整段验证码时按位分配', async () => {

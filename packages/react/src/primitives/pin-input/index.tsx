@@ -34,6 +34,7 @@ const both = { checkForDefaultPrevented: false }
 
 interface PinInputRootContextValue {
   modelValue: PinInputValue
+  getModelValue: () => PinInputValue
   setModelValue: (value: PinInputValue) => void
   mask: boolean
   otp: boolean
@@ -112,6 +113,9 @@ export function PinInputRoot({
     setEcho(echo + 1)
   }
   const currentModelValue = Array.isArray(modelValue) ? [...modelValue] : []
+  const current = useRef(currentModelValue)
+  current.current = currentModelValue
+  const getModelValue = useCallback(() => current.current, [])
   const elements = useRef(new Set<HTMLInputElement>())
   const [inputElements, setInputElements] = useState<HTMLInputElement[]>([])
   const isNumericMode = type === 'number'
@@ -124,6 +128,7 @@ export function PinInputRoot({
   latest.current = { onValueChange, onComplete, completed }
 
   const setModelValue = useCallback((next: PinInputValue) => {
+    current.current = [...next]
     setLocal(next)
     latest.current.onValueChange?.([...next])
     if (latest.current.completed(next)) latest.current.onComplete?.(next)
@@ -150,6 +155,7 @@ export function PinInputRoot({
     <PinInputRootContext
       value={{
         modelValue: currentModelValue,
+        getModelValue,
         setModelValue,
         mask,
         otp,
@@ -324,7 +330,7 @@ export function PinInputInput({
   }
 
   function updateModelValueAt(at: number, value: string) {
-    const next = [...latest.current.modelValue]
+    const next = [...latest.current.getModelValue()]
     if (latest.current.isNumericMode) {
       const num = +value
       if (value === '' || Number.isNaN(num)) delete next[at]
@@ -335,7 +341,7 @@ export function PinInputInput({
 
   function handleMultipleCharacter(values: string) {
     const items = latest.current.inputElements
-    const next = [...latest.current.modelValue]
+    const next = [...latest.current.getModelValue()]
     const initialIndex = values.length >= items.length ? 0 : index
     const lastIndex = Math.min(initialIndex + values.length, items.length)
     for (let i = initialIndex; i < lastIndex; i++) {
@@ -431,7 +437,8 @@ export function PinInputInput({
       const items = latest.current.inputElements
       const firstEmpty = items.findIndex(
         (_, at) =>
-          latest.current.modelValue[at] === '' || latest.current.modelValue[at] === undefined,
+          latest.current.getModelValue()[at] === '' ||
+          latest.current.getModelValue()[at] === undefined,
       )
       if (firstEmpty !== -1 && firstEmpty < index) {
         items[firstEmpty]!.focus()
