@@ -1,6 +1,6 @@
 import { arrowNavigation } from '../arrow-navigation'
 
-export type PinInputValue = (string | number)[]
+export type PinInputValue = Array<string | number | undefined>
 
 const NUMBER = /^\d*$/
 const NON_NUMBER = /\D/g
