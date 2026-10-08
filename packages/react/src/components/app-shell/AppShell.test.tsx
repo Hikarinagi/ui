@@ -73,6 +73,39 @@ describe('结构 · 固定壳,内容滚动交给 ScrollArea', () => {
     expect(row.querySelector('main')).not.toBeNull()
   })
 
+  it('侧栏收成 rail 时只有侧栏里的 NavLink 收起,顶栏与正文里的保持原样', () => {
+    const { container } = render(
+      <AppShell
+        sidebar="rail"
+        header={
+          <NavLink href="#header" label="顶栏">
+            顶栏
+          </NavLink>
+        }
+        sidebarContent={
+          <Sidebar>
+            <NavLink href="#sidebar" label="侧栏">
+              侧栏
+            </NavLink>
+          </Sidebar>
+        }
+      >
+        <NavLink href="#main" label="正文">
+          正文
+        </NavLink>
+      </AppShell>,
+    )
+    const link = (href: string) => container.querySelector(`a[href="${href}"]`)!
+    const label = (href: string) => link(href).querySelector('[data-hn-label]')!
+    expect(label('#sidebar').getAttribute('data-collapsed')).toBe('')
+    expect(link('#sidebar').getAttribute('aria-label')).toBe('侧栏')
+    for (const href of ['#header', '#main']) {
+      expect(label(href).hasAttribute('data-collapsed')).toBe(false)
+      expect(label(href).hasAttribute('aria-hidden')).toBe(false)
+      expect(link(href).hasAttribute('aria-label')).toBe(false)
+    }
+  })
+
   it('无 header / 无侧栏的降级形态', () => {
     const { container } = render(
       <AppShell>

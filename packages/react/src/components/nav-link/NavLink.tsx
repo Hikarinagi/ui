@@ -11,7 +11,7 @@ import {
 import { cn } from '../../lib/cn'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { Tooltip } from '../tooltip/Tooltip'
-import { useSidebar } from '../sidebar/context'
+import { useInSidebar, useSidebar } from '../sidebar/context'
 import { navLink, navLinkLabel } from './nav-link.variants'
 import { resolveChild } from '../../lib/children'
 import { Slot } from '../../primitives/utils/slot'
@@ -36,7 +36,8 @@ export function NavLink({
   children,
   ...attrs
 }: NavLinkProps) {
-  const sidebar = useSidebar()
+  const context = useSidebar()
+  const sidebar = useInSidebar() ? context : null
   const rail = sidebar?.state === 'rail'
 
   const own = {

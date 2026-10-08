@@ -3,7 +3,7 @@
   import { cn } from '../../lib/cn'
   import { Passthrough } from '../../lib/passthrough'
   import Tooltip from '../tooltip/Tooltip.vue'
-  import { useSidebar } from '../sidebar/context'
+  import { useInSidebar, useSidebar } from '../sidebar/context'
   import { navLink, navLinkLabel } from './nav-link.variants'
   import type { PrimitiveProps } from '../../primitives/primitive'
   import { Primitive } from '../../primitives/primitive'
@@ -22,7 +22,7 @@
     { as: 'a', active: false, disabled: false },
   )
 
-  const sidebar = useSidebar()
+  const sidebar = useInSidebar() ? useSidebar() : null
   const rail = computed(() => sidebar?.state.value === 'rail')
 
   const Wrapper = sidebar ? Tooltip : Passthrough
