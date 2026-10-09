@@ -22,6 +22,35 @@ It is also the source of the sidebar's state. `Sidebar`, `SidebarGroup`, `Sideba
 
 The component is one viewport tall by default. A frame embedded within a page can override the height through `class`, which is what the examples on this page do.
 
+The main area is its own scroll container. A direct child of the default slot with `min-h-full` is at least as tall as the visible main area, with or without a banner. The header height is available as `--hn-app-shell-header-h` on the root element and can be read at any depth inside the shell.
+
+::: vue
+
+```vue
+<AppShell>
+  <template #header>…</template>
+  <div class="flex min-h-full flex-col">
+    <article class="flex-1">…</article>
+    <footer>…</footer>
+  </div>
+</AppShell>
+```
+
+:::
+
+::: react
+
+```tsx
+<AppShell header={…}>
+  <div className="flex min-h-full flex-col">
+    <article className="flex-1">…</article>
+    <footer>…</footer>
+  </div>
+</AppShell>
+```
+
+:::
+
 ## Examples {#examples}
 
 ### Collapsed form {#collapsible}
@@ -109,6 +138,12 @@ A [Banner](/components/banner) in the `banner` slot spans the whole shell. When 
 | Event         | Payload | Description                                                                                                               |
 | ------------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
 | `size-stable` | —       | The sidebar layout has settled after its state changes; interrupted transitions notify only when the final layout settles |
+
+### CSS variables {#css-variables}
+
+| Variable                  | Default              | Description                                                                                 |
+| ------------------------- | -------------------- | ------------------------------------------------------------------------------------------- |
+| `--hn-app-shell-header-h` | `calc(3.5rem + 1px)` | Header height including its bottom border; overriding it through `class` resizes the header |
 
 ### Slots {#slots}
 

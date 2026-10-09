@@ -119,7 +119,10 @@ export function AppShell({
       <LayoutTransitionProvider transitioning={transitioning}>
         <SidebarContext value={context}>
           <div
-            className={cn('bg-canvas text-fg flex h-screen flex-col overflow-hidden', className)}
+            className={cn(
+              'bg-canvas text-fg flex h-screen flex-col overflow-hidden [--hn-app-shell-header-h:calc(3.5rem+1px)]',
+              className,
+            )}
           >
             {hasContent(banner) && <div className="shrink-0">{banner}</div>}
             <div className="flex min-h-0 flex-1">
@@ -128,8 +131,8 @@ export function AppShell({
               )}
               <div className="flex min-h-0 min-w-0 flex-1 flex-col">
                 {hasContent(header) && (
-                  <header className="border-line bg-canvas shrink-0 border-b">
-                    <div className="flex h-14 items-center gap-3 px-4 sm:px-6">{header}</div>
+                  <header className="border-line bg-canvas h-(--hn-app-shell-header-h) shrink-0 border-b">
+                    <div className="flex h-full items-center gap-3 px-4 sm:px-6">{header}</div>
                   </header>
                 )}
                 <main className="min-h-0 min-w-0 flex-1">

@@ -134,7 +134,7 @@
   "asChild inside a rail sidebar": [
     "<!--[-->",
     "<!--[-->",
-    "<div class=\"bg-canvas text-fg flex h-screen flex-col overflow-hidden\">",
+    "<div class=\"bg-canvas text-fg flex h-screen flex-col overflow-hidden [--hn-app-shell-header-h:calc(3.5rem+1px)]\">",
     "  <!--v-if-->",
     "  <div class=\"flex min-h-0 flex-1\">",
     "    <div class=\"hidden h-full shrink-0 lg:block\">",
@@ -182,7 +182,7 @@
   "expanded sidebar keeps the label visible": [
     "<!--[-->",
     "<!--[-->",
-    "<div class=\"bg-canvas text-fg flex h-screen flex-col overflow-hidden\">",
+    "<div class=\"bg-canvas text-fg flex h-screen flex-col overflow-hidden [--hn-app-shell-header-h:calc(3.5rem+1px)]\">",
     "  <!--v-if-->",
     "  <div class=\"flex min-h-0 flex-1\">",
     "    <div class=\"hidden h-full shrink-0 lg:block\">",
@@ -236,7 +236,7 @@
   "rail sidebar hides the label and names the link": [
     "<!--[-->",
     "<!--[-->",
-    "<div class=\"bg-canvas text-fg flex h-screen flex-col overflow-hidden\">",
+    "<div class=\"bg-canvas text-fg flex h-screen flex-col overflow-hidden [--hn-app-shell-header-h:calc(3.5rem+1px)]\">",
     "  <!--v-if-->",
     "  <div class=\"flex min-h-0 flex-1\">",
     "    <div class=\"hidden h-full shrink-0 lg:block\">",
@@ -317,7 +317,7 @@
   "hidden sidebar keeps the label markup": [
     "<!--[-->",
     "<!--[-->",
-    "<div class=\"bg-canvas text-fg flex h-screen flex-col overflow-hidden\">",
+    "<div class=\"bg-canvas text-fg flex h-screen flex-col overflow-hidden [--hn-app-shell-header-h:calc(3.5rem+1px)]\">",
     "  <!--v-if-->",
     "  <div class=\"flex min-h-0 flex-1\">",
     "    <div class=\"hidden h-full shrink-0 lg:block\">",

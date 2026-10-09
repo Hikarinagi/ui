@@ -70,7 +70,14 @@
 
 <template>
   <TooltipProvider>
-    <div :class="cn('bg-canvas text-fg flex h-screen flex-col overflow-hidden', props.class)">
+    <div
+      :class="
+        cn(
+          'bg-canvas text-fg flex h-screen flex-col overflow-hidden [--hn-app-shell-header-h:calc(3.5rem+1px)]',
+          props.class,
+        )
+      "
+    >
       <div v-if="$slots.banner" class="shrink-0">
         <slot name="banner" />
       </div>
@@ -79,8 +86,11 @@
           <slot name="sidebar" />
         </div>
         <div class="flex min-h-0 min-w-0 flex-1 flex-col">
-          <header v-if="$slots.header" class="border-line bg-canvas shrink-0 border-b">
-            <div class="flex h-14 items-center gap-3 px-4 sm:px-6">
+          <header
+            v-if="$slots.header"
+            class="border-line bg-canvas h-(--hn-app-shell-header-h) shrink-0 border-b"
+          >
+            <div class="flex h-full items-center gap-3 px-4 sm:px-6">
               <slot name="header" />
             </div>
           </header>

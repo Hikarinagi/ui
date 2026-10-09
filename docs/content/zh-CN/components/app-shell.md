@@ -22,6 +22,35 @@ import { AppShell } from '@hina-ui/vue'
 
 组件默认高度为一屏。嵌在页面中的局部框架可以用 `class` 覆盖高度，本页示例用的就是这个办法。
 
+主区域是独立的滚动容器。默认插槽的直接子元素加上 `min-h-full`，就至少占满主区域的可视高度，有公告条时也成立。顶部条的高度由根元素上的 `--hn-app-shell-header-h` 给出，壳内任意层级都可以读取。
+
+::: vue
+
+```vue
+<AppShell>
+  <template #header>…</template>
+  <div class="flex min-h-full flex-col">
+    <article class="flex-1">…</article>
+    <footer>…</footer>
+  </div>
+</AppShell>
+```
+
+:::
+
+::: react
+
+```tsx
+<AppShell header={…}>
+  <div className="flex min-h-full flex-col">
+    <article className="flex-1">…</article>
+    <footer>…</footer>
+  </div>
+</AppShell>
+```
+
+:::
+
 ## 示例 {#examples}
 
 ### 收起方式 {#collapsible}
@@ -109,6 +138,12 @@ import { AppShell } from '@hina-ui/vue'
 | 事件          | 参数 | 说明                                                           |
 | ------------- | ---- | -------------------------------------------------------------- |
 | `size-stable` | —    | 侧栏状态变化后的布局已稳定；中途反向切换只在最终布局稳定后通知 |
+
+### CSS 变量 {#css-variables}
+
+| 变量                      | 默认值               | 说明                                                      |
+| ------------------------- | -------------------- | --------------------------------------------------------- |
+| `--hn-app-shell-header-h` | `calc(3.5rem + 1px)` | 顶部条的高度，含下边线；在 `class` 中改写会同时改变顶部条 |
 
 ### Slots {#slots}
 
