@@ -10,6 +10,9 @@ async function toggle(label: string) {
   await vi.waitFor(() => {
     if (document.querySelector('button')?.textContent?.trim() !== label)
       throw new Error('toggle not ready')
+    const content = document.querySelector<HTMLElement>('.hn-line-clamp')!
+    if (content.hasAttribute('data-animating') || content.style.maxHeight)
+      throw new Error('still animating')
   })
   await frames()
 }

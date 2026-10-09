@@ -15,6 +15,15 @@ afterEach(() => {
   document.body.innerHTML = ''
 })
 
+async function settled(content: HTMLElement) {
+  await vi.waitFor(() => {
+    expect(content.hasAttribute('data-animating')).toBe(false)
+    expect(content.style.maxHeight).toBe('')
+  })
+}
+
+const frame = () => new Promise<void>(done => requestAnimationFrame(() => done()))
+
 function setup(props: Record<string, unknown> = {}, slot: () => unknown = () => long, width = 320) {
   const host = document.createElement('div')
   host.style.width = `${width}px`
@@ -26,6 +35,7 @@ function setup(props: Record<string, unknown> = {}, slot: () => unknown = () => 
     w,
     host,
     content,
+    settled: () => settled(content()),
     button: () => w.element.querySelector('button'),
     lines: () => {
       const target = (content().querySelector('p') ?? content()) as HTMLElement
@@ -46,15 +56,17 @@ describe('LineClamp', () => {
     expect(button.getAttribute('aria-controls')).toBe(s.content().id)
 
     await userEvent.click(button)
-    expect(s.content().scrollHeight).toBe(s.content().clientHeight)
-    expect(s.lines()).toBeGreaterThan(3)
     expect(s.button()!.textContent?.trim()).toBe('收起')
     expect(s.button()!.getAttribute('aria-expanded')).toBe('true')
     expect(s.w.emitted('update:expanded')).toEqual([[true]])
+    await s.settled()
+    expect(s.content().scrollHeight).toBe(s.content().clientHeight)
+    expect(s.lines()).toBeGreaterThan(3)
 
     await userEvent.click(s.button()!)
-    expect(s.lines()).toBe(3)
     expect(s.button()!.textContent?.trim()).toBe('展开全部')
+    await s.settled()
+    expect(s.lines()).toBe(3)
   })
 
   it('内容不超过行数时不显示按钮', async () => {
@@ -62,6 +74,88 @@ describe('LineClamp', () => {
     await nextTick()
     expect(s.button()).toBeNull()
     expect(s.lines()).toBe(1)
+    expect(getComputedStyle(s.content()).maskImage).toBe('none')
+  })
+
+  it('折叠时底部渐隐,展开稳定后移除遮罩', async () => {
+    const s = setup()
+    await nextTick()
+    const style = () => getComputedStyle(s.content())
+    expect(style().maskImage).toContain('linear-gradient')
+    expect(style().getPropertyValue('--hn-line-clamp-fade')).toBe('36px')
+
+    await userEvent.click(s.button()!)
+    await s.settled()
+    expect(style().maskImage).toBe('none')
+    expect(style().getPropertyValue('--hn-line-clamp-fade')).toBe('0px')
+
+    const single = setup({ lines: 1 })
+    await nextTick()
+    expect(getComputedStyle(single.content()).getPropertyValue('--hn-line-clamp-fade')).toBe(
+      '14.4px',
+    )
+  })
+
+  it('展开与收起经过高度过渡,渐隐随之淡出与淡入', async () => {
+    const s = setup()
+    await nextTick()
+    const collapsed = s.content().clientHeight
+    const full = s.content().scrollHeight
+    async function sample() {
+      const heights: number[] = []
+      const fades: number[] = []
+      while (s.content().hasAttribute('data-animating')) {
+        heights.push(s.content().getBoundingClientRect().height)
+        fades.push(
+          parseFloat(getComputedStyle(s.content()).getPropertyValue('--hn-line-clamp-fade')),
+        )
+        await frame()
+      }
+      return { heights, fades }
+    }
+    const between = (value: number, low: number, high: number) =>
+      value > low + 1 && value < high - 1
+
+    await userEvent.click(s.button()!)
+    expect(s.content().hasAttribute('data-animating')).toBe(true)
+    const opening = await sample()
+    expect(opening.heights.some(height => between(height, collapsed, full))).toBe(true)
+    expect(opening.fades.some(fade => between(fade, 0, 36))).toBe(true)
+    expect(getComputedStyle(s.content()).maskImage).toBe('none')
+    expect(s.content().clientHeight).toBe(full)
+
+    await userEvent.click(s.button()!)
+    expect(s.content().hasAttribute('data-animating')).toBe(true)
+    const closing = await sample()
+    expect(closing.heights.some(height => between(height, collapsed, full))).toBe(true)
+    expect(closing.fades.some(fade => between(fade, 0, 36))).toBe(true)
+    expect(s.content().clientHeight).toBe(collapsed)
+    expect(getComputedStyle(s.content()).maskImage).toContain('linear-gradient')
+  })
+
+  it('过渡途中再次点击,从当前高度折回并停在折叠状态', async () => {
+    const s = setup()
+    await nextTick()
+    const collapsed = s.content().clientHeight
+    await userEvent.click(s.button()!)
+    await vi.waitFor(() =>
+      expect(s.content().getBoundingClientRect().height).toBeGreaterThan(collapsed + 20),
+    )
+    const turning = s.content().getBoundingClientRect().height
+    expect(s.content().hasAttribute('data-animating')).toBe(true)
+    s.button()!.click()
+    await nextTick()
+    const heights: number[] = []
+    while (s.content().hasAttribute('data-animating')) {
+      heights.push(s.content().getBoundingClientRect().height)
+      await frame()
+    }
+    expect(Math.max(...heights)).toBeLessThanOrEqual(turning + 60)
+    expect(heights.at(-1)).toBeLessThan(heights[0]!)
+    expect(s.button()!.textContent?.trim()).toBe('展开全部')
+    await s.settled()
+    expect(s.content().clientHeight).toBe(collapsed)
+    expect(s.content().hasAttribute('data-expanded')).toBe(false)
   })
 
   it('包住 Text 等块级内容时按内部的行高折叠', async () => {
@@ -132,10 +226,11 @@ describe('LineClamp', () => {
     const content = w.element.firstElementChild as HTMLElement
     expanded.value = true
     await nextTick()
+    await settled(content)
     expect(content.scrollHeight).toBe(content.clientHeight)
     await userEvent.click(w.get('button').element)
     expect(expanded.value).toBe(false)
-    await nextTick()
+    await settled(content)
     expect(content.scrollHeight).toBeGreaterThan(content.clientHeight)
   })
 
@@ -187,6 +282,7 @@ describe('LineClamp', () => {
     const rules = { region: { enabled: false }, 'color-contrast': { enabled: false } }
     expect((await axe.run(s.host, { rules })).violations).toEqual([])
     await userEvent.click(s.button()!)
+    await s.settled()
     expect((await axe.run(s.host, { rules })).violations).toEqual([])
   })
 })

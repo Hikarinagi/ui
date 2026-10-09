@@ -5,12 +5,5 @@ export const lineClampRoot = tv({
 })
 
 export const lineClampContent = tv({
-  base: 'w-full min-w-0',
-  variants: {
-    clamped: {
-      true: 'line-clamp-(--hn-line-clamp)',
-      false: '',
-    },
-  },
-  defaultVariants: { clamped: true },
+  base: 'hn-line-clamp w-full min-w-0',
 })

@@ -13,9 +13,12 @@ import { cn } from '../../lib/cn'
 import { useUiLocale } from '../../locale'
 import { Button } from '../button/Button'
 import {
+  animateLineClamp,
   lineClampCount,
+  lineClampSize,
   measureLineClamp,
   revealLineClamp,
+  type LineClampMeasure,
 } from '../../../../shared/src/lib/line-clamp'
 import { lineClampContent, lineClampRoot } from './line-clamp.variants'
 import { useComposedRefs } from '../../primitives/utils/compose-refs'
@@ -31,8 +34,6 @@ export interface LineClampProps extends HTMLAttributes<HTMLDivElement> {
   collapseLabel?: string
   ref?: Ref<HTMLDivElement>
 }
-
-const clampClass = lineClampContent({ clamped: true })
 
 export function LineClamp({
   lines,
@@ -51,7 +52,7 @@ export function LineClamp({
   const root = useRef<HTMLDivElement>(null)
   const composedRef = useComposedRefs(ref, root)
   const content = useRef<HTMLDivElement>(null)
-  const [truncated, setTruncated] = useState(false)
+  const [measured, setMeasured] = useState<LineClampMeasure | null>(null)
   const [expanded = false, setExpanded] = useControllableState({
     prop: expandedProp,
     defaultProp: defaultExpanded,
@@ -59,13 +60,33 @@ export function LineClamp({
     caller: 'LineClamp',
   })
   const count = lineClampCount(lines)
-  const collapsing = useRef(false)
+  const shown = useRef(expanded)
+  const reveal = useRef(false)
+  const stop = useRef<(() => void) | undefined>(undefined)
 
   function measure() {
-    if (content.current) setTruncated(measureLineClamp(content.current, clampClass))
+    if (!content.current) return
+    const next = measureLineClamp(content.current)
+    if (!next) return
+    setMeasured(current =>
+      current?.size === next.size && current.truncated === next.truncated ? current : next,
+    )
   }
 
-  useLayoutEffect(measure)
+  useLayoutEffect(() => {
+    const element = content.current
+    if (element && shown.current !== expanded) {
+      shown.current = expanded
+      const scroll = reveal.current && !expanded
+      reveal.current = false
+      stop.current?.()
+      stop.current = animateLineClamp(element, expanded, () => {
+        measure()
+        if (scroll) revealLineClamp(root.current)
+      })
+    }
+    measure()
+  })
 
   useEffect(() => {
     const element = content.current
@@ -73,17 +94,14 @@ export function LineClamp({
     const observer = new ResizeObserver(measure)
     observer.observe(element)
     void document.fonts?.ready.then(measure)
-    return () => observer.disconnect()
+    return () => {
+      observer.disconnect()
+      stop.current?.()
+    }
   }, [])
 
-  useEffect(() => {
-    if (expanded || !collapsing.current) return
-    collapsing.current = false
-    revealLineClamp(root.current)
-  }, [expanded])
-
   function toggle() {
-    collapsing.current = expanded
+    reveal.current = expanded
     setExpanded(!expanded)
   }
 
@@ -93,12 +111,18 @@ export function LineClamp({
         id={id}
         ref={content}
         data-expanded={expanded ? '' : undefined}
-        style={{ '--hn-line-clamp': count } as CSSProperties}
-        className={lineClampContent({ clamped: !expanded })}
+        data-truncated={measured?.truncated ? '' : undefined}
+        style={
+          {
+            '--hn-line-clamp': count,
+            '--hn-line-clamp-size': lineClampSize(measured),
+          } as CSSProperties
+        }
+        className={lineClampContent()}
       >
         {children}
       </div>
-      {truncated && (
+      {measured?.truncated && (
         <Button
           variant="link"
           size="sm"

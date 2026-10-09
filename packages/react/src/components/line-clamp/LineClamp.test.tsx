@@ -16,7 +16,7 @@ describe('LineClamp', () => {
     expect(root.classList.contains('max-w-md')).toBe(true)
     expect(content.textContent).toBe('简介')
     expect(content.style.getPropertyValue('--hn-line-clamp')).toBe('3')
-    expect(content.classList.contains('line-clamp-(--hn-line-clamp)')).toBe(true)
+    expect(content.classList.contains('hn-line-clamp')).toBe(true)
     expect(content.hasAttribute('data-expanded')).toBe(false)
   })
 
@@ -29,10 +29,11 @@ describe('LineClamp', () => {
     expect(value(Number.NaN)).toBe('3')
   })
 
-  it('展开时去掉折叠类并标出 data-expanded', () => {
+  it('展开时标出 data-expanded,量到溢出之前不带 data-truncated', () => {
     const { content } = mount({ defaultExpanded: true })
-    expect(content.classList.contains('line-clamp-(--hn-line-clamp)')).toBe(false)
     expect(content.getAttribute('data-expanded')).toBe('')
+    expect(content.hasAttribute('data-truncated')).toBe(false)
+    expect(content.style.getPropertyValue('--hn-line-clamp-size')).toBe('')
   })
 
   it('量不到溢出时不渲染按钮,其余属性落在根元素', () => {

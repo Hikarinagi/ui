@@ -1,0 +1,38 @@
+@property --hn-line-clamp-fade {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+.hn-line-clamp {
+  max-height: var(--hn-line-clamp-size, calc(var(--hn-line-clamp, 3) * 1lh));
+  overflow: hidden;
+}
+
+.hn-line-clamp[data-expanded] {
+  max-height: none;
+}
+
+.hn-line-clamp[data-truncated]:not([data-expanded]) {
+  --hn-line-clamp-fade: min(1.5lh, calc(var(--hn-line-clamp, 3) * 0.6lh));
+}
+
+.hn-line-clamp[data-truncated]:not([data-expanded]),
+.hn-line-clamp[data-truncated][data-animating] {
+  mask-image: linear-gradient(to bottom, #000 calc(100% - var(--hn-line-clamp-fade)), transparent);
+}
+
+.hn-line-clamp[data-animating] {
+  transition:
+    max-height var(--hn-duration-base) var(--hn-ease-move),
+    --hn-line-clamp-fade var(--hn-duration-base) var(--hn-ease-move);
+}
+
+.hn-line-clamp[data-measuring] {
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--hn-line-clamp, 3);
+  max-height: none !important;
+  mask-image: none;
+  transition: none !important;
+}

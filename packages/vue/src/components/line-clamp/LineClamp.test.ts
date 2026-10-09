@@ -15,7 +15,7 @@ describe('LineClamp', () => {
     const inner = w.element.firstElementChild as HTMLElement
     expect(inner.textContent).toBe('简介')
     expect(lines(inner)).toBe('3')
-    expect(inner.classList.contains('line-clamp-(--hn-line-clamp)')).toBe(true)
+    expect(inner.classList.contains('hn-line-clamp')).toBe(true)
     expect(inner.hasAttribute('data-expanded')).toBe(false)
   })
 
@@ -26,10 +26,11 @@ describe('LineClamp', () => {
     expect(lines(content({ lines: Number.NaN }))).toBe('3')
   })
 
-  it('展开时去掉折叠类并标出 data-expanded', () => {
+  it('展开时标出 data-expanded,量到溢出之前不带 data-truncated', () => {
     const inner = content({ expanded: true })
-    expect(inner.classList.contains('line-clamp-(--hn-line-clamp)')).toBe(false)
     expect(inner.getAttribute('data-expanded')).toBe('')
+    expect(inner.hasAttribute('data-truncated')).toBe(false)
+    expect(inner.style.getPropertyValue('--hn-line-clamp-size')).toBe('')
   })
 
   it('量不到溢出时不渲染按钮', () => {

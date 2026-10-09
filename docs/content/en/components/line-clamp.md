@@ -14,7 +14,7 @@ links:
 import { LineClamp } from '@hina-ui/vue'
 ```
 
-Put the content in the default slot. Anything past three lines is folded away, the last line ends in an ellipsis and a "Show all" button appears below; once expanded the button reads "Show less". Content that fits within the line count gets no button.
+Put the content in the default slot. Anything past three lines is folded away, the folded edge fades out at the bottom and a "Show all" button appears below; once expanded the button reads "Show less". Content that fits within the line count gets no button.
 
 ::: vue
 
@@ -74,7 +74,9 @@ The button text defaults to `lineClamp.expand` and `lineClamp.collapse` of the U
 
 - The button renders only when the content really exceeds `lines` lines, as measured after mounting; server output has no button.
 - The component measures again when the container width, the content or `lines` changes, and once more when fonts finish loading. The button appears or disappears with the result, including "Show less" while expanded.
-- After folding through the button, the component scrolls back into view.
+- Expanding and folding animate the height, and the fade at the bottom fades out and in with it; toggling again mid-transition turns back from the current height. With reduced motion enabled in the system, no transition plays.
+- The fade is a mask and does not depend on the background colour; it covers at most 1.5 lines and is shortened in proportion for small line counts. The mask is removed once the expanded state settles.
+- After folding through the button, the component scrolls back into view when the transition ends.
 - Folding only clips what is shown; the full content stays in the DOM.
 
 ## Accessibility {#a11y}
