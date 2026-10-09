@@ -228,6 +228,8 @@ Control height, padding and spacing all come from the density variables, which d
 
 ## Language {#locale}
 
+Three message packs are built in: `zhCN`, `enUS` and `jaJP`. `zhCN` is the default.
+
 ::: vue
 
 ```ts

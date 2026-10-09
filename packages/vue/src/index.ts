@@ -5,7 +5,7 @@ export type { VariantProps } from './lib/tv'
 export { EASE, DURATION, TRAVEL, STAGGER, TRANSITION, cssEase } from './motion'
 export type { Bezier, TransitionName } from './motion'
 
-export { provideUiLocale, useUiLocale, zhCN, enUS } from './locale'
+export { provideUiLocale, useUiLocale, zhCN, enUS, jaJP } from './locale'
 export type { UiMessages, PartialUiMessages } from './locale'
 
 export { REQUIRED_SINGLETONS } from './singletons'
