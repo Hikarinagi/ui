@@ -306,11 +306,15 @@ export {
   readScrollRecord,
   writeScrollRecord,
   createScrollRestorer,
+  createScrollRestoreSession,
+  scrollRestoreScript,
 } from './components/scroll-area/scroll-restore'
 export type {
   ScrollRecord,
   ScrollRestorer,
   ScrollRestorerPorts,
+  ScrollRestoreSession,
+  ScrollRestoreSessionOptions,
 } from './components/scroll-area/scroll-restore'
 
 export { default as DataTable } from './components/data-table/DataTable.vue'

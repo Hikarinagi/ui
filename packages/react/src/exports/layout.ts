@@ -22,11 +22,15 @@ export {
   readScrollRecord,
   writeScrollRecord,
   createScrollRestorer,
+  createScrollRestoreSession,
+  scrollRestoreScript,
 } from '../../../shared/src/lib/scroll-restore'
 export type {
   ScrollRecord,
   ScrollRestorer,
   ScrollRestorerPorts,
+  ScrollRestoreSession,
+  ScrollRestoreSessionOptions,
 } from '../../../shared/src/lib/scroll-restore'
 export { Grid } from '../components/grid/Grid'
 export type { GridProps } from '../components/grid/Grid'

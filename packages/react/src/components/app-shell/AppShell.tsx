@@ -1,6 +1,13 @@
 'use client'
 
-import { useImperativeHandle, useMemo, useRef, type ReactNode, type Ref } from 'react'
+import {
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useSyncExternalStore,
+  type ReactNode,
+  type Ref,
+} from 'react'
 import { cn } from '../../lib/cn'
 import { hasContent } from '../../lib/content'
 import { LayoutTransitionProvider } from '../../lib/layout-stability'
@@ -12,8 +19,13 @@ import { DrawerScope } from '../sidebar/DrawerScope'
 import { SidebarContext, type SidebarContextValue, type SidebarState } from '../sidebar/context'
 import { useDesktopQuery } from './hooks/useDesktopQuery'
 import { useLocationChange } from './hooks/useLocationChange'
+import { useScrollRestore } from './hooks/useScrollRestore'
 import { useSidebarScrollUpdates } from './hooks/useSidebarScrollUpdates'
 import { useControllableState } from '../../primitives/utils/controllable-state'
+import { scrollRestoreScript } from '../../../../shared/src/lib/scroll-restore'
+
+const restoreScript = scrollRestoreScript()
+const never = () => () => {}
 
 export interface AppShellHandle {
   readonly mainViewport: HTMLElement | undefined
@@ -73,6 +85,12 @@ export function AppShell({
     caller: 'AppShell',
   })
   const main = useRef<ScrollAreaHandle>(null)
+  const hydrating = useSyncExternalStore(
+    never,
+    () => false,
+    () => true,
+  )
+  useScrollRestore(restoreKey, main)
 
   useImperativeHandle(
     ref,
@@ -139,6 +157,9 @@ export function AppShell({
                   <ScrollArea ref={main} data-scroll-restore={restoreKey} className="h-full">
                     {children}
                   </ScrollArea>
+                  {restoreKey && hydrating && (
+                    <script dangerouslySetInnerHTML={{ __html: restoreScript }} />
+                  )}
                 </main>
               </div>
             </div>

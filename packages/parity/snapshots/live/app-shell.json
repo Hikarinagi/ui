@@ -134,6 +134,7 @@
     "            <!--v-if-->",
     "            <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
     "            <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
+    "          <!--v-if-->",
     "    <!--v-if-->",
     "    <!--teleport start-->",
     "    <!--teleport end-->",
@@ -331,6 +332,7 @@
     "            <!--v-if-->",
     "            <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
     "            <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
+    "          <!--v-if-->",
     "    <!--v-if-->",
     "    <!--teleport start-->",
     "    <!--teleport end-->",
@@ -528,6 +530,7 @@
     "            <!--v-if-->",
     "            <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
     "            <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
+    "          <!--v-if-->",
     "    <!--v-if-->",
     "    <!--teleport start-->",
     "    <!--teleport end-->",
@@ -713,6 +716,7 @@
     "            <!--v-if-->",
     "            <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
     "            <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
+    "          <!--v-if-->",
     "<!---->",
     "<!---->",
     "<div data-parity-focus=\"button  切换侧栏\">"
@@ -852,6 +856,7 @@
     "            <!--v-if-->",
     "            <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
     "            <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
+    "          <!--v-if-->",
     "<!---->",
     "<!---->",
     "<div data-parity-focus=\"button  切换侧栏\">"
@@ -991,6 +996,7 @@
     "            <!--v-if-->",
     "            <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
     "            <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
+    "          <!--v-if-->",
     "    <!--v-if-->",
     "    <!--teleport start-->",
     "    <!--teleport end-->",
@@ -1138,6 +1144,7 @@
     "            <!--v-if-->",
     "            <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
     "            <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
+    "          <!--v-if-->",
     "    <!--v-if-->"
   ],
   "desktop banner, header and sidebar": [
@@ -1275,6 +1282,7 @@
     "            <!--v-if-->",
     "            <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
     "            <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\" data-visible=\"\">",
+    "          <!--v-if-->",
     "<!---->",
     "<!---->"
   ],
@@ -1413,6 +1421,7 @@
     "            <!--v-if-->",
     "            <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
     "            <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\" data-visible=\"\">",
+    "          <!--v-if-->",
     "<!---->",
     "<!---->"
   ],
@@ -1551,6 +1560,7 @@
     "            <!--v-if-->",
     "            <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
     "            <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\" data-visible=\"\">",
+    "          <!--v-if-->",
     "<!---->",
     "<!---->"
   ],
@@ -1639,6 +1649,7 @@
     "            <!--v-if-->",
     "            <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
     "            <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
+    "          <!--v-if-->",
     "    <!--v-if-->"
   ]
 }

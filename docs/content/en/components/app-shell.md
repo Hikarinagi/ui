@@ -105,7 +105,9 @@ A [Banner](/components/banner) in the `banner` slot spans the whole shell. When 
 - The mobile [Drawer](/components/drawer) has no extra title bar. Its close button sits in the [Sidebar](/components/sidebar) header by default; set `:closable="false"` on `Sidebar` to hide it. `mobileTitle` only sets the accessible name and defaults to the interface language.
 - The sidebar fills the drawer height. Its header and footer stay at either end while the navigation fills the remaining space and scrolls independently.
 - With `autoClose` on, a route change closes the drawer so it does not stay in front of the content after navigating. It is on by default.
-- `restoreKey` is placed on the main area's scroll container for scroll-position restoration.
+- With `restoreKey` set, the component saves and restores the scroll position of the main area by itself: the position is written to `history.state` per history entry, restored on reload, back and forward, and a new page starts at the top or, with a `#hash`, at that element. Several shells on one page take different keys.
+- Server output carries an inline script that sets the position before activation, so a reload does not show the top first. Where the content security policy forbids inline scripts, the script does not run and the position is restored after activation.
+- Restoration does not depend on a particular router: page changes are detected from history changes and from updates to the main content, and it waits up to 3 seconds for content that is not tall enough yet.
 - A tooltip provider is built in, so the hover hints a rail sidebar shows need no extra wrapper.
 
 ## Accessibility {#a11y}
@@ -118,13 +120,13 @@ A [Banner](/components/banner) in the `banner` slot spans the whole shell. When 
 
 ### Props {#props}
 
-| Prop          | Type                 | Default            | Description                                                |
-| ------------- | -------------------- | ------------------ | ---------------------------------------------------------- |
-| `collapsible` | `'rail' \| 'hidden'` | `'rail'`           | What the sidebar collapses to on desktop                   |
-| `autoClose`   | `boolean`            | `true`             | Whether a route change closes the mobile drawer            |
-| `mobileTitle` | `string`             | Interface language | Accessible name of the mobile drawer; no visible title bar |
-| `restoreKey`  | `string`             | —                  | Scroll-restoration key for the main area                   |
-| `class`       | `string`             | —                  | Classes appended to the root                               |
+| Prop          | Type                 | Default            | Description                                                                                         |
+| ------------- | -------------------- | ------------------ | --------------------------------------------------------------------------------------------------- |
+| `collapsible` | `'rail' \| 'hidden'` | `'rail'`           | What the sidebar collapses to on desktop                                                            |
+| `autoClose`   | `boolean`            | `true`             | Whether a route change closes the mobile drawer                                                     |
+| `mobileTitle` | `string`             | Interface language | Accessible name of the mobile drawer; no visible title bar                                          |
+| `restoreKey`  | `string`             | —                  | Saves and restores the scroll position of the main area; the value identifies this scroll container |
+| `class`       | `string`             | —                  | Classes appended to the root                                                                        |
 
 ### Two-way bindings {#models}
 

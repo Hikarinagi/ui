@@ -18,9 +18,6 @@
 
   const current = (to: string) => route.path === localePath(to)
 
-  const shell = shallowRef<InstanceType<typeof AppShell>>()
-  useScrollRestore('main', () => shell.value?.mainArea)
-
   const drawerOpen = ref(false)
   useNuxtApp().hook('page:finish', () => {
     drawerOpen.value = false
@@ -29,7 +26,6 @@
 
 <template>
   <AppShell
-    ref="shell"
     v-model:mobile-open="drawerOpen"
     :auto-close="false"
     collapsible="hidden"

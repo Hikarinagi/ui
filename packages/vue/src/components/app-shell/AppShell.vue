@@ -1,5 +1,14 @@
 <script setup lang="ts">
-  import { computed, getCurrentInstance, shallowRef, watch } from 'vue'
+  import {
+    computed,
+    getCurrentInstance,
+    h,
+    inject,
+    onMounted,
+    shallowRef,
+    ssrContextKey,
+    watch,
+  } from 'vue'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
   import ScrollArea from '../scroll-area/ScrollArea.vue'
@@ -7,6 +16,10 @@
   import Drawer from '../drawer/Drawer.vue'
   import DrawerScope from '../sidebar/DrawerScope'
   import { provideSidebar, type SidebarState } from '../sidebar/context'
+  import {
+    createScrollRestoreSession,
+    scrollRestoreScript,
+  } from '../../../../shared/src/lib/scroll-restore'
   import { useDesktopQuery } from './composables/useDesktopQuery'
   import { useSidebarScrollUpdates } from './composables/useSidebarScrollUpdates'
 
@@ -56,6 +69,32 @@
     onTransitionRun,
   })
 
+  const RestoreScript = () => h('script', { innerHTML: scrollRestoreScript() })
+  const scripted = shallowRef(!!inject(ssrContextKey, null) || !!getCurrentInstance()?.vnode.el)
+  onMounted(() => {
+    scripted.value = false
+  })
+
+  let restoredKey: string | undefined
+  watch(
+    () => [props.restoreKey, main.value?.instance] as const,
+    ([key, instance], _previous, onCleanup) => {
+      if (!key || !instance) return
+      const { viewport, target } = instance.elements()
+      const session = createScrollRestoreSession({
+        key,
+        viewport,
+        target,
+        initial: restoredKey === undefined || restoredKey === key,
+        onUpdated: listener => instance.on('updated', listener),
+        onScroll: listener => instance.on('scroll', listener),
+      })
+      restoredKey = key
+      onCleanup(() => session.dispose())
+    },
+    { immediate: true, flush: 'post' },
+  )
+
   type Navigable = { currentRoute?: { value?: { fullPath?: string } } }
   const router = getCurrentInstance()?.appContext.config.globalProperties.$router as
     Navigable | undefined
@@ -98,6 +137,7 @@
             <ScrollArea ref="main" :data-scroll-restore="props.restoreKey" class="h-full">
               <slot />
             </ScrollArea>
+            <RestoreScript v-if="props.restoreKey && scripted" />
           </main>
         </div>
       </div>

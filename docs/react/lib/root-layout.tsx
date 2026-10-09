@@ -3,7 +3,6 @@ import type { ReactNode } from 'react'
 import { JetBrains_Mono, Noto_Sans, Noto_Sans_SC } from 'next/font/google'
 import { BannerScript } from '~/components/BannerScript'
 import { DocsShell } from '~/components/DocsShell'
-import { ScrollRestoreScript } from '~/components/ScrollRestoreScript'
 import { Github } from '~/components/Github'
 import { LocaleToggle } from '~/components/LocaleToggle'
 import { Search } from '~/components/Search'
@@ -60,7 +59,6 @@ export function DocsRoot({ locale, children }: { locale: Locale; children: React
         >
           {children}
         </DocsShell>
-        <ScrollRestoreScript />
       </body>
     </html>
   )
