@@ -76,11 +76,15 @@ With `inline` the panel is no longer wrapped in an overlay and renders in the do
 
 With an empty search the example lists recent and popular searches. Those items set `closeOnSelect: false` and, in `onSelect`, write their own text into the search text bound with `v-model:search`; the `select` event can do the same. Once there is search text, the listed results close the panel when selected.
 
+The `#heading` slot replaces the content of a group's heading row and receives `{ group }`. The heading row sits outside the option list: a button in it is reachable with Tab, and clicking it leaves focus in the input. The group's accessible name stays `group.label`, and the slot also works with `virtualize`. The example puts a clear button at the end of the recent searches heading.
+
 :::
 
 ::: react
 
 With an empty search the example lists recent and popular searches. Those items set `closeOnSelect: false` and, in their `onSelect`, write their own text into the state behind `search` / `onSearchChange`; the component's `onSelect` can do the same. Once there is search text, the listed results close the panel when selected.
+
+`renderHeading` replaces the content of a group's heading row and receives `{ group }`. The heading row sits outside the option list: a button in it is reachable with Tab, and clicking it leaves focus in the input. The group's accessible name stays `group.label`, and it also works with `virtualize`. The example puts a clear button at the end of the recent searches heading.
 
 :::
 
@@ -207,6 +211,7 @@ The `#input` slot replaces the whole input row, the search icon and the input in
 | --------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------- |
 | default   | —                                                           | The trigger                                                                        |
 | `item`    | `{ item: CommandItem<T>, match: CommandItemMatch \| null }` | Content inside an item row; replaces the default icon, label, description and hint |
+| `heading` | `{ group: CommandGroup<T> }`                                | Content of a group's heading row, replacing the default group name                 |
 | `input`   | —                                                           | The input row; replaces the search icon and the input                              |
 | `loading` | —                                                           | The loading content; defaults to text from the locale                              |
 | `empty`   | `{ search: string }`                                        | Content shown with no items and not loading; defaults to text from the locale      |
@@ -241,13 +246,13 @@ A group is `{ label: string; items: CommandItem<T>[] }`, and `CommandItems<T>` i
 
 ::: vue
 
-The `CommandItem<T>`, `CommandGroup<T>`, `CommandItems<T>`, `CommandItemMatch`, `CommandItemSlotProps<T>` and `CommandEmptySlotProps` types are exported from the package entry.
+The `CommandItem<T>`, `CommandGroup<T>`, `CommandItems<T>`, `CommandItemMatch`, `CommandItemSlotProps<T>`, `CommandHeadingSlotProps<T>` and `CommandEmptySlotProps` types are exported from the package entry.
 
 :::
 
 ::: react
 
-The `CommandItem<T>`, `CommandGroup<T>`, `CommandItems<T>`, `CommandItemMatch`, `CommandItemRenderProps<T>` and `CommandEmptyRenderProps` types are exported from the package entry.
+The `CommandItem<T>`, `CommandGroup<T>`, `CommandItems<T>`, `CommandItemMatch`, `CommandItemRenderProps<T>`, `CommandHeadingRenderProps<T>` and `CommandEmptyRenderProps` types are exported from the package entry.
 
 :::
 

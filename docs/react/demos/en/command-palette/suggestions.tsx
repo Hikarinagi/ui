@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Button, CommandPalette, type CommandItem, type CommandItems } from '@hina-ui/react'
 
-const recent = ['Spice and Wolf', 'Keiichi Sigsawa']
+const initial = ['Spice and Wolf', 'Keiichi Sigsawa']
 const hot = ['Hyouka', 'Book Girl']
 
 const books: CommandItem[] = [
@@ -15,6 +15,7 @@ const books: CommandItem[] = [
 
 export default function Demo() {
   const [search, setSearch] = useState('')
+  const [recent, setRecent] = useState(initial)
 
   function suggest(text: string): CommandItem {
     return { id: text, label: text, closeOnSelect: false, onSelect: () => setSearch(text) }
@@ -23,7 +24,7 @@ export default function Demo() {
   const items: CommandItems = search.trim()
     ? books
     : [
-        { label: 'Recent searches', items: recent.map(suggest) },
+        ...(recent.length ? [{ label: 'Recent searches', items: recent.map(suggest) }] : []),
         { label: 'Popular searches', items: hot.map(suggest) },
       ]
 
@@ -33,6 +34,16 @@ export default function Demo() {
       onSearchChange={setSearch}
       items={items}
       placeholder="Search by title or author"
+      renderHeading={({ group }) => (
+        <>
+          {group.label}
+          {group.label === 'Recent searches' && (
+            <Button size="xs" variant="ghost" tone="neutral" onClick={() => setRecent([])}>
+              Clear
+            </Button>
+          )}
+        </>
+      )}
     >
       <Button variant="outline" tone="neutral">
         Search books

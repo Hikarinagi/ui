@@ -278,4 +278,33 @@ export default defineCases('CommandPalette', [
     vue: () => h(V.CommandPalette, { items: [], inline: true, virtualize: true, loading: true }),
     react: () => <R.CommandPalette items={[]} inline virtualize loading />,
   },
+  ...[false, true].map(virtualize => ({
+    name: `inline custom group heading with an action${virtualize ? ', virtualized' : ''}`,
+    vue: () =>
+      h(
+        V.CommandPalette,
+        { items: vueItems, inline: true, virtualize },
+        {
+          heading: ({ group }: V.CommandHeadingSlotProps) => [
+            h('span', group.label),
+            h(V.Button, { size: 'xs', variant: 'ghost', tone: 'neutral' }, () => '清除'),
+          ],
+        },
+      ),
+    react: () => (
+      <R.CommandPalette
+        items={reactItems}
+        inline
+        virtualize={virtualize}
+        renderHeading={({ group }) => (
+          <>
+            <span>{group.label}</span>
+            <R.Button size="xs" variant="ghost" tone="neutral">
+              清除
+            </R.Button>
+          </>
+        )}
+      />
+    ),
+  })),
 ])

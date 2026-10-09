@@ -18,6 +18,7 @@ export interface CommandMatch<T extends CommandMatchable = CommandMatchable> {
 export interface CommandSection<T extends CommandMatchable = CommandMatchable> {
   key: string
   label?: string
+  group?: CommandGroupOf<T>
   matches: CommandMatch<T>[]
 }
 
@@ -56,6 +57,17 @@ function rank<T extends CommandMatchable>(items: T[], query: string): Scored<T>[
     .sort((a, b) => b.score - a.score)
 }
 
+export function layoutCommandSections<T extends CommandMatchable>(sections: CommandSection<T>[]) {
+  let row = 1
+  const placed = sections.map(section => {
+    const span = section.matches.length + (section.group ? 1 : 0)
+    const entry = { section, row, span }
+    row += span
+    return entry
+  })
+  return { rows: Math.max(row - 1, 1), sections: placed }
+}
+
 export function filterCommands<T extends CommandMatchable>(
   items: ReadonlyArray<T | CommandGroupOf<T>>,
   query: string,
@@ -63,12 +75,13 @@ export function filterCommands<T extends CommandMatchable>(
   const q = query.trim().toLowerCase()
   const sections: ScoredSection<T>[] = []
   let loose: T[] = []
-  const push = (label: string | undefined, entries: T[]) => {
+  const push = (group: CommandGroupOf<T> | undefined, entries: T[]) => {
     const ranked = rank(entries, q)
     if (ranked.length === 0) return
     sections.push({
       key: String(sections.length),
-      label,
+      label: group?.label,
+      group,
       best: ranked[0]!.score,
       matches: ranked.map(({ item, start, end }) => ({ item, start, end })),
     })
@@ -84,11 +97,11 @@ export function filterCommands<T extends CommandMatchable>(
       continue
     }
     flush()
-    push(entry.label, entry.items)
+    push(entry, entry.items)
   }
   flush()
   if (q) sections.sort((a, b) => b.best - a.best)
-  return sections.map(({ key, label, matches }) => ({ key, label, matches }))
+  return sections.map(({ key, label, group, matches }) => ({ key, label, group, matches }))
 }
 
 export interface CommandMatchRange {

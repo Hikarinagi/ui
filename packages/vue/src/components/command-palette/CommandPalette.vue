@@ -16,6 +16,7 @@
   import { commandWrapper } from './command-palette.variants'
   import type {
     CommandEmptySlotProps,
+    CommandHeadingSlotProps,
     CommandItem,
     CommandItems,
     CommandItemSlotProps,
@@ -45,6 +46,7 @@
     default?(): unknown
     input?(): unknown
     item?(props: CommandItemSlotProps<T>): unknown
+    heading?(props: CommandHeadingSlotProps<T>): unknown
     loading?(): unknown
     empty?(props: CommandEmptySlotProps): unknown
   }>()
@@ -93,6 +95,9 @@
     <template v-if="$slots.item" #item="slotProps">
       <slot name="item" v-bind="slotProps" />
     </template>
+    <template v-if="$slots.heading" #heading="slotProps">
+      <slot name="heading" v-bind="slotProps" />
+    </template>
     <template v-if="$slots.loading" #loading><slot name="loading" /></template>
     <template v-if="$slots.empty" #empty="slotProps">
       <slot name="empty" v-bind="slotProps" />
@@ -125,6 +130,9 @@
             <template v-if="$slots.input" #input><slot name="input" /></template>
             <template v-if="$slots.item" #item="slotProps">
               <slot name="item" v-bind="slotProps" />
+            </template>
+            <template v-if="$slots.heading" #heading="slotProps">
+              <slot name="heading" v-bind="slotProps" />
             </template>
             <template v-if="$slots.loading" #loading><slot name="loading" /></template>
             <template v-if="$slots.empty" #empty="slotProps">

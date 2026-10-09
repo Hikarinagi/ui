@@ -6,6 +6,7 @@ export interface ChoiceRow<T> {
   label: string
   option?: T
   group?: number
+  source?: { label: string; options: T[] }
   position: number
 }
 
@@ -28,7 +29,7 @@ export function choiceRows<T extends SelectOption>(
       const options = item.options.filter(option => !query || contains(option.label, query))
       if (!options.length) return
       const group = result.length
-      result.push({ key: `group:${groupIndex}`, label: item.label, position: 0 })
+      result.push({ key: `group:${groupIndex}`, label: item.label, source: item, position: 0 })
       for (const option of options)
         result.push({
           key: choiceKey(option.value),

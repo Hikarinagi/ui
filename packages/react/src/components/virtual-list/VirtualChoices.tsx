@@ -1,6 +1,7 @@
 'use client'
 
 import type { HTMLAttributes, ReactNode, Ref } from 'react'
+import { cn } from '../../lib/cn'
 import { useUiLocale } from '../../locale'
 import {
   useVirtualChoices,
@@ -10,8 +11,13 @@ import {
 import type { VirtualizeOptions } from '../../lib/virtual/types'
 import { ScrollArea } from '../scroll-area/ScrollArea'
 import { selectEmpty, selectLabel } from '../select/select.variants'
-import type { SelectItems, SelectOption } from '../select/types'
-import { virtualListContent, virtualListItem } from './virtual-list.variants'
+import type { SelectItems, SelectOption, SelectOptionGroup } from '../select/types'
+import {
+  virtualChoiceHeading,
+  virtualChoiceHeadings,
+  virtualListContent,
+  virtualListItem,
+} from './virtual-list.variants'
 import { useComposedRefs } from '../../primitives/utils/compose-refs'
 
 export interface VirtualChoiceAttrs {
@@ -32,6 +38,7 @@ export interface VirtualChoicesProps<T extends SelectOption = SelectOption> exte
   padded?: boolean
   maxHeight?: string | number
   children: (props: { option: T; attrs: VirtualChoiceAttrs }) => ReactNode
+  renderGroup?: (props: { group: SelectOptionGroup<T> }) => ReactNode
   empty?: ReactNode
   ref?: Ref<HTMLElement>
   [attribute: `data-${string}`]: string | undefined
@@ -46,6 +53,7 @@ export function VirtualChoices<T extends SelectOption = SelectOption>({
   padded,
   maxHeight,
   children,
+  renderGroup,
   empty,
   className,
   style,
@@ -56,6 +64,7 @@ export function VirtualChoices<T extends SelectOption = SelectOption>({
   const { area, body, rows, entries, bodyStyle, measure, itemAttrs, labelId } =
     useVirtualChoices<T>({ options, kind, virtualize, input, combobox })
   const composedRef = useComposedRefs(ref, body)
+  const origin = entries[0] ? entries[0].start - parseFloat(bodyStyle.paddingBlockStart) : 0
 
   return (
     <ScrollArea
@@ -63,7 +72,7 @@ export function VirtualChoices<T extends SelectOption = SelectOption>({
       className={className}
       style={{ maxHeight: typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight }}
     >
-      <div className={padded ? 'p-1' : undefined}>
+      <div className={cn(renderGroup && 'relative', padded && 'p-1') || undefined}>
         <div
           {...attrs}
           ref={composedRef as Ref<HTMLDivElement>}
@@ -73,6 +82,20 @@ export function VirtualChoices<T extends SelectOption = SelectOption>({
         >
           {entries.map(entry => {
             const row = rows[entry.index]!
+            if (renderGroup && !row.option)
+              return (
+                <div
+                  key={entry.key}
+                  data-index={entry.index}
+                  role="presentation"
+                  className={virtualListItem({ orientation: 'vertical' })}
+                  style={{ marginBlockStart: `${entry.gapBefore}px`, height: `${entry.size}px` }}
+                >
+                  <span id={labelId(entry.index)} hidden>
+                    {row.label}
+                  </span>
+                </div>
+              )
             return (
               <div
                 key={entry.key}
@@ -93,7 +116,32 @@ export function VirtualChoices<T extends SelectOption = SelectOption>({
             )
           })}
         </div>
-        {!rows.length && <div className={selectEmpty()}>{empty ?? t.select.empty}</div>}
+        {!rows.length ? (
+          <div className={selectEmpty()}>{empty ?? t.select.empty}</div>
+        ) : (
+          renderGroup && (
+            <div className={virtualChoiceHeadings()}>
+              <div className="relative">
+                {entries.map(entry => {
+                  const group = rows[entry.index]!.source
+                  return (
+                    group && (
+                      <div
+                        key={entry.key}
+                        ref={element => measure(element)}
+                        data-index={entry.index}
+                        className={virtualChoiceHeading()}
+                        style={{ top: `${entry.start - origin}px` }}
+                      >
+                        {renderGroup({ group })}
+                      </div>
+                    )
+                  )
+                })}
+              </div>
+            </div>
+          )
+        )}
       </div>
     </ScrollArea>
   )

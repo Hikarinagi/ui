@@ -44,6 +44,18 @@ export const commandEmpty = tv({
   base: 'text-muted px-4 py-8 text-center text-sm',
 })
 
+export const commandHeading = tv({
+  base: 'text-muted flex min-h-7 items-center justify-between gap-2 px-2.5 text-xs font-medium',
+})
+
+export const commandGrid = tv({
+  base: 'grid grid-cols-[minmax(0,1fr)] p-1',
+})
+
+export const commandGridRows = tv({
+  base: 'col-start-1 grid grid-rows-subgrid',
+})
+
 export const commandStatus = tv({
   base: 'border-line text-muted shrink-0 border-t px-4 py-2 text-center text-sm',
 })

@@ -14,6 +14,9 @@
   import {
     commandCard,
     commandEmpty,
+    commandGrid,
+    commandGridRows,
+    commandHeading,
     commandInputRow,
     commandList,
     commandStatus,
@@ -21,12 +24,14 @@
   import { provideCommandPalette } from './context'
   import type {
     CommandEmptySlotProps,
+    CommandGroup,
+    CommandHeadingSlotProps,
     CommandItem,
     CommandItems,
     CommandItemSlotProps,
   } from './types'
-  import { useCommandItems } from './composables/useCommandItems'
-  import { commandMatchRange } from './utils/match'
+  import { useCommandItems, type CommandOptionGroup } from './composables/useCommandItems'
+  import { commandMatchRange, layoutCommandSections } from './utils/match'
 
   defineOptions({ name: 'HnCommandPalettePanel', inheritAttrs: false })
 
@@ -44,10 +49,11 @@
 
   const emit = defineEmits<{ select: [item: CommandItem<T>] }>()
 
-  defineSlots<{
+  const slots = defineSlots<{
     default?(): unknown
     input?(): unknown
     item?(props: CommandItemSlotProps<T>): unknown
+    heading?(props: CommandHeadingSlotProps<T>): unknown
     loading?(): unknown
     empty?(props: CommandEmptySlotProps): unknown
   }>()
@@ -58,6 +64,16 @@
 
   const input = shallowRef<HTMLElement>()
   const { sections, options } = useCommandItems(props, () => search.value)
+  const layout = computed(() => (slots.heading ? layoutCommandSections(sections.value) : undefined))
+
+  function returnFocus() {
+    void nextTick(() => {
+      const field = input.value
+      const active = document.activeElement
+      if (field?.isConnected && (!active || active === document.body || active.contains(field)))
+        field.focus({ preventScroll: true })
+    })
+  }
 
   function select(item: CommandItem<T>) {
     const field = input.value
@@ -124,6 +140,16 @@
               </template>
             </CommandPaletteItem>
           </template>
+          <template v-if="$slots.heading" #group="{ group }">
+            <div
+              data-hn-command-heading
+              :class="commandHeading()"
+              @mousedown.prevent
+              @click="returnFocus"
+            >
+              <slot name="heading" :group="(group as CommandOptionGroup<T>).group" />
+            </div>
+          </template>
           <template #empty>
             <slot v-if="props.loading" name="loading">{{ t.common.loading }}</slot>
             <slot v-else name="empty" :search="search">{{ t.command.empty }}</slot>
@@ -131,7 +157,63 @@
         </VirtualChoices>
       </ListboxContent>
       <ScrollArea v-else :class="commandList()">
+        <div v-if="layout" :class="commandGrid()">
+          <ListboxContent
+            :aria-label="props.label"
+            :aria-busy="props.loading || undefined"
+            :class="commandGridRows()"
+            :style="{ gridRow: `1 / span ${layout.rows}` }"
+          >
+            <template v-for="{ section, row, span } in layout.sections" :key="section.key">
+              <ListboxGroup
+                v-if="section.group"
+                :aria-label="section.group.label"
+                :aria-labelledby="undefined"
+                :class="commandGridRows()"
+                :style="{ gridRow: `${row} / span ${span}` }"
+              >
+                <CommandPaletteItem
+                  v-for="(match, index) in section.matches"
+                  :key="match.item.id"
+                  :match="match"
+                  :style="{ gridRow: index + 2 }"
+                  @select="select(match.item)"
+                >
+                  <template v-if="$slots.item" #default>
+                    <slot name="item" :item="match.item" :match="commandMatchRange(match)" />
+                  </template>
+                </CommandPaletteItem>
+              </ListboxGroup>
+              <template v-else>
+                <CommandPaletteItem
+                  v-for="(match, index) in section.matches"
+                  :key="match.item.id"
+                  :match="match"
+                  :style="{ gridRow: row + index }"
+                  @select="select(match.item)"
+                >
+                  <template v-if="$slots.item" #default>
+                    <slot name="item" :item="match.item" :match="commandMatchRange(match)" />
+                  </template>
+                </CommandPaletteItem>
+              </template>
+            </template>
+          </ListboxContent>
+          <template v-for="{ section, row } in layout.sections" :key="section.key">
+            <div
+              v-if="section.group"
+              data-hn-command-heading
+              :class="commandHeading()"
+              :style="{ gridRow: row, gridColumn: 1 }"
+              @mousedown.prevent
+              @click="returnFocus"
+            >
+              <slot name="heading" :group="section.group as CommandGroup<T>" />
+            </div>
+          </template>
+        </div>
         <ListboxContent
+          v-else
           :aria-label="props.label"
           :aria-busy="props.loading || undefined"
           :class="selectListBody()"

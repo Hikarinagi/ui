@@ -1,6 +1,14 @@
 'use client'
 
-import { useMemo, useState, type HTMLAttributes, type ReactNode, type Ref } from 'react'
+import {
+  Fragment,
+  useMemo,
+  useState,
+  type HTMLAttributes,
+  type MouseEvent,
+  type ReactNode,
+  type Ref,
+} from 'react'
 import { Search } from 'lucide-react'
 import {
   ListboxContent,
@@ -22,6 +30,9 @@ import { CommandPaletteItem } from './CommandPaletteItem'
 import {
   commandCard,
   commandEmpty,
+  commandGrid,
+  commandGridRows,
+  commandHeading,
   commandInputRow,
   commandList,
   commandStatus,
@@ -29,12 +40,18 @@ import {
 import { CommandPaletteContext, type CommandPaletteContextValue } from './context'
 import type {
   CommandEmptyRenderProps,
+  CommandGroup,
+  CommandHeadingRenderProps,
   CommandItem,
   CommandItemRenderProps,
   CommandItems,
 } from './types'
-import { commandMatchRange, type CommandMatch } from './utils/match'
-import { useCommandItems, type CommandOption } from './hooks/useCommandItems'
+import { commandMatchRange, layoutCommandSections, type CommandMatch } from './utils/match'
+import {
+  useCommandItems,
+  type CommandOption,
+  type CommandOptionGroup,
+} from './hooks/useCommandItems'
 import { useControllableState } from '../../primitives/utils/controllable-state'
 
 const SearchIcon = lucide(Search)
@@ -56,6 +73,7 @@ export interface CommandPalettePanelProps<T = unknown> extends Omit<
   onSearchChange?: (search: string) => void
   onSelect?: (item: CommandItem<T>) => void
   renderItem?: (props: CommandItemRenderProps<T>) => ReactNode
+  renderHeading?: (props: CommandHeadingRenderProps<T>) => ReactNode
   renderEmpty?: (props: CommandEmptyRenderProps) => ReactNode
   loadingContent?: ReactNode
   input?: ReactNode
@@ -78,6 +96,7 @@ export function CommandPalettePanel<T = unknown>({
   onSearchChange,
   onSelect,
   renderItem,
+  renderHeading,
   renderEmpty,
   loadingContent,
   input: inputRow,
@@ -125,6 +144,32 @@ export function CommandPalettePanel<T = unknown>({
   const custom = (match: CommandMatch<T>) =>
     renderItem && (() => renderItem({ item: match.item, match: commandMatchRange(match) }))
 
+  function keepInputFocus(event: MouseEvent) {
+    event.preventDefault()
+  }
+
+  function returnFocus() {
+    queueMicrotask(() => {
+      const active = document.activeElement
+      if (input?.isConnected && (!active || active === document.body || active.contains(input)))
+        input.focus({ preventScroll: true })
+    })
+  }
+
+  const heading = (group: CommandGroup<T>, row?: number) => (
+    <div
+      data-hn-command-heading=""
+      className={commandHeading()}
+      style={row ? { gridRow: row, gridColumn: 1 } : undefined}
+      onMouseDown={keepInputFocus}
+      onClick={returnFocus}
+    >
+      {renderHeading!({ group })}
+    </div>
+  )
+
+  const layout = renderHeading ? layoutCommandSections(sections) : undefined
+
   return (
     <Card
       {...attrs}
@@ -153,6 +198,9 @@ export function CommandPalettePanel<T = unknown>({
               kind="listbox"
               className={commandList()}
               empty={status}
+              renderGroup={
+                renderHeading && (({ group }) => heading((group as CommandOptionGroup<T>).group))
+              }
             >
               {({ option, attrs: itemAttrs }) => (
                 <CommandPaletteItem
@@ -166,36 +214,89 @@ export function CommandPalettePanel<T = unknown>({
           </ListboxContent>
         ) : (
           <ScrollArea className={commandList()}>
-            <ListboxContent
-              aria-label={label}
-              aria-busy={loading || undefined}
-              className={selectListBody()}
-            >
-              {sections.map(section =>
-                section.label ? (
-                  <ListboxGroup key={section.key}>
-                    <ListboxGroupLabel className={selectLabel()}>{section.label}</ListboxGroupLabel>
-                    {section.matches.map(match => (
+            {layout ? (
+              <div className={commandGrid()}>
+                <ListboxContent
+                  aria-label={label}
+                  aria-busy={loading || undefined}
+                  className={commandGridRows()}
+                  style={{ gridRow: `1 / span ${layout.rows}` }}
+                >
+                  {layout.sections.map(({ section, row, span }) =>
+                    section.group ? (
+                      <ListboxGroup
+                        key={section.key}
+                        aria-label={section.group.label}
+                        aria-labelledby={undefined}
+                        className={commandGridRows()}
+                        style={{ gridRow: `${row} / span ${span}` }}
+                      >
+                        {section.matches.map((match, index) => (
+                          <CommandPaletteItem
+                            key={match.item.id}
+                            match={match}
+                            render={custom(match)}
+                            style={{ gridRow: index + 2 }}
+                            onSelect={() => select(match.item)}
+                          />
+                        ))}
+                      </ListboxGroup>
+                    ) : (
+                      section.matches.map((match, index) => (
+                        <CommandPaletteItem
+                          key={match.item.id}
+                          match={match}
+                          render={custom(match)}
+                          style={{ gridRow: row + index }}
+                          onSelect={() => select(match.item)}
+                        />
+                      ))
+                    ),
+                  )}
+                </ListboxContent>
+                {layout.sections.map(
+                  ({ section, row }) =>
+                    section.group && (
+                      <Fragment key={section.key}>
+                        {heading(section.group as CommandGroup<T>, row)}
+                      </Fragment>
+                    ),
+                )}
+              </div>
+            ) : (
+              <ListboxContent
+                aria-label={label}
+                aria-busy={loading || undefined}
+                className={selectListBody()}
+              >
+                {sections.map(section =>
+                  section.label ? (
+                    <ListboxGroup key={section.key}>
+                      <ListboxGroupLabel className={selectLabel()}>
+                        {section.label}
+                      </ListboxGroupLabel>
+                      {section.matches.map(match => (
+                        <CommandPaletteItem
+                          key={match.item.id}
+                          match={match}
+                          render={custom(match)}
+                          onSelect={() => select(match.item)}
+                        />
+                      ))}
+                    </ListboxGroup>
+                  ) : (
+                    section.matches.map(match => (
                       <CommandPaletteItem
                         key={match.item.id}
                         match={match}
                         render={custom(match)}
                         onSelect={() => select(match.item)}
                       />
-                    ))}
-                  </ListboxGroup>
-                ) : (
-                  section.matches.map(match => (
-                    <CommandPaletteItem
-                      key={match.item.id}
-                      match={match}
-                      render={custom(match)}
-                      onSelect={() => select(match.item)}
-                    />
-                  ))
-                ),
-              )}
-            </ListboxContent>
+                    ))
+                  ),
+                )}
+              </ListboxContent>
+            )}
             {sections.length === 0 && (
               <div role="status" className={commandEmpty()}>
                 {status}

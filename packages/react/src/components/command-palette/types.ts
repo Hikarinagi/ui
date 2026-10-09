@@ -37,6 +37,10 @@ export interface CommandEmptyRenderProps {
   search: string
 }
 
+export interface CommandHeadingRenderProps<T = unknown> {
+  group: CommandGroup<T>
+}
+
 export function isCommandGroup<T>(
   entry: CommandItem<T> | CommandGroup<T>,
 ): entry is CommandGroup<T> {

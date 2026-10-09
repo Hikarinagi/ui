@@ -76,11 +76,15 @@ import { CommandPalette } from '@hina-ui/vue'
 
 示例在搜索词为空时列出最近搜索与热门搜索。这些条目设置 `closeOnSelect: false`，并在 `onSelect` 中把自身的文字写入 `v-model:search` 绑定的搜索词；也可以在 `select` 事件中写入。有搜索词后列出的结果选中时关闭面板。
 
+`#heading` 插槽替换分组标题行的内容，参数是 `{ group }`。标题行位于选项列表之外，其中的按钮可以用 Tab 到达，点击时焦点留在输入框；分组的无障碍名仍是 `group.label`，设置 `virtualize` 时同样生效。示例在「最近搜索」的标题行右侧放了清除按钮。
+
 :::
 
 ::: react
 
 示例在搜索词为空时列出最近搜索与热门搜索。这些条目设置 `closeOnSelect: false`，并在条目的 `onSelect` 中把自身的文字写入 `search` / `onSearchChange` 对应的状态；也可以在组件的 `onSelect` 中写入。有搜索词后列出的结果选中时关闭面板。
+
+`renderHeading` 替换分组标题行的内容，参数是 `{ group }`。标题行位于选项列表之外，其中的按钮可以用 Tab 到达，点击时焦点留在输入框；分组的无障碍名仍是 `group.label`，设置 `virtualize` 时同样生效。示例在「最近搜索」的标题行右侧放了清除按钮。
 
 :::
 
@@ -207,6 +211,7 @@ import { CommandPalette } from '@hina-ui/vue'
 | --------- | ----------------------------------------------------------- | ---------------------------------------------------- |
 | default   | —                                                           | 触发器                                               |
 | `item`    | `{ item: CommandItem<T>, match: CommandItemMatch \| null }` | 条目行内的内容，替换默认的图标、标签、说明与按键提示 |
+| `heading` | `{ group: CommandGroup<T> }`                                | 分组标题行的内容，替换默认的分组名                   |
 | `input`   | —                                                           | 输入行，替换搜索图标与输入框                         |
 | `loading` | —                                                           | 加载内容，默认文字取自界面语言                       |
 | `empty`   | `{ search: string }`                                        | 没有条目且不在加载时的内容，默认文字取自界面语言     |
@@ -241,13 +246,13 @@ import { CommandPalette } from '@hina-ui/vue'
 
 ::: vue
 
-同时导出 `CommandItem<T>`、`CommandGroup<T>`、`CommandItems<T>`、`CommandItemMatch`、`CommandItemSlotProps<T>` 和 `CommandEmptySlotProps` 类型。
+同时导出 `CommandItem<T>`、`CommandGroup<T>`、`CommandItems<T>`、`CommandItemMatch`、`CommandItemSlotProps<T>`、`CommandHeadingSlotProps<T>` 和 `CommandEmptySlotProps` 类型。
 
 :::
 
 ::: react
 
-同时导出 `CommandItem<T>`、`CommandGroup<T>`、`CommandItems<T>`、`CommandItemMatch`、`CommandItemRenderProps<T>` 和 `CommandEmptyRenderProps` 类型。
+同时导出 `CommandItem<T>`、`CommandGroup<T>`、`CommandItems<T>`、`CommandItemMatch`、`CommandItemRenderProps<T>`、`CommandHeadingRenderProps<T>` 和 `CommandEmptyRenderProps` 类型。
 
 :::
 

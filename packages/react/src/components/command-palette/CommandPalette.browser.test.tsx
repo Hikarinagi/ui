@@ -415,6 +415,107 @@ describe('command palette', () => {
     await vi.waitFor(() => expect(s.host.textContent).toContain('没有找到「香辛」'))
   })
 
+  async function headed(props: Partial<CommandPaletteProps> = {}) {
+    const host = document.createElement('div')
+    document.body.appendChild(host)
+    const recent = signal(['狼与香辛料', '奇诺之旅'])
+    const clear = vi.fn(() => (recent.value = []))
+    function Harness() {
+      const list = recent.use()
+      const all: CommandItems = [
+        ...(list.length
+          ? [{ label: '最近搜索', items: list.map(label => ({ id: label, label })) }]
+          : []),
+        { label: '热门搜索', items: [{ id: 'hot', label: '魔女之旅' }] },
+      ]
+      return (
+        <CommandPalette
+          items={all}
+          renderHeading={({ group }) => (
+            <>
+              <span>{group.label}</span>
+              {group.label === '最近搜索' && (
+                <Button data-clear="" size="xs" variant="ghost" tone="neutral" onClick={clear}>
+                  清除
+                </Button>
+              )}
+            </>
+          )}
+          {...props}
+        >
+          <Button>搜索</Button>
+        </CommandPalette>
+      )
+    }
+    const screen = await render(<Harness />, { container: host })
+    mounted.push(screen)
+    await userEvent.click(host.querySelector('button')!)
+    await vi.waitFor(() => expect(options()).toHaveLength(3))
+    return { clear, button: () => document.querySelector<HTMLElement>('[data-clear]') }
+  }
+
+  function expectHeadingsInPlace() {
+    const headings = Array.from(document.querySelectorAll<HTMLElement>('[data-hn-command-heading]'))
+    const rows = options().map(option => option.getBoundingClientRect())
+    const [recent, hot] = headings.map(heading => heading.getBoundingClientRect())
+    expect(headings.map(heading => heading.querySelector('span')!.textContent)).toEqual([
+      '最近搜索',
+      '热门搜索',
+    ])
+    expect(recent!.height).toBe(28)
+    expect(rows[0]!.top).toBeCloseTo(recent!.bottom, 0)
+    expect(rows[1]!.top).toBeCloseTo(rows[0]!.bottom, 0)
+    expect(hot!.top).toBeCloseTo(rows[1]!.bottom, 0)
+    expect(rows[2]!.top).toBeCloseTo(hot!.bottom, 0)
+    expect(rows[0]!.width).toBeCloseTo(recent!.width, 0)
+    const button = document.querySelector('[data-clear]')!.getBoundingClientRect()
+    expect(recent!.right - button.right).toBeCloseTo(10, 0)
+    expect(button.top).toBeGreaterThanOrEqual(recent!.top)
+    expect(button.bottom).toBeLessThanOrEqual(recent!.bottom)
+  }
+
+  it('renderHeading 自定义分组标题行:分组仍以 label 命名,点击其中的按钮不夺走输入框焦点', async () => {
+    const s = await headed()
+    const groups = Array.from(document.querySelectorAll('[role="dialog"] [role="group"]'))
+    expect(groups.map(group => group.getAttribute('aria-label'))).toEqual(['最近搜索', '热门搜索'])
+    expect(groups[0]!.hasAttribute('aria-labelledby')).toBe(false)
+    await expectNoA11yViolations(panel()!)
+    await vi.waitFor(expectHeadingsInPlace)
+
+    await userEvent.keyboard('{ArrowDown}')
+    await vi.waitFor(() => expect(options()[1]!.dataset.highlighted).toBe(''))
+    await userEvent.click(s.button()!)
+    expect(s.clear).toHaveBeenCalledTimes(1)
+    await vi.waitFor(() => expect(options()).toHaveLength(1))
+    expect(s.button()).toBeNull()
+    expect(document.activeElement).toBe(input())
+    await userEvent.keyboard('魔女')
+    expect(input().value).toBe('魔女')
+  })
+
+  it('renderHeading 里的按钮可以用键盘到达并触发,标题行消失后焦点回到输入框', async () => {
+    const s = await headed()
+    for (let presses = 0; presses < 3 && document.activeElement !== s.button(); presses += 1)
+      await userEvent.keyboard('{Tab}')
+    expect(document.activeElement).toBe(s.button())
+    await userEvent.keyboard('{Enter}')
+    expect(s.clear).toHaveBeenCalledTimes(1)
+    await vi.waitFor(() => expect(options()).toHaveLength(1))
+    await vi.waitFor(() => expect(document.activeElement).toBe(input()))
+  })
+
+  it('renderHeading 在虚拟滚动下同样生效,条目的分组描述仍是 label', async () => {
+    const s = await headed({ virtualize: true })
+    expect(s.button()).not.toBeNull()
+    await vi.waitFor(expectHeadingsInPlace)
+    await expectNoA11yViolations(panel()!)
+    const described = options()[0]!.getAttribute('aria-describedby')!
+    expect(document.getElementById(described)!.textContent).toBe('最近搜索')
+    await userEvent.click(s.button()!)
+    await vi.waitFor(() => expect(options()).toHaveLength(1))
+    expect(document.activeElement).toBe(input())
+  })
+
   it('CommandPaletteInput 脱离 CommandPalette 使用时报错', async () => {
     const error = vi.spyOn(console, 'error').mockImplementation(() => {})
     await expect(render(<CommandPaletteInput />)).rejects.toThrow(
