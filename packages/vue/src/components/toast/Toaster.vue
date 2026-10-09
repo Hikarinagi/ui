@@ -154,6 +154,7 @@
     </ToastRoot>
     <ToastPortal>
       <ToastViewport
+        aria-live="off"
         :label="props.label ?? t.toast.regionLabel"
         :data-pos="props.position ?? 'auto'"
         :data-expanded="expanded ? '' : undefined"

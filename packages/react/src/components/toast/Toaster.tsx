@@ -62,8 +62,8 @@ export function Toaster({ position, label, className }: ToasterProps) {
     if (!viewport) return
     const onPointerEnter = () => flushSync(() => enter('hover'))
     const onPointerLeave = () => flushSync(() => leave('hover'))
-    const onFocusIn = () => flushSync(() => enter('focus'))
-    const onFocusOut = () => flushSync(() => leave('focus'))
+    const onFocusIn = () => queueMicrotask(() => flushSync(() => enter('focus')))
+    const onFocusOut = () => queueMicrotask(() => flushSync(() => leave('focus')))
     viewport.addEventListener('pointerenter', onPointerEnter)
     viewport.addEventListener('pointerleave', onPointerLeave)
     viewport.addEventListener('focusin', onFocusIn)
@@ -150,6 +150,7 @@ export function Toaster({ position, label, className }: ToasterProps) {
       <ToastPortal>
         <ToastViewport
           ref={setViewport}
+          aria-live="off"
           label={label ?? t.toast.regionLabel}
           data-pos={position ?? 'auto'}
           data-expanded={expanded ? '' : undefined}

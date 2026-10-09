@@ -3,6 +3,7 @@ import { page, userEvent } from '@vitest/browser/context'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { defineComponent, h } from 'vue'
 import Toaster from './Toaster.vue'
+import Dialog from '../dialog/Dialog.vue'
 import { toast, toastState } from './store'
 import '../../../test/browser.css'
 
@@ -117,6 +118,24 @@ describe('toast · 常驻通知区', () => {
     const park = document.querySelector('div[style*="fixed"]') as HTMLElement
     await userEvent.hover(park)
     await vi.waitFor(() => expect(items().length).toBe(0), { timeout: 3000 })
+  })
+
+  it('模态对话框打开时通知区不被 aria-hidden 隐藏,之后弹出的通知同样可达', async () => {
+    const w = mount(
+      defineComponent({
+        render: () => [
+          h(Toaster),
+          h(Dialog, { open: true, title: '编辑条目' }, () => h('p', '对话框正文')),
+        ],
+      }),
+      { attachTo: document.body },
+    )
+    mounted.push(w)
+    await vi.waitFor(() => expect(document.querySelector('[role="dialog"]')).not.toBeNull())
+    toast('对话框里触发的通知', { duration: Infinity })
+    await vi.waitFor(() => expect(items().length).toBe(1))
+    expect(viewport()!.closest('[aria-hidden="true"]')).toBeNull()
+    expect(front()!.closest('[aria-hidden="true"]')).toBeNull()
   })
 
   it('同 id 原地更新:换文案换 tone,不新增卡', async () => {
