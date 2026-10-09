@@ -8,8 +8,13 @@ import '../../../test/browser.css'
 
 let mounted: VueWrapper[] = []
 
-beforeEach(() => {
+beforeEach(async () => {
   document.body.innerHTML = ''
+  const spot = document.createElement('div')
+  spot.style.cssText = 'position: fixed; right: 0; bottom: 0; width: 8px; height: 8px'
+  document.body.appendChild(spot)
+  await userEvent.hover(spot)
+  spot.remove()
 })
 
 afterEach(() => {

@@ -24,7 +24,7 @@ describe('Transition', () => {
       flash = async () => {
         flushSync(() => setShow(true))
         await Promise.resolve()
-        setShow(false)
+        flushSync(() => setShow(false))
       }
       rerender = () => setTick(tick => tick + 1)
       return (
