@@ -68,6 +68,46 @@ import { CommandPalette } from '@hina-ui/vue'
 
 <Demo name="command-palette/inline" />
 
+### 自定义条目内容 {#custom-item}
+
+::: vue
+
+`#item` 插槽替换每个条目行内的内容，默认的图标、标签、说明与按键提示不再渲染。行本身仍是列表选项，高亮、键盘导航、`disabled` 与选中不变，设置 `virtualize` 时同样生效。
+
+插槽参数是 `{ item, match }`。`match` 是搜索词在 `item.label` 中命中的范围 `{ start, end }`；搜索词为空、条目只经 `keywords` 或 `description` 命中、或者设置了 `ignoreFilter` 时为 `null`。
+
+条目的 `data` 携带业务数据。组件从 `items` 推断它的类型，`#item` 插槽与 `select` 事件收到的 `item.data` 保留该类型；可用 `CommandItems<Book>` 声明条目列表。示例把作者写进 `keywords`，按作者搜索时 `match` 为 `null`，书名不标出。
+
+:::
+
+::: react
+
+`renderItem` 替换每个条目行内的内容，默认的图标、标签、说明与按键提示不再渲染。行本身仍是列表选项，高亮、键盘导航、`disabled` 与选中不变，设置 `virtualize` 时同样生效。
+
+渲染函数的参数是 `{ item, match }`。`match` 是搜索词在 `item.label` 中命中的范围 `{ start, end }`；搜索词为空、条目只经 `keywords` 或 `description` 命中、或者设置了 `ignoreFilter` 时为 `null`。
+
+条目的 `data` 携带业务数据。组件从 `items` 推断它的类型，`renderItem` 与 `onSelect` 收到的 `item.data` 保留该类型；可用 `CommandItems<Book>` 声明条目列表。示例把作者写进 `keywords`，按作者搜索时 `match` 为 `null`，书名不标出。
+
+:::
+
+<Demo name="command-palette/custom-item" />
+
+### 自定义输入行 {#custom-input}
+
+::: vue
+
+`#input` 插槽替换整个输入行，包括搜索图标与输入框；默认输入行的高度、内边距与分隔线一并移除。插槽内放且只放一个 `CommandPaletteInput`，它保留过滤、键盘导航、自动聚焦与 `aria-label`，并沿用面板的 `placeholder`。
+
+:::
+
+::: react
+
+`input` 替换整个输入行，包括搜索图标与输入框；默认输入行的高度、内边距与分隔线一并移除。传入的内容中放且只放一个 `CommandPaletteInput`，它保留过滤、键盘导航、自动聚焦与 `aria-label`，并沿用面板的 `placeholder`。
+
+:::
+
+<Demo name="command-palette/custom-input" />
+
 ### 虚拟滚动 {#virtual}
 
 `virtualize` 按需渲染可见范围附近的条目，与 [VirtualList](/components/virtual-list) 共用测量与滚动底层。默认关闭；可传 `{ estimateSize, overscan }` 调整预估行高和两侧预渲染数量，行高会按实际内容测量。键盘导航覆盖完整数据，禁用项会跳过。 搜索仍处理完整数据。 命令离开渲染范围后会卸载，持久状态应按命令 id 保存在外部。
@@ -93,9 +133,11 @@ import { CommandPalette } from '@hina-ui/vue'
 
 ### Props {#props}
 
+`T` 是条目 `data` 的类型，从 `items` 推断，默认是 `unknown`。
+
 | 属性           | 类型                | 默认值       | 说明                                 |
 | -------------- | ------------------- | ------------ | ------------------------------------ |
-| `items`        | `CommandItems`      | —            | 必填。条目与分组                     |
+| `items`        | `CommandItems<T>`   | —            | 必填。条目与分组                     |
 | `virtualize`   | `VirtualizeOptions` | `false`      | 虚拟滚动；预估行高按内容，overscan 6 |
 | `placeholder`  | `string`            | 取自界面语言 | 输入框的占位文字                     |
 | `label`        | `string`            | 取自界面语言 | 面板的无障碍名                       |
@@ -113,30 +155,63 @@ import { CommandPalette } from '@hina-ui/vue'
 
 ### 事件 {#events}
 
-| 事件     | 参数                  | 说明           |
-| -------- | --------------------- | -------------- |
-| `select` | `(item: CommandItem)` | 选中条目时触发 |
+| 事件     | 参数                     | 说明           |
+| -------- | ------------------------ | -------------- |
+| `select` | `(item: CommandItem<T>)` | 选中条目时触发 |
 
 ### 插槽 {#slots}
 
-| 插槽    | 说明   |
-| ------- | ------ |
-| default | 触发器 |
+| 插槽    | 参数                                                        | 说明                                                 |
+| ------- | ----------------------------------------------------------- | ---------------------------------------------------- |
+| default | —                                                           | 触发器                                               |
+| `item`  | `{ item: CommandItem<T>, match: CommandItemMatch \| null }` | 条目行内的内容，替换默认的图标、标签、说明与按键提示 |
+| `input` | —                                                           | 输入行，替换搜索图标与输入框                         |
+
+### CommandPaletteInput {#command-palette-input}
+
+替换输入行时使用的输入框。只能在 CommandPalette 内使用，在外部使用时抛出错误。
+
+| 属性          | 类型     | 默认值               | 说明                                 |
+| ------------- | -------- | -------------------- | ------------------------------------ |
+| `placeholder` | `string` | 面板的 `placeholder` | 占位文字，优先于面板的 `placeholder` |
+| `class`       | `string` | —                    | 追加至输入框的类名                   |
+
+其他属性透传到原生 `input`。
 
 ### 类型 {#types}
 
-| 字段          | 类型         | 说明                       |
-| ------------- | ------------ | -------------------------- |
-| `id`          | `string`     | 必填。条目的唯一标识       |
-| `label`       | `string`     | 必填。标签                 |
-| `description` | `string`     | 标签下方的说明，也参与匹配 |
-| `keywords`    | `string[]`   | 参与匹配但不显示的关键词   |
-| `icon`        | `Component`  | 标签前的图标               |
-| `kbd`         | `string[]`   | 行末的按键提示             |
-| `disabled`    | `boolean`    | 不可选中                   |
-| `onSelect`    | `() => void` | 选中时调用                 |
+| 字段          | 类型         | 说明                         |
+| ------------- | ------------ | ---------------------------- |
+| `id`          | `string`     | 必填。条目的唯一标识         |
+| `label`       | `string`     | 必填。标签                   |
+| `description` | `string`     | 标签下方的说明，也参与匹配   |
+| `keywords`    | `string[]`   | 参与匹配但不显示的关键词     |
+| `icon`        | `Component`  | 标签前的图标                 |
+| `kbd`         | `string[]`   | 行末的按键提示               |
+| `disabled`    | `boolean`    | 不可选中                     |
+| `data`        | `T`          | 随条目携带的数据，不参与匹配 |
+| `onSelect`    | `() => void` | 选中时调用                   |
 
-分组是 `{ label: string; items: CommandItem[] }`，`CommandItems` 是条目与分组的数组。
+分组是 `{ label: string; items: CommandItem<T>[] }`，`CommandItems<T>` 是条目与分组的数组。
+
+::: vue
+
+同时导出 `CommandItem<T>`、`CommandGroup<T>`、`CommandItems<T>`、`CommandItemMatch` 和 `CommandItemSlotProps<T>` 类型。
+
+:::
+
+::: react
+
+同时导出 `CommandItem<T>`、`CommandGroup<T>`、`CommandItems<T>`、`CommandItemMatch` 和 `CommandItemRenderProps<T>` 类型。
+
+:::
+
+```ts
+interface CommandItemMatch {
+  start: number
+  end: number
+}
+```
 
 ```ts
 type VirtualizeOptions = boolean | { estimateSize?: number; overscan?: number }

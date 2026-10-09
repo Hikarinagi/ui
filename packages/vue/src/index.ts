@@ -74,7 +74,14 @@ export type {
   CompletionEdit,
 } from './components/autocomplete/types'
 export { default as CommandPalette } from './components/command-palette/CommandPalette.vue'
-export type { CommandItem, CommandGroup, CommandItems } from './components/command-palette/types'
+export { default as CommandPaletteInput } from './components/command-palette/CommandPaletteInput.vue'
+export type {
+  CommandItem,
+  CommandGroup,
+  CommandItems,
+  CommandItemMatch,
+  CommandItemSlotProps,
+} from './components/command-palette/types'
 export { default as Listbox } from './components/listbox/Listbox.vue'
 export type { ListboxVariants } from './components/listbox/listbox.variants'
 export { default as Tree } from './components/tree/Tree.vue'
@@ -274,6 +281,7 @@ export { default as Toaster } from './components/toast/Toaster.vue'
 export { toast } from './components/toast/store'
 export type { ToastTone, ToastOptions, ToasterPosition } from './components/toast/store'
 export { default as Spoiler } from './components/spoiler/Spoiler.vue'
+export { default as LineClamp } from './components/line-clamp/LineClamp.vue'
 export { default as Skeleton } from './components/skeleton/Skeleton.vue'
 export { default as Image } from './components/image/Image.vue'
 export { default as ImageGroup } from './components/image/ImageGroup.vue'
@@ -281,7 +289,6 @@ export { default as Lightbox } from './components/lightbox/Lightbox.vue'
 export type { LightboxItem, LightboxSource } from './components/lightbox/types'
 export { provideImageResolver, useImageResolver } from './components/image/resolver'
 export type { ImageResolver } from './components/image/resolver'
-export { default as LineClamp } from './components/line-clamp/LineClamp.vue'
 export type { ImageVariants } from './components/image/image.variants'
 export { default as Spinner } from './components/spinner/Spinner.vue'
 export { default as ScrollArea } from './components/scroll-area/ScrollArea.vue'

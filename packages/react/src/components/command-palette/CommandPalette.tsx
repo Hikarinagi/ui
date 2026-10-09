@@ -16,14 +16,14 @@ import { useUiLocale } from '../../locale'
 import { CommandPalettePanel } from './CommandPalettePanel'
 import { useHotkey } from './hooks/useHotkey'
 import { commandWrapper } from './command-palette.variants'
-import type { CommandItem, CommandItems } from './types'
+import type { CommandItem, CommandItemRenderProps, CommandItems } from './types'
 import { useControllableState } from '../../primitives/utils/controllable-state'
 
-export interface CommandPaletteProps extends Omit<
+export interface CommandPaletteProps<T = unknown> extends Omit<
   HTMLAttributes<HTMLElement>,
   'onSelect' | 'children'
 > {
-  items: CommandItems
+  items: CommandItems<T>
   virtualize?: VirtualizeOptions
   placeholder?: string
   label?: string
@@ -36,12 +36,14 @@ export interface CommandPaletteProps extends Omit<
   search?: string
   defaultSearch?: string
   onSearchChange?: (search: string) => void
-  onSelect?: (item: CommandItem) => void
+  onSelect?: (item: CommandItem<T>) => void
+  renderItem?: (props: CommandItemRenderProps<T>) => ReactNode
+  input?: ReactNode
   children?: ReactNode
   [attribute: `data-${string}`]: string | undefined
 }
 
-export function CommandPalette({
+export function CommandPalette<T = unknown>({
   items,
   virtualize,
   placeholder,
@@ -56,10 +58,12 @@ export function CommandPalette({
   defaultSearch = '',
   onSearchChange,
   onSelect,
+  renderItem,
+  input,
   className,
   children,
   ...attrs
-}: CommandPaletteProps) {
+}: CommandPaletteProps<T>) {
   const t = useUiLocale()
   const [search = '', setSearch] = useControllableState<string>({
     prop: searchProp,
@@ -89,7 +93,7 @@ export function CommandPalette({
 
   useHotkey(inline ? undefined : hotkey, () => setOpen(!open))
 
-  function select(item: CommandItem) {
+  function select(item: CommandItem<T>) {
     item.onSelect?.()
     onSelect?.(item)
     if (!inline) setOpen(false)
@@ -109,6 +113,8 @@ export function CommandPalette({
         ignoreFilter={ignoreFilter}
         className={className}
         onSelect={select}
+        renderItem={renderItem}
+        input={input}
       />
     )
 
@@ -133,6 +139,8 @@ export function CommandPalette({
               ignoreFilter={ignoreFilter}
               className={className}
               onSelect={select}
+              renderItem={renderItem}
+              input={input}
             >
               <PrimitiveVisuallyHidden>
                 <DialogTitle>{label}</DialogTitle>

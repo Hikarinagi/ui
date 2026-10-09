@@ -1,10 +1,9 @@
 'use client'
 
-import { useState, type HTMLAttributes, type ReactNode, type Ref } from 'react'
+import { useMemo, useState, type HTMLAttributes, type ReactNode, type Ref } from 'react'
 import { Search } from 'lucide-react'
 import {
   ListboxContent,
-  ListboxFilter,
   ListboxGroup,
   ListboxGroupLabel,
   ListboxRoot,
@@ -17,25 +16,22 @@ import { ScrollArea } from '../scroll-area/ScrollArea'
 import { VirtualChoices } from '../virtual-list/VirtualChoices'
 import type { VirtualizeOptions } from '../../lib/virtual/types'
 import { selectLabel, selectListBody } from '../select/select.variants'
+import { CommandPaletteInput } from './CommandPaletteInput'
 import { CommandPaletteItem } from './CommandPaletteItem'
-import {
-  commandCard,
-  commandEmpty,
-  commandInput,
-  commandInputRow,
-  commandList,
-} from './command-palette.variants'
-import type { CommandItem, CommandItems } from './types'
+import { commandCard, commandEmpty, commandInputRow, commandList } from './command-palette.variants'
+import { CommandPaletteContext, type CommandPaletteContextValue } from './context'
+import type { CommandItem, CommandItemRenderProps, CommandItems } from './types'
+import { commandMatchRange, type CommandMatch } from './utils/match'
 import { useCommandItems, type CommandOption } from './hooks/useCommandItems'
 import { useControllableState } from '../../primitives/utils/controllable-state'
 
 const SearchIcon = lucide(Search)
 
-export interface CommandPalettePanelProps extends Omit<
+export interface CommandPalettePanelProps<T = unknown> extends Omit<
   HTMLAttributes<HTMLElement>,
   'onSelect' | 'children'
 > {
-  items: CommandItems
+  items: CommandItems<T>
   virtualize?: VirtualizeOptions
   label: string
   placeholder?: string
@@ -45,13 +41,15 @@ export interface CommandPalettePanelProps extends Omit<
   search?: string
   defaultSearch?: string
   onSearchChange?: (search: string) => void
-  onSelect?: (item: CommandItem) => void
+  onSelect?: (item: CommandItem<T>) => void
+  renderItem?: (props: CommandItemRenderProps<T>) => ReactNode
+  input?: ReactNode
   children?: ReactNode
   ref?: Ref<HTMLElement>
   [attribute: `data-${string}`]: string | undefined
 }
 
-export function CommandPalettePanel({
+export function CommandPalettePanel<T = unknown>({
   items,
   virtualize,
   label,
@@ -63,10 +61,12 @@ export function CommandPalettePanel({
   defaultSearch = '',
   onSearchChange,
   onSelect,
+  renderItem,
+  input: inputRow,
   className,
   children,
   ...attrs
-}: CommandPalettePanelProps) {
+}: CommandPalettePanelProps<T>) {
   const t = useUiLocale()
   const [search = '', setSearch] = useControllableState<string>({
     prop: searchProp,
@@ -76,6 +76,20 @@ export function CommandPalettePanel({
   })
   const [input, setInput] = useState<HTMLInputElement | null>(null)
   const { sections, options } = useCommandItems(items, ignoreFilter, search)
+  const resolvedPlaceholder = placeholder ?? t.command.placeholder
+  const context = useMemo<CommandPaletteContextValue>(
+    () => ({
+      search,
+      setSearch,
+      label,
+      placeholder: resolvedPlaceholder,
+      autoFocus,
+      setInput,
+    }),
+    [search, setSearch, label, resolvedPlaceholder, autoFocus],
+  )
+  const custom = (match: CommandMatch<T>) =>
+    renderItem && (() => renderItem({ item: match.item, match: commandMatchRange(match) }))
 
   return (
     <Card
@@ -86,21 +100,19 @@ export function CommandPalettePanel({
     >
       {children}
       <ListboxRoot selectionBehavior="replace" highlightOnHover className="flex min-h-0 flex-col">
-        <div className={commandInputRow()}>
-          <SearchIcon aria-hidden="true" />
-          <ListboxFilter
-            ref={setInput}
-            value={search}
-            onValueChange={setSearch}
-            autoFocus={autoFocus}
-            placeholder={placeholder ?? t.command.placeholder}
-            aria-label={label}
-            className={commandInput()}
-          />
-        </div>
+        <CommandPaletteContext value={context}>
+          {inputRow !== undefined ? (
+            inputRow
+          ) : (
+            <div className={commandInputRow()}>
+              <SearchIcon aria-hidden="true" />
+              <CommandPaletteInput />
+            </div>
+          )}
+        </CommandPaletteContext>
         {virtualize ? (
           <ListboxContent asChild aria-label={label}>
-            <VirtualChoices<CommandOption>
+            <VirtualChoices<CommandOption<T>>
               options={options}
               virtualize={virtualize}
               input={input}
@@ -112,6 +124,7 @@ export function CommandPalettePanel({
                 <CommandPaletteItem
                   {...itemAttrs}
                   match={option.match}
+                  render={custom(option.match)}
                   onSelect={() => onSelect?.(option.match.item)}
                 />
               )}
@@ -128,6 +141,7 @@ export function CommandPalettePanel({
                       <CommandPaletteItem
                         key={match.item.id}
                         match={match}
+                        render={custom(match)}
                         onSelect={() => onSelect?.(match.item)}
                       />
                     ))}
@@ -137,6 +151,7 @@ export function CommandPalettePanel({
                     <CommandPaletteItem
                       key={match.item.id}
                       match={match}
+                      render={custom(match)}
                       onSelect={() => onSelect?.(match.item)}
                     />
                   ))

@@ -85,4 +85,12 @@ export type { LightboxProps } from '../components/lightbox/Lightbox'
 export type { LightboxItem, LightboxSource } from '../components/lightbox/types'
 export { CommandPalette } from '../components/command-palette/CommandPalette'
 export type { CommandPaletteProps } from '../components/command-palette/CommandPalette'
-export type { CommandItem, CommandGroup, CommandItems } from '../components/command-palette/types'
+export { CommandPaletteInput } from '../components/command-palette/CommandPaletteInput'
+export type { CommandPaletteInputProps } from '../components/command-palette/CommandPaletteInput'
+export type {
+  CommandItem,
+  CommandGroup,
+  CommandItems,
+  CommandItemMatch,
+  CommandItemRenderProps,
+} from '../components/command-palette/types'

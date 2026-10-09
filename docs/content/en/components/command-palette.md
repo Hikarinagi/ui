@@ -68,6 +68,46 @@ With `inline` the panel is no longer wrapped in an overlay and renders in the do
 
 <Demo name="command-palette/inline" />
 
+### Custom item content {#custom-item}
+
+::: vue
+
+The `#item` slot replaces the content inside every item row; the default icon, label, description and key hint are not rendered. The row itself stays a listbox option: highlighting, keyboard navigation, `disabled` and selection are unchanged, also with `virtualize`.
+
+The slot receives `{ item, match }`. `match` is the range `{ start, end }` of `item.label` matched by the search text; it is `null` when the search is empty, when the item matched through `keywords` or `description` only, or with `ignoreFilter`.
+
+An item's `data` carries application data. Its type is inferred from `items`, and `item.data` keeps that type in the `#item` slot and in the `select` event; declare the list as `CommandItems<Book>`. The example puts the author in `keywords`: searching by author gives a `null` `match` and the title is not marked.
+
+:::
+
+::: react
+
+`renderItem` replaces the content inside every item row; the default icon, label, description and key hint are not rendered. The row itself stays a listbox option: highlighting, keyboard navigation, `disabled` and selection are unchanged, also with `virtualize`.
+
+The render function receives `{ item, match }`. `match` is the range `{ start, end }` of `item.label` matched by the search text; it is `null` when the search is empty, when the item matched through `keywords` or `description` only, or with `ignoreFilter`.
+
+An item's `data` carries application data. Its type is inferred from `items`, and `item.data` keeps that type in `renderItem` and in `onSelect`; declare the list as `CommandItems<Book>`. The example puts the author in `keywords`: searching by author gives a `null` `match` and the title is not marked.
+
+:::
+
+<Demo name="command-palette/custom-item" />
+
+### Custom input row {#custom-input}
+
+::: vue
+
+The `#input` slot replaces the whole input row, the search icon and the input included; the default row's height, padding and divider are removed with it. Put exactly one `CommandPaletteInput` inside it; that component keeps filtering, keyboard navigation, auto focus and `aria-label`, and uses the panel's `placeholder`.
+
+:::
+
+::: react
+
+`input` replaces the whole input row, the search icon and the input included; the default row's height, padding and divider are removed with it. Put exactly one `CommandPaletteInput` inside it; that component keeps filtering, keyboard navigation, auto focus and `aria-label`, and uses the panel's `placeholder`.
+
+:::
+
+<Demo name="command-palette/custom-input" />
+
 ### Virtual scrolling {#virtual}
 
 `virtualize` renders rows near the viewport, sharing measurement and scrolling with [VirtualList](/components/virtual-list). It is off by default. Pass `{ estimateSize, overscan }` to configure estimated row height and the buffer on each side; actual heights are measured. Keyboard navigation covers the full collection and skips disabled items. Search still processes the full dataset. Commands unmount outside the rendered range; keep persistent state externally by command id.
@@ -93,9 +133,11 @@ With `inline` the panel is no longer wrapped in an overlay and renders in the do
 
 ### Props {#props}
 
+`T` is the type of an item's `data`. It is inferred from `items` and defaults to `unknown`.
+
 | Prop           | Type                | Default     | Description                                           |
 | -------------- | ------------------- | ----------- | ----------------------------------------------------- |
-| `items`        | `CommandItems`      | —           | Required. Items and groups                            |
+| `items`        | `CommandItems<T>`   | —           | Required. Items and groups                            |
 | `virtualize`   | `VirtualizeOptions` | `false`     | Virtual scrolling; content-based estimate, overscan 6 |
 | `placeholder`  | `string`            | from locale | Placeholder of the input                              |
 | `label`        | `string`            | from locale | Accessible name of the panel                          |
@@ -113,30 +155,63 @@ With `inline` the panel is no longer wrapped in an overlay and renders in the do
 
 ### Events {#events}
 
-| Event    | Payload               | Description                    |
-| -------- | --------------------- | ------------------------------ |
-| `select` | `(item: CommandItem)` | Emitted when an item is chosen |
+| Event    | Payload                  | Description                    |
+| -------- | ------------------------ | ------------------------------ |
+| `select` | `(item: CommandItem<T>)` | Emitted when an item is chosen |
 
 ### Slots {#slots}
 
-| Slot    | Description |
-| ------- | ----------- |
-| default | The trigger |
+| Slot    | Payload                                                     | Description                                                                        |
+| ------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| default | —                                                           | The trigger                                                                        |
+| `item`  | `{ item: CommandItem<T>, match: CommandItemMatch \| null }` | Content inside an item row; replaces the default icon, label, description and hint |
+| `input` | —                                                           | The input row; replaces the search icon and the input                              |
+
+### CommandPaletteInput {#command-palette-input}
+
+The input used when the input row is replaced. It only works inside a CommandPalette and throws when used outside one.
+
+| Prop          | Type     | Default                   | Description                                    |
+| ------------- | -------- | ------------------------- | ---------------------------------------------- |
+| `placeholder` | `string` | the panel's `placeholder` | Placeholder; takes precedence over the panel's |
+| `class`       | `string` | —                         | Extra classes on the input                     |
+
+Other attributes pass through to the native `input`.
 
 ### Types {#types}
 
-| Field         | Type         | Description                        |
-| ------------- | ------------ | ---------------------------------- |
-| `id`          | `string`     | Required. Unique key of the item   |
-| `label`       | `string`     | Required. Label                    |
-| `description` | `string`     | Text under the label, also matched |
-| `keywords`    | `string[]`   | Matched but never shown            |
-| `icon`        | `Component`  | Icon before the label              |
-| `kbd`         | `string[]`   | Key hint at the end of the row     |
-| `disabled`    | `boolean`    | Cannot be selected                 |
-| `onSelect`    | `() => void` | Called when selected               |
+| Field         | Type         | Description                           |
+| ------------- | ------------ | ------------------------------------- |
+| `id`          | `string`     | Required. Unique key of the item      |
+| `label`       | `string`     | Required. Label                       |
+| `description` | `string`     | Text under the label, also matched    |
+| `keywords`    | `string[]`   | Matched but never shown               |
+| `icon`        | `Component`  | Icon before the label                 |
+| `kbd`         | `string[]`   | Key hint at the end of the row        |
+| `disabled`    | `boolean`    | Cannot be selected                    |
+| `data`        | `T`          | Data carried by the item, not matched |
+| `onSelect`    | `() => void` | Called when selected                  |
 
-A group is `{ label: string; items: CommandItem[] }`, and `CommandItems` is an array of items and groups.
+A group is `{ label: string; items: CommandItem<T>[] }`, and `CommandItems<T>` is an array of items and groups.
+
+::: vue
+
+The `CommandItem<T>`, `CommandGroup<T>`, `CommandItems<T>`, `CommandItemMatch` and `CommandItemSlotProps<T>` types are exported from the package entry.
+
+:::
+
+::: react
+
+The `CommandItem<T>`, `CommandGroup<T>`, `CommandItems<T>`, `CommandItemMatch` and `CommandItemRenderProps<T>` types are exported from the package entry.
+
+:::
+
+```ts
+interface CommandItemMatch {
+  start: number
+  end: number
+}
+```
 
 ```ts
 type VirtualizeOptions = boolean | { estimateSize?: number; overscan?: number }

@@ -3,8 +3,9 @@ import { userEvent } from '@vitest/browser/context'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { defineComponent, h } from 'vue'
 import CommandPalette from './CommandPalette.vue'
+import CommandPaletteInput from './CommandPaletteInput.vue'
 import Button from '../button/Button.vue'
-import type { CommandItems } from './types'
+import type { CommandItems, CommandItemSlotProps } from './types'
 import { expectNoA11yViolations } from '../../../test/axe'
 import '../../../test/browser.css'
 
@@ -107,5 +108,152 @@ describe('command palette', () => {
     await vi.waitFor(() => expect(panel()).toBeTruthy())
     await userEvent.keyboard('{Control>}k{/Control}')
     await vi.waitFor(() => expect(panel()).toBeNull())
+  })
+
+  interface Book {
+    author: string
+    volumes: number
+  }
+  const books: CommandItems<Book> = [
+    {
+      id: 'spice',
+      label: '狼与香辛料',
+      keywords: ['wolf'],
+      data: { author: '支仓冻砂', volumes: 17 },
+    },
+    {
+      id: 'kino',
+      label: '奇诺之旅',
+      description: '不会出现',
+      data: { author: '时雨泽惠一', volumes: 23 },
+    },
+  ]
+
+  function custom(props: Record<string, unknown> = {}, slots: Record<string, unknown> = {}) {
+    const host = document.createElement('div')
+    document.body.appendChild(host)
+    const onSelect = vi.fn()
+    const seen: Array<CommandItemSlotProps<Book>> = []
+    const w = mount(
+      defineComponent({
+        setup: () => () =>
+          h(
+            CommandPalette<Book>,
+            { items: books, inline: true, onSelect, ...props },
+            {
+              item: (slot: CommandItemSlotProps<Book>) => {
+                seen.push(slot)
+                return h('span', { 'data-book': slot.item.id }, [
+                  slot.match
+                    ? [
+                        slot.item.label.slice(0, slot.match.start),
+                        h('mark', slot.item.label.slice(slot.match.start, slot.match.end)),
+                        slot.item.label.slice(slot.match.end),
+                      ]
+                    : slot.item.label,
+                  h('small', `${slot.item.data!.author} · ${slot.item.data!.volumes} 卷`),
+                ])
+              },
+              ...slots,
+            },
+          ),
+      }),
+      { attachTo: host },
+    )
+    mounted.push(w)
+    return { onSelect, seen, field: () => host.querySelector('input') as HTMLInputElement, host }
+  }
+
+  it('#item 自定义条目内容:拿到条目数据与匹配位置,键盘导航与选中照常', async () => {
+    const s = custom()
+    expect(options()).toHaveLength(2)
+    expect(options()[0]!.querySelector('[data-book="spice"] small')!.textContent).toBe(
+      '支仓冻砂 · 17 卷',
+    )
+    expect(options()[1]!.textContent).not.toContain('不会出现')
+    expect(s.seen.every(slot => slot.match === null)).toBe(true)
+
+    await userEvent.click(s.field())
+    await userEvent.keyboard('香辛')
+    await vi.waitFor(() => expect(options()).toHaveLength(1))
+    expect(options()[0]!.querySelector('mark')!.textContent).toBe('香辛')
+    expect(s.seen.at(-1)!.match).toEqual({ start: 2, end: 4 })
+
+    await userEvent.clear(s.field())
+    await userEvent.keyboard('wolf')
+    await vi.waitFor(() => expect(options()).toHaveLength(1))
+    expect(options()[0]!.querySelector('mark')).toBeNull()
+    expect(s.seen.at(-1)!.match).toBeNull()
+
+    await userEvent.clear(s.field())
+    await vi.waitFor(() => expect(options()).toHaveLength(2))
+    await userEvent.keyboard('{ArrowDown}')
+    await vi.waitFor(() => expect(options()[1]!.dataset.highlighted).toBe(''))
+    await userEvent.keyboard('{Enter}')
+    expect(s.onSelect.mock.calls[0]![0]).toMatchObject({ id: 'kino', data: { volumes: 23 } })
+    await expectNoA11yViolations(s.host)
+  })
+
+  it('#item 在虚拟滚动下同样生效', async () => {
+    const many: CommandItems<Book> = Array.from({ length: 200 }, (_, index) => ({
+      id: `book-${index}`,
+      label: `第 ${index} 本`,
+      data: { author: '佚名', volumes: index },
+    }))
+    custom({ items: many, virtualize: true })
+    await vi.waitFor(() => expect(options().length).toBeGreaterThan(0))
+    expect(options().length).toBeLessThan(200)
+    expect(options()[0]!.querySelector('small')!.textContent).toBe('佚名 · 0 卷')
+  })
+
+  it('#input 替换输入行,CommandPaletteInput 保留筛选、导航与自动聚焦', async () => {
+    const host = document.createElement('div')
+    document.body.appendChild(host)
+    const onSelect = vi.fn()
+    const w = mount(
+      defineComponent({
+        setup: () => () =>
+          h(
+            CommandPalette,
+            { items, onSelect, label: '跳转' },
+            {
+              default: () => h(Button, null, () => '搜索'),
+              input: () =>
+                h('div', { 'data-row': '' }, [
+                  h('span', { 'data-scope': '' }, '书库'),
+                  h(CommandPaletteInput, { placeholder: '在书库中搜索', class: 'custom-input' }),
+                ]),
+            },
+          ),
+      }),
+      { attachTo: host },
+    )
+    mounted.push(w)
+    await userEvent.click(w.find('button').element)
+    await vi.waitFor(() => expect(panel()).toBeTruthy())
+    const row = panel()!.querySelector('[data-row]')!
+    expect(row.querySelector('[data-scope]')!.textContent).toBe('书库')
+    expect(panel()!.querySelectorAll('input')).toHaveLength(1)
+    expect(panel()!.querySelector('svg.lucide-search')).toBeNull()
+    expect(input().placeholder).toBe('在书库中搜索')
+    expect(input().getAttribute('aria-label')).toBe('跳转')
+    expect(input().classList.contains('custom-input')).toBe(true)
+    await vi.waitFor(() => expect(document.activeElement).toBe(input()))
+
+    await userEvent.keyboard('主题')
+    await vi.waitFor(() => expect(options()).toHaveLength(1))
+    await vi.waitFor(() => expect(options()[0]!.dataset.highlighted).toBe(''))
+    expect(input().getAttribute('aria-activedescendant')).toBe(options()[0]!.id)
+    await userEvent.keyboard('{Enter}')
+    expect(onSelect.mock.calls[0]![0]).toMatchObject({ id: 'theme' })
+    await vi.waitFor(() => expect(panel()).toBeNull())
+  })
+
+  it('CommandPaletteInput 脱离 CommandPalette 使用时报错', () => {
+    const error = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    expect(() => mount(CommandPaletteInput)).toThrow(
+      'CommandPaletteInput must be used inside CommandPalette',
+    )
+    error.mockRestore()
   })
 })

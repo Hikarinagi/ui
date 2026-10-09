@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T = unknown">
   import {
     DialogContent,
     DialogOverlay,
@@ -14,12 +14,12 @@
   import CommandPalettePanel from './CommandPalettePanel.vue'
   import { useHotkey } from './composables/useHotkey'
   import { commandWrapper } from './command-palette.variants'
-  import type { CommandItem, CommandItems } from './types'
+  import type { CommandItem, CommandItems, CommandItemSlotProps } from './types'
 
   defineOptions({ name: 'HnCommandPalette', inheritAttrs: false })
 
   const props = defineProps<{
-    items: CommandItems
+    items: CommandItems<T>
     virtualize?: VirtualizeOptions
     placeholder?: string
     label?: string
@@ -29,7 +29,13 @@
     class?: string
   }>()
 
-  const emit = defineEmits<{ select: [item: CommandItem] }>()
+  const emit = defineEmits<{ select: [item: CommandItem<T>] }>()
+
+  defineSlots<{
+    default?(): unknown
+    input?(): unknown
+    item?(props: CommandItemSlotProps<T>): unknown
+  }>()
 
   const open = defineModel<boolean>('open', { default: false })
   const search = defineModel<string>('search', { default: '' })
@@ -49,7 +55,7 @@
     if (!value) search.value = ''
   })
 
-  function select(item: CommandItem) {
+  function select(item: CommandItem<T>) {
     item.onSelect?.()
     emit('select', item)
     if (!props.inline) open.value = false
@@ -69,7 +75,12 @@
     :ignore-filter="props.ignoreFilter"
     :class="props.class"
     @select="select"
-  />
+  >
+    <template v-if="$slots.input" #input><slot name="input" /></template>
+    <template v-if="$slots.item" #item="slotProps">
+      <slot name="item" v-bind="slotProps" />
+    </template>
+  </CommandPalettePanel>
   <DialogRoot v-else v-model:open="open">
     <DialogTrigger v-if="$slots.default" as-child>
       <slot />
@@ -93,6 +104,10 @@
             <VisuallyHidden>
               <DialogTitle>{{ label }}</DialogTitle>
             </VisuallyHidden>
+            <template v-if="$slots.input" #input><slot name="input" /></template>
+            <template v-if="$slots.item" #item="slotProps">
+              <slot name="item" v-bind="slotProps" />
+            </template>
           </CommandPalettePanel>
         </DialogContent>
       </div>
