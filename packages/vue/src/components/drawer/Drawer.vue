@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import { computed } from 'vue'
   import {
     DialogRoot,
     DialogTrigger,
@@ -17,6 +18,7 @@
   import { useOverlayPortal } from '../../lib/overlay-portal'
   import { useScrollViewport } from '../../lib/scroll-viewport'
   import { cn } from '../../lib/cn'
+  import { provideFormScope } from '../form/scope'
   import { drawerCard } from './drawer.variants'
 
   defineOptions({ name: 'HnDrawer' })
@@ -39,13 +41,16 @@
     default?(): unknown
     icon?(): unknown
     title?(): unknown
-    body?(props: { close: () => void }): unknown
-    content?(props: { close: () => void }): unknown
-    footer?(props: { close: () => void }): unknown
+    body?(props: { close: () => void; submitting: boolean }): unknown
+    content?(props: { close: () => void; submitting: boolean }): unknown
+    footer?(props: { close: () => void; submitting: boolean }): unknown
   }>()
 
+  const submitting = provideFormScope()
+  const locked = computed(() => props.locked || submitting.value)
+
   function guard(e: Event) {
-    if (props.locked) e.preventDefault()
+    if (locked.value) e.preventDefault()
   }
 
   const { scrollArea, viewport } = useScrollViewport()
@@ -84,7 +89,7 @@
               {{ props.description }}
             </DialogDescription>
           </template>
-          <slot v-if="slots.body" name="body" :close="close" />
+          <slot v-if="slots.body" name="body" :close="close" :submitting="submitting" />
           <template v-else>
             <div
               v-if="props.header"
@@ -110,19 +115,19 @@
                 </DialogDescription>
               </div>
               <DialogClose v-if="props.closable" as-child>
-                <CloseButton :disabled="props.locked" class="-mt-1.5 -me-1.5 shrink-0" />
+                <CloseButton :disabled="locked" class="-mt-1.5 -me-1.5 shrink-0" />
               </DialogClose>
             </div>
             <ScrollArea v-if="$slots.content" ref="scrollArea" class="min-h-0 grow">
               <div class="px-(--hn-panel-p) py-1">
-                <slot name="content" :close="close" />
+                <slot name="content" :close="close" :submitting="submitting" />
               </div>
             </ScrollArea>
             <div
               v-if="$slots.footer"
               class="flex shrink-0 justify-end gap-(--hn-inline-gap) px-(--hn-panel-p)"
             >
-              <slot name="footer" :close="close" />
+              <slot name="footer" :close="close" :submitting="submitting" />
             </div>
           </template>
         </Card>

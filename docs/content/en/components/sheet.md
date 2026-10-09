@@ -144,7 +144,7 @@ The example uses [Button](/components/button) to scroll with `viewport.scrollTo(
 
 ### Locked {#locked}
 
-With `locked`, dragging, Esc and clicking the scrim no longer close the sheet, and the handle dims to show it is unavailable for now; closing through `open` still works.
+With `locked`, dragging, Esc and clicking the scrim no longer close the sheet, and the handle dims to show it is unavailable for now; closing through `open` still works. The sheet is locked in the same way while a [Form](/components/form) inside it is submitting, whether or not `locked` is set; see [Dialog](/components/dialog#form) for the usage.
 
 <Demo name="sheet/locked" />
 
@@ -229,14 +229,16 @@ The example calls `close` from a footer [Button](/components/button).
 
 ### Slots {#slots}
 
-| Slot      | Payload     | Description                                                              |
-| --------- | ----------- | ------------------------------------------------------------------------ |
-| `default` | —           | The trigger; omit it to render none                                      |
-| `icon`    | —           | Decorative icon before the title                                         |
-| `title`   | —           | Title content; defaults to the title prop                                |
-| `body`    | `{ close }` | Custom internal layout; replaces the default header, content, and footer |
-| `content` | `{ close }` | Content, scrolling when it is too tall                                   |
-| `footer`  | `{ close }` | Actions along the bottom                                                 |
+| Slot      | Payload                 | Description                                                              |
+| --------- | ----------------------- | ------------------------------------------------------------------------ |
+| `default` | —                       | The trigger; omit it to render none                                      |
+| `icon`    | —                       | Decorative icon before the title                                         |
+| `title`   | —                       | Title content; defaults to the title prop                                |
+| `body`    | `{ close, submitting }` | Custom internal layout; replaces the default header, content, and footer |
+| `content` | `{ close, submitting }` | Content, scrolling when it is too tall                                   |
+| `footer`  | `{ close, submitting }` | Actions along the bottom                                                 |
+
+`close` closes the sheet; `submitting` is `true` while a [Form](/components/form) inside the sheet is submitting.
 
 ### Exposed instance {#expose}
 

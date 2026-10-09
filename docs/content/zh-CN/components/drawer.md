@@ -138,7 +138,7 @@ import { Drawer } from '@hina-ui/vue'
 
 ### 锁定 {#locked}
 
-设置 `locked` 后，按 Esc 和点击遮罩都不再关闭抽屉，已显示的关闭按钮变为不可用。此时通过 `open` 关闭仍然有效。
+设置 `locked` 后，按 Esc 和点击遮罩都不再关闭抽屉，已显示的关闭按钮变为不可用。此时通过 `open` 关闭仍然有效。抽屉内的 [Form](/components/form) 提交期间同样处于锁定状态，无论 `locked` 是否设置，用法见 [Dialog](/components/dialog#form)。
 
 <Demo name="drawer/locked" />
 
@@ -196,14 +196,16 @@ import { Drawer } from '@hina-ui/vue'
 | `open`        | `boolean`              | —       | 是否打开，支持双向绑定                     |
 | `class`       | `string`               | —       | 追加到面板上的类名                         |
 
-| 插槽      | 参数        | 说明                                       |
-| --------- | ----------- | ------------------------------------------ |
-| `default` | —           | 触发器，省略时不渲染                       |
-| `icon`    | —           | 标题前的装饰图标                           |
-| `title`   | —           | 标题内容，默认显示 title 属性              |
-| `body`    | `{ close }` | 自定义面板内部，替换默认标题栏、正文和页脚 |
-| `content` | `{ close }` | 正文，过高时在内部滚动                     |
-| `footer`  | `{ close }` | 底部操作按钮                               |
+| 插槽      | 参数                    | 说明                                       |
+| --------- | ----------------------- | ------------------------------------------ |
+| `default` | —                       | 触发器，省略时不渲染                       |
+| `icon`    | —                       | 标题前的装饰图标                           |
+| `title`   | —                       | 标题内容，默认显示 title 属性              |
+| `body`    | `{ close, submitting }` | 自定义面板内部，替换默认标题栏、正文和页脚 |
+| `content` | `{ close, submitting }` | 正文，过高时在内部滚动                     |
+| `footer`  | `{ close, submitting }` | 底部操作按钮                               |
+
+`close` 关闭抽屉；`submitting` 在抽屉内的 [Form](/components/form) 提交期间为 `true`。
 
 ### 实例 {#expose}
 

@@ -14,24 +14,19 @@ import { cn } from '../../lib/cn'
 import { same, snapshot } from '../../../../shared/src/lib/form/values'
 import { focusFirstInvalid } from '../../../../shared/src/lib/form/focus'
 import { useForm, type FormValidateOn } from './hooks/useForm'
+import {
+  FORM_BINDING,
+  type FormController,
+  type FormHandle,
+  type FormSlotProps,
+} from './hooks/useFormHandle'
+import { useFormScopeReport } from './scope'
+import { useLayoutEffect } from '../../primitives/utils/layout-effect'
 import { FormProvider, type FormContext } from './context'
 import { formRoot } from './form.variants'
 import type { FormErrors, FormRules, FormValues } from './standard-schema'
 
-export interface FormSlotProps {
-  errors: FormErrors
-  error: string | undefined
-  invalid: boolean
-  submitting: boolean
-  submitted: boolean
-}
-
-export interface FormHandle {
-  submit: () => Promise<void>
-  validate: () => Promise<boolean>
-  reset: () => void
-  setErrors: (errors: FormErrors) => void
-}
+export type { FormController, FormHandle, FormSlotProps } from './hooks/useFormHandle'
 
 export interface FormProps extends Omit<
   FormHTMLAttributes<HTMLFormElement>,
@@ -41,6 +36,7 @@ export interface FormProps extends Omit<
   rules?: FormRules
   validateOn?: FormValidateOn
   disabled?: boolean
+  form?: FormController
   onSubmit?: (values: FormValues) => unknown
   children?: ReactNode | ((props: FormSlotProps) => ReactNode)
   ref?: Ref<FormHandle>
@@ -51,6 +47,7 @@ export function Form({
   rules,
   validateOn = 'submit',
   disabled,
+  form: controller,
   onSubmit,
   className,
   children,
@@ -88,16 +85,34 @@ export function Form({
     if (!ok && root.current) focusFirstInvalid(root.current)
   }
 
-  function setErrors(next: FormErrors) {
-    form.setErrors(next)
-  }
+  const submitNow = useRef(submit)
+  submitNow.current = submit
+  const handle = useMemo<FormHandle>(
+    () => ({
+      submit: () => submitNow.current(),
+      validate: form.validate,
+      reset: form.reset,
+      setErrors: next => form.setErrors(next),
+      get errors() {
+        return form.errors()
+      },
+      get error() {
+        return form.formError()
+      },
+      get invalid() {
+        return form.invalid()
+      },
+      get submitting() {
+        return form.submitting()
+      },
+      get submitted() {
+        return form.submitted()
+      },
+    }),
+    [form],
+  )
 
-  useImperativeHandle(ref, () => ({
-    submit,
-    validate: form.validate,
-    reset: form.reset,
-    setErrors,
-  }))
+  useImperativeHandle(ref, () => handle, [handle])
 
   function onFormSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -111,6 +126,17 @@ export function Form({
     submitting,
     submitted: form.submitted(),
   }
+
+  const binding = controller?.[FORM_BINDING]
+  useLayoutEffect(() => {
+    if (!binding) return
+    binding.attach(handle)
+    return () => binding.attach(null)
+  }, [binding, handle])
+  useLayoutEffect(() => {
+    binding?.report(slot)
+  })
+  useFormScopeReport(submitting)
 
   return (
     <FormProvider value={context}>

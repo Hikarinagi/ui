@@ -22,7 +22,8 @@ export type {
   FileUploadRejection,
 } from '../components/file-upload/FileUpload'
 export { Form } from '../components/form/Form'
-export type { FormProps, FormHandle, FormSlotProps } from '../components/form/Form'
+export type { FormProps, FormHandle, FormSlotProps, FormController } from '../components/form/Form'
+export { useFormHandle } from '../components/form/hooks/useFormHandle'
 export { FormField } from '../components/form-field/FormField'
 export type { FormFieldProps } from '../components/form-field/FormField'
 export type { FormFieldLayoutProps } from '../components/form-field/types'

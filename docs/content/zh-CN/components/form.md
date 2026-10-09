@@ -74,6 +74,24 @@ import { Form, FormField } from '@hina-ui/vue'
 
 <Demo name="form/state" />
 
+### 在表单外读取状态 {#handle}
+
+::: vue
+
+模板引用除了 `submit()`、`validate()`、`reset()` 与 `setErrors()`，还暴露响应式的 `submitting`、`submitted`、`invalid`、`errors` 与 `error`，含义与默认插槽的参数相同，可在表单之外的模板中读取。
+
+:::
+
+::: react
+
+`useFormHandle()` 返回一个句柄，通过 `form` 属性交给 `Form`。句柄提供 `submitting`、`submitted`、`invalid`、`errors` 与 `error`，含义与 `children` 函数的参数相同，以及 `submit()`、`validate()`、`reset()` 与 `setErrors()`。绑定到表单之前与表单卸载之后，状态为初始值，方法不执行任何操作，`validate()` 得到 `false`。通过 `ref` 取得的句柄也有这些字段，读到的是读取时刻的值，变化时不会触发重新渲染。
+
+:::
+
+示例的保存按钮位于表单之外，`loading` 绑定 `submitting`，点击时调用 `submit()`。
+
+<Demo name="form/handle" />
+
 ## 行为 {#behavior}
 
 - 提交时先校验；未通过则显示错误，把焦点移到第一个无效的控件，不调用提交处理函数。
@@ -112,6 +130,7 @@ import { Form, FormField } from '@hina-ui/vue'
 | `rules`      | `FormRules`                      | —          | 校验规则，Standard Schema 对象或者校验函数 |
 | `validateOn` | `'submit' \| 'blur' \| 'change'` | `'submit'` | 校验时机                                   |
 | `disabled`   | `boolean`                        | `false`    | 是否禁用整个表单                           |
+| `form`       | `FormController`                 | —          | `useFormHandle()` 返回的句柄               |
 | `className`  | `string`                         | —          | 追加至根元素的类名                         |
 
 :::
@@ -137,4 +156,38 @@ import { Form, FormField } from '@hina-ui/vue'
 | `setErrors(errors)` | 设置外部错误，键为字段名     |
 | `reset()`           | 清空错误、失焦记录与提交状态 |
 
+::: vue
+
+### 状态 {#expose}
+
+模板引用同时暴露下列响应式状态。
+
+:::
+
+::: react
+
+### useFormHandle {#use-form-handle}
+
+`useFormHandle()` 返回 `FormController`，通过 `form` 属性绑定到 `Form`，包含上表的方法与下列状态。绑定之前与表单卸载之后，状态为初始值，方法不执行任何操作，`validate()` 得到 `false`。
+
+:::
+
+| 属性         | 类型                  | 说明                                 |
+| ------------ | --------------------- | ------------------------------------ |
+| `submitting` | `boolean`             | 是否正在提交                         |
+| `submitted`  | `boolean`             | 是否提交过，`reset()` 之后为 `false` |
+| `invalid`    | `boolean`             | 是否有字段错误或表单整体错误         |
+| `errors`     | `FormErrors`          | 正在显示的字段错误，键为字段名       |
+| `error`      | `string \| undefined` | 不属于任何字段的表单整体错误         |
+
+::: vue
+
 `FormRules`、`FormErrors`、`FormValidator` 与 `StandardSchema` 类型可以从包入口导入。
+
+:::
+
+::: react
+
+`FormRules`、`FormErrors`、`FormValidator`、`StandardSchema`、`FormHandle` 与 `FormController` 类型可以从包入口导入。
+
+:::

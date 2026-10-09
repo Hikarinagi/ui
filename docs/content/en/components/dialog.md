@@ -154,14 +154,33 @@ The example uses [Button](/components/button) to scroll with `viewport.scrollTo(
 
 ### Locked {#locked}
 
-With `locked`, neither Escape nor a click on the scrim closes the dialog, and a rendered close button becomes disabled. Closing through `open` still works.
+With `locked`, neither Escape nor a click on the scrim closes the dialog, and a rendered close button becomes disabled. Closing through `open` still works. The dialog is locked in the same way while a [Form](/components/form) inside it is submitting, whether or not `locked` is set.
 
 <Demo name="dialog/locked" />
+
+### Form inside a dialog {#form}
+
+::: vue
+
+While a [Form](/components/form) in the `content` slot is submitting, the dialog locks itself, and it unlocks when the submit ends or the form unmounts. The `submitting` slot prop of `body`, `content` and `footer` is `true` meanwhile.
+
+:::
+
+::: react
+
+While a [Form](/components/form) rendered by `renderContent` is submitting, the dialog locks itself, and it unlocks when the submit ends or the form unmounts. The `submitting` value passed to `renderBody`, `renderContent` and `renderFooter` is `true` meanwhile.
+
+:::
+
+The footer buttons in the example sit outside the form: the save button sets `type="submit"`, points at the `id` of the form with the `form` attribute and binds `loading` to `submitting`; the cancel button binds `disabled` to `submitting`. Once the submit completes, the dialog is closed through `open`.
+
+<Demo name="dialog/form" />
 
 ## Behaviour {#behavior}
 
 - The page is locked from scrolling while the dialog is open, focus is trapped inside the panel, and it returns to the trigger on close.
 - Escape or a click on the scrim closes the dialog; `locked` disables both.
+- A [Form](/components/form) submitting inside the dialog counts as `locked`; a form outside the dialog does not affect it, and a nested dialog only follows the forms inside itself.
 - The default body uses [ScrollArea](/components/scroll-area).
 
 ## Accessibility {#a11y}
@@ -198,14 +217,16 @@ With `locked`, neither Escape nor a click on the scrim closes the dialog, and a 
 | `open`        | `boolean`                               | —       | Whether it is open; supports v-model    |
 | `class`       | `string`                                | —       | Classes appended to the panel           |
 
-| Slot      | Payload     | Description                                                      |
-| --------- | ----------- | ---------------------------------------------------------------- |
-| `default` | —           | The trigger; omit it to render none                              |
-| `icon`    | —           | Decorative icon before the title                                 |
-| `title`   | —           | Title content; defaults to the title prop                        |
-| `body`    | `{ close }` | Entire interior; replaces the default header, content and footer |
-| `content` | `{ close }` | The body, scrolling when it is too tall                          |
-| `footer`  | `{ close }` | The actions along the bottom                                     |
+| Slot      | Payload                 | Description                                                      |
+| --------- | ----------------------- | ---------------------------------------------------------------- |
+| `default` | —                       | The trigger; omit it to render none                              |
+| `icon`    | —                       | Decorative icon before the title                                 |
+| `title`   | —                       | Title content; defaults to the title prop                        |
+| `body`    | `{ close, submitting }` | Entire interior; replaces the default header, content and footer |
+| `content` | `{ close, submitting }` | The body, scrolling when it is too tall                          |
+| `footer`  | `{ close, submitting }` | The actions along the bottom                                     |
+
+`close` closes the dialog; `submitting` is `true` while a [Form](/components/form) inside the dialog is submitting.
 
 ### Exposed instance {#expose}
 

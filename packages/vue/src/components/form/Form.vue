@@ -3,6 +3,7 @@
   import { cn } from '../../lib/cn'
   import { useForm, type FormValidateOn } from './composables/useForm'
   import { provideForm } from './context'
+  import { reportFormScope } from './scope'
   import { formRoot } from './form.variants'
   import { focusFirstInvalid } from './utils/focus'
   import type { FormErrors, FormRules, FormValues } from './standard-schema'
@@ -47,7 +48,19 @@
     form.setErrors(errors)
   }
 
-  defineExpose({ submit, validate: form.validate, reset: form.reset, setErrors })
+  reportFormScope(form.submitting)
+
+  defineExpose({
+    submit,
+    validate: form.validate,
+    reset: form.reset,
+    setErrors,
+    errors: form.errors,
+    error: form.formError,
+    invalid: form.invalid,
+    submitting: form.submitting,
+    submitted: form.submitted,
+  })
 </script>
 
 <template>
