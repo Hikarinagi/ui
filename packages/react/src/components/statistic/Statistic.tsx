@@ -77,7 +77,7 @@ export function Statistic({
         <span className={statisticLabel()}>{label}</span>
         <span className={statisticValue({ size })}>
           {loading ? (
-            <Skeleton className="h-[1.25em] w-24" />
+            <Skeleton className="h-[1lh] w-24" />
           ) : (
             <>
               {prefix ? <span className={statisticAffix()}>{prefix}</span> : null}
@@ -98,7 +98,7 @@ export function Statistic({
         {deltaText ? (
           <span className={statisticDelta({ tone: deltaTone })}>
             {loading ? (
-              <Skeleton className="h-[1.25em] w-16" />
+              <Skeleton className="h-[1lh] w-16" />
             ) : (
               <>
                 {delta! > 0 ? (

@@ -60,7 +60,7 @@
     <div :class="statisticBody()">
       <span :class="statisticLabel()">{{ props.label }}</span>
       <span :class="statisticValue({ size: props.size })">
-        <Skeleton v-if="props.loading" class="h-[1.25em] w-24" />
+        <Skeleton v-if="props.loading" class="h-[1lh] w-24" />
         <template v-else>
           <span v-if="props.prefix" :class="statisticAffix()">{{ props.prefix }}</span>
           <NumberFormat
@@ -75,7 +75,7 @@
         </template>
       </span>
       <span v-if="deltaText" :class="statisticDelta({ tone: deltaTone })">
-        <Skeleton v-if="props.loading" class="h-[1.25em] w-16" />
+        <Skeleton v-if="props.loading" class="h-[1lh] w-16" />
         <template v-else>
           <TrendingUp v-if="props.delta! > 0" aria-hidden="true" />
           <TrendingDown v-else-if="props.delta! < 0" aria-hidden="true" />
