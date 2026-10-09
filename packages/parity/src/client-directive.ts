@@ -1,6 +1,7 @@
 import ts from 'typescript'
 
 const DIRECTIVE = /^(['"])use client\1;?$/
+const SERVER_HOOKS = new Set(['useId'])
 
 export function hasClientDirective(text: string) {
   const file = ts.createSourceFile(
@@ -69,7 +70,8 @@ export function clientReasons(
         : ts.isPropertyAccessExpression(callee)
           ? callee.name.text
           : ''
-      if (/^use[A-Z]/.test(called) || called === 'use') reasons.add(`calls ${called}`)
+      if ((/^use[A-Z]/.test(called) && !SERVER_HOOKS.has(called)) || called === 'use')
+        reasons.add(`calls ${called}`)
       if (called === 'createContext') reasons.add('creates a context')
     }
     if (ts.isJsxAttribute(node) && ts.isIdentifier(node.name)) {

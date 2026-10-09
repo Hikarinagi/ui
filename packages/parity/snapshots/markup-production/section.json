@@ -1,7 +1,7 @@
 {
   "titled": [
-    "<section class=\"flex scroll-mt-6 flex-col gap-4\">",
-    "  <h2 class=\"text-fg text-xl font-semibold tracking-tight\">",
+    "<section aria-labelledby=\"v-1\" class=\"flex scroll-mt-6 flex-col gap-4\">",
+    "  <h2 class=\"text-fg text-xl font-semibold tracking-tight\" id=\"v-1\">",
     "    <!--[-->",
     "    \"发售信息\"",
     "    <!--]-->",
@@ -19,8 +19,8 @@
     "  <!--]-->"
   ],
   "anchor id and class": [
-    "<section id=\"intro\" class=\"flex scroll-mt-6 flex-col gap-4 p-4\">",
-    "  <h2 class=\"text-fg text-xl font-semibold tracking-tight\">",
+    "<section id=\"intro\" aria-labelledby=\"v-1\" class=\"flex scroll-mt-6 flex-col gap-4 p-4\">",
+    "  <h2 class=\"text-fg text-xl font-semibold tracking-tight\" id=\"v-1\">",
     "    <!--[-->",
     "    \"简介\"",
     "    <!--]-->",

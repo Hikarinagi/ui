@@ -41,6 +41,7 @@ describe('React Server Components boundary', () => {
 
   it('detects client-only constructs', () => {
     expect(clientReasons('const [a] = useState(0)')).toEqual(['calls useState'])
+    expect(clientReasons('const id = useId()')).toEqual([])
     expect(clientReasons('const C = createContext(null)')).toEqual(['creates a context'])
     expect(clientReasons('const a = <button onClick={go} />', 'a.tsx')).toEqual(['binds onClick'])
     expect(clientReasons('export const A = () => <p className="x" />', 'a.tsx')).toEqual([])
