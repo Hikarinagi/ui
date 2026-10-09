@@ -1,5 +1,28 @@
 # @hina-ui/react
 
+## [1.7.8](https://github.com/Hikarinagi/ui/compare/@hina-ui/react@1.7.7...@hina-ui/react@1.7.8) (2026-10-09)
+
+### Added
+
+- **AppShell** The header height is available as the CSS variable --hn-app-shell-header-h on the root element. Overriding it resizes the header.
+- **Form** Form state can be read from outside the form. The Vue template ref exposes submitting, submitted, invalid, errors and error; React adds the useFormHandle hook and the form prop, and its ref handle reads the same fields.
+- **AppShell** restoreKey now makes the shell save and restore the scroll position of its main area by itself: the position is kept in history.state per history entry, restored on reload, back and forward, and a new page starts at the top or at its #hash target. Server output carries an inline script that sets the position before hydration. createScrollRestoreSession and scrollRestoreScript are exported for scroll containers outside AppShell.
+- **Button** Add the xs size, 24px high (20px in the compact density), with the --hn-control-h-xs and --hn-control-px-xs tokens. IconButton, CopyButton and SplitButton accept it as well.
+- **Locale** Add the Japanese message pack jaJP.
+- **DescriptionList** Add orientation="horizontal", which puts names in one column and values in another. --hn-dl-term-width gives the name column a fixed width.
+- **CommandPalette** closeOnSelect, on the palette or on a single item, keeps the palette open after a selection: the search text is kept and focus returns to the input. loading shows a loading row, customised through the loading slot (Vue) or loadingContent (React), and the empty slot (Vue) or renderEmpty (React) replaces the empty content and receives the current search text. The loading and empty content now sit outside the listbox with role="status".
+- **CommandPalette** Item content can be rendered through the item slot (Vue) or renderItem (React), which receive the item and the matched range of its label. Items carry typed data through `CommandItem<T>`. The input row can be replaced through the input slot (Vue) or the input prop (React) using the new CommandPaletteInput.
+- **LineClamp** Add LineClamp, which folds long content to a number of lines and shows a button to expand it when the content exceeds them.
+- **Tag** Add the lg size, 28px high.
+
+### Changed
+
+- **Dialog** Dialog, Drawer and Sheet lock themselves while a Form inside them is submitting, and their body, content and footer slots receive submitting next to close.
+
+### Fixed
+
+- **Anchor** The directory keeps the current entry visible when it changes while a previous smooth follow is still travelling. The follow used to judge the entry by the directory's momentary position, treat it as visible, and let the earlier scroll carry it out of view.
+
 ## [1.7.7](https://github.com/Hikarinagi/ui/compare/@hina-ui/react@1.7.6...@hina-ui/react@1.7.7) (2026-10-09)
 
 ### Added
