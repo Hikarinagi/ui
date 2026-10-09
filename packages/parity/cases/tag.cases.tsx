@@ -31,6 +31,11 @@ export default defineCases('Tag', [
     react: () => <Tag size="md">标签</Tag>,
   },
   {
+    name: 'size lg',
+    vue: () => h(VTag, { size: 'lg' }, () => '标签'),
+    react: () => <Tag size="lg">标签</Tag>,
+  },
+  {
     name: 'pill solid accent',
     vue: () => h(VTag, { pill: true, variant: 'solid', tone: 'accent' }, () => '胶囊'),
     react: () => (

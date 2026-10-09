@@ -46,13 +46,13 @@ import { Tag } from '@hina-ui/vue'
 
 ### 尺寸 {#sizes}
 
-`sm` 用于列表与表格，与正文并排时高度更协调；`md` 用于详情页的标题旁。
+`sm` 用于列表与表格，与正文并排时高度更协调；`md` 用于详情页的标题旁；`lg` 高 28px，与 `sm` 尺寸的按钮等高。
 
 <Playground
   name="Tag"
   label="科幻"
   :controls="[
-    { prop: 'size', options: ['sm', 'md'] },
+    { prop: 'size', options: ['sm', 'md', 'lg'] },
     { prop: 'variant', options: ['soft', 'solid', 'outline'] },
   ]"
 />
@@ -95,7 +95,7 @@ import { Tag } from '@hina-ui/vue'
 | --------- | ----------------------------------------------------------------------- | ----------- | ------------------ |
 | `variant` | `'soft' \| 'solid' \| 'outline'`                                        | `'soft'`    | 视觉样式           |
 | `tone`    | `'neutral' \| 'accent' \| 'success' \| 'warning' \| 'danger' \| 'info'` | `'neutral'` | 语义色调           |
-| `size`    | `'sm' \| 'md'`                                                          | `'sm'`      | 尺寸               |
+| `size`    | `'sm' \| 'md' \| 'lg'`                                                  | `'sm'`      | 尺寸               |
 | `pill`    | `boolean`                                                               | `false`     | 是否呈胶囊形       |
 | `as`      | `string`                                                                | `'span'`    | 渲染的标签         |
 | `class`   | `string`                                                                | —           | 追加至根元素的类名 |

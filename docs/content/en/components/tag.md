@@ -46,13 +46,13 @@ Six tones. `neutral` suits categories and attributes; the other five express sta
 
 ### Sizes {#sizes}
 
-`sm` suits lists and tables, where it sits comfortably beside body text; `md` suits the area beside a title on a detail page.
+`sm` suits lists and tables, where it sits comfortably beside body text; `md` suits the area beside a title on a detail page; `lg` is 28px high, the same as an `sm` button.
 
 <Playground
   name="Tag"
   label="Sci-fi"
   :controls="[
-    { prop: 'size', options: ['sm', 'md'] },
+    { prop: 'size', options: ['sm', 'md', 'lg'] },
     { prop: 'variant', options: ['soft', 'solid', 'outline'] },
   ]"
 />
@@ -95,7 +95,7 @@ Text inside a tag does not wrap. When the content may be long, give the tag a ma
 | --------- | ----------------------------------------------------------------------- | ----------- | ---------------------------- |
 | `variant` | `'soft' \| 'solid' \| 'outline'`                                        | `'soft'`    | Visual style                 |
 | `tone`    | `'neutral' \| 'accent' \| 'success' \| 'warning' \| 'danger' \| 'info'` | `'neutral'` | Semantic tone                |
-| `size`    | `'sm' \| 'md'`                                                          | `'sm'`      | Size                         |
+| `size`    | `'sm' \| 'md' \| 'lg'`                                                  | `'sm'`      | Size                         |
 | `pill`    | `boolean`                                                               | `false`     | Render with rounded ends     |
 | `as`      | `string`                                                                | `'span'`    | The rendered tag             |
 | `class`   | `string`                                                                | —           | Classes appended to the root |
