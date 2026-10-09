@@ -24,9 +24,16 @@ export interface AnchorFollowResult {
   viewport: HTMLElement | undefined
 }
 
+const FLIGHT_MS = 1500
+
 export function createAnchorFollow() {
   let lastCurrent: string | undefined
   let lastEnd: string | undefined
+  let flight: { port: HTMLElement; top: number; until: number } | undefined
+
+  function land(event: Event) {
+    if (flight?.port === event.currentTarget) flight = undefined
+  }
 
   function follow({
     nav,
@@ -47,13 +54,18 @@ export function createAnchorFollow() {
     if (!port || port.clientHeight <= 0 || port.scrollHeight <= port.clientHeight) return result
 
     const box = port.getBoundingClientRect()
-    let row: Pick<DOMRect, 'top' | 'bottom' | 'height'> = link.getBoundingClientRect()
     const scale = port.offsetHeight ? box.height / port.offsetHeight : 1
     if (scale <= 0) return result
+    const now = performance.now()
+    if (flight && (flight.port !== port || now > flight.until)) flight = undefined
+    const base = flight ? flight.top : port.scrollTop
+    const ahead = (base - port.scrollTop) * scale
+    const rect = link.getBoundingClientRect()
+    let row = { top: rect.top - ahead, bottom: rect.bottom - ahead, height: rect.height }
     if (endId !== id) {
       const end = nav.querySelector<HTMLElement>(`a[href="#${CSS.escape(endId)}"]`)
       if (end?.getClientRects().length) {
-        const bottom = end.getBoundingClientRect().bottom
+        const bottom = end.getBoundingClientRect().bottom - ahead
         const height = bottom - row.top
         if (height >= row.height && height <= port.clientHeight * scale)
           row = { top: row.top, bottom, height }
@@ -79,15 +91,12 @@ export function createAnchorFollow() {
       row.height > bottom - top || row.top < top
         ? (row.top - top) / scale - before
         : (row.bottom - bottom) / scale + after
-    const next = Math.max(
-      0,
-      Math.min(port.scrollHeight - port.clientHeight, port.scrollTop + delta),
-    )
-    if (Math.abs(next - port.scrollTop) < 1) return result
-    port.scrollTo({
-      top: next,
-      behavior: changed && !prefersReducedMotion() ? 'smooth' : 'instant',
-    })
+    const next = Math.max(0, Math.min(port.scrollHeight - port.clientHeight, base + delta))
+    if (Math.abs(next - base) < 1) return result
+    const smooth = changed && !prefersReducedMotion()
+    flight = smooth ? { port, top: next, until: now + FLIGHT_MS } : undefined
+    if (smooth) port.addEventListener('scrollend', land, { once: true })
+    port.scrollTo({ top: next, behavior: smooth ? 'smooth' : 'instant' })
     return result
   }
 

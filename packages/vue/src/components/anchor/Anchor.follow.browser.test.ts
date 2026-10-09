@@ -232,6 +232,23 @@ it('does not recenter visible entries or undo manual browsing of the directory',
   expect(port().scrollTop).toBe(900)
 })
 
+it('turns back when the current entry changes while the directory is still travelling', async () => {
+  const { go, port, anchor } = setup('native')
+  await vi.waitFor(() => expect(anchor.value?.current).toBe('follow-0'))
+  await settle()
+  const scroll = vi.spyOn(port(), 'scrollTo').mockImplementation(() => {})
+  await go(28)
+  await vi.waitFor(() => expect(scroll).toHaveBeenCalledTimes(1))
+  const away = scroll.mock.calls[0]![0] as ScrollToOptions
+  expect(away.behavior).toBe('smooth')
+  expect(away.top).toBeGreaterThan(500)
+  await go(2)
+  await vi.waitFor(() => expect(scroll).toHaveBeenCalledTimes(2))
+  const back = scroll.mock.calls[1]![0] as ScrollToOptions
+  expect(back.behavior).toBe('smooth')
+  expect(back.top).toBeLessThan(100)
+})
+
 it('can disable following while still exposing and emitting the current entry', async () => {
   const { go, port, expectVisible, autoScroll, change } = setup('scroll-area', false)
   await go(28)
