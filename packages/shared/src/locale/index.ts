@@ -44,6 +44,7 @@ export function mergeUiMessages(base: UiMessages, patch: PartialUiMessages): UiM
     rating: { ...base.rating, ...patch.rating },
     form: { ...base.form, ...patch.form },
     command: { ...base.command, ...patch.command },
+    lineClamp: { ...base.lineClamp, ...patch.lineClamp },
   }
 }
 

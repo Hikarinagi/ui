@@ -1,0 +1,57 @@
+{
+  "default": [
+    "<div class=\"flex min-w-0 flex-col items-start gap-1\">",
+    "  <div id=\"v-1\" style=\"--hn-line-clamp:3;\" class=\"w-full min-w-0 line-clamp-(--hn-line-clamp)\">",
+    "    <!--[-->",
+    "    \"行商罗伦斯在马车上发现了一位自称贤狼的少女，两人结伴北上。\"",
+    "    <!--]-->",
+    "  <!---->"
+  ],
+  "lines and class": [
+    "<div class=\"flex min-w-0 flex-col items-start gap-1 max-w-md\">",
+    "  <div id=\"v-1\" style=\"--hn-line-clamp:2;\" class=\"w-full min-w-0 line-clamp-(--hn-line-clamp)\">",
+    "    <!--[-->",
+    "    \"行商罗伦斯在马车上发现了一位自称贤狼的少女，两人结伴北上。\"",
+    "    <!--]-->",
+    "  <!---->"
+  ],
+  "expanded": [
+    "<div class=\"flex min-w-0 flex-col items-start gap-1\">",
+    "  <div id=\"v-1\" data-expanded=\"\" style=\"--hn-line-clamp:3;\" class=\"w-full min-w-0\">",
+    "    <!--[-->",
+    "    \"行商罗伦斯在马车上发现了一位自称贤狼的少女，两人结伴北上。\"",
+    "    <!--]-->",
+    "  <!---->"
+  ],
+  "block content": [
+    "<div class=\"flex min-w-0 flex-col items-start gap-1\">",
+    "  <div id=\"v-1\" style=\"--hn-line-clamp:4;\" class=\"w-full min-w-0 line-clamp-(--hn-line-clamp)\">",
+    "    <!--[-->",
+    "    <p class=\"text-base text-muted font-normal\">",
+    "      <!--[-->",
+    "      \"行商罗伦斯在马车上发现了一位自称贤狼的少女，两人结伴北上。\"",
+    "      <!--]-->",
+    "    <p class=\"text-base text-muted font-normal\">",
+    "      <!--[-->",
+    "      \"行商罗伦斯在马车上发现了一位自称贤狼的少女，两人结伴北上。\"",
+    "      <!--]-->",
+    "    <!--]-->",
+    "  <!---->"
+  ],
+  "invalid lines fall back": [
+    "<div class=\"flex min-w-0 flex-col items-start gap-1\">",
+    "  <div id=\"v-1\" style=\"--hn-line-clamp:1;\" class=\"w-full min-w-0 line-clamp-(--hn-line-clamp)\">",
+    "    <!--[-->",
+    "    \"行商罗伦斯在马车上发现了一位自称贤狼的少女，两人结伴北上。\"",
+    "    <!--]-->",
+    "  <!---->"
+  ],
+  "fallthrough attributes": [
+    "<div class=\"flex min-w-0 flex-col items-start gap-1\" id=\"intro\" data-test=\"x\">",
+    "  <div id=\"v-1\" style=\"--hn-line-clamp:3;\" class=\"w-full min-w-0 line-clamp-(--hn-line-clamp)\">",
+    "    <!--[-->",
+    "    \"行商罗伦斯在马车上发现了一位自称贤狼的少女，两人结伴北上。\"",
+    "    <!--]-->",
+    "  <!---->"
+  ]
+}
