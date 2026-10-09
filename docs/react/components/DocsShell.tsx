@@ -2,9 +2,10 @@
 
 import NextLink from 'next/link'
 import { usePathname } from 'next/navigation'
-import type { ReactNode } from 'react'
+import { useRef, type ReactNode } from 'react'
 import {
   AppShell,
+  type AppShellHandle,
   Button,
   Inline,
   NavLink,
@@ -20,6 +21,7 @@ import {
 import { hrefFor, type Locale } from '~/lib/routes'
 import { componentName, translator } from '~/lib/i18n'
 import { nav, primary } from '~/lib/nav'
+import { useScrollRestore } from '~/lib/useScrollRestore'
 import { DocsBanner } from './DocsBanner'
 
 interface DocsShellProps {
@@ -47,6 +49,9 @@ export function DocsShell({
   const t = translator(locale)
   const path = pathname.replace(/^\/en(?=\/|$)/, '') || '/'
   const landing = path === '/'
+  const restoreKey = landing ? 'landing' : 'main'
+  const shell = useRef<AppShellHandle>(null)
+  useScrollRestore(restoreKey, shell)
   const current = (to: string) => path === to
   const active = (match: string) => path.startsWith(match)
 
@@ -91,8 +96,9 @@ export function DocsShell({
   return (
     <UiLocaleProvider messages={locale === 'en' ? enUS : zhCN}>
       <AppShell
+        ref={shell}
         collapsible={landing ? undefined : 'hidden'}
-        restoreKey={landing ? 'landing' : 'main'}
+        restoreKey={restoreKey}
         banner={<DocsBanner locale={locale} version={version} />}
         header={
           <>
