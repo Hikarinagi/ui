@@ -4,6 +4,7 @@ import type * as Shared from '../../../../../shared/src/lib/command-palette/matc
 export {
   commandMatchRange,
   filterCommands,
+  layoutCommandSections,
 } from '../../../../../shared/src/lib/command-palette/match'
 export type CommandMatch<T = unknown> = Shared.CommandMatch<CommandItem<T>>
 export type CommandSection<T = unknown> = Shared.CommandSection<CommandItem<T>>

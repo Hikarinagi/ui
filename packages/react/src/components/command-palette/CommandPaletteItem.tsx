@@ -1,6 +1,6 @@
 'use client'
 
-import type { ReactNode, Ref } from 'react'
+import type { CSSProperties, ReactNode, Ref } from 'react'
 import { ListboxItem } from '../../primitives/listbox'
 import { Kbd } from '../kbd/Kbd'
 import { selectItem } from '../select/select.variants'
@@ -11,6 +11,7 @@ export interface CommandPaletteItemProps<T = unknown> {
   match: CommandMatch<T>
   render?: () => ReactNode
   onSelect?: () => void
+  style?: CSSProperties
   ref?: Ref<HTMLElement>
   [attribute: `aria-${string}`]: string | number | boolean | undefined
 }

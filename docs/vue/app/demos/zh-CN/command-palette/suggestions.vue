@@ -4,7 +4,7 @@
 
   const search = ref('')
 
-  const recent = ['狼与香辛料', '时雨泽惠一']
+  const recent = ref(['狼与香辛料', '时雨泽惠一'])
   const hot = ['冰菓', '文学少女']
 
   const books: CommandItem[] = [
@@ -22,7 +22,7 @@
     search.value.trim()
       ? books
       : [
-          { label: '最近搜索', items: recent.map(suggest) },
+          ...(recent.value.length ? [{ label: '最近搜索', items: recent.value.map(suggest) }] : []),
           { label: '热门搜索', items: hot.map(suggest) },
         ],
   )
@@ -31,5 +31,17 @@
 <template>
   <CommandPalette v-model:search="search" :items="items" placeholder="搜索书名或作者">
     <Button variant="outline" tone="neutral">搜索书籍</Button>
+    <template #heading="{ group }">
+      {{ group.label }}
+      <Button
+        v-if="group.label === '最近搜索'"
+        size="xs"
+        variant="ghost"
+        tone="neutral"
+        @click="recent = []"
+      >
+        清除
+      </Button>
+    </template>
   </CommandPalette>
 </template>

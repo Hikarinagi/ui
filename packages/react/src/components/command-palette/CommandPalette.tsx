@@ -18,6 +18,7 @@ import { useHotkey } from './hooks/useHotkey'
 import { commandWrapper } from './command-palette.variants'
 import type {
   CommandEmptyRenderProps,
+  CommandHeadingRenderProps,
   CommandItem,
   CommandItemRenderProps,
   CommandItems,
@@ -45,6 +46,7 @@ export interface CommandPaletteProps<T = unknown> extends Omit<
   onSearchChange?: (search: string) => void
   onSelect?: (item: CommandItem<T>) => void
   renderItem?: (props: CommandItemRenderProps<T>) => ReactNode
+  renderHeading?: (props: CommandHeadingRenderProps<T>) => ReactNode
   renderEmpty?: (props: CommandEmptyRenderProps) => ReactNode
   loadingContent?: ReactNode
   input?: ReactNode
@@ -70,6 +72,7 @@ export function CommandPalette<T = unknown>({
   onSearchChange,
   onSelect,
   renderItem,
+  renderHeading,
   renderEmpty,
   loadingContent,
   input,
@@ -128,6 +131,7 @@ export function CommandPalette<T = unknown>({
         onSelect={select}
         loading={loading}
         renderItem={renderItem}
+        renderHeading={renderHeading}
         renderEmpty={renderEmpty}
         loadingContent={loadingContent}
         input={input}
@@ -157,6 +161,7 @@ export function CommandPalette<T = unknown>({
               onSelect={select}
               loading={loading}
               renderItem={renderItem}
+              renderHeading={renderHeading}
               renderEmpty={renderEmpty}
               loadingContent={loadingContent}
               input={input}

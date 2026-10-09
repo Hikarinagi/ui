@@ -14,6 +14,14 @@ export const virtualListContent = tv({
   },
 })
 
+export const virtualChoiceHeadings = tv({
+  base: 'pointer-events-none absolute inset-0 z-1 p-[inherit]',
+})
+
+export const virtualChoiceHeading = tv({
+  base: 'pointer-events-auto absolute inset-x-0',
+})
+
 export const virtualListItem = tv({
   base: 'flow-root min-w-0 shrink-0',
   variants: {
