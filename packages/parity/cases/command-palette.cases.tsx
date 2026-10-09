@@ -233,4 +233,49 @@ export default defineCases('CommandPalette', [
       />
     ),
   },
+  {
+    name: 'inline loading without items',
+    vue: () => h(V.CommandPalette, { items: [], inline: true, loading: true }),
+    react: () => <R.CommandPalette items={[]} inline loading />,
+  },
+  {
+    name: 'inline loading with items keeps the list and adds a status row',
+    vue: () => h(V.CommandPalette, { items: vueItems, inline: true, loading: true }),
+    react: () => <R.CommandPalette items={reactItems} inline loading />,
+  },
+  {
+    name: 'inline custom loading content',
+    vue: () =>
+      h(
+        V.CommandPalette,
+        { items: [], inline: true, ignoreFilter: true, loading: true },
+        { loading: () => '搜索中' },
+      ),
+    react: () => (
+      <R.CommandPalette items={[]} inline ignoreFilter loading loadingContent="搜索中" />
+    ),
+  },
+  {
+    name: 'inline custom empty content with the search text',
+    vue: () =>
+      h(
+        V.CommandPalette,
+        { items: [], inline: true, ignoreFilter: true, search: '香辛' },
+        { empty: ({ search }: V.CommandEmptySlotProps) => `没有找到「${search}」` },
+      ),
+    react: () => (
+      <R.CommandPalette
+        items={[]}
+        inline
+        ignoreFilter
+        search="香辛"
+        renderEmpty={({ search }) => `没有找到「${search}」`}
+      />
+    ),
+  },
+  {
+    name: 'inline virtualized loading without items',
+    vue: () => h(V.CommandPalette, { items: [], inline: true, virtualize: true, loading: true }),
+    react: () => <R.CommandPalette items={[]} inline virtualize loading />,
+  },
 ])

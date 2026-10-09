@@ -16,6 +16,7 @@ export const CONTENT_SLOTS: Record<string, string[]> = {
   'data-table': ['loading'],
   'virtual-list': ['loading'],
   autocomplete: ['loading'],
+  'command-palette': ['loading'],
   image: ['skeleton'],
   'app-shell': ['sidebar'],
 }

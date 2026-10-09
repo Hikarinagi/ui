@@ -1,7 +1,7 @@
 <script setup lang="ts" generic="T = unknown">
   import { Search } from '@lucide/vue'
   import { ListboxContent, ListboxGroup, ListboxGroupLabel, ListboxRoot } from 'reka-ui'
-  import { computed, shallowRef } from 'vue'
+  import { computed, nextTick, shallowRef } from 'vue'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
   import Card from '../card/Card.vue'
@@ -16,9 +16,15 @@
     commandEmpty,
     commandInputRow,
     commandList,
+    commandStatus,
   } from './command-palette.variants'
   import { provideCommandPalette } from './context'
-  import type { CommandItem, CommandItems, CommandItemSlotProps } from './types'
+  import type {
+    CommandEmptySlotProps,
+    CommandItem,
+    CommandItems,
+    CommandItemSlotProps,
+  } from './types'
   import { useCommandItems } from './composables/useCommandItems'
   import { commandMatchRange } from './utils/match'
 
@@ -30,6 +36,7 @@
     label: string
     placeholder?: string
     ignoreFilter?: boolean
+    loading?: boolean
     autoFocus?: boolean
     inline?: boolean
     class?: string
@@ -41,6 +48,8 @@
     default?(): unknown
     input?(): unknown
     item?(props: CommandItemSlotProps<T>): unknown
+    loading?(): unknown
+    empty?(props: CommandEmptySlotProps): unknown
   }>()
 
   const search = defineModel<string>('search', { default: '' })
@@ -49,6 +58,20 @@
 
   const input = shallowRef<HTMLElement>()
   const { sections, options } = useCommandItems(props, () => search.value)
+
+  function select(item: CommandItem<T>) {
+    const field = input.value
+    const panel = field?.closest('[data-hn-command-palette]')
+    const inside = !!panel?.contains(document.activeElement)
+    emit('select', item)
+    if (!field || !panel || !inside) return
+    void nextTick(() => {
+      const active = document.activeElement
+      if (!field.isConnected) return
+      if (!active || active === document.body || panel.contains(active))
+        field.focus({ preventScroll: true })
+    })
+  }
 
   provideCommandPalette({
     search,
@@ -73,7 +96,12 @@
         <Search aria-hidden="true" />
         <CommandPaletteInput />
       </div>
-      <ListboxContent v-if="props.virtualize" as-child :aria-label="props.label">
+      <ListboxContent
+        v-if="props.virtualize"
+        as-child
+        :aria-label="props.label"
+        :aria-busy="props.loading || undefined"
+      >
         <VirtualChoices
           :options="options"
           :virtualize="props.virtualize"
@@ -85,7 +113,7 @@
             <CommandPaletteItem
               v-bind="attrs"
               :match="option.match"
-              @select="emit('select', option.match.item)"
+              @select="select(option.match.item)"
             >
               <template v-if="$slots.item" #default>
                 <slot
@@ -96,11 +124,18 @@
               </template>
             </CommandPaletteItem>
           </template>
-          <template #empty>{{ t.command.empty }}</template>
+          <template #empty>
+            <slot v-if="props.loading" name="loading">{{ t.common.loading }}</slot>
+            <slot v-else name="empty" :search="search">{{ t.command.empty }}</slot>
+          </template>
         </VirtualChoices>
       </ListboxContent>
       <ScrollArea v-else :class="commandList()">
-        <ListboxContent :aria-label="props.label" :class="selectListBody()">
+        <ListboxContent
+          :aria-label="props.label"
+          :aria-busy="props.loading || undefined"
+          :class="selectListBody()"
+        >
           <template v-for="section in sections" :key="section.key">
             <ListboxGroup v-if="section.label">
               <ListboxGroupLabel :class="selectLabel()">{{ section.label }}</ListboxGroupLabel>
@@ -108,7 +143,7 @@
                 v-for="match in section.matches"
                 :key="match.item.id"
                 :match="match"
-                @select="emit('select', match.item)"
+                @select="select(match.item)"
               >
                 <template v-if="$slots.item" #default>
                   <slot name="item" :item="match.item" :match="commandMatchRange(match)" />
@@ -120,7 +155,7 @@
                 v-for="match in section.matches"
                 :key="match.item.id"
                 :match="match"
-                @select="emit('select', match.item)"
+                @select="select(match.item)"
               >
                 <template v-if="$slots.item" #default>
                   <slot name="item" :item="match.item" :match="commandMatchRange(match)" />
@@ -128,9 +163,15 @@
               </CommandPaletteItem>
             </template>
           </template>
-          <div v-if="sections.length === 0" :class="commandEmpty()">{{ t.command.empty }}</div>
         </ListboxContent>
+        <div v-if="sections.length === 0" role="status" :class="commandEmpty()">
+          <slot v-if="props.loading" name="loading">{{ t.common.loading }}</slot>
+          <slot v-else name="empty" :search="search">{{ t.command.empty }}</slot>
+        </div>
       </ScrollArea>
+      <div v-if="props.loading && sections.length > 0" role="status" :class="commandStatus()">
+        <slot name="loading">{{ t.common.loading }}</slot>
+      </div>
     </ListboxRoot>
   </Card>
 </template>

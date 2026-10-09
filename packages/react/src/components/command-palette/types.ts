@@ -14,6 +14,7 @@ export interface CommandItem<T = unknown> {
   icon?: ComponentType<CommandIconProps>
   kbd?: string[]
   disabled?: boolean
+  closeOnSelect?: boolean
   data?: T
   onSelect?: () => void
 }
@@ -30,6 +31,10 @@ export type CommandItemMatch = CommandMatchRange
 export interface CommandItemRenderProps<T = unknown> {
   item: CommandItem<T>
   match: CommandItemMatch | null
+}
+
+export interface CommandEmptyRenderProps {
+  search: string
 }
 
 export function isCommandGroup<T>(

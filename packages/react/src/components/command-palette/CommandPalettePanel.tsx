@@ -9,6 +9,7 @@ import {
   ListboxRoot,
 } from '../../primitives/listbox'
 import { cn } from '../../lib/cn'
+import { hasContent } from '../../lib/content'
 import { lucide } from '../../lib/icon'
 import { useUiLocale } from '../../locale'
 import { Card } from '../card/Card'
@@ -18,9 +19,20 @@ import type { VirtualizeOptions } from '../../lib/virtual/types'
 import { selectLabel, selectListBody } from '../select/select.variants'
 import { CommandPaletteInput } from './CommandPaletteInput'
 import { CommandPaletteItem } from './CommandPaletteItem'
-import { commandCard, commandEmpty, commandInputRow, commandList } from './command-palette.variants'
+import {
+  commandCard,
+  commandEmpty,
+  commandInputRow,
+  commandList,
+  commandStatus,
+} from './command-palette.variants'
 import { CommandPaletteContext, type CommandPaletteContextValue } from './context'
-import type { CommandItem, CommandItemRenderProps, CommandItems } from './types'
+import type {
+  CommandEmptyRenderProps,
+  CommandItem,
+  CommandItemRenderProps,
+  CommandItems,
+} from './types'
 import { commandMatchRange, type CommandMatch } from './utils/match'
 import { useCommandItems, type CommandOption } from './hooks/useCommandItems'
 import { useControllableState } from '../../primitives/utils/controllable-state'
@@ -36,6 +48,7 @@ export interface CommandPalettePanelProps<T = unknown> extends Omit<
   label: string
   placeholder?: string
   ignoreFilter?: boolean
+  loading?: boolean
   autoFocus?: boolean
   inline?: boolean
   search?: string
@@ -43,6 +56,8 @@ export interface CommandPalettePanelProps<T = unknown> extends Omit<
   onSearchChange?: (search: string) => void
   onSelect?: (item: CommandItem<T>) => void
   renderItem?: (props: CommandItemRenderProps<T>) => ReactNode
+  renderEmpty?: (props: CommandEmptyRenderProps) => ReactNode
+  loadingContent?: ReactNode
   input?: ReactNode
   children?: ReactNode
   ref?: Ref<HTMLElement>
@@ -55,6 +70,7 @@ export function CommandPalettePanel<T = unknown>({
   label,
   placeholder,
   ignoreFilter,
+  loading,
   autoFocus,
   inline,
   search: searchProp,
@@ -62,6 +78,8 @@ export function CommandPalettePanel<T = unknown>({
   onSearchChange,
   onSelect,
   renderItem,
+  renderEmpty,
+  loadingContent,
   input: inputRow,
   className,
   children,
@@ -88,6 +106,22 @@ export function CommandPalettePanel<T = unknown>({
     }),
     [search, setSearch, label, resolvedPlaceholder, autoFocus],
   )
+  const loadingRow = hasContent(loadingContent) ? loadingContent : t.common.loading
+  const status = loading ? loadingRow : renderEmpty ? renderEmpty({ search }) : t.command.empty
+
+  function select(item: CommandItem<T>) {
+    const panel = input?.closest('[data-hn-command-palette]')
+    const inside = !!panel?.contains(document.activeElement)
+    onSelect?.(item)
+    if (!input || !panel || !inside) return
+    queueMicrotask(() => {
+      const active = document.activeElement
+      if (!input.isConnected) return
+      if (!active || active === document.body || panel.contains(active))
+        input.focus({ preventScroll: true })
+    })
+  }
+
   const custom = (match: CommandMatch<T>) =>
     renderItem && (() => renderItem({ item: match.item, match: commandMatchRange(match) }))
 
@@ -111,28 +145,32 @@ export function CommandPalettePanel<T = unknown>({
           )}
         </CommandPaletteContext>
         {virtualize ? (
-          <ListboxContent asChild aria-label={label}>
+          <ListboxContent asChild aria-label={label} aria-busy={loading || undefined}>
             <VirtualChoices<CommandOption<T>>
               options={options}
               virtualize={virtualize}
               input={input}
               kind="listbox"
               className={commandList()}
-              empty={t.command.empty}
+              empty={status}
             >
               {({ option, attrs: itemAttrs }) => (
                 <CommandPaletteItem
                   {...itemAttrs}
                   match={option.match}
                   render={custom(option.match)}
-                  onSelect={() => onSelect?.(option.match.item)}
+                  onSelect={() => select(option.match.item)}
                 />
               )}
             </VirtualChoices>
           </ListboxContent>
         ) : (
           <ScrollArea className={commandList()}>
-            <ListboxContent aria-label={label} className={selectListBody()}>
+            <ListboxContent
+              aria-label={label}
+              aria-busy={loading || undefined}
+              className={selectListBody()}
+            >
               {sections.map(section =>
                 section.label ? (
                   <ListboxGroup key={section.key}>
@@ -142,7 +180,7 @@ export function CommandPalettePanel<T = unknown>({
                         key={match.item.id}
                         match={match}
                         render={custom(match)}
-                        onSelect={() => onSelect?.(match.item)}
+                        onSelect={() => select(match.item)}
                       />
                     ))}
                   </ListboxGroup>
@@ -152,14 +190,23 @@ export function CommandPalettePanel<T = unknown>({
                       key={match.item.id}
                       match={match}
                       render={custom(match)}
-                      onSelect={() => onSelect?.(match.item)}
+                      onSelect={() => select(match.item)}
                     />
                   ))
                 ),
               )}
-              {sections.length === 0 && <div className={commandEmpty()}>{t.command.empty}</div>}
             </ListboxContent>
+            {sections.length === 0 && (
+              <div role="status" className={commandEmpty()}>
+                {status}
+              </div>
+            )}
           </ScrollArea>
+        )}
+        {loading && sections.length > 0 && (
+          <div role="status" className={commandStatus()}>
+            {loadingRow}
+          </div>
         )}
       </ListboxRoot>
     </Card>

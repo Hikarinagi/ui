@@ -1,7 +1,7 @@
 import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest'
 import { userEvent } from '@vitest/browser/context'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { defineComponent, h } from 'vue'
+import { defineComponent, h, nextTick, ref, shallowReactive } from 'vue'
 import CommandPalette from './CommandPalette.vue'
 import CommandPaletteInput from './CommandPaletteInput.vue'
 import Button from '../button/Button.vue'
@@ -247,6 +247,195 @@ describe('command palette', () => {
     await userEvent.keyboard('{Enter}')
     expect(onSelect.mock.calls[0]![0]).toMatchObject({ id: 'theme' })
     await vi.waitFor(() => expect(panel()).toBeNull())
+  })
+
+  function suggest(props: Record<string, unknown> = {}) {
+    const host = document.createElement('div')
+    document.body.appendChild(host)
+    const onSelect = vi.fn()
+    const search = ref('')
+    const list: CommandItems = [
+      {
+        id: 'recent',
+        label: '狼与香辛料',
+        closeOnSelect: false,
+        onSelect: () => (search.value = '狼与香辛料'),
+      },
+      { id: 'settings', label: '打开设置' },
+    ]
+    const w = mount(
+      defineComponent({
+        setup: () => () =>
+          h(
+            CommandPalette,
+            {
+              items: list,
+              ignoreFilter: true,
+              search: search.value,
+              'onUpdate:search': (value: string) => (search.value = value),
+              onSelect,
+              ...props,
+            },
+            { default: () => h(Button, null, () => '搜索') },
+          ),
+      }),
+      { attachTo: host },
+    )
+    mounted.push(w)
+    return { onSelect, search, trigger: w.find('button').element as HTMLElement }
+  }
+
+  it('closeOnSelect 为 false 的条目选中后面板保持打开,搜索词可以被改写并继续输入', async () => {
+    const s = suggest()
+    await userEvent.click(s.trigger)
+    await vi.waitFor(() => expect(document.activeElement).toBe(input()))
+
+    await userEvent.click(options()[0]!)
+    expect(s.onSelect.mock.calls[0]![0]).toMatchObject({ id: 'recent' })
+    await vi.waitFor(() => expect(input().value).toBe('狼与香辛料'))
+    expect(panel()).toBeTruthy()
+    await vi.waitFor(() => expect(document.activeElement).toBe(input()))
+    await userEvent.keyboard(' 2')
+    expect(s.search.value).toBe('狼与香辛料 2')
+
+    await vi.waitFor(() => expect(options()[0]!.dataset.highlighted).toBe(''))
+    await userEvent.keyboard('{Enter}')
+    expect(s.onSelect).toHaveBeenCalledTimes(2)
+    await vi.waitFor(() => expect(input().value).toBe('狼与香辛料'))
+    expect(panel()).toBeTruthy()
+
+    await userEvent.click(options()[1]!)
+    expect(s.onSelect.mock.calls[2]![0]).toMatchObject({ id: 'settings' })
+    await vi.waitFor(() => expect(panel()).toBeNull())
+  })
+
+  it('选中后列表被换掉时,焦点仍回到输入框', async () => {
+    const host = document.createElement('div')
+    document.body.appendChild(host)
+    const search = ref('')
+    const w = mount(
+      defineComponent({
+        setup: () => () =>
+          h(
+            CommandPalette,
+            {
+              items: search.value
+                ? [{ id: 'result', label: `${search.value} 第 1 卷` }]
+                : [
+                    {
+                      id: 'recent',
+                      label: '狼与香辛料',
+                      closeOnSelect: false,
+                      onSelect: () => (search.value = '狼与香辛料'),
+                    },
+                  ],
+              ignoreFilter: true,
+              search: search.value,
+              'onUpdate:search': (value: string) => (search.value = value),
+            },
+            { default: () => h(Button, null, () => '搜索') },
+          ),
+      }),
+      { attachTo: host },
+    )
+    mounted.push(w)
+    await userEvent.click(w.find('button').element)
+    await vi.waitFor(() => expect(options()).toHaveLength(1))
+    await userEvent.click(options()[0]!)
+    await vi.waitFor(() => expect(options()[0]!.textContent).toContain('第 1 卷'))
+    await vi.waitFor(() => expect(document.activeElement).toBe(input()))
+    await userEvent.keyboard('！')
+    expect(search.value).toBe('狼与香辛料！')
+  })
+
+  it('closeOnSelect 属性为 false 时默认都不关闭,条目自身的设置优先', async () => {
+    const s = suggest({
+      closeOnSelect: false,
+      items: [
+        { id: 'keep', label: '保持打开' },
+        { id: 'close', label: '关闭面板', closeOnSelect: true },
+      ],
+    })
+    await userEvent.click(s.trigger)
+    await vi.waitFor(() => expect(options()).toHaveLength(2))
+    await userEvent.click(options()[0]!)
+    expect(s.onSelect).toHaveBeenCalledTimes(1)
+    expect(panel()).toBeTruthy()
+    await userEvent.click(options()[1]!)
+    await vi.waitFor(() => expect(panel()).toBeNull())
+  })
+
+  function remote(props: Record<string, unknown>, slots: Record<string, unknown> = {}) {
+    const host = document.createElement('div')
+    document.body.appendChild(host)
+    const state = shallowReactive<Record<string, unknown>>({
+      items: [],
+      inline: true,
+      ignoreFilter: true,
+      ...props,
+    })
+    const w = mount(
+      defineComponent({
+        setup: () => () => h(CommandPalette, { ...state } as { items: CommandItems }, slots),
+      }),
+      { attachTo: host },
+    )
+    mounted.push(w)
+    const status = () => Array.from(host.querySelectorAll<HTMLElement>('[role="status"]'))
+    return { host, state, status, listbox: () => host.querySelector('[role="listbox"]')! }
+  }
+
+  it('loading 时没有条目就在列表区显示加载提示,有条目则显示在列表下方', async () => {
+    const s = remote({ loading: true })
+    expect(s.status().map(node => node.textContent?.trim())).toEqual(['加载中'])
+    expect(s.listbox().getAttribute('aria-busy')).toBe('true')
+    expect(s.listbox().contains(s.status()[0]!)).toBe(false)
+    await expectNoA11yViolations(s.host)
+
+    s.state.items = items
+    await nextTick()
+    expect(options()).toHaveLength(3)
+    expect(s.status().map(node => node.textContent?.trim())).toEqual(['加载中'])
+    expect(s.listbox().contains(s.status()[0]!)).toBe(false)
+    expect(s.status()[0]!.getBoundingClientRect().top).toBeGreaterThanOrEqual(
+      options()[2]!.getBoundingClientRect().bottom,
+    )
+
+    s.state.loading = false
+    await nextTick()
+    expect(s.status()).toHaveLength(0)
+    expect(s.listbox().hasAttribute('aria-busy')).toBe(false)
+  })
+
+  it('#loading 与 #empty 自定义内容,#empty 拿到当前搜索词', async () => {
+    const s = remote(
+      { loading: true, search: '香辛' },
+      {
+        loading: () => '搜索中',
+        empty: ({ search }: { search: string }) => `没有找到「${search}」`,
+      },
+    )
+    expect(s.status().map(node => node.textContent?.trim())).toEqual(['搜索中'])
+    s.state.loading = false
+    await nextTick()
+    expect(s.status().map(node => node.textContent?.trim())).toEqual(['没有找到「香辛」'])
+    await expectNoA11yViolations(s.host)
+
+    const plain = remote({})
+    expect(plain.status().map(node => node.textContent?.trim())).toEqual(['无匹配项'])
+  })
+
+  it('虚拟滚动下空态与加载态同样使用插槽', async () => {
+    const s = remote(
+      { loading: true, virtualize: true, search: '香辛' },
+      {
+        loading: () => '搜索中',
+        empty: ({ search }: { search: string }) => `没有找到「${search}」`,
+      },
+    )
+    await vi.waitFor(() => expect(s.host.textContent).toContain('搜索中'))
+    s.state.loading = false
+    await vi.waitFor(() => expect(s.host.textContent).toContain('没有找到「香辛」'))
   })
 
   it('CommandPaletteInput 脱离 CommandPalette 使用时报错', () => {

@@ -81,6 +81,7 @@ export type {
   CommandItems,
   CommandItemMatch,
   CommandItemSlotProps,
+  CommandEmptySlotProps,
 } from './components/command-palette/types'
 export { default as Listbox } from './components/listbox/Listbox.vue'
 export type { ListboxVariants } from './components/listbox/listbox.variants'

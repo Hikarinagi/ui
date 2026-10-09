@@ -43,3 +43,7 @@ export const commandItemHint = tv({
 export const commandEmpty = tv({
   base: 'text-muted px-4 py-8 text-center text-sm',
 })
+
+export const commandStatus = tv({
+  base: 'border-line text-muted shrink-0 border-t px-4 py-2 text-center text-sm',
+})

@@ -68,6 +68,44 @@ With `inline` the panel is no longer wrapped in an overlay and renders in the do
 
 <Demo name="command-palette/inline" />
 
+### Search suggestions {#suggestions}
+
+`closeOnSelect` defaults to `true`, and selecting an item closes the panel; with `false`, selecting an item leaves the panel open. An item's own `closeOnSelect` takes precedence over the prop, and an inline panel never closes. While the panel stays open the search text is kept and focus returns to the input.
+
+::: vue
+
+With an empty search the example lists recent and popular searches. Those items set `closeOnSelect: false` and, in `onSelect`, write their own text into the search text bound with `v-model:search`; the `select` event can do the same. Once there is search text, the listed results close the panel when selected.
+
+:::
+
+::: react
+
+With an empty search the example lists recent and popular searches. Those items set `closeOnSelect: false` and, in their `onSelect`, write their own text into the state behind `search` / `onSearchChange`; the component's `onSelect` can do the same. Once there is search text, the listed results close the panel when selected.
+
+:::
+
+<Demo name="command-palette/suggestions" />
+
+### Server-side search {#remote}
+
+`loading` marks a pending search. Without items the list area shows the loading content; with items a status row appears below the list and the items stay selectable.
+
+::: vue
+
+The `#loading` slot replaces the loading content. The `#empty` slot replaces the content shown when there are no items and the panel is not loading; it receives `{ search }`, where `search` is the current search text. Both default to text from the locale. A no-results message and a service-unavailable message both go in `#empty`; the caller's state decides which one is shown.
+
+:::
+
+::: react
+
+`loadingContent` replaces the loading content. `renderEmpty` replaces the content shown when there are no items and the panel is not loading; it receives `{ search }`, where `search` is the current search text. Both default to text from the locale. A no-results message and a service-unavailable message both come from `renderEmpty`; the caller's state decides which one is shown.
+
+:::
+
+The example sets `ignoreFilter` and uses a timer in place of a server; a [Switch](/components/switch) simulates the search service being unavailable.
+
+<Demo name="command-palette/remote" />
+
 ### Custom item content {#custom-item}
 
 ::: vue
@@ -119,7 +157,8 @@ The `#input` slot replaces the whole input row, the search icon and the input in
 - On open the input takes focus and the first item is highlighted; typing filters the list at once, and the matching part of a label is marked in the accent colour.
 - Matches are ordered by exact label, label prefix, label substring, keywords, then description; with a query, the group holding the best match comes first. Items beyond the visible height scroll inside the list.
 - Arrow keys move the highlight, Enter selects the highlighted item, and hovering moves the highlight too.
-- Esc, clicking the scrim, or selecting an item closes the panel; the search text is cleared on close.
+- Esc or clicking the scrim closes the panel. Selecting an item closes it too by default; when `closeOnSelect` is `false` the panel stays open, the search text is kept and focus returns to the input. The search text is cleared on close.
+- While `loading`, the list area shows the loading content when there are no items; with items a status row appears below the list and the items stay selectable.
 - While open the page stops scrolling and focus stays inside the panel; it returns to the trigger on close.
 - On wide screens the panel sits in the upper part of the viewport; on narrow screens it sticks to the top at full width.
 
@@ -128,6 +167,7 @@ The `#input` slot replaces the whole input row, the search icon and the input in
 - The panel is a dialog whose accessible name is `label`, by default the locale's "Command palette".
 - The input points at the highlighted item through `aria-activedescendant`; the list uses the `listbox` and `option` roles, and each group carries its own name.
 - Icons are hidden from assistive technology; key hints are rendered as `kbd` elements.
+- The containers of the loading content and the empty content carry `role="status"`; the list carries `aria-busy` while `loading`.
 
 ## API {#api}
 
@@ -135,16 +175,18 @@ The `#input` slot replaces the whole input row, the search icon and the input in
 
 `T` is the type of an item's `data`. It is inferred from `items` and defaults to `unknown`.
 
-| Prop           | Type                | Default     | Description                                           |
-| -------------- | ------------------- | ----------- | ----------------------------------------------------- |
-| `items`        | `CommandItems<T>`   | —           | Required. Items and groups                            |
-| `virtualize`   | `VirtualizeOptions` | `false`     | Virtual scrolling; content-based estimate, overscan 6 |
-| `placeholder`  | `string`            | from locale | Placeholder of the input                              |
-| `label`        | `string`            | from locale | Accessible name of the panel                          |
-| `hotkey`       | `string`            | —           | Global hotkey, e.g. `mod+k`                           |
-| `ignoreFilter` | `boolean`           | `false`     | Skip built-in filtering; the caller owns the list     |
-| `inline`       | `boolean`           | `false`     | Render as an inline panel instead of an overlay       |
-| `class`        | `string`            | —           | Extra classes on the panel                            |
+| Prop            | Type                | Default     | Description                                                       |
+| --------------- | ------------------- | ----------- | ----------------------------------------------------------------- |
+| `items`         | `CommandItems<T>`   | —           | Required. Items and groups                                        |
+| `virtualize`    | `VirtualizeOptions` | `false`     | Virtual scrolling; content-based estimate, overscan 6             |
+| `placeholder`   | `string`            | from locale | Placeholder of the input                                          |
+| `label`         | `string`            | from locale | Accessible name of the panel                                      |
+| `hotkey`        | `string`            | —           | Global hotkey, e.g. `mod+k`                                       |
+| `ignoreFilter`  | `boolean`           | `false`     | Skip built-in filtering; the caller owns the list                 |
+| `loading`       | `boolean`           | `false`     | Show the loading content; the list carries `aria-busy`            |
+| `closeOnSelect` | `boolean`           | `true`      | Close the panel after a selection; an item's `closeOnSelect` wins |
+| `inline`        | `boolean`           | `false`     | Render as an inline panel instead of an overlay                   |
+| `class`         | `string`            | —           | Extra classes on the panel                                        |
 
 ### Models {#models}
 
@@ -161,11 +203,13 @@ The `#input` slot replaces the whole input row, the search icon and the input in
 
 ### Slots {#slots}
 
-| Slot    | Payload                                                     | Description                                                                        |
-| ------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| default | —                                                           | The trigger                                                                        |
-| `item`  | `{ item: CommandItem<T>, match: CommandItemMatch \| null }` | Content inside an item row; replaces the default icon, label, description and hint |
-| `input` | —                                                           | The input row; replaces the search icon and the input                              |
+| Slot      | Payload                                                     | Description                                                                        |
+| --------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| default   | —                                                           | The trigger                                                                        |
+| `item`    | `{ item: CommandItem<T>, match: CommandItemMatch \| null }` | Content inside an item row; replaces the default icon, label, description and hint |
+| `input`   | —                                                           | The input row; replaces the search icon and the input                              |
+| `loading` | —                                                           | The loading content; defaults to text from the locale                              |
+| `empty`   | `{ search: string }`                                        | Content shown with no items and not loading; defaults to text from the locale      |
 
 ### CommandPaletteInput {#command-palette-input}
 
@@ -180,29 +224,30 @@ Other attributes pass through to the native `input`.
 
 ### Types {#types}
 
-| Field         | Type         | Description                           |
-| ------------- | ------------ | ------------------------------------- |
-| `id`          | `string`     | Required. Unique key of the item      |
-| `label`       | `string`     | Required. Label                       |
-| `description` | `string`     | Text under the label, also matched    |
-| `keywords`    | `string[]`   | Matched but never shown               |
-| `icon`        | `Component`  | Icon before the label                 |
-| `kbd`         | `string[]`   | Key hint at the end of the row        |
-| `disabled`    | `boolean`    | Cannot be selected                    |
-| `data`        | `T`          | Data carried by the item, not matched |
-| `onSelect`    | `() => void` | Called when selected                  |
+| Field           | Type         | Description                                                                      |
+| --------------- | ------------ | -------------------------------------------------------------------------------- |
+| `id`            | `string`     | Required. Unique key of the item                                                 |
+| `label`         | `string`     | Required. Label                                                                  |
+| `description`   | `string`     | Text under the label, also matched                                               |
+| `keywords`      | `string[]`   | Matched but never shown                                                          |
+| `icon`          | `Component`  | Icon before the label                                                            |
+| `kbd`           | `string[]`   | Key hint at the end of the row                                                   |
+| `disabled`      | `boolean`    | Cannot be selected                                                               |
+| `closeOnSelect` | `boolean`    | Whether selecting it closes the panel; wins over the component's `closeOnSelect` |
+| `data`          | `T`          | Data carried by the item, not matched                                            |
+| `onSelect`      | `() => void` | Called when selected                                                             |
 
 A group is `{ label: string; items: CommandItem<T>[] }`, and `CommandItems<T>` is an array of items and groups.
 
 ::: vue
 
-The `CommandItem<T>`, `CommandGroup<T>`, `CommandItems<T>`, `CommandItemMatch` and `CommandItemSlotProps<T>` types are exported from the package entry.
+The `CommandItem<T>`, `CommandGroup<T>`, `CommandItems<T>`, `CommandItemMatch`, `CommandItemSlotProps<T>` and `CommandEmptySlotProps` types are exported from the package entry.
 
 :::
 
 ::: react
 
-The `CommandItem<T>`, `CommandGroup<T>`, `CommandItems<T>`, `CommandItemMatch` and `CommandItemRenderProps<T>` types are exported from the package entry.
+The `CommandItem<T>`, `CommandGroup<T>`, `CommandItems<T>`, `CommandItemMatch`, `CommandItemRenderProps<T>` and `CommandEmptyRenderProps` types are exported from the package entry.
 
 :::
 

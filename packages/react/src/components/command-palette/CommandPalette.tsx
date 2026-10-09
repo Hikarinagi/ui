@@ -16,7 +16,12 @@ import { useUiLocale } from '../../locale'
 import { CommandPalettePanel } from './CommandPalettePanel'
 import { useHotkey } from './hooks/useHotkey'
 import { commandWrapper } from './command-palette.variants'
-import type { CommandItem, CommandItemRenderProps, CommandItems } from './types'
+import type {
+  CommandEmptyRenderProps,
+  CommandItem,
+  CommandItemRenderProps,
+  CommandItems,
+} from './types'
 import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export interface CommandPaletteProps<T = unknown> extends Omit<
@@ -29,6 +34,8 @@ export interface CommandPaletteProps<T = unknown> extends Omit<
   label?: string
   hotkey?: string
   ignoreFilter?: boolean
+  loading?: boolean
+  closeOnSelect?: boolean
   inline?: boolean
   open?: boolean
   defaultOpen?: boolean
@@ -38,6 +45,8 @@ export interface CommandPaletteProps<T = unknown> extends Omit<
   onSearchChange?: (search: string) => void
   onSelect?: (item: CommandItem<T>) => void
   renderItem?: (props: CommandItemRenderProps<T>) => ReactNode
+  renderEmpty?: (props: CommandEmptyRenderProps) => ReactNode
+  loadingContent?: ReactNode
   input?: ReactNode
   children?: ReactNode
   [attribute: `data-${string}`]: string | undefined
@@ -50,6 +59,8 @@ export function CommandPalette<T = unknown>({
   label: labelProp,
   hotkey,
   ignoreFilter,
+  loading,
+  closeOnSelect = true,
   inline,
   open: openProp,
   defaultOpen = false,
@@ -59,6 +70,8 @@ export function CommandPalette<T = unknown>({
   onSearchChange,
   onSelect,
   renderItem,
+  renderEmpty,
+  loadingContent,
   input,
   className,
   children,
@@ -96,7 +109,7 @@ export function CommandPalette<T = unknown>({
   function select(item: CommandItem<T>) {
     item.onSelect?.()
     onSelect?.(item)
-    if (!inline) setOpen(false)
+    if (!inline && (item.closeOnSelect ?? closeOnSelect)) setOpen(false)
   }
 
   if (inline)
@@ -113,7 +126,10 @@ export function CommandPalette<T = unknown>({
         ignoreFilter={ignoreFilter}
         className={className}
         onSelect={select}
+        loading={loading}
         renderItem={renderItem}
+        renderEmpty={renderEmpty}
+        loadingContent={loadingContent}
         input={input}
       />
     )
@@ -139,7 +155,10 @@ export function CommandPalette<T = unknown>({
               ignoreFilter={ignoreFilter}
               className={className}
               onSelect={select}
+              loading={loading}
               renderItem={renderItem}
+              renderEmpty={renderEmpty}
+              loadingContent={loadingContent}
               input={input}
             >
               <PrimitiveVisuallyHidden>

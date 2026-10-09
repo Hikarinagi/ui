@@ -93,4 +93,5 @@ export type {
   CommandItems,
   CommandItemMatch,
   CommandItemRenderProps,
+  CommandEmptyRenderProps,
 } from '../components/command-palette/types'
