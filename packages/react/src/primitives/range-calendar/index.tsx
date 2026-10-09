@@ -12,7 +12,6 @@ import {
   type Ref,
   type RefObject,
 } from 'react'
-import { useComposedRefs } from 'radix-ui/internal'
 import {
   getLocalTimeZone,
   isEqualDay,
@@ -61,6 +60,7 @@ export {
   CalendarGridRow as RangeCalendarGridRow,
   CalendarHeadCell as RangeCalendarHeadCell,
 } from '../calendar'
+import { useComposedRefs } from '../utils/compose-refs'
 
 export interface DateRange {
   start: DateValue | undefined

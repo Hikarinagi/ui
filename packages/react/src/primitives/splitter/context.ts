@@ -8,7 +8,7 @@ import type {
   PanelData,
   ResizeEvent,
   ResizeHandler,
-} from './utils/types'
+} from '../../../../shared/src/primitives/splitter/types'
 
 export interface PanelGroupApi {
   getPanelStyle: (

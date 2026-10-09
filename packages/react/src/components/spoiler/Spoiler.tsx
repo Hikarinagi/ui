@@ -1,11 +1,12 @@
 'use client'
 
-import { useControllableState, useComposedRefs } from 'radix-ui/internal'
 import { useRef, type HTMLAttributes, type Ref } from 'react'
 import { cn } from '../../lib/cn'
 import { useUiLocale } from '../../locale'
 import { useReveal } from './hooks/useReveal'
 import { useSpoiler } from './hooks/useSpoiler'
+import { useComposedRefs } from '../../primitives/utils/compose-refs'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export interface SpoilerProps extends HTMLAttributes<HTMLSpanElement> {
   revealOn?: 'click' | 'hover'

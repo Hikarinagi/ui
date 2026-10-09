@@ -15,12 +15,16 @@ import {
   type RefObject,
 } from 'react'
 import {
-  Presence,
-  composeEventHandlers,
-  useComposedRefs,
-  useControllableState,
-} from 'radix-ui/internal'
+  isCollapsibleContentRendered,
+  measureCollapsibleContent,
+  openState,
+  type CollapsibleMotion,
+} from '../../../../shared/src/primitives/collapsible'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
+import { Presence } from '../presence'
+import { composeEventHandlers } from '../utils/compose-event-handlers'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useControllableState } from '../utils/controllable-state'
 
 interface CollapsibleRootContextValue {
   contentId: RefObject<string>
@@ -74,7 +78,7 @@ export function CollapsibleRoot({
   return (
     <CollapsibleRootContext value={{ contentId, disabled, open, unmountOnHide, onOpenToggle }}>
       <Primitive
-        data-state={open ? 'open' : 'closed'}
+        data-state={openState(open)}
         data-disabled={disabled ? '' : undefined}
         {...attrs}
       />
@@ -106,7 +110,7 @@ export function CollapsibleTrigger({
       asChild={asChild}
       aria-controls={root.contentId.current}
       aria-expanded={root.open}
-      data-state={root.open ? 'open' : 'closed'}
+      data-state={openState(root.open)}
       data-disabled={root.disabled ? '' : undefined}
       {...attrs}
       onClick={composeEventHandlers(onClick, root.onOpenToggle)}
@@ -126,9 +130,9 @@ export function CollapsibleContent({ forceMount, ...props }: CollapsibleContentP
   const id = useId()
   if (!root.contentId.current) root.contentId.current = id
   return (
-    <Presence.Root present={!!forceMount || root.open}>
+    <Presence present={!!forceMount || root.open}>
       {({ present }) => <CollapsibleContentImpl {...props} present={present} />}
-    </Presence.Root>
+    </Presence>
   )
 }
 
@@ -151,29 +155,20 @@ function CollapsibleContentImpl({
   const isOpen = root.open
   const [isMountAnimationPrevented, setMountAnimationPrevented] = useState(isOpen)
   const prevented = useRef(isOpen)
-  const currentStyle = useRef<{ transitionDuration: string; animationName: string } | null>(null)
+  const motion = useRef<CollapsibleMotion | undefined>(undefined)
   const latest = useRef({ onOpenToggle: root.onOpenToggle, onContentFound })
   latest.current = { onOpenToggle: root.onOpenToggle, onContentFound }
 
   useLayoutEffect(() => {
     const element = node.current
     if (!element) return
-    currentStyle.current = currentStyle.current || {
-      transitionDuration: element.style.transitionDuration,
-      animationName: element.style.animationName,
-    }
-    element.style.transitionDuration = '0s'
-    element.style.animationName = 'none'
-    const rect = element.getBoundingClientRect()
+    const measured = measureCollapsibleContent(element, motion.current, prevented.current)
+    motion.current = measured.motion
     setSize(previous =>
-      previous.height === rect.height && previous.width === rect.width
+      previous.height === measured.height && previous.width === measured.width
         ? previous
-        : { height: rect.height, width: rect.width },
+        : { height: measured.height, width: measured.width },
     )
-    if (!prevented.current) {
-      element.style.transitionDuration = currentStyle.current.transitionDuration
-      element.style.animationName = currentStyle.current.animationName
-    }
   }, [isOpen, present])
 
   useEffect(() => {
@@ -206,7 +201,7 @@ function CollapsibleContentImpl({
       id={root.contentId.current}
       ref={composedRef}
       {...({ hidden } as HTMLAttributes<HTMLElement>)}
-      data-state={skipAnimation ? undefined : isOpen ? 'open' : 'closed'}
+      data-state={skipAnimation ? undefined : openState(isOpen)}
       data-disabled={root.disabled ? '' : undefined}
       style={
         {
@@ -216,7 +211,7 @@ function CollapsibleContentImpl({
         } as CSSProperties
       }
     >
-      {(root.unmountOnHide ? present : true) ? children : null}
+      {isCollapsibleContentRendered(present, root.unmountOnHide) ? children : null}
     </Primitive>
   )
 }

@@ -15,7 +15,6 @@ import {
   type Ref,
   type RefObject,
 } from 'react'
-import { useCallbackRef, useComposedRefs } from 'radix-ui/internal'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { usePopperDirection } from '../popper'
 import {
@@ -29,6 +28,8 @@ import {
   type MenuSubContentProps,
 } from '../menu'
 import { isTouchOrPen } from '../menu/utils'
+import { useCallbackRef } from '../utils/callback-ref'
+import { useComposedRefs } from '../utils/compose-refs'
 
 export {
   MenuArrow as ContextMenuArrow,

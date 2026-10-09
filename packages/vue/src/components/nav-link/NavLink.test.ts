@@ -66,6 +66,54 @@ describe('渲染与状态', () => {
     expect(a.attributes('href')).toBe('/guide')
     expect((a.element.firstElementChild as HTMLElement).classList.contains('nav-icon')).toBe(true)
   })
+
+  it('asChild 由子元素承担链接,图标与文字留在它内部', () => {
+    const w = mount(NavLink, {
+      props: { asChild: true, active: true, class: 'w-40' },
+      attrs: { 'data-x': '1' },
+      slots: {
+        icon: () => h('svg', { class: 'nav-icon' }),
+        default: () => h('a', { href: '/child', class: 'own' }, '子元素'),
+      },
+    })
+    const a = w.get('a')
+    expect(w.element.firstElementChild).toBe(a.element)
+    expect(a.attributes('href')).toBe('/child')
+    expect(a.attributes('aria-current')).toBe('page')
+    expect(a.attributes('data-state')).toBe('selected')
+    expect(a.attributes('data-x')).toBe('1')
+    expect(a.classes()).toEqual(expect.arrayContaining(['hn-interactive', 'w-40', 'own']))
+    const [icon, label] = Array.from(a.element.children)
+    expect(icon!.classList.contains('nav-icon')).toBe(true)
+    expect(icon!.hasAttribute('aria-current')).toBe(false)
+    expect(label!.hasAttribute('data-hn-label')).toBe(true)
+    expect(label!.hasAttribute('aria-current')).toBe(false)
+    expect(label!.textContent).toBe('子元素')
+    expect(label!.querySelector('a')).toBeNull()
+  })
+
+  it('asChild 的子元素是组件时同样成为链接根', () => {
+    const RouterStub = defineComponent({
+      props: { to: { type: String, required: true } },
+      setup:
+        (p, { slots }) =>
+        () =>
+          h('a', { href: p.to, 'data-router': '' }, slots.default?.()),
+    })
+    const w = mount(NavLink, {
+      props: { asChild: true },
+      slots: {
+        icon: () => h('svg', { class: 'nav-icon' }),
+        default: () => h(RouterStub, { to: '/guide' }, () => '指南'),
+      },
+    })
+    const a = w.get('[data-router]')
+    expect(w.element.firstElementChild).toBe(a.element)
+    expect(a.attributes('href')).toBe('/guide')
+    expect(a.classes()).toContain('hn-interactive')
+    expect((a.element.firstElementChild as HTMLElement).classList.contains('nav-icon')).toBe(true)
+    expect(a.get('[data-hn-label]').text()).toBe('指南')
+  })
 })
 
 describe('a11y', () => {

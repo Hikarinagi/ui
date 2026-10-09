@@ -1,0 +1,60 @@
+{
+  "decimal default": [
+    "<span class=\"\">",
+    "  \"1,234,567.891\""
+  ],
+  "compact carries the full number in title": [
+    "<span title=\"12,000\" class=\"\">",
+    "  \"1.2万\""
+  ],
+  "percent": [
+    "<span class=\"\">",
+    "  \"42%\""
+  ],
+  "currency": [
+    "<span class=\"\">",
+    "  \"¥1,234.50\""
+  ],
+  "currency without a code falls back to decimal": [
+    "<span class=\"\">",
+    "  \"1,234.5\""
+  ],
+  "precision 2": [
+    "<span class=\"\">",
+    "  \"3.14\""
+  ],
+  "precision 0 with percent": [
+    "<span class=\"\">",
+    "  \"96%\""
+  ],
+  "null": [
+    "<span class=\"\">",
+    "  \"—\""
+  ],
+  "undefined": [
+    "<span class=\"\">",
+    "  \"—\""
+  ],
+  "NaN": [
+    "<span class=\"\">",
+    "  \"—\""
+  ],
+  "Infinity with compact has no title": [
+    "<span class=\"\">",
+    "  \"—\""
+  ],
+  "class and attributes": [
+    "<span class=\"tabular-nums\" id=\"n\">",
+    "  \"42\""
+  ],
+  "caller title overrides the full number": [
+    "<span title=\"twelve thousand\" class=\"\">",
+    "  \"1.2万\""
+  ],
+  "compact follows the provided locale": [
+    "<!--[-->",
+    "<span title=\"1,234,567\" class=\"\">",
+    "  \"1.2M\"",
+    "<!--]-->"
+  ]
+}

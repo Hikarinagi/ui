@@ -1,5 +1,6 @@
 <script setup lang="ts">
-  import { CollapsibleRoot, useForwardPropsEmits, type CollapsibleRootEmits } from 'reka-ui'
+  import { CollapsibleRoot, type CollapsibleRootEmits } from '../../primitives/collapsible'
+  import { useForwardPropsEmits } from '../../primitives/utils/useForwardPropsEmits'
   import { cn } from '../../lib/cn'
 
   defineOptions({ name: 'HnCollapsible' })

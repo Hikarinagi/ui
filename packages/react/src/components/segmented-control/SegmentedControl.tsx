@@ -1,7 +1,6 @@
 'use client'
 
 import { useId, type HTMLAttributes, type ReactNode, type Ref } from 'react'
-import { useControllableState } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import {
   ToggleGroupItem,
@@ -19,6 +18,7 @@ import {
   type SegmentedControlVariants,
   type SegmentedItemVariants,
 } from './segmented-control.variants'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export interface SegmentedControlProps<T extends SelectOption = SelectOption> extends Omit<
   HTMLAttributes<HTMLElement>,

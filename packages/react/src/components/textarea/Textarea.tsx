@@ -8,13 +8,13 @@ import {
   type Ref,
   type TextareaHTMLAttributes,
 } from 'react'
-import { useControllableState } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import { useFieldControl } from '../form-field/context'
 import { useModelText } from '../input/hooks/useModelText'
 import { ScrollArea } from '../scroll-area/ScrollArea'
 import { useTextareaSizing } from './hooks/useTextareaSizing'
 import { textarea, textareaField, type TextareaVariants } from './textarea.variants'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export interface TextareaHandle {
   input: HTMLTextAreaElement | null

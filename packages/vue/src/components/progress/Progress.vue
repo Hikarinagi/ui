@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ProgressIndicator, ProgressRoot } from 'reka-ui'
+  import { ProgressIndicator, ProgressRoot } from '../../primitives/progress'
   import { cn } from '../../lib/cn'
   import { useProgressValue, type ProgressFormat } from './composables/useProgressValue'
   import {

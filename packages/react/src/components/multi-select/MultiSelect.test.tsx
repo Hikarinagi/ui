@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { cleanup, fireEvent, render } from '@testing-library/react'
 import { useState, type ReactNode } from 'react'
 import { MultiSelect, type MultiSelectProps } from './MultiSelect'
+import { FormField } from '../form-field/FormField'
 import { expectNoA11yViolations } from '../../../test/axe'
 
 beforeEach(() => {
@@ -114,5 +115,28 @@ describe('触发器', () => {
   it('无 a11y 违规', async () => {
     const w = mount(<MultiSelect options={options} value={['gal', 'ln']} aria-label="类型" />)
     await expectNoA11yViolations(w.firstElementChild!)
+  })
+
+  it('放进 FormField 时由字段标签命名', async () => {
+    const w = mount(
+      <FormField label="类型">
+        <MultiSelect options={options} />
+      </FormField>,
+    )
+    const trigger = triggerOf(w)
+    const label = document.getElementById(trigger.getAttribute('aria-labelledby')!)
+    expect(label?.textContent).toContain('类型')
+    await expectNoA11yViolations(w.firstElementChild!)
+  })
+
+  it('自带 aria-label 时不再指向字段标签', () => {
+    const w = mount(
+      <FormField label="类型">
+        <MultiSelect options={options} aria-label="作品类型" />
+      </FormField>,
+    )
+    const trigger = triggerOf(w)
+    expect(trigger.getAttribute('aria-label')).toBe('作品类型')
+    expect(trigger.hasAttribute('aria-labelledby')).toBe(false)
   })
 })

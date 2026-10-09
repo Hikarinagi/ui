@@ -1,9 +1,10 @@
 <script setup lang="ts">
-  import { injectTooltipProviderContext, type PrimitiveProps } from 'reka-ui'
+  import { injectTooltipProviderContext } from 'reka-ui'
   import Button from '../button/Button.vue'
   import Tooltip from '../tooltip/Tooltip.vue'
   import { Passthrough } from '../../lib/passthrough'
   import type { ButtonVariants } from '../button/button.variants'
+  import type { PrimitiveProps } from '../../primitives/primitive'
 
   defineOptions({ name: 'HnIconButton', inheritAttrs: false })
 

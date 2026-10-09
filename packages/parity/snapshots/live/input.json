@@ -1,0 +1,44 @@
+{
+  "typing reveals the clear button": [
+    "<html-root style=\"\">",
+    "<body-root>",
+    "<div id=\"parity-host\" data-v-app=\"\">",
+    "  <div data-hn-input=\"\" class=\"group/hn-field text-fg flex w-full min-w-0 cursor-text items-stretch overflow-hidden rounded-md border font-medium data-disabled:cursor-not-allowed data-disabled:opacity-50 hn-field border-line [--hn-field-bg:var(--hn-surface)] [--hn-field-shadow:var(--hn-shadow-sm)] h-[var(--hn-control-h-md)] text-base [--hn-input-h:var(--hn-control-h-md)] [--hn-input-px:var(--hn-control-px-md)] [--hn-input-icon:1rem]\">",
+    "    <!--v-if-->",
+    "    <input aria-label=\"关键词\" class=\"h-full min-w-0 flex-1 bg-transparent px-[var(--hn-input-px)] text-inherit outline-none [font:inherit] placeholder:text-faint placeholder:font-normal disabled:cursor-not-allowed pe-0\">",
+    "    <!--v-if-->",
+    "    <span class=\"flex shrink-0 items-stretch self-stretch\">",
+    "      <button type=\"button\" aria-label=\"清除\" class=\"relative flex min-w-[var(--hn-input-h)] shrink-0 items-center justify-center self-stretch px-1 [&>svg]:size-[var(--hn-input-icon)] [&>span_svg]:size-[var(--hn-input-icon)] hn-interactive hn-state-layer text-fg cursor-pointer outline-none focus-visible:[outline-offset:calc(var(--hn-focus-ring-offset)*-1)] disabled:pointer-events-none\">",
+    "        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-x-icon lucide-x\">",
+    "          <path d=\"M18 6 6 18\">",
+    "          <path d=\"m6 6 12 12\">",
+    "    <!--v-if-->"
+  ],
+  "clear button empties the field and keeps focus": [
+    "<html-root style=\"\">",
+    "<body-root>",
+    "<div id=\"parity-host\" data-v-app=\"\">",
+    "  <div data-hn-input=\"\" class=\"group/hn-field text-fg flex w-full min-w-0 cursor-text items-stretch overflow-hidden rounded-md border font-medium data-disabled:cursor-not-allowed data-disabled:opacity-50 hn-field border-line [--hn-field-bg:var(--hn-surface)] [--hn-field-shadow:var(--hn-shadow-sm)] h-[var(--hn-control-h-md)] text-base [--hn-input-h:var(--hn-control-h-md)] [--hn-input-px:var(--hn-control-px-md)] [--hn-input-icon:1rem]\">",
+    "    <span class=\"text-muted relative flex min-w-[var(--hn-input-h)] shrink-0 items-center justify-center self-stretch px-1 [&>svg]:size-[var(--hn-input-icon)] [&>span_svg]:size-[var(--hn-input-icon)]\">",
+    "      <span class=\"relative inline-flex items-center justify-center\">",
+    "        <span class=\"hn-transition inline-flex items-center justify-center scale-100 opacity-100\">",
+    "          <svg>",
+    "        <!--v-if-->",
+    "    <input aria-label=\"关键词\" class=\"h-full min-w-0 flex-1 bg-transparent px-[var(--hn-input-px)] text-inherit outline-none [font:inherit] placeholder:text-faint placeholder:font-normal disabled:cursor-not-allowed ps-0\">",
+    "    <!--v-if-->",
+    "    <!--v-if-->",
+    "    <!--v-if-->"
+  ],
+  "clicking the trailing cell focuses the field": [
+    "<html-root style=\"\">",
+    "<body-root>",
+    "<div id=\"parity-host\" data-v-app=\"\">",
+    "  <div data-hn-input=\"\" class=\"group/hn-field text-fg flex w-full min-w-0 cursor-text items-stretch overflow-hidden rounded-md border font-medium data-disabled:cursor-not-allowed data-disabled:opacity-50 hn-field border-line [--hn-field-bg:var(--hn-surface)] [--hn-field-shadow:var(--hn-shadow-sm)] h-[var(--hn-control-h-md)] text-base [--hn-input-h:var(--hn-control-h-md)] [--hn-input-px:var(--hn-control-px-md)] [--hn-input-icon:1rem]\">",
+    "    <!--v-if-->",
+    "    <input aria-label=\"体重\" class=\"h-full min-w-0 flex-1 bg-transparent px-[var(--hn-input-px)] text-inherit outline-none [font:inherit] placeholder:text-faint placeholder:font-normal disabled:cursor-not-allowed pe-0\">",
+    "    <!--v-if-->",
+    "    <!--v-if-->",
+    "    <span class=\"text-muted relative flex min-w-[var(--hn-input-h)] shrink-0 items-center justify-center self-stretch px-1 [&>svg]:size-[var(--hn-input-icon)] [&>span_svg]:size-[var(--hn-input-icon)]\">",
+    "      \"kg\""
+  ]
+}

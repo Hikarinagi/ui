@@ -83,6 +83,28 @@ export function History() {
 
 ## 示例 {#examples}
 
+### 避开底部内容 {#offset}
+
+页面底部有固定的页脚或工具栏时，用 `offset` 的 `y` 抬高按钮，水平边距保持默认。字符串可以写任意 CSS 长度。
+
+::: vue
+
+```vue
+<ScrollTop :offset="{ y: 96 }" />
+<ScrollTop :offset="{ y: 'calc(var(--footer-height) + 1rem)' }" />
+```
+
+:::
+
+::: react
+
+```tsx
+<ScrollTop offset={{ y: 96 }} />
+<ScrollTop offset={{ y: 'calc(var(--footer-height) + 1rem)' }} />
+```
+
+:::
+
 ### 外观、滚动方式与焦点 {#custom}
 
 沿用 `FloatButton` 的尺寸、形状、文字和定位。默认平滑滚动；`behavior="instant"` 立即定位。系统开启减少动态效果时，总是立即定位。

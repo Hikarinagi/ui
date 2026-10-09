@@ -1,0 +1,56 @@
+{
+  "closed link trigger": [
+    "<!--[-->",
+    "<!--[-->",
+    "<a data-state=\"closed\" data-grace-area-trigger=\"\" href=\"#\">",
+    "  \"Trigger\"",
+    "<!--[-->",
+    "<!--]-->",
+    "<!--]-->",
+    "<!--]-->"
+  ],
+  "Link component trigger with placement and positioner class": [
+    "<!--[-->",
+    "<!--[-->",
+    "<a class=\"hn-link cursor-pointer [--hn-link-color:var(--hn-accent-text)]\" data-state=\"closed\" data-grace-area-trigger=\"\" href=\"#\">",
+    "  <!--[-->",
+    "  \"Reka UI\"",
+    "  <!--]-->",
+    "<!--[-->",
+    "<!--]-->",
+    "<!--]-->",
+    "<!--]-->"
+  ],
+  "button trigger": [
+    "<!--[-->",
+    "<!--[-->",
+    "<button data-state=\"closed\" data-grace-area-trigger=\"\" type=\"button\">",
+    "  \"Trigger\"",
+    "<!--[-->",
+    "<!--]-->",
+    "<!--]-->",
+    "<!--]-->"
+  ],
+  "open state renders only the trigger on the server": [
+    "<!--[-->",
+    "<!--[-->",
+    "<a data-state=\"open\" data-grace-area-trigger=\"\" href=\"#\">",
+    "  \"Trigger\"",
+    "<!--[-->",
+    "<!--v-if-->",
+    "<!--]-->",
+    "<!--]-->",
+    "<!--]-->"
+  ],
+  "empty trigger slot with a null anchor renders nothing": [
+    "<div>",
+    "  <!--[-->",
+    "  <!--[-->",
+    "  <!---->",
+    "  <!--[-->",
+    "  <!--v-if-->",
+    "  <!--]-->",
+    "  <!--]-->",
+    "  <!--]-->"
+  ]
+}

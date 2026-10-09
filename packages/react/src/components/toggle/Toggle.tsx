@@ -1,7 +1,6 @@
 'use client'
 
 import type { ButtonHTMLAttributes, ReactNode, Ref } from 'react'
-import { useControllableState } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import { useAccessibleName } from '../../lib/a11y'
 import { hasContent } from '../../lib/content'
@@ -13,6 +12,7 @@ import { Ripple } from '../ripple/Ripple'
 import { Tooltip } from '../tooltip/Tooltip'
 import { useTooltipProviderPresence } from '../tooltip/context'
 import { toggle, type ToggleVariants } from './toggle.variants'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export interface ToggleProps extends Omit<
   ButtonHTMLAttributes<HTMLElement>,

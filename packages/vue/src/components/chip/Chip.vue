@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import { computed, useSlots } from 'vue'
-  import { Primitive, type PrimitiveProps } from 'reka-ui'
   import { cn } from '../../lib/cn'
   import { devWarn } from '../../lib/dev'
   import { useUiLocale } from '../../locale'
@@ -9,6 +8,8 @@
   import IconSlot from './IconSlot.vue'
   import { useChipRoot } from './composables/useChipRoot'
   import { chip, chipRemove, type ChipVariants } from './chip.variants'
+  import type { PrimitiveProps } from '../../primitives/primitive'
+  import { Primitive } from '../../primitives/primitive'
 
   defineOptions({ name: 'HnChip' })
 

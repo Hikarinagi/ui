@@ -15,18 +15,27 @@ import {
   type ReactNode,
   type Ref,
 } from 'react'
-import { Direction as RadixDirection, Slot } from 'radix-ui'
-import { composeEventHandlers, useComposedRefs } from 'radix-ui/internal'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { RovingFocusGroup, RovingFocusItem } from '../roving-focus'
 import type { Direction, Orientation } from '../roving-focus'
-import { isEqual, useVModel } from '../toggle-group/model'
+import {
+  dispatchRadioSelect,
+  trackArrowKeys,
+  type RadioSelectDetail,
+} from '../../../../shared/src/primitives/radio-group'
+import { isEqual } from '../../../../shared/src/primitives/value'
+import { useLabelText } from '../utils/label-text'
+import { useVModel } from '../toggle-group/model'
 import {
   VisuallyHiddenInput,
   useCurrentElement,
   useFormControl,
   useServerRender,
 } from '../utils/hidden-input'
+import { composeEventHandlers } from '../utils/compose-event-handlers'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useDirection } from '../utils/direction'
+import { Slot } from '../utils/slot'
 
 type DataAttributes = { [attribute: `data-${string}`]: string | undefined }
 
@@ -86,7 +95,7 @@ export function RadioGroupRoot({
   children,
   ...attrs
 }: RadioGroupRootProps) {
-  const dir = RadixDirection.useDirection(dirProp)
+  const dir = useDirection(dirProp)
   const [element, setElement] = useCurrentElement<HTMLElement>()
   const composedRef = useComposedRefs(ref, setElement)
   const isFormControl = useFormControl(element)
@@ -130,10 +139,7 @@ export function RadioGroupRoot({
   )
 }
 
-export interface RadioSelectEvent {
-  originalEvent: MouseEvent<HTMLElement>
-  value: RadioValue
-}
+export type RadioSelectEvent = RadioSelectDetail<RadioValue, globalThis.MouseEvent>
 
 export interface RadioGroupItemRenderProps {
   checked: boolean
@@ -163,25 +169,16 @@ export interface RadioGroupItemProps
   ref?: Ref<HTMLElement>
 }
 
-const ARROW_KEYS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight']
-
 function useArrowKeyPressed() {
-  const pressed = useRef(false)
+  const tracker = useRef<ReturnType<typeof trackArrowKeys> | null>(null)
   useEffect(() => {
-    const down = (event: globalThis.KeyboardEvent) => {
-      if (ARROW_KEYS.includes(event.key)) pressed.current = true
-    }
-    const up = () => {
-      pressed.current = false
-    }
-    window.addEventListener('keydown', down)
-    window.addEventListener('keyup', up)
+    tracker.current = trackArrowKeys(window)
     return () => {
-      window.removeEventListener('keydown', down)
-      window.removeEventListener('keyup', up)
+      tracker.current?.dispose()
+      tracker.current = null
     }
   }, [])
-  return pressed
+  return tracker
 }
 
 export function RadioGroupItem({
@@ -208,7 +205,6 @@ export function RadioGroupItem({
   const composedRef = useComposedRefs(ref, setElement)
   const isFormControl = useFormControl(element)
   const arrowKeyPressed = useArrowKeyPressed()
-  const [labelText, setLabelText] = useState<string | undefined>(undefined)
 
   const server = useServerRender()
 
@@ -216,43 +212,22 @@ export function RadioGroupItem({
     element?.setAttribute('required', String(required))
   }, [element, required])
 
-  useLayoutEffect(() => {
-    if (!id || !element) {
-      setLabelText(undefined)
-      return
-    }
-    setLabelText(
-      element.ownerDocument.querySelector<HTMLElement>(`[for="${id}"]`)?.innerText ?? undefined,
-    )
-  }, [id, element])
+  const labelText = useLabelText(id, element)
 
   function handleClick(event: MouseEvent<HTMLElement>) {
     event.stopPropagation()
     if (disabled) return
-    const target = event.target as HTMLElement
-    const detail: RadioSelectEvent = { originalEvent: event, value }
-    const custom = new CustomEvent<RadioSelectEvent>('radio.select', {
-      bubbles: false,
-      cancelable: true,
-      detail,
+    dispatchRadioSelect(event.nativeEvent, value, select => {
+      onSelect?.(select)
+      if (select.defaultPrevented) return
+      root.changeModelValue(value)
+      if (isFormControl) select.stopPropagation()
     })
-    target.addEventListener(
-      'radio.select',
-      selectEvent => {
-        const select = selectEvent as CustomEvent<RadioSelectEvent>
-        onSelect?.(select)
-        if (select.defaultPrevented) return
-        root.changeModelValue(value)
-        if (isFormControl) select.stopPropagation()
-      },
-      { once: true },
-    )
-    target.dispatchEvent(custom)
   }
 
   function handleFocus() {
     setTimeout(() => {
-      if (arrowKeyPressed.current) element?.click()
+      if (arrowKeyPressed.current?.pressed) element?.click()
     }, 0)
   }
 
@@ -332,6 +307,6 @@ export function RadioGroupIndicator({
     'data-disabled': item.disabled ? '' : undefined,
     ...attrs,
   }
-  if (asChild) return <Slot.Root {...props} />
+  if (asChild) return <Slot {...props} />
   return <Primitive as={as} {...props} />
 }

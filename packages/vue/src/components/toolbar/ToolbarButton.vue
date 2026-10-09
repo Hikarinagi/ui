@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { ToolbarButton as RekaToolbarButton } from 'reka-ui'
+  import { ToolbarButton as RekaToolbarButton } from '../../primitives/toolbar'
   import ToolbarControl from './ToolbarControl.vue'
   import { useToolbar } from './context'
   import type { ToolbarControlProps } from './types'

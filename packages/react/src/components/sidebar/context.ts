@@ -17,3 +17,9 @@ export const SidebarContext = createContext<SidebarContextValue | null>(null)
 export function useSidebar() {
   return useContext(SidebarContext)
 }
+
+export const SidebarScopeContext = createContext(false)
+
+export function useInSidebar() {
+  return useContext(SidebarScopeContext)
+}

@@ -1,8 +1,8 @@
 'use client'
 
 import type { HTMLAttributes, Ref } from 'react'
-import { useControllableState } from 'radix-ui/internal'
 import { DropdownMenuRadioGroup as PrimitiveDropdownMenuRadioGroup } from '../../primitives/dropdown-menu'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export interface DropdownMenuRadioGroupProps extends Omit<
   HTMLAttributes<HTMLElement>,

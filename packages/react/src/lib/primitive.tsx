@@ -1,4 +1,3 @@
-import { Slot } from 'radix-ui'
 import {
   Children,
   isValidElement,
@@ -7,6 +6,7 @@ import {
   type HTMLAttributes,
   type Ref,
 } from 'react'
+import { Slot } from '../primitives/utils/slot'
 
 export interface PrimitiveProps {
   as?: ElementType
@@ -30,14 +30,14 @@ export function Primitive({ as: Tag = 'div', asChild, children, ...props }: Prim
   const nodes = Children.toArray(children)
   const first = nodes.findIndex(node => isValidElement(node))
   if (first === -1) return <>{children}</>
-  if (nodes.length === 1) return <Slot.Root {...props}>{nodes[0]}</Slot.Root>
+  if (nodes.length === 1) return <Slot {...props}>{nodes[0]}</Slot>
   return (
     <>
       {nodes.map((node, index) =>
         index === first ? (
-          <Slot.Root key="slot" {...props}>
+          <Slot key="slot" {...props}>
             {node}
-          </Slot.Root>
+          </Slot>
         ) : (
           node
         ),

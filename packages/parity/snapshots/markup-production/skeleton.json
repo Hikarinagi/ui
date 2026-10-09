@@ -1,0 +1,39 @@
+{
+  "wraps content while loading": [
+    "<span aria-hidden=\"true\" inert=\"\" tabindex=\"-1\" class=\"hn-skeleton block\">",
+    "  <!--[-->",
+    "  <p>",
+    "    \"正文\"",
+    "  <!--]-->"
+  ],
+  "renders only the content when ready": [
+    "<!--[-->",
+    "<p>",
+    "  \"正文\"",
+    "<!--]-->"
+  ],
+  "standalone placeholder with class": [
+    "<span aria-hidden=\"true\" inert=\"\" tabindex=\"-1\" class=\"hn-skeleton block h-4 w-32\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "class merge overrides display": [
+    "<span aria-hidden=\"true\" inert=\"\" tabindex=\"-1\" class=\"hn-skeleton inline-block size-10 rounded-full\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "as div with attributes": [
+    "<div aria-hidden=\"true\" inert=\"\" tabindex=\"-1\" class=\"hn-skeleton block\" id=\"cover\" data-x=\"1\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "wraps a component": [
+    "<span aria-hidden=\"true\" inert=\"\" tabindex=\"-1\" class=\"hn-skeleton block\">",
+    "  <!--[-->",
+    "  <p class=\"text-sm text-muted font-normal\">",
+    "    <!--[-->",
+    "    \"第 42 章\"",
+    "    <!--]-->",
+    "  <!--]-->"
+  ]
+}

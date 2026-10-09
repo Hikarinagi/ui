@@ -1,7 +1,6 @@
 'use client'
 
 import { createContext, useContext, type HTMLAttributes, type ReactNode, type Ref } from 'react'
-import { Direction as RadixDirection } from 'radix-ui'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { RovingFocusGroup, RovingFocusItem } from '../roving-focus'
 import type { Direction, Orientation } from '../roving-focus'
@@ -11,6 +10,7 @@ import {
   type AcceptableValue,
   type ToggleGroupRootProps,
 } from '../toggle-group'
+import { useDirection } from '../utils/direction'
 
 type DataAttributes = { [attribute: `data-${string}`]: string | undefined }
 
@@ -46,7 +46,7 @@ export function ToolbarRoot({
   children,
   ...attrs
 }: ToolbarRootProps) {
-  const dir = RadixDirection.useDirection(dirProp)
+  const dir = useDirection(dirProp)
   return (
     <ToolbarRootContext value={{ orientation, dir }}>
       <RovingFocusGroup asChild orientation={orientation} dir={dir} loop={loop} {...attrs}>

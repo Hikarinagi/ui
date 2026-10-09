@@ -2,7 +2,6 @@
 
 import type { InputHTMLAttributes, KeyboardEvent, MouseEvent, ReactNode, Ref } from 'react'
 import { X } from 'lucide-react'
-import { useControllableState } from 'radix-ui/internal'
 import {
   ComboboxAnchor,
   ComboboxInput,
@@ -37,6 +36,7 @@ import {
   tagsInputList,
 } from '../tags-input/tags-input.variants'
 import { multiComboboxEnd, multiComboboxHost } from './multi-combobox.variants'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 const XIcon = lucide(X)
 const EMPTY: Array<string | number> = []

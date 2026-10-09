@@ -1,6 +1,4 @@
 <script lang="ts">
-  import type { PrimitiveProps } from 'reka-ui'
-
   export interface NumberFieldRootProps extends PrimitiveProps {
     defaultValue?: number
     modelValue?: number | null
@@ -35,7 +33,7 @@
     type FunctionalComponent,
     type Ref,
   } from 'vue'
-  import { injectConfigProviderContext, Primitive } from 'reka-ui'
+  import { injectConfigProviderContext } from '../utils/config'
   import {
     boundNumberFieldValue,
     commitNumberFieldText,
@@ -54,6 +52,8 @@
   import { useVModel } from '../utils/useVModel'
   import VisuallyHiddenInput from '../visually-hidden/VisuallyHiddenInput'
   import { provideNumberFieldRootContext } from './context'
+  import type { PrimitiveProps } from '../primitive'
+  import { Primitive } from '../primitive'
 
   defineOptions({ inheritAttrs: false })
 

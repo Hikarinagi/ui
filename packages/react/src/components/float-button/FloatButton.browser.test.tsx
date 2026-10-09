@@ -154,6 +154,39 @@ it.each(['ltr', 'rtl'] as const)(
   },
 )
 
+it('offsets each axis separately', async () => {
+  const s = await setup({ position: 'absolute', placement: 'bottom-end', offset: { x: 12, y: 72 } })
+  const host = s.host.getBoundingClientRect(),
+    button = s.button().getBoundingClientRect()
+  expect(host.bottom - button.bottom).toBe(72)
+  expect(host.right - button.right).toBe(12)
+})
+
+it('keeps the default offset on the axis that is not given', async () => {
+  const s = await setup({ position: 'absolute', placement: 'top-start', offset: { y: '4rem' } })
+  const host = s.host.getBoundingClientRect(),
+    button = s.button().getBoundingClientRect()
+  expect(button.top - host.top).toBe(64)
+  expect(button.left - host.left).toBe(24)
+})
+
+it('plays the whole exit when the press that hides it is still settling', async () => {
+  const s = await setup({ position: 'static' })
+  s.click.mockImplementation(() => s.props.set({ visible: false }))
+  const button = s.button()
+  let hidden = 0,
+    removed = 0
+  const observer = new MutationObserver(() => {
+    if (!hidden && button.inert) hidden = performance.now()
+    if (!removed && !button.isConnected) removed = performance.now()
+  })
+  observer.observe(s.host, { attributes: true, childList: true, subtree: true })
+  await userEvent.click(button, { delay: 60 })
+  await vi.waitFor(() => expect(removed).toBeGreaterThan(0))
+  observer.disconnect()
+  expect(removed - hidden).toBeGreaterThan(150)
+})
+
 it('fixes to the viewport and allows placement changes', async () => {
   const s = await setup({ offset: 20 })
   expect(getComputedStyle(s.button()).position).toBe('fixed')

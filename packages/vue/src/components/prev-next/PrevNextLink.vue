@@ -1,10 +1,11 @@
 <script setup lang="ts">
-  import { Primitive, type PrimitiveProps } from 'reka-ui'
   import { ArrowLeft, ArrowRight } from '@lucide/vue'
   import Ripple from '../ripple/Ripple.vue'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
   import { prevNextLink, prevNextEyebrow, type PrevNextVariants } from './prev-next.variants'
+  import type { PrimitiveProps } from '../../primitives/primitive'
+  import { Primitive } from '../../primitives/primitive'
 
   defineOptions({ name: 'HnPrevNextLink', inheritAttrs: false })
 

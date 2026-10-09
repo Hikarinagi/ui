@@ -12,7 +12,6 @@ import {
   type ReactNode,
   type Ref,
 } from 'react'
-import { useComposedRefs } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import { collapseHooks, writeCollapseGap } from '../../lib/collapse'
 import { hasContent } from '../../lib/content'
@@ -33,6 +32,7 @@ import {
   formFieldMessage,
   formFieldRoot,
 } from './form-field.variants'
+import { useComposedRefs } from '../../primitives/utils/compose-refs'
 
 export interface FormFieldProps
   extends FormFieldLayoutProps, Omit<HTMLAttributes<HTMLDivElement>, 'children'> {

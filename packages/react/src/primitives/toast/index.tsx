@@ -14,15 +14,6 @@ import {
   type Ref,
   type RefObject,
 } from 'react'
-import { Portal as RadixPortal } from 'radix-ui'
-import {
-  Collection,
-  DismissableLayer,
-  Presence,
-  useCallbackRef,
-  useComposedRefs,
-  useControllableState,
-} from 'radix-ui/internal'
 import { usePortalContainer } from '../../lib/config'
 import { Primitive, type PrimitiveElementProps } from '../../lib/primitive'
 import { PrimitiveVisuallyHidden } from '../visually-hidden'
@@ -42,8 +33,15 @@ import {
 } from './utils'
 
 export type { SwipeDirection, SwipeEvent } from './utils'
+import { createCollection } from '../collection'
+import { DismissableLayerBranch } from '../dismissable-layer'
+import { Portal as HnPortal } from '../portal'
+import { Presence } from '../presence'
+import { useCallbackRef } from '../utils/callback-ref'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useControllableState } from '../utils/controllable-state'
 
-const [ToastCollection, useToastCollection] = Collection.createCollection<HTMLElement>('Toast')
+const [ToastCollection, useToastCollection] = createCollection<HTMLElement>('Toast')
 
 interface ProviderContextValue {
   label: string
@@ -127,7 +125,7 @@ export function ToastProvider({
   )
 
   return (
-    <ToastCollection.Provider scope={undefined}>
+    <ToastCollection.Provider>
       <ProviderContext value={value}>{children}</ProviderContext>
     </ToastCollection.Provider>
   )
@@ -169,7 +167,7 @@ export function ToastViewport({
   ...props
 }: ToastViewportProps) {
   const context = useProviderContext('ToastViewport')
-  const getItems = useToastCollection(undefined)
+  const getItems = useToastCollection()
   const viewportRef = useRef<HTMLElement | null>(null)
   const composedRef = useComposedRefs(ref, viewportRef, context.onViewportChange)
   const headFocusProxyRef = useRef<HTMLElement | null>(null)
@@ -262,7 +260,7 @@ export function ToastViewport({
   }, [hasToasts, context.isClosePausedRef, getSortedTabbableCandidates])
 
   return (
-    <DismissableLayer.Branch
+    <DismissableLayerBranch
       role="region"
       aria-label={
         typeof label === 'string' ? label.replace('{hotkey}', hotkeyMessage) : label(hotkeyMessage)
@@ -278,7 +276,7 @@ export function ToastViewport({
           }
         />
       )}
-      <ToastCollection.Slot scope={undefined}>
+      <ToastCollection.Slot>
         <Primitive tabIndex={-1} as={as} asChild={asChild} {...props} ref={composedRef} />
       </ToastCollection.Slot>
       {hasToasts && (
@@ -289,7 +287,7 @@ export function ToastViewport({
           }
         />
       )}
-    </DismissableLayer.Branch>
+    </DismissableLayerBranch>
   )
 }
 
@@ -345,7 +343,7 @@ export function ToastRoot({
   })
 
   return (
-    <Presence.Root present={!!forceMount || open}>
+    <Presence present={!!forceMount || open}>
       <ToastRootImpl
         {...props}
         open={open}
@@ -387,7 +385,7 @@ export function ToastRoot({
           setOpen(false)
         }}
       />
-    </Presence.Root>
+    </Presence>
   )
 }
 
@@ -511,8 +509,8 @@ function ToastRootImpl({
         </ToastAnnounce>
       )}
       {provider.viewport && (
-        <RadixPortal.Root asChild container={provider.viewport}>
-          <ToastCollection.ItemSlot scope={undefined}>
+        <HnPortal asChild container={provider.viewport}>
+          <ToastCollection.ItemSlot>
             <Primitive
               tabIndex={0}
               {...props}
@@ -574,7 +572,7 @@ function ToastRootImpl({
               }}
             />
           </ToastCollection.ItemSlot>
-        </RadixPortal.Root>
+        </HnPortal>
       )}
     </RootContext>
   )
@@ -692,8 +690,8 @@ export function ToastPortal({
   if (disabled) return <>{children}</>
   const target = typeof to === 'string' ? (mounted ? document.querySelector(to) : null) : to
   return (
-    <RadixPortal.Root asChild container={target ?? configured ?? undefined}>
+    <HnPortal asChild container={target ?? configured ?? undefined}>
       <>{children}</>
-    </RadixPortal.Root>
+    </HnPortal>
   )
 }

@@ -30,7 +30,7 @@ import { Time } from '@hina-ui/vue'
 
 45 秒以内显示为“刚刚”，更早或更晚按秒、分、时、天、周、月、年逐级换算。措辞取当前语言的自然说法，例如两天之后显示为“后天”。
 
-页面打开期间每 30 秒刷新一次，无需手动更新。指针悬停可以看到完整的日期与时刻。
+页面打开期间每 30 秒刷新一次，无需手动更新。在 `TooltipProvider` 内，指针悬停会通过 [Tooltip](/components/tooltip) 显示完整的日期与时刻；`tooltip` 设为 `false` 可以关闭。
 
 <Demo name="time/relative" />
 
@@ -59,14 +59,15 @@ import { Time } from '@hina-ui/vue'
 ## 无障碍 {#a11y}
 
 - `datetime` 属性始终是完整的 ISO 时间，辅助技术据此获得准确时刻。
-- 相对时间会随时间变化，完整时刻保留在 `title` 中。
+- 相对时间会随时间变化，完整时刻始终保留在 `datetime` 中。
 
 ## API {#api}
 
 ### Props {#props}
 
-| 属性     | 类型                                           | 默认值       | 说明               |
-| -------- | ---------------------------------------------- | ------------ | ------------------ |
-| `value`  | `string \| number \| Date \| null`             | —            | 要显示的时间       |
-| `format` | `'datetime' \| 'date' \| 'time' \| 'relative'` | `'datetime'` | 显示格式           |
-| `class`  | `string`                                       | —            | 追加至根元素的类名 |
+| 属性      | 类型                                           | 默认值       | 说明                                |
+| --------- | ---------------------------------------------- | ------------ | ----------------------------------- |
+| `value`   | `string \| number \| Date \| null`             | —            | 要显示的时间                        |
+| `format`  | `'datetime' \| 'date' \| 'time' \| 'relative'` | `'datetime'` | 显示格式                            |
+| `tooltip` | `boolean`                                      | `true`       | 相对时间是否用 Tooltip 显示完整时刻 |
+| `class`   | `string`                                       | —            | 追加至根元素的类名                  |

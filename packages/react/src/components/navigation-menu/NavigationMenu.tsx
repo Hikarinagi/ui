@@ -1,7 +1,6 @@
 'use client'
 
 import { useRef, useState, type KeyboardEvent, type ReactNode, type Ref } from 'react'
-import { useComposedRefs, useControllableState } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import { useAccessibleName } from '../../lib/a11y'
 import { radixNavigationViewportStyle } from '../../lib/radix/styles'
@@ -22,6 +21,8 @@ import {
   navigationMenuViewport,
 } from './navigation-menu.variants'
 import type { NavigationMenuProps } from './types'
+import { useComposedRefs } from '../../primitives/utils/compose-refs'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 function SlotValue({ children }: { children: (props: { value: string }) => ReactNode }) {
   return children({ value: useNavigationMenuModelValue() })

@@ -4,7 +4,7 @@
   import { useUiLocale } from '../../locale'
   import CloseButton from '../close-button/CloseButton.vue'
   import ScrollArea from '../scroll-area/ScrollArea.vue'
-  import { useSidebar, type SidebarState } from './context'
+  import { provideSidebarScope, useSidebar, type SidebarState } from './context'
   import SidebarLabel from './SidebarLabel.vue'
   import {
     sidebarRoot,
@@ -35,6 +35,7 @@
 
   const t = useUiLocale()
   const sidebar = useSidebar()
+  provideSidebarScope()
   const state = computed(() => sidebar?.state.value ?? 'expanded')
   const inDrawer = computed(() => sidebar?.inDrawer ?? false)
 </script>

@@ -12,7 +12,6 @@ import {
   type Ref,
   type RefObject,
 } from 'react'
-import { useComposedRefs } from 'radix-ui/internal'
 import {
   endOfYear,
   startOfYear,
@@ -48,6 +47,7 @@ import {
   type CalendarPagingProps,
 } from './shared'
 import type { Matcher, PageFunction } from './use-calendar'
+import { useComposedRefs } from '../utils/compose-refs'
 
 interface YearPickerContextValue {
   locale: string

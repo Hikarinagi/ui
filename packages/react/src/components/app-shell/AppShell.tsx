@@ -1,7 +1,6 @@
 'use client'
 
 import { useImperativeHandle, useMemo, useRef, type ReactNode, type Ref } from 'react'
-import { useControllableState } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import { hasContent } from '../../lib/content'
 import { LayoutTransitionProvider } from '../../lib/layout-stability'
@@ -14,6 +13,7 @@ import { SidebarContext, type SidebarContextValue, type SidebarState } from '../
 import { useDesktopQuery } from './hooks/useDesktopQuery'
 import { useLocationChange } from './hooks/useLocationChange'
 import { useSidebarScrollUpdates } from './hooks/useSidebarScrollUpdates'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export interface AppShellHandle {
   readonly mainViewport: HTMLElement | undefined

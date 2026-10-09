@@ -1,6 +1,5 @@
 'use client'
 
-import { Progress as ProgressPrimitive } from 'radix-ui'
 import type { HTMLAttributes, ReactNode, Ref } from 'react'
 import { cn } from '../../lib/cn'
 import { hasContent } from '../../lib/content'
@@ -15,6 +14,7 @@ import {
   ringProgressTrack,
   type RingProgressVariants,
 } from './ring-progress.variants'
+import { ProgressRoot } from '../../primitives/progress'
 
 export interface RingProgressProps extends HTMLAttributes<HTMLDivElement> {
   value?: number | null
@@ -46,7 +46,7 @@ export function RingProgress({
 
   return (
     <div data-hn-ring-progress="" className={cn(ringProgress(), className)}>
-      <ProgressPrimitive.Root
+      <ProgressRoot
         aria-label={name}
         aria-valuetext={format ? text : undefined}
         {...attrs}
@@ -71,7 +71,7 @@ export function RingProgress({
         {hasContent(children) || (showValue && text) ? (
           <div className={ringProgressCenter()}>{hasContent(children) ? children : text}</div>
         ) : null}
-      </ProgressPrimitive.Root>
+      </ProgressRoot>
       {label ? <span className={ringProgressLabel()}>{label}</span> : null}
     </div>
   )

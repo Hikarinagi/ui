@@ -1,0 +1,98 @@
+{
+  "trail with default separators": [
+    "<nav aria-label=\"面包屑\" class=\"\">",
+    "  <ol class=\"flex flex-wrap items-center gap-1.5 text-sm\">",
+    "    <!--[-->",
+    "    <li class=\"flex items-center\">",
+    "      <a href=\"/\" class=\"hn-link [--hn-link-color:var(--hn-fg-muted)]\">",
+    "        <!--[-->",
+    "        \"首页\"",
+    "        <!--]-->",
+    "    <li aria-hidden=\"true\" class=\"text-faint flex items-center\">",
+    "      <!--[-->",
+    "      <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-chevron-right-icon lucide-chevron-right size-3.5\">",
+    "        <path d=\"m9 18 6-6-6-6\">",
+    "      <!--]-->",
+    "    <li class=\"flex items-center\">",
+    "      <a href=\"/components\" class=\"hn-link [--hn-link-color:var(--hn-fg-muted)]\">",
+    "        <!--[-->",
+    "        \"组件\"",
+    "        <!--]-->",
+    "    <li aria-hidden=\"true\" class=\"text-faint flex items-center\">",
+    "      <!--[-->",
+    "      <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-chevron-right-icon lucide-chevron-right size-3.5\">",
+    "        <path d=\"m9 18 6-6-6-6\">",
+    "      <!--]-->",
+    "    <li class=\"flex items-center\">",
+    "      <span aria-current=\"page\" class=\"text-fg font-medium\">",
+    "        <!--[-->",
+    "        \"Button\"",
+    "        <!--]-->",
+    "    <!--]-->"
+  ],
+  "trail with text separators and a label": [
+    "<nav aria-label=\"作品位置\" class=\"\">",
+    "  <ol class=\"flex flex-wrap items-center gap-1.5 text-sm\">",
+    "    <!--[-->",
+    "    <li class=\"flex items-center\">",
+    "      <a href=\"#\" class=\"hn-link [--hn-link-color:var(--hn-fg-muted)]\">",
+    "        <!--[-->",
+    "        \"首页\"",
+    "        <!--]-->",
+    "    <li aria-hidden=\"true\" class=\"text-faint flex items-center\">",
+    "      <!--[-->",
+    "      \"·\"",
+    "      <!--]-->",
+    "    <li class=\"flex items-center\">",
+    "      <span aria-current=\"page\" class=\"text-fg font-medium\">",
+    "        <!--[-->",
+    "        \"第三卷\"",
+    "        <!--]-->",
+    "    <!--]-->"
+  ],
+  "nav class merge and attributes": [
+    "<nav aria-label=\"面包屑\" class=\"mb-4\" id=\"trail\">",
+    "  <ol class=\"flex flex-wrap items-center gap-1.5 text-sm\">",
+    "    <!--[-->",
+    "    <!--]-->"
+  ],
+  "separator slot with class": [
+    "<li aria-hidden=\"true\" class=\"flex items-center text-muted\" id=\"s\">",
+    "  <!--[-->",
+    "  <svg>",
+    "  <!--]-->"
+  ],
+  "default separator icon": [
+    "<li aria-hidden=\"true\" class=\"text-faint flex items-center\">",
+    "  <!--[-->",
+    "  <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-chevron-right-icon lucide-chevron-right size-3.5\">",
+    "    <path d=\"m9 18 6-6-6-6\">",
+    "  <!--]-->"
+  ],
+  "link item class merge and attributes": [
+    "<li class=\"flex items-center\">",
+    "  <a href=\"#\" target=\"_blank\" id=\"home\" class=\"hn-link [--hn-link-color:var(--hn-fg-muted)] inline-flex items-center\">",
+    "    <!--[-->",
+    "    \"首页\"",
+    "    <!--]-->"
+  ],
+  "current item receives attributes": [
+    "<li class=\"flex items-center\">",
+    "  <span id=\"here\" href=\"/x\" aria-current=\"page\" class=\"text-fg font-normal\">",
+    "    <!--[-->",
+    "    \"这里\"",
+    "    <!--]-->"
+  ],
+  "polymorphic router link": [
+    "<li class=\"flex items-center\">",
+    "  <a href=\"/guide\" data-router=\"\" class=\"hn-link [--hn-link-color:var(--hn-fg-muted)]\">",
+    "    <!--[-->",
+    "    \"指南\"",
+    "    <!--]-->"
+  ],
+  "as child": [
+    "<li class=\"flex items-center\">",
+    "  <a class=\"hn-link [--hn-link-color:var(--hn-fg-muted)]\" href=\"/docs\">",
+    "    \"Docs\""
+  ]
+}

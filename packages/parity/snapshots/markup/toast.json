@@ -1,0 +1,70 @@
+{
+  "toaster renders nothing on the server": [
+    "<div data-host=\"\">",
+    "  <!--[-->",
+    "  <!--[-->",
+    "  <!--]-->",
+    "  <!--v-if-->",
+    "  <!--]-->"
+  ],
+  "toaster at top-start renders nothing on the server": [
+    "<div data-host=\"\">",
+    "  <!--[-->",
+    "  <!--[-->",
+    "  <!--]-->",
+    "  <!--v-if-->",
+    "  <!--]-->"
+  ],
+  "toaster at top-center renders nothing on the server": [
+    "<div data-host=\"\">",
+    "  <!--[-->",
+    "  <!--[-->",
+    "  <!--]-->",
+    "  <!--v-if-->",
+    "  <!--]-->"
+  ],
+  "toaster at top-end renders nothing on the server": [
+    "<div data-host=\"\">",
+    "  <!--[-->",
+    "  <!--[-->",
+    "  <!--]-->",
+    "  <!--v-if-->",
+    "  <!--]-->"
+  ],
+  "toaster at bottom-start renders nothing on the server": [
+    "<div data-host=\"\">",
+    "  <!--[-->",
+    "  <!--[-->",
+    "  <!--]-->",
+    "  <!--v-if-->",
+    "  <!--]-->"
+  ],
+  "toaster at bottom-center renders nothing on the server": [
+    "<div data-host=\"\">",
+    "  <!--[-->",
+    "  <!--[-->",
+    "  <!--]-->",
+    "  <!--v-if-->",
+    "  <!--]-->"
+  ],
+  "toaster at bottom-end renders nothing on the server": [
+    "<div data-host=\"\">",
+    "  <!--[-->",
+    "  <!--[-->",
+    "  <!--]-->",
+    "  <!--v-if-->",
+    "  <!--]-->"
+  ],
+  "queued toasts stay client-only": [
+    "<div data-host=\"\">",
+    "  <!--[-->",
+    "  <!--[-->",
+    "  <!--[-->",
+    "  <!--v-if-->",
+    "  <!--v-if-->",
+    "  <!--]-->",
+    "  <!--]-->",
+    "  <!--v-if-->",
+    "  <!--]-->"
+  ]
+}

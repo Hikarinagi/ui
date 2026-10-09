@@ -19,20 +19,34 @@
 }
 
 .hn-float-button:not([data-position='static'])[data-placement^='top'] {
-  top: max(var(--hn-float-offset), var(--hn-float-safe-top));
+  top: max(var(--hn-float-offset-y, var(--hn-float-offset)), var(--hn-float-safe-top));
 }
 .hn-float-button:not([data-position='static']) {
   max-inline-size: calc(
-    100% - max(var(--hn-float-offset), var(--hn-float-safe-start)) -
-      max(var(--hn-float-offset), var(--hn-float-safe-end))
+    100% - max(var(--hn-float-offset-x, var(--hn-float-offset)), var(--hn-float-safe-start)) -
+      max(var(--hn-float-offset-x, var(--hn-float-offset)), var(--hn-float-safe-end))
   );
 }
 .hn-float-button:not([data-position='static'])[data-placement^='bottom'] {
-  bottom: max(var(--hn-float-offset), var(--hn-float-safe-bottom));
+  bottom: max(var(--hn-float-offset-y, var(--hn-float-offset)), var(--hn-float-safe-bottom));
 }
 .hn-float-button:not([data-position='static'])[data-placement$='start'] {
-  inset-inline-start: max(var(--hn-float-offset), var(--hn-float-safe-start));
+  inset-inline-start: max(
+    var(--hn-float-offset-x, var(--hn-float-offset)),
+    var(--hn-float-safe-start)
+  );
 }
 .hn-float-button:not([data-position='static'])[data-placement$='end'] {
-  inset-inline-end: max(var(--hn-float-offset), var(--hn-float-safe-end));
+  inset-inline-end: max(var(--hn-float-offset-x, var(--hn-float-offset)), var(--hn-float-safe-end));
+}
+
+.hn-float-button.hn-float-button-leave {
+  pointer-events: none;
+  transition-property: opacity, scale;
+  transition-duration: var(--hn-duration-fast);
+  transition-timing-function: var(--hn-ease-move);
+}
+.hn-float-button.hn-float-button-leave::before,
+.hn-float-button.hn-float-button-leave::after {
+  transition: none;
 }

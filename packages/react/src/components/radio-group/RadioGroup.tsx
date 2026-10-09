@@ -1,7 +1,6 @@
 'use client'
 
 import type { HTMLAttributes, ReactNode, Ref } from 'react'
-import { useControllableState } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import { Transition } from '../../lib/transition/Transition'
 import { RadioGroupItem, RadioGroupRoot } from '../../primitives/radio-group'
@@ -22,6 +21,7 @@ import {
 } from '../checkbox-group/checkbox-group.variants'
 import type { SelectOption } from '../select/types'
 import { radioDot } from './radio-group.variants'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export interface RadioGroupProps<T extends SelectOption = SelectOption> extends Omit<
   HTMLAttributes<HTMLElement>,

@@ -109,8 +109,12 @@ describe('hover / press 只许走三条轴(README「hover 与 press」)', () => 
 })
 
 describe('L0 约定', () => {
-  it('Reka CSS 变量只允许出现在 Vue 适配层', () => {
-    const files = componentFiles.filter(f => !f.startsWith(join(vueDir, 'lib', 'reka') + sep))
+  it('Reka CSS 变量只允许出现在 Vue 适配层与移植的 primitive', () => {
+    const files = componentFiles.filter(
+      f =>
+        !f.startsWith(join(vueDir, 'lib', 'reka') + sep) &&
+        !f.startsWith(join(vueDir, 'primitives') + sep),
+    )
     expect(findAll(/--reka-[\w-]+/, files)).toEqual([])
     expect(tokens.match(/--reka-[\w-]+/g) ?? []).toEqual([])
   })
@@ -129,8 +133,13 @@ describe('L0 约定', () => {
     expect(findAll(/<Teleport\b/, vueFiles)).toEqual([])
   })
 
-  it('组件不得直接 createPortal,浮层一律经 Radix 的 Portal 部件', () => {
-    expect(findAll(/\bcreatePortal\b/, reactFiles)).toEqual([])
+  it('组件不得直接 createPortal,浮层一律经 primitives/portal', () => {
+    expect(
+      findAll(
+        /\bcreatePortal\b/,
+        reactFiles.filter(file => !file.endsWith('/primitives/portal/index.tsx')),
+      ),
+    ).toEqual([])
   })
 })
 

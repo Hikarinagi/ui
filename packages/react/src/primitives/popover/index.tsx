@@ -16,18 +16,7 @@ import {
   type Ref,
   type RefObject,
 } from 'react'
-import { Portal as RadixPortal } from 'radix-ui'
 import { usePortalContainer } from '../../lib/config'
-import {
-  DismissableLayer,
-  FocusGuards,
-  FocusScope,
-  Presence,
-  composeEventHandlers,
-  useCallbackRef,
-  useComposedRefs,
-  useControllableState,
-} from 'radix-ui/internal'
 import { hideOthers } from 'aria-hidden'
 import { Primitive } from '../../lib/primitive'
 import { useBodyScrollLock } from '../body-scroll-lock'
@@ -45,6 +34,15 @@ import {
   type PointerDownOutsideEvent,
 } from '../utils/dismissable'
 import { autoFocusWithin, focus } from './focus'
+import { DismissableLayer } from '../dismissable-layer'
+import { FocusScope } from '../focus-scope'
+import { Portal as HnPortal } from '../portal'
+import { Presence } from '../presence'
+import { useCallbackRef } from '../utils/callback-ref'
+import { composeEventHandlers } from '../utils/compose-event-handlers'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useControllableState } from '../utils/controllable-state'
+import { useFocusGuards } from '../utils/focus-guards'
 
 export type { FocusOutsideEvent, PointerDownOutsideEvent } from '../utils/dismissable'
 
@@ -235,9 +233,9 @@ export interface PopoverPortalProps {
 export function PopoverPortal({ to, children }: PopoverPortalProps) {
   const configured = usePortalContainer()
   return (
-    <RadixPortal.Root asChild container={to ?? configured}>
+    <HnPortal asChild container={to ?? configured}>
       {children}
-    </RadixPortal.Root>
+    </HnPortal>
   )
 }
 
@@ -257,9 +255,9 @@ export interface PopoverContentProps extends Omit<PopperContentProps, 'ref' | 'o
 export function PopoverContent({ forceMount, ...props }: PopoverContentProps) {
   const context = usePopoverRootContext('PopoverContent')
   return (
-    <Presence.Root present={!!forceMount || context.open}>
+    <Presence present={!!forceMount || context.open}>
       {context.modal ? <PopoverContentModal {...props} /> : <PopoverContentNonModal {...props} />}
-    </Presence.Root>
+    </Presence>
   )
 }
 
@@ -377,7 +375,7 @@ function PopoverContentImpl({
   const dir = usePopperDirection(props.dir)
   const anchor = (reference ?? context.anchor ?? undefined) as PopperContentProps['reference']
   const closeAutoFocus = useCallbackRef(onCloseAutoFocus)
-  FocusGuards.useFocusGuards()
+  useFocusGuards()
 
   useLayoutEffect(() => {
     const container = layer.current
@@ -385,7 +383,9 @@ function PopoverContentImpl({
     return () => {
       if (!container) return
       const event = new CustomEvent(AUTOFOCUS_ON_UNMOUNT, { bubbles: false, cancelable: true })
-      const handler = (unmount: Event) => closeAutoFocus(unmount)
+      const handler = (unmount: Event) => {
+        if (unmount === event) closeAutoFocus(unmount)
+      }
       container.addEventListener(AUTOFOCUS_ON_UNMOUNT, handler)
       container.dispatchEvent(event)
       container.setAttribute('data-focus-scope-unmounting', '')
@@ -401,7 +401,7 @@ function PopoverContentImpl({
   const getLayer = () => layer.current
 
   return (
-    <FocusScope.Root
+    <FocusScope
       asChild
       loop
       trapped={trapFocus}
@@ -413,7 +413,7 @@ function PopoverContentImpl({
       }}
       onUnmountAutoFocus={event => event.preventDefault()}
     >
-      <DismissableLayer.Root
+      <DismissableLayer
         asChild
         disableOutsidePointerEvents={disableOutsidePointerEvents}
         onPointerDownOutside={guardLayer(getLayer, onPointerDownOutside)}
@@ -443,8 +443,8 @@ function PopoverContentImpl({
             } as PopperContentProps['style']
           }
         />
-      </DismissableLayer.Root>
-    </FocusScope.Root>
+      </DismissableLayer>
+    </FocusScope>
   )
 }
 

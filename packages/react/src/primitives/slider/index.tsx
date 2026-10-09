@@ -15,13 +15,6 @@ import {
   type Ref,
   type RefObject,
 } from 'react'
-import { Direction as RadixDirection } from 'radix-ui'
-import {
-  composeEventHandlers,
-  useComposedRefs,
-  useControllableState,
-  useSize,
-} from 'radix-ui/internal'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { VisuallyHiddenInput, useCurrentElement, useFormControl } from '../utils/hidden-input'
 import {
@@ -37,8 +30,15 @@ import {
   getThumbInBoundsOffset,
   hasMinStepsBetweenValues,
   linearScale,
+  resolveSliderUpdate,
   roundValue,
-} from './utils'
+  sliderStepAmount,
+} from '../../../../shared/src/primitives/slider'
+import { composeEventHandlers } from '../utils/compose-event-handlers'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useControllableState } from '../utils/controllable-state'
+import { useDirection } from '../utils/direction'
+import { useSize } from '../utils/size'
 
 type DataAttributes = { [attribute: `data-${string}`]: string | undefined }
 type Direction = 'ltr' | 'rtl'
@@ -134,7 +134,7 @@ export function SliderRoot({
   ref,
   ...attrs
 }: SliderRootProps) {
-  const dir = RadixDirection.useDirection(dirProp)
+  const dir = useDirection(dirProp)
   const [element, setElement] = useCurrentElement<HTMLElement>()
   const composedRef = useComposedRefs(ref, setElement)
   const isFormControl = useFormControl(element)
@@ -160,12 +160,15 @@ export function SliderRoot({
   }, [])
 
   function updateValues(next: number, atIndex: number, { commit } = { commit: false }) {
-    const decimalCount = getDecimalCount(step)
-    const snapToStep = roundValue(Math.round((next - min) / step) * step + min, decimalCount)
-    const nextValue = clamp(snapToStep, min, max)
-    const nextValues = getNextSortedValues(latest.current.currentModelValue, nextValue, atIndex)
-    if (!hasMinStepsBetweenValues(nextValues, minStepsBetweenThumbs * step)) return
-    valueIndexToChangeRef.current = nextValues.indexOf(nextValue)
+    const update = resolveSliderUpdate(latest.current.currentModelValue, next, atIndex, {
+      min,
+      max,
+      step,
+      minStepsBetweenThumbs,
+    })
+    if (!update) return
+    const nextValues = update.values
+    valueIndexToChangeRef.current = update.index
     const hasChanged = String(nextValues) !== String(latest.current.modelValue)
     if (hasChanged && commit) latest.current.onValueCommit?.(nextValues)
     if (hasChanged) {
@@ -204,12 +207,9 @@ export function SliderRoot({
     },
     onStepKeyDown: (event, direction) => {
       if (disabled) return
-      const isPageKey = PAGE_KEYS.includes(event.key)
-      const isSkipKey = isPageKey || (event.shiftKey && ARROW_KEYS.includes(event.key))
-      const multiplier = isSkipKey ? 10 : 1
       const atIndex = valueIndexToChangeRef.current
       const current = latest.current.currentModelValue[atIndex]!
-      updateValues(current + step * multiplier * direction, atIndex, { commit: true })
+      updateValues(current + sliderStepAmount(event, step) * direction, atIndex, { commit: true })
     },
   }
 

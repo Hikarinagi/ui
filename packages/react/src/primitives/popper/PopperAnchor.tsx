@@ -10,9 +10,9 @@ import {
   type RefObject,
 } from 'react'
 import type { ReferenceElement } from '@floating-ui/react-dom'
-import { useComposedRefs } from 'radix-ui/internal'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { usePopperRootContext } from './PopperRoot'
+import { useComposedRefs } from '../utils/compose-refs'
 
 export interface PopperAnchorProps extends PrimitiveProps, HTMLAttributes<HTMLElement> {
   reference?: ReferenceElement

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { TabsTrigger, injectTabsRootContext } from 'reka-ui'
+  import { TabsTrigger, injectTabsRootContext } from '../../primitives/tabs'
   import { computed } from 'vue'
   import Highlight from '../highlight/Highlight.vue'
   import Ripple from '../ripple/Ripple.vue'

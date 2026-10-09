@@ -1,20 +1,23 @@
 <script setup lang="ts">
   import { computed } from 'vue'
+  import { injectTooltipProviderContext } from 'reka-ui'
   import { cn } from '../../lib/cn'
   import { devWarn } from '../../lib/dev'
   import { useUiLocale } from '../../locale'
+  import Tooltip from '../tooltip/Tooltip.vue'
   import { relativeTime } from './utils/relativeTime'
   import { useNow } from './composables/useNow'
 
-  defineOptions({ name: 'HnTime' })
+  defineOptions({ name: 'HnTime', inheritAttrs: false })
 
   const props = withDefaults(
     defineProps<{
       value?: string | number | Date | null
       format?: 'datetime' | 'date' | 'time' | 'relative'
+      tooltip?: boolean
       class?: string
     }>(),
-    { format: 'datetime' },
+    { format: 'datetime', tooltip: true },
   )
 
   const t = useUiLocale()
@@ -49,16 +52,30 @@
       ? new Intl.DateTimeFormat(t.value.tag, absoluteOptions.datetime).format(date.value)
       : undefined,
   )
+
+  const provider = injectTooltipProviderContext(null)
+  const hint = computed(() => !!provider && props.tooltip && props.format === 'relative')
 </script>
 
 <template>
+  <Tooltip v-if="date && hint" :content="absolute">
+    <time
+      :datetime="date.toISOString()"
+      data-allow-mismatch="text"
+      :class="cn(props.class)"
+      v-bind="$attrs"
+    >
+      {{ text }}
+    </time>
+  </Tooltip>
   <time
-    v-if="date"
+    v-else-if="date"
     :datetime="date.toISOString()"
-    :title="format === 'relative' ? absolute : undefined"
+    data-allow-mismatch="text"
     :class="cn(props.class)"
+    v-bind="$attrs"
   >
     {{ text }}
   </time>
-  <span v-else :class="cn(props.class)">{{ text }}</span>
+  <span v-else :class="cn(props.class)" v-bind="$attrs">{{ text }}</span>
 </template>

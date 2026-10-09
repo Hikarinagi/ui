@@ -1,6 +1,11 @@
 <script setup lang="ts">
   import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from '@lucide/vue'
-  import { PaginationFirst, PaginationPrev, PaginationNext, PaginationLast } from 'reka-ui'
+  import {
+    PaginationFirst,
+    PaginationPrev,
+    PaginationNext,
+    PaginationLast,
+  } from '../../primitives/pagination'
   import { useUiLocale } from '../../locale'
   import Button from '../button/Button.vue'
   import type { ButtonVariants } from '../button/button.variants'

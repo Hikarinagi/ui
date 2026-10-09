@@ -1,7 +1,6 @@
 'use client'
 
 import type { HTMLAttributes, ReactNode, Ref } from 'react'
-import { useControllableState } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import { useCollapseHooks } from '../../lib/collapse'
 import { hasContent } from '../../lib/content'
@@ -9,6 +8,7 @@ import { Transition } from '../../lib/transition/Transition'
 import { CloseButton } from '../close-button/CloseButton'
 import { callout, calloutIcon, type CalloutVariants } from '../callout/callout.variants'
 import { calloutIcons } from '../callout/icons'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export interface AlertProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   tone?: CalloutVariants['tone']

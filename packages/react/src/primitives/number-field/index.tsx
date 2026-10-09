@@ -18,7 +18,6 @@ import {
   type Ref,
   type RefObject,
 } from 'react'
-import { useComposedRefs, useControllableState } from 'radix-ui/internal'
 import { Primitive } from '../../lib/primitive'
 import { reactAttributes } from '../utils/attributes'
 import { windowTimers } from '../utils/timers'
@@ -46,6 +45,8 @@ import {
   type NumberFieldRange,
   type NumberFieldStep,
 } from '../../../../shared/src/primitives/number-field'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useControllableState } from '../utils/controllable-state'
 
 interface RootContextValue {
   modelValue: number | null | undefined

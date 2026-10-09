@@ -15,7 +15,6 @@ import {
   type Ref,
   type RefObject,
 } from 'react'
-import { useComposedRefs, useControllableState } from 'radix-ui/internal'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { usePopperDirection } from '../popper'
 import {
@@ -29,6 +28,8 @@ import {
   type MenuSubContentProps,
 } from '../menu'
 import { buttonAttributes } from '../menu/utils'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useControllableState } from '../utils/controllable-state'
 
 export {
   MenuArrow as DropdownMenuArrow,

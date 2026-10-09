@@ -2,9 +2,9 @@
   import {
     AccordionHeader,
     AccordionTrigger as RekaAccordionTrigger,
-    injectCollapsibleRootContext,
-    useId,
-  } from 'reka-ui'
+  } from '../../primitives/accordion'
+  import { injectCollapsibleRootContext } from '../../primitives/collapsible'
+  import { useId } from '../../primitives/utils/useId'
   import { cn } from '../../lib/cn'
   import Ripple from '../ripple/Ripple.vue'
   import DisclosureIcon from '../disclosure-icon/DisclosureIcon.vue'

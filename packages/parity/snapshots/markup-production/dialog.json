@@ -1,0 +1,60 @@
+{
+  "closed trigger": [
+    "<!--[-->",
+    "<button type=\"button\" class=\"hn-interactive relative isolate inline-flex shrink-0 items-center justify-center gap-[var(--hn-control-gap)] rounded-md border font-medium whitespace-nowrap select-none disabled:pointer-events-none disabled:opacity-50 data-disabled:pointer-events-none data-disabled:opacity-50 hn-state-layer border-line hover:border-line-strong h-[var(--hn-control-h-md)] px-[var(--hn-control-px-md)] text-base [&_svg]:size-4 text-fg\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-state=\"closed\">",
+    "  <!--[-->",
+    "  <div aria-hidden=\"true\" class=\"hn-ripple\">",
+    "    <div class=\"hn-ripple-surface\">",
+    "  <!---->",
+    "  <span class=\"hn-transition inline-flex items-center gap-[var(--hn-control-gap)] opacity-100\">",
+    "    <!--[-->",
+    "    \"打开\"",
+    "    <!--]-->",
+    "  <!---->",
+    "  <!---->",
+    "  <!--]-->",
+    "<!---->",
+    "<!--]-->"
+  ],
+  "closed trigger ignores panel props and slots on the server": [
+    "<!--[-->",
+    "<button type=\"button\" class=\"hn-interactive relative isolate inline-flex shrink-0 items-center justify-center gap-[var(--hn-control-gap)] rounded-md border font-medium whitespace-nowrap select-none disabled:pointer-events-none disabled:opacity-50 data-disabled:pointer-events-none data-disabled:opacity-50 hn-state-layer border-line hover:border-line-strong h-[var(--hn-control-h-md)] px-[var(--hn-control-px-md)] text-base [&_svg]:size-4 text-fg\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-state=\"closed\">",
+    "  <!--[-->",
+    "  <div aria-hidden=\"true\" class=\"hn-ripple\">",
+    "    <div class=\"hn-ripple-surface\">",
+    "  <!---->",
+    "  <span class=\"hn-transition inline-flex items-center gap-[var(--hn-control-gap)] opacity-100\">",
+    "    <!--[-->",
+    "    \"打开\"",
+    "    <!--]-->",
+    "  <!---->",
+    "  <!---->",
+    "  <!--]-->",
+    "<!---->",
+    "<!--]-->"
+  ],
+  "controlled open trigger state before the portal mounts": [
+    "<!--[-->",
+    "<button type=\"button\" class=\"hn-interactive relative isolate inline-flex shrink-0 items-center justify-center gap-[var(--hn-control-gap)] rounded-md border font-medium whitespace-nowrap select-none disabled:pointer-events-none disabled:opacity-50 data-disabled:pointer-events-none data-disabled:opacity-50 hn-state-layer border-line hover:border-line-strong h-[var(--hn-control-h-md)] px-[var(--hn-control-px-md)] text-base [&_svg]:size-4 text-fg\" aria-haspopup=\"dialog\" aria-expanded=\"true\" aria-controls=\"reka-dialog-content-v-1\" data-state=\"open\">",
+    "  <!--[-->",
+    "  <div aria-hidden=\"true\" class=\"hn-ripple\">",
+    "    <div class=\"hn-ripple-surface\">",
+    "  <!---->",
+    "  <span class=\"hn-transition inline-flex items-center gap-[var(--hn-control-gap)] opacity-100\">",
+    "    <!--[-->",
+    "    \"打开\"",
+    "    <!--]-->",
+    "  <!---->",
+    "  <!---->",
+    "  <!--]-->",
+    "<!--v-if-->",
+    "<!--]-->"
+  ],
+  "native element trigger": [
+    "<!--[-->",
+    "<a type=\"button\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-state=\"closed\" href=\"#\">",
+    "  \"链接\"",
+    "<!---->",
+    "<!--]-->"
+  ]
+}

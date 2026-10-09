@@ -1,4 +1,4 @@
-import { getActiveElement } from '../stepper/arrow-navigation'
+import { getActiveElement } from '../../../../shared/src/primitives/focus-scope'
 
 export function getOpenState(open: boolean) {
   return open ? 'open' : 'closed'

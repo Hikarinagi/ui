@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T extends StepperItem = StepperItem">
-  import { StepperRoot } from 'reka-ui'
+  import { StepperRoot } from '../../primitives/stepper'
   import { useId } from 'vue'
   import { cn } from '../../lib/cn'
   import { useDirection } from '../../lib/useDirection'

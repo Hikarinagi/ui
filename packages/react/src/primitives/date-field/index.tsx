@@ -11,7 +11,6 @@ import {
   type ReactNode,
   type Ref,
 } from 'react'
-import { useComposedRefs } from 'radix-ui/internal'
 import type { DateValue } from '@internationalized/date'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { PrimitiveVisuallyHidden } from '../visually-hidden'
@@ -51,6 +50,7 @@ import {
 export type { DateStep } from './date/utils'
 export type { SegmentContent } from './date/parser'
 export type { Granularity, HourCycle } from './date/comparators'
+import { useComposedRefs } from '../utils/compose-refs'
 
 interface DateFieldContextValue extends SegmentFieldContext {
   segmentValues: SegmentStore

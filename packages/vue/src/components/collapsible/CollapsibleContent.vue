@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { CollapsibleContent as RekaCollapsibleContent } from 'reka-ui'
+  import { CollapsibleContent as RekaCollapsibleContent } from '../../primitives/collapsible'
   import { cn } from '../../lib/cn'
   import { rekaCollapsibleStyle } from '../../lib/reka/styles'
   import { useCollapseGap } from '../../lib/collapse'

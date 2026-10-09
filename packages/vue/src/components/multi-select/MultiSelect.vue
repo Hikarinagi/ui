@@ -1,6 +1,7 @@
 <script setup lang="ts" generic="T extends SelectOption = SelectOption">
   import { computed, ref } from 'vue'
-  import { SelectRoot, SelectTrigger, VisuallyHidden } from 'reka-ui'
+  import { SelectRoot, SelectTrigger } from 'reka-ui'
+  import { VisuallyHidden } from '../../primitives/visually-hidden'
   import { cn } from '../../lib/cn'
   import type { VirtualizeOptions } from '../../lib/virtual/types'
   import { useUiLocale } from '../../locale'
@@ -55,6 +56,7 @@
   const size = computed(() => (group ? group.size.value : props.size))
   const {
     id: fieldId,
+    labelledBy,
     invalid,
     disabled,
     describedBy,
@@ -101,6 +103,7 @@
       v-bind="$attrs"
       as="div"
       :id="fieldId"
+      :aria-labelledby="labelledBy"
       :aria-describedby="describedBy"
       data-hn-multi-select
       @keydown="keyboard = true"

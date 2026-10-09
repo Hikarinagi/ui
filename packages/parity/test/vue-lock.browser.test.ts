@@ -4,6 +4,7 @@ import { normalizeMarkup } from '../src/normalize'
 import { liveVue, type LiveSuite } from '../src/live'
 import { inShard } from '../src/shard'
 import type { VueLockKind, VueLockRecord, VueLockState } from '../src/vue-lock'
+import { startVueLockClock } from '../src/vue-lock-clock'
 import '../src/browser.css'
 
 declare module 'vitest/browser' {
@@ -19,13 +20,17 @@ describe('Vue live lock', () => {
   for (const [path, load] of inShard(Object.entries(modules))) {
     const file = path.slice('../cases/'.length).replace(/\.live\.tsx$/, '')
     it(file, { timeout: 180_000 }, async ({ skip }) => {
+      startVueLockClock()
       const { update, record } = await commands.readVueLock('live', file)
       if (!update && !record) return skip('no Vue live lock recorded')
       const suite = (await load()).default
       const actual: VueLockRecord = {}
       for (const entry of suite.cases) {
         expect(actual, `duplicate case name: ${entry.name}`).not.toHaveProperty([entry.name])
-        actual[entry.name] = normalizeMarkup(await liveVue(entry), { exact: true }).split('\n')
+        actual[entry.name] = normalizeMarkup(await liveVue(entry), {
+          exact: true,
+          geometry: false,
+        }).split('\n')
       }
       if (update) return commands.writeVueLock('live', file, actual)
       for (const [name, expected] of Object.entries(record!))

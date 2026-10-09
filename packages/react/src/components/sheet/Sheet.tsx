@@ -1,7 +1,6 @@
 'use client'
 
 import { useImperativeHandle, useRef, type CSSProperties, type ReactNode, type Ref } from 'react'
-import { useControllableState } from 'radix-ui/internal'
 import {
   DialogClose,
   DialogContent,
@@ -23,6 +22,7 @@ import { ScrollArea } from '../scroll-area/ScrollArea'
 import { Text } from '../text/Text'
 import { useDragToDismiss } from './hooks/useDragToDismiss'
 import { sheetGrip, sheetHandle, sheetPanel } from './sheet.variants'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export interface SheetSlotProps {
   close: () => void

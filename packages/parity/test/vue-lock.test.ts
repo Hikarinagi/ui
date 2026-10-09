@@ -3,11 +3,15 @@ import type { ParityCase, ParitySuite } from '../src/cases'
 import { normalizeMarkup } from '../src/normalize'
 import { renderVue } from '../src/render'
 import { readVueLock, writeVueLock, type VueLockRecord } from '../src/vue-lock'
+import { freezeVueLockClock } from '../src/vue-lock-clock'
+
+freezeVueLockClock()
 
 const modules = import.meta.glob<{ default: ParitySuite }>('../cases/*.cases.tsx')
 const kind = process.env.NODE_ENV === 'production' ? 'markup-production' : 'markup'
 
 async function markup(entry: ParityCase) {
+  freezeVueLockClock()
   return normalizeMarkup(await renderVue(entry.vue), { exact: true }).split('\n')
 }
 

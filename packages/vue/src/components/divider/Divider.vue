@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { useSlots } from 'vue'
-  import { Separator } from 'reka-ui'
+  import { Separator } from '../../primitives/separator'
   import { cn } from '../../lib/cn'
 
   defineOptions({ name: 'HnDivider' })

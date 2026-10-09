@@ -83,6 +83,28 @@ For `AppShell`, use `() => shell.current?.mainViewport`. With default fixed posi
 
 ## Examples {#examples}
 
+### Clearing bottom content {#offset}
+
+When the page has a fixed footer or toolbar at the bottom, raise the button with the `y` of `offset`; the horizontal spacing keeps its default. A string accepts any CSS length.
+
+::: vue
+
+```vue
+<ScrollTop :offset="{ y: 96 }" />
+<ScrollTop :offset="{ y: 'calc(var(--footer-height) + 1rem)' }" />
+```
+
+:::
+
+::: react
+
+```tsx
+<ScrollTop offset={{ y: 96 }} />
+<ScrollTop offset={{ y: 'calc(var(--footer-height) + 1rem)' }} />
+```
+
+:::
+
 ### Appearance, scrolling, and focus {#custom}
 
 Reuse `FloatButton` sizes, shapes, visible labels, and positioning. Scrolling is smooth by default; `behavior="instant"` jumps immediately. Reduced-motion preferences always force instant scrolling.

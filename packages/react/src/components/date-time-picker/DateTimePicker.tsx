@@ -2,7 +2,6 @@
 
 import type { HTMLAttributes, ReactNode } from 'react'
 import { CalendarClock } from 'lucide-react'
-import { useControllableState } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import { lucide } from '../../lib/icon'
 import { joinDateTime, splitDateTime, type TimeGranularity } from '../../../../shared/src/lib/date'
@@ -27,6 +26,7 @@ import { InputAction } from '../input/InputAction'
 import { inputEmbedded, inputHost, type InputVariants } from '../input/input.variants'
 import { TimeField } from '../time-field/TimeField'
 import { dateTimePickerFooter } from './date-time-picker.variants'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 const CalendarClockIcon = lucide(CalendarClock)
 

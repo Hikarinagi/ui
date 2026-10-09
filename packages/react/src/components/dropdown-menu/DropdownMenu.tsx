@@ -1,7 +1,6 @@
 'use client'
 
 import { Children, type HTMLAttributes, type ReactNode } from 'react'
-import { useControllableState } from 'radix-ui/internal'
 import {
   DropdownMenuContent,
   DropdownMenuPortal,
@@ -17,6 +16,7 @@ import type { OverlayAnchor, OverlayPositionStrategy } from '../../lib/overlay-a
 import { hasContent } from '../../lib/content'
 import { Card } from '../card/Card'
 import { cn } from '../../lib/cn'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export interface DropdownMenuProps extends Omit<HTMLAttributes<HTMLElement>, 'content' | 'dir'> {
   label?: string

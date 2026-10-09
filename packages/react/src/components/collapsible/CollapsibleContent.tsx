@@ -1,6 +1,5 @@
 'use client'
 
-import { useComposedRefs } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import { useCollapseGap } from '../../lib/collapse'
 import { radixCollapsibleStyle } from '../../lib/radix/styles'
@@ -8,6 +7,7 @@ import {
   CollapsibleContent as CollapsibleContentPrimitive,
   type CollapsibleContentProps as CollapsibleContentPrimitiveProps,
 } from '../../primitives/collapsible'
+import { useComposedRefs } from '../../primitives/utils/compose-refs'
 
 export interface CollapsibleContentProps extends Omit<
   CollapsibleContentPrimitiveProps,

@@ -22,8 +22,6 @@ import {
   type Ref,
 } from 'react'
 import { flushSync } from 'react-dom'
-import { Direction as RadixDirection } from 'radix-ui'
-import { composeEventHandlers, useComposedRefs } from 'radix-ui/internal'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { getFocusIntent } from '../roving-focus/utils'
 import { VisuallyHiddenInput, useFormControl } from '../utils/hidden-input'
@@ -43,6 +41,9 @@ import {
   type EventHook,
 } from './utils'
 import { useVModel } from './useVModel'
+import { composeEventHandlers } from '../utils/compose-event-handlers'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useDirection } from '../utils/direction'
 
 export {
   COLLECTION_ITEM,
@@ -189,7 +190,7 @@ export function ListboxRoot({
   children,
   ...attrs
 }: ListboxRootProps) {
-  const dir = RadixDirection.useDirection(dirProp)
+  const dir = useDirection(dirProp)
   const highlightScroll = useContext(ListboxHighlightScrollContext)
   const [modelValue, setModel] = useVModel<unknown>(
     valueProp,

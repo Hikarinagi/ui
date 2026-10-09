@@ -1,0 +1,14 @@
+{
+  "closed renders nothing in place": [
+    "<div class=\"host\">",
+    "  <!--[-->",
+    "  <!--v-if-->",
+    "  <!--]-->"
+  ],
+  "open renders only after mount": [
+    "<div class=\"host\">",
+    "  <!--[-->",
+    "  <!--v-if-->",
+    "  <!--]-->"
+  ]
+}

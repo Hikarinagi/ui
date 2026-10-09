@@ -1,0 +1,106 @@
+{
+  "default": [
+    "<div class=\"grid grid-cols-1 gap-x-[var(--hn-inline-gap)] gap-y-[var(--hn-stack-gap)]\">",
+    "  <!--[-->",
+    "  <p>",
+    "    \"甲\"",
+    "  <p>",
+    "    \"乙\"",
+    "  <!--]-->"
+  ],
+  "cols 1": [
+    "<div class=\"grid grid-cols-1 gap-x-[var(--hn-inline-gap)] gap-y-[var(--hn-stack-gap)]\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "cols 2": [
+    "<div class=\"grid grid-cols-2 gap-x-[var(--hn-inline-gap)] gap-y-[var(--hn-stack-gap)]\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "cols 3": [
+    "<div class=\"grid grid-cols-3 gap-x-[var(--hn-inline-gap)] gap-y-[var(--hn-stack-gap)]\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "cols 4": [
+    "<div class=\"grid grid-cols-4 gap-x-[var(--hn-inline-gap)] gap-y-[var(--hn-stack-gap)]\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "cols 5": [
+    "<div class=\"grid grid-cols-5 gap-x-[var(--hn-inline-gap)] gap-y-[var(--hn-stack-gap)]\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "cols 6": [
+    "<div class=\"grid grid-cols-6 gap-x-[var(--hn-inline-gap)] gap-y-[var(--hn-stack-gap)]\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "cols 7": [
+    "<div class=\"grid grid-cols-7 gap-x-[var(--hn-inline-gap)] gap-y-[var(--hn-stack-gap)]\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "cols 8": [
+    "<div class=\"grid grid-cols-8 gap-x-[var(--hn-inline-gap)] gap-y-[var(--hn-stack-gap)]\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "cols 9": [
+    "<div class=\"grid grid-cols-9 gap-x-[var(--hn-inline-gap)] gap-y-[var(--hn-stack-gap)]\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "cols 10": [
+    "<div class=\"grid grid-cols-10 gap-x-[var(--hn-inline-gap)] gap-y-[var(--hn-stack-gap)]\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "cols 11": [
+    "<div class=\"grid grid-cols-11 gap-x-[var(--hn-inline-gap)] gap-y-[var(--hn-stack-gap)]\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "cols 12": [
+    "<div class=\"grid grid-cols-12 gap-x-[var(--hn-inline-gap)] gap-y-[var(--hn-stack-gap)]\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "gap none": [
+    "<div class=\"grid grid-cols-2 gap-0\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "gap xs": [
+    "<div class=\"grid grid-cols-2 gap-1\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "gap sm": [
+    "<div class=\"grid grid-cols-2 gap-2\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "gap md": [
+    "<div class=\"grid grid-cols-2 gap-x-[var(--hn-inline-gap)] gap-y-[var(--hn-stack-gap)]\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "gap lg": [
+    "<div class=\"grid grid-cols-2 gap-6\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "gap xl": [
+    "<div class=\"grid grid-cols-2 gap-8\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ],
+  "as ul with responsive class": [
+    "<ul class=\"grid grid-cols-1 gap-x-[var(--hn-inline-gap)] gap-y-[var(--hn-stack-gap)] sm:grid-cols-2 lg:grid-cols-4\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ]
+}

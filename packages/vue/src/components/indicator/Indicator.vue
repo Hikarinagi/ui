@@ -1,8 +1,9 @@
 <script setup lang="ts">
-  import { Primitive, type PrimitiveProps } from 'reka-ui'
   import VisuallyHidden from '../visually-hidden/VisuallyHidden.vue'
   import { cn } from '../../lib/cn'
   import { indicator, type IndicatorVariants } from './indicator.variants'
+  import type { PrimitiveProps } from '../../primitives/primitive'
+  import { Primitive } from '../../primitives/primitive'
 
   defineOptions({ name: 'HnIndicator' })
 

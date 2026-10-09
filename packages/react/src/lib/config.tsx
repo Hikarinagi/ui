@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
-import { Direction } from 'radix-ui'
+import { DirectionProvider } from '../primitives/utils/direction'
 
 export interface ScrollBodyOption {
   padding?: boolean | number | string
@@ -41,7 +41,7 @@ export function ConfigProvider({
   )
   return (
     <ConfigContext value={value}>
-      <Direction.Provider dir={dir}>{children}</Direction.Provider>
+      <DirectionProvider dir={dir}>{children}</DirectionProvider>
     </ConfigContext>
   )
 }

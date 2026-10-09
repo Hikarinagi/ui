@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  import { Primitive } from 'reka-ui'
   import { cn } from '../../lib/cn'
   import { inputAction, inputAdornment } from './input.variants'
+  import { Primitive } from '../../primitives/primitive'
 
   defineOptions({ name: 'HnInputAction' })
 

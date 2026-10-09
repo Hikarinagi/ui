@@ -2,6 +2,11 @@ import { tv, type VariantProps } from '../lib/tv'
 
 export const panelHeader = tv({
   base: 'flex items-start justify-between gap-4 px-(--hn-panel-p) pt-(--hn-panel-p)',
+  variants: {
+    bodiless: {
+      true: 'pb-(--hn-panel-p)',
+    },
+  },
 })
 
 export const panelTitle = tv({

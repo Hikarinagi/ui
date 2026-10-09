@@ -2,7 +2,6 @@
 
 import { useLayoutEffect, useRef, type CSSProperties, type HTMLAttributes, type Ref } from 'react'
 import { Star } from 'lucide-react'
-import { useControllableState } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import { lucide } from '../../lib/icon'
 import { radixRatingStepStyle } from '../../lib/radix/styles'
@@ -20,6 +19,7 @@ import {
   type RatingVariants,
 } from './rating.variants'
 import { useRatingScale } from './hooks/useRatingScale'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 const StarIcon = lucide(Star)
 

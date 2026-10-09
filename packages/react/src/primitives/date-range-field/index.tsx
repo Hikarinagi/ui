@@ -11,7 +11,6 @@ import {
   type ReactNode,
   type Ref,
 } from 'react'
-import { useComposedRefs } from 'radix-ui/internal'
 import type { DateValue } from '@internationalized/date'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { PrimitiveVisuallyHidden } from '../visually-hidden'
@@ -49,6 +48,7 @@ import {
   type SegmentInputProps,
 } from '../date-field/date/segment-input'
 import { kbd, normalizeDateStep, normalizeHourCycle, type DateStep } from '../date-field/date/utils'
+import { useComposedRefs } from '../utils/compose-refs'
 
 export interface DateRange {
   start: DateValue | undefined

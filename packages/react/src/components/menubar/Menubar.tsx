@@ -1,10 +1,10 @@
 'use client'
 
 import type { HTMLAttributes, Ref } from 'react'
-import { useControllableState } from 'radix-ui/internal'
 import { MenubarRoot } from '../../primitives/menubar'
 import { cn } from '../../lib/cn'
 import { menubarRoot } from './menubar.variants'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export interface MenubarProps extends Omit<HTMLAttributes<HTMLElement>, 'defaultValue' | 'dir'> {
   label?: string

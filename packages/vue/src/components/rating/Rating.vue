@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { RatingItem, RatingItemIndicator, RatingRoot } from 'reka-ui'
+  import { RatingItem, RatingItemIndicator, RatingRoot } from '../../primitives/rating'
   import { Star } from '@lucide/vue'
   import { cn } from '../../lib/cn'
   import { rekaRatingStepStyle } from '../../lib/reka/styles'

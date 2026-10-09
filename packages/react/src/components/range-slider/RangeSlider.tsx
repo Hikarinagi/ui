@@ -1,7 +1,6 @@
 'use client'
 
 import type { CSSProperties, HTMLAttributes, Ref } from 'react'
-import { composeEventHandlers, useComposedRefs, useControllableState } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import { useDirection } from '../../lib/useDirection'
 import { useUiLocale } from '../../locale'
@@ -17,6 +16,9 @@ import {
   sliderTrack,
   type SliderVariants,
 } from '../slider/slider.variants'
+import { composeEventHandlers } from '../../primitives/utils/compose-event-handlers'
+import { useComposedRefs } from '../../primitives/utils/compose-refs'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 const both = { checkForDefaultPrevented: false }
 

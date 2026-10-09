@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T extends SelectOption = SelectOption">
-  import { RadioGroupItem, RadioGroupRoot } from 'reka-ui'
+  import { RadioGroupItem, RadioGroupRoot } from '../../primitives/radio-group'
   import { cn } from '../../lib/cn'
   import { useFieldControl } from '../form-field/context'
   import {

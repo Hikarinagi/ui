@@ -25,14 +25,21 @@ const ID_REFERENCES = new Set([
 ])
 
 const GENERATED_ID = /^(?:[\w-]+-)?(?:v-\d+(?:-\d+)*|_[Rr]_[0-9a-z]+_)$/
+const GENERATED_ID_PARTS = /^((?:[\w-]+-)?)(?:v-\d+(?:-\d+)*|_[Rr]_[0-9a-z]+_)$/
+const COUNTER_ID_PARTS = /^((?:[\w-]+-)?hn-[a-z]+(?:-[a-z]+)*-)\d+(?:-\d+)*$/
+const GEOMETRY_ATTRIBUTES = new Set(['data-side', 'data-align'])
+const BLOB_URL = /blob:[^\s"')]+/g
+const TRUNCATED = /(?:^|\s)truncate(?:\s|$)/
 const PRIMITIVE_ATTRIBUTE = /^data-(?:reka|radix)-/
 const PRIMITIVE_VARIABLE = /--(?:reka|radix)-/
 const VENDOR_PREFIX = /^(webkit|moz|ms)-/
+const HYDRATION_HINT = 'data-allow-mismatch'
 
 export interface NormalizeOptions {
   ignoreAttributes?: string[]
   userIcons?: boolean
   exact?: boolean
+  geometry?: boolean
 }
 
 function isElement(node: Node): node is Element {
@@ -69,7 +76,32 @@ function content(node: Element): Parent {
   return node.tagName === 'template' ? (node as unknown as { content: Parent }).content : node
 }
 
-function exactLines(parent: Parent, depth: number, lines: string[]) {
+function exactId(token: string, ids: Map<string, string>) {
+  const parts = GENERATED_ID_PARTS.exec(token) ?? COUNTER_ID_PARTS.exec(token)
+  if (!parts) return token
+  if (!ids.has(token)) ids.set(token, `${parts[1]}v-${ids.size + 1}`)
+  return ids.get(token)!
+}
+
+function exactValue(name: string, value: string, ids: Map<string, string>, geometry: boolean) {
+  if (!geometry && name === 'style') return value.replace(/-?\d*\.?\d+/g, '#')
+  if (!geometry && GEOMETRY_ATTRIBUTES.has(name)) return '#'
+  if (name === 'class' && /(?:^|\s)os-/.test(value)) return value.split(/\s+/).sort().join(' ')
+  if (ID_REFERENCES.has(name))
+    return value
+      .split(' ')
+      .map(token => exactId(token, ids))
+      .join(' ')
+  return exactId(value, ids).replace(BLOB_URL, 'blob:')
+}
+
+function exactLines(
+  parent: Parent,
+  depth: number,
+  lines: string[],
+  geometry: boolean,
+  ids = new Map<string, string>(),
+) {
   const indent = '  '.repeat(depth)
   for (const node of parent.childNodes) {
     if (node.nodeName === '#comment')
@@ -77,9 +109,13 @@ function exactLines(parent: Parent, depth: number, lines: string[]) {
     else if (!isElement(node))
       lines.push(`${indent}${JSON.stringify((node as DefaultTreeAdapterMap['textNode']).value)}`)
     else {
-      const attributes = node.attrs.map(({ name, value }) => ` ${name}="${value}"`).join('')
+      const truncated = TRUNCATED.test(node.attrs.find(({ name }) => name === 'class')?.value ?? '')
+      const attributes = node.attrs
+        .filter(({ name }) => geometry || !truncated || name !== 'tabindex')
+        .map(({ name, value }) => ` ${name}="${exactValue(name, value, ids, geometry)}"`)
+        .join('')
       lines.push(`${indent}<${node.tagName}${attributes}>`)
-      exactLines(content(node), depth + 1, lines)
+      exactLines(content(node), depth + 1, lines, geometry, ids)
     }
   }
   return lines
@@ -105,7 +141,8 @@ function children(parent: Parent) {
 }
 
 export function normalizeMarkup(html: string, options: NormalizeOptions = {}) {
-  if (options.exact) return exactLines(parseFragment(html), 0, []).join('\n')
+  if (options.exact)
+    return exactLines(parseFragment(html), 0, [], options.geometry ?? true).join('\n')
   const ignored = new Set(options.ignoreAttributes ?? [])
   const ids = new Map<string, string>()
   const id = (token: string) => {
@@ -142,7 +179,7 @@ export function normalizeMarkup(html: string, options: NormalizeOptions = {}) {
         const key = PRIMITIVE_ATTRIBUTE.test(name)
           ? name.replace(PRIMITIVE_ATTRIBUTE, 'data-primitive-')
           : name
-        if (ignored.has(key)) return undefined
+        if (ignored.has(key) || key === HYDRATION_HINT) return undefined
         if (key === 'class') return [key, classes(value)] as const
         if (key === 'style') return [key, style(value)] as const
         if (ID_REFERENCES.has(key)) return [key, value.split(/\s+/).map(id).join(' ')] as const

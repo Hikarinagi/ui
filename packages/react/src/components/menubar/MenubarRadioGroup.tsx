@@ -1,8 +1,8 @@
 'use client'
 
 import type { HTMLAttributes, Ref } from 'react'
-import { useControllableState } from 'radix-ui/internal'
 import { MenubarRadioGroup as PrimitiveMenubarRadioGroup } from '../../primitives/menubar'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export interface MenubarRadioGroupProps extends Omit<HTMLAttributes<HTMLElement>, 'defaultValue'> {
   value?: string

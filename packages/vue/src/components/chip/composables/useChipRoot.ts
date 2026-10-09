@@ -1,5 +1,5 @@
 import { computed } from 'vue'
-import type { PrimitiveProps } from 'reka-ui'
+import type { PrimitiveProps } from '../../../primitives/primitive'
 
 export function useChipRoot(props: PrimitiveProps & { selectable?: boolean; disabled?: boolean }) {
   const tag = computed(() => props.as ?? (props.selectable ? 'button' : 'span'))

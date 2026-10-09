@@ -30,7 +30,7 @@ export function Panel({
 }: PanelProps) {
   return (
     <Card data-hn-panel="" {...attrs} padded={false} className={cn('flex flex-col', className)}>
-      <div className={panelHeader()}>
+      <div className={panelHeader({ bodiless: !hasContent(children) })}>
         <div className="flex min-w-0 flex-col gap-1">
           <div className={panelTitle()}>
             {hasContent(icon) ? (

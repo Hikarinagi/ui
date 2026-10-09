@@ -18,21 +18,39 @@ import {
   type ReactNode,
   type Ref,
 } from 'react'
-import { Direction as RadixDirection } from 'radix-ui'
-import { composeEventHandlers, useComposedRefs } from 'radix-ui/internal'
+import { getActiveElement } from '../../../../shared/src/primitives/focus-scope'
+import {
+  isPinInputComplete,
+  isPinNavigationKey,
+  navigatePin,
+  pinFocusRedirect,
+  pinInputLabel,
+  pinPlaceholder,
+  resolvePinComposition,
+  resolvePinInput,
+  resolvePinPaste,
+  setPinValueAt,
+  spreadPinValue,
+  type PinInputValue,
+  type PinTextAction,
+} from '../../../../shared/src/primitives/pin-input'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { VisuallyHiddenInput, useServerRender } from '../utils/hidden-input'
+import { composeEventHandlers } from '../utils/compose-event-handlers'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useDirection } from '../utils/direction'
 
 type DataAttributes = { [attribute: `data-${string}`]: string | undefined }
 type Direction = 'ltr' | 'rtl'
 
 export type PinInputType = 'text' | 'number'
-export type PinInputValue = Array<string | number | undefined>
+export type { PinInputValue }
 
 const both = { checkForDefaultPrevented: false }
 
 interface PinInputRootContextValue {
   modelValue: PinInputValue
+  getModelValue: () => PinInputValue
   setModelValue: (value: PinInputValue) => void
   mask: boolean
   otp: boolean
@@ -96,7 +114,7 @@ export function PinInputRoot({
   ref,
   ...attrs
 }: PinInputRootProps) {
-  const dir = RadixDirection.useDirection(dirProp)
+  const dir = useDirection(dirProp)
   const [local, setLocal] = useState<PinInputValue | undefined>(() => {
     const initial = value ?? defaultValue ?? []
     return [...initial]
@@ -111,18 +129,21 @@ export function PinInputRoot({
     setEcho(echo + 1)
   }
   const currentModelValue = Array.isArray(modelValue) ? [...modelValue] : []
+  const current = useRef(currentModelValue)
+  current.current = currentModelValue
+  const getModelValue = useCallback(() => current.current, [])
   const elements = useRef(new Set<HTMLInputElement>())
   const [inputElements, setInputElements] = useState<HTMLInputElement[]>([])
   const isNumericMode = type === 'number'
   const completed = (values: PinInputValue | undefined) =>
-    (Array.isArray(values) ? values : []).filter(item => !!item || (isNumericMode && item === 0))
-      .length === inputElements.length
+    isPinInputComplete(Array.isArray(values) ? values : [], inputElements.length, isNumericMode)
   const isCompleted = completed(modelValue)
 
   const latest = useRef({ onValueChange, onComplete, completed })
   latest.current = { onValueChange, onComplete, completed }
 
   const setModelValue = useCallback((next: PinInputValue) => {
+    current.current = [...next]
     setLocal(next)
     latest.current.onValueChange?.([...next])
     if (latest.current.completed(next)) latest.current.onComplete?.(next)
@@ -149,6 +170,7 @@ export function PinInputRoot({
     <PinInputRootContext
       value={{
         modelValue: currentModelValue,
+        getModelValue,
         setModelValue,
         mask,
         otp,
@@ -186,62 +208,6 @@ export function PinInputRoot({
     </PinInputRootContext>
   )
 }
-
-function getActiveElement() {
-  let active = document.activeElement
-  while (active?.shadowRoot?.activeElement) active = active.shadowRoot.activeElement
-  return active
-}
-
-function findNextFocusableElement(
-  elements: HTMLElement[],
-  current: HTMLElement,
-  goForward: boolean,
-  loop: boolean,
-  iterations = !elements.includes(current) ? elements.length + 1 : elements.length,
-): HTMLElement | null {
-  if (--iterations === 0) return null
-  const index = elements.indexOf(current)
-  const next =
-    index === -1 ? (goForward ? 0 : elements.length - 1) : goForward ? index + 1 : index - 1
-  if (!loop && (next < 0 || next >= elements.length)) return null
-  const candidate = elements[(next + elements.length) % elements.length]
-  if (!candidate) return null
-  if (candidate.hasAttribute('disabled') && candidate.getAttribute('disabled') !== 'false')
-    return findNextFocusableElement(elements, candidate, goForward, loop, iterations)
-  return candidate
-}
-
-function arrowNavigation(
-  event: KeyboardEvent<HTMLInputElement>,
-  current: Element | null,
-  items: HTMLElement[],
-  dir: Direction,
-) {
-  if (!current) return
-  const right = event.key === 'ArrowRight'
-  const left = event.key === 'ArrowLeft'
-  const up = event.key === 'ArrowUp'
-  const down = event.key === 'ArrowDown'
-  const home = event.key === 'Home'
-  const end = event.key === 'End'
-  const vertical = up || down
-  const horizontal = right || left
-  if (!home && !end && (!horizontal || vertical)) return
-  if (!items.length) return
-  event.preventDefault()
-  let item: HTMLElement | null = null
-  if (horizontal) {
-    const goForward = dir === 'ltr' ? right : left
-    item = findNextFocusableElement(items, current as HTMLElement, goForward, false)
-  } else if (home) item = items.at(0) ?? null
-  else if (end) item = items.at(-1) ?? null
-  item?.focus()
-}
-
-const NUMBER_REG = /^\d*$/
-const NON_NUMBER_REG = /\D/g
-const NAVIGATION_KEYS = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End']
 
 export interface PinInputInputProps
   extends
@@ -299,8 +265,7 @@ export function PinInputInput({
     void Promise.resolve().then(() => {
       const target = node.current
       if (!target) return
-      if (!target.value && target === getActiveElement()) target.placeholder = ''
-      else target.placeholder = latest.current.placeholder
+      pinPlaceholder(target, getActiveElement(), latest.current.placeholder)
     })
   }
 
@@ -313,42 +278,35 @@ export function PinInputInput({
     updatePlaceholder()
   }, [currentValue])
 
-  function removeTrailingEmptyStrings(input: PinInputValue) {
-    let i = input.length - 1
-    while (i >= 0 && input[i] === '') {
-      input.pop()
-      i--
-    }
-    return input
-  }
-
   function updateModelValueAt(at: number, value: string) {
-    const next = [...latest.current.modelValue]
-    if (latest.current.isNumericMode) {
-      const num = +value
-      if (value === '' || Number.isNaN(num)) delete next[at]
-      else next[at] = num
-    } else next[at] = value
-    latest.current.setModelValue(removeTrailingEmptyStrings(next))
+    latest.current.setModelValue(
+      setPinValueAt(latest.current.getModelValue(), at, value, latest.current.isNumericMode),
+    )
   }
 
-  function handleMultipleCharacter(values: string) {
+  function handleMultipleCharacter(characters: string) {
     const items = latest.current.inputElements
-    const next = [...latest.current.modelValue]
-    const initialIndex = values.length >= items.length ? 0 : index
-    const lastIndex = Math.min(initialIndex + values.length, items.length)
-    for (let i = initialIndex; i < lastIndex; i++) {
-      const input = items[i]!
-      const value = values[i - initialIndex]!
-      if (latest.current.isNumericMode) {
-        const num = Number.parseInt(value)
-        if (Number.isNaN(num)) continue
-        next[i] = num
-      } else next[i] = value
-      input.focus()
+    const { values, filled, end } = spreadPinValue(
+      latest.current.getModelValue(),
+      characters,
+      index,
+      items.length,
+      latest.current.isNumericMode,
+    )
+    for (const at of filled) items[at]!.focus()
+    latest.current.setModelValue(values)
+    items[end]?.focus()
+  }
+
+  function apply(target: HTMLInputElement, action: PinTextAction) {
+    if (action.kind === 'clear') target.value = ''
+    else if (action.kind === 'filter') target.value = action.value
+    else if (action.kind === 'spread') handleMultipleCharacter(action.characters)
+    else {
+      target.value = action.character
+      updateModelValueAt(index, target.value)
+      latest.current.inputElements[index + 1]?.focus()
     }
-    latest.current.setModelValue(next)
-    items[lastIndex]?.focus()
   }
 
   function handleCompositionEnd(event: CompositionEvent<HTMLInputElement>) {
@@ -356,30 +314,7 @@ export function PinInputInput({
     const data = event.data
     void Promise.resolve().then(() => {
       composing.current = false
-      const value = data || target.value
-      const items = latest.current.inputElements
-      if (latest.current.isNumericMode) {
-        const filtered = value.replace(NON_NUMBER_REG, '')
-        if (!filtered) {
-          target.value = ''
-          return
-        }
-        if (filtered.length > 1) {
-          handleMultipleCharacter(filtered)
-          return
-        }
-        target.value = filtered
-        updateModelValueAt(index, filtered)
-        items[index + 1]?.focus()
-        return
-      }
-      if (value.length > 1) {
-        handleMultipleCharacter(value)
-        return
-      }
-      target.value = value
-      updateModelValueAt(index, value)
-      items[index + 1]?.focus()
+      apply(target, resolvePinComposition(data || target.value, latest.current.isNumericMode))
     })
   }
 
@@ -387,23 +322,18 @@ export function PinInputInput({
     const native = event.nativeEvent as InputEvent
     if (composing.current || native.isComposing) return
     const target = event.currentTarget
-    if ((native.data?.length ?? 0) > 1) {
-      handleMultipleCharacter(target.value)
-      return
-    }
-    if (latest.current.isNumericMode && !NUMBER_REG.test(target.value)) {
-      target.value = target.value.replace(NON_NUMBER_REG, '')
-      return
-    }
-    target.value = native.data || target.value.slice(-1)
-    updateModelValueAt(index, target.value)
-    latest.current.inputElements[index + 1]?.focus()
+    apply(target, resolvePinInput(native.data, target.value, latest.current.isNumericMode))
   }
 
   function handleKeydown(event: KeyboardEvent<HTMLInputElement>) {
     if (composing.current || event.nativeEvent.isComposing) return
-    if (NAVIGATION_KEYS.includes(event.key)) {
-      arrowNavigation(event, getActiveElement(), latest.current.inputElements, latest.current.dir)
+    if (isPinNavigationKey(event.key)) {
+      navigatePin(
+        event.nativeEvent,
+        getActiveElement() as HTMLElement | null,
+        latest.current.inputElements,
+        latest.current.dir,
+      )
       return
     }
     if (event.key === 'Backspace') {
@@ -428,12 +358,9 @@ export function PinInputInput({
   function handleFocus(event: FocusEvent<HTMLInputElement>) {
     if (latest.current.otp) {
       const items = latest.current.inputElements
-      const firstEmpty = items.findIndex(
-        (_, at) =>
-          latest.current.modelValue[at] === '' || latest.current.modelValue[at] === undefined,
-      )
-      if (firstEmpty !== -1 && firstEmpty < index) {
-        items[firstEmpty]!.focus()
+      const redirect = pinFocusRedirect(latest.current.getModelValue(), items.length, index)
+      if (redirect !== -1) {
+        items[redirect]!.focus()
         return
       }
     }
@@ -445,8 +372,9 @@ export function PinInputInput({
     event.preventDefault()
     const clipboardData = event.clipboardData
     if (!clipboardData) return
-    const raw = clipboardData.getData('text')
-    handleMultipleCharacter(latest.current.isNumericMode ? raw.replace(NON_NUMBER_REG, '') : raw)
+    handleMultipleCharacter(
+      resolvePinPaste(clipboardData.getData('text'), latest.current.isNumericMode),
+    )
   }
 
   return (
@@ -470,7 +398,7 @@ export function PinInputInput({
       asChild={asChild}
       data-disabled={disabled ? '' : undefined}
       data-complete={context.isCompleted ? '' : undefined}
-      aria-label={`pin input ${index + 1} of ${inputElements.length}`}
+      aria-label={pinInputLabel(index, inputElements.length)}
       {...(attrs as HTMLAttributes<HTMLElement>)}
       onInput={composeEventHandlers(onInput, handleInput, both)}
       onKeyDown={composeEventHandlers(onKeyDown, handleKeydown, both)}

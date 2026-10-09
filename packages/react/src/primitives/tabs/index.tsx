@@ -13,14 +13,18 @@ import {
   type MouseEvent,
   type Ref,
 } from 'react'
-import { Direction } from 'radix-ui'
 import {
-  Presence,
-  RovingFocus,
-  composeEventHandlers,
-  useControllableState,
-} from 'radix-ui/internal'
+  activatesOnFocus,
+  makeContentId,
+  makeTriggerId,
+  tabsState,
+} from '../../../../shared/src/primitives/tabs'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
+import { Presence } from '../presence'
+import { RovingFocusGroup, RovingFocusItem } from '../roving-focus'
+import { composeEventHandlers } from '../utils/compose-event-handlers'
+import { useControllableState } from '../utils/controllable-state'
+import { useDirection } from '../utils/direction'
 
 type DataAttributes = { [attribute: `data-${string}`]: string | undefined }
 type TabsValue = string | number
@@ -45,9 +49,6 @@ export function useTabsRootContext(consumer: string) {
   if (!context) throw new Error(`\`${consumer}\` must be used within \`TabsRoot\``)
   return context
 }
-
-const makeTriggerId = (baseId: string, value: TabsValue) => `${baseId}-trigger-${value}`
-const makeContentId = (baseId: string, value: TabsValue) => `${baseId}-content-${value}`
 
 export interface TabsRootProps
   extends
@@ -74,7 +75,7 @@ export function TabsRoot({
   unmountOnHide = true,
   ...attrs
 }: TabsRootProps) {
-  const dir = Direction.useDirection(dirProp)
+  const dir = useDirection(dirProp)
   const baseId = useId()
   const [modelValue, setModelValue] = useControllableState<TabsValue | undefined>({
     prop: value,
@@ -123,14 +124,14 @@ export interface TabsListProps extends PrimitiveProps, HTMLAttributes<HTMLElemen
 export function TabsList({ loop = true, ...attrs }: TabsListProps) {
   const context = useTabsRootContext('TabsList')
   return (
-    <RovingFocus.Root asChild orientation={context.orientation} dir={context.dir} loop={loop}>
+    <RovingFocusGroup asChild orientation={context.orientation} dir={context.dir} loop={loop}>
       <Primitive
         role="tablist"
         dir={context.dir}
         aria-orientation={context.orientation}
         {...attrs}
       />
-    </RovingFocus.Root>
+    </RovingFocusGroup>
   )
 }
 
@@ -157,7 +158,7 @@ export function TabsTrigger({
   const isSelected = value === root.modelValue
 
   return (
-    <RovingFocus.Item
+    <RovingFocusItem
       asChild
       focusable={!disabled}
       active={isSelected}
@@ -175,7 +176,7 @@ export function TabsTrigger({
         asChild={asChild}
         aria-selected={isSelected ? 'true' : 'false'}
         aria-controls={contentId}
-        data-state={isSelected ? 'active' : 'inactive'}
+        data-state={tabsState(isSelected)}
         data-disabled={disabled ? '' : undefined}
         data-orientation={root.orientation}
         {...attrs}
@@ -188,11 +189,11 @@ export function TabsTrigger({
           if (event.key === 'Enter' || event.key === ' ') root.changeModelValue(value)
         })}
         onFocus={composeEventHandlers(onFocus, () => {
-          const automatic = root.activationMode !== 'manual'
-          if (!isSelected && !disabled && automatic) root.changeModelValue(value)
+          if (activatesOnFocus(root.activationMode, isSelected, !!disabled))
+            root.changeModelValue(value)
         })}
       />
-    </RovingFocus.Item>
+    </RovingFocusItem>
   )
 }
 
@@ -222,12 +223,12 @@ export function TabsContent({ value, forceMount, style, children, ...attrs }: Ta
   }, [])
 
   return (
-    <Presence.Root present={!!forceMount || isSelected}>
+    <Presence present={!!forceMount || isSelected}>
       {({ present }) => (
         <Primitive
           id={contentId}
           role="tabpanel"
-          data-state={isSelected ? 'active' : 'inactive'}
+          data-state={tabsState(isSelected)}
           data-orientation={root.orientation}
           aria-labelledby={triggerId}
           hidden={!present}
@@ -241,6 +242,6 @@ export function TabsContent({ value, forceMount, style, children, ...attrs }: Ta
           {(root.unmountOnHide ? present : true) ? children : null}
         </Primitive>
       )}
-    </Presence.Root>
+    </Presence>
   )
 }

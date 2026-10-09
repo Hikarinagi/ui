@@ -1,0 +1,38 @@
+{
+  "titled": [
+    "<section aria-labelledby=\"v-1\" class=\"flex scroll-mt-6 flex-col gap-4\">",
+    "  <h2 class=\"text-fg text-xl font-semibold tracking-tight\" id=\"v-1\">",
+    "    <!--[-->",
+    "    \"发售信息\"",
+    "    <!--]-->",
+    "  <!--[-->",
+    "  <p>",
+    "    \"正文\"",
+    "  <!--]-->"
+  ],
+  "untitled": [
+    "<section class=\"flex scroll-mt-6 flex-col gap-4\">",
+    "  <!---->",
+    "  <!--[-->",
+    "  <p>",
+    "    \"正文\"",
+    "  <!--]-->"
+  ],
+  "anchor id and class": [
+    "<section id=\"intro\" aria-labelledby=\"v-1\" class=\"flex scroll-mt-6 flex-col gap-4 p-4\">",
+    "  <h2 class=\"text-fg text-xl font-semibold tracking-tight\" id=\"v-1\">",
+    "    <!--[-->",
+    "    \"简介\"",
+    "    <!--]-->",
+    "  <!--[-->",
+    "  <p>",
+    "    \"正文\"",
+    "  <!--]-->"
+  ],
+  "empty title renders no heading": [
+    "<section class=\"flex scroll-mt-6 flex-col gap-4\" aria-label=\"Group\">",
+    "  <!---->",
+    "  <!--[-->",
+    "  <!--]-->"
+  ]
+}

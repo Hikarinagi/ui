@@ -12,9 +12,13 @@ import {
   type ReactNode,
   type Ref,
 } from 'react'
-import { composeEventHandlers, useComposedRefs, useControllableState } from 'radix-ui/internal'
+import { getCheckedState } from '../../../../shared/src/primitives/checkbox'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
+import { useLabelText } from '../utils/label-text'
 import { VisuallyHiddenInput, useCurrentElement, useFormControl } from '../utils/hidden-input'
+import { composeEventHandlers } from '../utils/compose-event-handlers'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useControllableState } from '../utils/controllable-state'
 
 type DataAttributes = { [attribute: `data-${string}`]: string | undefined }
 
@@ -77,17 +81,7 @@ export function SwitchRoot({
   const [element, setElement] = useCurrentElement<HTMLElement>()
   const composedRef = useComposedRefs(ref, setElement)
   const isFormControl = useFormControl(element)
-  const [labelText, setLabelText] = useState<string | undefined>(undefined)
-
-  useLayoutEffect(() => {
-    if (!id || !element) {
-      setLabelText(undefined)
-      return
-    }
-    setLabelText(
-      element.ownerDocument.querySelector<HTMLElement>(`[for="${id}"]`)?.innerText ?? undefined,
-    )
-  }, [id, element])
+  const labelText = useLabelText(id, element)
 
   function toggleCheck() {
     if (disabled) return
@@ -107,7 +101,7 @@ export function SwitchRoot({
         aria-label={attrs['aria-label'] || labelText}
         aria-checked={checked}
         aria-required={required}
-        data-state={checked ? 'checked' : 'unchecked'}
+        data-state={getCheckedState(checked)}
         data-disabled={disabled ? '' : undefined}
         asChild={asChild}
         as={as}
@@ -154,7 +148,7 @@ export function SwitchThumb({ as = 'span', ...attrs }: SwitchThumbProps) {
   if (!root) throw new Error('`SwitchThumb` must be used within `SwitchRoot`')
   return (
     <Primitive
-      data-state={root.checked ? 'checked' : 'unchecked'}
+      data-state={getCheckedState(root.checked)}
       data-disabled={root.disabled ? '' : undefined}
       as={as}
       {...attrs}

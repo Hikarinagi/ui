@@ -1,0 +1,78 @@
+{
+  "default is hidden from assistive technology": [
+    "<span aria-hidden=\"true\" class=\"relative inline-flex shrink-0 rounded-full align-middle bg-neutral-solid size-2\">",
+    "  <!--v-if-->",
+    "  <!--v-if-->"
+  ],
+  "tone neutral": [
+    "<span aria-hidden=\"true\" class=\"relative inline-flex shrink-0 rounded-full align-middle bg-neutral-solid size-2\">",
+    "  <!--v-if-->",
+    "  <!--v-if-->"
+  ],
+  "tone accent": [
+    "<span aria-hidden=\"true\" class=\"relative inline-flex shrink-0 rounded-full align-middle bg-accent size-2\">",
+    "  <!--v-if-->",
+    "  <!--v-if-->"
+  ],
+  "tone success": [
+    "<span aria-hidden=\"true\" class=\"relative inline-flex shrink-0 rounded-full align-middle bg-success size-2\">",
+    "  <!--v-if-->",
+    "  <!--v-if-->"
+  ],
+  "tone warning": [
+    "<span aria-hidden=\"true\" class=\"relative inline-flex shrink-0 rounded-full align-middle bg-warning size-2\">",
+    "  <!--v-if-->",
+    "  <!--v-if-->"
+  ],
+  "tone danger": [
+    "<span aria-hidden=\"true\" class=\"relative inline-flex shrink-0 rounded-full align-middle bg-danger size-2\">",
+    "  <!--v-if-->",
+    "  <!--v-if-->"
+  ],
+  "tone info": [
+    "<span aria-hidden=\"true\" class=\"relative inline-flex shrink-0 rounded-full align-middle bg-info size-2\">",
+    "  <!--v-if-->",
+    "  <!--v-if-->"
+  ],
+  "size sm": [
+    "<span aria-hidden=\"true\" class=\"relative inline-flex shrink-0 rounded-full align-middle bg-accent size-1.5\">",
+    "  <!--v-if-->",
+    "  <!--v-if-->"
+  ],
+  "size md": [
+    "<span aria-hidden=\"true\" class=\"relative inline-flex shrink-0 rounded-full align-middle bg-accent size-2\">",
+    "  <!--v-if-->",
+    "  <!--v-if-->"
+  ],
+  "size lg": [
+    "<span aria-hidden=\"true\" class=\"relative inline-flex shrink-0 rounded-full align-middle bg-accent size-2.5\">",
+    "  <!--v-if-->",
+    "  <!--v-if-->"
+  ],
+  "label is exposed and visually hidden": [
+    "<span class=\"relative inline-flex shrink-0 rounded-full align-middle bg-success size-2\">",
+    "  <!--v-if-->",
+    "  <span style=\"position:absolute;border:0;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);clip-path:inset(50%);white-space:nowrap;word-wrap:normal;top:-1px;left:-1px;\">",
+    "    <!--[-->",
+    "    \"在线\"",
+    "    <!--]-->"
+  ],
+  "pulse layer": [
+    "<span aria-hidden=\"true\" class=\"relative inline-flex shrink-0 rounded-full align-middle bg-danger size-2\">",
+    "  <span aria-hidden=\"true\" class=\"hn-ping absolute inset-0 rounded-full bg-inherit\">",
+    "  <!--v-if-->"
+  ],
+  "pulse with label": [
+    "<span class=\"relative inline-flex shrink-0 rounded-full align-middle bg-accent size-2.5\">",
+    "  <span aria-hidden=\"true\" class=\"hn-ping absolute inset-0 rounded-full bg-inherit\">",
+    "  <span style=\"position:absolute;border:0;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);clip-path:inset(50%);white-space:nowrap;word-wrap:normal;top:-1px;left:-1px;\">",
+    "    <!--[-->",
+    "    \"正在更新\"",
+    "    <!--]-->"
+  ],
+  "as i with class and attributes": [
+    "<i aria-hidden=\"true\" class=\"relative inline-flex shrink-0 rounded-full align-middle bg-neutral-solid size-2 ms-1\" id=\"dot\" title=\"dot\">",
+    "  <!--v-if-->",
+    "  <!--v-if-->"
+  ]
+}

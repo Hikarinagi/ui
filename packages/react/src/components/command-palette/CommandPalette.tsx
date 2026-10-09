@@ -1,7 +1,6 @@
 'use client'
 
 import { Children, useEffect, useRef, type HTMLAttributes, type ReactNode } from 'react'
-import { useControllableState } from 'radix-ui/internal'
 import {
   DialogContent,
   DialogOverlay,
@@ -18,6 +17,7 @@ import { CommandPalettePanel } from './CommandPalettePanel'
 import { useHotkey } from './hooks/useHotkey'
 import { commandWrapper } from './command-palette.variants'
 import type { CommandItem, CommandItems } from './types'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export interface CommandPaletteProps extends Omit<
   HTMLAttributes<HTMLElement>,

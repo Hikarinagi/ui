@@ -27,7 +27,6 @@ import {
   type Placement,
   type ReferenceElement,
 } from '@floating-ui/react-dom'
-import { useCallbackRef, useComposedRefs } from 'radix-ui/internal'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { usePopperDirection } from './direction'
 import { usePopperRootContext } from './PopperRoot'
@@ -39,6 +38,8 @@ import {
   type Direction,
   type Side,
 } from './utils'
+import { useCallbackRef } from '../utils/callback-ref'
+import { useComposedRefs } from '../utils/compose-refs'
 
 export interface PopperContentProps extends PrimitiveProps, HTMLAttributes<HTMLElement> {
   memoDependencies?: unknown[]

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { VisuallyHiddenProps } from 'reka-ui'
+  import type { VisuallyHiddenProps } from './VisuallyHidden.vue'
 
   export interface VisuallyHiddenInputBubbleProps<T> {
     name: string
@@ -13,7 +13,7 @@
 
 <script setup lang="ts" generic="T">
   import { computed, watch } from 'vue'
-  import { VisuallyHidden } from 'reka-ui'
+  import VisuallyHidden from './VisuallyHidden.vue'
   import { usePrimitiveElement } from '../utils/usePrimitiveElement'
 
   defineOptions({ inheritAttrs: false })

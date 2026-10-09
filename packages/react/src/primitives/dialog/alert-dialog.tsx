@@ -1,7 +1,6 @@
 'use client'
 
 import { createContext, useContext, useRef } from 'react'
-import { useComposedRefs, useLayoutEffect } from 'radix-ui/internal'
 import {
   DialogClose,
   DialogContent,
@@ -15,6 +14,8 @@ import {
   type DialogContentProps,
   type DialogRootProps,
 } from './index'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useLayoutEffect } from '../utils/layout-effect'
 
 export type AlertDialogRootProps = Omit<DialogRootProps, 'modal'>
 

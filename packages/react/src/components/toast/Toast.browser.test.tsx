@@ -1,6 +1,7 @@
 import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest'
 import { page, userEvent } from 'vitest/browser'
 import { Toaster, type ToasterProps } from './Toaster'
+import { Dialog } from '../dialog/Dialog'
 import { toast, toastState } from './store'
 import { mount } from '../../../test/mount'
 import '../../../test/browser.css'
@@ -114,6 +115,37 @@ describe('toast · 常驻通知区', () => {
     const park = document.querySelector('div[style*="fixed"]') as HTMLElement
     await userEvent.hover(park)
     await vi.waitFor(() => expect(items().length).toBe(0), { timeout: 3000 })
+  })
+
+  it('带焦点的卡片被移除时不在提交阶段同步刷新', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {})
+    await host()
+    const id = toast('将被移除', { duration: Infinity })
+    await vi.waitFor(() => expect(items().length).toBe(1))
+    front()!.focus()
+    expect(document.activeElement).toBe(front())
+    toast.dismiss(id)
+    await vi.waitFor(() => expect(items().length).toBe(0), { timeout: 3000 })
+    await new Promise(resolve => setTimeout(resolve, 50))
+    expect(error.mock.calls.flat().join(' ')).not.toContain('flushSync')
+    error.mockRestore()
+  })
+
+  it('模态对话框打开时通知区不被 aria-hidden 隐藏,之后弹出的通知同样可达', async () => {
+    const w = await mount(
+      <>
+        <Toaster />
+        <Dialog open title="编辑条目">
+          <p>对话框正文</p>
+        </Dialog>
+      </>,
+    )
+    mounted.push(w)
+    await vi.waitFor(() => expect(document.querySelector('[role="dialog"]')).not.toBeNull())
+    toast('对话框里触发的通知', { duration: Infinity })
+    await vi.waitFor(() => expect(items().length).toBe(1))
+    expect(viewport()!.closest('[aria-hidden="true"]')).toBeNull()
+    expect(front()!.closest('[aria-hidden="true"]')).toBeNull()
   })
 
   it('同 id 原地更新:换文案换 tone,不新增卡', async () => {

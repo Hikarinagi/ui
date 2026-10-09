@@ -1,13 +1,13 @@
 'use client'
 
 import { useEffect, useRef, type HTMLAttributes, type ReactNode, type Ref } from 'react'
-import { useComposedRefs } from 'radix-ui/internal'
 import type { DateValue } from '@internationalized/date'
 import { Primitive, type PrimitiveProps } from '../../../lib/primitive'
 import type { HourCycle } from './comparators'
 import type { Formatter } from './formatter'
 import { useDateField, type SegmentStore } from './use-date-field'
 import type { DateStep } from './utils'
+import { useComposedRefs } from '../../utils/compose-refs'
 
 export interface SegmentInputProps extends PrimitiveProps, HTMLAttributes<HTMLElement> {
   part: string

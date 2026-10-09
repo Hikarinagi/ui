@@ -1,0 +1,93 @@
+{
+  "Text defaults": [
+    "<p class=\"text-base text-fg font-normal\">",
+    "  <!--[-->",
+    "  \"Body\"",
+    "  <!--]-->"
+  ],
+  "Text as span with tone, weight and truncate": [
+    "<span class=\"text-sm text-muted font-medium truncate\" id=\"x\">",
+    "  <!--[-->",
+    "  \"Muted\"",
+    "  <!--]-->"
+  ],
+  "Text asChild lends its classes to the child": [
+    "<a class=\"text-base text-muted font-normal\" href=\"/docs\">",
+    "  \"Docs\""
+  ],
+  "Text as a link": [
+    "<a class=\"text-sm text-fg font-normal\" href=\"/docs\">",
+    "  <!--[-->",
+    "  \"Docs\"",
+    "  <!--]-->"
+  ],
+  "Text inherits size": [
+    "<p class=\"text-[length:inherit] leading-[inherit] text-fg font-normal mt-2\">",
+    "  <!--[-->",
+    "  \"Inherit\"",
+    "  <!--]-->"
+  ],
+  "Heading level 1": [
+    "<h1 class=\"text-fg text-2xl font-semibold tracking-tight\">",
+    "  <!--[-->",
+    "  \"Title\"",
+    "  <!--]-->"
+  ],
+  "Heading level 2": [
+    "<h2 class=\"text-fg text-xl font-semibold tracking-tight\">",
+    "  <!--[-->",
+    "  \"Title\"",
+    "  <!--]-->"
+  ],
+  "Heading level 3": [
+    "<h3 class=\"text-fg text-lg font-semibold\">",
+    "  <!--[-->",
+    "  \"Title\"",
+    "  <!--]-->"
+  ],
+  "Heading level 4": [
+    "<h4 class=\"text-fg text-md font-semibold\">",
+    "  <!--[-->",
+    "  \"Title\"",
+    "  <!--]-->"
+  ],
+  "Heading level 5": [
+    "<h5 class=\"text-fg text-base font-semibold\">",
+    "  <!--[-->",
+    "  \"Title\"",
+    "  <!--]-->"
+  ],
+  "Heading level 6": [
+    "<h6 class=\"text-fg text-sm font-semibold\">",
+    "  <!--[-->",
+    "  \"Title\"",
+    "  <!--]-->"
+  ],
+  "Heading with explicit size and weight": [
+    "<h3 class=\"text-fg text-2xl font-medium truncate tracking-tight\">",
+    "  <!--[-->",
+    "  \"T\"",
+    "  <!--]-->"
+  ],
+  "VisuallyHidden": [
+    "<span style=\"position:absolute;border:0;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);clip-path:inset(50%);white-space:nowrap;word-wrap:normal;top:-1px;left:-1px;\" id=\"hint\">",
+    "  <!--[-->",
+    "  \"Required\"",
+    "  <!--]-->"
+  ],
+  "VisuallyHidden lets caller styles win": [
+    "<span style=\"position:absolute;border:0;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);clip-path:inset(50%);white-space:nowrap;word-wrap:normal;top:0px;left:-1px;\">",
+    "  <!--[-->",
+    "  \"Required\"",
+    "  <!--]-->"
+  ],
+  "Spinner keeps its own animation over caller style": [
+    "<span style=\"animation:hn-spin var(--hn-spin-duration) var(--hn-ease-linear) infinite;color:red;\" role=\"status\" aria-label=\"加载中\" class=\"inline-block shrink-0 rounded-full border-current border-e-transparent align-[-0.125em] size-4 border-2\">"
+  ],
+  "Spinner": [
+    "<span class=\"text-accent inline-block shrink-0 rounded-full border-current border-e-transparent align-[-0.125em] size-5 border-2\" role=\"status\" aria-label=\"加载中\" style=\"animation:hn-spin var(--hn-spin-duration) var(--hn-ease-linear) infinite;\">"
+  ],
+  "Spinner with label": [
+    "<span role=\"status\" aria-label=\"Uploading\" class=\"inline-block shrink-0 rounded-full border-current border-e-transparent align-[-0.125em] size-4 border-2\" style=\"animation:hn-spin var(--hn-spin-duration) var(--hn-ease-linear) infinite;\">"
+  ]
+}

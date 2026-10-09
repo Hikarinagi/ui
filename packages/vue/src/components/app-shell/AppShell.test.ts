@@ -73,6 +73,34 @@ describe('结构 · 固定壳,内容滚动交给 ScrollArea', () => {
     expect(row.querySelector('main')).not.toBeNull()
   })
 
+  it('侧栏收成 rail 时只有侧栏里的 NavLink 收起,顶栏与正文里的保持原样', () => {
+    const wrapper = mount(
+      defineComponent({
+        setup: () => () =>
+          h(
+            AppShell,
+            { sidebar: 'rail' },
+            {
+              header: () => h(NavLink, { href: '#header', label: '顶栏' }, () => '顶栏'),
+              sidebar: () =>
+                h(Sidebar, {}, () => h(NavLink, { href: '#sidebar', label: '侧栏' }, () => '侧栏')),
+              default: () => h(NavLink, { href: '#main', label: '正文' }, () => '正文'),
+            },
+          ),
+      }),
+      { attachTo: document.body },
+    )
+    const link = (href: string) => wrapper.get(`a[href="${href}"]`)
+    const label = (href: string) => link(href).get('[data-hn-label]')
+    expect(label('#sidebar').attributes('data-collapsed')).toBe('')
+    expect(link('#sidebar').attributes('aria-label')).toBe('侧栏')
+    for (const href of ['#header', '#main']) {
+      expect(label(href).attributes('data-collapsed')).toBeUndefined()
+      expect(label(href).attributes('aria-hidden')).toBeUndefined()
+      expect(link(href).attributes('aria-label')).toBeUndefined()
+    }
+  })
+
   it('无 header / 无侧栏的降级形态', () => {
     const bare = mount(AppShell, { slots: { default: () => h('p', '仅正文') } })
     expect(bare.find('header').exists()).toBe(false)

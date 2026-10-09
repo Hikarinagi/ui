@@ -1,7 +1,6 @@
 'use client'
 
 import { useImperativeHandle, type ReactNode, type Ref } from 'react'
-import { useControllableState } from 'radix-ui/internal'
 import {
   DialogClose,
   DialogDescription,
@@ -22,6 +21,7 @@ import { ScrollArea } from '../scroll-area/ScrollArea'
 import { Text } from '../text/Text'
 import { ModalContent } from './ModalContent'
 import { dialogCard, dialogWrapper, type DialogVariants } from './dialog.variants'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export interface DialogSlotProps {
   close: () => void

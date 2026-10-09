@@ -9,7 +9,6 @@ import {
   type KeyboardEvent as ReactKeyboardEvent,
 } from 'react'
 import { motion as Motion, type MotionStyle } from 'motion/react'
-import { useControllableState } from 'radix-ui/internal'
 import { DialogContent, DialogPortal, DialogRoot, DialogTitle } from '../../primitives/dialog'
 import { useBodyScrollLock } from '../../primitives/body-scroll-lock'
 import { cn } from '../../lib/cn'
@@ -33,6 +32,7 @@ import { lightboxStage } from './lightbox.variants'
 import { clampIndex } from '../../../../shared/src/lib/lightbox/paging'
 import { saveImage } from '../../../../shared/src/lib/lightbox/download'
 import type { LightboxItem } from './types'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export interface LightboxProps {
   items: LightboxItem[]

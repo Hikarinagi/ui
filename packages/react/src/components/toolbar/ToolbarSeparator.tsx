@@ -1,10 +1,10 @@
 'use client'
 
 import type { HTMLAttributes, Ref } from 'react'
-import { Separator } from 'radix-ui'
 import { cn } from '../../lib/cn'
 import { useToolbar } from './context'
 import { toolbarSeparator } from './toolbar.variants'
+import { Separator as HnSeparator } from '../../primitives/separator'
 
 export interface ToolbarSeparatorProps extends HTMLAttributes<HTMLDivElement> {
   decorative?: boolean
@@ -19,7 +19,7 @@ export function ToolbarSeparator({
 }: ToolbarSeparatorProps) {
   const toolbar = useToolbar()
   return (
-    <Separator.Root
+    <HnSeparator
       orientation={toolbar.orientation === 'horizontal' ? 'vertical' : 'horizontal'}
       decorative={decorative}
       {...attrs}

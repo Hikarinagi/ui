@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T extends SelectOption = SelectOption">
-  import { CheckboxGroupRoot } from 'reka-ui'
+  import { CheckboxGroupRoot } from '../../primitives/checkbox'
   import { cn } from '../../lib/cn'
   import { shieldFormField, useFieldControl } from '../form-field/context'
   import Checkbox from '../checkbox/Checkbox.vue'

@@ -19,16 +19,6 @@ import {
   type SelectHTMLAttributes,
   type TouchEvent,
 } from 'react'
-import { Direction as RadixDirection, Portal as RadixPortal } from 'radix-ui'
-import {
-  DismissableLayer,
-  FocusGuards,
-  FocusScope,
-  Presence,
-  composeEventHandlers,
-  useCallbackRef,
-  useComposedRefs,
-} from 'radix-ui/internal'
 import { hideOthers } from 'aria-hidden'
 import { usePortalContainer } from '../../lib/config'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
@@ -50,6 +40,15 @@ import {
   type Comparator,
 } from '../listbox/utils'
 import { useVModel } from '../listbox/useVModel'
+import { DismissableLayer } from '../dismissable-layer'
+import { FocusScope } from '../focus-scope'
+import { Portal as HnPortal } from '../portal'
+import { Presence } from '../presence'
+import { useCallbackRef } from '../utils/callback-ref'
+import { composeEventHandlers } from '../utils/compose-event-handlers'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useDirection } from '../utils/direction'
+import { useFocusGuards } from '../utils/focus-guards'
 
 export type { FocusOutsideEvent, PointerDownOutsideEvent } from '../utils/dismissable'
 
@@ -164,7 +163,7 @@ export function SelectRoot({
   required = false,
   children,
 }: SelectRootProps) {
-  const dir = RadixDirection.useDirection(dirProp)
+  const dir = useDirection(dirProp)
   const [modelValue, setModel] = useVModel<unknown>(
     valueProp,
     defaultValue ?? (multiple ? [] : undefined),
@@ -469,9 +468,9 @@ export interface SelectPortalProps {
 export function SelectPortal({ to, children }: SelectPortalProps) {
   const configured = usePortalContainer()
   return (
-    <RadixPortal.Root asChild container={to ?? configured}>
+    <HnPortal asChild container={to ?? configured}>
       {children}
-    </RadixPortal.Root>
+    </HnPortal>
   )
 }
 
@@ -534,18 +533,18 @@ export function SelectContent({ forceMount, children, ...props }: SelectContentP
 
   if (present || renderPresence || contentMounted)
     return (
-      <Presence.Root present={present}>
+      <Presence present={present}>
         <SelectContentImpl {...props} onMountedChange={setContentMounted}>
           {children}
         </SelectContentImpl>
-      </Presence.Root>
+      </Presence>
     )
   if (!fragment) return null
   return (
     <div>
-      <RadixPortal.Root container={fragment}>
+      <HnPortal container={fragment}>
         <SelectContentContext value={defaultContentContext}>{children}</SelectContentContext>
-      </RadixPortal.Root>
+      </HnPortal>
     </div>
   )
 }
@@ -580,7 +579,7 @@ function SelectContentImpl({
   const firstValidItemFound = useRef(false)
   const firstSelectedItemInArrayFound = useRef(false)
   const closeAutoFocus = useCallbackRef(onCloseAutoFocus)
-  FocusGuards.useFocusGuards()
+  useFocusGuards()
   useBodyScrollLock(bodyLock)
 
   useLayoutEffect(() => {
@@ -648,6 +647,7 @@ function SelectContentImpl({
       if (!container) return
       const event = new CustomEvent(AUTOFOCUS_ON_UNMOUNT, { bubbles: false, cancelable: true })
       const handler = (unmount: Event) => {
+        if (unmount !== event) return
         closeAutoFocus(unmount)
         if (unmount.defaultPrevented) return
         root.getTriggerElement()?.focus({ preventScroll: true })
@@ -707,12 +707,12 @@ function SelectContentImpl({
 
   return (
     <SelectContentContext value={contentContext}>
-      <FocusScope.Root
+      <FocusScope
         asChild
         onMountAutoFocus={event => event.preventDefault()}
         onUnmountAutoFocus={event => event.preventDefault()}
       >
-        <DismissableLayer.Root
+        <DismissableLayer
           asChild
           disableOutsidePointerEvents={disableOutsidePointerEvents}
           onFocusOutside={guardLayer<FocusOutsideEvent>(getLayer, event => event.preventDefault())}
@@ -754,8 +754,8 @@ function SelectContentImpl({
             onPlaced={() => setIsPositioned(true)}
             onKeyDown={composeEventHandlers(onKeyDown, handleKeyDown)}
           />
-        </DismissableLayer.Root>
-      </FocusScope.Root>
+        </DismissableLayer>
+      </FocusScope>
     </SelectContentContext>
   )
 }

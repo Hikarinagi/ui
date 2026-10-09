@@ -1,0 +1,63 @@
+{
+  "closed trigger area": [
+    "<!--[-->",
+    "<!--[-->",
+    "<!--[-->",
+    "<!--[-->",
+    "<!--[-->",
+    "<!--]-->",
+    "<div data-state=\"closed\" style=\"webkit-touch-callout:none;pointer-events:auto;width:240px;height:120px;\" data-area=\"\">",
+    "  \"Right click\"",
+    "<!--]-->",
+    "<!--v-if-->",
+    "<!--]-->",
+    "<!--]-->",
+    "<!--]-->"
+  ],
+  "disabled trigger area": [
+    "<!--[-->",
+    "<!--[-->",
+    "<!--[-->",
+    "<!--[-->",
+    "<!--[-->",
+    "<!--]-->",
+    "<div data-state=\"closed\" data-disabled=\"\" style=\"webkit-touch-callout:none;pointer-events:auto;width:240px;height:120px;\" class=\"rounded-lg\">",
+    "  \"Disabled\"",
+    "<!--]-->",
+    "<!--v-if-->",
+    "<!--]-->",
+    "<!--]-->",
+    "<!--]-->"
+  ],
+  "controlled open renders only the trigger on the server": [
+    "<!--[-->",
+    "<!--[-->",
+    "<!--[-->",
+    "<!--[-->",
+    "<!--[-->",
+    "<!--]-->",
+    "<section data-state=\"closed\" style=\"webkit-touch-callout:none;pointer-events:auto;\">",
+    "  \"Area\"",
+    "<!--]-->",
+    "<!--v-if-->",
+    "<!--]-->",
+    "<!--]-->",
+    "<!--]-->"
+  ],
+  "trigger without children renders nothing": [
+    "<div>",
+    "  <!--[-->",
+    "  <!--[-->",
+    "  <!--[-->",
+    "  <!--[-->",
+    "  <!--[-->",
+    "  <!--]-->",
+    "  <!--[-->",
+    "  <!--]-->",
+    "  <!--]-->",
+    "  <!--v-if-->",
+    "  <!--]-->",
+    "  <!--]-->",
+    "  <!--]-->"
+  ]
+}

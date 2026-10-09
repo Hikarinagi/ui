@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { PinInputInput, PinInputRoot } from 'reka-ui'
+  import { PinInputInput, PinInputRoot } from '../../primitives/pin-input'
   import { computed } from 'vue'
   import { cn } from '../../lib/cn'
   import { useFieldControl } from '../form-field/context'

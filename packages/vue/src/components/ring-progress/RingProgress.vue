@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ProgressRoot } from 'reka-ui'
+  import { ProgressRoot } from '../../primitives/progress'
   import { computed, useSlots } from 'vue'
   import { cn } from '../../lib/cn'
   import { useProgressValue, type ProgressFormat } from '../progress/composables/useProgressValue'

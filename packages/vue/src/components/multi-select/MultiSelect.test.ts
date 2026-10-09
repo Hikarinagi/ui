@@ -1,6 +1,8 @@
 import { describe, expect, it, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { h } from 'vue'
 import MultiSelect from './MultiSelect.vue'
+import FormField from '../form-field/FormField.vue'
 import { expectNoA11yViolations } from '../../../test/axe'
 
 beforeEach(() => {
@@ -95,5 +97,28 @@ describe('触发器', () => {
       attachTo: document.body,
     })
     await expectNoA11yViolations(w.element)
+  })
+
+  it('放进 FormField 时由字段标签命名', async () => {
+    const w = mount(FormField, {
+      props: { label: '类型' },
+      slots: { default: () => h(MultiSelect, { options }) },
+      attachTo: document.body,
+    })
+    const trigger = triggerOf(w)
+    const label = document.getElementById(trigger.attributes('aria-labelledby')!)
+    expect(label?.textContent).toContain('类型')
+    await expectNoA11yViolations(w.element)
+  })
+
+  it('自带 aria-label 时不再指向字段标签', () => {
+    const w = mount(FormField, {
+      props: { label: '类型' },
+      slots: { default: () => h(MultiSelect, { options, 'aria-label': '作品类型' }) },
+      attachTo: document.body,
+    })
+    const trigger = triggerOf(w)
+    expect(trigger.attributes('aria-label')).toBe('作品类型')
+    expect(trigger.attributes('aria-labelledby')).toBeUndefined()
   })
 })

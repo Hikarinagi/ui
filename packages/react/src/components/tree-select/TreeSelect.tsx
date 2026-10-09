@@ -2,7 +2,6 @@
 
 import { useId, type ButtonHTMLAttributes, type ReactNode, type Ref } from 'react'
 import { Check } from 'lucide-react'
-import { useControllableState } from 'radix-ui/internal'
 import {
   PopoverContent,
   PopoverPortal,
@@ -38,6 +37,7 @@ import {
 import type { TreeSelectNode } from './types'
 import { TreeSelectSearch } from './TreeSelectSearch'
 import { useTreeSelect, type TreeSelectValue } from './hooks/useTreeSelect'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 const CheckIcon = lucide(Check)
 

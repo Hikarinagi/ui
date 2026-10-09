@@ -1,7 +1,6 @@
 'use client'
 
 import { useId, useRef, useState, type ReactNode } from 'react'
-import { useControllableState } from 'radix-ui/internal'
 import {
   PopoverContent,
   PopoverPortal,
@@ -13,6 +12,7 @@ import { useUiLocale } from '../../locale'
 import { Button } from '../button/Button'
 import { Card } from '../card/Card'
 import { Text } from '../text/Text'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export interface PopconfirmProps {
   title: string

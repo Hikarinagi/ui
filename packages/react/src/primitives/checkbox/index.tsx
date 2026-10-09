@@ -12,17 +12,30 @@ import {
   type ReactNode,
   type Ref,
 } from 'react'
-import { composeEventHandlers, useComposedRefs, useControllableState } from 'radix-ui/internal'
-import { Direction as RadixDirection } from 'radix-ui'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { RovingFocusGroup, RovingFocusItem } from '../roving-focus'
 import type { Direction, Orientation } from '../roving-focus'
-import { isEqual, isValueEqualOrExist } from '../toggle-group/model'
+import {
+  ariaChecked,
+  getCheckedState,
+  nextCheckedValue,
+  type CheckedState,
+} from '../../../../shared/src/primitives/checkbox'
+import {
+  isEqual,
+  isValueEqualOrExist,
+  toggleArrayValue,
+} from '../../../../shared/src/primitives/value'
+import { useLabelText } from '../utils/label-text'
 import { VisuallyHiddenInput, useCurrentElement, useFormControl } from '../utils/hidden-input'
+import { composeEventHandlers } from '../utils/compose-event-handlers'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useControllableState } from '../utils/controllable-state'
+import { useDirection } from '../utils/direction'
 
 type DataAttributes = { [attribute: `data-${string}`]: string | undefined }
 
-export type CheckedState = boolean | 'indeterminate'
+export type { CheckedState }
 
 const both = { checkForDefaultPrevented: false }
 
@@ -75,7 +88,7 @@ export function CheckboxGroupRoot({
   children,
   ...attrs
 }: CheckboxGroupRootProps) {
-  const dir = RadixDirection.useDirection(dirProp)
+  const dir = useDirection(dirProp)
   const [element, setElement] = useCurrentElement<HTMLElement>()
   const composedRef = useComposedRefs(ref, setElement)
   const isFormControl = useFormControl(element)
@@ -140,10 +153,6 @@ export interface CheckboxRootProps
   ref?: Ref<HTMLElement>
 }
 
-function getState(checked: CheckedState) {
-  return checked === 'indeterminate' ? 'indeterminate' : checked ? 'checked' : 'unchecked'
-}
-
 export function CheckboxRoot({
   checked,
   defaultChecked,
@@ -179,31 +188,12 @@ export function CheckboxRoot({
       ? 'indeterminate'
       : isChecked
   const isFormControl = useFormControl(element)
-  const [labelText, setLabelText] = useState<string | undefined>(undefined)
   const ownLabel = attrs['aria-label']
-
-  useLayoutEffect(() => {
-    if (ownLabel || !id || !element) {
-      setLabelText(undefined)
-      return
-    }
-    setLabelText(
-      element.ownerDocument.querySelector<HTMLElement>(`[for="${id}"]`)?.innerText ?? undefined,
-    )
-  }, [id, element, ownLabel])
+  const labelText = useLabelText(id, element, ownLabel)
 
   function handleClick() {
-    if (inGroup) {
-      const next = [...(group.modelValue || [])]
-      if (isValueEqualOrExist(next, value))
-        next.splice(
-          next.findIndex(item => isEqual(item, value)),
-          1,
-        )
-      else next.push(value)
-      group.setModelValue(next)
-    } else if (modelValue === 'indeterminate') setModelValue(true)
-    else setModelValue(!isChecked)
+    if (inGroup) group.setModelValue(toggleArrayValue(group.modelValue || [], value))
+    else setModelValue(nextCheckedValue(modelValue, isChecked, true, false))
   }
 
   const roving = !!group?.rovingFocus
@@ -216,10 +206,10 @@ export function CheckboxRoot({
       as={as}
       asChild={asChild}
       {...({ type: as === 'button' ? 'button' : undefined } as HTMLAttributes<HTMLElement>)}
-      aria-checked={state === 'indeterminate' ? 'mixed' : state}
+      aria-checked={ariaChecked(state)}
       aria-required={required}
       aria-label={ownLabel || labelText}
-      data-state={getState(state)}
+      data-state={getCheckedState(state)}
       data-disabled={disabled ? '' : undefined}
       {...({ disabled } as HTMLAttributes<HTMLElement>)}
       onKeyDown={composeEventHandlers(

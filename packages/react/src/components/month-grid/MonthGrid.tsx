@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
-import { useControllableState } from 'radix-ui/internal'
 import { CalendarDays } from 'lucide-react'
 import { today as currentDate, type DateValue } from '@internationalized/date'
 import { monthGridDates, parseMonth, shiftMonth } from '../../../../shared/src/lib/month-grid'
@@ -36,6 +35,7 @@ import type {
   MonthGridRange,
   MonthGridWeekday,
 } from './types'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 const CalendarDaysIcon = lucide(CalendarDays)
 

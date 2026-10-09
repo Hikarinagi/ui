@@ -1,0 +1,63 @@
+{
+  "loaded image replaces the initials": [
+    "<html-root style=\"\">",
+    "<body-root>",
+    "<div id=\"parity-host\" data-v-app=\"\">",
+    "  <span class=\"isolate min-w-0 bg-inset text-muted relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full align-middle font-medium select-none size-8 text-sm [&_svg]:size-4\">",
+    "    <img alt=\"星见书音\" decoding=\"async\" draggable=\"false\" class=\"relative z-10 block size-full transition-opacity duration-(--hn-duration-base) ease-enter motion-reduce:transition-none object-cover\" src=\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%2339c5bb%22%2F%3E%3C%2Fsvg%3E\">",
+    "    <!--v-if-->",
+    "    <!--v-if-->"
+  ],
+  "failed image falls back to initials": [
+    "<html-root style=\"\">",
+    "<body-root>",
+    "<div id=\"parity-host\" data-v-app=\"\">",
+    "  <span class=\"isolate min-w-0 bg-inset text-muted relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full align-middle font-medium select-none size-10 text-base [&_svg]:size-5\">",
+    "    \"星\"",
+    "    <!--v-if-->",
+    "    <!--v-if-->"
+  ],
+  "failed image without a name falls back to the icon": [
+    "<html-root style=\"\">",
+    "<body-root>",
+    "<div id=\"parity-host\" data-v-app=\"\">",
+    "  <span class=\"isolate min-w-0 bg-inset text-muted relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full align-middle font-medium select-none size-8 text-sm [&_svg]:size-4\">",
+    "    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" class=\"lucide lucide-user-icon lucide-user\">",
+    "      <path d=\"M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2\">",
+    "      <circle cx=\"12\" cy=\"7\" r=\"4\">",
+    "    <!--v-if-->",
+    "    <!--v-if-->"
+  ],
+  "failed image keeps custom content": [
+    "<html-root style=\"\">",
+    "<body-root>",
+    "<div id=\"parity-host\" data-v-app=\"\">",
+    "  <span class=\"isolate min-w-0 bg-inset text-muted relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full align-middle font-medium select-none size-8 text-sm [&_svg]:size-4\">",
+    "    \"★\"",
+    "    <!--v-if-->",
+    "    <!--v-if-->"
+  ],
+  "group with loaded images and an overflow count": [
+    "<html-root style=\"\">",
+    "<body-root>",
+    "<div id=\"parity-host\" data-v-app=\"\">",
+    "  <div style=\"padding: #px;\">",
+    "    <div class=\"flex flex-row-reverse justify-end [&>*]:ring-surface [&>*]:ring-2 [&>*:first-child]:me-0 [&>*]:-me-2.5\">",
+    "      <span class=\"isolate min-w-0 bg-inset text-muted relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full align-middle font-medium select-none size-10 text-base [&_svg]:size-5\">",
+    "        \"+2\"",
+    "        <!--v-if-->",
+    "        <!--v-if-->",
+    "      <span class=\"isolate min-w-0 bg-inset text-muted relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full align-middle font-medium select-none size-10 text-base [&_svg]:size-5\">",
+    "        <img alt=\"丙\" decoding=\"async\" draggable=\"false\" class=\"relative z-10 block size-full transition-opacity duration-(--hn-duration-base) ease-enter motion-reduce:transition-none object-cover\" src=\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%2339c5bb%22%2F%3E%3C%2Fsvg%3E\">",
+    "        <!--v-if-->",
+    "        <!--v-if-->",
+    "      <span class=\"isolate min-w-0 bg-inset text-muted relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full align-middle font-medium select-none size-10 text-base [&_svg]:size-5\">",
+    "        <img alt=\"乙\" decoding=\"async\" draggable=\"false\" class=\"relative z-10 block size-full transition-opacity duration-(--hn-duration-base) ease-enter motion-reduce:transition-none object-cover\" src=\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%2339c5bb%22%2F%3E%3C%2Fsvg%3E\">",
+    "        <!--v-if-->",
+    "        <!--v-if-->",
+    "      <span class=\"isolate min-w-0 bg-inset text-muted relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full align-middle font-medium select-none size-10 text-base [&_svg]:size-5\">",
+    "        <img alt=\"甲\" decoding=\"async\" draggable=\"false\" class=\"relative z-10 block size-full transition-opacity duration-(--hn-duration-base) ease-enter motion-reduce:transition-none object-cover\" src=\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%2339c5bb%22%2F%3E%3C%2Fsvg%3E\">",
+    "        <!--v-if-->",
+    "        <!--v-if-->"
+  ]
+}

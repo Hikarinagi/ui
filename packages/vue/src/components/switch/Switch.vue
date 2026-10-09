@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { SwitchRoot } from 'reka-ui'
+  import { SwitchRoot } from '../../primitives/switch'
   import { useSlots } from 'vue'
   import { cn } from '../../lib/cn'
   import { useFieldControl } from '../form-field/context'

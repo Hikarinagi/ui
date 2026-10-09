@@ -1,0 +1,26 @@
+{
+  "default flex": [
+    "<div aria-hidden=\"true\" class=\"flex-1 self-stretch\">"
+  ],
+  "size xs": [
+    "<div aria-hidden=\"true\" class=\"shrink-0 size-1\">"
+  ],
+  "size sm": [
+    "<div aria-hidden=\"true\" class=\"shrink-0 size-2\">"
+  ],
+  "size md": [
+    "<div aria-hidden=\"true\" class=\"shrink-0 size-4\">"
+  ],
+  "size lg": [
+    "<div aria-hidden=\"true\" class=\"shrink-0 size-6\">"
+  ],
+  "size xl": [
+    "<div aria-hidden=\"true\" class=\"shrink-0 size-8\">"
+  ],
+  "size flex": [
+    "<div aria-hidden=\"true\" class=\"flex-1 self-stretch\">"
+  ],
+  "caller attributes override aria-hidden": [
+    "<div aria-hidden=\"false\" class=\"flex-1 self-stretch basis-4\" data-gap=\"\">"
+  ]
+}

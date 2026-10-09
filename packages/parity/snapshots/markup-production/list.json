@@ -1,0 +1,67 @@
+{
+  "unordered with raw items": [
+    "<ul class=\"hn-list\">",
+    "  <!--[-->",
+    "  <li>",
+    "    \"甲\"",
+    "  <li>",
+    "    \"乙\"",
+    "  <!--]-->"
+  ],
+  "ordered with ListItem": [
+    "<ol class=\"hn-list max-w-md\">",
+    "  <!--[-->",
+    "  <li class=\"\">",
+    "    <!--[-->",
+    "    \"安装依赖\"",
+    "    <!--]-->",
+    "  <li class=\"\">",
+    "    <!--[-->",
+    "    \"引入样式\"",
+    "    <!--]-->",
+    "  <!--]-->"
+  ],
+  "numbering attributes fall through": [
+    "<ol class=\"hn-list\" start=\"5\" reversed=\"\">",
+    "  <!--[-->",
+    "  <li class=\"\">",
+    "    <!--[-->",
+    "    \"从第五项开始\"",
+    "    <!--]-->",
+    "  <!--]-->"
+  ],
+  "nested list": [
+    "<ul class=\"hn-list\">",
+    "  <!--[-->",
+    "  <li class=\"\">",
+    "    <!--[-->",
+    "    \"排版\"",
+    "    <ul class=\"hn-list\">",
+    "      <!--[-->",
+    "      <li class=\"\">",
+    "        <!--[-->",
+    "        \"Text\"",
+    "        <!--]-->",
+    "      <li class=\"\">",
+    "        <!--[-->",
+    "        \"Heading\"",
+    "        <!--]-->",
+    "      <!--]-->",
+    "    <!--]-->",
+    "  <!--]-->"
+  ],
+  "ListItem class and native attributes": [
+    "<ul class=\"hn-list\">",
+    "  <!--[-->",
+    "  <li class=\"font-medium\" value=\"3\">",
+    "    <!--[-->",
+    "    \"甲\"",
+    "    <!--]-->",
+    "  <!--]-->"
+  ],
+  "empty": [
+    "<ul class=\"hn-list\">",
+    "  <!--[-->",
+    "  <!--]-->"
+  ]
+}

@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { toRef } from 'vue'
-  import { ToolbarRoot } from 'reka-ui'
+  import { ToolbarRoot } from '../../primitives/toolbar'
   import { cn } from '../../lib/cn'
   import { useAccessibleName } from '../../lib/a11y'
   import { useDirection } from '../../lib/useDirection'

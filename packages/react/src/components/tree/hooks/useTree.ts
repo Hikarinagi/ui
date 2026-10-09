@@ -1,7 +1,6 @@
 'use client'
 
 import { useCallback, useMemo, useState } from 'react'
-import { useControllableState } from 'radix-ui/internal'
 import type { TreeItemSelectEvent, TreeItemToggleEvent } from '../../../primitives/tree'
 import type { TreeNode, TreeNodeState, TreeValue } from '../types'
 import {
@@ -14,6 +13,7 @@ import {
   treeKeyMap,
   treeStates,
 } from '../../../../../shared/src/lib/tree/selection'
+import { useControllableState } from '../../../primitives/utils/controllable-state'
 
 export type TreeModel = TreeValue | TreeValue[] | null
 

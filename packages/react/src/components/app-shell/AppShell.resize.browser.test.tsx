@@ -201,11 +201,11 @@ describe('AppShell sidebar resize updates', () => {
   })
 
   it('preserves an instance already paused by its caller and cleans up on unmount', async () => {
-    const { state, instance, wrapper, sidebar } = await harness()
+    const { state, instance, wrapper, sidebar, stable } = await harness()
     instance.sleep(true)
     state.value = 'rail'
     await vi.waitFor(() => expect(sidebar.getBoundingClientRect().width).toBe(56))
-    await new Promise(requestAnimationFrame)
+    await vi.waitFor(() => expect(stable).toHaveBeenCalledTimes(1))
     expect(instance.state().sleeping).toBe(true)
     instance.sleep(false)
     state.value = 'expanded'

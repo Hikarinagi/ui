@@ -1,0 +1,60 @@
+{
+  "hidden by default, click to reveal": [
+    "<span class=\"hn-spoiler-fb\" data-hidden=\"\" role=\"button\" tabindex=\"0\" aria-label=\"剧透内容，点击显示\" aria-expanded=\"false\">",
+    "  <span class=\"hn-spoiler-inner\">",
+    "    <!--[-->",
+    "    \"真凶是园丁\"",
+    "    <!--]-->"
+  ],
+  "hover reveal has no button role": [
+    "<span class=\"hn-spoiler-fb\" data-hidden=\"\" tabindex=\"0\" aria-label=\"剧透内容，点击显示\" aria-expanded=\"false\">",
+    "  <span class=\"hn-spoiler-inner\">",
+    "    <!--[-->",
+    "    \"悬停揭示的内容\"",
+    "    <!--]-->"
+  ],
+  "force fallback": [
+    "<span class=\"hn-spoiler-fb\" data-hidden=\"\" role=\"button\" tabindex=\"0\" aria-label=\"剧透内容，点击显示\" aria-expanded=\"false\">",
+    "  <span class=\"hn-spoiler-inner\">",
+    "    <!--[-->",
+    "    \"底色加模糊\"",
+    "    <!--]-->"
+  ],
+  "revealed through the model": [
+    "<span class=\"hn-spoiler-fb\" role=\"button\" tabindex=\"0\" aria-label=\"隐藏剧透\" aria-expanded=\"true\">",
+    "  <span class=\"hn-spoiler-inner\">",
+    "    <!--[-->",
+    "    \"交易在最后一刻反转\"",
+    "    <!--]-->"
+  ],
+  "revealed by default value": [
+    "<span class=\"hn-spoiler-fb\" tabindex=\"0\" aria-label=\"隐藏剧透\" aria-expanded=\"true\">",
+    "  <span class=\"hn-spoiler-inner\">",
+    "    <!--[-->",
+    "    \"已揭示\"",
+    "    <!--]-->"
+  ],
+  "class and attributes": [
+    "<span class=\"hn-spoiler-fb font-medium\" data-hidden=\"\" role=\"button\" tabindex=\"0\" aria-label=\"剧透内容，点击显示\" aria-expanded=\"false\" id=\"s\" data-kind=\"plot\">",
+    "  <span class=\"hn-spoiler-inner\">",
+    "    <!--[-->",
+    "    <strong>",
+    "      \"真凶\"",
+    "    \"是园丁\"",
+    "    <!--]-->"
+  ],
+  "labels follow the locale": [
+    "<!--[-->",
+    "<span class=\"hn-spoiler-fb\" data-hidden=\"\" role=\"button\" tabindex=\"0\" aria-label=\"Spoiler, click to reveal\" aria-expanded=\"false\">",
+    "  <span class=\"hn-spoiler-inner\">",
+    "    <!--[-->",
+    "    \"hidden\"",
+    "    <!--]-->",
+    "<span class=\"hn-spoiler-fb\" role=\"button\" tabindex=\"0\" aria-label=\"Hide spoiler\" aria-expanded=\"true\">",
+    "  <span class=\"hn-spoiler-inner\">",
+    "    <!--[-->",
+    "    \"shown\"",
+    "    <!--]-->",
+    "<!--]-->"
+  ]
+}

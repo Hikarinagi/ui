@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { AspectRatio as RekaAspectRatio } from 'reka-ui'
+  import { AspectRatio as RekaAspectRatio } from '../../primitives/aspect-ratio'
   import { cn } from '../../lib/cn'
 
   defineOptions({ name: 'HnAspectRatio' })

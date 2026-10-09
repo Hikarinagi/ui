@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Separator } from 'reka-ui'
+  import { Separator } from '../../primitives/separator'
   import { cn } from '../../lib/cn'
   import { useToolbar } from './context'
   import { toolbarSeparator } from './toolbar.variants'

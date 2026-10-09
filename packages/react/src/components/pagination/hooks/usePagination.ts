@@ -1,9 +1,9 @@
 'use client'
 
 import { useLayoutEffect, useMemo, useRef } from 'react'
-import { useControllableState } from 'radix-ui/internal'
 import { paginationInteger } from '../../../../../shared/src/lib/pagination'
 import type { PaginationChange, PaginationState } from '../types'
+import { useControllableState } from '../../../primitives/utils/controllable-state'
 
 export { paginationInteger }
 

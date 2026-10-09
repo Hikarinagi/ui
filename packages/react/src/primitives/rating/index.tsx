@@ -11,7 +11,15 @@ import {
   type ReactNode,
   type Ref,
 } from 'react'
-import { composeEventHandlers, useComposedRefs, useControllableState } from 'radix-ui/internal'
+import {
+  isRatingStepActive,
+  isRatingStepVisible,
+  nextRating,
+  ratingItems,
+  ratingStepWidth,
+  ratingSteps,
+  ratingStepZIndex,
+} from '../../../../shared/src/primitives/rating'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { useCurrentElement } from '../utils/hidden-input'
 import {
@@ -21,6 +29,9 @@ import {
   type RadioGroupItemProps,
 } from '../radio-group'
 import type { Direction, Orientation } from '../roving-focus'
+import { composeEventHandlers } from '../utils/compose-event-handlers'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useControllableState } from '../utils/controllable-state'
 
 type DataAttributes = { [attribute: `data-${string}`]: string | undefined }
 
@@ -92,15 +103,14 @@ export function RatingRoot({
     onChange: onValueChange as ((value: number | undefined) => void) | undefined,
     caller: 'RatingRoot',
   })
-  const items = Array.from({ length }, (_, i) => i + 1)
+  const items = ratingItems(length)
   const [hoveredRating, setHoveredRating] = useState(0)
 
   function changeModelValue(rating: number) {
     if (disabled) return
-    if (clearable && modelValue === rating) {
-      setHoveredRating(0)
-      setModelValue(0)
-    } else setModelValue(rating)
+    const next = nextRating(clearable, modelValue, rating)
+    if (next === 0) setHoveredRating(0)
+    setModelValue(next)
   }
 
   function changeHoveredRating(rating: number) {
@@ -155,11 +165,7 @@ export interface RatingItemProps
 
 export function RatingItem({ item, as = 'label', asChild, children, ...attrs }: RatingItemProps) {
   const root = useRatingRootContext('RatingItem')
-  const groupStart = item - 1
-  const count = Math.ceil((item - groupStart) / root.step)
-  const steps = Array.from({ length: count }, (_, index) =>
-    Number((groupStart + (index + 1) * root.step).toFixed(2)),
-  )
+  const steps = ratingSteps(item, root.step)
   return (
     <RatingItemContext value={{ steps }}>
       <Primitive as={as} asChild={asChild} {...attrs}>
@@ -208,15 +214,14 @@ export function RatingItemIndicator({
   const [element, setElement] = useCurrentElement<HTMLElement>()
   const composedRef = useComposedRefs(ref, setElement)
   const activeElement = useActiveElement()
-  const isActive =
-    (root.hoveredRating > 0 && step <= root.hoveredRating) ||
-    (root.hoveredRating === 0 && step <= (root.modelValue ?? Number.NaN))
-  const isVisible =
-    activeElement === element ||
-    root.step === 1 ||
-    step % 1 === 0 ||
-    step === root.hoveredRating ||
-    step === root.modelValue
+  const isActive = isRatingStepActive(step, root.hoveredRating, root.modelValue)
+  const isVisible = isRatingStepVisible(
+    activeElement === element,
+    root.step,
+    step,
+    root.hoveredRating,
+    root.modelValue,
+  )
 
   return (
     <RadioGroupItem
@@ -229,9 +234,9 @@ export function RatingItemIndicator({
       {...attrs}
       style={
         {
-          '--radix-rating-item-step-width': `${(step % 1 || 1) * 100}%`,
+          '--radix-rating-item-step-width': ratingStepWidth(step),
           '--radix-rating-item-step-opacity': isVisible ? 1 : 0,
-          '--radix-rating-item-step-z-index': item.steps.length - item.steps.indexOf(step),
+          '--radix-rating-item-step-z-index': ratingStepZIndex(item.steps, step),
           ...style,
         } as CSSProperties
       }

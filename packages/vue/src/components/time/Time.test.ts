@@ -1,7 +1,9 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { defineComponent, h } from 'vue'
+import { createSSRApp, defineComponent, h } from 'vue'
+import { renderToString } from 'vue/server-renderer'
 import Time from './Time.vue'
+import TooltipProvider from '../tooltip/TooltipProvider.vue'
 import { provideUiLocale, enUS } from '../../locale'
 import { expectNoA11yViolations } from '../../../test/axe'
 
@@ -45,7 +47,7 @@ describe('绝对格式', () => {
 })
 
 describe('相对格式', () => {
-  it('45 秒内是「刚刚」,更早按 Intl 出中文相对时间,title 带绝对时间', () => {
+  it('45 秒内是「刚刚」,更早按 Intl 出中文相对时间,不带原生 title', () => {
     vi.useFakeTimers()
     vi.setSystemTime(base)
 
@@ -58,7 +60,7 @@ describe('相对格式', () => {
       props: { value: new Date(base.getTime() - 3 * 60_000), format: 'relative' },
     })
     expect(minutes.text()).toBe('3分钟前')
-    expect(minutes.attributes('title')).toContain('2026')
+    expect(minutes.attributes('title')).toBeUndefined()
 
     const days = mount(Time, {
       props: { value: new Date(base.getTime() - 2 * 86_400_000), format: 'relative' },
@@ -78,6 +80,60 @@ describe('相对格式', () => {
     vi.advanceTimersByTime(65_000)
     await w.vm.$nextTick()
     expect(w.text()).toBe('2分钟前')
+  })
+})
+
+describe('完整时刻的提示', () => {
+  const value = new Date(base.getTime() - 3 * 60_000)
+  const inProvider = (props: Record<string, unknown>) =>
+    mount(TooltipProvider, { slots: { default: () => h(Time, { value, ...props }) } }).get('time')
+
+  it('在 TooltipProvider 内,相对时间成为 Tooltip 触发器', () => {
+    expect(inProvider({ format: 'relative' }).attributes('data-state')).toBe('closed')
+  })
+
+  it('tooltip=false、绝对格式或不在 TooltipProvider 内时不挂 Tooltip', () => {
+    expect(
+      inProvider({ format: 'relative', tooltip: false }).attributes('data-state'),
+    ).toBeUndefined()
+    expect(inProvider({ format: 'datetime' }).attributes('data-state')).toBeUndefined()
+    const bare = mount(Time, { props: { value, format: 'relative' } }).get('time')
+    expect(bare.attributes('data-state')).toBeUndefined()
+  })
+
+  it('class 与透传属性仍落在 time 元素上', () => {
+    const w = mount(Time, {
+      props: { value, format: 'relative', class: 'text-muted' },
+      attrs: { 'data-x': '1' },
+    }).get('time')
+    expect(w.classes()).toContain('text-muted')
+    expect(w.attributes('data-x')).toBe('1')
+  })
+})
+
+describe('水合', () => {
+  it('服务端与浏览器算出的相对时间不同时不报水合警告,文字以浏览器为准', async () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(base)
+    const value = new Date(base.getTime() - 30_000)
+    const App = defineComponent({ render: () => h(Time, { value, format: 'relative' }) })
+    const html = await renderToString(createSSRApp(App))
+    expect(html).toContain('刚刚')
+
+    vi.setSystemTime(new Date(base.getTime() + 10 * 60_000))
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const host = document.createElement('div')
+    host.innerHTML = html
+    document.body.append(host)
+    const app = createSSRApp(App)
+    app.mount(host)
+    expect(host.textContent?.trim()).toBe('10分钟前')
+    const logged = [...warn.mock.calls, ...error.mock.calls].flat().join(' ')
+    expect(logged).not.toMatch(/hydrat/i)
+    app.unmount()
+    warn.mockRestore()
+    error.mockRestore()
   })
 })
 

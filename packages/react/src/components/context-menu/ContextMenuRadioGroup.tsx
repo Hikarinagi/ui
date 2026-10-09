@@ -1,8 +1,8 @@
 'use client'
 
 import type { HTMLAttributes, Ref } from 'react'
-import { useControllableState } from 'radix-ui/internal'
 import { ContextMenuRadioGroup as PrimitiveContextMenuRadioGroup } from '../../primitives/context-menu'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export interface ContextMenuRadioGroupProps extends Omit<
   HTMLAttributes<HTMLElement>,

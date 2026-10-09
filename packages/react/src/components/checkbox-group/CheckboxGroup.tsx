@@ -1,7 +1,6 @@
 'use client'
 
 import type { HTMLAttributes, ReactNode, Ref } from 'react'
-import { useControllableState } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import { CheckboxGroupRoot } from '../../primitives/checkbox'
 import { FormFieldShield, useFieldControl } from '../form-field/context'
@@ -13,6 +12,7 @@ import {
   checkboxGroupItem,
   type CheckboxGroupVariants,
 } from './checkbox-group.variants'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 export interface CheckboxGroupProps<T extends SelectOption = SelectOption> extends Omit<
   HTMLAttributes<HTMLElement>,

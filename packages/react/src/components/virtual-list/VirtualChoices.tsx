@@ -1,7 +1,6 @@
 'use client'
 
 import type { HTMLAttributes, ReactNode, Ref } from 'react'
-import { useComposedRefs } from 'radix-ui/internal'
 import { useUiLocale } from '../../locale'
 import {
   useVirtualChoices,
@@ -13,6 +12,7 @@ import { ScrollArea } from '../scroll-area/ScrollArea'
 import { selectEmpty, selectLabel } from '../select/select.variants'
 import type { SelectItems, SelectOption } from '../select/types'
 import { virtualListContent, virtualListItem } from './virtual-list.variants'
+import { useComposedRefs } from '../../primitives/utils/compose-refs'
 
 export interface VirtualChoiceAttrs {
   'aria-posinset': number

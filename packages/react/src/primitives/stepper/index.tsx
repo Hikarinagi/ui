@@ -16,12 +16,24 @@ import {
   type ReactNode,
   type Ref,
 } from 'react'
-import { Direction as RadixDirection, Separator } from 'radix-ui'
-import { useComposedRefs, useControllableState } from 'radix-ui/internal'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
-import { getActiveElement, navigateByArrow } from './arrow-navigation'
+import { arrowNavigation } from '../../../../shared/src/primitives/arrow-navigation'
+import { getActiveElement } from '../../../../shared/src/primitives/focus-scope'
+import {
+  activatesStepOnPointer,
+  isStepFocusable,
+  STEPPER_KEYS,
+  STEPPER_STATUS_STYLE,
+  stepperItemState,
+  stepperStatusText,
+  type StepperState,
+} from '../../../../shared/src/primitives/stepper'
+import { Separator as HnSeparator } from '../separator'
+import { useComposedRefs } from '../utils/compose-refs'
+import { useControllableState } from '../utils/controllable-state'
+import { useDirection } from '../utils/direction'
 
-export type StepperState = 'completed' | 'active' | 'inactive'
+export type { StepperState }
 type Orientation = 'horizontal' | 'vertical'
 type Dir = 'ltr' | 'rtl'
 
@@ -59,14 +71,6 @@ function useStepperItemContext(consumer: string) {
   return context
 }
 
-const statusStyle: CSSProperties = {
-  transform: 'translateX(-100%)',
-  position: 'absolute',
-  pointerEvents: 'none',
-  opacity: 0,
-  margin: 0,
-}
-
 export interface StepperRootProps
   extends PrimitiveProps, Omit<HTMLAttributes<HTMLElement>, 'defaultValue' | 'dir'> {
   defaultValue?: number
@@ -91,7 +95,7 @@ export function StepperRoot({
   children,
   ...attrs
 }: StepperRootProps) {
-  const dir = RadixDirection.useDirection(dirProp)
+  const dir = useDirection(dirProp)
   const [modelValue, setModelValue] = useControllableState<number | undefined>({
     prop: value,
     defaultProp: defaultValue,
@@ -135,8 +139,13 @@ export function StepperRoot({
         {...attrs}
       >
         {children}
-        <div aria-live="polite" aria-atomic="true" role="status" style={statusStyle}>
-          {` Step ${modelValue ?? ''} of ${totalSteps}`}
+        <div
+          aria-live="polite"
+          aria-atomic="true"
+          role="status"
+          style={STEPPER_STATUS_STYLE as CSSProperties}
+        >
+          {stepperStatusText(modelValue, totalSteps)}
         </div>
       </Primitive>
     </StepperRootContext>
@@ -165,18 +174,8 @@ export function StepperItem({
   const titleId = `reka-stepper-item-title-${useId()}`
   const descriptionId = `reka-stepper-item-description-${useId()}`
   const modelValue = rootContext.modelValue as number
-  const state: StepperState = completed
-    ? 'completed'
-    : modelValue === step
-      ? 'active'
-      : modelValue > step
-        ? 'completed'
-        : 'inactive'
-  const isFocusable = disabled
-    ? false
-    : rootContext.linear
-      ? step <= modelValue || step === modelValue + 1
-      : true
+  const state = stepperItemState(completed, modelValue, step)
+  const isFocusable = isStepFocusable(disabled, rootContext.linear, step, modelValue)
   const context = useMemo<StepperItemContextValue>(
     () => ({ titleId, descriptionId, state, disabled, step, isFocusable }),
     [titleId, descriptionId, state, disabled, step, isFocusable],
@@ -200,8 +199,6 @@ export function StepperItem({
     </StepperItemContext>
   )
 }
-
-const keys = ['Enter', ' ', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown']
 
 export interface StepperTriggerProps extends PrimitiveProps, HTMLAttributes<HTMLElement> {
   children?: ReactNode
@@ -234,14 +231,7 @@ export function StepperTrigger({
   function handleMouseDown(event: MouseEvent<HTMLElement>) {
     if (event.button !== 0) return
     if (itemContext.disabled) return
-    if (rootContext.linear) {
-      if (itemContext.step <= modelValue || itemContext.step === modelValue + 1) {
-        if (event.ctrlKey === false) {
-          rootContext.changeModelValue(itemContext.step)
-          return
-        }
-      }
-    } else if (event.ctrlKey === false) {
+    if (activatesStepOnPointer(event, rootContext.linear, itemContext.step, modelValue)) {
       rootContext.changeModelValue(itemContext.step)
       return
     }
@@ -249,13 +239,13 @@ export function StepperTrigger({
   }
 
   function handleKeyDown(event: KeyboardEvent<HTMLElement>) {
-    if (!keys.includes(event.key)) return
+    if (!STEPPER_KEYS.includes(event.key)) return
     event.preventDefault()
     if (itemContext.disabled) return
     if ((event.key === 'Enter' || event.key === ' ') && !event.ctrlKey && !event.shiftKey)
       rootContext.changeModelValue(itemContext.step)
     if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key))
-      navigateByArrow(event.nativeEvent, getActiveElement() as HTMLElement | null, undefined, {
+      arrowNavigation(event.nativeEvent, getActiveElement() as HTMLElement | null, undefined, {
         itemsArray: Array.from(rootContext.totalStepperItems.current),
         focus: true,
         loop: false,
@@ -333,7 +323,7 @@ export function StepperSeparator({
   const rootContext = useStepperRootContext('StepperSeparator')
   const itemContext = useStepperItemContext('StepperSeparator')
   return (
-    <Separator.Root
+    <HnSeparator
       decorative
       orientation={rootContext.orientation}
       data-state={itemContext.state}

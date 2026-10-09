@@ -2,10 +2,10 @@
 
 import type { KeyboardEvent } from 'react'
 import { Search } from 'lucide-react'
-import { useControllableState } from 'radix-ui/internal'
 import { cn } from '../../lib/cn'
 import { lucide } from '../../lib/icon'
 import { InputBase, type InputBaseProps } from '../input/InputBase'
+import { useControllableState } from '../../primitives/utils/controllable-state'
 
 const SearchIcon = lucide(Search)
 

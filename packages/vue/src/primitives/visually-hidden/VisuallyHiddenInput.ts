@@ -7,7 +7,7 @@ import {
   mergeProps,
   type PropType,
 } from 'vue'
-import type { VisuallyHiddenProps } from 'reka-ui'
+import type { VisuallyHiddenProps } from './VisuallyHidden.vue'
 import VisuallyHiddenInputBubble from './VisuallyHiddenInputBubble.vue'
 
 const REQUIRED_NOTE = " We render single input if it's required "

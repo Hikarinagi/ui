@@ -2,19 +2,20 @@
 
 import {
   Children,
+  cloneElement,
   isValidElement,
   type AnchorHTMLAttributes,
   type ReactElement,
   type ReactNode,
   type Ref,
 } from 'react'
-import { Slot } from 'radix-ui'
 import { cn } from '../../lib/cn'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { Tooltip } from '../tooltip/Tooltip'
-import { useSidebar } from '../sidebar/context'
+import { useInSidebar, useSidebar } from '../sidebar/context'
 import { navLink, navLinkLabel } from './nav-link.variants'
 import { resolveChild } from '../../lib/children'
+import { Slot } from '../../primitives/utils/slot'
 
 export interface NavLinkProps extends PrimitiveProps, AnchorHTMLAttributes<HTMLElement> {
   active?: boolean
@@ -36,7 +37,8 @@ export function NavLink({
   children,
   ...attrs
 }: NavLinkProps) {
-  const sidebar = useSidebar()
+  const context = useSidebar()
+  const sidebar = useInSidebar() ? context : null
   const rail = sidebar?.state === 'rail'
 
   const own = {
@@ -50,25 +52,30 @@ export function NavLink({
     className: cn(navLink({ active }), className),
   }
 
-  const text = (
+  const text = (content: ReactNode) => (
     <span
-      key="label"
       aria-hidden={rail ? 'true' : undefined}
       inert={rail}
       data-collapsed={rail ? '' : undefined}
       data-hn-label=""
       className={navLinkLabel()}
     >
-      {children}
+      {content}
     </span>
   )
 
-  const link = asChild ? (
-    <SlotFirst {...own} nodes={[...Children.toArray(icon), text]} />
+  const child = asChild
+    ? (Children.toArray(children)
+        .map(resolveChild)
+        .find(node => isValidElement(node)) as ReactElement<{ children?: ReactNode }> | undefined)
+    : undefined
+
+  const link = child ? (
+    <Slot {...own}>{cloneElement(child, undefined, icon, text(child.props.children))}</Slot>
   ) : (
     <Primitive {...own} as={as}>
       {icon}
-      {text}
+      {text(children)}
     </Primitive>
   )
 
@@ -77,19 +84,5 @@ export function NavLink({
     <Tooltip disabled={!rail || !label} content={label} side="right">
       {link}
     </Tooltip>
-  )
-}
-
-function SlotFirst({ nodes: given, ...props }: { nodes: ReactNode[] } & Record<string, unknown>) {
-  const nodes = given.map(resolveChild)
-  const index = nodes.findIndex(node => isValidElement(node))
-  return nodes.map((node, position) =>
-    position === index ? (
-      <Slot.Root key={(node as ReactElement).key ?? position} {...props}>
-        {node}
-      </Slot.Root>
-    ) : (
-      node
-    ),
   )
 }

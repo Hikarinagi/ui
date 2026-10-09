@@ -1,0 +1,14 @@
+{
+  "default": [
+    "<code class=\"hn-code\">",
+    "  <!--[-->",
+    "  \"--hn-accent\"",
+    "  <!--]-->"
+  ],
+  "class and attributes": [
+    "<code class=\"hn-code text-sm\" title=\"token\">",
+    "  <!--[-->",
+    "  \"pnpm dev\"",
+    "  <!--]-->"
+  ]
+}

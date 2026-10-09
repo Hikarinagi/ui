@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState, type HTMLAttributes, type Ref } from 'react'
 import clsx from 'clsx'
-import { useComposedRefs } from 'radix-ui/internal'
 import { createRipple } from '../../../../shared/src/behavior/ripple'
+import { useComposedRefs } from '../../primitives/utils/compose-refs'
 
 export interface RippleProps extends HTMLAttributes<HTMLDivElement> {
   disabled?: boolean
