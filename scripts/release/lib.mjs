@@ -115,6 +115,8 @@ export function parseChange(raw, file, config) {
   if (meta.packages !== undefined) meta.packages = packageList(meta.packages, file, config)
   const text = match[2].trim()
   if (!text) throw new Error(`${file}: empty note`)
+  if (/<[A-Za-z/!]/.test(text.replace(/`[^`\n]*`/g, '')))
+    throw new Error(`${file}: wrap markup such as <T> or <Dialog> in backticks`)
   return { file, ...meta, text }
 }
 

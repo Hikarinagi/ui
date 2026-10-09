@@ -208,8 +208,15 @@ test('change records reject malformed or ambiguous metadata before writing', () 
     record().replace('scope: Dialog', 'scope: Dialog\nlevel: major\nlevel: patch'),
     record().replace('scope: Dialog', 'target: vue'),
     record().replace('Add a title slot.', ''),
+    record().replace('Add a title slot.', 'Items carry data through CommandItem<T>.'),
+    record().replace('Add a title slot.', 'Render it inside <Dialog>.'),
   ])
     assert.throws(() => parseChange(raw, 'note', config))
+  for (const note of ['Items carry data through `CommandItem<T>`.', 'Fires when a < b.'])
+    assert.equal(
+      parseChange(record().replace('Add a title slot.', note), 'note', config).text,
+      note,
+    )
 })
 
 test('change records may restrict themselves to configured packages', () => {
