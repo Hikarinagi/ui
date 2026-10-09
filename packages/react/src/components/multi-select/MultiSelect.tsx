@@ -113,6 +113,7 @@ export function MultiSelect<T extends SelectOption = SelectOption>({
   const size = group ? group.size : sizeProp
   const {
     id: fieldId,
+    labelledBy,
     invalid,
     disabled,
     describedBy,
@@ -168,6 +169,7 @@ export function MultiSelect<T extends SelectOption = SelectOption>({
         {...attrs}
         as="div"
         id={fieldId}
+        aria-labelledby={labelledBy}
         aria-describedby={describedBy}
         data-hn-multi-select=""
         onKeyDown={event => {

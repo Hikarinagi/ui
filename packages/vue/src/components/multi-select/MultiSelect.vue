@@ -56,6 +56,7 @@
   const size = computed(() => (group ? group.size.value : props.size))
   const {
     id: fieldId,
+    labelledBy,
     invalid,
     disabled,
     describedBy,
@@ -102,6 +103,7 @@
       v-bind="$attrs"
       as="div"
       :id="fieldId"
+      :aria-labelledby="labelledBy"
       :aria-describedby="describedBy"
       data-hn-multi-select
       @keydown="keyboard = true"
