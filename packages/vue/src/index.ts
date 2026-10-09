@@ -307,6 +307,7 @@ export {
   writeScrollRecord,
   createScrollRestorer,
   createScrollRestoreSession,
+  keepScrollPosition,
   scrollRestoreScript,
 } from './components/scroll-area/scroll-restore'
 export type {

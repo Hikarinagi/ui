@@ -108,6 +108,7 @@ import { AppShell } from '@hina-ui/vue'
 - 设置 `restoreKey` 后，组件自行保存并恢复主区域的滚动位置：位置按历史记录条目写入 `history.state`，刷新、后退与前进时恢复，进入新页面回到顶部，带 `#hash` 的新页面滚动到对应元素。同一页面上有多个壳时使用不同的键。
 - 服务端输出带一段内联脚本，在激活之前把位置设好，刷新时不会先停在顶部再跳动。内容安全策略禁止内联脚本时，这段脚本不执行，位置在激活后恢复。
 - 恢复不依赖具体的路由库：通过历史记录的变化和主区域内容的更新判断页面切换，内容尚未渲染到足够高度时会等待，最多 3 秒。
+- `keepScrollPosition()` 让接下来的一次页面变化保持当前位置，不回到顶部，用于切换标签页、筛选或排序这类会改变路径或查询的导航。在发起导航之前调用，只生效一次；后退与前进仍然恢复各自保存的位置。
 - 组件内置浮层提供方，侧栏在 rail 形态下的悬停提示不需要另行包裹。
 
 ## 无障碍 {#a11y}
@@ -173,5 +174,37 @@ import { AppShell } from '@hina-ui/vue'
 | -------------- | ------------------------------- | ------------------------- |
 | `mainViewport` | `HTMLElement \| undefined`      | 主区域滚动容器的视口元素  |
 | `mainArea`     | `ScrollAreaHandle \| undefined` | 主区域滚动容器的 ref 句柄 |
+
+:::
+
+### 函数 {#functions}
+
+| 函数                               | 说明                                                                       |
+| ---------------------------------- | -------------------------------------------------------------------------- |
+| `keepScrollPosition(key?: string)` | 让下一次页面变化保持主区域的滚动位置；传入 `restoreKey` 时只作用于对应的壳 |
+
+::: vue
+
+```ts
+import { keepScrollPosition } from '@hina-ui/vue'
+
+function sort(order: string) {
+  keepScrollPosition()
+  router.replace({ query: { ...route.query, order } })
+}
+```
+
+:::
+
+::: react
+
+```tsx
+import { keepScrollPosition } from '@hina-ui/react'
+
+function sort(order: string) {
+  keepScrollPosition()
+  navigate({ search: `?order=${order}` }, { replace: true })
+}
+```
 
 :::

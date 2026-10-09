@@ -165,6 +165,13 @@ export interface ScrollRestoreSessionOptions {
 
 export interface ScrollRestoreSession {
   dispose: () => void
+  keep: () => void
+}
+
+const sessions = new Map<ScrollRestoreSession, string>()
+
+export function keepScrollPosition(key?: string) {
+  for (const [session, name] of sessions) if (key === undefined || name === key) session.keep()
 }
 
 const ABANDON_EVENTS = ['wheel', 'touchstart', 'keydown'] as const
@@ -212,6 +219,7 @@ export function createScrollRestoreSession({
   let navigating = false
   let clearFallback: (() => void) | null = null
   let disposed = false
+  let held: number | undefined
 
   const restorer = createScrollRestorer(key, {
     getViewport: () => viewport,
@@ -228,6 +236,10 @@ export function createScrollRestoreSession({
     clearFallback?.()
     clearFallback = null
     settled = here()
+    const keep = held
+    held = undefined
+    if (!first && keep !== undefined && readScrollRecord(history.state)[key] === undefined)
+      history.replaceState(writeScrollRecord(history.state, key, keep), '')
     const saved = readScrollRecord(history.state)[key]
     restorer.restore(first)
     if (!first && saved === undefined) hashTarget()?.scrollIntoView()
@@ -276,9 +288,13 @@ export function createScrollRestoreSession({
 
   land(initial)
 
-  return {
+  const session: ScrollRestoreSession = {
+    keep() {
+      held = viewport.scrollTop
+    },
     dispose() {
       disposed = true
+      sessions.delete(session)
       off.forEach(stop => stop())
       for (const name of ABANDON_EVENTS) viewport.removeEventListener(name, abandon)
       navigation?.removeEventListener('currententrychange', entryChange)
@@ -290,4 +306,6 @@ export function createScrollRestoreSession({
       restorer.dispose()
     },
   }
+  sessions.set(session, key)
+  return session
 }

@@ -108,6 +108,7 @@ A [Banner](/components/banner) in the `banner` slot spans the whole shell. When 
 - With `restoreKey` set, the component saves and restores the scroll position of the main area by itself: the position is written to `history.state` per history entry, restored on reload, back and forward, and a new page starts at the top or, with a `#hash`, at that element. Several shells on one page take different keys.
 - Server output carries an inline script that sets the position before activation, so a reload does not show the top first. Where the content security policy forbids inline scripts, the script does not run and the position is restored after activation.
 - Restoration does not depend on a particular router: page changes are detected from history changes and from updates to the main content, and it waits up to 3 seconds for content that is not tall enough yet.
+- `keepScrollPosition()` makes the next page change keep the current position instead of starting at the top. Use it for navigations that change the path or the query without leaving the view, such as switching tabs, filtering or sorting. Call it right before navigating; it applies once, and back and forward still restore their own saved positions.
 - A tooltip provider is built in, so the hover hints a rail sidebar shows need no extra wrapper.
 
 ## Accessibility {#a11y}
@@ -173,5 +174,37 @@ A [Banner](/components/banner) in the `banner` slot spans the whole shell. When 
 | -------------- | ------------------------------- | ---------------------------------------- |
 | `mainViewport` | `HTMLElement \| undefined`      | Viewport element of the main scroll area |
 | `mainArea`     | `ScrollAreaHandle \| undefined` | Ref handle of the main scroll area       |
+
+:::
+
+### Functions {#functions}
+
+| Function                           | Description                                                                                                      |
+| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `keepScrollPosition(key?: string)` | Keeps the scroll position of the main area across the next page change; pass a `restoreKey` to address one shell |
+
+::: vue
+
+```ts
+import { keepScrollPosition } from '@hina-ui/vue'
+
+function sort(order: string) {
+  keepScrollPosition()
+  router.replace({ query: { ...route.query, order } })
+}
+```
+
+:::
+
+::: react
+
+```tsx
+import { keepScrollPosition } from '@hina-ui/react'
+
+function sort(order: string) {
+  keepScrollPosition()
+  navigate({ search: `?order=${order}` }, { replace: true })
+}
+```
 
 :::
