@@ -116,4 +116,36 @@ describe('useForm async validation', () => {
     expect(handler).not.toHaveBeenCalled()
     expect(form.submitting()).toBe(false)
   })
+
+  it('submits when the rules object is replaced while it validates', async () => {
+    const values = { name: 'old' }
+    const task = deferred<FormErrors>()
+    const { result, rerender } = renderHook(
+      ({ rules }) => useForm({ values, rules, validateOn: 'submit' }),
+      { initialProps: { rules: () => task.promise } },
+    )
+    const handler = vi.fn()
+    const done = result.current.submit(handler)
+    rerender({ rules: () => task.promise })
+    task.resolve({})
+    expect(await done).toBe(true)
+    expect(handler).toHaveBeenCalledTimes(1)
+  })
+
+  it('shares the pending validation of a submit when a field is touched and rules are recreated', async () => {
+    const values = { name: 'old' }
+    const task = deferred<FormErrors>()
+    const rules = vi.fn(() => task.promise)
+    const { result, rerender } = renderHook(() =>
+      useForm({ values, rules: () => rules(), validateOn: 'blur' }),
+    )
+    const handler = vi.fn()
+    const done = result.current.submit(handler)
+    rerender()
+    result.current.touch('name')
+    task.resolve({})
+    expect(await done).toBe(true)
+    expect(rules).toHaveBeenCalledTimes(1)
+    expect(handler).toHaveBeenCalledTimes(1)
+  })
 })

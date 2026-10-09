@@ -37,7 +37,7 @@ export function createForm(options: FormOptions): FormController {
   let submitted = false
   let submitting = false
   let server = new Map<string, ServerError>()
-  let pending: { values: FormValues; rules: FormRules | undefined } | undefined
+  let pending: { values: FormValues } | undefined
   let validation = 0
   let submission = 0
   let initial = snapshot(options.values()) as FormValues
@@ -75,14 +75,11 @@ export function createForm(options: FormOptions): FormController {
   async function validate() {
     const current = ++validation
     const values = snapshot(options.values()) as FormValues
-    const rules = options.rules()
-    const request = { values, rules }
+    const request = { values }
     pending = request
     try {
-      const result = await runRules(rules, values)
-      if (current !== validation || rules !== options.rules() || !same(values, options.values())) {
-        return false
-      }
+      const result = await runRules(options.rules(), values)
+      if (current !== validation || !same(values, options.values())) return false
       found = result
       notify()
       return Object.keys(result).length === 0
@@ -92,8 +89,7 @@ export function createForm(options: FormOptions): FormController {
   }
 
   function revalidate() {
-    if (pending && pending.rules === options.rules() && same(pending.values, options.values()))
-      return
+    if (pending && same(pending.values, options.values())) return
     void validate()
   }
 

@@ -115,4 +115,35 @@ describe('useForm async validation', () => {
     expect(handler).not.toHaveBeenCalled()
     expect(form.submitting.value).toBe(false)
   })
+
+  it('submits when the rules object is replaced while it validates', async () => {
+    const values = reactive({ name: 'old' })
+    const task = deferred<FormErrors>()
+    let rules = () => task.promise
+    const form = useForm({ values: () => values, rules: () => rules, validateOn: () => 'submit' })
+    const handler = vi.fn()
+    const done = form.submit(handler)
+    rules = () => task.promise
+    task.resolve({})
+    expect(await done).toBe(true)
+    expect(handler).toHaveBeenCalledTimes(1)
+  })
+
+  it('shares the pending validation of a submit when a field is touched and rules are recreated', async () => {
+    const values = reactive({ name: 'old' })
+    const task = deferred<FormErrors>()
+    const rules = vi.fn(() => task.promise)
+    const form = useForm({
+      values: () => values,
+      rules: () => () => rules(),
+      validateOn: () => 'blur',
+    })
+    const handler = vi.fn()
+    const done = form.submit(handler)
+    form.touch('name')
+    task.resolve({})
+    expect(await done).toBe(true)
+    expect(rules).toHaveBeenCalledTimes(1)
+    expect(handler).toHaveBeenCalledTimes(1)
+  })
 })
