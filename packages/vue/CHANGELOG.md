@@ -1,5 +1,15 @@
 # @hina-ui/vue
 
+## [1.7.9](https://github.com/Hikarinagi/ui/compare/@hina-ui/vue@1.7.8...@hina-ui/vue@1.7.9) (2026-10-09)
+
+### Added
+
+- **AppShell** keepScrollPosition() keeps the scroll position of the main area across the next page change instead of starting at the top. Call it right before a navigation that changes the path or the query without leaving the view, such as switching tabs, filtering or sorting. It applies once, takes an optional restoreKey to address one shell, and leaves back and forward to their saved positions.
+
+### Fixed
+
+- **Form** A Form submits again when its rules are recreated while it validates, for example a schema built during render inside a Dialog, Drawer or Sheet. Since 1.7.8 those overlays re-render when the form starts submitting; the new rules object made the form discard its own validation, so submitting did nothing and reported no error.
+
 ## [1.7.8](https://github.com/Hikarinagi/ui/compare/@hina-ui/vue@1.7.7...@hina-ui/vue@1.7.8) (2026-10-09)
 
 ### Added

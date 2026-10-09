@@ -1,6 +1,6 @@
 {
   "name": "@hina-ui/vue",
-  "version": "1.7.8",
+  "version": "1.7.9",
   "description": "The design system behind Hikarinagi: Vue 3 components built on Reka UI and Tailwind CSS v4.",
   "keywords": [
     "vue",
