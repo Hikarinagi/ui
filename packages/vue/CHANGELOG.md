@@ -1,5 +1,28 @@
 # @hina-ui/vue
 
+## [1.7.7](https://github.com/Hikarinagi/ui/compare/@hina-ui/vue@1.7.6...@hina-ui/vue@1.7.7) (2026-10-09)
+
+### Added
+
+- **FloatButton** offset on FloatButton and ScrollTop accepts { x, y } to set the horizontal and vertical spacing separately, for example to lift the button above a fixed footer.
+
+### Changed
+
+- **Time** With format="relative", the absolute time is no longer set as a native title. Inside a TooltipProvider it is shown in a Tooltip on hover and focus, and the new tooltip prop turns that off.
+- **Vue** Divider, AspectRatio, VisuallyHidden, Progress, RingProgress, Toggle, SegmentedControl, Switch, Checkbox, CheckboxGroup, RadioGroup, Collapsible, Accordion, Tabs, Toolbar, Slider, RangeSlider, Rating, PinInput, Splitter, Stepper and Pagination now run on Hina UI's own primitives instead of reka-ui. Their markup and behavior are unchanged.
+
+### Fixed
+
+- **FloatButton** The exit animation of FloatButton and ScrollTop now always plays in full. Hiding the button while its press was still settling, for example ScrollTop with behavior="instant" or a short scroll distance, used to end the animation early and make the button disappear at once.
+- **Statistic** The loading skeletons now match the line height of the value and the delta, so the height no longer changes when loading ends.
+- **Panel** A Panel without body content now keeps the bottom padding below its header.
+- **Time** Hydration no longer reports a text mismatch when the browser formats a different text than the server, for example a relative time that has moved on. The browser's text is applied.
+- **Section** A Section with a title is now labelled by its heading through aria-labelledby, unless aria-label or aria-labelledby is passed.
+- **MultiSelect** Inside a FormField, the trigger is now named by the field label through aria-labelledby. Previously it had no accessible name unless aria-label was passed.
+- **Toast** Toasts stay available to assistive technology while a modal dialog is open. The toast list now carries aria-live="off", so it is no longer given aria-hidden together with the rest of the page.
+- **NavLink** With asChild, the child element now becomes the link itself and receives the link attributes, with the icon and the label rendered inside it. Previously the attributes were merged onto the icon or the label and the child element ended up nested inside the label.
+- **NavLink** Only NavLinks inside a Sidebar collapse when the AppShell sidebar becomes a rail. NavLinks in the header or the main content keep their text and no longer get a tooltip.
+
 ## [1.7.6](https://github.com/Hikarinagi/ui/compare/@hina-ui/vue@1.7.5...@hina-ui/vue@1.7.6) (2026-10-04)
 
 ### Added
