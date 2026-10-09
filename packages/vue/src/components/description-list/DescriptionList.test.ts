@@ -21,6 +21,24 @@ describe('渲染', () => {
   })
 })
 
+describe('横向布局', () => {
+  it('orientation 为 horizontal 时在根元素标出方向,默认不带该属性', () => {
+    const horizontal = mount(DescriptionList, {
+      props: { orientation: 'horizontal' },
+      slots: { default: pairs },
+    })
+    expect(horizontal.attributes('data-orientation')).toBe('horizontal')
+    expect(mount(DescriptionList, { slots: { default: pairs } }).attributes()).not.toHaveProperty(
+      'data-orientation',
+    )
+    const vertical = mount(DescriptionList, {
+      props: { orientation: 'vertical' },
+      slots: { default: pairs },
+    })
+    expect(vertical.attributes()).not.toHaveProperty('data-orientation')
+  })
+})
+
 const wrapped = () => [
   h(DescriptionTerm, () => '原名'),
   h(DescriptionDetails, () => '狼と香辛料'),

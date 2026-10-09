@@ -19,6 +19,18 @@ const pairs = () => [
   <dd key="4">未知</dd>,
 ]
 
+describe('横向布局', () => {
+  it('orientation 为 horizontal 时在根元素标出方向,默认不带该属性', () => {
+    const horizontal = mount(<DescriptionList orientation="horizontal">{pairs()}</DescriptionList>)
+    expect(horizontal.getAttribute('data-orientation')).toBe('horizontal')
+    expect(
+      mount(<DescriptionList>{pairs()}</DescriptionList>).hasAttribute('data-orientation'),
+    ).toBe(false)
+    const vertical = mount(<DescriptionList orientation="vertical">{pairs()}</DescriptionList>)
+    expect(vertical.hasAttribute('data-orientation')).toBe(false)
+  })
+})
+
 describe('渲染', () => {
   it('渲染 dl,插槽的 dt / dd 原样进入', () => {
     const el = mount(<DescriptionList>{pairs()}</DescriptionList>)

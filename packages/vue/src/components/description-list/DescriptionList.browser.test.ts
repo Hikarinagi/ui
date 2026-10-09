@@ -89,3 +89,44 @@ describe('description list 与 prose dl 同源', () => {
     expect(shape(wrapped.element)[1]).toContain('DD')
   })
 })
+
+describe('横向布局', () => {
+  function horizontal(style?: string) {
+    return mount(DescriptionList, {
+      props: { orientation: 'horizontal' },
+      attrs: { style: `width: 400px; ${style ?? ''}` },
+      slots: {
+        default: () => [
+          h(DescriptionTerm, () => '原名'),
+          h(DescriptionDetails, () => '狼と香辛料'),
+          h(DescriptionTerm, () => '作者与插画'),
+          h(DescriptionDetails, () => '支倉凍砂'),
+          h(DescriptionDetails, () => '文倉十'),
+        ],
+      },
+      attachTo: attach(),
+    })
+  }
+  const boxes = (root: Element, selector: string) =>
+    [...root.querySelectorAll(selector)].map(node => node.getBoundingClientRect())
+
+  it('名称一列、取值一列,同一条目的名称与取值在同一行', () => {
+    const w = horizontal()
+    const terms = boxes(w.element, 'dt')
+    const details = boxes(w.element, 'dd')
+    expect(terms[0]!.left).toBe(terms[1]!.left)
+    expect(new Set(details.map(box => box.left)).size).toBe(1)
+    expect(details[0]!.left).toBeGreaterThan(Math.max(...terms.map(box => box.right)))
+    expect(details[0]!.top).toBeLessThan(terms[0]!.bottom)
+    expect(details[1]!.top).toBeLessThan(terms[1]!.bottom)
+    expect(details[2]!.top).toBeGreaterThanOrEqual(details[1]!.bottom)
+  })
+
+  it('名称列按最长的名称定宽,--hn-dl-term-width 可以改成固定宽度', () => {
+    const auto = horizontal()
+    const terms = boxes(auto.element, 'dt')
+    expect(terms[0]!.width).toBe(terms[1]!.width)
+    const fixed = horizontal('--hn-dl-term-width: 160px')
+    expect(boxes(fixed.element, 'dt').map(box => box.width)).toEqual([160, 160])
+  })
+})
