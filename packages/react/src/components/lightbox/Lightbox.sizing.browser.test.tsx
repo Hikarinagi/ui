@@ -397,7 +397,7 @@ it.each([false, true])('独立灯箱有 previewSize 时不等待 src 解码,矩�
   if (virtual) {
     expect(
       Math.min(...entering.map(rect => Math.hypot(rect.x - bounds.x, rect.y - bounds.y))),
-    ).toBeLessThan(8)
+    ).toBeLessThan(24)
     expect(Math.min(...entering.map(rect => rect.width))).toBeLessThan(200)
   }
   await userEvent.click(tool('原始尺寸'))

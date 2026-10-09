@@ -205,6 +205,10 @@ export const enUS: UiMessages = {
     placeholder: 'Search',
     empty: 'No matches',
   },
+  lineClamp: {
+    expand: 'Show all',
+    collapse: 'Show less',
+  },
   calendar: {
     label: 'Calendar',
     prev: 'Previous month',

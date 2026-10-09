@@ -168,7 +168,7 @@ The example uses [Button](/components/button) to scroll with `viewport.scrollTo(
 
 ### Locked {#locked}
 
-With `locked`, neither Escape nor a click on the scrim closes the drawer, and any visible close button is disabled. Closing through `open` still works.
+With `locked`, neither Escape nor a click on the scrim closes the drawer, and any visible close button is disabled. Closing through `open` still works. The drawer is locked in the same way while a [Form](/components/form) inside it is submitting, whether or not `locked` is set; see [Dialog](/components/dialog#form) for the usage.
 
 <Demo name="drawer/locked" />
 
@@ -226,14 +226,16 @@ With `locked`, neither Escape nor a click on the scrim closes the drawer, and an
 | `open`        | `boolean`              | —       | Whether it is open; supports v-model                                      |
 | `class`       | `string`               | —       | Classes appended to the panel                                             |
 
-| Slot      | Payload     | Description                                                              |
-| --------- | ----------- | ------------------------------------------------------------------------ |
-| `default` | —           | The trigger; omit it to render none                                      |
-| `icon`    | —           | Decorative icon before the title                                         |
-| `title`   | —           | Title content; defaults to the title prop                                |
-| `body`    | `{ close }` | Custom internal layout; replaces the default header, content, and footer |
-| `content` | `{ close }` | Content, scrolling when it is too tall                                   |
-| `footer`  | `{ close }` | Actions along the bottom                                                 |
+| Slot      | Payload                 | Description                                                              |
+| --------- | ----------------------- | ------------------------------------------------------------------------ |
+| `default` | —                       | The trigger; omit it to render none                                      |
+| `icon`    | —                       | Decorative icon before the title                                         |
+| `title`   | —                       | Title content; defaults to the title prop                                |
+| `body`    | `{ close, submitting }` | Custom internal layout; replaces the default header, content, and footer |
+| `content` | `{ close, submitting }` | Content, scrolling when it is too tall                                   |
+| `footer`  | `{ close, submitting }` | Actions along the bottom                                                 |
+
+`close` closes the drawer; `submitting` is `true` while a [Form](/components/form) inside the drawer is submitting.
 
 ### Exposed instance {#expose}
 

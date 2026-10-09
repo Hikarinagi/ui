@@ -1,0 +1,63 @@
+name: Setup
+description: Install Node.js, pnpm and the workspace dependencies
+
+inputs:
+  browsers:
+    description: Playwright browsers to install with their system dependencies
+    required: false
+    default: ''
+  package:
+    description: Workspace package whose Playwright version installs the browsers
+    required: false
+    default: '@hina-ui/vue'
+
+runs:
+  using: composite
+  steps:
+    - uses: pnpm/action-setup@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version-file: .nvmrc
+        cache: pnpm
+    - run: pnpm install --frozen-lockfile
+      shell: bash
+    - if: inputs.browsers != ''
+      id: playwright
+      env:
+        BROWSERS: ${{ inputs.browsers }}
+        PACKAGE: ${{ inputs.package }}
+      run: |
+        version=$(pnpm --filter "$PACKAGE" exec playwright --version | tr -c '[:alnum:].\n' '-')
+        echo "key=playwright-${ImageOS:-os}-${ImageVersion:-image}-$version-${BROWSERS// /-}" >> "$GITHUB_OUTPUT"
+      shell: bash
+    - if: inputs.browsers != ''
+      id: browsers
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cache/ms-playwright
+          ~/.cache/playwright-packages
+        key: ${{ steps.playwright.outputs.key }}
+    - if: inputs.browsers != '' && steps.browsers.outputs.cache-hit != 'true'
+      env:
+        BROWSERS: ${{ inputs.browsers }}
+        PACKAGE: ${{ inputs.package }}
+      run: |
+        echo 'APT::Keep-Downloaded-Packages "true";' | sudo tee /etc/apt/apt.conf.d/99-keep-downloads > /dev/null
+        touch "$RUNNER_TEMP/before-browsers"
+        pnpm --filter "$PACKAGE" exec playwright install --with-deps $BROWSERS
+        mkdir -p ~/.cache/playwright-packages
+        find /var/cache/apt/archives -maxdepth 1 -name '*.deb' -cnewer "$RUNNER_TEMP/before-browsers" -exec cp {} ~/.cache/playwright-packages/ \;
+      shell: bash
+    - if: inputs.browsers != '' && steps.browsers.outputs.cache-hit == 'true'
+      env:
+        BROWSERS: ${{ inputs.browsers }}
+        PACKAGE: ${{ inputs.package }}
+      run: |
+        sudo rm -f /var/lib/man-db/auto-update
+        if ! compgen -G "$HOME/.cache/playwright-packages/*.deb" > /dev/null ||
+          ! sudo dpkg -i ~/.cache/playwright-packages/*.deb; then
+          pnpm --filter "$PACKAGE" exec playwright install-deps $BROWSERS
+        fi
+        pnpm --filter "$PACKAGE" exec playwright install $BROWSERS
+      shell: bash

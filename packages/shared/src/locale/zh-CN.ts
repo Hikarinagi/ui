@@ -200,6 +200,10 @@ export const zhCN: UiMessages = {
     placeholder: '搜索',
     empty: '无匹配项',
   },
+  lineClamp: {
+    expand: '展开全部',
+    collapse: '收起',
+  },
   calendar: {
     label: '日历',
     prev: '上个月',

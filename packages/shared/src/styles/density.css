@@ -1,8 +1,10 @@
 :root,
 [data-density='comfortable'] {
+  --hn-control-h-xs: 1.5rem;
   --hn-control-h-sm: 1.75rem;
   --hn-control-h-md: 2.25rem;
   --hn-control-h-lg: 2.75rem;
+  --hn-control-px-xs: 0.5rem;
   --hn-control-px-sm: 0.625rem;
   --hn-control-px-md: 1rem;
   --hn-control-px-lg: 1.25rem;
@@ -16,9 +18,11 @@
 }
 
 [data-density='compact'] {
+  --hn-control-h-xs: 1.25rem;
   --hn-control-h-sm: 1.5rem;
   --hn-control-h-md: 1.875rem;
   --hn-control-h-lg: 2.25rem;
+  --hn-control-px-xs: 0.25rem;
   --hn-control-px-sm: 0.375rem;
   --hn-control-px-md: 0.5rem;
   --hn-control-px-lg: 0.75rem;

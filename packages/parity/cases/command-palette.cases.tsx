@@ -42,6 +42,13 @@ const reactItems = [
   },
   { id: 'theme', label: '切换主题' },
 ]
+interface Book {
+  author: string
+}
+const books = [
+  { id: 'spice', label: '狼与香辛料', data: { author: '支仓冻砂' } },
+  { id: 'kino', label: '奇诺之旅的香辛料', data: { author: '时雨泽惠一' } },
+]
 const many = Array.from({ length: 10000 }, (_, value) => ({
   id: String(value),
   label: `Item ${value}`,
@@ -123,5 +130,152 @@ export default defineCases('CommandPalette', [
     name: 'inline virtualized',
     vue: () => h(V.CommandPalette, { items: many, inline: true, virtualize: true }),
     react: () => <R.CommandPalette items={many} inline virtualize />,
+  },
+  {
+    name: 'inline custom item content with data and match',
+    vue: () =>
+      h(
+        V.CommandPalette<Book>,
+        { items: books, inline: true, search: '香辛' },
+        {
+          item: ({ item, match }: V.CommandItemSlotProps<Book>) => [
+            h('span', { class: 'truncate' }, [
+              item.label.slice(0, match!.start),
+              h('mark', item.label.slice(match!.start, match!.end)),
+              item.label.slice(match!.end),
+            ]),
+            h('span', { class: 'text-muted text-xs' }, item.data!.author),
+          ],
+        },
+      ),
+    react: () => (
+      <R.CommandPalette<Book>
+        items={books}
+        inline
+        search="香辛"
+        renderItem={({ item, match }) => (
+          <>
+            <span className="truncate">
+              {item.label.slice(0, match!.start)}
+              <mark>{item.label.slice(match!.start, match!.end)}</mark>
+              {item.label.slice(match!.end)}
+            </span>
+            <span className="text-muted text-xs">{item.data!.author}</span>
+          </>
+        )}
+      />
+    ),
+  },
+  {
+    name: 'inline custom item without a label match',
+    vue: () =>
+      h(
+        V.CommandPalette<Book>,
+        { items: books, inline: true },
+        {
+          item: ({ item, match }: V.CommandItemSlotProps<Book>) =>
+            h('span', { 'data-matched': match ? 'yes' : 'no' }, item.label),
+        },
+      ),
+    react: () => (
+      <R.CommandPalette<Book>
+        items={books}
+        inline
+        renderItem={({ item, match }) => (
+          <span data-matched={match ? 'yes' : 'no'}>{item.label}</span>
+        )}
+      />
+    ),
+  },
+  {
+    name: 'inline custom input row',
+    vue: () =>
+      h(
+        V.CommandPalette,
+        { items: vueItems, inline: true, label: '跳转', placeholder: '搜索页面' },
+        {
+          input: () =>
+            h('div', { class: 'flex items-center gap-2 px-4' }, [
+              h('span', '书库'),
+              h(V.CommandPaletteInput, { class: 'h-12' }),
+            ]),
+        },
+      ),
+    react: () => (
+      <R.CommandPalette
+        items={reactItems}
+        inline
+        label="跳转"
+        placeholder="搜索页面"
+        input={
+          <div className="flex items-center gap-2 px-4">
+            <span>书库</span>
+            <R.CommandPaletteInput className="h-12" />
+          </div>
+        }
+      />
+    ),
+  },
+  {
+    name: 'custom input placeholder wins over the palette placeholder',
+    vue: () =>
+      h(
+        V.CommandPalette,
+        { items: vueItems, inline: true, placeholder: '搜索页面' },
+        { input: () => h(V.CommandPaletteInput, { placeholder: '在书库中搜索' }) },
+      ),
+    react: () => (
+      <R.CommandPalette
+        items={reactItems}
+        inline
+        placeholder="搜索页面"
+        input={<R.CommandPaletteInput placeholder="在书库中搜索" />}
+      />
+    ),
+  },
+  {
+    name: 'inline loading without items',
+    vue: () => h(V.CommandPalette, { items: [], inline: true, loading: true }),
+    react: () => <R.CommandPalette items={[]} inline loading />,
+  },
+  {
+    name: 'inline loading with items keeps the list and adds a status row',
+    vue: () => h(V.CommandPalette, { items: vueItems, inline: true, loading: true }),
+    react: () => <R.CommandPalette items={reactItems} inline loading />,
+  },
+  {
+    name: 'inline custom loading content',
+    vue: () =>
+      h(
+        V.CommandPalette,
+        { items: [], inline: true, ignoreFilter: true, loading: true },
+        { loading: () => '搜索中' },
+      ),
+    react: () => (
+      <R.CommandPalette items={[]} inline ignoreFilter loading loadingContent="搜索中" />
+    ),
+  },
+  {
+    name: 'inline custom empty content with the search text',
+    vue: () =>
+      h(
+        V.CommandPalette,
+        { items: [], inline: true, ignoreFilter: true, search: '香辛' },
+        { empty: ({ search }: V.CommandEmptySlotProps) => `没有找到「${search}」` },
+      ),
+    react: () => (
+      <R.CommandPalette
+        items={[]}
+        inline
+        ignoreFilter
+        search="香辛"
+        renderEmpty={({ search }) => `没有找到「${search}」`}
+      />
+    ),
+  },
+  {
+    name: 'inline virtualized loading without items',
+    vue: () => h(V.CommandPalette, { items: [], inline: true, virtualize: true, loading: true }),
+    react: () => <R.CommandPalette items={[]} inline virtualize loading />,
   },
 ])

@@ -22,6 +22,35 @@ import { AppShell } from '@hina-ui/vue'
 
 组件默认高度为一屏。嵌在页面中的局部框架可以用 `class` 覆盖高度，本页示例用的就是这个办法。
 
+主区域是独立的滚动容器。默认插槽的直接子元素加上 `min-h-full`，就至少占满主区域的可视高度，有公告条时也成立。顶部条的高度由根元素上的 `--hn-app-shell-header-h` 给出，壳内任意层级都可以读取。
+
+::: vue
+
+```vue
+<AppShell>
+  <template #header>…</template>
+  <div class="flex min-h-full flex-col">
+    <article class="flex-1">…</article>
+    <footer>…</footer>
+  </div>
+</AppShell>
+```
+
+:::
+
+::: react
+
+```tsx
+<AppShell header={…}>
+  <div className="flex min-h-full flex-col">
+    <article className="flex-1">…</article>
+    <footer>…</footer>
+  </div>
+</AppShell>
+```
+
+:::
+
 ## 示例 {#examples}
 
 ### 收起方式 {#collapsible}
@@ -76,7 +105,9 @@ import { AppShell } from '@hina-ui/vue'
 - 移动端 [Drawer](/components/drawer) 不额外显示标题栏，关闭按钮默认位于 [Sidebar](/components/sidebar) 页眉内，可在 `Sidebar` 上设置 `:closable="false"` 隐藏。`mobileTitle` 仅设置抽屉的无障碍名，默认取自界面语言。
 - 抽屉内侧栏占满可用高度，页眉和页脚固定在两端，导航区填满剩余空间并独立滚动。
 - `autoClose` 为真时路由变化会关闭抽屉，避免跳转后抽屉仍挡在内容前面。默认开启。
-- `restoreKey` 写在主区域的滚动容器上，供滚动位置恢复使用。
+- 设置 `restoreKey` 后，组件自行保存并恢复主区域的滚动位置：位置按历史记录条目写入 `history.state`，刷新、后退与前进时恢复，进入新页面回到顶部，带 `#hash` 的新页面滚动到对应元素。同一页面上有多个壳时使用不同的键。
+- 服务端输出带一段内联脚本，在激活之前把位置设好，刷新时不会先停在顶部再跳动。内容安全策略禁止内联脚本时，这段脚本不执行，位置在激活后恢复。
+- 恢复不依赖具体的路由库：通过历史记录的变化和主区域内容的更新判断页面切换，内容尚未渲染到足够高度时会等待，最多 3 秒。
 - 组件内置浮层提供方，侧栏在 rail 形态下的悬停提示不需要另行包裹。
 
 ## 无障碍 {#a11y}
@@ -89,13 +120,13 @@ import { AppShell } from '@hina-ui/vue'
 
 ### Props {#props}
 
-| 属性          | 类型                 | 默认值       | 说明                               |
-| ------------- | -------------------- | ------------ | ---------------------------------- |
-| `collapsible` | `'rail' \| 'hidden'` | `'rail'`     | 桌面端收起后的形态                 |
-| `autoClose`   | `boolean`            | `true`       | 路由变化时是否关闭移动端抽屉       |
-| `mobileTitle` | `string`             | 取自界面语言 | 移动端抽屉的无障碍名，不显示标题栏 |
-| `restoreKey`  | `string`             | —            | 主区域滚动容器的滚动位置恢复标识   |
-| `class`       | `string`             | —            | 追加到根元素的类                   |
+| 属性          | 类型                 | 默认值       | 说明                                                     |
+| ------------- | -------------------- | ------------ | -------------------------------------------------------- |
+| `collapsible` | `'rail' \| 'hidden'` | `'rail'`     | 桌面端收起后的形态                                       |
+| `autoClose`   | `boolean`            | `true`       | 路由变化时是否关闭移动端抽屉                             |
+| `mobileTitle` | `string`             | 取自界面语言 | 移动端抽屉的无障碍名，不显示标题栏                       |
+| `restoreKey`  | `string`             | —            | 设置后保存并恢复主区域的滚动位置，值是这个滚动容器的标识 |
+| `class`       | `string`             | —            | 追加到根元素的类                                         |
 
 ### 双向绑定 {#models}
 
@@ -109,6 +140,12 @@ import { AppShell } from '@hina-ui/vue'
 | 事件          | 参数 | 说明                                                           |
 | ------------- | ---- | -------------------------------------------------------------- |
 | `size-stable` | —    | 侧栏状态变化后的布局已稳定；中途反向切换只在最终布局稳定后通知 |
+
+### CSS 变量 {#css-variables}
+
+| 变量                      | 默认值               | 说明                                                      |
+| ------------------------- | -------------------- | --------------------------------------------------------- |
+| `--hn-app-shell-header-h` | `calc(3.5rem + 1px)` | 顶部条的高度，含下边线；在 `class` 中改写会同时改变顶部条 |
 
 ### Slots {#slots}
 

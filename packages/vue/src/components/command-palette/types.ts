@@ -1,6 +1,7 @@
 import type { Component } from 'vue'
+import type { CommandMatchRange } from '../../../../shared/src/lib/command-palette/match'
 
-export interface CommandItem {
+export interface CommandItem<T = unknown> {
   id: string
   label: string
   description?: string
@@ -8,16 +9,31 @@ export interface CommandItem {
   icon?: Component
   kbd?: string[]
   disabled?: boolean
+  closeOnSelect?: boolean
+  data?: T
   onSelect?: () => void
 }
 
-export interface CommandGroup {
+export interface CommandGroup<T = unknown> {
   label: string
-  items: CommandItem[]
+  items: CommandItem<T>[]
 }
 
-export type CommandItems = Array<CommandItem | CommandGroup>
+export type CommandItems<T = unknown> = Array<CommandItem<T> | CommandGroup<T>>
 
-export function isCommandGroup(entry: CommandItem | CommandGroup): entry is CommandGroup {
+export type CommandItemMatch = CommandMatchRange
+
+export interface CommandItemSlotProps<T = unknown> {
+  item: CommandItem<T>
+  match: CommandItemMatch | null
+}
+
+export interface CommandEmptySlotProps {
+  search: string
+}
+
+export function isCommandGroup<T>(
+  entry: CommandItem<T> | CommandGroup<T>,
+): entry is CommandGroup<T> {
   return 'items' in entry
 }

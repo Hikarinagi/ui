@@ -61,6 +61,37 @@ export default defineCases('DescriptionList', [
     ),
   },
   {
+    name: 'horizontal orientation',
+    vue: () =>
+      h(VDescriptionList, { orientation: 'horizontal' }, () => [
+        h(VDescriptionTerm, () => '作者'),
+        h(VDescriptionDetails, () => '支倉凍砂'),
+        h(VDescriptionDetails, () => '文倉十'),
+        h(VDescriptionTerm, () => '册数'),
+        h(VDescriptionDetails, () => '全 7 卷'),
+      ]),
+    react: () => (
+      <DescriptionList orientation="horizontal">
+        <DescriptionTerm>作者</DescriptionTerm>
+        <DescriptionDetails>支倉凍砂</DescriptionDetails>
+        <DescriptionDetails>文倉十</DescriptionDetails>
+        <DescriptionTerm>册数</DescriptionTerm>
+        <DescriptionDetails>全 7 卷</DescriptionDetails>
+      </DescriptionList>
+    ),
+  },
+  {
+    name: 'vertical orientation leaves no attribute',
+    vue: () =>
+      h(VDescriptionList, { orientation: 'vertical' }, () => [h('dt', '原名'), h('dd', '未知')]),
+    react: () => (
+      <DescriptionList orientation="vertical">
+        <dt>原名</dt>
+        <dd>未知</dd>
+      </DescriptionList>
+    ),
+  },
+  {
     name: 'grid columns class',
     vue: () =>
       h(

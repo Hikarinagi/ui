@@ -22,6 +22,7 @@ export const tag = tv({
     size: {
       sm: 'h-5 px-1.5 text-xs [&_svg]:size-3',
       md: 'h-6 px-2 text-sm [&_svg]:size-3.5',
+      lg: 'h-7 px-2.5 text-sm [&_svg]:size-4',
     },
     pill: {
       true: 'rounded-full',

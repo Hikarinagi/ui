@@ -24,4 +24,7 @@ export const EXCEPTIONS: Record<string, string> = {
     "The default slot is the trigger, rendered through Reka's asChild trigger, which lends its props to one element; React types it as that element",
 }
 
-export const REACT_ONLY: Record<string, string> = {}
+export const REACT_ONLY: Record<string, string> = {
+  'Form.form':
+    'Accepts the controller returned by useFormHandle, which gives React the reactive form state that Vue reads from the template ref',
+}

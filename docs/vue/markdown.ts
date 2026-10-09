@@ -2,6 +2,8 @@ import { readFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import Markdown from 'unplugin-vue-markdown/vite'
 import attrs from 'markdown-it-attrs'
+import { transformWithOxc, type Plugin } from 'vite'
+import { compileScript, parse } from 'vue/compiler-sfc'
 import { loadChangelog } from '../shared/changelog-source'
 import { frameworkBlocks } from '../shared/framework'
 import { tokenize, tokensToHtml } from '../../packages/vue/src/components/code-block/highlighter'
@@ -12,6 +14,26 @@ function demoDir(id: string) {
   return `${DEMOS_ROOT}${id.includes('/content/en/') ? 'en' : 'zh-CN'}/`
 }
 const DEMO_TAG = /<Demo\s+name="([^"]+)"\s*\/>/g
+
+const PRIMITIVES = `import { ${[
+  'Blockquote',
+  'Code',
+  'CodeBlock',
+  'Divider',
+  'Heading',
+  'Link',
+  'List',
+  'Section',
+  'Table',
+  'TableBody',
+  'TableCell',
+  'TableHead',
+  'TableHeader',
+  'TableRow',
+  'Text',
+]
+  .map(name => `${name} as Md${name}`)
+  .join(', ')} } from '@hina-ui/vue'`
 
 const columnWidths: Record<string, string> = {
   类型: 'min-w-48',
@@ -141,8 +163,8 @@ export function markdown() {
       const rules = md.renderer.rules
 
       rules.hn_section_open = (tokens, index) =>
-        `<Section id="${attr(tokens[index]?.attrGet('id') ?? '')}">`
-      rules.hn_section_close = () => '</Section>'
+        `<MdSection id="${attr(tokens[index]?.attrGet('id') ?? '')}">`
+      rules.hn_section_close = () => '</MdSection>'
 
       rules.heading_open = (tokens, index) => {
         const token = tokens[index]
@@ -150,15 +172,17 @@ export function markdown() {
         const anchor = token.attrGet('id')
         const level = Number(token.tag.slice(1))
         const anchored = anchor ? ` id="${attr(anchor)}" class="scroll-mt-6"` : ''
-        return `<Heading :level="${level}"${anchored}>`
+        return `<MdHeading :level="${level}"${anchored}>`
       }
-      rules.heading_close = () => '</Heading>'
+      rules.heading_close = () => '</MdHeading>'
 
-      rules.paragraph_open = (tokens, index) => (tokens[index]?.hidden ? '' : '<Text tone="muted">')
-      rules.paragraph_close = (tokens, index) => (tokens[index]?.hidden ? '' : '</Text>')
+      rules.paragraph_open = (tokens, index) =>
+        tokens[index]?.hidden ? '' : '<MdText tone="muted">'
+      rules.paragraph_close = (tokens, index) => (tokens[index]?.hidden ? '' : '</MdText>')
 
       rules.text = (tokens, index) => text(tokens[index]?.content ?? '')
-      rules.code_inline = (tokens, index) => `<Code>${text(tokens[index]?.content ?? '')}</Code>`
+      rules.code_inline = (tokens, index) =>
+        `<MdCode>${text(tokens[index]?.content ?? '')}</MdCode>`
 
       let columns: string[] = []
       let column = 0
@@ -177,30 +201,30 @@ export function markdown() {
           if (!token || token.type === 'thead_close') break
           if (token.type === 'th_open') columns.push(tokens[cursor + 1]?.content?.trim() ?? '')
         }
-        return '<Table variant="secondary">'
+        return '<MdTable variant="secondary">'
       }
-      rules.table_close = () => '</Table>'
-      rules.thead_open = () => '<TableHeader>'
-      rules.thead_close = () => '</TableHeader>'
-      rules.tbody_open = () => '<TableBody>'
-      rules.tbody_close = () => '</TableBody>'
+      rules.table_close = () => '</MdTable>'
+      rules.thead_open = () => '<MdTableHeader>'
+      rules.thead_close = () => '</MdTableHeader>'
+      rules.tbody_open = () => '<MdTableBody>'
+      rules.tbody_close = () => '</MdTableBody>'
       rules.tr_open = () => {
         column = 0
-        return '<TableRow>'
+        return '<MdTableRow>'
       }
-      rules.tr_close = () => '</TableRow>'
-      rules.th_open = () => cellOpen('TableHead')
-      rules.th_close = () => cellClose('TableHead')
-      rules.td_open = () => cellOpen('TableCell')
-      rules.td_close = () => cellClose('TableCell')
+      rules.tr_close = () => '</MdTableRow>'
+      rules.th_open = () => cellOpen('MdTableHead')
+      rules.th_close = () => cellClose('MdTableHead')
+      rules.td_open = () => cellOpen('MdTableCell')
+      rules.td_close = () => cellClose('MdTableCell')
 
-      rules.bullet_list_open = () => '<List>'
-      rules.bullet_list_close = () => '</List>'
-      rules.ordered_list_open = () => '<List ordered>'
-      rules.ordered_list_close = () => '</List>'
-      rules.blockquote_open = () => '<Blockquote>'
-      rules.blockquote_close = () => '</Blockquote>'
-      rules.hr = () => '<Divider />'
+      rules.bullet_list_open = () => '<MdList>'
+      rules.bullet_list_close = () => '</MdList>'
+      rules.ordered_list_open = () => '<MdList ordered>'
+      rules.ordered_list_close = () => '</MdList>'
+      rules.blockquote_open = () => '<MdBlockquote>'
+      rules.blockquote_close = () => '</MdBlockquote>'
+      rules.hr = () => '<MdDivider />'
 
       rules.link_open = (tokens, index, _options, env) => {
         const href = tokens[index]?.attrGet('href') ?? ''
@@ -211,13 +235,13 @@ export function markdown() {
           found.linked = true
           const id = (env as { id: string }).id
           const to = id.includes('/content/en/') ? `/en${href}` : href
-          return `<Link as-child><NuxtLink to="${attr(to)}">`
+          return `<MdLink as-child><NuxtLink to="${attr(to)}">`
         }
-        return `<Link href="${attr(href)}" target="_blank" rel="noreferrer">`
+        return `<MdLink href="${attr(href)}" target="_blank" rel="noreferrer">`
       }
       rules.link_close = (_tokens, _index, _options, env) => {
         const found = entry((env as { id: string }).id)
-        return found.routed.pop() ? '</NuxtLink></Link>' : '</Link>'
+        return found.routed.pop() ? '</NuxtLink></MdLink>' : '</MdLink>'
       }
 
       rules.fence = (tokens, index, _options, env) => {
@@ -227,7 +251,7 @@ export function markdown() {
         const lang = token.info.trim()
         const slot = found.fences.length
         found.fences.push({ code: token.content, lang })
-        return `<CodeBlock :code="__hnFence${slot}" :html="__hnPaint${slot}"${lang ? ` lang="${attr(lang)}"` : ''} />`
+        return `<MdCodeBlock :code="__hnFence${slot}" :html="__hnPaint${slot}"${lang ? ` lang="${attr(lang)}"` : ''} />`
       }
     },
     frontmatterPreprocess(frontmatter, _options, id) {
@@ -251,7 +275,7 @@ export function markdown() {
         return html.replace(DEMO_TAG, (_tag, name: string) => {
           const slot = found.demos.length
           found.demos.push(name)
-          return `<DemoBox :code="__hnDemoCode${slot}" :html="__hnDemoPaint${slot}"><HnDemo${slot} /></DemoBox>`
+          return `<MdDemoBox :code="__hnDemoCode${slot}" :html="__hnDemoPaint${slot}"><HnDemo${slot} /></MdDemoBox>`
         })
       },
       async extraScripts(_frontmatter, id) {
@@ -288,6 +312,8 @@ export function markdown() {
           }),
         )
         return [
+          PRIMITIVES,
+          `import MdDemoBox from '~/components/docs/DemoBox.vue'`,
           ...(collected.get(id)?.linked ? [`import { NuxtLink } from '#components'`] : []),
           ...demoLines.flat(),
           ...fences.flatMap((fence, slot) => [
@@ -298,4 +324,35 @@ export function markdown() {
       },
     },
   })
+}
+
+const PAGE = /\.md$/
+const SCRIPT_END = /<\/script/gi
+
+export function markdownServerRender(): Plugin {
+  return {
+    name: 'hn-markdown-server-render',
+    enforce: 'pre',
+    apply: 'build',
+    async transform(code, id, options) {
+      if (!options?.ssr || !PAGE.test(id)) return null
+      const { descriptor, errors } = parse(code, { filename: id })
+      if (errors.length) throw errors[0]
+      if (!descriptor.template || !descriptor.scriptSetup) return null
+      const compiled = compileScript(descriptor, {
+        id,
+        isProd: true,
+        inlineTemplate: true,
+        templateOptions: { ssr: false },
+      })
+      const script =
+        compiled.lang === 'ts'
+          ? (await transformWithOxc(compiled.content, `${id}.ts`, { lang: 'ts' })).code
+          : compiled.content
+      return {
+        code: `<script>\n${script.replace(SCRIPT_END, '<\\/script')}\n</script>`,
+        map: { mappings: '' },
+      }
+    },
+  }
 }

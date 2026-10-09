@@ -381,7 +381,8 @@
     "editable": "Edit text in place with save and cancel",
     "split-button": "A primary action joined to a menu of alternatives",
     "float-button": "A prominent action at the edge of a page or container",
-    "scroll-top": "Return to the top of a page or scroll container"
+    "scroll-top": "Return to the top of a page or scroll container",
+    "line-clamp": "Folds long content to a set number of lines, expandable when it overflows"
   },
   "designPreview": {
     "accent": "Accent",

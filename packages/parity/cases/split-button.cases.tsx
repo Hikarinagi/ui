@@ -35,7 +35,7 @@ const variants = (['solid', 'soft', 'outline', 'ghost'] as const).flatMap(varian
   ),
 )
 
-const sizes = (['sm', 'md', 'lg'] as const).map(size => pair(`size ${size}`, { size }))
+const sizes = (['xs', 'sm', 'md', 'lg'] as const).map(size => pair(`size ${size}`, { size }))
 
 export default defineCases('SplitButton', [
   pair('default with the built-in menu label', {}),

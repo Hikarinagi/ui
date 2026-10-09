@@ -13,6 +13,7 @@
   import { useOverlayPortal } from '../../lib/overlay-portal'
   import { useScrollViewport } from '../../lib/scroll-viewport'
   import { cn } from '../../lib/cn'
+  import { provideFormScope } from '../form/scope'
   import Card from '../card/Card.vue'
   import CloseButton from '../close-button/CloseButton.vue'
   import Heading from '../heading/Heading.vue'
@@ -36,13 +37,16 @@
     { header: true, closable: true, handle: true, locked: false },
   )
 
+  const submitting = provideFormScope()
+  const locked = computed(() => props.locked || submitting.value)
+
   const slots = defineSlots<{
     default?(): unknown
     icon?(): unknown
     title?(): unknown
-    body?(props: { close: () => void }): unknown
-    content?(props: { close: () => void }): unknown
-    footer?(props: { close: () => void }): unknown
+    body?(props: { close: () => void; submitting: boolean }): unknown
+    content?(props: { close: () => void; submitting: boolean }): unknown
+    footer?(props: { close: () => void; submitting: boolean }): unknown
   }>()
 
   const { scrollArea, viewport } = useScrollViewport()
@@ -52,7 +56,7 @@
   const { content: panel, present } = useOverlayPortal(open)
 
   const { dragging, offset, onPointerDown } = useDragToDismiss(() => panel.value?.$el ?? null, {
-    enabled: () => !props.locked,
+    enabled: () => !locked.value,
     open,
     dismiss: () => (open.value = false),
   })
@@ -64,7 +68,7 @@
   )
 
   function guard(event: Event) {
-    if (props.locked) event.preventDefault()
+    if (locked.value) event.preventDefault()
   }
 
   function close() {
@@ -109,7 +113,7 @@
             <div
               v-if="props.handle"
               aria-hidden="true"
-              :data-disabled="props.locked ? '' : undefined"
+              :data-disabled="locked ? '' : undefined"
               :class="sheetHandle({ header: props.header && !slots.body })"
             />
             <div
@@ -136,22 +140,22 @@
                 </DialogDescription>
               </div>
               <DialogClose v-if="!props.handle && props.closable" as-child>
-                <CloseButton :disabled="props.locked" class="-mt-1.5 -me-1.5 shrink-0" />
+                <CloseButton :disabled="locked" class="-mt-1.5 -me-1.5 shrink-0" />
               </DialogClose>
             </div>
           </div>
-          <slot v-if="slots.body" name="body" :close="close" />
+          <slot v-if="slots.body" name="body" :close="close" :submitting="submitting" />
           <template v-else>
             <ScrollArea v-if="$slots.content" ref="scrollArea" class="min-h-0 grow">
               <div class="px-(--hn-panel-p) py-1">
-                <slot name="content" :close="close" />
+                <slot name="content" :close="close" :submitting="submitting" />
               </div>
             </ScrollArea>
             <div
               v-if="$slots.footer"
               class="flex shrink-0 justify-end gap-(--hn-inline-gap) px-(--hn-panel-p)"
             >
-              <slot name="footer" :close="close" />
+              <slot name="footer" :close="close" :submitting="submitting" />
             </div>
           </template>
         </Card>

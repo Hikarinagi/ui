@@ -30,5 +30,5 @@ export function useUiLocale(): ComputedRef<UiMessages> {
   return inject(UI_LOCALE_KEY, fallbackLocale)
 }
 
-export { zhCN, enUS } from '../../../shared/src/locale'
+export { zhCN, enUS, jaJP } from '../../../shared/src/locale'
 export type { UiMessages, PartialUiMessages } from '../../../shared/src/locale'

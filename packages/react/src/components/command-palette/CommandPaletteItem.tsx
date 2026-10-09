@@ -1,20 +1,26 @@
 'use client'
 
-import type { Ref } from 'react'
+import type { ReactNode, Ref } from 'react'
 import { ListboxItem } from '../../primitives/listbox'
 import { Kbd } from '../kbd/Kbd'
 import { selectItem } from '../select/select.variants'
 import { commandItemBody, commandItemHint, commandItemMatch } from './command-palette.variants'
 import type { CommandMatch } from './utils/match'
 
-export interface CommandPaletteItemProps {
-  match: CommandMatch
+export interface CommandPaletteItemProps<T = unknown> {
+  match: CommandMatch<T>
+  render?: () => ReactNode
   onSelect?: () => void
   ref?: Ref<HTMLElement>
   [attribute: `aria-${string}`]: string | number | boolean | undefined
 }
 
-export function CommandPaletteItem({ match, onSelect, ...attrs }: CommandPaletteItemProps) {
+export function CommandPaletteItem<T = unknown>({
+  match,
+  render,
+  onSelect,
+  ...attrs
+}: CommandPaletteItemProps<T>) {
   const { item, start, end } = match
   const parts =
     start < 0
@@ -31,23 +37,29 @@ export function CommandPaletteItem({ match, onSelect, ...attrs }: CommandPalette
       className={selectItem()}
       onSelect={() => onSelect?.()}
     >
-      {Icon && <Icon aria-hidden="true" className="text-muted" />}
-      <span className={commandItemBody()}>
-        <span className="truncate">
-          <span>{parts[0]}</span>
-          {parts[1] && <span className={commandItemMatch()}>{parts[1]}</span>}
-          {parts[2] && <span>{parts[2]}</span>}
-        </span>
-        {item.description && (
-          <span className="text-muted truncate text-xs">{item.description}</span>
-        )}
-      </span>
-      {!!item.kbd?.length && (
-        <span className={commandItemHint()}>
-          {item.kbd.map(key => (
-            <Kbd key={key}>{key}</Kbd>
-          ))}
-        </span>
+      {render ? (
+        render()
+      ) : (
+        <>
+          {Icon && <Icon aria-hidden="true" className="text-muted" />}
+          <span className={commandItemBody()}>
+            <span className="truncate">
+              <span>{parts[0]}</span>
+              {parts[1] && <span className={commandItemMatch()}>{parts[1]}</span>}
+              {parts[2] && <span>{parts[2]}</span>}
+            </span>
+            {item.description && (
+              <span className="text-muted truncate text-xs">{item.description}</span>
+            )}
+          </span>
+          {!!item.kbd?.length && (
+            <span className={commandItemHint()}>
+              {item.kbd.map(key => (
+                <Kbd key={key}>{key}</Kbd>
+              ))}
+            </span>
+          )}
+        </>
       )}
     </ListboxItem>
   )

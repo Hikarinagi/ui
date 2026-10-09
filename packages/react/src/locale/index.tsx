@@ -24,5 +24,5 @@ export function useUiLocale(): UiMessages {
   return useContext(UiLocaleContext)
 }
 
-export { zhCN, enUS } from '../../../shared/src/locale'
+export { zhCN, enUS, jaJP } from '../../../shared/src/locale'
 export type { UiMessages, PartialUiMessages } from '../../../shared/src/locale'

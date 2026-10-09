@@ -208,6 +208,7 @@ describe('AppShell sidebar resize updates', () => {
     await vi.waitFor(() => expect(stable).toHaveBeenCalledTimes(1))
     expect(instance.state().sleeping).toBe(true)
     instance.sleep(false)
+    sidebar.style.transitionDuration = '5s'
     state.value = 'expanded'
     await vi.waitFor(() => expect(instance.state().sleeping).toBe(true))
     await wrapper.unmount()

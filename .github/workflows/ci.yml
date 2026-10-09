@@ -12,15 +12,15 @@ concurrency:
 
 jobs:
   check:
+    if: &uncovered >-
+      github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name != github.repository ||
+      (github.head_ref != 'dev' && github.head_ref != 'main')
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
+      - uses: ./.github/actions/setup
       - run: pnpm release:check
       - run: pnpm test:docs
       - run: pnpm format:check
@@ -28,33 +28,28 @@ jobs:
       - run: pnpm lint
 
   test:
+    if: *uncovered
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
+      - uses: ./.github/actions/setup
       - run: pnpm test
 
   browser:
     name: vue browser (${{ matrix.shard }}/4)
+    if: *uncovered
     runs-on: ubuntu-latest
+    timeout-minutes: 12
     strategy:
       fail-fast: false
       matrix:
         shard: [1, 2, 3, 4]
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup
         with:
-          node-version-file: .nvmrc
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @hina-ui/vue exec playwright install --with-deps chromium
+          browsers: chromium
       - run: pnpm test:browser --shard=${{ matrix.shard }}/4
       - uses: actions/upload-artifact@v4
         if: failure()
@@ -66,20 +61,19 @@ jobs:
 
   react-browser:
     name: react browser (${{ matrix.shard }}/4)
+    if: *uncovered
     runs-on: ubuntu-latest
+    timeout-minutes: 12
     strategy:
       fail-fast: false
       matrix:
         shard: [1, 2, 3, 4]
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup
         with:
-          node-version-file: .nvmrc
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @hina-ui/react exec playwright install --with-deps chromium
+          browsers: chromium
+          package: '@hina-ui/react'
       - run: pnpm test:browser:react --shard=${{ matrix.shard }}/4
       - uses: actions/upload-artifact@v4
         if: failure()
@@ -90,24 +84,23 @@ jobs:
           retention-days: 7
 
   parity:
-    name: parity live (${{ matrix.shard }}/4)
+    name: parity live (${{ matrix.shard }}/6)
+    if: *uncovered
     runs-on: ubuntu-latest
+    timeout-minutes: 12
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2, 3, 4]
+        shard: [1, 2, 3, 4, 5, 6]
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup
         with:
-          node-version-file: .nvmrc
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @hina-ui/parity exec playwright install --with-deps chromium
+          browsers: chromium
+          package: '@hina-ui/parity'
       - run: pnpm --filter @hina-ui/parity test:browser
         env:
-          HINA_PARITY_SHARD: ${{ matrix.shard }}/4
+          HINA_PARITY_SHARD: ${{ matrix.shard }}/6
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
@@ -117,32 +110,33 @@ jobs:
           retention-days: 7
 
   cross-engine:
-    name: cross-engine (${{ matrix.browser }})
+    if: *uncovered
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        browser: [firefox, webkit]
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup
         with:
-          node-version-file: .nvmrc
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @hina-ui/vue exec playwright install --with-deps ${{ matrix.browser }}
+          browsers: firefox webkit
       - run: pnpm test:browser .layout.browser.test
         env:
-          HINA_TEST_BROWSER: ${{ matrix.browser }}
+          HINA_TEST_BROWSER: firefox
       - run: pnpm test:browser:react .layout.browser.test
         if: success() || failure()
         env:
-          HINA_TEST_BROWSER: ${{ matrix.browser }}
+          HINA_TEST_BROWSER: firefox
+      - run: pnpm test:browser .layout.browser.test
+        if: success() || failure()
+        env:
+          HINA_TEST_BROWSER: webkit
+      - run: pnpm test:browser:react .layout.browser.test
+        if: success() || failure()
+        env:
+          HINA_TEST_BROWSER: webkit
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: cross-engine-failures-${{ matrix.browser }}
+          name: cross-engine-failures
           path: |
             packages/vue/src/**/__screenshots__/**
             packages/react/src/**/__screenshots__/**
@@ -150,15 +144,12 @@ jobs:
           retention-days: 7
 
   docs-vue:
+    if: *uncovered
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
+      - uses: ./.github/actions/setup
       - run: pnpm build
         env:
           NODE_OPTIONS: --max-old-space-size=8192
@@ -169,31 +160,32 @@ jobs:
           retention-days: 7
 
   package:
+    if: *uncovered
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
+      - uses: ./.github/actions/setup
       - run: pnpm test:package
       - run: pnpm test:package:react
 
   docs-react:
+    if: *uncovered
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
+      - uses: ./.github/actions/setup
       - run: pnpm --filter @hina-ui/docs-react lint
       - run: pnpm --filter @hina-ui/docs-react test
-      - run: pnpm --filter @hina-ui/docs-react exec opennextjs-cloudflare build
+      - name: Build with OpenNext
+        run: |
+          for attempt in 1 2 3; do
+            if pnpm --filter @hina-ui/docs-react exec opennextjs-cloudflare build; then exit 0; fi
+            echo "::warning::docs-react build attempt $attempt failed"
+            sleep 15
+          done
+          exit 1
         env:
           NODE_OPTIONS: --max-old-space-size=8192
       - uses: actions/upload-artifact@v4
@@ -230,12 +222,7 @@ jobs:
       url: https://react.hinaui.dev
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
+      - uses: ./.github/actions/setup
       - uses: actions/download-artifact@v4
         with:
           name: docs-react

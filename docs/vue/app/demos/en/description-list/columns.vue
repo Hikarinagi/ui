@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <DescriptionList class="grid max-w-md grid-cols-[8rem_1fr] gap-y-3 [&>dd]:m-0! [&>dt]:m-0!">
+  <DescriptionList orientation="horizontal" class="max-w-md">
     <DescriptionTerm>Title</DescriptionTerm>
     <DescriptionDetails>Spice and Wolf</DescriptionDetails>
     <DescriptionTerm>Publisher</DescriptionTerm>

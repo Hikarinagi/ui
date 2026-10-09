@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T = unknown">
   import {
     DialogContent,
     DialogOverlay,
@@ -14,22 +14,40 @@
   import CommandPalettePanel from './CommandPalettePanel.vue'
   import { useHotkey } from './composables/useHotkey'
   import { commandWrapper } from './command-palette.variants'
-  import type { CommandItem, CommandItems } from './types'
+  import type {
+    CommandEmptySlotProps,
+    CommandItem,
+    CommandItems,
+    CommandItemSlotProps,
+  } from './types'
 
   defineOptions({ name: 'HnCommandPalette', inheritAttrs: false })
 
-  const props = defineProps<{
-    items: CommandItems
-    virtualize?: VirtualizeOptions
-    placeholder?: string
-    label?: string
-    hotkey?: string
-    ignoreFilter?: boolean
-    inline?: boolean
-    class?: string
-  }>()
+  const props = withDefaults(
+    defineProps<{
+      items: CommandItems<T>
+      virtualize?: VirtualizeOptions
+      placeholder?: string
+      label?: string
+      hotkey?: string
+      ignoreFilter?: boolean
+      loading?: boolean
+      closeOnSelect?: boolean
+      inline?: boolean
+      class?: string
+    }>(),
+    { closeOnSelect: true },
+  )
 
-  const emit = defineEmits<{ select: [item: CommandItem] }>()
+  const emit = defineEmits<{ select: [item: CommandItem<T>] }>()
+
+  defineSlots<{
+    default?(): unknown
+    input?(): unknown
+    item?(props: CommandItemSlotProps<T>): unknown
+    loading?(): unknown
+    empty?(props: CommandEmptySlotProps): unknown
+  }>()
 
   const open = defineModel<boolean>('open', { default: false })
   const search = defineModel<string>('search', { default: '' })
@@ -49,10 +67,10 @@
     if (!value) search.value = ''
   })
 
-  function select(item: CommandItem) {
+  function select(item: CommandItem<T>) {
     item.onSelect?.()
     emit('select', item)
-    if (!props.inline) open.value = false
+    if (!props.inline && (item.closeOnSelect ?? props.closeOnSelect)) open.value = false
   }
 </script>
 
@@ -67,9 +85,19 @@
     :label="label"
     :placeholder="props.placeholder"
     :ignore-filter="props.ignoreFilter"
+    :loading="props.loading"
     :class="props.class"
     @select="select"
-  />
+  >
+    <template v-if="$slots.input" #input><slot name="input" /></template>
+    <template v-if="$slots.item" #item="slotProps">
+      <slot name="item" v-bind="slotProps" />
+    </template>
+    <template v-if="$slots.loading" #loading><slot name="loading" /></template>
+    <template v-if="$slots.empty" #empty="slotProps">
+      <slot name="empty" v-bind="slotProps" />
+    </template>
+  </CommandPalettePanel>
   <DialogRoot v-else v-model:open="open">
     <DialogTrigger v-if="$slots.default" as-child>
       <slot />
@@ -87,12 +115,21 @@
             :label="label"
             :placeholder="props.placeholder"
             :ignore-filter="props.ignoreFilter"
+            :loading="props.loading"
             :class="props.class"
             @select="select"
           >
             <VisuallyHidden>
               <DialogTitle>{{ label }}</DialogTitle>
             </VisuallyHidden>
+            <template v-if="$slots.input" #input><slot name="input" /></template>
+            <template v-if="$slots.item" #item="slotProps">
+              <slot name="item" v-bind="slotProps" />
+            </template>
+            <template v-if="$slots.loading" #loading><slot name="loading" /></template>
+            <template v-if="$slots.empty" #empty="slotProps">
+              <slot name="empty" v-bind="slotProps" />
+            </template>
           </CommandPalettePanel>
         </DialogContent>
       </div>

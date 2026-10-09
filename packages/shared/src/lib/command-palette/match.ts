@@ -90,3 +90,12 @@ export function filterCommands<T extends CommandMatchable>(
   if (q) sections.sort((a, b) => b.best - a.best)
   return sections.map(({ key, label, matches }) => ({ key, label, matches }))
 }
+
+export interface CommandMatchRange {
+  start: number
+  end: number
+}
+
+export function commandMatchRange(match: CommandMatch): CommandMatchRange | null {
+  return match.start < 0 ? null : { start: match.start, end: match.end }
+}

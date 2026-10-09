@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T = unknown">
   import { ListboxItem } from 'reka-ui'
   import { computed } from 'vue'
   import Kbd from '../kbd/Kbd.vue'
@@ -8,8 +8,9 @@
 
   defineOptions({ name: 'HnCommandPaletteItem' })
 
-  const props = defineProps<{ match: CommandMatch }>()
+  const props = defineProps<{ match: CommandMatch<T> }>()
   const emit = defineEmits<{ select: [] }>()
+  defineSlots<{ default?(): unknown }>()
 
   const parts = computed(() => {
     const { item, start, end } = props.match
@@ -26,13 +27,14 @@
     :class="selectItem()"
     @select="emit('select')"
   >
+    <slot v-if="$slots.default" />
     <component
       :is="props.match.item.icon"
-      v-if="props.match.item.icon"
+      v-else-if="props.match.item.icon"
       aria-hidden="true"
       class="text-muted"
     />
-    <span :class="commandItemBody()">
+    <span v-if="!$slots.default" :class="commandItemBody()">
       <span class="truncate">
         <span v-text="parts[0]" />
         <span v-if="parts[1]" :class="commandItemMatch()" v-text="parts[1]" />
@@ -42,7 +44,7 @@
         {{ props.match.item.description }}
       </span>
     </span>
-    <span v-if="props.match.item.kbd?.length" :class="commandItemHint()">
+    <span v-if="!$slots.default && props.match.item.kbd?.length" :class="commandItemHint()">
       <Kbd v-for="key in props.match.item.kbd" :key="key">{{ key }}</Kbd>
     </span>
   </ListboxItem>

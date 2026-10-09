@@ -146,3 +146,148 @@ export function createScrollRestorer(key: string, ports: ScrollRestorerPorts): S
     },
   }
 }
+
+export const SCROLL_FIRST_PAINT_FIELD = '__hnScrollAt'
+
+export function scrollRestoreScript() {
+  const collect = `(function(){var s=window.${SCROLL_FIRST_PAINT_FIELD}=window.${SCROLL_FIRST_PAINT_FIELD}||{};var e=document.querySelectorAll('[${SCROLL_AT_ATTR}]');for(var i=0;i<e.length;i++){s[e[i].getAttribute('${SCROLL_RESTORE_ATTR}')]=Number(e[i].getAttribute('${SCROLL_AT_ATTR}'));e[i].removeAttribute('${SCROLL_AT_ATTR}')}})()`
+  return `${firstPaintRestoreScript()};${collect}`
+}
+
+export interface ScrollRestoreSessionOptions {
+  key: string
+  viewport: HTMLElement
+  target: HTMLElement
+  initial?: boolean
+  onUpdated: (listener: () => void) => () => void
+  onScroll: (listener: () => void) => () => void
+}
+
+export interface ScrollRestoreSession {
+  dispose: () => void
+}
+
+const ABANDON_EVENTS = ['wheel', 'touchstart', 'keydown'] as const
+const NAVIGATION_FALLBACK_MS = 500
+
+function takeFirstPaint(key: string, target: HTMLElement) {
+  const store = (window as unknown as Record<string, Record<string, number> | undefined>)[
+    SCROLL_FIRST_PAINT_FIELD
+  ]
+  if (store && key in store) {
+    const top = store[key]
+    delete store[key]
+    return top
+  }
+  const at = target.getAttribute(SCROLL_AT_ATTR)
+  target.removeAttribute(SCROLL_AT_ATTR)
+  return at === null ? undefined : Number(at)
+}
+
+function hashTarget() {
+  if (!location.hash) return null
+  try {
+    return document.getElementById(decodeURIComponent(location.hash.slice(1)))
+  } catch {
+    return null
+  }
+}
+
+export function createScrollRestoreSession({
+  key,
+  viewport,
+  target,
+  initial = true,
+  onUpdated,
+  onScroll,
+}: ScrollRestoreSessionOptions): ScrollRestoreSession {
+  const page = () => location.pathname + location.search
+  const here = () => ({ href: location.href, page: page() })
+  const setTimer = (fn: () => void, ms: number) => {
+    const id = setTimeout(fn, ms)
+    return () => clearTimeout(id)
+  }
+
+  let settled = here()
+  let navigating = false
+  let clearFallback: (() => void) | null = null
+  let disposed = false
+
+  const restorer = createScrollRestorer(key, {
+    getViewport: () => viewport,
+    takeFirstPaintTop: () => takeFirstPaint(key, target),
+    readState: () => history.state,
+    writeState: state => {
+      if (!navigating && page() === settled.page) history.replaceState(state, '')
+    },
+    setTimer,
+  })
+
+  function land(first = false) {
+    navigating = false
+    clearFallback?.()
+    clearFallback = null
+    settled = here()
+    const saved = readScrollRecord(history.state)[key]
+    restorer.restore(first)
+    if (!first && saved === undefined) hashTarget()?.scrollIntoView()
+  }
+
+  function detect(traversal = false) {
+    if (disposed || location.href === settled.href) return
+    if (page() === settled.page) {
+      settled = here()
+      if (traversal && readScrollRecord(history.state)[key] !== undefined) restorer.restore()
+      return
+    }
+    if (navigating) return
+    navigating = true
+    restorer.abandon()
+    clearFallback = setTimer(() => land(), NAVIGATION_FALLBACK_MS)
+  }
+
+  const check = () => queueMicrotask(() => detect())
+  const traverse = () => queueMicrotask(() => detect(true))
+  const entryChange = (event: Event) => {
+    const traversal = (event as Event & { navigationType?: string }).navigationType === 'traverse'
+    queueMicrotask(() => detect(traversal))
+  }
+  const abandon = () => restorer.abandon()
+  const save = () => restorer.save()
+  const navigation = (window as Window & { navigation?: EventTarget }).navigation
+
+  const off = [
+    onUpdated(() => {
+      detect()
+      if (navigating) land()
+      else restorer.settle()
+    }),
+    onScroll(() => {
+      detect()
+      restorer.saveSoon()
+    }),
+  ]
+  for (const name of ABANDON_EVENTS) viewport.addEventListener(name, abandon, { passive: true })
+  navigation?.addEventListener('currententrychange', entryChange)
+  window.addEventListener('popstate', traverse)
+  window.addEventListener('hashchange', check)
+  window.addEventListener('pagehide', save)
+  document.addEventListener('click', save, true)
+
+  land(initial)
+
+  return {
+    dispose() {
+      disposed = true
+      off.forEach(stop => stop())
+      for (const name of ABANDON_EVENTS) viewport.removeEventListener(name, abandon)
+      navigation?.removeEventListener('currententrychange', entryChange)
+      window.removeEventListener('popstate', traverse)
+      window.removeEventListener('hashchange', check)
+      window.removeEventListener('pagehide', save)
+      document.removeEventListener('click', save, true)
+      clearFallback?.()
+      restorer.dispose()
+    },
+  }
+}

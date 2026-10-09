@@ -220,6 +220,20 @@
     "  <!---->",
     "  <!--]-->"
   ],
+  "size xs": [
+    "<button type=\"button\" class=\"hn-interactive relative isolate inline-flex shrink-0 items-center justify-center gap-[var(--hn-control-gap)] border border-transparent font-medium whitespace-nowrap select-none disabled:pointer-events-none disabled:opacity-50 data-disabled:pointer-events-none data-disabled:opacity-50 hn-state-layer h-[var(--hn-control-h-xs)] px-[var(--hn-control-px-xs)] text-xs [&_svg]:size-3.5 w-full rounded-full bg-accent text-accent-on\">",
+    "  <!--[-->",
+    "  <div aria-hidden=\"true\" class=\"hn-ripple\">",
+    "    <div class=\"hn-ripple-surface\">",
+    "  <!---->",
+    "  <span class=\"hn-transition inline-flex items-center gap-[var(--hn-control-gap)] opacity-100\">",
+    "    <!--[-->",
+    "    \"Save\"",
+    "    <!--]-->",
+    "  <!---->",
+    "  <!---->",
+    "  <!--]-->"
+  ],
   "size sm": [
     "<button type=\"button\" class=\"hn-interactive relative isolate inline-flex shrink-0 items-center justify-center gap-[var(--hn-control-gap)] border border-transparent font-medium whitespace-nowrap select-none disabled:pointer-events-none disabled:opacity-50 data-disabled:pointer-events-none data-disabled:opacity-50 hn-state-layer h-[var(--hn-control-h-sm)] px-[var(--hn-control-px-sm)] text-sm [&_svg]:size-3.5 w-full rounded-full bg-accent text-accent-on\">",
     "  <!--[-->",

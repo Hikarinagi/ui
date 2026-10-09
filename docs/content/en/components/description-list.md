@@ -22,9 +22,29 @@ import { DescriptionList, DescriptionTerm, DescriptionDetails } from '@hina-ui/v
 
 ### Two columns {#columns}
 
-Turning the component into a grid puts names and values into two columns side by side. Detail pages in admin interfaces usually look like this.
+`orientation="horizontal"` puts names and values into two columns side by side: names in one, values in the other. Detail pages in admin interfaces usually look like this.
 
 <Demo name="description-list/columns" />
+
+The name column is as wide as the longest name. `--hn-dl-term-width` sets a fixed width instead, for lining up several lists.
+
+::: vue
+
+```vue
+<DescriptionList orientation="horizontal" class="[--hn-dl-term-width:8rem]">…</DescriptionList>
+```
+
+:::
+
+::: react
+
+```tsx
+<DescriptionList orientation="horizontal" className="[--hn-dl-term-width:8rem]">
+  …
+</DescriptionList>
+```
+
+:::
 
 ### One name, several values {#multiple}
 
@@ -47,9 +67,10 @@ A single `dt` can be followed by several `dd` elements, and values can contain o
 
 ### DescriptionList {#props}
 
-| Prop    | Type     | Default | Description                  |
-| ------- | -------- | ------- | ---------------------------- |
-| `class` | `string` | —       | Classes appended to the root |
+| Prop          | Type                         | Default      | Description                                                         |
+| ------------- | ---------------------------- | ------------ | ------------------------------------------------------------------- |
+| `orientation` | `'vertical' \| 'horizontal'` | `'vertical'` | Layout direction; `horizontal` gives names and values a column each |
+| `class`       | `string`                     | —            | Classes appended to the root                                        |
 
 | Slot      | Description                                      |
 | --------- | ------------------------------------------------ |

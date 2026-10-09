@@ -175,7 +175,7 @@ export function ButtonDocs() {
 | ----------------- | ------------------------------------------- | -------------------- | -------------------------- |
 | `variant`         | `'solid' \| 'soft' \| 'outline' \| 'ghost'` | `'solid'`            | 两侧共用的外观             |
 | `tone`            | `'accent' \| 'neutral' \| 'danger'`         | `'accent'`           | 两侧共用的色调             |
-| `size`            | `'sm' \| 'md' \| 'lg'`                      | `'md'`               | 按钮尺寸                   |
+| `size`            | `'xs' \| 'sm' \| 'md' \| 'lg'`              | `'md'`               | 按钮尺寸                   |
 | `block`           | `boolean`                                   | `false`              | 占满容器宽度               |
 | `pill`            | `boolean`                                   | `false`              | 整组外侧使用全圆角         |
 | `ripple`          | `boolean`                                   | `true`               | 启用涟漪反馈               |

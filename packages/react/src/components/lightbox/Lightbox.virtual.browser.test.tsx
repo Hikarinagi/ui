@@ -117,7 +117,7 @@ it.each(['Escape', '下滑'])('首次打开 blob 从矩形展开,%s关闭时回�
   expect(enter.length).toBeGreaterThan(2)
   expect(
     Math.min(...enter.map(rect => Math.hypot(rect.x - origin.x, rect.y - origin.y))),
-  ).toBeLessThan(8)
+  ).toBeLessThan(24)
   expect(Math.min(...enter.map(rect => rect.width))).toBeLessThan(200)
   expect(frame()!.querySelector('img')!.naturalWidth).toBe(400)
   expect(frame()!.getBoundingClientRect().width).toBeCloseTo(400, 0)

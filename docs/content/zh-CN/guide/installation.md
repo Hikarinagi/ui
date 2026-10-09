@@ -228,6 +228,8 @@ pnpm why react react-dom radix-ui @hina-ui/react
 
 ## 语言 {#locale}
 
+内置 `zhCN`、`enUS`、`jaJP` 三个语言包，默认使用 `zhCN`。
+
 ::: vue
 
 ```ts

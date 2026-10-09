@@ -134,7 +134,7 @@ import { Sheet } from '@hina-ui/vue'
 
 ### 锁定 {#locked}
 
-设置 `locked` 后，拖动、Esc 与点击遮罩都不再关闭面板，把手变淡表示暂时不可用；通过 `open` 关闭仍然有效。
+设置 `locked` 后，拖动、Esc 与点击遮罩都不再关闭面板，把手变淡表示暂时不可用；通过 `open` 关闭仍然有效。面板内的 [Form](/components/form) 提交期间同样处于锁定状态，无论 `locked` 是否设置，用法见 [Dialog](/components/dialog#form)。
 
 <Demo name="sheet/locked" />
 
@@ -219,14 +219,16 @@ import { Sheet } from '@hina-ui/vue'
 
 ### 插槽 {#slots}
 
-| 插槽      | 参数        | 说明                                       |
-| --------- | ----------- | ------------------------------------------ |
-| `default` | —           | 触发器，省略时不渲染                       |
-| `icon`    | —           | 标题前的装饰图标                           |
-| `title`   | —           | 标题内容，默认显示 title 属性              |
-| `body`    | `{ close }` | 自定义面板内部，替换默认标题栏、正文和页脚 |
-| `content` | `{ close }` | 正文，过高时在内部滚动                     |
-| `footer`  | `{ close }` | 底部操作按钮                               |
+| 插槽      | 参数                    | 说明                                       |
+| --------- | ----------------------- | ------------------------------------------ |
+| `default` | —                       | 触发器，省略时不渲染                       |
+| `icon`    | —                       | 标题前的装饰图标                           |
+| `title`   | —                       | 标题内容，默认显示 title 属性              |
+| `body`    | `{ close, submitting }` | 自定义面板内部，替换默认标题栏、正文和页脚 |
+| `content` | `{ close, submitting }` | 正文，过高时在内部滚动                     |
+| `footer`  | `{ close, submitting }` | 底部操作按钮                               |
+
+`close` 关闭面板；`submitting` 在面板内的 [Form](/components/form) 提交期间为 `true`。
 
 ### 实例 {#expose}
 

@@ -9,7 +9,7 @@
     "test:browser": "vitest run -c vitest.browser.config.ts",
     "coverage:update": "HINA_UPDATE_PENDING=1 vitest run test/exports.test.ts",
     "api:update": "HINA_UPDATE_API_PENDING=1 vitest run test/api.test.ts",
-    "vue-lock": "vitest run test/vue-lock.test.ts && NODE_ENV=production vitest run test/vue-lock.test.ts && vitest run -c vitest.browser.config.ts test/vue-lock.browser.test.ts",
+    "vue-lock": "vitest run test/vue-lock.test.ts && NODE_ENV=production vitest run test/vue-lock.test.ts && vitest run -c vitest.browser.config.ts test/live.browser.test.ts",
     "vue-lock:update": "HINA_UPDATE_VUE_LOCK=${HINA_UPDATE_VUE_LOCK:-1} pnpm run vue-lock",
     "directives:fix": "node --experimental-strip-types src/fix-client-directives.ts"
   },

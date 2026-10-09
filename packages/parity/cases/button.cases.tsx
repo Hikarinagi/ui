@@ -23,7 +23,7 @@ export default defineCases('Button', [
       ),
     })),
   ),
-  ...(['sm', 'md', 'lg'] as const).map(size => ({
+  ...(['xs', 'sm', 'md', 'lg'] as const).map(size => ({
     name: `size ${size}`,
     vue: () => h(V.Button, { size, pill: true, block: true }, () => 'Save'),
     react: () => (

@@ -1,7 +1,7 @@
 import { readFileSync, utimesSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import tailwindcss from '@tailwindcss/vite'
-import { markdown } from './markdown'
+import { markdown, markdownServerRender } from './markdown'
 import { searchIndex } from './search-index'
 import { changelogPath } from '../shared/changelog-source'
 
@@ -104,7 +104,7 @@ export default defineNuxtConfig({
     },
   },
   vite: {
-    plugins: [tailwindcss(), markdown(), searchIndex()],
+    plugins: [tailwindcss(), markdown(), markdownServerRender(), searchIndex()],
     vue: {
       include: [/\.vue$/, /\.md$/],
     },

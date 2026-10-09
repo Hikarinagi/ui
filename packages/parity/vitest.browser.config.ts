@@ -1,10 +1,18 @@
+import { existsSync, readdirSync } from 'node:fs'
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vitest/config'
 import { playwright } from '@vitest/browser-playwright'
 import vue from '@vitejs/plugin-vue'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
-import { readVueLock, writeVueLock, type VueLockKind, type VueLockRecord } from './src/vue-lock.ts'
+import {
+  readVueLock,
+  vueLockFile,
+  writeVueLock,
+  type VueLockKind,
+  type VueLockRecord,
+} from './src/vue-lock.ts'
+import { balance, median } from '../shared/test/balanced-shards.ts'
 
 const source = (path: string) => fileURLToPath(new URL(path, import.meta.url))
 
@@ -13,10 +21,34 @@ if (browser !== 'chromium' && browser !== 'firefox' && browser !== 'webkit') {
   throw new Error(`Unsupported HINA_TEST_BROWSER: ${browser}`)
 }
 
+function shardComponents() {
+  const [index, count] = (process.env.HINA_PARITY_SHARD ?? '1/1').split('/').map(Number)
+  const components = readdirSync(source('./cases'))
+    .filter(file => file.endsWith('.live.tsx'))
+    .map(file => file.slice(0, -'.live.tsx'.length))
+  const cases = new Map(
+    components.flatMap(name =>
+      existsSync(vueLockFile('live', name))
+        ? [[name, Object.keys(readVueLock('live', name).record ?? {}).length] as const]
+        : [],
+    ),
+  )
+  const fallback = median([...cases.values()])
+  return balance(
+    components,
+    count!,
+    name => cases.get(name) ?? fallback,
+    name => name,
+  )[index! - 1]!
+}
+
 export default defineConfig({
   plugins: [vue(), react(), tailwindcss()],
   define: {
-    'import.meta.env.HINA_PARITY_SHARD': JSON.stringify(process.env.HINA_PARITY_SHARD ?? '1/1'),
+    'import.meta.env.HINA_PARITY_COMPONENTS': JSON.stringify(shardComponents()),
+    'import.meta.env.HINA_TEST_CPU_THROTTLE': JSON.stringify(
+      process.env.HINA_TEST_CPU_THROTTLE ?? '',
+    ),
   },
   resolve: {
     alias: [
@@ -68,6 +100,8 @@ export default defineConfig({
     ],
   },
   test: {
+    setupFiles: ['../shared/test/browser-setup.ts'],
+    testTimeout: 30_000,
     include: ['test/**/*.browser.test.ts'],
     globals: false,
     fileParallelism: false,

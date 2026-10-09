@@ -134,14 +134,33 @@ import { Dialog } from '@hina-ui/vue'
 
 ### 锁定 {#locked}
 
-设置 `locked` 后，按 Esc 和点击遮罩都不再关闭对话框，已显示的关闭按钮变为不可用。此时通过 `open` 关闭仍然有效。
+设置 `locked` 后，按 Esc 和点击遮罩都不再关闭对话框，已显示的关闭按钮变为不可用。此时通过 `open` 关闭仍然有效。对话框内的 [Form](/components/form) 提交期间同样处于锁定状态，无论 `locked` 是否设置。
 
 <Demo name="dialog/locked" />
+
+### 内含表单 {#form}
+
+::: vue
+
+`content` 插槽中的 [Form](/components/form) 提交期间，对话框自动锁定，提交结束或表单卸载后解除。`body`、`content` 与 `footer` 插槽的参数 `submitting` 在此期间为 `true`。
+
+:::
+
+::: react
+
+`renderContent` 中的 [Form](/components/form) 提交期间，对话框自动锁定，提交结束或表单卸载后解除。`renderBody`、`renderContent` 与 `renderFooter` 收到的 `submitting` 在此期间为 `true`。
+
+:::
+
+示例的页脚按钮位于表单之外：保存按钮设置 `type="submit"`，用 `form` 属性指向表单的 `id`，`loading` 绑定 `submitting`；取消按钮的 `disabled` 绑定 `submitting`。提交完成后通过 `open` 关闭对话框。
+
+<Demo name="dialog/form" />
 
 ## 行为 {#behavior}
 
 - 对话框打开期间页面停止滚动，焦点被限制在面板内部，关闭后回到触发器。
 - 按 Esc 或点击遮罩关闭对话框，`locked` 会同时禁用这两种方式。
+- 对话框内的 [Form](/components/form) 提交期间按 `locked` 处理；对话框之外的表单不影响它，嵌套的对话框只跟随自身内部的表单。
 - 默认正文区域使用 [ScrollArea](/components/scroll-area)。
 
 ## 无障碍 {#a11y}
@@ -178,14 +197,16 @@ import { Dialog } from '@hina-ui/vue'
 | `open`        | `boolean`                               | —       | 是否打开，支持双向绑定       |
 | `class`       | `string`                                | —       | 追加到面板上的类名           |
 
-| 插槽      | 参数        | 说明                                   |
-| --------- | ----------- | -------------------------------------- |
-| `default` | —           | 触发器，省略时不渲染                   |
-| `icon`    | —           | 标题前的装饰图标                       |
-| `title`   | —           | 标题内容，默认显示 title 属性          |
-| `body`    | `{ close }` | 整个面板内部，替换默认头部、正文和页脚 |
-| `content` | `{ close }` | 正文，过高时在内部滚动                 |
-| `footer`  | `{ close }` | 底部的操作按钮                         |
+| 插槽      | 参数                    | 说明                                   |
+| --------- | ----------------------- | -------------------------------------- |
+| `default` | —                       | 触发器，省略时不渲染                   |
+| `icon`    | —                       | 标题前的装饰图标                       |
+| `title`   | —                       | 标题内容，默认显示 title 属性          |
+| `body`    | `{ close, submitting }` | 整个面板内部，替换默认头部、正文和页脚 |
+| `content` | `{ close, submitting }` | 正文，过高时在内部滚动                 |
+| `footer`  | `{ close, submitting }` | 底部的操作按钮                         |
+
+`close` 关闭对话框；`submitting` 在对话框内的 [Form](/components/form) 提交期间为 `true`。
 
 ### 实例 {#expose}
 

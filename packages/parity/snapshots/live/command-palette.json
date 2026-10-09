@@ -95,7 +95,7 @@
     "                    <!--v-if-->",
     "                  <!--v-if-->",
     "                <!--v-if-->",
-    "              <!--v-if-->",
+    "            <!--v-if-->",
     "          <div class=\"os-scrollbar os-scrollbar-auto-hide os-scrollbar-cornerless os-scrollbar-handle-interactive os-scrollbar-horizontal os-scrollbar-unusable os-theme-dark\" style=\"--os-viewport-percent: #; --os-scroll-direction: #;\">",
     "            <div class=\"os-scrollbar-track\">",
     "              <div class=\"os-scrollbar-handle\">",
@@ -106,6 +106,7 @@
     "        <!--v-if-->",
     "        <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
     "        <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
+    "      <!--v-if-->",
     "      <!--v-if-->"
   ],
   "dialog search and arrow navigation": [
@@ -179,7 +180,7 @@
     "                    <!--v-if-->",
     "                  <!--v-if-->",
     "                <!--v-if-->",
-    "              <!--v-if-->",
+    "            <!--v-if-->",
     "          <div class=\"os-scrollbar os-scrollbar-auto-hide os-scrollbar-cornerless os-scrollbar-handle-interactive os-scrollbar-horizontal os-scrollbar-unusable os-theme-dark\" style=\"--os-viewport-percent: #; --os-scroll-direction: #;\">",
     "            <div class=\"os-scrollbar-track\">",
     "              <div class=\"os-scrollbar-handle\">",
@@ -190,6 +191,7 @@
     "        <!--v-if-->",
     "        <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
     "        <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
+    "      <!--v-if-->",
     "      <!--v-if-->"
   ],
   "dialog closed by Escape": [
@@ -225,8 +227,8 @@
     "        <div data-overlayscrollbars-initialize=\"\" class=\"min-h-0 w-full\" data-overlayscrollbars=\"host\">",
     "          <div data-overlayscrollbars-contents=\"\" data-overlayscrollbars-viewport=\"scrollbarHidden overflowXHidden overflowYHidden\" tabindex=\"-1\" style=\"margin-right: #px; margin-bottom: #px; margin-left: #px; top: #px; right: auto; left: #px; width: calc(#% + #px); padding: #px;\">",
     "            <div aria-label=\"命令面板\" class=\"flex flex-col p-1\" role=\"listbox\" tabindex=\"-1\" aria-orientation=\"vertical\" aria-multiselectable=\"false\" data-orientation=\"vertical\">",
-    "              <div class=\"text-muted px-4 py-8 text-center text-sm\">",
-    "                \"无匹配项\"",
+    "            <div role=\"status\" class=\"text-muted px-4 py-8 text-center text-sm\">",
+    "              \"无匹配项\"",
     "          <div class=\"os-scrollbar os-scrollbar-auto-hide os-scrollbar-cornerless os-scrollbar-handle-interactive os-scrollbar-horizontal os-scrollbar-unusable os-theme-dark\" style=\"--os-viewport-percent: #; --os-scroll-direction: #;\">",
     "            <div class=\"os-scrollbar-track\">",
     "              <div class=\"os-scrollbar-handle\">",
@@ -237,6 +239,7 @@
     "        <!--v-if-->",
     "        <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
     "        <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
+    "      <!--v-if-->",
     "      <!--v-if-->"
   ],
   "inline highlight after typing": [
@@ -265,7 +268,7 @@
     "                    <!--v-if-->",
     "                  <!--v-if-->",
     "                <!--v-if-->",
-    "              <!--v-if-->",
+    "            <!--v-if-->",
     "          <div class=\"os-scrollbar os-scrollbar-auto-hide os-scrollbar-cornerless os-scrollbar-handle-interactive os-scrollbar-horizontal os-scrollbar-unusable os-theme-dark\" style=\"--os-viewport-percent: #; --os-scroll-direction: #;\">",
     "            <div class=\"os-scrollbar-track\">",
     "              <div class=\"os-scrollbar-handle\">",
@@ -276,6 +279,7 @@
     "        <!--v-if-->",
     "        <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
     "        <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
+    "      <!--v-if-->",
     "      <!--v-if-->"
   ],
   "inline virtualized keyword search": [
@@ -316,6 +320,7 @@
     "        <!--v-if-->",
     "        <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
     "        <div class=\"hn-scroll-shadow\" data-side=\"#\" aria-hidden=\"true\">",
+    "      <!--v-if-->",
     "      <!--v-if-->"
   ]
 }

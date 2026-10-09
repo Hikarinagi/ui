@@ -3,11 +3,17 @@
 
   defineOptions({ name: 'HnDescriptionList' })
 
-  const props = defineProps<{ class?: string }>()
+  const props = defineProps<{
+    orientation?: 'vertical' | 'horizontal'
+    class?: string
+  }>()
 </script>
 
 <template>
-  <dl :class="cn('hn-dl', props.class)">
+  <dl
+    :data-orientation="props.orientation === 'horizontal' ? 'horizontal' : undefined"
+    :class="cn('hn-dl', props.class)"
+  >
     <slot />
   </dl>
 </template>

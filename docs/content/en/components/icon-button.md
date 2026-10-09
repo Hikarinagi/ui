@@ -67,7 +67,7 @@ The tooltip relies on a `TooltipProvider` at the application root. Without one t
 | `asChild`  | `boolean`                                             | `false`     | Render nothing, merging into the single child    |
 | `variant`  | `'solid' \| 'soft' \| 'outline' \| 'ghost' \| 'link'` | `'ghost'`   | Visual style                                     |
 | `tone`     | `'accent' \| 'neutral' \| 'danger'`                   | `'neutral'` | Semantic tone                                    |
-| `size`     | `'sm' \| 'md' \| 'lg'`                                | `'md'`      | Size                                             |
+| `size`     | `'xs' \| 'sm' \| 'md' \| 'lg'`                        | `'md'`      | Size                                             |
 | `type`     | `'button' \| 'submit' \| 'reset'`                     | `'button'`  | Native button type                               |
 | `pill`     | `boolean`                                             | `false`     | Render as a circle                               |
 | `loading`  | `boolean`                                             | `false`     | Whether it is loading                            |

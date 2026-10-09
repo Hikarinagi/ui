@@ -74,6 +74,24 @@ When `onSubmit` returns a Promise, the form stays in the submitting state until 
 
 <Demo name="form/state" />
 
+### Reading state outside the form {#handle}
+
+::: vue
+
+Besides `submit()`, `validate()`, `reset()` and `setErrors()`, the template ref exposes the reactive `submitting`, `submitted`, `invalid`, `errors` and `error`, with the same meaning as the props of the default slot, readable in the template outside the form.
+
+:::
+
+::: react
+
+`useFormHandle()` returns a handle that is passed to `Form` through the `form` prop. Its `submitting`, `submitted`, `invalid`, `errors` and `error` have the same meaning as the values passed to a `children` function, and it provides `submit()`, `validate()`, `reset()` and `setErrors()`. Before a form is attached and after it unmounts, the state is idle and the methods do nothing; `validate()` resolves to `false`. The handle obtained through `ref` has these fields too; they hold the values at the time they are read, and a change does not re-render.
+
+:::
+
+The save button in the example sits outside the form, binds `loading` to `submitting` and calls `submit()` on click.
+
+<Demo name="form/handle" />
+
 ## Behavior {#behavior}
 
 - Submitting validates first; on failure the errors show, focus moves to the first invalid control, and the submit handler is not called.
@@ -112,6 +130,7 @@ When `onSubmit` returns a Promise, the form stays in the submitting state until 
 | `rules`      | `FormRules`                      | —          | Validation rules, a Standard Schema object or a function |
 | `validateOn` | `'submit' \| 'blur' \| 'change'` | `'submit'` | When validation runs                                     |
 | `disabled`   | `boolean`                        | `false`    | Whether the whole form is disabled                       |
+| `form`       | `FormController`                 | —          | The handle returned by `useFormHandle()`                 |
 | `className`  | `string`                         | —          | Classes appended to the root element                     |
 
 :::
@@ -137,4 +156,38 @@ When `onSubmit` returns a Promise, the form stays in the submitting state until 
 | `setErrors(errors)` | Sets external errors keyed by field name            |
 | `reset()`           | Clears errors, the blur record and the submit state |
 
+::: vue
+
+### State {#expose}
+
+The template ref also exposes the following reactive state.
+
+:::
+
+::: react
+
+### useFormHandle {#use-form-handle}
+
+`useFormHandle()` returns a `FormController` that is bound to `Form` through the `form` prop and carries the methods above together with the following state. Before a form is attached and after it unmounts, the state is idle and the methods do nothing; `validate()` resolves to `false`.
+
+:::
+
+| Property     | Type                  | Description                                             |
+| ------------ | --------------------- | ------------------------------------------------------- |
+| `submitting` | `boolean`             | Whether a submit is in progress                         |
+| `submitted`  | `boolean`             | Whether a submit has run; `false` again after `reset()` |
+| `invalid`    | `boolean`             | Whether there is a field error or a form-level error    |
+| `errors`     | `FormErrors`          | The field errors on display, keyed by field name        |
+| `error`      | `string \| undefined` | The form-level error that belongs to no field           |
+
+::: vue
+
 The `FormRules`, `FormErrors`, `FormValidator` and `StandardSchema` types are exported from the package entry.
+
+:::
+
+::: react
+
+The `FormRules`, `FormErrors`, `FormValidator`, `StandardSchema`, `FormHandle` and `FormController` types are exported from the package entry.
+
+:::

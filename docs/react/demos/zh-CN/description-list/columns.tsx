@@ -2,7 +2,7 @@ import { DescriptionDetails, DescriptionList, DescriptionTerm } from '@hina-ui/r
 
 export default function Demo() {
   return (
-    <DescriptionList className="grid max-w-md grid-cols-[8rem_1fr] gap-y-3 [&>dd]:m-0! [&>dt]:m-0!">
+    <DescriptionList orientation="horizontal" className="max-w-md">
       <DescriptionTerm>作品名称</DescriptionTerm>
       <DescriptionDetails>狼と香辛料</DescriptionDetails>
       <DescriptionTerm>出版社</DescriptionTerm>

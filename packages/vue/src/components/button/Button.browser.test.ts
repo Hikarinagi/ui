@@ -75,6 +75,34 @@ describe('键盘可达性', () => {
   })
 })
 
+describe('尺寸', () => {
+  const height = (size: 'xs' | 'sm' | 'md' | 'lg', density?: string) => {
+    const host = attach()
+    if (density) host.dataset.density = density
+    const w = mount(Button, { props: { size }, slots: { default: () => '保存' }, attachTo: host })
+    return (w.element as HTMLElement).offsetHeight
+  }
+
+  it('四档高度依次为 24、28、36、44', () => {
+    expect((['xs', 'sm', 'md', 'lg'] as const).map(size => height(size))).toEqual([24, 28, 36, 44])
+  })
+
+  it('紧凑密度下 xs 为 20,仍低于 sm', () => {
+    expect(height('xs', 'compact')).toBe(20)
+    expect(height('sm', 'compact')).toBe(24)
+  })
+
+  it('xs 的图标按钮是 24 见方', () => {
+    const w = mount(Button, {
+      props: { size: 'xs', iconOnly: true, 'aria-label': '更多' },
+      slots: { default: () => '…' },
+      attachTo: attach(),
+    })
+    const box = (w.element as HTMLElement).getBoundingClientRect()
+    expect([box.width, box.height]).toEqual([24, 24])
+  })
+})
+
 describe('真实计算样式', () => {
   it('实心 accent 的前景与背景取自不同 token,不是继承色', async () => {
     const w = mount(Button, {

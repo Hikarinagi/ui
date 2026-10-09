@@ -1,5 +1,7 @@
-const [part, total] = (import.meta.env.HINA_PARITY_SHARD ?? '1/1').split('/').map(Number)
+const components = new Set<string>(import.meta.env.HINA_PARITY_COMPONENTS)
 
-export function inShard<T>(entries: T[]) {
-  return entries.filter((_, index) => index % total === part - 1)
+export function inShard<T>(entries: [string, T][]) {
+  return entries.filter(([path]) =>
+    components.has(path.slice(path.lastIndexOf('/') + 1).replace(/\.live\.tsx$/, '')),
+  )
 }

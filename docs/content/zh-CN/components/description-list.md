@@ -22,9 +22,29 @@ import { DescriptionList, DescriptionTerm, DescriptionDetails } from '@hina-ui/v
 
 ### 两列布局 {#columns}
 
-在组件上改写为网格，可以把名称与取值排成左右两列。后台详情页多用这种形态。
+`orientation="horizontal"` 把名称与取值排成左右两列：名称一列，取值一列。后台详情页多用这种形态。
 
 <Demo name="description-list/columns" />
+
+名称列的宽度取最长的名称。`--hn-dl-term-width` 可以改成固定宽度，多个列表上下对齐时使用。
+
+::: vue
+
+```vue
+<DescriptionList orientation="horizontal" class="[--hn-dl-term-width:8rem]">…</DescriptionList>
+```
+
+:::
+
+::: react
+
+```tsx
+<DescriptionList orientation="horizontal" className="[--hn-dl-term-width:8rem]">
+  …
+</DescriptionList>
+```
+
+:::
 
 ### 一个名称多个取值 {#multiple}
 
@@ -47,9 +67,10 @@ import { DescriptionList, DescriptionTerm, DescriptionDetails } from '@hina-ui/v
 
 ### DescriptionList {#props}
 
-| 属性    | 类型     | 默认值 | 说明               |
-| ------- | -------- | ------ | ------------------ |
-| `class` | `string` | —      | 追加至根元素的类名 |
+| 属性          | 类型                         | 默认值       | 说明                                        |
+| ------------- | ---------------------------- | ------------ | ------------------------------------------- |
+| `orientation` | `'vertical' \| 'horizontal'` | `'vertical'` | 排列方向；`horizontal` 时名称与取值各占一列 |
+| `class`       | `string`                     | —            | 追加至根元素的类名                          |
 
 | 插槽      | 说明                                           |
 | --------- | ---------------------------------------------- |

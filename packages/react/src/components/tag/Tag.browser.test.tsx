@@ -41,9 +41,11 @@ describe('tag · 静态标注', () => {
     expect(solid.offsetHeight).toBe(soft.offsetHeight)
   })
 
-  it('md 升档、pill 全圆', async () => {
+  it('md、lg 逐档升高,pill 全圆', async () => {
     const md = await mountTag({ size: 'md' })
     expect(md.offsetHeight).toBe(24)
+    const lg = await mountTag({ size: 'lg' })
+    expect(lg.offsetHeight).toBe(28)
     const pill = await mountTag({ pill: true })
     expect(parseFloat(getComputedStyle(pill).borderTopLeftRadius)).toBeGreaterThan(8)
   })

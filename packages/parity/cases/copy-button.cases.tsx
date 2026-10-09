@@ -15,7 +15,7 @@ export default defineCases('CopyButton', [
     vue: () => h(VCopyButton, { text: 'Hina UI' }),
     react: () => <CopyButton text="Hina UI" />,
   },
-  ...(['sm', 'md', 'lg'] as const).map(size => ({
+  ...(['xs', 'sm', 'md', 'lg'] as const).map(size => ({
     name: `size ${size}`,
     vue: () => h(VCopyButton, { text: size, size }),
     react: () => <CopyButton text={size} size={size} />,

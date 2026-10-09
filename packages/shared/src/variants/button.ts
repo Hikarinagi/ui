@@ -22,6 +22,7 @@ export const button = tv({
       danger: '',
     },
     size: {
+      xs: 'h-[var(--hn-control-h-xs)] px-[var(--hn-control-px-xs)] text-xs [&_svg]:size-3.5',
       sm: 'h-[var(--hn-control-h-sm)] px-[var(--hn-control-px-sm)] text-sm [&_svg]:size-3.5',
       md: 'h-[var(--hn-control-h-md)] px-[var(--hn-control-px-md)] text-base [&_svg]:size-4',
       lg: 'h-[var(--hn-control-h-lg)] px-[var(--hn-control-px-lg)] text-md [&_svg]:size-[1.125rem]',
@@ -102,6 +103,7 @@ export const buttonIconBox = tv({
   base: 'relative inline-flex shrink-0 items-center justify-center',
   variants: {
     size: {
+      xs: 'size-3.5',
       sm: 'size-3.5',
       md: 'size-4',
       lg: 'size-[1.125rem]',

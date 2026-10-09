@@ -306,6 +306,12 @@ export const components: DocsComponent[] = [
     i18n: 'components.lightbox',
     category: 'overlays',
   },
+  {
+    label: 'LineClamp',
+    to: '/components/line-clamp',
+    i18n: 'components.line-clamp',
+    category: 'typography',
+  },
   { label: 'Link', to: '/components/link', i18n: 'components.link', category: 'typography' },
   { label: 'List', to: '/components/list', i18n: 'components.list', category: 'typography' },
   { label: 'Listbox', to: '/components/listbox', i18n: 'components.listbox', category: 'forms' },

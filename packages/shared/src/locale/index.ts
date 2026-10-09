@@ -44,9 +44,11 @@ export function mergeUiMessages(base: UiMessages, patch: PartialUiMessages): UiM
     rating: { ...base.rating, ...patch.rating },
     form: { ...base.form, ...patch.form },
     command: { ...base.command, ...patch.command },
+    lineClamp: { ...base.lineClamp, ...patch.lineClamp },
   }
 }
 
 export { zhCN } from './zh-CN'
 export { enUS } from './en-US'
+export { jaJP } from './ja-JP'
 export type { UiMessages, PartialUiMessages } from './types'

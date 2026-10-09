@@ -1,5 +1,14 @@
 <script setup lang="ts">
-  import { computed, getCurrentInstance, shallowRef, watch } from 'vue'
+  import {
+    computed,
+    getCurrentInstance,
+    h,
+    inject,
+    onMounted,
+    shallowRef,
+    ssrContextKey,
+    watch,
+  } from 'vue'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
   import ScrollArea from '../scroll-area/ScrollArea.vue'
@@ -7,6 +16,10 @@
   import Drawer from '../drawer/Drawer.vue'
   import DrawerScope from '../sidebar/DrawerScope'
   import { provideSidebar, type SidebarState } from '../sidebar/context'
+  import {
+    createScrollRestoreSession,
+    scrollRestoreScript,
+  } from '../../../../shared/src/lib/scroll-restore'
   import { useDesktopQuery } from './composables/useDesktopQuery'
   import { useSidebarScrollUpdates } from './composables/useSidebarScrollUpdates'
 
@@ -56,6 +69,32 @@
     onTransitionRun,
   })
 
+  const RestoreScript = () => h('script', { innerHTML: scrollRestoreScript() })
+  const scripted = shallowRef(!!inject(ssrContextKey, null) || !!getCurrentInstance()?.vnode.el)
+  onMounted(() => {
+    scripted.value = false
+  })
+
+  let restoredKey: string | undefined
+  watch(
+    () => [props.restoreKey, main.value?.instance] as const,
+    ([key, instance], _previous, onCleanup) => {
+      if (!key || !instance) return
+      const { viewport, target } = instance.elements()
+      const session = createScrollRestoreSession({
+        key,
+        viewport,
+        target,
+        initial: restoredKey === undefined || restoredKey === key,
+        onUpdated: listener => instance.on('updated', listener),
+        onScroll: listener => instance.on('scroll', listener),
+      })
+      restoredKey = key
+      onCleanup(() => session.dispose())
+    },
+    { immediate: true, flush: 'post' },
+  )
+
   type Navigable = { currentRoute?: { value?: { fullPath?: string } } }
   const router = getCurrentInstance()?.appContext.config.globalProperties.$router as
     Navigable | undefined
@@ -70,7 +109,14 @@
 
 <template>
   <TooltipProvider>
-    <div :class="cn('bg-canvas text-fg flex h-screen flex-col overflow-hidden', props.class)">
+    <div
+      :class="
+        cn(
+          'bg-canvas text-fg flex h-screen flex-col overflow-hidden [--hn-app-shell-header-h:calc(3.5rem+1px)]',
+          props.class,
+        )
+      "
+    >
       <div v-if="$slots.banner" class="shrink-0">
         <slot name="banner" />
       </div>
@@ -79,8 +125,11 @@
           <slot name="sidebar" />
         </div>
         <div class="flex min-h-0 min-w-0 flex-1 flex-col">
-          <header v-if="$slots.header" class="border-line bg-canvas shrink-0 border-b">
-            <div class="flex h-14 items-center gap-3 px-4 sm:px-6">
+          <header
+            v-if="$slots.header"
+            class="border-line bg-canvas h-(--hn-app-shell-header-h) shrink-0 border-b"
+          >
+            <div class="flex h-full items-center gap-3 px-4 sm:px-6">
               <slot name="header" />
             </div>
           </header>
@@ -88,6 +137,7 @@
             <ScrollArea ref="main" :data-scroll-restore="props.restoreKey" class="h-full">
               <slot />
             </ScrollArea>
+            <RestoreScript v-if="props.restoreKey && scripted" />
           </main>
         </div>
       </div>

@@ -5,7 +5,7 @@ export type { VariantProps } from './lib/tv'
 export { EASE, DURATION, TRAVEL, STAGGER, TRANSITION, cssEase } from './motion'
 export type { Bezier, TransitionName } from './motion'
 
-export { provideUiLocale, useUiLocale, zhCN, enUS } from './locale'
+export { provideUiLocale, useUiLocale, zhCN, enUS, jaJP } from './locale'
 export type { UiMessages, PartialUiMessages } from './locale'
 
 export { REQUIRED_SINGLETONS } from './singletons'
@@ -74,7 +74,15 @@ export type {
   CompletionEdit,
 } from './components/autocomplete/types'
 export { default as CommandPalette } from './components/command-palette/CommandPalette.vue'
-export type { CommandItem, CommandGroup, CommandItems } from './components/command-palette/types'
+export { default as CommandPaletteInput } from './components/command-palette/CommandPaletteInput.vue'
+export type {
+  CommandItem,
+  CommandGroup,
+  CommandItems,
+  CommandItemMatch,
+  CommandItemSlotProps,
+  CommandEmptySlotProps,
+} from './components/command-palette/types'
 export { default as Listbox } from './components/listbox/Listbox.vue'
 export type { ListboxVariants } from './components/listbox/listbox.variants'
 export { default as Tree } from './components/tree/Tree.vue'
@@ -274,6 +282,7 @@ export { default as Toaster } from './components/toast/Toaster.vue'
 export { toast } from './components/toast/store'
 export type { ToastTone, ToastOptions, ToasterPosition } from './components/toast/store'
 export { default as Spoiler } from './components/spoiler/Spoiler.vue'
+export { default as LineClamp } from './components/line-clamp/LineClamp.vue'
 export { default as Skeleton } from './components/skeleton/Skeleton.vue'
 export { default as Image } from './components/image/Image.vue'
 export { default as ImageGroup } from './components/image/ImageGroup.vue'
@@ -297,11 +306,15 @@ export {
   readScrollRecord,
   writeScrollRecord,
   createScrollRestorer,
+  createScrollRestoreSession,
+  scrollRestoreScript,
 } from './components/scroll-area/scroll-restore'
 export type {
   ScrollRecord,
   ScrollRestorer,
   ScrollRestorerPorts,
+  ScrollRestoreSession,
+  ScrollRestoreSessionOptions,
 } from './components/scroll-area/scroll-restore'
 
 export { default as DataTable } from './components/data-table/DataTable.vue'

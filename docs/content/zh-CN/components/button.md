@@ -48,13 +48,13 @@ accent 用于主操作，neutral 用于次要操作与取消，danger 用于不�
 
 ### 尺寸 {#sizes}
 
-共三种尺寸，高度与内边距随密度缩放。
+共四种尺寸，高度与内边距随密度缩放。
 
 <Playground
   name="Button"
   label="按钮"
   :controls="[
-    { prop: 'size', options: ['sm', 'md', 'lg'], default: 'md' },
+    { prop: 'size', options: ['xs', 'sm', 'md', 'lg'], default: 'md' },
     { prop: 'variant', options: ['solid', 'soft', 'outline'] },
   ]"
 />
@@ -130,7 +130,7 @@ accent 用于主操作，neutral 用于次要操作与取消，danger 用于不�
 <Playground
   name="Button"
   label="继续"
-  :controls="[{ prop: 'pill' }, { prop: 'block' }, { prop: 'size', options: ['sm', 'md', 'lg'], default: 'md' }]"
+  :controls="[{ prop: 'pill' }, { prop: 'block' }, { prop: 'size', options: ['xs', 'sm', 'md', 'lg'], default: 'md' }]"
 />
 
 ### 作为链接 {#link}
@@ -220,9 +220,11 @@ export function GetStarted() {
 
 | 变量                 | 默认       | 紧凑       |
 | -------------------- | ---------- | ---------- |
+| `--hn-control-h-xs`  | `1.5rem`   | `1.25rem`  |
 | `--hn-control-h-sm`  | `1.75rem`  | `1.5rem`   |
 | `--hn-control-h-md`  | `2.25rem`  | `1.875rem` |
 | `--hn-control-h-lg`  | `2.75rem`  | `2.25rem`  |
+| `--hn-control-px-xs` | `0.5rem`   | `0.25rem`  |
 | `--hn-control-px-sm` | `0.625rem` | `0.375rem` |
 | `--hn-control-px-md` | `1rem`     | `0.5rem`   |
 | `--hn-control-px-lg` | `1.25rem`  | `0.75rem`  |
@@ -265,7 +267,7 @@ export function GetStarted() {
 | `asChild`  | `boolean`                                             | `false`    | 不渲染自身，合并至唯一的子元素    |
 | `variant`  | `'solid' \| 'soft' \| 'outline' \| 'ghost' \| 'link'` | `'solid'`  | 视觉样式                          |
 | `tone`     | `'accent' \| 'neutral' \| 'danger'`                   | `'accent'` | 语义色调                          |
-| `size`     | `'sm' \| 'md' \| 'lg'`                                | `'md'`     | 尺寸                              |
+| `size`     | `'xs' \| 'sm' \| 'md' \| 'lg'`                        | `'md'`     | 尺寸                              |
 | `type`     | `'button' \| 'submit' \| 'reset'`                     | `'button'` | 原生 button 类型                  |
 | `iconOnly` | `boolean`                                             | `false`    | 是否为正方形且仅包含图标          |
 | `block`    | `boolean`                                             | `false`    | 是否占满容器宽度                  |

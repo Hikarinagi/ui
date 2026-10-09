@@ -1,5 +1,6 @@
 import { createApp, type VNode } from 'vue'
 import type { ReactElement } from 'react'
+import { page } from 'vitest/browser'
 import { createRoot } from 'react-dom/client'
 import { flushSync } from 'react-dom'
 
@@ -7,6 +8,7 @@ export interface LiveCase {
   name: string
   vue: () => VNode
   react: () => ReactElement
+  viewport?: { width: number; height: number }
   interact?: (container: HTMLElement) => Promise<void> | void
   settle: () => Promise<void> | void
   ignoreAttributes?: string[]
@@ -93,7 +95,10 @@ function resetFocus() {
   window.focus()
 }
 
-function host() {
+export const LIVE_VIEWPORT = { width: 414, height: 896 }
+
+async function host({ viewport = LIVE_VIEWPORT }: LiveCase) {
+  await page.viewport(viewport.width, viewport.height)
   reset()
   resetFocus()
   const container = document.createElement('div')
@@ -103,7 +108,7 @@ function host() {
 }
 
 export async function liveVue(entry: LiveCase) {
-  const container = host()
+  const container = await host(entry)
   const app = createApp({ render: entry.vue })
   app.mount(container)
   await frames()
@@ -117,7 +122,7 @@ export async function liveVue(entry: LiveCase) {
 }
 
 export async function liveReact(entry: LiveCase) {
-  const container = host()
+  const container = await host(entry)
   const root = createRoot(container)
   flushSync(() => root.render(entry.react()))
   await frames()

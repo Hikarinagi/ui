@@ -72,15 +72,15 @@ When a write fails the button does not enter the success state, the icon and nam
 
 ### Props {#props}
 
-| Prop       | Type                   | Default | Description                                 |
-| ---------- | ---------------------- | ------- | ------------------------------------------- |
-| `text`     | `string`               | —       | Required. The text written to the clipboard |
-| `label`    | `string`               | Copy    | Accessible name of the button               |
-| `size`     | `'sm' \| 'md' \| 'lg'` | `'sm'`  | Size                                        |
-| `timeout`  | `number`               | `2000`  | How long the success state lasts, in ms     |
-| `tooltip`  | `boolean`              | `false` | Whether to show a tooltip                   |
-| `disabled` | `boolean`              | `false` | Whether the button is unavailable           |
-| `class`    | `string`               | —       | Classes appended to the button              |
+| Prop       | Type                           | Default | Description                                 |
+| ---------- | ------------------------------ | ------- | ------------------------------------------- |
+| `text`     | `string`                       | —       | Required. The text written to the clipboard |
+| `label`    | `string`                       | Copy    | Accessible name of the button               |
+| `size`     | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'sm'`  | Size                                        |
+| `timeout`  | `number`                       | `2000`  | How long the success state lasts, in ms     |
+| `tooltip`  | `boolean`                      | `false` | Whether to show a tooltip                   |
+| `disabled` | `boolean`                      | `false` | Whether the button is unavailable           |
+| `class`    | `string`                       | —       | Classes appended to the button              |
 
 ### Events {#events}
 

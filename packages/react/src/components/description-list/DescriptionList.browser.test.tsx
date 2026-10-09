@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import type { CSSProperties } from 'react'
 import { DescriptionList } from './DescriptionList'
 import { DescriptionTerm } from './DescriptionTerm'
 import { DescriptionDetails } from './DescriptionDetails'
@@ -83,5 +84,41 @@ describe('description list 与 prose dl 同源', () => {
     expect(shape(wrapped.element)).toEqual(shape(raw.element))
     expect(shape(wrapped.element)[0]).toContain('DT')
     expect(shape(wrapped.element)[1]).toContain('DD')
+  })
+})
+
+describe('横向布局', () => {
+  function horizontal(style: CSSProperties = {}) {
+    return mount(
+      <DescriptionList orientation="horizontal" style={{ width: 400, ...style }}>
+        <DescriptionTerm>原名</DescriptionTerm>
+        <DescriptionDetails>狼と香辛料</DescriptionDetails>
+        <DescriptionTerm>作者与插画</DescriptionTerm>
+        <DescriptionDetails>支倉凍砂</DescriptionDetails>
+        <DescriptionDetails>文倉十</DescriptionDetails>
+      </DescriptionList>,
+    )
+  }
+  const boxes = (root: Element, selector: string) =>
+    [...root.querySelectorAll(selector)].map(node => node.getBoundingClientRect())
+
+  it('名称一列、取值一列,同一条目的名称与取值在同一行', async () => {
+    const w = await horizontal()
+    const terms = boxes(w.element, 'dt')
+    const details = boxes(w.element, 'dd')
+    expect(terms[0]!.left).toBe(terms[1]!.left)
+    expect(new Set(details.map(box => box.left)).size).toBe(1)
+    expect(details[0]!.left).toBeGreaterThan(Math.max(...terms.map(box => box.right)))
+    expect(details[0]!.top).toBeLessThan(terms[0]!.bottom)
+    expect(details[1]!.top).toBeLessThan(terms[1]!.bottom)
+    expect(details[2]!.top).toBeGreaterThanOrEqual(details[1]!.bottom)
+  })
+
+  it('名称列按最长的名称定宽,--hn-dl-term-width 可以改成固定宽度', async () => {
+    const auto = await horizontal()
+    const terms = boxes(auto.element, 'dt')
+    expect(terms[0]!.width).toBe(terms[1]!.width)
+    const fixed = await horizontal({ '--hn-dl-term-width': '160px' } as CSSProperties)
+    expect(boxes(fixed.element, 'dt').map(box => box.width)).toEqual([160, 160])
   })
 })

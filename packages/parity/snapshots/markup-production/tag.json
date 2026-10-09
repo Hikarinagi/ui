@@ -119,6 +119,12 @@
     "  \"标签\"",
     "  <!--]-->"
   ],
+  "size lg": [
+    "<span class=\"inline-flex shrink-0 items-center gap-1 rounded-sm border border-transparent font-medium whitespace-nowrap select-none h-7 px-2.5 text-sm [&_svg]:size-4 bg-subtle text-fg\">",
+    "  <!--[-->",
+    "  \"标签\"",
+    "  <!--]-->"
+  ],
   "pill solid accent": [
     "<span class=\"inline-flex shrink-0 items-center gap-1 border border-transparent font-medium whitespace-nowrap select-none h-5 px-1.5 text-xs [&_svg]:size-3 rounded-full bg-accent text-accent-on\">",
     "  <!--[-->",

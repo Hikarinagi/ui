@@ -160,6 +160,7 @@ describe('tooltip directive', () => {
     await userEvent.click(target)
     expect(click).toHaveBeenCalledOnce()
     await userEvent.unhover(target)
+    await vi.waitFor(() => expect(tip()).toBeNull())
     target.blur()
     target.focus()
     await new Promise(resolve => setTimeout(resolve, 80))

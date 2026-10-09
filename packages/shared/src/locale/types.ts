@@ -206,6 +206,10 @@ export interface UiMessages {
     placeholder: string
     empty: string
   }
+  lineClamp: {
+    expand: string
+    collapse: string
+  }
   calendar: {
     label: string
     prev: string
