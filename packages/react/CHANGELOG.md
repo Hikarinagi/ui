@@ -1,5 +1,11 @@
 # @hina-ui/react
 
+## [1.7.10](https://github.com/Hikarinagi/ui/compare/@hina-ui/react@1.7.9...@hina-ui/react@1.7.10) (2026-10-09)
+
+### Added
+
+- **CommandPalette** The heading slot (Vue) or renderHeading (React) replaces the content of a group heading row and receives the group, so a row can carry an action such as a clear button. The heading row is rendered outside the option list: its controls are reachable with Tab, clicking them leaves focus in the input, and the group keeps its label as its accessible name. It also works with virtualize.
+
 ## [1.7.9](https://github.com/Hikarinagi/ui/compare/@hina-ui/react@1.7.8...@hina-ui/react@1.7.9) (2026-10-09)
 
 ### Added
