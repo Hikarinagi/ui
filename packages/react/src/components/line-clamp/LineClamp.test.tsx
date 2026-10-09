@@ -29,16 +29,20 @@ describe('LineClamp', () => {
     expect(value(Number.NaN)).toBe('3')
   })
 
-  it('展开时标出 data-expanded,量到溢出之前不带 data-truncated', () => {
-    const { content } = mount({ defaultExpanded: true })
+  it('展开时根元素与内容都标出 data-expanded,按钮文案为「收起」', () => {
+    const { root, content } = mount({ defaultExpanded: true })
+    expect(root.getAttribute('data-expanded')).toBe('')
     expect(content.getAttribute('data-expanded')).toBe('')
-    expect(content.hasAttribute('data-truncated')).toBe(false)
-    expect(content.style.getPropertyValue('--hn-line-clamp-size')).toBe('')
+    expect(root.querySelector('button')!.textContent?.trim()).toBe('收起')
   })
 
-  it('量不到溢出时不渲染按钮,其余属性落在根元素', () => {
-    const { root } = mount({ id: 'intro' })
+  it('按钮始终在 DOM 中,量不到溢出时在根元素标出 data-truncated=false,其余属性落在根元素', () => {
+    const { root, content } = mount({ id: 'intro' })
     expect(root.id).toBe('intro')
-    expect(root.querySelector('button')).toBeNull()
+    expect(root.getAttribute('data-truncated')).toBe('false')
+    const button = root.querySelector('button')!
+    expect(button.textContent?.trim()).toBe('展开全部')
+    expect(button.getAttribute('aria-expanded')).toBe('false')
+    expect(button.getAttribute('aria-controls')).toBe(content.id)
   })
 })

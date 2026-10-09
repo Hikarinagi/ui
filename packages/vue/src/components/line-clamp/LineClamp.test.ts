@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { nextTick } from 'vue'
 import LineClamp from './LineClamp.vue'
 
 const content = (props: Record<string, unknown> = {}) =>
@@ -26,15 +27,20 @@ describe('LineClamp', () => {
     expect(lines(content({ lines: Number.NaN }))).toBe('3')
   })
 
-  it('展开时标出 data-expanded,量到溢出之前不带 data-truncated', () => {
-    const inner = content({ expanded: true })
-    expect(inner.getAttribute('data-expanded')).toBe('')
-    expect(inner.hasAttribute('data-truncated')).toBe(false)
-    expect(inner.style.getPropertyValue('--hn-line-clamp-size')).toBe('')
+  it('展开时根元素与内容都标出 data-expanded,按钮文案为「收起」', () => {
+    const w = mount(LineClamp, { props: { expanded: true }, slots: { default: () => '简介' } })
+    expect(w.attributes('data-expanded')).toBe('')
+    expect(w.element.firstElementChild!.getAttribute('data-expanded')).toBe('')
+    expect(w.get('button').text()).toBe('收起')
   })
 
-  it('量不到溢出时不渲染按钮', () => {
+  it('按钮始终在 DOM 中,量不到溢出时在根元素标出 data-truncated=false', async () => {
     const w = mount(LineClamp, { slots: { default: () => '简介' } })
-    expect(w.find('button').exists()).toBe(false)
+    await nextTick()
+    expect(w.attributes('data-truncated')).toBe('false')
+    const button = w.get('button')
+    expect(button.text()).toBe('展开全部')
+    expect(button.attributes('aria-expanded')).toBe('false')
+    expect(button.attributes('aria-controls')).toBe(w.element.firstElementChild!.id)
   })
 })

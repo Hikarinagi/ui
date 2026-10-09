@@ -15,12 +15,10 @@ import { Button } from '../button/Button'
 import {
   animateLineClamp,
   lineClampCount,
-  lineClampSize,
   measureLineClamp,
   revealLineClamp,
-  type LineClampMeasure,
 } from '../../../../shared/src/lib/line-clamp'
-import { lineClampContent, lineClampRoot } from './line-clamp.variants'
+import { lineClampContent, lineClampRoot, lineClampToggle } from './line-clamp.variants'
 import { useComposedRefs } from '../../primitives/utils/compose-refs'
 import { useControllableState } from '../../primitives/utils/controllable-state'
 import { useLayoutEffect } from '../../primitives/utils/layout-effect'
@@ -52,7 +50,7 @@ export function LineClamp({
   const root = useRef<HTMLDivElement>(null)
   const composedRef = useComposedRefs(ref, root)
   const content = useRef<HTMLDivElement>(null)
-  const [measured, setMeasured] = useState<LineClampMeasure | null>(null)
+  const [truncated, setTruncated] = useState<boolean | null>(null)
   const [expanded = false, setExpanded] = useControllableState({
     prop: expandedProp,
     defaultProp: defaultExpanded,
@@ -67,10 +65,7 @@ export function LineClamp({
   function measure() {
     if (!content.current) return
     const next = measureLineClamp(content.current)
-    if (!next) return
-    setMeasured(current =>
-      current?.size === next.size && current.truncated === next.truncated ? current : next,
-    )
+    if (next !== null) setTruncated(next)
   }
 
   useLayoutEffect(() => {
@@ -106,23 +101,23 @@ export function LineClamp({
   }
 
   return (
-    <div {...attrs} ref={composedRef} className={cn(lineClampRoot(), className)}>
+    <div
+      data-expanded={expanded ? '' : undefined}
+      data-truncated={truncated === null ? undefined : `${truncated}`}
+      {...attrs}
+      ref={composedRef}
+      className={cn(lineClampRoot(), className)}
+    >
       <div
         id={id}
         ref={content}
         data-expanded={expanded ? '' : undefined}
-        data-truncated={measured?.truncated ? '' : undefined}
-        style={
-          {
-            '--hn-line-clamp': count,
-            '--hn-line-clamp-size': lineClampSize(measured),
-          } as CSSProperties
-        }
+        style={{ '--hn-line-clamp': count } as CSSProperties}
         className={lineClampContent()}
       >
         {children}
       </div>
-      {measured?.truncated && (
+      <span className={lineClampToggle()}>
         <Button
           variant="link"
           size="sm"
@@ -132,7 +127,7 @@ export function LineClamp({
         >
           {expanded ? (collapseLabel ?? t.lineClamp.collapse) : (expandLabel ?? t.lineClamp.expand)}
         </Button>
-      )}
+      </span>
     </div>
   )
 }

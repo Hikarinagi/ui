@@ -1,6 +1,8 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { userEvent } from 'vitest/browser'
 import { useState, type ReactNode } from 'react'
+import { hydrateRoot } from 'react-dom/client'
+import { renderToString } from 'react-dom/server'
 import axe from 'axe-core'
 import { LineClamp, type LineClampProps } from './LineClamp'
 import { Text } from '../text/Text'
@@ -25,6 +27,16 @@ async function settled(content: HTMLElement) {
 
 const frame = () => new Promise<void>(done => requestAnimationFrame(() => done()))
 
+function painted(element: Element) {
+  return new Promise<void>(done => {
+    const observer = new IntersectionObserver(() => {
+      observer.disconnect()
+      done()
+    })
+    observer.observe(element)
+  })
+}
+
 async function setup(props: LineClampProps = {}, children: ReactNode = long, width = 320) {
   const state = signal(props)
   function Harness() {
@@ -44,10 +56,14 @@ async function setup(props: LineClampProps = {}, children: ReactNode = long, wid
     root,
     content,
     settled: () => settled(content()),
+    toggle: () => root().querySelector<HTMLElement>('.hn-line-clamp-toggle'),
     setProps: (next: LineClampProps) => {
       state.value = { ...state.value, ...next }
     },
-    button: () => root().querySelector('button'),
+    button: () => {
+      const button = root().querySelector('button')
+      return button?.checkVisibility({ visibilityProperty: true }) ? button : null
+    },
     lines: () => {
       const target = (content().querySelector('p') ?? content()) as HTMLElement
       return content().clientHeight / parseFloat(getComputedStyle(target).lineHeight)
@@ -91,17 +107,128 @@ describe('LineClamp', () => {
     const s = await setup()
     const style = () => getComputedStyle(s.content())
     expect(style().maskImage).toContain('linear-gradient')
-    expect(style().getPropertyValue('--hn-line-clamp-fade')).toBe('36px')
+    expect(style().getPropertyValue('--hn-line-clamp-fade')).toBe('1')
 
     await userEvent.click(s.button()!)
     await s.settled()
     expect(style().maskImage).toBe('none')
-    expect(style().getPropertyValue('--hn-line-clamp-fade')).toBe('0px')
+    expect(style().getPropertyValue('--hn-line-clamp-fade')).toBe('0')
+  })
 
-    const single = await setup({ lines: 1 })
-    expect(getComputedStyle(single.content()).getPropertyValue('--hn-line-clamp-fade')).toBe(
-      '14.4px',
+  it('按钮在内容下方占一行,折叠与展开时位置关系不变', async () => {
+    const s = await setup()
+    const box = (element: Element) => element.getBoundingClientRect()
+    const lineHeight = parseFloat(getComputedStyle(s.content()).lineHeight)
+    expect(box(s.content()).height).toBe(3 * lineHeight)
+    expect(box(s.toggle()!).top).toBe(box(s.content()).bottom + 4)
+    expect(box(s.root()).height).toBe(3 * lineHeight + 4 + lineHeight)
+
+    await userEvent.click(s.button()!)
+    await s.settled()
+    expect(box(s.toggle()!).top).toBe(box(s.content()).bottom + 4)
+    expect(box(s.toggle()!).bottom).toBe(box(s.root()).bottom)
+  })
+
+  describe('服务端输出', () => {
+    async function server(children: ReactNode) {
+      const app = (
+        <>
+          <LineClamp lines={2}>{children}</LineClamp>
+          <p data-after="">后面的内容</p>
+        </>
+      )
+      const host = document.createElement('div')
+      host.style.width = '320px'
+      document.body.append(host)
+      host.innerHTML = renderToString(app)
+      await painted(host)
+      const root = () => host.firstElementChild as HTMLElement
+      const content = () => root().firstElementChild as HTMLElement
+      const snapshot = () => ({
+        height: root().getBoundingClientRect().height,
+        content: content().getBoundingClientRect().height,
+        after: host.querySelector('[data-after]')!.getBoundingClientRect().top,
+        button: host.querySelector('button')!.checkVisibility({ visibilityProperty: true }),
+        fade: getComputedStyle(content()).getPropertyValue('--hn-line-clamp-fade'),
+        mask: getComputedStyle(content()).maskImage === 'none' ? 'none' : 'fade',
+      })
+      const hydrate = async () => {
+        const hydrated = hydrateRoot(host, app)
+        mounted.push({ unmount: async () => hydrated.unmount() })
+        await vi.waitFor(() => expect(root().hasAttribute('data-truncated')).toBe(true))
+        await frame()
+      }
+      return { root, snapshot, hydrate }
+    }
+
+    it('浏览器支持按溢出状态驱动样式', () => {
+      expect(CSS.supports('animation-timeline: scroll()')).toBe(true)
+      expect(CSS.supports('timeline-scope: --hn-line-clamp')).toBe(true)
+    })
+
+    it('内容超出时,激活前就显示按钮与渐隐,激活后布局与外观都不变', async () => {
+      const error = vi.spyOn(console, 'error')
+      const s = await server(
+        <>
+          <Text size="sm">第一段只有一行。</Text>
+          <Text size="sm">{long}</Text>
+        </>,
+      )
+      const before = s.snapshot()
+      expect(before.content).toBeCloseTo(2 * 22, 0)
+      expect(before.height).toBeCloseTo(2 * 22 + 4 + 24, 0)
+      expect(before).toMatchObject({ button: true, fade: '1', mask: 'fade' })
+
+      await s.hydrate()
+      expect(s.root().dataset.truncated).toBe('true')
+      expect(s.snapshot()).toEqual(before)
+      expect(error).not.toHaveBeenCalled()
+      error.mockRestore()
+    })
+
+    it.skipIf(!PerformanceObserver.supportedEntryTypes.includes('layout-shift'))(
+      '从服务端输出到激活完成,浏览器没有记录到布局位移',
+      async () => {
+        const entries: PerformanceEntry[] = []
+        const observer = new PerformanceObserver(list => entries.push(...list.getEntries()))
+        observer.observe({ type: 'layout-shift' })
+        const s = await server(long)
+        await s.hydrate()
+        await frame()
+        await frame()
+        entries.push(...observer.takeRecords())
+        expect(entries).toEqual([])
+
+        const spacer = document.createElement('div')
+        spacer.style.height = '28px'
+        document.body.prepend(spacer)
+        await vi.waitFor(() => {
+          entries.push(...observer.takeRecords())
+          expect(entries.length).toBeGreaterThan(0)
+        })
+        observer.disconnect()
+      },
     )
+
+    it('内容不超出时,激活前后都没有按钮与渐隐,高度等于内容高度', async () => {
+      const error = vi.spyOn(console, 'error')
+      const s = await server('只有一行。')
+      const before = s.snapshot()
+      expect(before.height).toBe(before.content)
+      expect(before).toMatchObject({ button: false, fade: '0' })
+
+      await s.hydrate()
+      expect(s.root().dataset.truncated).toBe('false')
+      expect(s.snapshot()).toMatchObject({
+        height: before.height,
+        content: before.content,
+        after: before.after,
+        button: false,
+        fade: '0',
+      })
+      expect(error).not.toHaveBeenCalled()
+      error.mockRestore()
+    })
   })
 
   it('展开与收起经过高度过渡,渐隐随之淡出与淡入', async () => {
@@ -127,7 +254,7 @@ describe('LineClamp', () => {
     expect(s.content().hasAttribute('data-animating')).toBe(true)
     const opening = await sample()
     expect(opening.heights.some(height => between(height, collapsed, full))).toBe(true)
-    expect(opening.fades.some(fade => between(fade, 0, 36))).toBe(true)
+    expect(opening.fades.some(fade => fade > 0.02 && fade < 0.98)).toBe(true)
     expect(getComputedStyle(s.content()).maskImage).toBe('none')
     expect(s.content().clientHeight).toBe(full)
 
@@ -135,7 +262,7 @@ describe('LineClamp', () => {
     expect(s.content().hasAttribute('data-animating')).toBe(true)
     const closing = await sample()
     expect(closing.heights.some(height => between(height, collapsed, full))).toBe(true)
-    expect(closing.fades.some(fade => between(fade, 0, 36))).toBe(true)
+    expect(closing.fades.some(fade => fade > 0.02 && fade < 0.98)).toBe(true)
     expect(s.content().clientHeight).toBe(collapsed)
     expect(getComputedStyle(s.content()).maskImage).toContain('linear-gradient')
   })

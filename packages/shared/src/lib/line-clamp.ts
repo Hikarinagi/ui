@@ -5,22 +5,18 @@ export function lineClampCount(lines: number | undefined) {
   return Math.max(1, Math.floor(lines))
 }
 
-export interface LineClampMeasure {
-  size: number
-  truncated: boolean
-}
-
-export function measureLineClamp(content: HTMLElement): LineClampMeasure | null {
-  if (content.hasAttribute('data-animating')) return null
+function measureHeights(content: HTMLElement) {
   content.setAttribute('data-measuring', '')
-  const size = content.clientHeight
-  const truncated = content.scrollHeight - size > 1
+  const collapsed = content.clientHeight
+  const full = content.scrollHeight
   content.removeAttribute('data-measuring')
-  return { size, truncated }
+  return { collapsed, full }
 }
 
-export function lineClampSize(measure: LineClampMeasure | null) {
-  return measure?.truncated ? `${measure.size}px` : undefined
+export function measureLineClamp(content: HTMLElement) {
+  if (content.hasAttribute('data-animating')) return null
+  const { collapsed, full } = measureHeights(content)
+  return full - collapsed > 1
 }
 
 function toMs(value: string) {
@@ -29,28 +25,17 @@ function toMs(value: string) {
   return value.trim().endsWith('ms') ? amount : amount * 1000
 }
 
-function collapsedHeight(content: HTMLElement) {
-  const size = Number.parseFloat(content.style.getPropertyValue('--hn-line-clamp-size'))
-  if (Number.isFinite(size)) return size
-  const style = getComputedStyle(content)
-  const lines = Number.parseFloat(style.getPropertyValue('--hn-line-clamp')) || LINE_CLAMP_DEFAULT
-  const lineHeight = Number.parseFloat(style.lineHeight)
-  return (
-    lines * (Number.isFinite(lineHeight) ? lineHeight : Number.parseFloat(style.fontSize) * 1.2)
-  )
-}
-
 const FADE = '--hn-line-clamp-fade'
 
 export function animateLineClamp(content: HTMLElement, expanded: boolean, done: () => void) {
   const running = content.style.maxHeight !== ''
-  const full = content.scrollHeight
-  const collapsed = Math.min(collapsedHeight(content), full)
-  const from = running ? content.getBoundingClientRect().height : expanded ? collapsed : full
-  const to = expanded ? full : collapsed
+  const current = running ? content.getBoundingClientRect().height : undefined
   const fade = running ? getComputedStyle(content).getPropertyValue(FADE) : ''
 
   content.style.transition = 'none'
+  const { collapsed, full } = measureHeights(content)
+  const from = current ?? (expanded ? collapsed : full)
+  const to = expanded ? full : collapsed
   content.toggleAttribute('data-expanded', !expanded)
   if (fade) content.style.setProperty(FADE, fade)
   content.style.maxHeight = `${from}px`

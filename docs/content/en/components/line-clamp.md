@@ -72,8 +72,10 @@ The button text defaults to `lineClamp.expand` and `lineClamp.collapse` of the U
 
 ## Behaviour {#behavior}
 
-- The button renders only when the content really exceeds `lines` lines, as measured after mounting; server output has no button.
-- The component measures again when the container width, the content or `lines` changes, and once more when fonts finish loading. The button appears or disappears with the result, including "Show less" while expanded.
+- The folded height comes from CSS line clamping. The server always outputs the button, and CSS shows the button and the fade according to whether the content overflows, so the first frame is already final and layout and appearance are the same before and after activation.
+- Browsers without scroll-driven animations (`animation-timeline`) treat the content as overflowing before activation: the button shows, the fade does not, and the last line ends in an ellipsis; activation then corrects it from the measurement.
+- When `expanded` starts as `true`, "Show less" shows before activation; after activation the button is removed if the content does not exceed the line count.
+- After activation the component measures again when the container width, the content or `lines` changes, and once more when fonts finish loading. The button shows or hides with the result, including "Show less" in the expanded state.
 - Expanding and folding animate the height, and the fade at the bottom fades out and in with it; toggling again mid-transition turns back from the current height. With reduced motion enabled in the system, no transition plays.
 - The fade is a mask and does not depend on the background colour; it covers at most 1.5 lines and is shortened in proportion for small line counts. The mask is removed once the expanded state settles.
 - After folding through the button, the component scrolls back into view when the transition ends.
@@ -84,6 +86,7 @@ The button text defaults to `lineClamp.expand` and `lineClamp.collapse` of the U
 - The button is a native `button`: it takes focus and responds to both Enter and Space.
 - `aria-expanded` reflects whether the content is expanded, and `aria-controls` points at the content region.
 - The clipped text is not hidden from assistive technology.
+- When the content fits within the line count, the button is not shown and is left out of the focus order and the accessibility tree.
 
 ## API {#api}
 

@@ -7,12 +7,10 @@
   import {
     animateLineClamp,
     lineClampCount,
-    lineClampSize,
     measureLineClamp,
     revealLineClamp,
-    type LineClampMeasure,
   } from '../../../../shared/src/lib/line-clamp'
-  import { lineClampContent, lineClampRoot } from './line-clamp.variants'
+  import { lineClampContent, lineClampRoot, lineClampToggle } from './line-clamp.variants'
 
   defineOptions({ name: 'HnLineClamp' })
 
@@ -29,7 +27,8 @@
   const id = useId()
   const root = shallowRef<HTMLElement | null>(null)
   const content = shallowRef<HTMLElement | null>(null)
-  const measured = shallowRef<LineClampMeasure | null>(null)
+  const truncated = shallowRef<boolean | null>(null)
+  const truncation = computed(() => (truncated.value === null ? undefined : `${truncated.value}`))
   const count = computed(() => lineClampCount(props.lines))
 
   let shown = expanded.value
@@ -39,9 +38,7 @@
   function measure() {
     if (!content.value) return
     const next = measureLineClamp(content.value)
-    if (!next) return
-    const current = measured.value
-    if (current?.size !== next.size || current.truncated !== next.truncated) measured.value = next
+    if (next !== null) truncated.value = next
   }
 
   function sync() {
@@ -74,30 +71,35 @@
 </script>
 
 <template>
-  <div ref="root" :class="cn(lineClampRoot(), props.class)">
+  <div
+    ref="root"
+    :data-expanded="expanded ? '' : undefined"
+    :data-truncated="truncation"
+    :class="cn(lineClampRoot(), props.class)"
+  >
     <div
       :id="id"
       ref="content"
       :data-expanded="expanded ? '' : undefined"
-      :data-truncated="measured?.truncated ? '' : undefined"
-      :style="{ '--hn-line-clamp': count, '--hn-line-clamp-size': lineClampSize(measured) }"
+      :style="{ '--hn-line-clamp': count }"
       :class="lineClampContent()"
     >
       <slot />
     </div>
-    <Button
-      v-if="measured?.truncated"
-      variant="link"
-      size="sm"
-      :aria-expanded="expanded"
-      :aria-controls="id"
-      @click="toggle"
-    >
-      {{
-        expanded
-          ? (props.collapseLabel ?? t.lineClamp.collapse)
-          : (props.expandLabel ?? t.lineClamp.expand)
-      }}
-    </Button>
+    <span :class="lineClampToggle()">
+      <Button
+        variant="link"
+        size="sm"
+        :aria-expanded="expanded"
+        :aria-controls="id"
+        @click="toggle"
+      >
+        {{
+          expanded
+            ? (props.collapseLabel ?? t.lineClamp.collapse)
+            : (props.expandLabel ?? t.lineClamp.expand)
+        }}
+      </Button>
+    </span>
   </div>
 </template>
