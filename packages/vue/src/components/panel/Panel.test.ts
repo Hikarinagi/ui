@@ -48,4 +48,15 @@ describe('Panel', () => {
     const empty = mount(Panel, { props: { title: '空面板' } })
     expect(empty.findAll('[data-hn-panel] > div')).toHaveLength(1)
   })
+
+  it('没有正文时页眉自带底部内边距，有正文时由正文层负责', () => {
+    const empty = mount(Panel, { props: { title: '空面板' } })
+    expect(empty.find('[data-hn-panel] > div').classes()).toContain('pb-(--hn-panel-p)')
+
+    const filled = mount(Panel, {
+      props: { title: '有正文' },
+      slots: { default: () => h('p', '正文') },
+    })
+    expect(filled.find('[data-hn-panel] > div').classes()).not.toContain('pb-(--hn-panel-p)')
+  })
 })

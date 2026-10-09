@@ -25,7 +25,7 @@
 
 <template>
   <Card data-hn-panel :padded="false" :class="cn('flex flex-col', props.class)">
-    <div :class="panelHeader()">
+    <div :class="panelHeader({ bodiless: !slots.default })">
       <div class="flex min-w-0 flex-col gap-1">
         <div :class="panelTitle()">
           <span v-if="slots.icon" :class="panelIcon()" aria-hidden="true">

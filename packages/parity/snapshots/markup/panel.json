@@ -30,7 +30,7 @@
   "title only renders no body": [
     "<div class=\"bg-surface border-line rounded-lg border shadow-sm overflow-hidden flex flex-col\" data-hn-panel=\"\">",
     "  <!--[-->",
-    "  <div class=\"flex items-start justify-between gap-4 px-(--hn-panel-p) pt-(--hn-panel-p)\">",
+    "  <div class=\"flex items-start justify-between gap-4 px-(--hn-panel-p) pt-(--hn-panel-p) pb-(--hn-panel-p)\">",
     "    <div class=\"flex min-w-0 flex-col gap-1\">",
     "      <div class=\"flex min-w-0 items-center gap-2\">",
     "        <!--v-if-->",
@@ -135,7 +135,7 @@
   "zero count": [
     "<div class=\"bg-surface border-line rounded-lg border shadow-sm overflow-hidden flex flex-col\" data-hn-panel=\"\">",
     "  <!--[-->",
-    "  <div class=\"flex items-start justify-between gap-4 px-(--hn-panel-p) pt-(--hn-panel-p)\">",
+    "  <div class=\"flex items-start justify-between gap-4 px-(--hn-panel-p) pt-(--hn-panel-p) pb-(--hn-panel-p)\">",
     "    <div class=\"flex min-w-0 flex-col gap-1\">",
     "      <div class=\"flex min-w-0 items-center gap-2\">",
     "        <!--v-if-->",
@@ -179,7 +179,7 @@
   "title and description slots": [
     "<div class=\"bg-surface border-line rounded-lg border shadow-sm overflow-hidden flex flex-col\" data-hn-panel=\"\">",
     "  <!--[-->",
-    "  <div class=\"flex items-start justify-between gap-4 px-(--hn-panel-p) pt-(--hn-panel-p)\">",
+    "  <div class=\"flex items-start justify-between gap-4 px-(--hn-panel-p) pt-(--hn-panel-p) pb-(--hn-panel-p)\">",
     "    <div class=\"flex min-w-0 flex-col gap-1\">",
     "      <div class=\"flex min-w-0 items-center gap-2\">",
     "        <!--v-if-->",
@@ -205,7 +205,7 @@
   "empty description is omitted": [
     "<div class=\"bg-surface border-line rounded-lg border shadow-sm overflow-hidden flex flex-col\" data-hn-panel=\"\">",
     "  <!--[-->",
-    "  <div class=\"flex items-start justify-between gap-4 px-(--hn-panel-p) pt-(--hn-panel-p)\">",
+    "  <div class=\"flex items-start justify-between gap-4 px-(--hn-panel-p) pt-(--hn-panel-p) pb-(--hn-panel-p)\">",
     "    <div class=\"flex min-w-0 flex-col gap-1\">",
     "      <div class=\"flex min-w-0 items-center gap-2\">",
     "        <!--v-if-->",
