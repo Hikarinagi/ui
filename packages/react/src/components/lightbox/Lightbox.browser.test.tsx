@@ -386,7 +386,7 @@ describe('lightbox · 缩放与拖动', () => {
     await tap(point.x, point.y)
     await vi.waitFor(() => expect(matrix().a).toBeCloseTo(1, 2), { timeout: 2000 })
     await vi.waitFor(() => expect(matrix().e).toBeCloseTo(0, 1))
-    expect(frame()!.className).not.toContain('cursor-grab')
+    await vi.waitFor(() => expect(frame()!.className).not.toContain('cursor-grab'))
   })
 
   it('双指捏合实时跟手,越过上限有阻力,松手弹回上限', async () => {

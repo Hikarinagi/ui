@@ -231,3 +231,56 @@ describe.each(overlays)('%s 跟随内部 Form 的提交状态', (_, Overlay) => 
     expect(s.open.value).toBe(true)
   })
 })
+
+describe.each(overlays)('%s 里每次渲染都新建 rules 的 Form', (_, Overlay) => {
+  it('先报出校验错误,填好后调用 onSubmit', async () => {
+    const submit = vi.fn()
+    const name = signal('')
+    function Harness() {
+      const current = name.use()
+      return (
+        <Overlay
+          open
+          onOpenChange={() => {}}
+          title="编辑资料"
+          renderContent={() => (
+            <Form
+              id="inline"
+              values={{ name: current }}
+              rules={(input: FormValues): FormErrors => (input.name ? {} : { name: '请输入名称' })}
+              onSubmit={submit}
+            >
+              {({ errors }) => (
+                <>
+                  <input
+                    data-name=""
+                    value={current}
+                    onChange={event => (name.value = event.target.value)}
+                  />
+                  <output>{errors.name ?? ''}</output>
+                </>
+              )}
+            </Form>
+          )}
+          renderFooter={() => (
+            <Button data-save="" type="submit" form="inline">
+              保存
+            </Button>
+          )}
+        />
+      )
+    }
+    const w = await mount(<Harness />)
+    mounted.push(w)
+    await vi.waitFor(() => expect(button('save')).toBeTruthy())
+
+    await userEvent.click(button('save'))
+    await vi.waitFor(() => expect(document.querySelector('output')!.textContent).toBe('请输入名称'))
+    expect(submit).not.toHaveBeenCalled()
+
+    await userEvent.type(document.querySelector('[data-name]')!, 'Lawrence')
+    await userEvent.click(button('save'))
+    await vi.waitFor(() => expect(submit).toHaveBeenCalledWith({ name: 'Lawrence' }))
+    expect(document.querySelector('output')!.textContent).toBe('')
+  })
+})

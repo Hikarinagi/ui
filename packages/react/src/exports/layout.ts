@@ -23,6 +23,7 @@ export {
   writeScrollRecord,
   createScrollRestorer,
   createScrollRestoreSession,
+  keepScrollPosition,
   scrollRestoreScript,
 } from '../../../shared/src/lib/scroll-restore'
 export type {

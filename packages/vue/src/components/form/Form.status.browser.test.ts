@@ -195,3 +195,57 @@ describe.each(overlays)('%s 跟随内部 Form 的提交状态', (_, Overlay) => 
     expect(s.open.value).toBe(true)
   })
 })
+
+describe.each(overlays)('%s 里每次渲染都新建 rules 的 Form', (_, Overlay) => {
+  it('先报出校验错误,填好后触发 submit', async () => {
+    const submit = vi.fn()
+    const values = reactive({ name: '' })
+    const w = mount(
+      defineComponent({
+        setup: () => () =>
+          h(
+            Overlay,
+            { open: true, title: '编辑资料' },
+            {
+              content: () =>
+                h(
+                  Form,
+                  {
+                    id: 'inline',
+                    values,
+                    rules: (input: FormValues): FormErrors =>
+                      input.name ? {} : { name: '请输入名称' },
+                    onSubmit: (input: FormValues) => submit({ ...input }),
+                  },
+                  {
+                    default: ({ errors }: { errors: FormErrors }) => [
+                      h('input', {
+                        'data-name': '',
+                        value: values.name,
+                        onInput: (event: Event) =>
+                          (values.name = (event.target as HTMLInputElement).value),
+                      }),
+                      h('output', errors.name ?? ''),
+                    ],
+                  },
+                ),
+              footer: () =>
+                h(Button, { 'data-save': '', type: 'submit', form: 'inline' }, () => '保存'),
+            },
+          ),
+      }),
+      { attachTo: document.body },
+    )
+    mounted.push(w)
+    await vi.waitFor(() => expect(button('save')).toBeTruthy())
+
+    await userEvent.click(button('save'))
+    await vi.waitFor(() => expect(document.querySelector('output')!.textContent).toBe('请输入名称'))
+    expect(submit).not.toHaveBeenCalled()
+
+    await userEvent.type(document.querySelector('[data-name]')!, 'Lawrence')
+    await userEvent.click(button('save'))
+    await vi.waitFor(() => expect(submit).toHaveBeenCalledWith({ name: 'Lawrence' }))
+    expect(document.querySelector('output')!.textContent).toBe('')
+  })
+})

@@ -3,6 +3,7 @@ import { mount, type VueWrapper } from '@vue/test-utils'
 import { createSSRApp, defineComponent, h, ref, type App } from 'vue'
 import { renderToString } from 'vue/server-renderer'
 import AppShell from './AppShell.vue'
+import { keepScrollPosition } from '../../../../shared/src/lib/scroll-restore'
 import '../../../test/browser.css'
 
 const wrappers: VueWrapper[] = []
@@ -55,6 +56,10 @@ function setup(props: Record<string, unknown> = { restoreKey: 'main' }) {
     },
     go(path: string) {
       history.pushState({}, '', path)
+      follow()
+    },
+    replace(path: string) {
+      history.replaceState({}, '', path)
       follow()
     },
     stop: () => window.removeEventListener('popstate', follow),
@@ -146,6 +151,72 @@ it('目标页面的内容稍后才渲染到足够高时,等内容出现再落到
   const content = document.querySelector<HTMLElement>(`[data-page="${first}"]`)!
   content.style.height = '3000px'
   await vi.waitFor(() => expect(s.viewport().scrollTop).toBe(1500))
+  s.stop()
+})
+
+it('keepScrollPosition 让下一次页面变化保持位置,只生效一次,并可按 restoreKey 指定', async () => {
+  const s = setup()
+  await vi.waitFor(() => expect(s.viewport()).toBeTruthy())
+  await s.scrollTo(300)
+
+  keepScrollPosition()
+  s.go('/restore-keep?sort=new')
+  await pause(700)
+  expect(s.viewport().scrollTop).toBe(300)
+  expect(record()).toEqual({ main: 300 })
+
+  s.go('/restore-keep-next')
+  await vi.waitFor(() => expect(s.viewport().scrollTop).toBe(0))
+
+  await s.scrollTo(200)
+  keepScrollPosition('other')
+  s.go('/restore-keep-other')
+  await vi.waitFor(() => expect(s.viewport().scrollTop).toBe(0))
+
+  await s.scrollTo(150)
+  keepScrollPosition('main')
+  s.go('/restore-keep-main')
+  await pause(700)
+  expect(s.viewport().scrollTop).toBe(150)
+
+  await s.scrollTo(500)
+  history.back()
+  await vi.waitFor(() => expect(s.viewport().scrollTop).toBe(150))
+  s.stop()
+})
+
+it('保持位置时新页面的内容稍后才够高,等内容出现再回到原位置', async () => {
+  const s = setup()
+  await vi.waitFor(() => expect(s.viewport()).toBeTruthy())
+  await s.scrollTo(900)
+  s.heights['/restore-keep-late'] = 400
+
+  keepScrollPosition()
+  s.go('/restore-keep-late')
+  await vi.waitFor(() =>
+    expect(document.querySelector('[data-page="/restore-keep-late"]')).not.toBeNull(),
+  )
+  await pause(200)
+  expect(s.viewport().scrollTop).toBeLessThan(900)
+
+  document.querySelector<HTMLElement>('[data-page="/restore-keep-late"]')!.style.height = '3000px'
+  await vi.waitFor(() => expect(s.viewport().scrollTop).toBe(900))
+  s.stop()
+})
+
+it('keepScrollPosition 对替换当前历史记录的导航同样生效', async () => {
+  const s = setup()
+  await vi.waitFor(() => expect(s.viewport()).toBeTruthy())
+  await s.scrollTo(400)
+
+  keepScrollPosition()
+  s.replace('/restore-keep-replace?sort=hot')
+  await pause(700)
+  expect(s.viewport().scrollTop).toBe(400)
+  expect(record()).toEqual({ main: 400 })
+
+  s.replace('/restore-keep-replace?sort=new')
+  await vi.waitFor(() => expect(s.viewport().scrollTop).toBe(0))
   s.stop()
 })
 
