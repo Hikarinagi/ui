@@ -62,15 +62,15 @@ import { CopyButton } from '@hina-ui/vue'
 
 ### Props {#props}
 
-| 属性       | 类型                   | 默认值  | 说明                   |
-| ---------- | ---------------------- | ------- | ---------------------- |
-| `text`     | `string`               | —       | 必填。写入剪贴板的文本 |
-| `label`    | `string`               | 复制    | 按钮的无障碍名称       |
-| `size`     | `'sm' \| 'md' \| 'lg'` | `'sm'`  | 尺寸                   |
-| `timeout`  | `number`               | `2000`  | 成功状态持续的毫秒数   |
-| `tooltip`  | `boolean`              | `false` | 是否显示提示           |
-| `disabled` | `boolean`              | `false` | 是否不可用             |
-| `class`    | `string`               | —       | 追加至按钮的类名       |
+| 属性       | 类型                           | 默认值  | 说明                   |
+| ---------- | ------------------------------ | ------- | ---------------------- |
+| `text`     | `string`                       | —       | 必填。写入剪贴板的文本 |
+| `label`    | `string`                       | 复制    | 按钮的无障碍名称       |
+| `size`     | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'sm'`  | 尺寸                   |
+| `timeout`  | `number`                       | `2000`  | 成功状态持续的毫秒数   |
+| `tooltip`  | `boolean`                      | `false` | 是否显示提示           |
+| `disabled` | `boolean`                      | `false` | 是否不可用             |
+| `class`    | `string`                       | —       | 追加至按钮的类名       |
 
 ### Events {#events}
 

@@ -48,13 +48,13 @@ Use `accent` for the primary action, `neutral` for secondary actions and cancell
 
 ### Sizes {#sizes}
 
-Three sizes, whose height and padding scale with density.
+Four sizes, whose height and padding scale with density.
 
 <Playground
   name="Button"
   label="Button"
   :controls="[
-    { prop: 'size', options: ['sm', 'md', 'lg'], default: 'md' },
+    { prop: 'size', options: ['xs', 'sm', 'md', 'lg'], default: 'md' },
     { prop: 'variant', options: ['solid', 'soft', 'outline'] },
   ]"
 />
@@ -130,7 +130,7 @@ A click moves the button into the loading state, during which further clicks are
 <Playground
   name="Button"
   label="Continue"
-  :controls="[{ prop: 'pill' }, { prop: 'block' }, { prop: 'size', options: ['sm', 'md', 'lg'], default: 'md' }]"
+  :controls="[{ prop: 'pill' }, { prop: 'block' }, { prop: 'size', options: ['xs', 'sm', 'md', 'lg'], default: 'md' }]"
 />
 
 ### As a link {#link}
@@ -220,9 +220,11 @@ The colours, corner radius and focus ring of a button all come from semantic var
 
 | Variable             | Default    | Compact    |
 | -------------------- | ---------- | ---------- |
+| `--hn-control-h-xs`  | `1.5rem`   | `1.25rem`  |
 | `--hn-control-h-sm`  | `1.75rem`  | `1.5rem`   |
 | `--hn-control-h-md`  | `2.25rem`  | `1.875rem` |
 | `--hn-control-h-lg`  | `2.75rem`  | `2.25rem`  |
+| `--hn-control-px-xs` | `0.5rem`   | `0.25rem`  |
 | `--hn-control-px-sm` | `0.625rem` | `0.375rem` |
 | `--hn-control-px-md` | `1rem`     | `0.5rem`   |
 | `--hn-control-px-lg` | `1.25rem`  | `0.75rem`  |
@@ -265,7 +267,7 @@ A loading button counts as unavailable.
 | `asChild`  | `boolean`                                             | `false`    | Render nothing, merging into the single child |
 | `variant`  | `'solid' \| 'soft' \| 'outline' \| 'ghost' \| 'link'` | `'solid'`  | Visual style                                  |
 | `tone`     | `'accent' \| 'neutral' \| 'danger'`                   | `'accent'` | Semantic tone                                 |
-| `size`     | `'sm' \| 'md' \| 'lg'`                                | `'md'`     | Size                                          |
+| `size`     | `'xs' \| 'sm' \| 'md' \| 'lg'`                        | `'md'`     | Size                                          |
 | `type`     | `'button' \| 'submit' \| 'reset'`                     | `'button'` | Native button type                            |
 | `iconOnly` | `boolean`                                             | `false`    | Square button holding only an icon            |
 | `block`    | `boolean`                                             | `false`    | Fill the width of the container               |

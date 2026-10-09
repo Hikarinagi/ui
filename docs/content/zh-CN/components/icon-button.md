@@ -67,7 +67,7 @@ import { IconButton } from '@hina-ui/vue'
 | `asChild`  | `boolean`                                             | `false`     | 不渲染自身，合并至唯一的子元素     |
 | `variant`  | `'solid' \| 'soft' \| 'outline' \| 'ghost' \| 'link'` | `'ghost'`   | 视觉样式                           |
 | `tone`     | `'accent' \| 'neutral' \| 'danger'`                   | `'neutral'` | 语义色调                           |
-| `size`     | `'sm' \| 'md' \| 'lg'`                                | `'md'`      | 尺寸                               |
+| `size`     | `'xs' \| 'sm' \| 'md' \| 'lg'`                        | `'md'`      | 尺寸                               |
 | `type`     | `'button' \| 'submit' \| 'reset'`                     | `'button'`  | 原生 button 类型                   |
 | `pill`     | `boolean`                                             | `false`     | 是否呈圆形                         |
 | `loading`  | `boolean`                                             | `false`     | 是否处于加载状态                   |

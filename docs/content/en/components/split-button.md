@@ -179,7 +179,7 @@ export function ButtonDocs() {
 | ----------------- | ------------------------------------------- | ------------------------ | --------------------------------------------------- |
 | `variant`         | `'solid' \| 'soft' \| 'outline' \| 'ghost'` | `'solid'`                | Shared appearance                                   |
 | `tone`            | `'accent' \| 'neutral' \| 'danger'`         | `'accent'`               | Shared tone                                         |
-| `size`            | `'sm' \| 'md' \| 'lg'`                      | `'md'`                   | Button size                                         |
+| `size`            | `'xs' \| 'sm' \| 'md' \| 'lg'`              | `'md'`                   | Button size                                         |
 | `block`           | `boolean`                                   | `false`                  | Fill the container width                            |
 | `pill`            | `boolean`                                   | `false`                  | Fully rounded outer ends                            |
 | `ripple`          | `boolean`                                   | `true`                   | Enable ripple feedback                              |

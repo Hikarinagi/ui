@@ -17,6 +17,7 @@ Both groups below use the default component size and inherit different densities
 
 | Token               | comfortable | compact |
 | ------------------- | ----------- | ------- |
+| `--hn-control-h-xs` | 24px        | 20px    |
 | `--hn-control-h-sm` | 28px        | 24px    |
 | `--hn-control-h-md` | 36px        | 30px    |
 | `--hn-control-h-lg` | 44px        | 36px    |

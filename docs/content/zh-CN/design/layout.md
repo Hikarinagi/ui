@@ -17,6 +17,7 @@ description: 用统一的间距、控件尺度和表面层次组织界面，密�
 
 | Token               | comfortable | compact |
 | ------------------- | ----------- | ------- |
+| `--hn-control-h-xs` | 24px        | 20px    |
 | `--hn-control-h-sm` | 28px        | 24px    |
 | `--hn-control-h-md` | 36px        | 30px    |
 | `--hn-control-h-lg` | 44px        | 36px    |
