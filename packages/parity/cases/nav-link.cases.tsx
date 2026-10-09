@@ -146,7 +146,7 @@ export default defineCases('NavLink', [
     ),
   },
   {
-    name: 'asChild with an icon slot merges onto the icon',
+    name: 'asChild with an icon keeps the icon inside the child',
     vue: () =>
       h(
         VNavLink,

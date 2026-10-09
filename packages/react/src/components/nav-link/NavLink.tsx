@@ -2,6 +2,7 @@
 
 import {
   Children,
+  cloneElement,
   isValidElement,
   type AnchorHTMLAttributes,
   type ReactElement,
@@ -51,25 +52,30 @@ export function NavLink({
     className: cn(navLink({ active }), className),
   }
 
-  const text = (
+  const text = (content: ReactNode) => (
     <span
-      key="label"
       aria-hidden={rail ? 'true' : undefined}
       inert={rail}
       data-collapsed={rail ? '' : undefined}
       data-hn-label=""
       className={navLinkLabel()}
     >
-      {children}
+      {content}
     </span>
   )
 
-  const link = asChild ? (
-    <SlotFirst {...own} nodes={[...Children.toArray(icon), text]} />
+  const child = asChild
+    ? (Children.toArray(children)
+        .map(resolveChild)
+        .find(node => isValidElement(node)) as ReactElement<{ children?: ReactNode }> | undefined)
+    : undefined
+
+  const link = child ? (
+    <Slot {...own}>{cloneElement(child, undefined, icon, text(child.props.children))}</Slot>
   ) : (
     <Primitive {...own} as={as}>
       {icon}
-      {text}
+      {text(children)}
     </Primitive>
   )
 
@@ -78,19 +84,5 @@ export function NavLink({
     <Tooltip disabled={!rail || !label} content={label} side="right">
       {link}
     </Tooltip>
-  )
-}
-
-function SlotFirst({ nodes: given, ...props }: { nodes: ReactNode[] } & Record<string, unknown>) {
-  const nodes = given.map(resolveChild)
-  const index = nodes.findIndex(node => isValidElement(node))
-  return nodes.map((node, position) =>
-    position === index ? (
-      <Slot key={(node as ReactElement).key ?? position} {...props}>
-        {node}
-      </Slot>
-    ) : (
-      node
-    ),
   )
 }

@@ -70,6 +70,51 @@ describe('渲染与状态', () => {
     expect(a!.getAttribute('href')).toBe('/guide')
     expect((a!.firstElementChild as HTMLElement).classList.contains('nav-icon')).toBe(true)
   })
+
+  it('asChild 由子元素承担链接,图标与文字留在它内部', () => {
+    const { container } = render(
+      <NavLink asChild active className="w-40" data-x="1" icon={<svg className="nav-icon" />}>
+        <a href="/child" className="own">
+          子元素
+        </a>
+      </NavLink>,
+    )
+    const a = container.querySelector('a')!
+    expect(container.firstElementChild).toBe(a)
+    expect(a.getAttribute('href')).toBe('/child')
+    expect(a.getAttribute('aria-current')).toBe('page')
+    expect(a.getAttribute('data-state')).toBe('selected')
+    expect(a.getAttribute('data-x')).toBe('1')
+    expect([...a.classList]).toEqual(expect.arrayContaining(['hn-interactive', 'w-40', 'own']))
+    const [icon, label] = Array.from(a.children)
+    expect(icon!.classList.contains('nav-icon')).toBe(true)
+    expect(icon!.hasAttribute('aria-current')).toBe(false)
+    expect(label!.hasAttribute('data-hn-label')).toBe(true)
+    expect(label!.hasAttribute('aria-current')).toBe(false)
+    expect(label!.textContent).toBe('子元素')
+    expect(label!.querySelector('a')).toBeNull()
+  })
+
+  it('asChild 的子元素是组件时同样成为链接根', () => {
+    function RouterStub({ to, children, ...rest }: { to: string; children?: ReactNode }) {
+      return (
+        <a {...rest} href={to} data-router="">
+          {children}
+        </a>
+      )
+    }
+    const { container } = render(
+      <NavLink asChild icon={<svg className="nav-icon" />}>
+        <RouterStub to="/guide">指南</RouterStub>
+      </NavLink>,
+    )
+    const a = container.querySelector('[data-router]')!
+    expect(container.firstElementChild).toBe(a)
+    expect(a.getAttribute('href')).toBe('/guide')
+    expect(a.classList.contains('hn-interactive')).toBe(true)
+    expect((a.firstElementChild as HTMLElement).classList.contains('nav-icon')).toBe(true)
+    expect(a.querySelector('[data-hn-label]')!.textContent).toBe('指南')
+  })
 })
 
 describe('a11y', () => {
