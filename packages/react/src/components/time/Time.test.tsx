@@ -1,7 +1,10 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { act, cleanup, render } from '@testing-library/react'
 import type { ReactNode } from 'react'
+import { hydrateRoot } from 'react-dom/client'
+import { renderToString } from 'react-dom/server'
 import { Time } from './Time'
+import { TooltipProvider } from '../tooltip/TooltipProvider'
 import { UiLocaleProvider, enUS } from '../../locale'
 import { expectNoA11yViolations } from '../../../test/axe'
 
@@ -44,7 +47,7 @@ describe('绝对格式', () => {
 })
 
 describe('相对格式', () => {
-  it('45 秒内是「刚刚」,更早按 Intl 出中文相对时间,title 带绝对时间', () => {
+  it('45 秒内是「刚刚」,更早按 Intl 出中文相对时间,不带原生 title', () => {
     vi.useFakeTimers()
     vi.setSystemTime(base)
 
@@ -53,7 +56,7 @@ describe('相对格式', () => {
 
     const minutes = mount(<Time value={new Date(base.getTime() - 3 * 60_000)} format="relative" />)
     expect(text(minutes)).toBe('3分钟前')
-    expect(minutes.getAttribute('title')).toContain('2026')
+    expect(minutes.hasAttribute('title')).toBe(false)
 
     const days = mount(<Time value={new Date(base.getTime() - 2 * 86_400_000)} format="relative" />)
     expect(text(days)).toBe('前天')
@@ -69,6 +72,64 @@ describe('相对格式', () => {
       vi.advanceTimersByTime(65_000)
     })
     expect(text(el)).toBe('2分钟前')
+  })
+})
+
+describe('完整时刻的提示', () => {
+  const value = new Date(base.getTime() - 3 * 60_000)
+  const inProvider = (ui: ReactNode) =>
+    render(<TooltipProvider>{ui}</TooltipProvider>).container.querySelector('time')!
+
+  it('在 TooltipProvider 内,相对时间成为 Tooltip 触发器', () => {
+    expect(inProvider(<Time value={value} format="relative" />).getAttribute('data-state')).toBe(
+      'closed',
+    )
+  })
+
+  it('tooltip=false、绝对格式或不在 TooltipProvider 内时不挂 Tooltip', () => {
+    expect(
+      inProvider(<Time value={value} format="relative" tooltip={false} />).hasAttribute(
+        'data-state',
+      ),
+    ).toBe(false)
+    expect(inProvider(<Time value={value} />).hasAttribute('data-state')).toBe(false)
+    expect(mount(<Time value={value} format="relative" />).hasAttribute('data-state')).toBe(false)
+  })
+
+  it('className 与透传属性仍落在 time 元素上', () => {
+    const el = mount(<Time value={value} format="relative" className="text-muted" data-x="1" />)
+    expect(el.tagName).toBe('TIME')
+    expect(el.classList.contains('text-muted')).toBe(true)
+    expect(el.getAttribute('data-x')).toBe('1')
+  })
+})
+
+describe('水合', () => {
+  it('服务端与浏览器算出的相对时间不同时不报水合错误,文字以浏览器为准', async () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(base)
+    const value = new Date(base.getTime() - 30_000)
+    const html = renderToString(<Time value={value} format="relative" />)
+    expect(html).toContain('刚刚')
+
+    vi.setSystemTime(new Date(base.getTime() + 10 * 60_000))
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const recoverable = vi.fn()
+    const host = document.createElement('div')
+    host.innerHTML = html
+    document.body.append(host)
+    let root: ReturnType<typeof hydrateRoot> | undefined
+    await act(async () => {
+      root = hydrateRoot(host, <Time value={value} format="relative" />, {
+        onRecoverableError: recoverable,
+      })
+    })
+    expect(host.textContent).toBe('10分钟前')
+    expect(recoverable).not.toHaveBeenCalled()
+    expect(error.mock.calls.flat().join(' ')).not.toMatch(/hydrat/i)
+    await act(async () => root!.unmount())
+    host.remove()
+    error.mockRestore()
   })
 })
 

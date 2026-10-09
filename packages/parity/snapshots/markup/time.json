@@ -1,34 +1,63 @@
 {
   "datetime default": [
-    "<time datetime=\"2026-03-14T01:30:00.000Z\" class=\"\">",
+    "<time datetime=\"2026-03-14T01:30:00.000Z\" data-allow-mismatch=\"text\" class=\"\">",
     "  \"2026年3月14日 01:30\""
   ],
   "date": [
-    "<time datetime=\"2026-03-14T01:30:00.000Z\" class=\"\">",
+    "<time datetime=\"2026-03-14T01:30:00.000Z\" data-allow-mismatch=\"text\" class=\"\">",
     "  \"2026年3月14日\""
   ],
   "time": [
-    "<time datetime=\"2026-03-14T01:30:00.000Z\" class=\"\">",
+    "<time datetime=\"2026-03-14T01:30:00.000Z\" data-allow-mismatch=\"text\" class=\"\">",
     "  \"01:30\""
   ],
   "Date instance": [
-    "<time datetime=\"2026-03-14T01:30:00.000Z\" class=\"\">",
+    "<time datetime=\"2026-03-14T01:30:00.000Z\" data-allow-mismatch=\"text\" class=\"\">",
     "  \"2026年3月14日 01:30\""
   ],
   "epoch milliseconds": [
-    "<time datetime=\"2026-03-14T01:30:00.000Z\" class=\"\">",
+    "<time datetime=\"2026-03-14T01:30:00.000Z\" data-allow-mismatch=\"text\" class=\"\">",
     "  \"2026年3月14日\""
   ],
-  "relative minutes carry the absolute time in title": [
-    "<time datetime=\"2026-01-15T09:27:00.000Z\" title=\"2026年1月15日 09:27\" class=\"\">",
+  "relative minutes": [
+    "<time datetime=\"2026-01-15T09:27:00.000Z\" data-allow-mismatch=\"text\" class=\"\">",
     "  \"3分钟前\""
   ],
+  "relative inside a tooltip provider": [
+    "<!--[-->",
+    "<!--[-->",
+    "<!--[-->",
+    "<!--[-->",
+    "<time data-state=\"closed\" data-grace-area-trigger=\"\" datetime=\"2026-03-14T01:30:00.000Z\" data-allow-mismatch=\"text\" class=\"\">",
+    "  \"2个月后\"",
+    "<!--v-if-->",
+    "<!--]-->",
+    "<!--]-->",
+    "<!--]-->",
+    "<!--]-->"
+  ],
+  "relative with the tooltip off inside a provider": [
+    "<!--[-->",
+    "<!--[-->",
+    "<time datetime=\"2026-03-14T01:30:00.000Z\" data-allow-mismatch=\"text\" class=\"\">",
+    "  \"2个月后\"",
+    "<!--]-->",
+    "<!--]-->"
+  ],
+  "absolute format inside a tooltip provider": [
+    "<!--[-->",
+    "<!--[-->",
+    "<time datetime=\"2026-03-14T01:30:00.000Z\" data-allow-mismatch=\"text\" class=\"\">",
+    "  \"2026年3月14日\"",
+    "<!--]-->",
+    "<!--]-->"
+  ],
   "relative just now": [
-    "<time datetime=\"2026-01-15T09:29:50.000Z\" title=\"2026年1月15日 09:29\" class=\"\">",
+    "<time datetime=\"2026-01-15T09:29:50.000Z\" data-allow-mismatch=\"text\" class=\"\">",
     "  \"刚刚\""
   ],
   "relative future days": [
-    "<time datetime=\"2026-01-17T09:31:00.000Z\" title=\"2026年1月17日 09:31\" class=\"\">",
+    "<time datetime=\"2026-01-17T09:31:00.000Z\" data-allow-mismatch=\"text\" class=\"\">",
     "  \"后天\""
   ],
   "null falls back to a span": [
@@ -44,7 +73,7 @@
     "  \"未知时间\""
   ],
   "class and attributes on time": [
-    "<time datetime=\"2026-03-14T01:30:00.000Z\" class=\"text-muted\" id=\"t\">",
+    "<time datetime=\"2026-03-14T01:30:00.000Z\" data-allow-mismatch=\"text\" class=\"text-muted\" id=\"t\">",
     "  \"2026年3月14日 01:30\""
   ],
   "class and attributes on the fallback span": [
@@ -52,12 +81,12 @@
     "  \"未知时间\""
   ],
   "caller title and datetime override": [
-    "<time datetime=\"2026\" title=\"custom\" class=\"\">",
+    "<time datetime=\"2026\" data-allow-mismatch=\"text\" class=\"\" title=\"custom\">",
     "  \"2个月后\""
   ],
   "locale tag drives Intl": [
     "<!--[-->",
-    "<time datetime=\"2026-03-14T01:30:00.000Z\" class=\"\">",
+    "<time datetime=\"2026-03-14T01:30:00.000Z\" data-allow-mismatch=\"text\" class=\"\">",
     "  \"Mar 14, 2026\"",
     "<!--]-->"
   ],

@@ -33,6 +33,7 @@ const TRUNCATED = /(?:^|\s)truncate(?:\s|$)/
 const PRIMITIVE_ATTRIBUTE = /^data-(?:reka|radix)-/
 const PRIMITIVE_VARIABLE = /--(?:reka|radix)-/
 const VENDOR_PREFIX = /^(webkit|moz|ms)-/
+const HYDRATION_HINT = 'data-allow-mismatch'
 
 export interface NormalizeOptions {
   ignoreAttributes?: string[]
@@ -178,7 +179,7 @@ export function normalizeMarkup(html: string, options: NormalizeOptions = {}) {
         const key = PRIMITIVE_ATTRIBUTE.test(name)
           ? name.replace(PRIMITIVE_ATTRIBUTE, 'data-primitive-')
           : name
-        if (ignored.has(key)) return undefined
+        if (ignored.has(key) || key === HYDRATION_HINT) return undefined
         if (key === 'class') return [key, classes(value)] as const
         if (key === 'style') return [key, style(value)] as const
         if (ID_REFERENCES.has(key)) return [key, value.split(/\s+/).map(id).join(' ')] as const

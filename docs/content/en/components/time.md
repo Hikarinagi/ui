@@ -30,7 +30,7 @@ Four of them. `datetime` shows the date and the time of day, `date` and `time` s
 
 Within 45 seconds it reads as “just now”; anything earlier or later steps through seconds, minutes, hours, days, weeks, months and years. The wording follows the natural phrasing of the current language.
 
-It refreshes every 30 seconds while the page is open, with no manual update. Hovering reveals the full date and time.
+It refreshes every 30 seconds while the page is open, with no manual update. Inside a `TooltipProvider`, hovering shows the full date and time in a [Tooltip](/components/tooltip); set `tooltip` to `false` to turn it off.
 
 <Demo name="time/relative" />
 
@@ -69,14 +69,15 @@ When `value` is empty or cannot be parsed, the component shows “unknown time�
 ## Accessibility {#a11y}
 
 - The `datetime` attribute is always a complete ISO timestamp, giving assistive technology the exact moment.
-- Relative time changes as time passes; the full moment is kept in `title`.
+- Relative time changes as time passes; the full moment is always kept in `datetime`.
 
 ## API {#api}
 
 ### Props {#props}
 
-| Prop     | Type                                           | Default      | Description                  |
-| -------- | ---------------------------------------------- | ------------ | ---------------------------- |
-| `value`  | `string \| number \| Date \| null`             | —            | The moment to show           |
-| `format` | `'datetime' \| 'date' \| 'time' \| 'relative'` | `'datetime'` | Display format               |
-| `class`  | `string`                                       | —            | Classes appended to the root |
+| Prop      | Type                                           | Default      | Description                                              |
+| --------- | ---------------------------------------------- | ------------ | -------------------------------------------------------- |
+| `value`   | `string \| number \| Date \| null`             | —            | The moment to show                                       |
+| `format`  | `'datetime' \| 'date' \| 'time' \| 'relative'` | `'datetime'` | Display format                                           |
+| `tooltip` | `boolean`                                      | `true`       | Whether relative time shows the full moment in a Tooltip |
+| `class`   | `string`                                       | —            | Classes appended to the root                             |
