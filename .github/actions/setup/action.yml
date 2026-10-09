@@ -1,0 +1,26 @@
+name: Setup
+description: Install Node.js, pnpm and the workspace dependencies
+
+inputs:
+  browsers:
+    description: Playwright browsers to install with their system dependencies
+    required: false
+    default: ''
+  package:
+    description: Workspace package whose Playwright version installs the browsers
+    required: false
+    default: '@hina-ui/vue'
+
+runs:
+  using: composite
+  steps:
+    - uses: pnpm/action-setup@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version-file: .nvmrc
+        cache: pnpm
+    - run: pnpm install --frozen-lockfile
+      shell: bash
+    - if: inputs.browsers != ''
+      run: pnpm --filter ${{ inputs.package }} exec playwright install --with-deps ${{ inputs.browsers }}
+      shell: bash
