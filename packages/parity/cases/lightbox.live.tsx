@@ -1,5 +1,5 @@
 import { h } from 'vue'
-import { page, userEvent } from 'vitest/browser'
+import { userEvent } from 'vitest/browser'
 import { vi } from 'vitest'
 import VLightbox from '@hina-ui/vue/components/lightbox/Lightbox.vue'
 import VImage from '@hina-ui/vue/components/image/Image.vue'
@@ -65,9 +65,7 @@ export function opened(phase = 'open') {
 const tool = (label: string) =>
   document.querySelector<HTMLElement>(`[data-hn-chrome] [aria-label="${label}"]`)!
 
-async function viewport() {
-  await page.viewport(1024, 768)
-}
+const viewport = { width: 1024, height: 768 }
 
 const wide = picture(2440, 1220)
 const tall = picture(1220, 2440)
@@ -86,29 +84,29 @@ export default defineLiveCases('lightbox', [
     name: 'single item open with chrome and toolbar',
     vue: () => h(VLightbox, { items: single, open: true }),
     react: () => <Lightbox items={single} open />,
-    interact: viewport,
+    viewport,
     settle: opened(),
   },
   {
     name: 'group open in the middle with strip, arrows and thumbs',
     vue: () => h(VLightbox, { items: group, open: true, index: 1 }),
     react: () => <Lightbox items={group} open defaultIndex={1} />,
-    interact: viewport,
+    viewport,
     settle: opened(),
   },
   {
     name: 'looping group at the end keeps both arrows enabled',
     vue: () => h(VLightbox, { items: group, open: true, index: 2, loop: true }),
     react: () => <Lightbox items={group} open defaultIndex={2} loop />,
-    interact: viewport,
+    viewport,
     settle: opened(),
   },
   {
     name: 'paging with the keyboard moves the strip',
     vue: () => h(VLightbox, { items: group, open: true }),
     react: () => <Lightbox items={group} open />,
+    viewport,
     interact: async () => {
-      await viewport()
       await opened()()
       await userEvent.keyboard('{ArrowRight}')
     },
@@ -126,8 +124,8 @@ export default defineLiveCases('lightbox', [
     name: 'zoom in from the toolbar enables reset and zoom out',
     vue: () => h(VLightbox, { items: single, open: true }),
     react: () => <Lightbox items={single} open />,
+    viewport,
     interact: async () => {
-      await viewport()
       await opened()()
       await userEvent.click(tool('放大'))
     },
@@ -142,8 +140,8 @@ export default defineLiveCases('lightbox', [
     name: 'actual size at the original zoom level',
     vue: () => h(VLightbox, { items: single, open: true }),
     react: () => <Lightbox items={single} open />,
+    viewport,
     interact: async () => {
-      await viewport()
       await opened()()
       await userEvent.click(tool('原始尺寸'))
     },
@@ -158,8 +156,8 @@ export default defineLiveCases('lightbox', [
     name: 'rotate turns the current frame',
     vue: () => h(VLightbox, { items: single, open: true }),
     react: () => <Lightbox items={single} open />,
+    viewport,
     interact: async () => {
-      await viewport()
       await opened()()
       await userEvent.click(tool('旋转'))
     },
@@ -169,8 +167,8 @@ export default defineLiveCases('lightbox', [
     name: 'closed after Escape',
     vue: () => h(VLightbox, { items: single, open: true }),
     react: () => <Lightbox items={single} open />,
+    viewport,
     interact: async () => {
-      await viewport()
       await opened()()
       await userEvent.keyboard('{Escape}')
     },
@@ -192,8 +190,8 @@ export default defineLiveCases('lightbox', [
         <Image src={wide} alt="海边" lazy={false} preview className="size-48" />
       </div>
     ),
+    viewport,
     interact: async container => {
-      await viewport()
       await vi.waitFor(() => {
         if (!container.querySelector('img')?.naturalWidth) throw new Error('loading')
       })
@@ -236,8 +234,8 @@ export default defineLiveCases('lightbox', [
         </div>
       </ImageGroup>
     ),
+    viewport,
     interact: async container => {
-      await viewport()
       await vi.waitFor(() => {
         const images = [...container.querySelectorAll('img')]
         if (images.length !== 3 || images.some(img => !img.naturalWidth)) throw new Error('loading')
