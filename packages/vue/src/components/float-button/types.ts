@@ -1,6 +1,7 @@
 import type { StyleValue } from 'vue'
 import type { ButtonVariants } from '../button/button.variants'
 import type { PrimitiveProps } from '../../primitives/primitive'
+import type { FloatButtonOffset } from '../../../../shared/src/lib/float-button'
 
 export interface FloatButtonProps {
   label: string
@@ -9,7 +10,7 @@ export interface FloatButtonProps {
   type?: 'button' | 'submit' | 'reset'
   position?: 'fixed' | 'absolute' | 'static'
   placement?: 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end'
-  offset?: number | string
+  offset?: FloatButtonOffset
   size?: 'sm' | 'md' | 'lg'
   shape?: 'circle' | 'square'
   extended?: boolean

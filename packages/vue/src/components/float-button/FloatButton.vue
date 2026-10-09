@@ -4,6 +4,7 @@
   import Button from '../button/Button.vue'
   import { vTooltip } from '../tooltip/directive'
   import { floatButton } from './float-button.variants'
+  import { floatButtonOffset } from '../../../../shared/src/lib/float-button'
   import type { FloatButtonProps } from './types'
 
   defineOptions({ name: 'HnFloatButton', inheritAttrs: false })
@@ -26,15 +27,7 @@
   const tooltip = computed(() =>
     props.tooltip && !props.extended ? { content: props.label, side: props.tooltipSide } : false,
   )
-  const offset = computed(() =>
-    props.offset === undefined
-      ? undefined
-      : typeof props.offset === 'number'
-        ? Number.isFinite(props.offset)
-          ? `${Math.max(0, props.offset)}px`
-          : undefined
-        : props.offset,
-  )
+  const offset = computed(() => floatButtonOffset(props.offset))
   const element = computed(() => button.value?.$el as HTMLElement | undefined)
   function focus() {
     if (!props.disabled && !props.loading) element.value?.focus({ preventScroll: true })
@@ -52,7 +45,7 @@
   <Transition
     enter-active-class="hn-transition-base"
     enter-from-class="scale-90 opacity-0"
-    leave-active-class="hn-transition pointer-events-none"
+    leave-active-class="hn-float-button-leave"
     leave-to-class="scale-90 opacity-0"
     @before-enter="enter"
     @before-leave="leave"
@@ -87,7 +80,7 @@
           props.class,
         )
       "
-      :style="[{ '--hn-float-offset': offset }, props.style]"
+      :style="[offset, props.style]"
     >
       <template v-if="props.extended" #icon><slot /></template>
       <span v-if="props.extended" class="min-w-0 truncate">{{ props.label }}</span>

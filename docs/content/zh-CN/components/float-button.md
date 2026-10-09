@@ -62,7 +62,7 @@ import { FloatButton } from '@hina-ui/vue'
 
 ### 定位与方向 {#placement}
 
-`placement` 使用逻辑方向，`start` / `end` 随 RTL 切换。`absolute` 相对最近的定位祖先，`static` 参与正常布局，适合与 `Stack` 组合成一组操作。`offset` 控制边距；固定定位时还会避开设备安全区。
+`placement` 使用逻辑方向，`start` / `end` 随 RTL 切换。`absolute` 相对最近的定位祖先，`static` 参与正常布局，适合与 `Stack` 组合成一组操作。`offset` 控制边距，传 `{ x, y }` 分别设置水平与垂直边距；固定定位时还会避开设备安全区。
 
 <Demo name="float-button/placement" />
 
@@ -123,53 +123,53 @@ export function DocsShortcut() {
 
 ::: vue
 
-| 属性          | 类型                                                         | 默认值         | 说明                                                  |
-| ------------- | ------------------------------------------------------------ | -------------- | ----------------------------------------------------- |
-| `label`       | `string`                                                     | 必填           | 操作名称，同时用于无障碍和 Tooltip                    |
-| `visible`     | `boolean`                                                    | `true`         | 显示按钮，变化时播放过渡                              |
-| `position`    | `'fixed' \| 'absolute' \| 'static'`                          | `'fixed'`      | 定位方式                                              |
-| `placement`   | `'top-start' \| 'top-end' \| 'bottom-start' \| 'bottom-end'` | `'bottom-end'` | 定位角落，静态布局时无效                              |
-| `offset`      | `number \| string`                                           | `6 × spacing`  | 边距，数字单位为 px；固定定位取边距与安全区中的较大值 |
-| `size`        | `'sm' \| 'md' \| 'lg'`                                       | `'md'`         | 按钮尺寸                                              |
-| `shape`       | `'circle' \| 'square'`                                       | `'circle'`     | 圆形或圆角方形                                        |
-| `extended`    | `boolean`                                                    | `false`        | 显示文字标签                                          |
-| `variant`     | `'solid' \| 'soft' \| 'outline'`                             | `'solid'`      | 按钮外观                                              |
-| `tone`        | `'accent' \| 'neutral' \| 'danger'`                          | `'accent'`     | 按钮色调                                              |
-| `tooltip`     | `boolean`                                                    | `true`         | 图标形态下显示 Tooltip                                |
-| `tooltipSide` | `'top' \| 'right' \| 'bottom' \| 'left'`                     | `'top'`        | Tooltip 首选方向                                      |
-| `loading`     | `boolean`                                                    | `false`        | 加载中并禁止操作                                      |
-| `disabled`    | `boolean`                                                    | `false`        | 禁用操作                                              |
-| `ripple`      | `boolean`                                                    | `true`         | 涟漪反馈                                              |
-| `as`          | `string \| Component`                                        | `'button'`     | 实际操作元素或组件                                    |
-| `type`        | `'button' \| 'submit' \| 'reset'`                            | `'button'`     | 按钮类型                                              |
-| `class`       | `string`                                                     | —              | 按钮类名                                              |
-| `style`       | `StyleValue`                                                 | —              | 按钮样式                                              |
+| 属性          | 类型                                                                 | 默认值         | 说明                                                                                                               |
+| ------------- | -------------------------------------------------------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `label`       | `string`                                                             | 必填           | 操作名称，同时用于无障碍和 Tooltip                                                                                 |
+| `visible`     | `boolean`                                                            | `true`         | 显示按钮，变化时播放过渡                                                                                           |
+| `position`    | `'fixed' \| 'absolute' \| 'static'`                                  | `'fixed'`      | 定位方式                                                                                                           |
+| `placement`   | `'top-start' \| 'top-end' \| 'bottom-start' \| 'bottom-end'`         | `'bottom-end'` | 定位角落，静态布局时无效                                                                                           |
+| `offset`      | `number \| string \| { x?: number \| string; y?: number \| string }` | `6 × spacing`  | 边距，数字单位为 px；对象形式分别设置水平 `x` 与垂直 `y`，未给出的方向使用默认值；固定定位取边距与安全区中的较大值 |
+| `size`        | `'sm' \| 'md' \| 'lg'`                                               | `'md'`         | 按钮尺寸                                                                                                           |
+| `shape`       | `'circle' \| 'square'`                                               | `'circle'`     | 圆形或圆角方形                                                                                                     |
+| `extended`    | `boolean`                                                            | `false`        | 显示文字标签                                                                                                       |
+| `variant`     | `'solid' \| 'soft' \| 'outline'`                                     | `'solid'`      | 按钮外观                                                                                                           |
+| `tone`        | `'accent' \| 'neutral' \| 'danger'`                                  | `'accent'`     | 按钮色调                                                                                                           |
+| `tooltip`     | `boolean`                                                            | `true`         | 图标形态下显示 Tooltip                                                                                             |
+| `tooltipSide` | `'top' \| 'right' \| 'bottom' \| 'left'`                             | `'top'`        | Tooltip 首选方向                                                                                                   |
+| `loading`     | `boolean`                                                            | `false`        | 加载中并禁止操作                                                                                                   |
+| `disabled`    | `boolean`                                                            | `false`        | 禁用操作                                                                                                           |
+| `ripple`      | `boolean`                                                            | `true`         | 涟漪反馈                                                                                                           |
+| `as`          | `string \| Component`                                                | `'button'`     | 实际操作元素或组件                                                                                                 |
+| `type`        | `'button' \| 'submit' \| 'reset'`                                    | `'button'`     | 按钮类型                                                                                                           |
+| `class`       | `string`                                                             | —              | 按钮类名                                                                                                           |
+| `style`       | `StyleValue`                                                         | —              | 按钮样式                                                                                                           |
 
 :::
 
 ::: react
 
-| 属性          | 类型                                                         | 默认值         | 说明                                                  |
-| ------------- | ------------------------------------------------------------ | -------------- | ----------------------------------------------------- |
-| `label`       | `string`                                                     | 必填           | 操作名称，同时用于无障碍和 Tooltip                    |
-| `visible`     | `boolean`                                                    | `true`         | 显示按钮，变化时播放过渡                              |
-| `position`    | `'fixed' \| 'absolute' \| 'static'`                          | `'fixed'`      | 定位方式                                              |
-| `placement`   | `'top-start' \| 'top-end' \| 'bottom-start' \| 'bottom-end'` | `'bottom-end'` | 定位角落，静态布局时无效                              |
-| `offset`      | `number \| string`                                           | `6 × spacing`  | 边距，数字单位为 px；固定定位取边距与安全区中的较大值 |
-| `size`        | `'sm' \| 'md' \| 'lg'`                                       | `'md'`         | 按钮尺寸                                              |
-| `shape`       | `'circle' \| 'square'`                                       | `'circle'`     | 圆形或圆角方形                                        |
-| `extended`    | `boolean`                                                    | `false`        | 显示文字标签                                          |
-| `variant`     | `'solid' \| 'soft' \| 'outline'`                             | `'solid'`      | 按钮外观                                              |
-| `tone`        | `'accent' \| 'neutral' \| 'danger'`                          | `'accent'`     | 按钮色调                                              |
-| `tooltip`     | `boolean`                                                    | `true`         | 图标形态下显示 Tooltip                                |
-| `tooltipSide` | `'top' \| 'right' \| 'bottom' \| 'left'`                     | `'top'`        | Tooltip 首选方向                                      |
-| `loading`     | `boolean`                                                    | `false`        | 加载中并禁止操作                                      |
-| `disabled`    | `boolean`                                                    | `false`        | 禁用操作                                              |
-| `ripple`      | `boolean`                                                    | `true`         | 涟漪反馈                                              |
-| `as`          | `string \| Component`                                        | `'button'`     | 实际操作元素或组件                                    |
-| `type`        | `'button' \| 'submit' \| 'reset'`                            | `'button'`     | 按钮类型                                              |
-| `className`   | `string`                                                     | —              | 按钮类名                                              |
-| `style`       | `CSSProperties`                                              | —              | 按钮样式                                              |
+| 属性          | 类型                                                                 | 默认值         | 说明                                                                                                               |
+| ------------- | -------------------------------------------------------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `label`       | `string`                                                             | 必填           | 操作名称，同时用于无障碍和 Tooltip                                                                                 |
+| `visible`     | `boolean`                                                            | `true`         | 显示按钮，变化时播放过渡                                                                                           |
+| `position`    | `'fixed' \| 'absolute' \| 'static'`                                  | `'fixed'`      | 定位方式                                                                                                           |
+| `placement`   | `'top-start' \| 'top-end' \| 'bottom-start' \| 'bottom-end'`         | `'bottom-end'` | 定位角落，静态布局时无效                                                                                           |
+| `offset`      | `number \| string \| { x?: number \| string; y?: number \| string }` | `6 × spacing`  | 边距，数字单位为 px；对象形式分别设置水平 `x` 与垂直 `y`，未给出的方向使用默认值；固定定位取边距与安全区中的较大值 |
+| `size`        | `'sm' \| 'md' \| 'lg'`                                               | `'md'`         | 按钮尺寸                                                                                                           |
+| `shape`       | `'circle' \| 'square'`                                               | `'circle'`     | 圆形或圆角方形                                                                                                     |
+| `extended`    | `boolean`                                                            | `false`        | 显示文字标签                                                                                                       |
+| `variant`     | `'solid' \| 'soft' \| 'outline'`                                     | `'solid'`      | 按钮外观                                                                                                           |
+| `tone`        | `'accent' \| 'neutral' \| 'danger'`                                  | `'accent'`     | 按钮色调                                                                                                           |
+| `tooltip`     | `boolean`                                                            | `true`         | 图标形态下显示 Tooltip                                                                                             |
+| `tooltipSide` | `'top' \| 'right' \| 'bottom' \| 'left'`                             | `'top'`        | Tooltip 首选方向                                                                                                   |
+| `loading`     | `boolean`                                                            | `false`        | 加载中并禁止操作                                                                                                   |
+| `disabled`    | `boolean`                                                            | `false`        | 禁用操作                                                                                                           |
+| `ripple`      | `boolean`                                                            | `true`         | 涟漪反馈                                                                                                           |
+| `as`          | `string \| Component`                                                | `'button'`     | 实际操作元素或组件                                                                                                 |
+| `type`        | `'button' \| 'submit' \| 'reset'`                                    | `'button'`     | 按钮类型                                                                                                           |
+| `className`   | `string`                                                             | —              | 按钮类名                                                                                                           |
+| `style`       | `CSSProperties`                                                      | —              | 按钮样式                                                                                                           |
 
 :::
 

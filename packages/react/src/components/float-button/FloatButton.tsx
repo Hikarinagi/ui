@@ -6,6 +6,7 @@ import { hasContent } from '../../lib/content'
 import { Transition } from '../../lib/transition/Transition'
 import { Button } from '../button/Button'
 import { floatButton } from './float-button.variants'
+import { floatButtonOffset } from '../../../../shared/src/lib/float-button'
 import { TooltipTarget } from './TooltipTarget'
 import type { FloatButtonProps } from './types'
 import { useComposedRefs } from '../../primitives/utils/compose-refs'
@@ -45,14 +46,6 @@ export function FloatButton({
   const element = useRef<HTMLElement | null>(null)
   const [target, setTarget] = useState<HTMLElement | null>(null)
   const buttonRef = useComposedRefs(element, setTarget)
-  const resolvedOffset =
-    offset === undefined
-      ? undefined
-      : typeof offset === 'number'
-        ? Number.isFinite(offset)
-          ? `${Math.max(0, offset)}px`
-          : undefined
-        : offset
   const content = hasContent(children) ? children : <></>
   const latest = useRef({ disabled, loading })
   latest.current = { disabled, loading }
@@ -77,7 +70,7 @@ export function FloatButton({
         show={visible}
         enterActiveClass="hn-transition-base"
         enterFromClass="scale-90 opacity-0"
-        leaveActiveClass="hn-transition pointer-events-none"
+        leaveActiveClass="hn-float-button-leave"
         leaveToClass="scale-90 opacity-0"
         onBeforeEnter={enter}
         onBeforeLeave={leave}
@@ -99,7 +92,7 @@ export function FloatButton({
           data-position={position}
           data-placement={placement}
           className={cn(floatButton({ position, size, shape, extended, variant }), className)}
-          style={{ '--hn-float-offset': resolvedOffset, ...style } as CSSProperties}
+          style={{ ...floatButtonOffset(offset), ...style } as CSSProperties}
           icon={extended ? content : undefined}
         >
           {extended ? <span className="min-w-0 truncate">{label}</span> : content}

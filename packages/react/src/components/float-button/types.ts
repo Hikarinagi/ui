@@ -1,6 +1,7 @@
 import type { ButtonHTMLAttributes, CSSProperties, ElementType, ReactNode, Ref } from 'react'
 import type { AnchorAttributes } from '../../lib/primitive'
 import type { ButtonVariants } from '../button/button.variants'
+import type { FloatButtonOffset } from '../../../../shared/src/lib/float-button'
 
 export interface FloatButtonExpose {
   element: HTMLElement | undefined
@@ -17,7 +18,7 @@ export interface FloatButtonProps
   type?: 'button' | 'submit' | 'reset'
   position?: 'fixed' | 'absolute' | 'static'
   placement?: 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end'
-  offset?: number | string
+  offset?: FloatButtonOffset
   size?: 'sm' | 'md' | 'lg'
   shape?: 'circle' | 'square'
   extended?: boolean
