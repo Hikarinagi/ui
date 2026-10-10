@@ -453,3 +453,39 @@ describe('DataList browser behavior', () => {
     expect(wrapper.get('[role="status"]').element.getBoundingClientRect().height).toBe(320)
   })
 })
+
+describe('DataList height changes', () => {
+  it('does not render again while an item changes height and still keeps that height when loading starts', async () => {
+    const renders = vi.fn()
+    const wrapper = mount(DataList<Item>, {
+      attachTo: document.body,
+      props: { items: items.slice(0, 3), itemKey: 'id', label: 'Items', style: { width: '600px' } },
+      slots: {
+        default: ({ item }: DataListItemSlot<Item>) => {
+          renders()
+          return h('div', { 'data-grow': item.id, style: 'height: 40px' })
+        },
+      },
+    })
+    wrappers.push(wrapper)
+    const frame = () => new Promise(requestAnimationFrame)
+    await new Promise(resolve => setTimeout(resolve, 100))
+    const before = renders.mock.calls.length
+    const target = wrapper.get('[data-grow="0"]').element as HTMLElement
+    for (const height of [60, 90, 120, 160, 200]) {
+      target.style.height = `${height}px`
+      await frame()
+      await frame()
+    }
+    await new Promise(resolve => setTimeout(resolve, 100))
+    expect(renders.mock.calls.length).toBe(before)
+
+    const body = wrapper
+      .get('[data-hn-data-list-content]')
+      .element.closest<HTMLElement>('[style*="min-height"]')!
+    const height = body.getBoundingClientRect().height
+    expect(height).toBeGreaterThan(280)
+    await wrapper.setProps({ items: [], loading: true })
+    expect(parseFloat(getComputedStyle(body).minHeight)).toBeCloseTo(height, 1)
+  })
+})
