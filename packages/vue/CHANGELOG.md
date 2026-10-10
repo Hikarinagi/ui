@@ -1,5 +1,13 @@
 # @hina-ui/vue
 
+## [1.7.11](https://github.com/Hikarinagi/ui/compare/@hina-ui/vue@1.7.10...@hina-ui/vue@1.7.11) (2026-10-10)
+
+### Fixed
+
+- **Spoiler** An unrevealed Spoiler no longer keeps the main thread busy. The noise clock is a stepped animation instead of a requestAnimationFrame loop per instance, and every input of the paint worklet now always has a value; an unset one made Chromium run the worklet on the main thread. The clock also pauses while the Spoiler is outside the viewport and stops after a reveal has faded, and particles that draw nothing are skipped.
+- **Kbd** Kbd and inline Code stay readable on solid surfaces such as the Tooltip bubble and solid Button, Tag, Badge and Banner. They used to keep the page surface as their background while inheriting the inverted text colour, which left the key text invisible. Inside an element that uses an on-colour text utility they now drop the fill and draw their edge from the current text colour, so their text has the same contrast as the text around them.
+- **Collapsible** The content of Collapsible and Accordion can no longer be scrolled while it is shorter than what it holds, for example when a field inside takes focus during the expand animation. The collapse animation now clips with overflow: clip and keeps its own formatting context.
+
 ## [1.7.10](https://github.com/Hikarinagi/ui/compare/@hina-ui/vue@1.7.9...@hina-ui/vue@1.7.10) (2026-10-09)
 
 ### Added
