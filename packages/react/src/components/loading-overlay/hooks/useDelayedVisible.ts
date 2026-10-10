@@ -21,22 +21,19 @@ export function useDelayedVisible(visible: boolean, delay: number, minVisible: n
     }
   }
 
-  const committed = useRef(shown)
-  committed.current = shown
+  const latest = useRef(visible)
+  latest.current = visible
 
   useEffect(() => {
-    let timer: ReturnType<typeof setTimeout> | undefined
-    if (visible && !committed.current) {
-      timer = setTimeout(() => {
-        shownAt.current = performance.now()
-        setShown(true)
-      }, delay)
-    } else if (!visible && committed.current) {
-      const remaining = minVisible - (performance.now() - shownAt.current)
-      timer = setTimeout(() => setShown(false), remaining)
-    }
+    if (visible === shown) return
+    const wait = visible ? delay : minVisible - (performance.now() - shownAt.current)
+    const timer = setTimeout(() => {
+      if (latest.current !== visible) return
+      if (visible) shownAt.current = performance.now()
+      setShown(visible)
+    }, wait)
     return () => clearTimeout(timer)
-  }, [visible])
+  }, [visible, shown])
 
   return shown
 }
