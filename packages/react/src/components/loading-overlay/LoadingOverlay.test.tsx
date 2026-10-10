@@ -1,5 +1,5 @@
 import { act, render } from '@testing-library/react'
-import type { ReactElement } from 'react'
+import { useLayoutEffect, type ReactElement } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { LoadingOverlay } from './LoadingOverlay'
 
@@ -87,5 +87,31 @@ describe('LoadingOverlay', () => {
     const text = el.querySelector('p')!
     expect(text.textContent).toBe('正在保存')
     expect(text.getAttribute('aria-hidden')).toBe('true')
+  })
+
+  it('显示计时器在 visible 变回 false 的那次提交之后才触发时,遮罩不出现也不会一直留着', () => {
+    let late = false
+    function Harness({ visible }: { visible: boolean }) {
+      useLayoutEffect(() => {
+        if (!late) return
+        late = false
+        vi.advanceTimersByTime(1)
+      })
+      return <LoadingOverlay visible={visible} />
+    }
+    const { container, rerender } = render(<Harness visible />)
+    act(() => {
+      vi.advanceTimersByTime(299)
+    })
+    expect(overlay(container)).toBeNull()
+
+    late = true
+    rerender(<Harness visible={false} />)
+    expect(overlay(container)).toBeNull()
+    act(() => {
+      vi.advanceTimersByTime(1000)
+    })
+    expect(overlay(container)).toBeNull()
+    expect(blocker(container)).toBeNull()
   })
 })

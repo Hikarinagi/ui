@@ -510,8 +510,14 @@
   }
 }
 
+@layer components {
+  .hn-anim-collapse {
+    display: flow-root;
+  }
+}
+
 @utility hn-anim-collapse {
-  overflow: hidden;
+  overflow: clip;
   &[data-state='open'] {
     animation: hn-collapse-in var(--hn-duration-base) var(--hn-ease-move);
   }

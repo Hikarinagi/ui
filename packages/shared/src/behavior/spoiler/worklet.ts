@@ -11,10 +11,6 @@ const workletMain = () => {
         0x7fffffff
 
   const pol2vec = (l: number, a = 0) => [l * M.cos(a), l * M.sin(a)] as const
-  const vecmag = ([x, y]: readonly number[]) => M.sqrt(x! * x! + y! * y!)
-  const vecnorm = ([x, y]: readonly number[], l = vecmag([x!, y!])) =>
-    l === 0 ? ([0, 0] as const) : ([x! / l, y! / l] as const)
-
   const trapezoidalWave = (l: number, a: number, b: number) => {
     const s = M.max(a, l - b)
     return (t: number) => {
@@ -144,20 +140,21 @@ const workletMain = () => {
 
       ctx.clearRect(0, 0, size.width, size.height)
 
+      const l = parseInt(accent[2] ?? '0')
+      const ldir = l > 50 ? -1 : 1
+      const hue = `hsl(${accent[0]} ${accent[1]} `
+
       for (let i = 0; i < world.n; ++i) {
         const x0 = hgap + wordDist(rand())
         const y0 = rand(vgap, height - vgap)
         const v0mag = rand(vmin, vmax)
         const size0 = rand(1, 1 + sizedev)
 
-        const l = parseInt(accent[2] ?? '0')
-        const ldir = l > 50 ? -1 : 1
         const lightness = M.floor(clamp(0, l + ldir * rand(0, 30), 100))
 
         const v0 = pol2vec(v0mag, rand(0, M.PI * 2))
         const vx0 = v0[0]
         const vy0 = v0[1]
-        vecnorm(v0)
 
         const shape = rand() > 0.5 ? 'square' : 'circle'
         const lifetime = rand(0.3, 1.5)
@@ -175,12 +172,13 @@ const workletMain = () => {
         const y = y0 + vy0 * t
 
         const fade = animateFadeInOut(world, i, fadeDuration)
-        const alpha = fade * (1 - t / lifetime)
+        const alpha = M.round(fade * (1 - t / lifetime) * 100)
         const psize = fade * (size0 * visibilityFn(t))
+        if (alpha <= 0 || psize <= 0) continue
 
+        ctx.fillStyle = `${hue}${lightness}% / ${alpha}%)`
         for (const [wx, wy] of cycleBounds([x, y], [width, height], psize / 2)) {
           ctx.beginPath()
-          ctx.fillStyle = `hsl(${accent[0]} ${accent[1]} ${lightness}% / ${M.round(alpha * 100)}%)`
           if (shape === 'square') {
             ctx.rect(wx!, wy!, psize, psize)
           } else {

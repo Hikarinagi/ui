@@ -86,3 +86,40 @@ describe('collapsible · 带 gap 的栈里开合', () => {
     expect(Math.round(opening[opening.length - 1]! - settled)).toBe(60 + 8)
   })
 })
+
+describe('collapsible · 内容区不可滚动', () => {
+  it('高度小于内容时,聚焦内部的输入框或写入 scrollTop 都不会滚动内容区;子元素的外边距仍算在内容区内', async () => {
+    const w = mount(
+      defineComponent({
+        setup: () => () =>
+          h('div', { style: 'width: 480px' }, [
+            h(Collapsible, { defaultOpen: true }, () =>
+              h(CollapsibleContent, { 'data-content': '' }, () => [
+                h('p', { style: 'height: 60px; margin-block: 12px' }, '内容'),
+                h('input', { 'data-field': '' }),
+              ]),
+            ),
+          ]),
+      }),
+      { attachTo: document.body },
+    )
+    const root = w.element as HTMLElement
+    const content = root.querySelector<HTMLElement>('[data-content]')!
+    const field = root.querySelector<HTMLElement>('[data-field]')!
+    await vi.waitFor(() => expect(content.getAnimations()).toHaveLength(0))
+    expect(content.getBoundingClientRect().height).toBeCloseTo(
+      84 + field.getBoundingClientRect().height,
+      0,
+    )
+
+    content.style.height = '20px'
+    field.focus()
+    expect(document.activeElement).toBe(field)
+    expect(content.scrollTop).toBe(0)
+    content.scrollTop = 40
+    expect(content.scrollTop).toBe(0)
+    field.scrollIntoView()
+    expect(content.scrollTop).toBe(0)
+    w.unmount()
+  })
+})

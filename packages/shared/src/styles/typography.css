@@ -6,10 +6,25 @@
   letter-spacing: var(--hn-tracking-tight);
 }
 
+@layer base {
+  :where(
+    .text-accent-on,
+    .text-neutral-solid-on,
+    .text-success-on,
+    .text-warning-on,
+    .text-danger-on,
+    .text-info-on
+  ) {
+    --hn-on-solid-fill: transparent;
+    --hn-on-solid-border: color-mix(in oklab, currentColor 40%, transparent);
+  }
+}
+
 @utility hn-code {
   font-family: var(--hn-font-mono);
   font-size: 0.875em;
-  background-color: var(--hn-bg-inset);
+  background-color: var(--hn-on-solid-fill, var(--hn-bg-inset));
+  box-shadow: inset 0 0 0 1px var(--hn-on-solid-border, transparent);
   border-radius: var(--hn-radius-sm);
   padding: 0.125em 0.375em;
 }
@@ -144,8 +159,8 @@
 @utility hn-kbd {
   font-family: var(--hn-font-mono);
   font-size: 0.8125em;
-  background-color: var(--hn-surface);
-  border: 1px solid var(--hn-border);
+  background-color: var(--hn-on-solid-fill, var(--hn-surface));
+  border: 1px solid var(--hn-on-solid-border, var(--hn-border));
   border-block-end-width: 2px;
   border-radius: var(--hn-radius-sm);
   padding: 0.0625em 0.375em;

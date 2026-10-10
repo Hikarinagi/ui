@@ -34,6 +34,8 @@ const PRIMITIVE_ATTRIBUTE = /^data-(?:reka|radix)-/
 const PRIMITIVE_VARIABLE = /--(?:reka|radix)-/
 const VENDOR_PREFIX = /^(webkit|moz|ms)-/
 const HYDRATION_HINT = 'data-allow-mismatch'
+const HIGHLIGHT = 'data-hn-highlight'
+const AT_REST = new Set(['opacity: 1', 'transform: none', 'transform-origin: 50% 50% 0px'])
 
 export interface NormalizeOptions {
   ignoreAttributes?: string[]
@@ -50,7 +52,7 @@ function classes(value: string) {
   return value.split(/\s+/).filter(Boolean).sort().join(' ')
 }
 
-function style(value: string) {
+function style(value: string, resting = false) {
   return value
     .split(';')
     .map(declaration => declaration.trim())
@@ -68,6 +70,7 @@ function style(value: string) {
         .replace(new RegExp(PRIMITIVE_VARIABLE.source, 'g'), '--primitive-')
       return `${property}: ${value}`
     })
+    .filter(declaration => !resting || !AT_REST.has(declaration))
     .sort()
     .join('; ')
 }
@@ -181,7 +184,14 @@ export function normalizeMarkup(html: string, options: NormalizeOptions = {}) {
           : name
         if (ignored.has(key) || key === HYDRATION_HINT) return undefined
         if (key === 'class') return [key, classes(value)] as const
-        if (key === 'style') return [key, style(value)] as const
+        if (key === 'style')
+          return [
+            key,
+            style(
+              value,
+              node.attrs.some(({ name }) => name === HIGHLIGHT),
+            ),
+          ] as const
         if (ID_REFERENCES.has(key)) return [key, value.split(/\s+/).map(id).join(' ')] as const
         if (GENERATED_ID.test(value)) return [key, id(value)] as const
         return [key, value] as const
