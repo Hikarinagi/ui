@@ -1,7 +1,9 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest'
 import { userEvent } from '@vitest/browser/context'
 import { mount } from '@vue/test-utils'
+import { defineComponent, h } from 'vue'
 import Spoiler from './Spoiler.vue'
+import { SPOILER_WORKLET_INPUTS } from './SpoilerPainter'
 import '../../../test/browser.css'
 
 beforeEach(() => {
@@ -33,7 +35,7 @@ describe('Spoiler · Houdini 噪声路径', () => {
     await userEvent.click(el)
     expect(w.attributes('aria-expanded')).toBe('true')
     await vi.waitFor(() => expect(Number(getComputedStyle(inner).opacity)).toBe(1))
-    expect(el.style.getPropertyValue('--hn-nz-stop')).not.toBe('')
+    expect(el.style.getPropertyValue('--hn-nz-stop')).not.toBe('Infinity')
 
     await userEvent.click(el)
     expect(w.attributes('aria-expanded')).toBe('false')
@@ -41,10 +43,10 @@ describe('Spoiler · Houdini 噪声路径', () => {
     expect(midway).toBeGreaterThan(0)
     await vi.waitFor(() => expect(Number(getComputedStyle(inner).opacity)).toBe(0))
 
-    expect(el.style.getPropertyValue('--hn-nz-stop')).toBe('')
-    const t1 = Number(el.style.getPropertyValue('--hn-nz-t'))
+    expect(el.style.getPropertyValue('--hn-nz-stop')).toBe('Infinity')
+    const t1 = Number(getComputedStyle(el).getPropertyValue('--hn-nz-t'))
     await vi.waitFor(() => {
-      expect(Number(el.style.getPropertyValue('--hn-nz-t'))).toBeGreaterThan(t1)
+      expect(Number(getComputedStyle(el).getPropertyValue('--hn-nz-t'))).toBeGreaterThan(t1)
     })
   })
 
@@ -140,6 +142,70 @@ describe('Spoiler · Houdini 噪声路径', () => {
     await userEvent.hover(el)
     await userEvent.unhover(el)
     expect(w.attributes('aria-expanded')).toBe('false')
+  })
+})
+
+describe('Spoiler · 噪声的开销', () => {
+  const frame = () => new Promise(requestAnimationFrame)
+  const clock = (el: Element) => el.getAnimations()[0]!
+
+  it('时钟由动画驱动,不占用 requestAnimationFrame;worklet 的每个输入属性都有值', async () => {
+    const raf = vi.spyOn(window, 'requestAnimationFrame')
+    const w = mount(
+      defineComponent({
+        setup: () => () =>
+          h('div', { style: 'width: 640px' }, [
+            h(Spoiler, null, () => '真凶是园丁'),
+            h(Spoiler, { class: 'block' }, () => '真凶是园丁'),
+            h(Spoiler, { class: 'block h-80' }, () => '真凶是园丁'),
+          ]),
+      }),
+      { attachTo: attach() },
+    )
+    const hosts = Array.from(
+      (w.element as HTMLElement).querySelectorAll<HTMLElement>('[data-hidden]'),
+    )
+    await vi.waitFor(() =>
+      expect(hosts.map(el => clock(el)?.playState)).toEqual(Array(3).fill('running')),
+    )
+    raf.mockClear()
+    await new Promise(resolve => setTimeout(resolve, 300))
+    expect(raf).not.toHaveBeenCalled()
+    raf.mockRestore()
+    for (const el of hosts)
+      for (const name of SPOILER_WORKLET_INPUTS)
+        expect(getComputedStyle(el).getPropertyValue(name).trim(), name).not.toBe('')
+    w.unmount()
+  })
+
+  it('离开视口时时钟暂停,回到视口后继续;揭示并淡出后停下', async () => {
+    const w = mount(
+      defineComponent({
+        setup: () => () =>
+          h('div', { 'data-scroller': '', style: 'height: 200px; overflow: auto' }, [
+            h('div', { style: 'height: 1200px' }),
+            h(Spoiler, null, () => '真凶是园丁'),
+            h('div', { style: 'height: 400px' }),
+          ]),
+      }),
+      { attachTo: attach() },
+    )
+    const scroller = w.element as HTMLElement
+    const el = scroller.querySelector<HTMLElement>('[data-hidden]')!
+    await frame()
+    await vi.waitFor(() => expect(clock(el).playState).toBe('paused'))
+
+    scroller.scrollTop = 1100
+    await vi.waitFor(() => expect(clock(el).playState).toBe('running'))
+    scroller.scrollTop = 0
+    await vi.waitFor(() => expect(clock(el).playState).toBe('paused'))
+
+    scroller.scrollTop = 1100
+    await vi.waitFor(() => expect(clock(el).playState).toBe('running'))
+    el.click()
+    expect(clock(el).playState).toBe('running')
+    await vi.waitFor(() => expect(clock(el).playState).toBe('paused'), { timeout: 4000 })
+    w.unmount()
   })
 })
 
