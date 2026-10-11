@@ -66,6 +66,10 @@
   opacity: 0;
 }
 
+[data-hn-pin-cell]::before {
+  content: '\200b';
+}
+
 .hn-pin-caret {
   width: 1px;
   height: 1.25em;

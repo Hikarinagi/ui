@@ -502,6 +502,49 @@ describe('pin-input · 外观', () => {
     await vi.waitFor(() => expect(getComputedStyle(s.cells()[3]!).backgroundColor).toBe(rest))
   })
 
+  it('聚焦、输入、失焦前后占用的高度不变,FormField 的说明文字不移动', async () => {
+    const host = attach()
+    const value = ref('')
+    const wrapper = mount(
+      defineComponent({
+        render: () =>
+          h(FormField, { label: '验证码', description: '已发送到邮箱' }, () =>
+            h(PinInput, {
+              length: 4,
+              modelValue: value.value,
+              'onUpdate:modelValue': (next: string) => {
+                value.value = next
+              },
+            }),
+          ),
+      }),
+      { attachTo: host },
+    )
+    mounted.push(wrapper)
+    const root = host.querySelector<HTMLElement>('[data-hn-pin-input]')!
+    const native = root.querySelector('input')!
+    const description = host.querySelector<HTMLElement>(
+      `#${native.getAttribute('aria-describedby')}`,
+    )!
+    const layout = () => ({
+      gap: description.getBoundingClientRect().top - root.getBoundingClientRect().bottom,
+      top: root.getBoundingClientRect().top,
+    })
+    const rest = layout()
+    await userEvent.click(root.querySelectorAll('[data-hn-pin-cell]')[0]!, { force: true })
+    await vi.waitFor(() => expect(root.querySelector('.hn-pin-caret')).not.toBeNull())
+    expect(layout()).toEqual(rest)
+    await userEvent.keyboard('1')
+    await vi.waitFor(() => expect(native.value).toBe('1'))
+    expect(layout()).toEqual(rest)
+    await userEvent.keyboard('234')
+    await vi.waitFor(() => expect(native.value).toBe('1234'))
+    expect(layout()).toEqual(rest)
+    native.blur()
+    await vi.waitFor(() => expect(root.querySelector('[data-state="active"]')).toBeNull())
+    expect(layout()).toEqual(rest)
+  })
+
   it('占位符显示在空格子里,当前格显示光标', async () => {
     const s = await mountPin({ length: 4, value: '1', placeholder: '○' })
     expect(s.text()).toEqual(['1', '○', '○', '○'])
