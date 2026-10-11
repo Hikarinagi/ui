@@ -21,6 +21,17 @@
   forced-color-adjust: none;
 }
 
+@supports (-webkit-touch-callout: none) {
+  .hn-pin-native {
+    left: -1px;
+    right: 1px;
+    font-weight: 100;
+    font-stretch: ultra-condensed;
+    font-optical-sizing: none;
+    letter-spacing: -0.6em;
+  }
+}
+
 .hn-pin-native:disabled {
   cursor: not-allowed;
 }
