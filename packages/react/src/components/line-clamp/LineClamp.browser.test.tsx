@@ -37,6 +37,28 @@ function painted(element: Element) {
   })
 }
 
+function transitionHeights(content: HTMLElement) {
+  const styles: string[] = []
+  const observer = new MutationObserver(records => {
+    for (const record of records) styles.push(record.oldValue ?? '')
+  })
+  observer.observe(content, {
+    attributes: true,
+    attributeFilter: ['style'],
+    attributeOldValue: true,
+  })
+  return () => {
+    for (const record of observer.takeRecords()) styles.push(record.oldValue ?? '')
+    observer.disconnect()
+    styles.push(content.getAttribute('style') ?? '')
+    const heights = styles
+      .map(style => /max-height:\s*([\d.]+)px/.exec(style)?.[1])
+      .filter(value => value !== undefined)
+      .map(Number)
+    return { from: heights[0], to: heights.at(-1) }
+  }
+}
+
 async function setup(props: LineClampProps = {}, children: ReactNode = long, width = 320) {
   const state = signal(props)
   function Harness() {
@@ -301,6 +323,60 @@ describe('LineClamp', () => {
     )
     expect(s.lines()).toBe(2)
     expect(s.button()).not.toBeNull()
+  })
+
+  async function endpoints(s: {
+    content: () => HTMLElement
+    button: () => HTMLElement | null
+    settled: () => Promise<void>
+  }) {
+    const height = () => s.content().getBoundingClientRect().height
+    const collapsed = height()
+    let heights = transitionHeights(s.content())
+    await userEvent.click(s.button()!)
+    await s.settled()
+    const full = height()
+    const opening = heights()
+    heights = transitionHeights(s.content())
+    await userEvent.click(s.button()!)
+    await s.settled()
+    return { collapsed, full, opening, closing: heights(), restored: height() }
+  }
+
+  it('折叠处落在段落中间时,过渡的两端与折叠、展开后的高度一致', async () => {
+    const s = await setup(
+      { lines: 4 },
+      <>
+        <Text size="sm">{long.slice(0, 40)}</Text>
+        <Text size="sm">{long.slice(0, 120)}</Text>
+        <Text size="sm">{long.slice(0, 80)}</Text>
+      </>,
+    )
+    expect(s.lines()).toBe(4)
+    const run = await endpoints(s)
+    expect(run.full).toBeGreaterThan(run.collapsed + 40)
+    expect(run.opening.from).toBeCloseTo(run.collapsed, 0)
+    expect(run.opening.to).toBeCloseTo(run.full, 0)
+    expect(run.closing.from).toBeCloseTo(run.full, 0)
+    expect(run.closing.to).toBeCloseTo(run.collapsed, 0)
+    expect(run.restored).toBe(run.collapsed)
+  })
+
+  it('段落自带外边距时,过渡的两端与折叠、展开后的高度一致', async () => {
+    const s = await setup(
+      { lines: 4 },
+      <>
+        <p style={{ margin: '16px 0' }}>{long.slice(0, 120)}</p>
+        <p style={{ margin: '16px 0' }}>{long.slice(0, 120)}</p>
+      </>,
+    )
+    const run = await endpoints(s)
+    expect(run.full).toBeGreaterThan(run.collapsed + 40)
+    expect(run.opening.from).toBeCloseTo(run.collapsed, 0)
+    expect(run.opening.to).toBeCloseTo(run.full, 0)
+    expect(run.closing.from).toBeCloseTo(run.full, 0)
+    expect(run.closing.to).toBeCloseTo(run.collapsed, 0)
+    expect(run.restored).toBe(run.collapsed)
   })
 
   it('行数改变后重新判断是否超出', async () => {

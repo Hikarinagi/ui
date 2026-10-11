@@ -9,14 +9,18 @@
   min-width: 0;
 }
 
+.hn-line-clamp {
+  display: flow-root;
+}
+
 .hn-line-clamp:not([data-expanded]),
 .hn-line-clamp[data-animating],
 .hn-line-clamp[data-measuring] {
   overflow: hidden;
 }
 
-.hn-line-clamp:not([data-expanded]):not([data-animating]),
-.hn-line-clamp[data-measuring] {
+.hn-line-clamp:not([data-expanded]):not([data-animating]):not([data-measuring='full']),
+.hn-line-clamp[data-measuring='clamped'] {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: var(--hn-line-clamp, 3);
