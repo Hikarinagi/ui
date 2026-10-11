@@ -408,13 +408,15 @@ describe('pin-input · 表单与标签', () => {
     expect(s.root.hasAttribute('data-disabled')).toBe(true)
   })
 
-  it('遮蔽时格子显示圆点,输入框是密码类型', async () => {
+  it('遮蔽时格子显示圆点,输入框是密码类型,浏览器自带的显示密码按钮被隐藏', async () => {
     const s = await mountPin({ length: 4, mask: true })
     await s.click(0)
     await userEvent.keyboard('12')
     await vi.waitFor(() => expect(s.text()).toEqual(['•', '•', '', '']))
     expect(s.native.type).toBe('password')
     expect(s.native.value).toBe('12')
+    const styles = Array.from(document.querySelectorAll('style'), style => style.textContent)
+    expect(styles.join('\n')).toMatch(/\.hn-pin-native::-ms-reveal\s*\{\s*display:\s*none/)
   })
 
   it('服务端输出激活后无警告,值与格子一致', async () => {

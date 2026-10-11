@@ -41,6 +41,23 @@
   color: transparent;
 }
 
+.hn-pin-native::-ms-reveal {
+  display: none;
+}
+
+.hn-pin-native::-ms-clear {
+  display: none;
+}
+
+.hn-pin-native::-webkit-credentials-auto-fill-button,
+.hn-pin-native::-webkit-contacts-auto-fill-button,
+.hn-pin-native::-webkit-strong-password-auto-fill-button,
+.hn-pin-native::-webkit-caps-lock-indicator {
+  display: none !important;
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .hn-pin-native:-webkit-autofill {
   opacity: 0;
 }
