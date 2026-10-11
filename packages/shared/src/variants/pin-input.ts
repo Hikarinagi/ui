@@ -1,14 +1,25 @@
 import { tv, type VariantProps } from '../lib/tv'
 
 export const pinInput = tv({
-  base: 'inline-flex max-w-full gap-2',
+  base: 'relative inline-flex max-w-full gap-2',
+  variants: {
+    size: {
+      sm: '[--hn-pin-size:var(--hn-control-h-sm)]',
+      md: '[--hn-pin-size:var(--hn-control-h-md)]',
+      lg: '[--hn-pin-size:var(--hn-control-h-lg)]',
+    },
+  },
+  defaultVariants: {
+    size: 'md',
+  },
 })
 
 export const pinInputCell = tv({
   base: [
-    'hn-field text-fg shrink-0 rounded-md border text-center font-medium tabular-nums outline-none [font-family:inherit]',
-    'placeholder:text-faint placeholder:font-normal',
-    'disabled:cursor-not-allowed disabled:opacity-50',
+    'hn-field text-fg inline-flex size-[var(--hn-pin-size)] shrink-0 items-center justify-center rounded-md border font-medium tabular-nums select-none',
+    'not-data-filled:text-faint not-data-filled:font-normal',
+    'data-active:[--hn-field-ring-w:2px] data-invalid:data-active:[--hn-field-ring-w:1px]',
+    'data-disabled:opacity-50',
   ],
   variants: {
     variant: {
@@ -17,15 +28,23 @@ export const pinInputCell = tv({
       secondary: 'border-transparent [--hn-field-bg:var(--hn-bg-inset)]',
     },
     size: {
-      sm: 'size-[var(--hn-control-h-sm)] text-sm',
-      md: 'size-[var(--hn-control-h-md)] text-base',
-      lg: 'size-[var(--hn-control-h-lg)] text-md',
+      sm: 'text-sm',
+      md: 'text-base',
+      lg: 'text-md',
     },
   },
   defaultVariants: {
     variant: 'primary',
     size: 'md',
   },
+})
+
+export const pinInputNative = tv({
+  base: 'hn-pin-native',
+})
+
+export const pinInputCaret = tv({
+  base: 'hn-pin-caret',
 })
 
 export type PinInputVariants = VariantProps<typeof pinInputCell>
