@@ -1,5 +1,18 @@
 # @hina-ui/react
 
+## [1.7.12](https://github.com/Hikarinagi/ui/compare/@hina-ui/react@1.7.11...@hina-ui/react@1.7.12) (2026-10-12)
+
+### Changed
+
+- **PinInput** Rebuild PinInput on a single input that covers the cells, so letters, input methods, paste, autofill and selection behave like a native field. The cells are now presentational, and `aria-label`, `aria-labelledby`, `aria-describedby` and `id` are applied to the input instead of the root.
+
+### Fixed
+
+- **LineClamp** Fix the jump at the end of expanding and at the start of collapsing when the content is made of several blocks, such as paragraphs or blocks with their own margins.
+- **Image** Start the image fade-in in the same frame as the skeleton fade-out. The image used to start one frame late, which left a blank frame between the skeleton and the image.
+- **Image** Keep the skeleton fading out together with the image when a build tool rewrites the duration tokens from milliseconds to seconds, as Next.js and Lightning CSS do. The skeleton used to vanish at once and the background flashed through before the image appeared.
+- **ScrollArea** Leave the content in place while the scrollbars initialize. It used to be detached and inserted again, which restarted CSS animations inside the scroll area and ended running transitions at once.
+
 ## [1.7.11](https://github.com/Hikarinagi/ui/compare/@hina-ui/react@1.7.10...@hina-ui/react@1.7.11) (2026-10-10)
 
 ### Fixed
