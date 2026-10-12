@@ -1,5 +1,5 @@
 diff --git a/overlayscrollbars.cjs b/overlayscrollbars.cjs
-index ec871bc71397ef9f5586519c121a65b90907ad9d..36393373255cdae84fc4d78998933e99561a6c74 100644
+index ec871bc71397ef9f5586519c121a65b90907ad9d..e4266bb79a22ecfafbf72c4f6298f92f0c2bf87e 100644
 --- a/overlayscrollbars.cjs
 +++ b/overlayscrollbars.cjs
 @@ -353,7 +353,7 @@ const hasAttr = (t, n) => t && t.hasAttribute(n);
@@ -11,7 +11,23 @@ index ec871bc71397ef9f5586519c121a65b90907ad9d..36393373255cdae84fc4d78998933e99
        t.setAttribute(n, String(o || ""));
      }
    }));
-@@ -1540,7 +1540,7 @@ const createTrinsicObserver = (t, n) => {
+@@ -452,6 +452,15 @@ const appendChildren = (t, n) => bind(removeElements, t && n && each(createOrKee
+   }
+ })));
+ 
++const placeChildren = (t, n) => {
++  const o = t && n ? createOrKeepArray(n).filter((t => t)) : [];
++  const s = t ? t.childNodes : [];
++  const e = s.length - o.length;
++  if (e < 0 || o.some(((t, n) => s[e + n] !== t))) {
++    appendChildren(t, n);
++  }
++};
++
+ let D;
+ 
+ const getTrustedTypePolicy = () => D;
+@@ -1540,7 +1549,7 @@ const createTrinsicObserver = (t, n) => {
    }, () => o && intersectionObserverCallback(true, o.takeRecords()) ];
  };
  
@@ -20,7 +36,7 @@ index ec871bc71397ef9f5586519c121a65b90907ad9d..36393373255cdae84fc4d78998933e99
    let e;
    let c;
    let r;
-@@ -1654,6 +1654,7 @@ const createObserversSetup = (t, n, o, s) => {
+@@ -1654,6 +1663,7 @@ const createObserversSetup = (t, n, o, s) => {
      return c;
    };
    const onSizeChanged = ({_t: t, ft: n}) => {
@@ -28,7 +44,7 @@ index ec871bc71397ef9f5586519c121a65b90907ad9d..36393373255cdae84fc4d78998933e99
      const o = n ? s : z;
      const e = {
        _t: t || n,
-@@ -1663,6 +1664,7 @@ const createObserversSetup = (t, n, o, s) => {
+@@ -1663,6 +1673,7 @@ const createObserversSetup = (t, n, o, s) => {
      o(e, c);
    };
    const onContentMutation = (t, n) => {
@@ -36,7 +52,7 @@ index ec871bc71397ef9f5586519c121a65b90907ad9d..36393373255cdae84fc4d78998933e99
      const [, o] = D();
      const s = {
        xt: o
-@@ -1674,6 +1676,7 @@ const createObserversSetup = (t, n, o, s) => {
+@@ -1674,6 +1685,7 @@ const createObserversSetup = (t, n, o, s) => {
      return s;
    };
    const onHostMutation = (t, n, o) => {
@@ -44,7 +60,22 @@ index ec871bc71397ef9f5586519c121a65b90907ad9d..36393373255cdae84fc4d78998933e99
      const s = {
        Ht: n
      };
-@@ -2652,6 +2655,8 @@ const createOverflowUpdateSegment = (t, s) => {
+@@ -2419,10 +2431,10 @@ const createStructureSetupElements = t => {
+         setAttrs(b, q, "");
+       }
+     }
+-    appendChildren(et, st);
+-    appendChildren(W, J);
+-    appendChildren(J || W, !H && Q);
+-    appendChildren(Q, nt);
++    placeChildren(et, st);
++    placeChildren(W, J);
++    placeChildren(J || W, !H && Q);
++    placeChildren(Q, nt);
+     push(ot, [ c, () => {
+       const t = getFocusedElement();
+       const n = elementIsGenerated(Q);
+@@ -2652,6 +2664,8 @@ const createOverflowUpdateSegment = (t, s) => {
      };
    };
    const setViewportOverflowStyle = t => {
@@ -53,7 +84,7 @@ index ec871bc71397ef9f5586519c121a65b90907ad9d..36393373255cdae84fc4d78998933e99
      const createAllOverflowStyleClassNames = t => [ x, H, E ].map((n => createViewportOverflowStyleClassName(overflowCssValueToOverflowStyle(n), t)));
      const n = createAllOverflowStyleClassNames(true).concat(createAllOverflowStyleClassNames()).join(" ");
      p(n);
-@@ -2834,7 +2839,7 @@ const createSetups = (t, n, o, s) => {
+@@ -2834,7 +2848,7 @@ const createSetups = (t, n, o, s) => {
    const [i, l, a, u, f] = createStructureSetup(t);
    const [_, d, p] = createObserversSetup(u, a, r, (t => {
      update({}, t);
@@ -63,7 +94,7 @@ index ec871bc71397ef9f5586519c121a65b90907ad9d..36393373255cdae84fc4d78998933e99
    const updateHintsAreTruthy = t => keys(t).some((n => !!t[n]));
    const update = (t, s) => {
 diff --git a/overlayscrollbars.cjs.js b/overlayscrollbars.cjs.js
-index ab9d930b11ea64af9a2d5b7315b554db88cd5bbd..56e8c956b28d44a1154dd8aa0d1cc537e2da00dd 100644
+index ab9d930b11ea64af9a2d5b7315b554db88cd5bbd..e5a4e687873fb78b4d4493641e2b5dbe01977ba1 100644
 --- a/overlayscrollbars.cjs.js
 +++ b/overlayscrollbars.cjs.js
 @@ -353,7 +353,7 @@ const hasAttr = (t, n) => t && t.hasAttribute(n);
@@ -75,7 +106,23 @@ index ab9d930b11ea64af9a2d5b7315b554db88cd5bbd..56e8c956b28d44a1154dd8aa0d1cc537
        t.setAttribute(n, String(o || ""));
      }
    }));
-@@ -1540,7 +1540,7 @@ const createTrinsicObserver = (t, n) => {
+@@ -452,6 +452,15 @@ const appendChildren = (t, n) => bind(removeElements, t && n && each(createOrKee
+   }
+ })));
+ 
++const placeChildren = (t, n) => {
++  const o = t && n ? createOrKeepArray(n).filter((t => t)) : [];
++  const s = t ? t.childNodes : [];
++  const e = s.length - o.length;
++  if (e < 0 || o.some(((t, n) => s[e + n] !== t))) {
++    appendChildren(t, n);
++  }
++};
++
+ let D;
+ 
+ const getTrustedTypePolicy = () => D;
+@@ -1540,7 +1549,7 @@ const createTrinsicObserver = (t, n) => {
    }, () => o && intersectionObserverCallback(true, o.takeRecords()) ];
  };
  
@@ -84,7 +131,7 @@ index ab9d930b11ea64af9a2d5b7315b554db88cd5bbd..56e8c956b28d44a1154dd8aa0d1cc537
    let e;
    let c;
    let r;
-@@ -1654,6 +1654,7 @@ const createObserversSetup = (t, n, o, s) => {
+@@ -1654,6 +1663,7 @@ const createObserversSetup = (t, n, o, s) => {
      return c;
    };
    const onSizeChanged = ({_t: t, ft: n}) => {
@@ -92,7 +139,7 @@ index ab9d930b11ea64af9a2d5b7315b554db88cd5bbd..56e8c956b28d44a1154dd8aa0d1cc537
      const o = n ? s : z;
      const e = {
        _t: t || n,
-@@ -1663,6 +1664,7 @@ const createObserversSetup = (t, n, o, s) => {
+@@ -1663,6 +1673,7 @@ const createObserversSetup = (t, n, o, s) => {
      o(e, c);
    };
    const onContentMutation = (t, n) => {
@@ -100,7 +147,7 @@ index ab9d930b11ea64af9a2d5b7315b554db88cd5bbd..56e8c956b28d44a1154dd8aa0d1cc537
      const [, o] = D();
      const s = {
        xt: o
-@@ -1674,6 +1676,7 @@ const createObserversSetup = (t, n, o, s) => {
+@@ -1674,6 +1685,7 @@ const createObserversSetup = (t, n, o, s) => {
      return s;
    };
    const onHostMutation = (t, n, o) => {
@@ -108,7 +155,22 @@ index ab9d930b11ea64af9a2d5b7315b554db88cd5bbd..56e8c956b28d44a1154dd8aa0d1cc537
      const s = {
        Ht: n
      };
-@@ -2652,6 +2655,8 @@ const createOverflowUpdateSegment = (t, s) => {
+@@ -2419,10 +2431,10 @@ const createStructureSetupElements = t => {
+         setAttrs(b, q, "");
+       }
+     }
+-    appendChildren(et, st);
+-    appendChildren(W, J);
+-    appendChildren(J || W, !H && Q);
+-    appendChildren(Q, nt);
++    placeChildren(et, st);
++    placeChildren(W, J);
++    placeChildren(J || W, !H && Q);
++    placeChildren(Q, nt);
+     push(ot, [ c, () => {
+       const t = getFocusedElement();
+       const n = elementIsGenerated(Q);
+@@ -2652,6 +2664,8 @@ const createOverflowUpdateSegment = (t, s) => {
      };
    };
    const setViewportOverflowStyle = t => {
@@ -117,7 +179,7 @@ index ab9d930b11ea64af9a2d5b7315b554db88cd5bbd..56e8c956b28d44a1154dd8aa0d1cc537
      const createAllOverflowStyleClassNames = t => [ x, H, E ].map((n => createViewportOverflowStyleClassName(overflowCssValueToOverflowStyle(n), t)));
      const n = createAllOverflowStyleClassNames(true).concat(createAllOverflowStyleClassNames()).join(" ");
      p(n);
-@@ -2834,7 +2839,7 @@ const createSetups = (t, n, o, s) => {
+@@ -2834,7 +2848,7 @@ const createSetups = (t, n, o, s) => {
    const [i, l, a, u, f] = createStructureSetup(t);
    const [_, d, p] = createObserversSetup(u, a, r, (t => {
      update({}, t);
@@ -127,7 +189,7 @@ index ab9d930b11ea64af9a2d5b7315b554db88cd5bbd..56e8c956b28d44a1154dd8aa0d1cc537
    const updateHintsAreTruthy = t => keys(t).some((n => !!t[n]));
    const update = (t, s) => {
 diff --git a/overlayscrollbars.esm.js b/overlayscrollbars.esm.js
-index b05b8043eba78f20754a14e84daa09ff505e2fbc..bfefb0b30887e15d3aa05307e486295775b86f5a 100644
+index b05b8043eba78f20754a14e84daa09ff505e2fbc..f4991f5d1d93a71f536ddd50b903844983cde72f 100644
 --- a/overlayscrollbars.esm.js
 +++ b/overlayscrollbars.esm.js
 @@ -347,7 +347,7 @@ const hasAttr = (t, n) => t && t.hasAttribute(n);
@@ -139,7 +201,23 @@ index b05b8043eba78f20754a14e84daa09ff505e2fbc..bfefb0b30887e15d3aa05307e4862957
        t.setAttribute(n, String(o || ""));
      }
    }));
-@@ -1534,7 +1534,7 @@ const createTrinsicObserver = (t, n) => {
+@@ -446,6 +446,15 @@ const appendChildren = (t, n) => bind(removeElements, t && n && each(createOrKee
+   }
+ })));
+ 
++const placeChildren = (t, n) => {
++  const o = t && n ? createOrKeepArray(n).filter((t => t)) : [];
++  const s = t ? t.childNodes : [];
++  const e = s.length - o.length;
++  if (e < 0 || o.some(((t, n) => s[e + n] !== t))) {
++    appendChildren(t, n);
++  }
++};
++
+ let D;
+ 
+ const getTrustedTypePolicy = () => D;
+@@ -1534,7 +1543,7 @@ const createTrinsicObserver = (t, n) => {
    }, () => o && intersectionObserverCallback(true, o.takeRecords()) ];
  };
  
@@ -148,7 +226,7 @@ index b05b8043eba78f20754a14e84daa09ff505e2fbc..bfefb0b30887e15d3aa05307e4862957
    let e;
    let c;
    let r;
-@@ -1648,6 +1648,7 @@ const createObserversSetup = (t, n, o, s) => {
+@@ -1648,6 +1657,7 @@ const createObserversSetup = (t, n, o, s) => {
      return c;
    };
    const onSizeChanged = ({_t: t, ft: n}) => {
@@ -156,7 +234,7 @@ index b05b8043eba78f20754a14e84daa09ff505e2fbc..bfefb0b30887e15d3aa05307e4862957
      const o = n ? s : z;
      const e = {
        _t: t || n,
-@@ -1657,6 +1658,7 @@ const createObserversSetup = (t, n, o, s) => {
+@@ -1657,6 +1667,7 @@ const createObserversSetup = (t, n, o, s) => {
      o(e, c);
    };
    const onContentMutation = (t, n) => {
@@ -164,7 +242,7 @@ index b05b8043eba78f20754a14e84daa09ff505e2fbc..bfefb0b30887e15d3aa05307e4862957
      const [, o] = D();
      const s = {
        xt: o
-@@ -1668,6 +1670,7 @@ const createObserversSetup = (t, n, o, s) => {
+@@ -1668,6 +1679,7 @@ const createObserversSetup = (t, n, o, s) => {
      return s;
    };
    const onHostMutation = (t, n, o) => {
@@ -172,7 +250,22 @@ index b05b8043eba78f20754a14e84daa09ff505e2fbc..bfefb0b30887e15d3aa05307e4862957
      const s = {
        Ht: n
      };
-@@ -2646,6 +2649,8 @@ const createOverflowUpdateSegment = (t, s) => {
+@@ -2413,10 +2425,10 @@ const createStructureSetupElements = t => {
+         setAttrs(b, q, "");
+       }
+     }
+-    appendChildren(et, st);
+-    appendChildren(W, J);
+-    appendChildren(J || W, !H && Q);
+-    appendChildren(Q, nt);
++    placeChildren(et, st);
++    placeChildren(W, J);
++    placeChildren(J || W, !H && Q);
++    placeChildren(Q, nt);
+     push(ot, [ c, () => {
+       const t = getFocusedElement();
+       const n = elementIsGenerated(Q);
+@@ -2646,6 +2658,8 @@ const createOverflowUpdateSegment = (t, s) => {
      };
    };
    const setViewportOverflowStyle = t => {
@@ -181,7 +274,7 @@ index b05b8043eba78f20754a14e84daa09ff505e2fbc..bfefb0b30887e15d3aa05307e4862957
      const createAllOverflowStyleClassNames = t => [ x, H, E ].map((n => createViewportOverflowStyleClassName(overflowCssValueToOverflowStyle(n), t)));
      const n = createAllOverflowStyleClassNames(true).concat(createAllOverflowStyleClassNames()).join(" ");
      p(n);
-@@ -2828,7 +2833,7 @@ const createSetups = (t, n, o, s) => {
+@@ -2828,7 +2842,7 @@ const createSetups = (t, n, o, s) => {
    const [i, l, a, u, f] = createStructureSetup(t);
    const [_, d, p] = createObserversSetup(u, a, r, (t => {
      update({}, t);
@@ -191,7 +284,7 @@ index b05b8043eba78f20754a14e84daa09ff505e2fbc..bfefb0b30887e15d3aa05307e4862957
    const updateHintsAreTruthy = t => keys(t).some((n => !!t[n]));
    const update = (t, s) => {
 diff --git a/overlayscrollbars.mjs b/overlayscrollbars.mjs
-index ae4c28abc9bbb5a972bdff8889bc552069bcf0fe..e9a3f46bf4d22a1109d7facd40db0d2481990850 100644
+index ae4c28abc9bbb5a972bdff8889bc552069bcf0fe..fcae9a98cebea6027a29cc56327b2bc516ecc461 100644
 --- a/overlayscrollbars.mjs
 +++ b/overlayscrollbars.mjs
 @@ -347,7 +347,7 @@ const hasAttr = (t, n) => t && t.hasAttribute(n);
@@ -203,7 +296,23 @@ index ae4c28abc9bbb5a972bdff8889bc552069bcf0fe..e9a3f46bf4d22a1109d7facd40db0d24
        t.setAttribute(n, String(o || ""));
      }
    }));
-@@ -1534,7 +1534,7 @@ const createTrinsicObserver = (t, n) => {
+@@ -446,6 +446,15 @@ const appendChildren = (t, n) => bind(removeElements, t && n && each(createOrKee
+   }
+ })));
+ 
++const placeChildren = (t, n) => {
++  const o = t && n ? createOrKeepArray(n).filter((t => t)) : [];
++  const s = t ? t.childNodes : [];
++  const e = s.length - o.length;
++  if (e < 0 || o.some(((t, n) => s[e + n] !== t))) {
++    appendChildren(t, n);
++  }
++};
++
+ let D;
+ 
+ const getTrustedTypePolicy = () => D;
+@@ -1534,7 +1543,7 @@ const createTrinsicObserver = (t, n) => {
    }, () => o && intersectionObserverCallback(true, o.takeRecords()) ];
  };
  
@@ -212,7 +321,7 @@ index ae4c28abc9bbb5a972bdff8889bc552069bcf0fe..e9a3f46bf4d22a1109d7facd40db0d24
    let e;
    let c;
    let r;
-@@ -1648,6 +1648,7 @@ const createObserversSetup = (t, n, o, s) => {
+@@ -1648,6 +1657,7 @@ const createObserversSetup = (t, n, o, s) => {
      return c;
    };
    const onSizeChanged = ({_t: t, ft: n}) => {
@@ -220,7 +329,7 @@ index ae4c28abc9bbb5a972bdff8889bc552069bcf0fe..e9a3f46bf4d22a1109d7facd40db0d24
      const o = n ? s : z;
      const e = {
        _t: t || n,
-@@ -1657,6 +1658,7 @@ const createObserversSetup = (t, n, o, s) => {
+@@ -1657,6 +1667,7 @@ const createObserversSetup = (t, n, o, s) => {
      o(e, c);
    };
    const onContentMutation = (t, n) => {
@@ -228,7 +337,7 @@ index ae4c28abc9bbb5a972bdff8889bc552069bcf0fe..e9a3f46bf4d22a1109d7facd40db0d24
      const [, o] = D();
      const s = {
        xt: o
-@@ -1668,6 +1670,7 @@ const createObserversSetup = (t, n, o, s) => {
+@@ -1668,6 +1679,7 @@ const createObserversSetup = (t, n, o, s) => {
      return s;
    };
    const onHostMutation = (t, n, o) => {
@@ -236,7 +345,22 @@ index ae4c28abc9bbb5a972bdff8889bc552069bcf0fe..e9a3f46bf4d22a1109d7facd40db0d24
      const s = {
        Ht: n
      };
-@@ -2646,6 +2649,8 @@ const createOverflowUpdateSegment = (t, s) => {
+@@ -2413,10 +2425,10 @@ const createStructureSetupElements = t => {
+         setAttrs(b, q, "");
+       }
+     }
+-    appendChildren(et, st);
+-    appendChildren(W, J);
+-    appendChildren(J || W, !H && Q);
+-    appendChildren(Q, nt);
++    placeChildren(et, st);
++    placeChildren(W, J);
++    placeChildren(J || W, !H && Q);
++    placeChildren(Q, nt);
+     push(ot, [ c, () => {
+       const t = getFocusedElement();
+       const n = elementIsGenerated(Q);
+@@ -2646,6 +2658,8 @@ const createOverflowUpdateSegment = (t, s) => {
      };
    };
    const setViewportOverflowStyle = t => {
@@ -245,7 +369,7 @@ index ae4c28abc9bbb5a972bdff8889bc552069bcf0fe..e9a3f46bf4d22a1109d7facd40db0d24
      const createAllOverflowStyleClassNames = t => [ x, H, E ].map((n => createViewportOverflowStyleClassName(overflowCssValueToOverflowStyle(n), t)));
      const n = createAllOverflowStyleClassNames(true).concat(createAllOverflowStyleClassNames()).join(" ");
      p(n);
-@@ -2828,7 +2833,7 @@ const createSetups = (t, n, o, s) => {
+@@ -2828,7 +2842,7 @@ const createSetups = (t, n, o, s) => {
    const [i, l, a, u, f] = createStructureSetup(t);
    const [_, d, p] = createObserversSetup(u, a, r, (t => {
      update({}, t);

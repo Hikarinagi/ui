@@ -38,6 +38,48 @@ it('initializes on the next frame despite scrolling and unavailable idle time, p
   expect(area.find('.os-scrollbar-vertical').exists()).toBe(true)
 })
 
+it('leaves the content in place while initializing, so animations and transitions inside keep running', async () => {
+  wrapper = mount(ScrollArea, {
+    attachTo: document.body,
+    props: { class: 'h-40' },
+    slots: {
+      default: () => [
+        h('div', { 'data-probe': 'spin', style: 'animation:hn-spin 10s linear infinite' }),
+        h('div', { 'data-probe': 'fade', style: 'transition:opacity 5s linear' }),
+        h('iframe', { 'data-probe': 'frame' }),
+        h('div', { style: 'height:2000px' }),
+      ],
+    },
+  })
+  await nextTick()
+  const area = wrapper.findComponent(ScrollArea)
+  const host = area.get<HTMLElement>('[data-overlayscrollbars-initialize]').element
+  const content = host.firstElementChild!
+  const spin = host.querySelector<HTMLElement>('[data-probe="spin"]')!
+  const fade = host.querySelector<HTMLElement>('[data-probe="fade"]')!
+  const inner = host.querySelector<HTMLIFrameElement>('[data-probe="frame"]')!.contentWindow
+  expect(getComputedStyle(fade).opacity).toBe('1')
+  fade.style.opacity = '0.2'
+  const running = [spin.getAnimations()[0], fade.getAnimations()[0]]
+  expect(running.every(Boolean)).toBe(true)
+  const removed: Node[] = []
+  const observer = new MutationObserver(records => {
+    for (const record of records) removed.push(...record.removedNodes)
+  })
+  observer.observe(host, { childList: true })
+  observer.observe(content, { childList: true })
+  expect(area.vm.instance).toBeUndefined()
+  await frame()
+  expect(area.vm.instance).toBeDefined()
+  for (const record of observer.takeRecords()) removed.push(...record.removedNodes)
+  observer.disconnect()
+  expect(removed).toEqual([])
+  expect(spin.getAnimations()[0]).toBe(running[0])
+  expect(fade.getAnimations()[0]).toBe(running[1])
+  expect(Number(getComputedStyle(fade).opacity)).toBeGreaterThan(0.2)
+  expect(host.querySelector<HTMLIFrameElement>('[data-probe="frame"]')!.contentWindow).toBe(inner)
+})
+
 it.each([Dialog, Sheet, Drawer])(
   '$name initializes the built-in scrollbar immediately on both opening and reopening after scrolling',
   async component => {

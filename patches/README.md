@@ -1,6 +1,6 @@
 # OverlayScrollbars 2.16.0
 
-The patch skips unchanged attribute writes and overflow tokens, and defers observer measurements while an initialized instance is sleeping. Waking the instance performs the backend's existing forced update, including changes received during sleep.
+The patch skips unchanged attribute writes and overflow tokens, leaves the viewport and its content in place when initialization finds them already in position, and defers observer measurements while an initialized instance is sleeping. Waking the instance performs the backend's existing forced update, including changes received during sleep.
 
 The Vue library bundles this patched runtime. A pnpm workspace patch alone would not reach npm consumers. The dependency stays pinned for the matching CSS and public instance types. `scripts/package-shared.mjs` includes the upstream MIT license in the published distribution.
 

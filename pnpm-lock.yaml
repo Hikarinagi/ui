@@ -210,7 +210,7 @@ overrides:
 patchedDependencies:
   '@nuxt/nitro-server@4.5.2': 8600c3d386bf5b4b0e23fe06b3502b1c8a17c2779b24fa63454867101445c6e8
   nuxt@4.5.2: 69e17bfecca93adb13f9219311031cdb258b815a212b731c4175439f433b64c4
-  overlayscrollbars@2.16.0: b086d956ad9d09179b5de81c6b85941b45b110c24a175e33bd3a30c65dd23692
+  overlayscrollbars@2.16.0: 193856b69fda81af54e5b098a4d8a6053f956d98e2983c2e0bb96849465fe1c2
 
 importers:
 
@@ -358,7 +358,7 @@ importers:
         version: 5.0.1(markdown-it@14.3.1)
       overlayscrollbars:
         specifier: ^2.16.0
-        version: 2.16.0(patch_hash=b086d956ad9d09179b5de81c6b85941b45b110c24a175e33bd3a30c65dd23692)
+        version: 2.16.0(patch_hash=193856b69fda81af54e5b098a4d8a6053f956d98e2983c2e0bb96849465fe1c2)
       tailwindcss:
         specifier: ^4.3.0
         version: 4.3.3
@@ -484,7 +484,7 @@ importers:
         version: 13.2.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       overlayscrollbars:
         specifier: 2.16.0
-        version: 2.16.0(patch_hash=b086d956ad9d09179b5de81c6b85941b45b110c24a175e33bd3a30c65dd23692)
+        version: 2.16.0(patch_hash=193856b69fda81af54e5b098a4d8a6053f956d98e2983c2e0bb96849465fe1c2)
       shiki:
         specifier: 4.0.2
         version: 4.0.2
@@ -572,7 +572,7 @@ importers:
         version: 2.1.1
       overlayscrollbars:
         specifier: 2.16.0
-        version: 2.16.0(patch_hash=b086d956ad9d09179b5de81c6b85941b45b110c24a175e33bd3a30c65dd23692)
+        version: 2.16.0(patch_hash=193856b69fda81af54e5b098a4d8a6053f956d98e2983c2e0bb96849465fe1c2)
       shiki:
         specifier: 4.0.2
         version: 4.0.2
@@ -624,7 +624,7 @@ importers:
         version: 2.4.1(@vueuse/core@12.8.2(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(vue@3.5.42(typescript@5.9.3))
       overlayscrollbars:
         specifier: 2.16.0
-        version: 2.16.0(patch_hash=b086d956ad9d09179b5de81c6b85941b45b110c24a175e33bd3a30c65dd23692)
+        version: 2.16.0(patch_hash=193856b69fda81af54e5b098a4d8a6053f956d98e2983c2e0bb96849465fe1c2)
       reka-ui:
         specifier: ^2.9.10
         version: 2.10.4(vue@3.5.42(typescript@5.9.3))
@@ -14565,7 +14565,7 @@ snapshots:
       type-check: 0.4.0
       word-wrap: 1.2.5
 
-  overlayscrollbars@2.16.0(patch_hash=b086d956ad9d09179b5de81c6b85941b45b110c24a175e33bd3a30c65dd23692): {}
+  overlayscrollbars@2.16.0(patch_hash=193856b69fda81af54e5b098a4d8a6053f956d98e2983c2e0bb96849465fe1c2): {}
 
   oxc-parser@0.141.0:
     dependencies:
