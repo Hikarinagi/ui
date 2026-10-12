@@ -1,5 +1,5 @@
 diff --git a/overlayscrollbars.cjs b/overlayscrollbars.cjs
-index ec871bc71397ef9f5586519c121a65b90907ad9d..e4266bb79a22ecfafbf72c4f6298f92f0c2bf87e 100644
+index ec871bc71397ef9f5586519c121a65b90907ad9d..a83673790ff7b2f827cabd2aa0691036d360dc13 100644
 --- a/overlayscrollbars.cjs
 +++ b/overlayscrollbars.cjs
 @@ -353,7 +353,7 @@ const hasAttr = (t, n) => t && t.hasAttribute(n);
@@ -60,7 +60,18 @@ index ec871bc71397ef9f5586519c121a65b90907ad9d..e4266bb79a22ecfafbf72c4f6298f92f
      const s = {
        Ht: n
      };
-@@ -2419,10 +2431,10 @@ const createStructureSetupElements = t => {
+@@ -2180,7 +2192,9 @@ const createScrollbarsSetup = (t, n, o, s, e, c, r) => {
+   const [y, w] = selfClearTimeout(50);
+   const [S, m] = selfClearTimeout((() => d));
+   const [O, C] = createScrollbarsSetupElements(t, c, e, createScrollbarsSetupEvents(n, c, e, skipEventIfSleeping, (t => isHoverablePointerType(t) && manageScrollbarsAutoHideInstantInteraction())));
+-  const {vt: $, Qt: H, bt: D} = c;
++  const {vt: $, Qt: H, bt: D, un: hoverWindow} = c;
++  const hoverScope = hoverWindow();
++  i = isFunction(hoverScope.matchMedia) && hoverScope.matchMedia("(hover: hover)").matches && $.matches(":hover");
+   const {Bt: z, Ut: I, Nt: A, qt: T, jt: k} = O;
+   const manageScrollbarsAutoHide = (t, n) => {
+     m();
+@@ -2419,10 +2433,10 @@ const createStructureSetupElements = t => {
          setAttrs(b, q, "");
        }
      }
@@ -75,7 +86,7 @@ index ec871bc71397ef9f5586519c121a65b90907ad9d..e4266bb79a22ecfafbf72c4f6298f92f
      push(ot, [ c, () => {
        const t = getFocusedElement();
        const n = elementIsGenerated(Q);
-@@ -2652,6 +2664,8 @@ const createOverflowUpdateSegment = (t, s) => {
+@@ -2652,6 +2666,8 @@ const createOverflowUpdateSegment = (t, s) => {
      };
    };
    const setViewportOverflowStyle = t => {
@@ -84,7 +95,7 @@ index ec871bc71397ef9f5586519c121a65b90907ad9d..e4266bb79a22ecfafbf72c4f6298f92f
      const createAllOverflowStyleClassNames = t => [ x, H, E ].map((n => createViewportOverflowStyleClassName(overflowCssValueToOverflowStyle(n), t)));
      const n = createAllOverflowStyleClassNames(true).concat(createAllOverflowStyleClassNames()).join(" ");
      p(n);
-@@ -2834,7 +2848,7 @@ const createSetups = (t, n, o, s) => {
+@@ -2834,7 +2850,7 @@ const createSetups = (t, n, o, s) => {
    const [i, l, a, u, f] = createStructureSetup(t);
    const [_, d, p] = createObserversSetup(u, a, r, (t => {
      update({}, t);
@@ -94,7 +105,7 @@ index ec871bc71397ef9f5586519c121a65b90907ad9d..e4266bb79a22ecfafbf72c4f6298f92f
    const updateHintsAreTruthy = t => keys(t).some((n => !!t[n]));
    const update = (t, s) => {
 diff --git a/overlayscrollbars.cjs.js b/overlayscrollbars.cjs.js
-index ab9d930b11ea64af9a2d5b7315b554db88cd5bbd..e5a4e687873fb78b4d4493641e2b5dbe01977ba1 100644
+index ab9d930b11ea64af9a2d5b7315b554db88cd5bbd..33503283a9c501d081a7b50a9eee26c686bcdfed 100644
 --- a/overlayscrollbars.cjs.js
 +++ b/overlayscrollbars.cjs.js
 @@ -353,7 +353,7 @@ const hasAttr = (t, n) => t && t.hasAttribute(n);
@@ -155,7 +166,18 @@ index ab9d930b11ea64af9a2d5b7315b554db88cd5bbd..e5a4e687873fb78b4d4493641e2b5dbe
      const s = {
        Ht: n
      };
-@@ -2419,10 +2431,10 @@ const createStructureSetupElements = t => {
+@@ -2180,7 +2192,9 @@ const createScrollbarsSetup = (t, n, o, s, e, c, r) => {
+   const [y, w] = selfClearTimeout(50);
+   const [S, m] = selfClearTimeout((() => d));
+   const [O, C] = createScrollbarsSetupElements(t, c, e, createScrollbarsSetupEvents(n, c, e, skipEventIfSleeping, (t => isHoverablePointerType(t) && manageScrollbarsAutoHideInstantInteraction())));
+-  const {vt: $, Qt: H, bt: D} = c;
++  const {vt: $, Qt: H, bt: D, un: hoverWindow} = c;
++  const hoverScope = hoverWindow();
++  i = isFunction(hoverScope.matchMedia) && hoverScope.matchMedia("(hover: hover)").matches && $.matches(":hover");
+   const {Bt: z, Ut: I, Nt: A, qt: T, jt: k} = O;
+   const manageScrollbarsAutoHide = (t, n) => {
+     m();
+@@ -2419,10 +2433,10 @@ const createStructureSetupElements = t => {
          setAttrs(b, q, "");
        }
      }
@@ -170,7 +192,7 @@ index ab9d930b11ea64af9a2d5b7315b554db88cd5bbd..e5a4e687873fb78b4d4493641e2b5dbe
      push(ot, [ c, () => {
        const t = getFocusedElement();
        const n = elementIsGenerated(Q);
-@@ -2652,6 +2664,8 @@ const createOverflowUpdateSegment = (t, s) => {
+@@ -2652,6 +2666,8 @@ const createOverflowUpdateSegment = (t, s) => {
      };
    };
    const setViewportOverflowStyle = t => {
@@ -179,7 +201,7 @@ index ab9d930b11ea64af9a2d5b7315b554db88cd5bbd..e5a4e687873fb78b4d4493641e2b5dbe
      const createAllOverflowStyleClassNames = t => [ x, H, E ].map((n => createViewportOverflowStyleClassName(overflowCssValueToOverflowStyle(n), t)));
      const n = createAllOverflowStyleClassNames(true).concat(createAllOverflowStyleClassNames()).join(" ");
      p(n);
-@@ -2834,7 +2848,7 @@ const createSetups = (t, n, o, s) => {
+@@ -2834,7 +2850,7 @@ const createSetups = (t, n, o, s) => {
    const [i, l, a, u, f] = createStructureSetup(t);
    const [_, d, p] = createObserversSetup(u, a, r, (t => {
      update({}, t);
@@ -189,7 +211,7 @@ index ab9d930b11ea64af9a2d5b7315b554db88cd5bbd..e5a4e687873fb78b4d4493641e2b5dbe
    const updateHintsAreTruthy = t => keys(t).some((n => !!t[n]));
    const update = (t, s) => {
 diff --git a/overlayscrollbars.esm.js b/overlayscrollbars.esm.js
-index b05b8043eba78f20754a14e84daa09ff505e2fbc..f4991f5d1d93a71f536ddd50b903844983cde72f 100644
+index b05b8043eba78f20754a14e84daa09ff505e2fbc..15cdf2153e0ccd58e4dac560dded5474832b850e 100644
 --- a/overlayscrollbars.esm.js
 +++ b/overlayscrollbars.esm.js
 @@ -347,7 +347,7 @@ const hasAttr = (t, n) => t && t.hasAttribute(n);
@@ -250,7 +272,18 @@ index b05b8043eba78f20754a14e84daa09ff505e2fbc..f4991f5d1d93a71f536ddd50b9038449
      const s = {
        Ht: n
      };
-@@ -2413,10 +2425,10 @@ const createStructureSetupElements = t => {
+@@ -2174,7 +2186,9 @@ const createScrollbarsSetup = (t, n, o, s, e, c, r) => {
+   const [y, w] = selfClearTimeout(50);
+   const [S, m] = selfClearTimeout((() => d));
+   const [O, C] = createScrollbarsSetupElements(t, c, e, createScrollbarsSetupEvents(n, c, e, skipEventIfSleeping, (t => isHoverablePointerType(t) && manageScrollbarsAutoHideInstantInteraction())));
+-  const {vt: $, Qt: H, bt: D} = c;
++  const {vt: $, Qt: H, bt: D, un: hoverWindow} = c;
++  const hoverScope = hoverWindow();
++  i = isFunction(hoverScope.matchMedia) && hoverScope.matchMedia("(hover: hover)").matches && $.matches(":hover");
+   const {Ft: z, Ut: I, Nt: A, qt: T, Bt: k} = O;
+   const manageScrollbarsAutoHide = (t, n) => {
+     m();
+@@ -2413,10 +2427,10 @@ const createStructureSetupElements = t => {
          setAttrs(b, q, "");
        }
      }
@@ -265,7 +298,7 @@ index b05b8043eba78f20754a14e84daa09ff505e2fbc..f4991f5d1d93a71f536ddd50b9038449
      push(ot, [ c, () => {
        const t = getFocusedElement();
        const n = elementIsGenerated(Q);
-@@ -2646,6 +2658,8 @@ const createOverflowUpdateSegment = (t, s) => {
+@@ -2646,6 +2660,8 @@ const createOverflowUpdateSegment = (t, s) => {
      };
    };
    const setViewportOverflowStyle = t => {
@@ -274,7 +307,7 @@ index b05b8043eba78f20754a14e84daa09ff505e2fbc..f4991f5d1d93a71f536ddd50b9038449
      const createAllOverflowStyleClassNames = t => [ x, H, E ].map((n => createViewportOverflowStyleClassName(overflowCssValueToOverflowStyle(n), t)));
      const n = createAllOverflowStyleClassNames(true).concat(createAllOverflowStyleClassNames()).join(" ");
      p(n);
-@@ -2828,7 +2842,7 @@ const createSetups = (t, n, o, s) => {
+@@ -2828,7 +2844,7 @@ const createSetups = (t, n, o, s) => {
    const [i, l, a, u, f] = createStructureSetup(t);
    const [_, d, p] = createObserversSetup(u, a, r, (t => {
      update({}, t);
@@ -284,7 +317,7 @@ index b05b8043eba78f20754a14e84daa09ff505e2fbc..f4991f5d1d93a71f536ddd50b9038449
    const updateHintsAreTruthy = t => keys(t).some((n => !!t[n]));
    const update = (t, s) => {
 diff --git a/overlayscrollbars.mjs b/overlayscrollbars.mjs
-index ae4c28abc9bbb5a972bdff8889bc552069bcf0fe..fcae9a98cebea6027a29cc56327b2bc516ecc461 100644
+index ae4c28abc9bbb5a972bdff8889bc552069bcf0fe..1ddadd0024d7fb010f548242074564d4ffe680d9 100644
 --- a/overlayscrollbars.mjs
 +++ b/overlayscrollbars.mjs
 @@ -347,7 +347,7 @@ const hasAttr = (t, n) => t && t.hasAttribute(n);
@@ -345,7 +378,18 @@ index ae4c28abc9bbb5a972bdff8889bc552069bcf0fe..fcae9a98cebea6027a29cc56327b2bc5
      const s = {
        Ht: n
      };
-@@ -2413,10 +2425,10 @@ const createStructureSetupElements = t => {
+@@ -2174,7 +2186,9 @@ const createScrollbarsSetup = (t, n, o, s, e, c, r) => {
+   const [y, w] = selfClearTimeout(50);
+   const [S, m] = selfClearTimeout((() => d));
+   const [O, C] = createScrollbarsSetupElements(t, c, e, createScrollbarsSetupEvents(n, c, e, skipEventIfSleeping, (t => isHoverablePointerType(t) && manageScrollbarsAutoHideInstantInteraction())));
+-  const {vt: $, Qt: H, bt: D} = c;
++  const {vt: $, Qt: H, bt: D, un: hoverWindow} = c;
++  const hoverScope = hoverWindow();
++  i = isFunction(hoverScope.matchMedia) && hoverScope.matchMedia("(hover: hover)").matches && $.matches(":hover");
+   const {Ft: z, Ut: I, Nt: A, qt: T, Bt: k} = O;
+   const manageScrollbarsAutoHide = (t, n) => {
+     m();
+@@ -2413,10 +2427,10 @@ const createStructureSetupElements = t => {
          setAttrs(b, q, "");
        }
      }
@@ -360,7 +404,7 @@ index ae4c28abc9bbb5a972bdff8889bc552069bcf0fe..fcae9a98cebea6027a29cc56327b2bc5
      push(ot, [ c, () => {
        const t = getFocusedElement();
        const n = elementIsGenerated(Q);
-@@ -2646,6 +2658,8 @@ const createOverflowUpdateSegment = (t, s) => {
+@@ -2646,6 +2660,8 @@ const createOverflowUpdateSegment = (t, s) => {
      };
    };
    const setViewportOverflowStyle = t => {
@@ -369,7 +413,7 @@ index ae4c28abc9bbb5a972bdff8889bc552069bcf0fe..fcae9a98cebea6027a29cc56327b2bc5
      const createAllOverflowStyleClassNames = t => [ x, H, E ].map((n => createViewportOverflowStyleClassName(overflowCssValueToOverflowStyle(n), t)));
      const n = createAllOverflowStyleClassNames(true).concat(createAllOverflowStyleClassNames()).join(" ");
      p(n);
-@@ -2828,7 +2842,7 @@ const createSetups = (t, n, o, s) => {
+@@ -2828,7 +2844,7 @@ const createSetups = (t, n, o, s) => {
    const [i, l, a, u, f] = createStructureSetup(t);
    const [_, d, p] = createObserversSetup(u, a, r, (t => {
      update({}, t);
