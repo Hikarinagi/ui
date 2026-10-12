@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { flushSync } from 'react-dom'
 import { cssTimeToMs } from '../../../../../shared/src/lib/css-time'
 import { useImageResolver } from '../resolver'
 
@@ -131,7 +132,7 @@ export function useImage(
     await afterPaint()
     if (imageRef.current !== img || latest.current.src !== at) return
 
-    setRevealed(true)
+    flushSync(() => setRevealed(true))
     const layer = skeletonEl.current
     const anim = layer && play(layer, [{ opacity: 1 }, { opacity: 0 }])
     if (!anim) {

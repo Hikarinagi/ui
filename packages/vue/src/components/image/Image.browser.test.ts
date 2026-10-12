@@ -172,6 +172,26 @@ it.each(['.2s', '0.2s', '200ms'])('时长变量写成 %s 时,骨架淡出都是 
   expect(animate.mock.calls[index]?.[1]).toMatchObject({ duration: 200 })
 })
 
+it('骨架淡出和图片淡入在同一帧开始,中间没有两者都看不见的一帧', async () => {
+  const animate = vi.spyOn(Element.prototype, 'animate')
+  const w = mountImage({ src: PIXEL, class: 'h-20 w-20' })
+  const img = w.element.querySelector('img') as HTMLImageElement
+  const layer = w.element.querySelector('.hn-skeleton')!.parentElement!
+  const imageFade = new Promise<Animation>(resolve =>
+    img.addEventListener(
+      'transitionrun',
+      () => resolve(img.getAnimations().find(animation => animation instanceof CSSTransition)!),
+      { once: true },
+    ),
+  )
+  await vi.waitFor(() => expect(animate.mock.contexts).toContain(layer))
+  const skeletonFade = animate.mock.results[animate.mock.contexts.indexOf(layer)]!
+    .value as Animation
+  const transition = await imageFade
+  await Promise.all([transition.ready, skeletonFade.ready])
+  expect(Number(transition.startTime)).toBeCloseTo(Number(skeletonFade.startTime), 0)
+})
+
 it('等待淡入开始时换源,上一张图片的动画不会提前揭示新图', async () => {
   let finishDecode: (() => void) | undefined
   vi.spyOn(HTMLImageElement.prototype, 'decode').mockImplementation(function (
