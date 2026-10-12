@@ -310,6 +310,23 @@ describe('滚动条用 OverlayScrollbars 原生样式', () => {
     await vi.waitFor(() => expect(getComputedStyle(handle).backgroundColor).toBe('rgb(82, 82, 82)'))
     document.documentElement.classList.remove('dark')
   })
+
+  it('指针已经停在区域里时挂载,不用再移动指针滚动条也显示', async () => {
+    const spot = document.body.appendChild(document.createElement('div'))
+    spot.style.cssText = 'position: fixed; left: 0; top: 0; width: 200px; height: 100px'
+    await userEvent.hover(spot)
+    spot.remove()
+    const w = await mount(
+      <div style={{ position: 'fixed', left: 0, top: 0, width: '200px' }}>
+        <ScrollArea style={{ height: '100px' }}>
+          <div style={{ height: '400px' }}>很长的内容</div>
+        </ScrollArea>
+      </div>,
+    )
+    await settle()
+    const bar = w.element.querySelector('.os-scrollbar-vertical') as HTMLElement
+    await vi.waitFor(() => expect(getComputedStyle(bar).visibility).toBe('visible'))
+  })
 })
 
 describe('动画驱动的内容尺寸变化', () => {

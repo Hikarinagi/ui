@@ -132,7 +132,9 @@
   @media (hover: hover) {
     &:hover:not(:disabled):not([data-disabled]):not(
         :has(:is(input, textarea, [data-hn-segment]):focus-visible)
-      ):not([data-invalid]) {
+      ):not([data-invalid]),
+    :where([data-hn-field-group]:hover:not(:has(input:focus-visible)))
+      &:not([data-disabled]):not([data-invalid]) {
       background-color: color-mix(
         in oklab,
         var(--hn-field-bg, var(--hn-surface)) calc(100% - var(--hn-state-hover-opacity) * 100%),
@@ -142,7 +144,9 @@
 
     &[data-invalid]:hover:not(:disabled):not([data-disabled]):not(
         :has(:is(input, textarea, [data-hn-segment]):focus-visible)
-      ) {
+      ),
+    :where([data-hn-field-group]:hover:not(:has(input:focus-visible)))
+      &[data-invalid]:not([data-disabled]) {
       background-color: color-mix(
         in oklab,
         color-mix(

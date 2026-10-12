@@ -1,12 +1,26 @@
 'use client'
 
-import { useMemo, type HTMLAttributes, type Ref } from 'react'
+import { useEffect, useRef, useState, type HTMLAttributes, type Ref } from 'react'
 import { cn } from '../../lib/cn'
-import { useUiLocale } from '../../locale'
-import { PinInputInput, PinInputRoot, type PinInputValue } from '../../primitives/pin-input'
 import { useFieldControl } from '../form-field/context'
-import { pinInput, pinInputCell, type PinInputVariants } from './pin-input.variants'
+import {
+  createPinInput,
+  pinCells,
+  pinInputValue,
+  type PinInputController,
+  type PinInputSelection,
+} from '../../../../shared/src/primitives/pin-input'
+import {
+  pinInput,
+  pinInputCaret,
+  pinInputCell,
+  pinInputNative,
+  type PinInputVariants,
+} from './pin-input.variants'
 import { useControllableState } from '../../primitives/utils/controllable-state'
+import { useComposedRefs } from '../../primitives/utils/compose-refs'
+import { useDirection } from '../../primitives/utils/direction'
+import { useLayoutEffect } from '../../primitives/utils/layout-effect'
 
 export interface PinInputProps extends Omit<
   HTMLAttributes<HTMLElement>,
@@ -27,7 +41,6 @@ export interface PinInputProps extends Omit<
   onValueChange?: (value: string) => void
   onComplete?: (value: string) => void
   dir?: 'ltr' | 'rtl'
-  id?: string
   required?: boolean
   ref?: Ref<HTMLElement>
   [attribute: `data-${string}`]: string | undefined
@@ -48,7 +61,15 @@ export function PinInput({
   defaultValue,
   onValueChange,
   onComplete,
+  dir: dirProp,
+  id: idProp,
+  required,
+  autoFocus,
+  'aria-label': label,
+  'aria-labelledby': labelledByProp,
+  'aria-describedby': describedByProp,
   className,
+  ref,
   ...attrs
 }: PinInputProps) {
   const [model = '', setModel] = useControllableState<string>({
@@ -57,48 +78,118 @@ export function PinInput({
     onChange: onValueChange,
     caller: 'PinInput',
   })
-  const t = useUiLocale()
-  const { labelledBy, invalid, disabled, describedBy } = useFieldControl(
+  const dir = useDirection(dirProp)
+  const { id, labelledBy, invalid, disabled, describedBy } = useFieldControl(
     { invalid: invalidProp, disabled: disabledProp },
-    attrs,
+    {
+      id: idProp,
+      'aria-label': label,
+      'aria-labelledby': labelledByProp,
+      'aria-describedby': describedByProp,
+    },
   )
+  const root = useRef<HTMLElement>(null)
+  const composedRef = useComposedRefs(ref, root)
+  const input = useRef<HTMLInputElement>(null)
+  const controller = useRef<PinInputController | undefined>(undefined)
+  const [selection, setSelection] = useState<PinInputSelection>({
+    focused: false,
+    start: 0,
+    end: 0,
+  })
+  const numeric = type === 'number'
+  const shown = pinInputValue(model, length)
+  const latest = useRef({ length, numeric, model, dir, setModel, onComplete })
+  latest.current = { length, numeric, model, dir, setModel, onComplete }
 
-  const cells = useMemo(() => Array.from({ length }, (_, i) => model[i] ?? ''), [model, length])
+  useLayoutEffect(() => {
+    const created = createPinInput(input.current!, {
+      length: () => latest.current.length,
+      numeric: () => latest.current.numeric,
+      value: () => latest.current.model,
+      rtl: () => latest.current.dir === 'rtl',
+      cells: () => root.current!.querySelectorAll('[data-hn-pin-cell]'),
+      change: next => latest.current.setModel(next),
+      select: setSelection,
+    })
+    controller.current = created
+    return () => {
+      created.dispose()
+      controller.current = undefined
+    }
+  }, [])
 
-  function update(next: PinInputValue | undefined) {
-    const text = (next ?? []).map(cell => (cell === undefined ? '' : String(cell))).join('')
-    if (text !== model) setModel(text)
-  }
+  useLayoutEffect(() => {
+    controller.current?.sync()
+  }, [shown, numeric])
+
+  const mounted = useRef(false)
+  useEffect(() => {
+    if (!mounted.current) {
+      mounted.current = true
+      return
+    }
+    const current = latest.current
+    if (model.length >= current.length) current.onComplete?.(pinInputValue(model, current.length))
+  }, [model])
 
   return (
-    <PinInputRoot
-      role="group"
-      aria-labelledby={labelledBy}
-      aria-describedby={describedBy}
-      value={cells}
-      type={type}
-      mask={mask}
-      otp={otp}
-      placeholder={placeholder}
-      name={name}
-      disabled={disabled}
-      data-hn-pin-input=""
-      data-invalid={invalid ? '' : undefined}
-      onValueChange={update}
-      onComplete={next => onComplete?.(next.map(String).join(''))}
+    <div
       {...attrs}
-      className={cn(pinInput(), className)}
+      ref={composedRef as Ref<HTMLDivElement>}
+      dir={dir}
+      data-hn-pin-input=""
+      data-hn-field-group=""
+      data-complete={shown.length >= length ? '' : undefined}
+      data-disabled={disabled ? '' : undefined}
+      data-invalid={invalid ? '' : undefined}
+      className={cn(pinInput({ size }), className)}
     >
-      {Array.from({ length }, (_, i) => (
-        <PinInputInput
-          key={i + 1}
-          index={i}
-          aria-label={t.pinInput.cellLabel(i + 1, length)}
-          aria-invalid={invalid || undefined}
+      {pinCells(shown, length, selection).map((cell, index) => (
+        <div
+          key={index}
+          data-hn-pin-cell=""
+          aria-hidden="true"
+          data-filled={cell.char ? '' : undefined}
+          data-state={cell.active ? 'active' : undefined}
+          data-disabled={disabled ? '' : undefined}
           data-invalid={invalid ? '' : undefined}
           className={pinInputCell({ variant, size })}
-        />
+        >
+          {cell.caret ? (
+            <span className={pinInputCaret()} />
+          ) : cell.char ? (
+            mask ? (
+              '•'
+            ) : (
+              cell.char
+            )
+          ) : (
+            placeholder
+          )}
+        </div>
       ))}
-    </PinInputRoot>
+      <input
+        id={id}
+        ref={input}
+        type={mask ? 'password' : 'text'}
+        name={name}
+        defaultValue={shown}
+        inputMode={numeric ? 'numeric' : 'text'}
+        pattern={numeric ? '[0-9]*' : undefined}
+        autoComplete={otp ? 'one-time-code' : 'off'}
+        autoCapitalize="none"
+        autoCorrect="off"
+        spellCheck={false}
+        autoFocus={autoFocus}
+        disabled={disabled}
+        required={required}
+        aria-label={label}
+        aria-labelledby={labelledBy}
+        aria-describedby={describedBy}
+        aria-invalid={invalid || undefined}
+        className={pinInputNative()}
+      />
+    </div>
   )
 }

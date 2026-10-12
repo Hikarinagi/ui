@@ -36,7 +36,7 @@ Reka UI is the Vue port of Radix UI. Their components share structure, keyboard 
 
 Shared building blocks for ported primitives live in `src/primitives/`: `popper/` (Reka's `Popper` ported onto `@floating-ui/react-dom`: Reka's middleware order with `prioritizePosition`, `sideFlip` / `alignFlip`, direction-aware transform-origin, `reference`, `positionStrategy`, `updatePositionStrategy`, `disableUpdateOnLayoutShift`, Reka's arrow SVG and nearest-root context without Radix scopes; `@floating-ui/react-dom` is pinned to the release whose `@floating-ui/dom` matches Reka's `@floating-ui/vue`) and `visually-hidden.tsx` (Reka's `VisuallyHidden` with its `feature` semantics, distinct from the public `VisuallyHidden` component).
 
-Reka-only primitives used by the Vue package: Calendar, RangeCalendar, DateField, DateRangeField, TimeField, Combobox, Listbox, NumberField, Pagination, PinInput, Rating, Splitter, Stepper, TagsInput, Tree.
+Reka-only primitives used by the Vue package: Calendar, RangeCalendar, DateField, DateRangeField, TimeField, Combobox, Listbox, NumberField, Pagination, Rating, Splitter, Stepper, TagsInput, Tree.
 
 Only `src/lib/radix` and `src/primitives` may reference `--radix-*` variables; it maps them onto the Hina runtime properties defined in [`shared/runtime.md`](../shared/runtime.md), mirroring `vue/src/lib/reka`.
 

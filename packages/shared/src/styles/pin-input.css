@@ -1,0 +1,84 @@
+.hn-pin-native {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  background: transparent;
+  box-shadow: none;
+  color: transparent;
+  caret-color: transparent;
+  cursor: text;
+  font-family: ui-monospace, monospace;
+  font-size: var(--hn-pin-size, 2.5rem);
+  line-height: 1;
+  letter-spacing: -0.5em;
+  appearance: none;
+  forced-color-adjust: none;
+}
+
+@supports (-webkit-touch-callout: none) {
+  .hn-pin-native {
+    left: -1px;
+    right: 1px;
+    font-weight: 100;
+    font-stretch: ultra-condensed;
+    font-optical-sizing: none;
+    letter-spacing: -0.6em;
+  }
+}
+
+.hn-pin-native:disabled {
+  cursor: not-allowed;
+}
+
+.hn-pin-native::selection {
+  background: transparent;
+  color: transparent;
+}
+
+.hn-pin-native::-ms-reveal {
+  display: none;
+}
+
+.hn-pin-native::-ms-clear {
+  display: none;
+}
+
+.hn-pin-native::-webkit-credentials-auto-fill-button,
+.hn-pin-native::-webkit-contacts-auto-fill-button,
+.hn-pin-native::-webkit-strong-password-auto-fill-button,
+.hn-pin-native::-webkit-caps-lock-indicator {
+  display: none !important;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.hn-pin-native:-webkit-autofill {
+  opacity: 0;
+}
+
+.hn-pin-native:autofill {
+  opacity: 0;
+}
+
+[data-hn-pin-cell]::before {
+  content: '\200b';
+}
+
+.hn-pin-caret {
+  width: 1px;
+  height: 1.25em;
+  background-color: var(--hn-fg-default);
+  animation: hn-pin-caret 1.2s step-end infinite;
+}
+
+@keyframes hn-pin-caret {
+  50% {
+    opacity: 0;
+  }
+}

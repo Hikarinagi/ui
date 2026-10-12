@@ -9,23 +9,22 @@ async function idle() {
   await frames(4)
 }
 
-const cells = (container: HTMLElement) =>
-  Array.from(container.querySelectorAll<HTMLInputElement>('input:not([tabindex="-1"])'))
+const native = (container: HTMLElement) => container.querySelector<HTMLInputElement>('input')!
 
 export default defineLiveCases('PinInput', [
   {
-    name: 'mounted cells register and drop the completed state',
+    name: 'mounted cells',
     vue: () => h(VPinInput, { length: 4, 'aria-label': '验证码' }),
     react: () => <PinInput length={4} aria-label="验证码" />,
     settle: idle,
   },
   {
-    name: 'typing advances focus and fills the value',
+    name: 'typing fills the cells in order',
     vue: () => h(VPinInput, { length: 4, placeholder: '○', 'aria-label': '验证码' }),
     react: () => <PinInput length={4} placeholder="○" aria-label="验证码" />,
     interact: async container => {
-      cells(container)[0]!.focus()
-      await userEvent.keyboard('12')
+      native(container).focus()
+      await userEvent.keyboard('1a')
     },
     settle: idle,
   },
@@ -34,22 +33,19 @@ export default defineLiveCases('PinInput', [
     vue: () => h(VPinInput, { length: 4, name: 'code', 'aria-label': '验证码' }),
     react: () => <PinInput length={4} name="code" aria-label="验证码" />,
     interact: async container => {
-      cells(container)[0]!.focus()
+      native(container).focus()
       await userEvent.keyboard('1234')
       await userEvent.keyboard('{Backspace}{Backspace}')
     },
     settle: idle,
   },
   {
-    name: 'paste distributes characters',
+    name: 'inserted text is distributed over the cells',
     vue: () => h(VPinInput, { length: 6, 'aria-label': '验证码' }),
     react: () => <PinInput length={6} aria-label="验证码" />,
     interact: async container => {
-      const first = cells(container)[0]!
-      first.focus()
-      const data = new DataTransfer()
-      data.setData('text', '493215')
-      first.dispatchEvent(new ClipboardEvent('paste', { clipboardData: data, bubbles: true }))
+      native(container).focus()
+      document.execCommand('insertText', false, ' 493 215 ')
     },
     settle: idle,
   },
@@ -58,19 +54,19 @@ export default defineLiveCases('PinInput', [
     vue: () => h(VPinInput, { length: 4, type: 'number', 'aria-label': '验证码' }),
     react: () => <PinInput length={4} type="number" aria-label="验证码" />,
     interact: async container => {
-      cells(container)[0]!.focus()
+      native(container).focus()
       await userEvent.keyboard('a7b8')
     },
     settle: idle,
   },
   {
-    name: 'otp focus jumps to the first empty cell and arrows move',
+    name: 'arrows move to a filled cell and typing overwrites it',
     vue: () => h(VPinInput, { length: 4, otp: true, mask: true, 'aria-label': '验证码' }),
     react: () => <PinInput length={4} otp mask aria-label="验证码" />,
     interact: async container => {
-      cells(container)[2]!.focus()
-      await userEvent.keyboard('5')
-      await userEvent.keyboard('{ArrowLeft}{End}')
+      native(container).focus()
+      await userEvent.keyboard('123')
+      await userEvent.keyboard('{ArrowLeft}{ArrowLeft}9{End}4')
     },
     settle: idle,
   },

@@ -16,23 +16,40 @@ function mount(props: PinInputProps = {}) {
   return {
     ...screen,
     element,
-    find: (selector: string) => screen.container.querySelector(selector) as HTMLElement | null,
-    inputs: () =>
-      Array.from(screen.container.querySelectorAll<HTMLInputElement>('input:not([tabindex="-1"])')),
+    root: () => screen.container.querySelector('[data-hn-pin-input]') as HTMLElement,
+    native: () => screen.container.querySelector('input') as HTMLInputElement,
+    cells: () => Array.from(screen.container.querySelectorAll<HTMLElement>('[data-hn-pin-cell]')),
   }
 }
 
 describe('结构', () => {
-  it('根是 role=group 承接 attrs；默认六格，每格带语言包给的名称；值按字符落到各格', () => {
-    const w = mount({ value: '12', className: 'mt-2', 'aria-label': '验证码' })
-    const root = w.find('[data-hn-pin-input]')!
-    expect(root.getAttribute('role')).toBe('group')
-    expect(root.getAttribute('aria-label')).toBe('验证码')
-    expect(root.classList).toContain('mt-2')
-    expect(w.inputs()).toHaveLength(6)
-    expect(w.inputs().map(i => i.value)).toEqual(['1', '2', '', '', '', ''])
-    expect(w.inputs()[0]!.getAttribute('aria-label')).toBe('第 1 位，共 6 位')
-    expect(w.inputs()[5]!.getAttribute('aria-label')).toBe('第 6 位，共 6 位')
+  it('根承接 class 与其余属性；默认六格；值按字符落到各格；名称与 id 落在唯一的输入框上', () => {
+    const w = mount({
+      value: '12',
+      className: 'mt-2',
+      'aria-label': '验证码',
+      id: 'code',
+      'data-test': 'pin',
+    })
+    expect(w.root().classList).toContain('mt-2')
+    expect(w.root().getAttribute('data-test')).toBe('pin')
+    expect(w.root().getAttribute('aria-label')).toBeNull()
+    expect(w.root().getAttribute('id')).toBeNull()
+    expect(w.container.querySelectorAll('input')).toHaveLength(1)
+    expect(w.native().getAttribute('aria-label')).toBe('验证码')
+    expect(w.native().id).toBe('code')
+    expect(w.native().value).toBe('12')
+    expect(w.cells()).toHaveLength(6)
+    expect(w.cells().map(cell => cell.textContent)).toEqual(['1', '2', '', '', '', ''])
+    expect(w.cells().every(cell => cell.getAttribute('aria-hidden') === 'true')).toBe(true)
+    expect(w.cells().map(cell => cell.getAttribute('data-filled'))).toEqual([
+      '',
+      '',
+      null,
+      null,
+      null,
+      null,
+    ])
   })
 
   it('length、mask、otp、placeholder、name、size 与 variant 各落其位', () => {
@@ -44,35 +61,46 @@ describe('结构', () => {
       name: 'code',
       size: 'lg',
       variant: 'secondary',
+      value: '7',
     })
-    expect(w.inputs()).toHaveLength(4)
-    const cell = w.inputs()[0]!
-    expect(cell.getAttribute('type')).toBe('password')
-    expect(cell.getAttribute('autocomplete')).toBe('one-time-code')
-    expect(cell.getAttribute('placeholder')).toBe('○')
-    expect(cell.classList).toContain('size-[var(--hn-control-h-lg)]')
-    expect(cell.classList).toContain('border-transparent')
-    expect(w.find('input[name="code"]')).not.toBeNull()
+    expect(w.cells()).toHaveLength(4)
+    expect(w.cells().map(cell => cell.textContent)).toEqual(['•', '○', '○', '○'])
+    expect(w.native().type).toBe('password')
+    expect(w.native().getAttribute('autocomplete')).toBe('one-time-code')
+    expect(w.native().name).toBe('code')
+    expect(w.native().value).toBe('7')
+    expect(w.root().classList).toContain('[--hn-pin-size:var(--hn-control-h-lg)]')
+    expect(w.cells()[0]!.classList).toContain('border-transparent')
   })
 
-  it('disabled 与 invalid 落到每一格', () => {
+  it('数字模式给输入框数字键盘,默认关闭自动填充', () => {
+    const w = mount({ type: 'number' })
+    expect(w.native().getAttribute('inputmode')).toBe('numeric')
+    expect(w.native().getAttribute('pattern')).toBe('[0-9]*')
+    expect(w.native().getAttribute('autocomplete')).toBe('off')
+    expect(w.native().hasAttribute('maxlength')).toBe(false)
+  })
+
+  it('disabled 与 invalid 落到根、每一格与输入框', () => {
     const w = mount({ disabled: true, invalid: true })
-    expect(w.inputs().every(i => i.getAttribute('disabled') !== null)).toBe(true)
-    expect(w.inputs().every(i => i.getAttribute('aria-invalid') === 'true')).toBe(true)
-    expect(w.inputs().every(i => i.getAttribute('data-invalid') === '')).toBe(true)
-    expect(w.find('[data-hn-pin-input]')!.getAttribute('data-invalid')).toBe('')
+    expect(w.native().disabled).toBe(true)
+    expect(w.native().getAttribute('aria-invalid')).toBe('true')
+    expect(w.cells().every(cell => cell.getAttribute('data-invalid') === '')).toBe(true)
+    expect(w.cells().every(cell => cell.getAttribute('data-disabled') === '')).toBe(true)
+    expect(w.root().getAttribute('data-invalid')).toBe('')
+    expect(w.root().getAttribute('data-disabled')).toBe('')
   })
 })
 
 describe('交互', () => {
-  it('逐格输入写回字符串；填满时发 complete', async () => {
+  function harness(props: PinInputProps) {
     const updates: string[] = []
     const completes: string[] = []
     function Harness() {
       const [value, setValue] = useState('')
       return (
         <PinInput
-          length={3}
+          {...props}
           value={value}
           onValueChange={next => {
             updates.push(next)
@@ -82,22 +110,50 @@ describe('交互', () => {
         />
       )
     }
-    const { container } = render(<Harness />)
-    const cell = (at: number) =>
-      container.querySelectorAll<HTMLInputElement>('input:not([tabindex="-1"])')[at]!
-    for (const [at, char] of ['7', '8', '9'].entries()) {
+    const screen = render(<Harness />)
+    return {
+      updates,
+      completes,
+      root: screen.container.querySelector('[data-hn-pin-input]') as HTMLElement,
+      native: screen.container.querySelector('input') as HTMLInputElement,
+    }
+  }
+
+  it('输入写回字符串；填满时发 complete', async () => {
+    const w = harness({ length: 3 })
+    for (const value of ['7', '78', '789']) {
       await act(async () => {
-        fireEvent.input(cell(at), { target: { value: char } })
+        fireEvent.input(w.native, { target: { value } })
       })
     }
-    expect(updates).toEqual(['7', '78', '789'])
-    expect(completes[0]).toEqual('789')
+    expect(w.updates).toEqual(['7', '78', '789'])
+    expect(w.completes).toEqual(['789'])
+    expect(w.root.getAttribute('data-complete')).toBe('')
   })
 
-  it('外部改值时各格同步', async () => {
-    const w = mount({ length: 4, value: '' })
-    w.rerender(<PinInput length={4} value="2468" />)
-    expect(w.inputs().map(i => i.value)).toEqual(['2', '4', '6', '8'])
+  it('一次写入整段时清洗并截到格数', async () => {
+    const w = harness({ length: 4, type: 'number' })
+    await act(async () => {
+      fireEvent.input(w.native, { target: { value: '验证码 １２-345 6' } })
+    })
+    expect(w.updates).toEqual(['1234'])
+    expect(w.native.value).toBe('1234')
+  })
+
+  it('外部改值时格子与输入框同步,不触发 onValueChange', async () => {
+    const updates: string[] = []
+    const completes: string[] = []
+    const props = {
+      length: 4,
+      onValueChange: (next: string) => updates.push(next),
+      onComplete: (next: string) => completes.push(next),
+    }
+    const w = mount({ ...props, value: '' })
+    w.rerender(<PinInput {...props} value="2468" />)
+    expect(w.cells().map(cell => cell.textContent)).toEqual(['2', '4', '6', '8'])
+    expect(w.native().value).toBe('2468')
+    expect(updates).toEqual([])
+    expect(completes).toEqual(['2468'])
   })
 })
 

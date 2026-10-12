@@ -5,18 +5,17 @@ export function lineClampCount(lines: number | undefined) {
   return Math.max(1, Math.floor(lines))
 }
 
-function measureHeights(content: HTMLElement) {
-  content.setAttribute('data-measuring', '')
-  const collapsed = content.clientHeight
-  const full = content.scrollHeight
+function measure(content: HTMLElement, layout: 'clamped' | 'full') {
+  content.setAttribute('data-measuring', layout)
+  const size = { height: content.clientHeight, overflow: content.scrollHeight }
   content.removeAttribute('data-measuring')
-  return { collapsed, full }
+  return size
 }
 
 export function measureLineClamp(content: HTMLElement) {
   if (content.hasAttribute('data-animating')) return null
-  const { collapsed, full } = measureHeights(content)
-  return full - collapsed > 1
+  const { height, overflow } = measure(content, 'clamped')
+  return overflow - height > 1
 }
 
 function toMs(value: string) {
@@ -33,7 +32,8 @@ export function animateLineClamp(content: HTMLElement, expanded: boolean, done: 
   const fade = running ? getComputedStyle(content).getPropertyValue(FADE) : ''
 
   content.style.transition = 'none'
-  const { collapsed, full } = measureHeights(content)
+  const collapsed = measure(content, 'clamped').height
+  const full = measure(content, 'full').height
   const from = current ?? (expanded ? collapsed : full)
   const to = expanded ? full : collapsed
   content.toggleAttribute('data-expanded', !expanded)
