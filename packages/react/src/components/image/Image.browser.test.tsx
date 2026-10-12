@@ -1,6 +1,6 @@
 import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest'
 import { page, userEvent } from 'vitest/browser'
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import { flushSync } from 'react-dom'
 import { createRoot } from 'react-dom/client'
 import { Image, type ImageProps } from './Image'
@@ -152,6 +152,19 @@ it.each([true, false])('懒加载图片淡入,独立于骨架是否开启 skelet
   imageFade!.finish()
   await vi.waitFor(() => expect(w.element.querySelector('.hn-skeleton')).toBeNull())
   expect(getComputedStyle(img).opacity).toBe('1')
+})
+
+it.each(['.2s', '0.2s', '200ms'])('时长变量写成 %s 时,骨架淡出都是 200 毫秒', async value => {
+  const animate = vi.spyOn(Element.prototype, 'animate')
+  const w = mountUi(
+    <div style={{ '--hn-duration-fast': value } as CSSProperties}>
+      <Image src={PIXEL} className="h-20 w-20" />
+    </div>,
+  )
+  await vi.waitFor(() => expect(animate).toHaveBeenCalled())
+  const layer = w.element.querySelector('.hn-skeleton')!.parentElement
+  const index = animate.mock.contexts.indexOf(layer!)
+  expect(animate.mock.calls[index]?.[1]).toMatchObject({ duration: 200 })
 })
 
 it('等待淡入开始时换源,上一张图片的动画不会提前揭示新图', async () => {

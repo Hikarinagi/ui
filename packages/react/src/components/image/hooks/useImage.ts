@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { cssTimeToMs } from '../../../../../shared/src/lib/css-time'
 import { useImageResolver } from '../resolver'
 
 function ready(img: HTMLImageElement): Promise<void> {
@@ -18,7 +19,7 @@ function play(el: HTMLElement, frames: Keyframe[]): Animation | null {
   const style = getComputedStyle(el)
   try {
     return el.animate(frames, {
-      duration: Number.parseFloat(style.getPropertyValue('--hn-duration-fast')) || 0,
+      duration: cssTimeToMs(style.getPropertyValue('--hn-duration-fast')),
       easing: style.getPropertyValue('--hn-ease-enter').trim() || 'linear',
       fill: 'forwards',
     })

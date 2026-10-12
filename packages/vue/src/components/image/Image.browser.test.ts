@@ -154,6 +154,24 @@ it.each([true, false])('懒加载图片淡入,独立于骨架是否开启 skelet
   expect(getComputedStyle(img).opacity).toBe('1')
 })
 
+it.each(['.2s', '0.2s', '200ms'])('时长变量写成 %s 时,骨架淡出都是 200 毫秒', async value => {
+  const animate = vi.spyOn(Element.prototype, 'animate')
+  const w = mount(
+    defineComponent({
+      render: () =>
+        h('div', { style: { '--hn-duration-fast': value } }, [
+          h(Image, { src: PIXEL, class: 'h-20 w-20' }),
+        ]),
+    }),
+    { attachTo: attach() },
+  )
+  mounted.push(w)
+  await vi.waitFor(() => expect(animate).toHaveBeenCalled())
+  const layer = w.element.querySelector('.hn-skeleton')!.parentElement
+  const index = animate.mock.contexts.indexOf(layer!)
+  expect(animate.mock.calls[index]?.[1]).toMatchObject({ duration: 200 })
+})
+
 it('等待淡入开始时换源,上一张图片的动画不会提前揭示新图', async () => {
   let finishDecode: (() => void) | undefined
   vi.spyOn(HTMLImageElement.prototype, 'decode').mockImplementation(function (
