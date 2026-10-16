@@ -76,6 +76,56 @@ export default defineCases('NavLink', [
     ),
   },
   {
+    name: 'trailing follows the label',
+    vue: () =>
+      h(
+        VNavLink,
+        { href: '#' },
+        { icon: () => h(VHouse), default: () => '第一章', trailing: () => h('span', '12 页') },
+      ),
+    react: () => (
+      <NavLink href="#" icon={<RHouse />} trailing={<span>12 页</span>}>
+        第一章
+      </NavLink>
+    ),
+  },
+  {
+    name: 'asChild keeps trailing inside the child',
+    vue: () =>
+      h(
+        VNavLink,
+        { asChild: true },
+        { trailing: () => h('span', '12 页'), default: () => h('a', { href: '/child' }, '第一章') },
+      ),
+    react: () => (
+      <NavLink asChild trailing={<span>12 页</span>}>
+        <a href="/child">第一章</a>
+      </NavLink>
+    ),
+  },
+  {
+    name: 'trailing in a rail sidebar collapses with the label',
+    vue: vueShell('rail', () =>
+      h(
+        VNavLink,
+        { href: '#a', label: '第一章' },
+        { default: () => '第一章', trailing: () => h('span', '12 页') },
+      ),
+    ),
+    react: () => (
+      <AppShell
+        sidebar="rail"
+        sidebarContent={
+          <Sidebar>
+            <NavLink href="#a" label="第一章" trailing={<span>12 页</span>}>
+              第一章
+            </NavLink>
+          </Sidebar>
+        }
+      />
+    ),
+  },
+  {
     name: 'class and attributes',
     vue: () =>
       h(

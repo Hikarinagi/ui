@@ -4,12 +4,17 @@
   import { Passthrough } from '../../lib/passthrough'
   import Tooltip from '../tooltip/Tooltip.vue'
   import { useInSidebar, useSidebar } from '../sidebar/context'
-  import { navLink, navLinkLabel } from './nav-link.variants'
+  import { navLink, navLinkLabel, navLinkTrailing } from './nav-link.variants'
   import type { PrimitiveProps } from '../../primitives/primitive'
   import { Primitive } from '../../primitives/primitive'
   import NavLinkChild from './NavLinkChild'
 
   defineOptions({ name: 'HnNavLink', inheritAttrs: false })
+  defineSlots<{
+    default?(): unknown
+    icon?(): unknown
+    trailing?(): unknown
+  }>()
 
   const props = withDefaults(
     defineProps<
@@ -38,12 +43,21 @@
     class: cn(navLink({ active: props.active }), props.class),
   }))
 
-  const labelProps = computed(() => ({
+  const collapsedProps = computed(() => ({
     'aria-hidden': rail.value ? ('true' as const) : undefined,
     inert: rail.value,
     'data-collapsed': rail.value ? '' : undefined,
+  }))
+
+  const labelProps = computed(() => ({
+    ...collapsedProps.value,
     'data-hn-label': '',
     class: navLinkLabel(),
+  }))
+
+  const trailingProps = computed(() => ({
+    ...collapsedProps.value,
+    class: navLinkTrailing(),
   }))
 </script>
 
@@ -54,8 +68,10 @@
       v-bind="{ ...$attrs, ...linkProps }"
       :as="props.as"
       :label-props="labelProps"
+      :trailing-props="trailingProps"
     >
       <template v-if="$slots.icon" #icon><slot name="icon" /></template>
+      <template v-if="$slots.trailing" #trailing><slot name="trailing" /></template>
       <slot />
     </NavLinkChild>
     <Primitive
@@ -79,6 +95,9 @@
         :class="navLinkLabel()"
       >
         <slot />
+      </span>
+      <span v-if="$slots.trailing" v-bind="trailingProps">
+        <slot name="trailing" />
       </span>
     </Primitive>
   </Wrapper>

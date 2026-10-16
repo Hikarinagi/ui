@@ -10,10 +10,11 @@ import {
   type Ref,
 } from 'react'
 import { cn } from '../../lib/cn'
+import { hasContent } from '../../lib/content'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { Tooltip } from '../tooltip/Tooltip'
 import { useInSidebar, useSidebar } from '../sidebar/context'
-import { navLink, navLinkLabel } from './nav-link.variants'
+import { navLink, navLinkLabel, navLinkTrailing } from './nav-link.variants'
 import { resolveChild } from '../../lib/children'
 import { Slot } from '../../primitives/utils/slot'
 
@@ -22,6 +23,7 @@ export interface NavLinkProps extends PrimitiveProps, AnchorHTMLAttributes<HTMLE
   disabled?: boolean
   label?: string
   icon?: ReactNode
+  trailing?: ReactNode
   ref?: Ref<HTMLElement>
   [attribute: `data-${string}`]: string | undefined
 }
@@ -33,6 +35,7 @@ export function NavLink({
   disabled = false,
   label,
   icon,
+  trailing,
   className,
   children,
   ...attrs
@@ -52,17 +55,23 @@ export function NavLink({
     className: cn(navLink({ active }), className),
   }
 
+  const collapsed = {
+    'aria-hidden': rail ? ('true' as const) : undefined,
+    inert: rail,
+    'data-collapsed': rail ? '' : undefined,
+  }
+
   const text = (content: ReactNode) => (
-    <span
-      aria-hidden={rail ? 'true' : undefined}
-      inert={rail}
-      data-collapsed={rail ? '' : undefined}
-      data-hn-label=""
-      className={navLinkLabel()}
-    >
+    <span {...collapsed} data-hn-label="" className={navLinkLabel()}>
       {content}
     </span>
   )
+
+  const end = hasContent(trailing) ? (
+    <span {...collapsed} className={navLinkTrailing()}>
+      {trailing}
+    </span>
+  ) : null
 
   const child = asChild
     ? (Children.toArray(children)
@@ -71,11 +80,12 @@ export function NavLink({
     : undefined
 
   const link = child ? (
-    <Slot {...own}>{cloneElement(child, undefined, icon, text(child.props.children))}</Slot>
+    <Slot {...own}>{cloneElement(child, undefined, icon, text(child.props.children), end)}</Slot>
   ) : (
     <Primitive {...own} as={as}>
       {icon}
       {text(children)}
+      {end}
     </Primitive>
   )
 

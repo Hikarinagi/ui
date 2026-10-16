@@ -19,3 +19,7 @@ export const navLink = tv({
 export const navLinkLabel = tv({
   base: 'hn-sidebar-label min-w-0 truncate',
 })
+
+export const navLinkTrailing = tv({
+  base: 'hn-sidebar-label ms-auto flex shrink-0 items-center',
+})

@@ -38,6 +38,12 @@ import { NavLink } from '@hina-ui/vue'
 
 <Demo name="nav-link/icon" />
 
+### 尾部内容 {#trailing}
+
+`trailing` 插槽放在文字之后并贴在行末，用于页数、计数或快捷键。标题放不下时只截断标题，尾部内容保持完整；侧栏收起为 rail 时与文字一起隐藏。
+
+<Demo name="nav-link/trailing" />
+
 ### 路由链接 {#router}
 
 ::: vue
@@ -105,7 +111,8 @@ import { NavLink } from '@hina-ui/vue'
 
 ### Slots {#slots}
 
-| 插槽      | 说明                   |
-| --------- | ---------------------- |
-| `default` | 项的文字，也是可读名称 |
-| `icon`    | 文字之前的图标         |
+| 插槽       | 说明                     |
+| ---------- | ------------------------ |
+| `default`  | 项的文字，也是可读名称   |
+| `icon`     | 文字之前的图标           |
+| `trailing` | 文字之后、贴在行末的内容 |

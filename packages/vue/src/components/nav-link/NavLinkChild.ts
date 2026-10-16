@@ -22,11 +22,13 @@ export default defineComponent({
   props: {
     as: { type: [String, Object] as PropType<PrimitiveProps['as']>, default: 'a' },
     labelProps: { type: Object as PropType<Record<string, unknown>>, required: true },
+    trailingProps: { type: Object as PropType<Record<string, unknown>>, required: true },
   },
   setup(props, { attrs, slots }) {
     const inner = (content: Content) => [
       ...(slots.icon?.() ?? []),
       h('span', props.labelProps, content ?? undefined),
+      ...(slots.trailing ? [h('span', props.trailingProps, slots.trailing())] : []),
     ]
 
     return () => {

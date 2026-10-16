@@ -8,6 +8,7 @@
     "    <!--[-->",
     "    \"组件\"",
     "    <!--]-->",
+    "  <!---->",
     "<!--]-->"
   ],
   "active marks the current page": [
@@ -19,6 +20,7 @@
     "    <!--[-->",
     "    \"组件\"",
     "    <!--]-->",
+    "  <!---->",
     "<!--]-->"
   ],
   "disabled leaves the tab order": [
@@ -30,6 +32,7 @@
     "    <!--[-->",
     "    \"创作中心\"",
     "    <!--]-->",
+    "  <!---->",
     "<!--]-->"
   ],
   "disabled without content": [
@@ -40,6 +43,7 @@
     "  <span data-hn-label=\"\" class=\"hn-sidebar-label min-w-0 truncate\">",
     "    <!--[-->",
     "    <!--]-->",
+    "  <!---->",
     "<!--]-->"
   ],
   "icon slot precedes the label": [
@@ -54,6 +58,96 @@
     "    <!--[-->",
     "    \"概览\"",
     "    <!--]-->",
+    "  <!---->",
+    "<!--]-->"
+  ],
+  "trailing follows the label": [
+    "<!--[-->",
+    "<a href=\"#\" class=\"hn-interactive hn-state-layer hn-press-none relative isolate flex min-w-0 cursor-pointer items-center data-disabled:pointer-events-none data-disabled:opacity-50 h-9 gap-[var(--hn-control-gap)] rounded-md ps-2.5 pe-2 text-sm select-none [&_svg]:size-4 [&_svg]:shrink-0 text-muted\">",
+    "  <!--[-->",
+    "  <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-house-icon lucide-house\">",
+    "    <path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\">",
+    "    <path d=\"M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\">",
+    "  <!--]-->",
+    "  <span data-hn-label=\"\" class=\"hn-sidebar-label min-w-0 truncate\">",
+    "    <!--[-->",
+    "    \"第一章\"",
+    "    <!--]-->",
+    "  <span class=\"hn-sidebar-label ms-auto flex shrink-0 items-center\">",
+    "    <!--[-->",
+    "    <span>",
+    "      \"12 页\"",
+    "    <!--]-->",
+    "<!--]-->"
+  ],
+  "asChild keeps trailing inside the child": [
+    "<!--[-->",
+    "<a class=\"hn-interactive hn-state-layer hn-press-none relative isolate flex min-w-0 cursor-pointer items-center data-disabled:pointer-events-none data-disabled:opacity-50 h-9 gap-[var(--hn-control-gap)] rounded-md ps-2.5 pe-2 text-sm select-none [&_svg]:size-4 [&_svg]:shrink-0 text-muted\" href=\"/child\">",
+    "  <span data-hn-label=\"\" class=\"hn-sidebar-label min-w-0 truncate\">",
+    "    \"第一章\"",
+    "  <span class=\"hn-sidebar-label ms-auto flex shrink-0 items-center\">",
+    "    <!--[-->",
+    "    <span>",
+    "      \"12 页\"",
+    "    <!--]-->",
+    "<!--]-->"
+  ],
+  "trailing in a rail sidebar collapses with the label": [
+    "<!--[-->",
+    "<!--[-->",
+    "<div class=\"bg-canvas text-fg flex h-screen flex-col overflow-hidden [--hn-app-shell-header-h:calc(3.5rem+1px)]\">",
+    "  <!---->",
+    "  <div class=\"flex min-h-0 flex-1\">",
+    "    <div class=\"hidden h-full shrink-0 lg:block\">",
+    "      <!--[-->",
+    "      <aside data-state=\"rail\" class=\"flex h-full min-h-0 shrink-0 flex-col overflow-hidden hn-sidebar border-line w-64 border-e data-[state=rail]:w-14 data-[state=hidden]:w-0 data-[state=hidden]:border-e-transparent\">",
+    "        <!---->",
+    "        <div class=\"hn-scroll-area relative grid grid-cols-1 grid-rows-1 overflow-hidden min-h-0 flex-1\">",
+    "          <div data-overlayscrollbars-initialize=\"\" class=\"min-h-0 w-full\">",
+    "            <div data-overlayscrollbars-contents=\"\">",
+    "              <!--[-->",
+    "              <nav aria-label=\"侧边导航\" class=\"flex flex-col gap-1 px-2.5 py-2.5\">",
+    "                <!--[-->",
+    "                <!--[-->",
+    "                <!--[-->",
+    "                <a data-grace-area-trigger=\"\" href=\"#a\" aria-label=\"第一章\" class=\"hn-interactive hn-state-layer hn-press-none relative isolate flex min-w-0 cursor-pointer items-center data-disabled:pointer-events-none data-disabled:opacity-50 h-9 gap-[var(--hn-control-gap)] rounded-md ps-2.5 pe-2 text-sm select-none [&_svg]:size-4 [&_svg]:shrink-0 text-muted\">",
+    "                  <!--[-->",
+    "                  <!--]-->",
+    "                  <span aria-hidden=\"true\" inert=\"\" data-collapsed=\"\" data-hn-label=\"\" class=\"hn-sidebar-label min-w-0 truncate\">",
+    "                    <!--[-->",
+    "                    \"第一章\"",
+    "                    <!--]-->",
+    "                  <span aria-hidden=\"true\" inert=\"\" data-collapsed=\"\" class=\"hn-sidebar-label ms-auto flex shrink-0 items-center\">",
+    "                    <!--[-->",
+    "                    <span>",
+    "                      \"12 页\"",
+    "                    <!--]-->",
+    "                <!--v-if-->",
+    "                <!--]-->",
+    "                <!--]-->",
+    "                <!--]-->",
+    "              <!--]-->",
+    "          <!---->",
+    "        <!---->",
+    "      <!--]-->",
+    "    <div class=\"flex min-h-0 min-w-0 flex-1 flex-col\">",
+    "      <!---->",
+    "      <main class=\"min-h-0 min-w-0 flex-1\">",
+    "        <div class=\"hn-scroll-area relative grid grid-cols-1 grid-rows-1 overflow-hidden h-full\">",
+    "          <div data-overlayscrollbars-initialize=\"\" class=\"min-h-0 w-full\">",
+    "            <div data-overlayscrollbars-contents=\"\">",
+    "              <!--[-->",
+    "              <!--]-->",
+    "          <!--[-->",
+    "          <!---->",
+    "          <!---->",
+    "          <div class=\"hn-scroll-shadow\" data-side=\"y-start\" aria-hidden=\"true\">",
+    "          <div class=\"hn-scroll-shadow\" data-side=\"y-end\" aria-hidden=\"true\">",
+    "          <!--]-->",
+    "        <!---->",
+    "  <!--[-->",
+    "  <!--]-->",
+    "<!--]-->",
     "<!--]-->"
   ],
   "class and attributes": [
@@ -65,6 +159,7 @@
     "    <!--[-->",
     "    \"外链\"",
     "    <!--]-->",
+    "  <!---->",
     "<!--]-->"
   ],
   "component attributes override caller attributes": [
@@ -76,6 +171,7 @@
     "    <!--[-->",
     "    \"概览\"",
     "    <!--]-->",
+    "  <!---->",
     "<!--]-->"
   ],
   "label outside the sidebar renders no tooltip and no accessible name": [
@@ -87,6 +183,7 @@
     "    <!--[-->",
     "    \"概览\"",
     "    <!--]-->",
+    "  <!---->",
     "<!--]-->"
   ],
   "as renders a router component with forwarded props": [
@@ -99,6 +196,7 @@
     "    <!--[-->",
     "    \"指南\"",
     "    <!--]-->",
+    "  <!---->",
     "<!--]-->"
   ],
   "as renders another tag": [
@@ -110,6 +208,7 @@
     "    <!--[-->",
     "    \"按钮\"",
     "    <!--]-->",
+    "  <!---->",
     "<!--]-->"
   ],
   "asChild renders through the child element": [
@@ -207,6 +306,7 @@
     "                    <!--[-->",
     "                    \"收藏夹\"",
     "                    <!--]-->",
+    "                  <!---->",
     "                <!--v-if-->",
     "                <!--]-->",
     "                <!--]-->",
@@ -262,6 +362,7 @@
     "                    <!--[-->",
     "                    \"收藏夹\"",
     "                    <!--]-->",
+    "                  <!---->",
     "                <!--v-if-->",
     "                <!--]-->",
     "                <!--]-->",
@@ -277,6 +378,7 @@
     "                    <!--[-->",
     "                    \"无标签\"",
     "                    <!--]-->",
+    "                  <!---->",
     "                <!--v-if-->",
     "                <!--]-->",
     "                <!--]-->",
@@ -289,6 +391,7 @@
     "                    <!--[-->",
     "                    \"停用\"",
     "                    <!--]-->",
+    "                  <!---->",
     "                <!--v-if-->",
     "                <!--]-->",
     "                <!--]-->",
@@ -342,6 +445,7 @@
     "                    <!--[-->",
     "                    \"收藏夹\"",
     "                    <!--]-->",
+    "                  <!---->",
     "                <!--v-if-->",
     "                <!--]-->",
     "                <!--]-->",
@@ -381,6 +485,7 @@
     "      <!--[-->",
     "      \"概览\"",
     "      <!--]-->",
+    "    <!---->",
     "  <!--]-->",
     "  <!--[-->",
     "  <a href=\"#\" aria-current=\"page\" data-state=\"selected\" class=\"hn-interactive hn-state-layer hn-press-none relative isolate flex min-w-0 cursor-pointer items-center data-disabled:pointer-events-none data-disabled:opacity-50 h-9 gap-[var(--hn-control-gap)] rounded-md ps-2.5 pe-2 text-sm select-none [&_svg]:size-4 [&_svg]:shrink-0 text-fg font-medium\">",
@@ -390,6 +495,7 @@
     "      <!--[-->",
     "      \"我的书架\"",
     "      <!--]-->",
+    "    <!---->",
     "  <!--]-->",
     "  <!--[-->",
     "  <a href=\"#\" aria-disabled=\"true\" data-disabled=\"\" tabindex=\"-1\" class=\"hn-interactive hn-state-layer hn-press-none relative isolate flex min-w-0 cursor-pointer items-center data-disabled:pointer-events-none data-disabled:opacity-50 h-9 gap-[var(--hn-control-gap)] rounded-md ps-2.5 pe-2 text-sm select-none [&_svg]:size-4 [&_svg]:shrink-0 text-muted\">",
@@ -399,6 +505,7 @@
     "      <!--[-->",
     "      \"创作中心\"",
     "      <!--]-->",
+    "    <!---->",
     "  <!--]-->",
     "  <!--]-->"
   ]

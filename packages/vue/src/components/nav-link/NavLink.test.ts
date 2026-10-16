@@ -2,6 +2,8 @@ import { describe, expect, it, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { h, defineComponent } from 'vue'
 import NavLink from './NavLink.vue'
+import AppShell from '../app-shell/AppShell.vue'
+import Sidebar from '../sidebar/Sidebar.vue'
 import { expectNoA11yViolations } from '../../../test/axe'
 
 beforeEach(() => {
@@ -113,6 +115,53 @@ describe('渲染与状态', () => {
     expect(a.classes()).toContain('hn-interactive')
     expect((a.element.firstElementChild as HTMLElement).classList.contains('nav-icon')).toBe(true)
     expect(a.get('[data-hn-label]').text()).toBe('指南')
+  })
+
+  it('trailing 插槽排在文字之后,asChild 时同样留在子元素内部', () => {
+    const plain = mount(NavLink, {
+      attrs: { href: '/a' },
+      slots: { default: () => '第一章', trailing: () => h('span', { class: 'count' }, '12') },
+    })
+    const [label, end] = Array.from(plain.get('a').element.children)
+    expect(label!.hasAttribute('data-hn-label')).toBe(true)
+    expect(end!.hasAttribute('data-hn-label')).toBe(false)
+    expect(end!.querySelector('.count')!.textContent).toBe('12')
+
+    const child = mount(NavLink, {
+      props: { asChild: true },
+      slots: {
+        trailing: () => h('span', { class: 'count' }, '12'),
+        default: () => h('a', { href: '/child' }, '第一章'),
+      },
+    })
+    const a = child.get('a')
+    expect(a.get('[data-hn-label]').text()).toBe('第一章')
+    expect(a.element.lastElementChild!.querySelector('.count')).not.toBeNull()
+  })
+
+  it('没有 trailing 时不渲染尾部容器', () => {
+    const w = mount(NavLink, { attrs: { href: '/a' }, slots: { default: () => '第一章' } })
+    expect(w.get('a').element.children).toHaveLength(1)
+  })
+
+  it('侧栏收起为 rail 时 trailing 与文字一起隐藏', () => {
+    const w = mount(AppShell, {
+      props: { sidebar: 'rail' },
+      slots: {
+        sidebar: () =>
+          h(Sidebar, null, () =>
+            h(
+              NavLink,
+              { href: '/a', label: '第一章' },
+              { default: () => '第一章', trailing: () => h('span', { class: 'count' }, '12') },
+            ),
+          ),
+      },
+    })
+    const end = w.get('.count').element.parentElement!
+    expect(end.getAttribute('aria-hidden')).toBe('true')
+    expect(end.hasAttribute('data-collapsed')).toBe(true)
+    expect(end.hasAttribute('inert')).toBe(true)
   })
 })
 

@@ -2,6 +2,8 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { cleanup, render } from '@testing-library/react'
 import type { ReactNode } from 'react'
 import { NavLink } from './NavLink'
+import { AppShell } from '../app-shell/AppShell'
+import { Sidebar } from '../sidebar/Sidebar'
 import { expectNoA11yViolations } from '../../../test/axe'
 
 beforeEach(() => {
@@ -114,6 +116,52 @@ describe('渲染与状态', () => {
     expect(a.classList.contains('hn-interactive')).toBe(true)
     expect((a.firstElementChild as HTMLElement).classList.contains('nav-icon')).toBe(true)
     expect(a.querySelector('[data-hn-label]')!.textContent).toBe('指南')
+  })
+
+  it('trailing 插槽排在文字之后,asChild 时同样留在子元素内部', () => {
+    const plain = render(
+      <NavLink href="/a" trailing={<span className="count">12</span>}>
+        第一章
+      </NavLink>,
+    )
+    const [label, end] = Array.from(plain.container.querySelector('a')!.children)
+    expect(label!.hasAttribute('data-hn-label')).toBe(true)
+    expect(end!.hasAttribute('data-hn-label')).toBe(false)
+    expect(end!.querySelector('.count')!.textContent).toBe('12')
+    cleanup()
+
+    const child = render(
+      <NavLink asChild trailing={<span className="count">12</span>}>
+        <a href="/child">第一章</a>
+      </NavLink>,
+    )
+    const a = child.container.querySelector('a')!
+    expect(a.querySelector('[data-hn-label]')!.textContent).toBe('第一章')
+    expect(a.lastElementChild!.querySelector('.count')).not.toBeNull()
+  })
+
+  it('没有 trailing 时不渲染尾部容器', () => {
+    const { container } = render(<NavLink href="/a">第一章</NavLink>)
+    expect(container.querySelector('a')!.children).toHaveLength(1)
+  })
+
+  it('侧栏收起为 rail 时 trailing 与文字一起隐藏', () => {
+    const { container } = render(
+      <AppShell
+        sidebar="rail"
+        sidebarContent={
+          <Sidebar>
+            <NavLink href="/a" label="第一章" trailing={<span className="count">12</span>}>
+              第一章
+            </NavLink>
+          </Sidebar>
+        }
+      />,
+    )
+    const end = container.querySelector('.count')!.parentElement!
+    expect(end.getAttribute('aria-hidden')).toBe('true')
+    expect(end.hasAttribute('data-collapsed')).toBe(true)
+    expect(end.hasAttribute('inert')).toBe(true)
   })
 })
 

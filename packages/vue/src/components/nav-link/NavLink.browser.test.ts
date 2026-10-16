@@ -132,4 +132,49 @@ describe('长标题', () => {
     expect(label.getBoundingClientRect().right).toBeLessThanOrEqual(link.right)
     expect(label.scrollWidth).toBeGreaterThan(label.clientWidth)
   })
+
+  it('trailing 里的页数留在链接内，标题截断', async () => {
+    mount(
+      {
+        render: () =>
+          h('div', { style: 'width: 200px' }, [
+            h(
+              NavLink,
+              { href: '#' },
+              { default: () => title, trailing: () => h('span', { 'data-count': '' }, '12 页') },
+            ),
+          ]),
+      },
+      { attachTo: attach() },
+    )
+    const link = document.querySelector('a')!.getBoundingClientRect()
+    const count = document.querySelector('[data-count]')!.getBoundingClientRect()
+    const label = document.querySelector<HTMLElement>('[data-hn-label]')!
+    expect(link.width).toBe(200)
+    expect(count.width).toBeGreaterThan(0)
+    expect(count.right).toBeLessThanOrEqual(link.right)
+    expect(label.getBoundingClientRect().right).toBeLessThanOrEqual(count.left)
+    expect(label.scrollWidth).toBeGreaterThan(label.clientWidth)
+  })
+
+  it('标题较短时 trailing 贴在行末', async () => {
+    mount(
+      {
+        render: () =>
+          h('div', { style: 'width: 200px' }, [
+            h(
+              NavLink,
+              { href: '#' },
+              { default: () => '序章', trailing: () => h('span', { 'data-count': '' }, '3 页') },
+            ),
+          ]),
+      },
+      { attachTo: attach() },
+    )
+    const link = document.querySelector('a')!
+    const count = document.querySelector('[data-count]')!.getBoundingClientRect()
+    const end =
+      link.getBoundingClientRect().right - Number.parseFloat(getComputedStyle(link).paddingRight)
+    expect(Math.abs(count.right - end)).toBeLessThan(1)
+  })
 })

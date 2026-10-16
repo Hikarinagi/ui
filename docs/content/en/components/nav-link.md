@@ -38,6 +38,12 @@ The `icon` slot sits before the text and the component sizes it to four units, s
 
 <Demo name="nav-link/icon" />
 
+### Trailing content {#trailing}
+
+The `trailing` slot sits after the text at the end of the row, for page counts, counters or shortcuts. When the title does not fit, only the title is truncated and the trailing content stays whole; in a rail sidebar it hides together with the text.
+
+<Demo name="nav-link/trailing" />
+
 ### Router links {#router}
 
 ::: vue
@@ -105,7 +111,8 @@ Remaining attributes pass through to the rendered element, such as `href` or a r
 
 ### Slots {#slots}
 
-| Slot      | Description                             |
-| --------- | --------------------------------------- |
-| `default` | The entry's text, and its readable name |
-| `icon`    | An icon shown before the text           |
+| Slot       | Description                                   |
+| ---------- | --------------------------------------------- |
+| `default`  | The entry's text, and its readable name       |
+| `icon`     | An icon shown before the text                 |
+| `trailing` | Content after the text, at the end of the row |
