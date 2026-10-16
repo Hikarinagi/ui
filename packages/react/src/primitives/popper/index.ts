@@ -7,5 +7,9 @@ export type { PopperContentProps } from './PopperContent'
 export { Arrow, PopperArrow } from './PopperArrow'
 export type { ArrowProps, PopperArrowProps } from './PopperArrow'
 export { usePopperDirection } from './direction'
-export { getSideAndAlignFromPlacement, isNotNull, transformOrigin } from './utils'
-export type { Align, Direction, Side } from './utils'
+export {
+  getSideAndAlignFromPlacement,
+  isNotNull,
+  transformOrigin,
+} from '../../../../shared/src/primitives/popper'
+export type { Align, Direction, Side } from '../../../../shared/src/primitives/popper'

@@ -48,6 +48,7 @@
     "test:browser": "vitest run -c vitest.browser.config.ts"
   },
   "dependencies": {
+    "@floating-ui/dom": "1.7.6",
     "@floating-ui/react-dom": "2.1.8",
     "@internationalized/date": "^3.12.4",
     "@internationalized/number": "^3.6.8",
@@ -69,7 +70,6 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@floating-ui/dom": "1.7.6",
     "@hina-ui/shared": "workspace:*",
     "@tailwindcss/vite": "^4.3.0",
     "@testing-library/react": "^16.3.3",

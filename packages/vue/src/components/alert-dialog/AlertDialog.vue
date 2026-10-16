@@ -7,7 +7,7 @@
     AlertDialogRoot,
     AlertDialogTitle,
     AlertDialogTrigger,
-  } from 'reka-ui'
+  } from '../../primitives/alert-dialog'
   import { useOverlayPortal } from '../../lib/overlay-portal'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'

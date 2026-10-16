@@ -9,7 +9,7 @@
     DialogRoot,
     DialogTitle,
     DialogTrigger,
-  } from 'reka-ui'
+  } from '../../primitives/dialog'
   import { useOverlayPortal } from '../../lib/overlay-portal'
   import { useScrollViewport } from '../../lib/scroll-viewport'
   import { cn } from '../../lib/cn'

@@ -8,7 +8,8 @@ import {
   type OverlayAnchor,
   type OverlayPositionStrategy,
 } from './overlay-anchor'
-import { useForwardExpose, type DropdownMenuContentEmits } from 'reka-ui'
+import { type DropdownMenuContentEmits } from 'reka-ui'
+import { useForwardExpose } from '../primitives/utils/useForwardExpose'
 
 export function useAnchoredOverlay(
   props: {

@@ -8,7 +8,7 @@
     DialogTitle,
     DialogDescription,
     DialogClose,
-  } from 'reka-ui'
+  } from '../../primitives/dialog'
   import ModalContent from './ModalContent.vue'
   import CloseButton from '../close-button/CloseButton.vue'
   import Card from '../card/Card.vue'

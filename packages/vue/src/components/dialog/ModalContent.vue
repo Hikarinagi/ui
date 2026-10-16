@@ -1,5 +1,6 @@
 <script setup lang="ts">
-  import { AlertDialogContent, DialogContent } from 'reka-ui'
+  import { AlertDialogContent } from '../../primitives/alert-dialog'
+  import { DialogContent } from '../../primitives/dialog'
   import { useDialogCloseFocus } from '../../lib/dialog-focus'
 
   defineOptions({ name: 'HnModalContent' })
