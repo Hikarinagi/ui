@@ -182,6 +182,26 @@ describe('Tree multi check', () => {
 })
 
 describe('Tree keyboard and presentation', () => {
+  it('typing a letter jumps to the next visible row with that initial, Enter checks, and ArrowLeft collapses before it climbs to the parent', async () => {
+    const demo = render({ defaultExpanded: ['root', 'branch'] })
+    await userEvent.click(wrapper!.get('[data-before]').element)
+    await userEvent.keyboard('{Tab}')
+    expect(document.activeElement).toBe(row('Root').element())
+    await userEvent.keyboard('g')
+    expect(document.activeElement).toBe(row('Gamma').element())
+    await userEvent.keyboard('{Enter}')
+    expect(demo.model.value).toEqual(['c'])
+    await userEvent.keyboard('{ArrowUp}{ArrowUp}{ArrowUp}')
+    expect(document.activeElement).toBe(row('Branch').element())
+    await userEvent.keyboard('{ArrowLeft}')
+    await vi.waitFor(() => expect(demo.expanded.value).toEqual(['root']))
+    expect(document.activeElement).toBe(row('Branch').element())
+    await userEvent.keyboard('{ArrowLeft}')
+    expect(document.activeElement).toBe(row('Root').element())
+    await userEvent.keyboard('{ArrowLeft}')
+    await vi.waitFor(() => expect(demo.expanded.value).toEqual([]))
+  })
+
   it.each([false, true])(
     'supports one tab stop, arrow navigation, expansion and Space checks with rtl=%s',
     async rtl => {

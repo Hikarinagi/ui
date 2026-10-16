@@ -22,47 +22,38 @@ import {
   createCollection,
   createEventHook,
   createTypeahead,
-  findValuesBetween,
   type Collection,
   type EventHook,
 } from '../listbox/utils'
 import { useVModel } from '../listbox/useVModel'
-import { flatten } from './utils'
+import {
+  dispatchTreeItemEvent,
+  flattenTree,
+  nextTreeSelection,
+  toggleTreeExpanded,
+  treeChildTarget,
+  treeIndeterminate,
+  treeParentTarget,
+  treeRangeValues,
+  treeSelectedKeys,
+  TREE_KEY_TO_INTENT,
+  TREE_SELECT,
+  TREE_TOGGLE,
+  type FlattenedItem,
+  type TreeItemEventDetail,
+  type TreeItemSelectEvent,
+  type TreeItemToggleEvent,
+} from '../../../../shared/src/primitives/tree'
 import { useComposedRefs } from '../utils/compose-refs'
 import { useDirection } from '../utils/direction'
 
-export { flatten } from './utils'
+export { flatten } from '../../../../shared/src/primitives/tree'
+export type { FlattenedItem, TreeItemEventDetail, TreeItemSelectEvent, TreeItemToggleEvent }
 
 type DataAttributes = { [attribute: `data-${string}`]: string | undefined }
 type Direction = 'ltr' | 'rtl'
 type FocusIntent = 'first' | 'last' | 'prev' | 'next'
 type TreeValue = Record<string, any>
-
-const MAP_KEY_TO_FOCUS_INTENT: Record<string, FocusIntent> = {
-  ArrowLeft: 'prev',
-  ArrowUp: 'prev',
-  ArrowRight: 'next',
-  ArrowDown: 'next',
-  PageUp: 'first',
-  Home: 'first',
-  PageDown: 'last',
-  End: 'last',
-}
-
-export interface FlattenedItem<T> {
-  _id: string
-  index: number
-  value: T
-  level: number
-  hasChildren: boolean
-  parentItem?: T
-  bind: {
-    value: T
-    level: number
-    'aria-setsize': number
-    'aria-posinset': number
-  }
-}
 
 export interface TreeRootContextValue<T = any> {
   modelValue: unknown
@@ -83,7 +74,7 @@ export interface TreeRootContextValue<T = any> {
   virtualKeydownHook: EventHook<KeyboardEvent>
   collection: Collection<T>
   handleMultipleReplace: (
-    intent: FocusIntent,
+    intent: FocusIntent | undefined,
     currentElement: Element | null,
     getItems: () => { ref: HTMLElement; value?: unknown }[],
     options: unknown[],
@@ -202,37 +193,15 @@ export function TreeRoot<T extends TreeValue = TreeValue>({
 
   useEffect(() => () => typeahead.dispose(), [typeahead])
 
-  const selectedKeys = useMemo(() => {
-    if (multiple && Array.isArray(modelValue)) return modelValue.map(item => getKey(item as T))
-    return [getKey((modelValue ?? {}) as T)]
-  }, [multiple, modelValue, getKey])
+  const selectedKeys = useMemo(
+    () => treeSelectedKeys(modelValue, multiple, getKey),
+    [multiple, modelValue, getKey],
+  )
 
-  const expandedItems = useMemo(() => {
-    function flattenItems(list: T[], level = 1, parentItem?: T): FlattenedItem<T>[] {
-      return list.reduce((acc: FlattenedItem<T>[], item: T, index: number) => {
-        const key = getKey(item)
-        const children = getChildren(item)
-        const isExpanded = expanded.includes(key)
-        acc.push({
-          _id: key,
-          value: item,
-          index,
-          level,
-          parentItem,
-          hasChildren: !!children,
-          bind: {
-            value: item,
-            level,
-            'aria-setsize': list.length,
-            'aria-posinset': index + 1,
-          },
-        })
-        if (children && isExpanded) acc.push(...flattenItems(children, level + 1, item))
-        return acc
-      }, [])
-    }
-    return flattenItems(items ?? [])
-  }, [items, expanded, getKey, getChildren])
+  const expandedItems = useMemo(
+    () => flattenTree(items ?? [], { getKey, getChildren }, expanded),
+    [items, expanded, getKey, getChildren],
+  )
 
   const latest = useRef({
     multiple,
@@ -258,95 +227,32 @@ export function TreeRoot<T extends TreeValue = TreeValue>({
   }
 
   const api = useMemo(() => {
-    function onSelectItem(value: T, condition: (existing: unknown) => boolean) {
-      const { multiple, selectionBehavior } = latest.current
-      const model = modelRef.current
-      if (multiple && Array.isArray(model)) {
-        if (selectionBehavior === 'replace') {
-          setModelValue([value])
-          firstValue.current = value
-        } else {
-          const index = model.findIndex(item => condition(item))
-          if (index !== -1) setModelValue(model.filter((_, i) => i !== index))
-          else setModelValue([...model, value])
-        }
-      } else if (selectionBehavior === 'replace') setModelValue({ ...value })
-      else if (!Array.isArray(model) && condition(model)) setModelValue(undefined)
-      else setModelValue({ ...value })
-    }
     function handleMultipleReplace(
-      intent: FocusIntent,
+      intent: FocusIntent | undefined,
       currentElement: Element | null,
       getItems: () => { ref: HTMLElement; value?: unknown }[],
       options: unknown[],
     ) {
-      if (!firstValue.current || !latest.current.multiple || !Array.isArray(modelRef.current))
-        return
-      const items = getItems().filter(item => item.ref.dataset.disabled !== '')
-      const lastValue = items.find(item => item.ref === currentElement)?.value
-      if (!lastValue) return
-      let value: unknown[] | null = null
-      switch (intent) {
-        case 'prev':
-        case 'next':
-          value = findValuesBetween(options, firstValue.current, lastValue)
-          break
-        case 'first':
-          value = findValuesBetween(options, firstValue.current, options[0])
-          break
-        case 'last':
-          value = findValuesBetween(options, firstValue.current, options.at(-1))
-          break
-      }
-      setModelValue(value)
-    }
-    function handleBubbleSelect(item: FlattenedItem<T>) {
-      const { getKey, getChildren, multiple, expandedItems } = latest.current
-      if (item.parentItem != null && Array.isArray(modelRef.current) && multiple) {
-        const parentItem = expandedItems.find(
-          entry => item.parentItem != null && getKey(entry.value) === getKey(item.parentItem),
-        )
-        if (parentItem != null) {
-          const all = getChildren(parentItem.value)?.every(child =>
-            (modelRef.current as T[]).find(value => getKey(value) === getKey(child)),
-          )
-          const model = modelRef.current as T[]
-          if (all) setModelValue([...model, parentItem.value])
-          else setModelValue(model.filter(value => getKey(value) !== getKey(parentItem.value)))
-          handleBubbleSelect(parentItem)
-        }
-      }
+      const value = treeRangeValues(intent, currentElement, getItems(), options, {
+        firstValue: firstValue.current,
+        multiple: latest.current.multiple,
+        model: modelRef.current,
+      })
+      if (value !== undefined) setModelValue(value)
     }
     function onSelect(value: T) {
-      const { getKey, getChildren, multiple, bubbleSelect, propagateSelect, expandedItems } =
-        latest.current
-      const condition = (base: unknown) => getKey((base ?? {}) as T) === getKey(value)
-      const model = modelRef.current
-      const exist = multiple && Array.isArray(model) ? model.findIndex(condition) !== -1 : undefined
-      onSelectItem(value, condition)
-      if (bubbleSelect && multiple && Array.isArray(modelRef.current)) {
-        const item = expandedItems.find(entry => getKey(entry.value) === getKey(value))
-        if (item != null) handleBubbleSelect(item)
-      }
-      if (propagateSelect && multiple && Array.isArray(modelRef.current)) {
-        const children = flatten<T, any>((getChildren(value) ?? []) as any[])
-        const current = modelRef.current as T[]
-        if (exist)
-          setModelValue(
-            [...current].filter(
-              item => !children.some(child => getKey((item ?? {}) as T) === getKey(child)),
-            ),
-          )
-        else setModelValue([...current, ...children])
-      }
+      const next = nextTreeSelection(modelRef.current, value, {
+        ...latest.current,
+        flattened: latest.current.expandedItems,
+      })
+      if (next.anchor) firstValue.current = value
+      setModelValue(next.value)
     }
     function onToggle(value: T) {
       const { getKey, getChildren, expanded, setExpanded } = latest.current
       const children = value ? getChildren(value) : undefined
       if (!children) return
-      const key = getKey(value) ?? value
-      if (expanded.includes(key)) setExpanded(expanded.filter(item => item !== key))
-      else setExpanded([...expanded, key])
+      setExpanded(toggleTreeExpanded(expanded, getKey(value) ?? value))
     }
     return { onSelect, onToggle, handleMultipleReplace }
   }, [modelRef, setModelValue])
@@ -358,7 +264,7 @@ export function TreeRoot<T extends TreeValue = TreeValue>({
 
   function handleKeydownNavigation(event: ReactKeyboardEvent<HTMLElement>) {
     if (isVirtual.current) return
-    const intent = MAP_KEY_TO_FOCUS_INTENT[event.key]!
+    const intent = TREE_KEY_TO_INTENT[event.key]
     void Promise.resolve().then(() =>
       api.handleMultipleReplace(
         intent,
@@ -434,16 +340,6 @@ export function TreeRoot<T extends TreeValue = TreeValue>({
   )
 }
 
-export interface TreeItemEventDetail<T> {
-  originalEvent: Event
-  value?: T
-  isExpanded: boolean
-  isSelected: boolean
-}
-
-export type TreeItemSelectEvent<T> = CustomEvent<TreeItemEventDetail<T>>
-export type TreeItemToggleEvent<T> = CustomEvent<TreeItemEventDetail<T>>
-
 export interface TreeItemSlotProps {
   isExpanded: boolean
   isSelected: boolean
@@ -467,9 +363,6 @@ export interface TreeItemProps<T extends TreeValue = TreeValue>
   ref?: Ref<HTMLElement>
 }
 
-const TREE_SELECT = 'tree.select'
-const TREE_TOGGLE = 'tree.toggle'
-
 export function TreeItem<T extends TreeValue = TreeValue>({
   value,
   level,
@@ -492,22 +385,20 @@ export function TreeItem<T extends TreeValue = TreeValue>({
   const isExpanded = context.expanded.includes(key)
   const isSelected = context.selectedKeys.includes(key)
   const isDisabled = context.disabled || !!disabled
-  const isIndeterminate = useMemo(() => {
-    const model = context.modelValue
-    if (context.bubbleSelect && hasChildren && Array.isArray(model)) {
-      const children = flatten<T, any>((context.getChildren(value) || []) as any[])
-      const found = (child: T) =>
-        model.find(item => context.getKey(item as T) === context.getKey(child))
-      return children.some(found) && !children.every(found)
-    }
-    if (context.propagateSelect && isSelected && hasChildren && Array.isArray(model)) {
-      const children = flatten<T, any>((context.getChildren(value) || []) as any[])
-      return !children.every(child =>
-        model.find(item => context.getKey(item as T) === context.getKey(child)),
-      )
-    }
-    return undefined
-  }, [context, hasChildren, isSelected, value])
+  const isIndeterminate = useMemo(
+    () =>
+      treeIndeterminate({
+        value,
+        model: context.modelValue,
+        isSelected,
+        hasChildren,
+        bubbleSelect: context.bubbleSelect,
+        propagateSelect: context.propagateSelect,
+        getKey: context.getKey,
+        getChildren: context.getChildren,
+      }),
+    [context, hasChildren, isSelected, value],
+  )
   const latest = useRef({
     isDisabled,
     isExpanded,
@@ -524,63 +415,51 @@ export function TreeItem<T extends TreeValue = TreeValue>({
     [element, value, context.collection],
   )
 
-  function handleSelect(event: Event) {
+  function handleSelect(event: TreeItemSelectEvent<T>) {
     const current = latest.current
     if (current.isDisabled) return
-    current.onSelect?.(event as TreeItemSelectEvent<T>)
+    current.onSelect?.(event)
     if (event.defaultPrevented) return
     context.onSelect(current.value)
   }
 
-  function handleToggle(event: Event) {
+  function handleToggle(event: TreeItemToggleEvent<T>) {
     const current = latest.current
     if (current.isDisabled) return
-    current.onToggle?.(event as TreeItemToggleEvent<T>)
+    current.onToggle?.(event)
     if (event.defaultPrevented) return
     context.onToggle(current.value)
   }
 
-  function dispatch(name: string, handler: (event: Event) => void, originalEvent?: Event) {
+  function dispatch(
+    name: typeof TREE_SELECT | typeof TREE_TOGGLE,
+    handler: (event: CustomEvent<TreeItemEventDetail<T>>) => void,
+    originalEvent?: Event,
+  ) {
     if (!originalEvent) return
     const current = latest.current
-    const target = originalEvent.target as EventTarget
-    const event = new CustomEvent(name, {
-      bubbles: false,
-      cancelable: true,
-      detail: {
-        originalEvent,
-        value: current.value,
-        isExpanded: current.isExpanded,
-        isSelected: current.isSelected,
-      },
+    dispatchTreeItemEvent(name, handler, {
+      originalEvent,
+      value: current.value,
+      isExpanded: current.isExpanded,
+      isSelected: current.isSelected,
     })
-    target.addEventListener(name, handler, { once: true })
-    target.dispatchEvent(event)
+  }
+
+  function collection() {
+    return context.collection.getItems().map(item => item.ref)
   }
 
   function handleKeydownRight(event: Event) {
     if (latest.current.isDisabled || !latest.current.hasChildren) return
-    if (latest.current.isExpanded) {
-      const collection = context.collection.getItems().map(item => item.ref)
-      const currentIndex = collection.indexOf(getActiveElement() as HTMLElement)
-      const list = [...collection].slice(currentIndex)
-      const nextElement = list.find(item => Number(item.getAttribute('data-indent')) === level + 1)
-      nextElement?.focus()
-    } else dispatch(TREE_TOGGLE, handleToggle, event)
+    if (latest.current.isExpanded) treeChildTarget(collection(), getActiveElement(), level)?.focus()
+    else dispatch(TREE_TOGGLE, handleToggle, event)
   }
 
   function handleKeydownLeft(event: Event) {
     if (latest.current.isDisabled) return
     if (latest.current.isExpanded) dispatch(TREE_TOGGLE, handleToggle, event)
-    else {
-      const collection = context.collection.getItems().map(item => item.ref)
-      const currentIndex = collection.indexOf(getActiveElement() as HTMLElement)
-      const list = [...collection].slice(0, currentIndex).reverse()
-      const parentElement = list.find(
-        item => Number(item.getAttribute('data-indent')) === level - 1,
-      )
-      parentElement?.focus()
-    }
+    else treeParentTarget(collection(), getActiveElement(), level)?.focus()
   }
 
   const slotProps: TreeItemSlotProps = {

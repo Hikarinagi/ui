@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { TreeItem, TreeRoot } from 'reka-ui'
+  import { TreeItem, TreeRoot } from '../../primitives/tree'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
   import { useFieldControl } from '../form-field/context'

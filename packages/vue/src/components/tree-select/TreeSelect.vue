@@ -1,14 +1,8 @@
 <script setup lang="ts">
   import { useId } from 'vue'
   import { Check } from '@lucide/vue'
-  import {
-    PopoverContent,
-    PopoverPortal,
-    PopoverRoot,
-    PopoverTrigger,
-    TreeItem,
-    TreeRoot,
-  } from 'reka-ui'
+  import { PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger } from 'reka-ui'
+  import { TreeItem, TreeRoot } from '../../primitives/tree'
   import { cn } from '../../lib/cn'
   import { rekaPopoverStyle } from '../../lib/reka/styles'
   import { useUiLocale } from '../../locale'

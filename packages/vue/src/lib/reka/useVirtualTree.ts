@@ -1,6 +1,6 @@
 import { computed, nextTick, onScopeDispose, shallowRef, watch, type Ref } from 'vue'
 import { useEventListener } from '@vueuse/core'
-import { injectTreeRootContext, type FlattenedItem } from 'reka-ui'
+import { injectTreeRootContext, type FlattenedItem } from '../../primitives/tree'
 import { useVirtualCollection } from '../virtual/useVirtualCollection'
 import { nextEnabled } from '../virtual/navigation'
 import type { VirtualizeOptions } from '../virtual/types'

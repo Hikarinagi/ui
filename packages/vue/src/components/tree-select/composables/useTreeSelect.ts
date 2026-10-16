@@ -1,5 +1,5 @@
 import { computed, ref, shallowRef, watch, type Ref } from 'vue'
-import { useFilter } from 'reka-ui'
+import { createCollatorFilter } from '../../../../../shared/src/lib/virtual/filter'
 import { findNode, pathTo, type TreeSelectNode } from '../types'
 import { filterTree } from '../utils/filterTree'
 
@@ -26,7 +26,7 @@ export function useTreeSelect(
     focusLast(): void
     isFirst(element: EventTarget | null): boolean
   }>()
-  const { contains } = useFilter({ sensitivity: 'base' })
+  const { contains } = createCollatorFilter({ sensitivity: 'base' })
   const query = computed(() => (props.searchable ? search.value.trim() : ''))
   const filtered = computed(() =>
     query.value ? filterTree(props.items, node => contains(node.label, query.value)) : null,
