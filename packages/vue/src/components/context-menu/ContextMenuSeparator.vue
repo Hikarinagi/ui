@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ContextMenuSeparator } from 'reka-ui'
+  import { ContextMenuSeparator } from '../../primitives/context-menu'
   import { cn } from '../../lib/cn'
 
   defineOptions({ name: 'HnContextMenuSeparator' })

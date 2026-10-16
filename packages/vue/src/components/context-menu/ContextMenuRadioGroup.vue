@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ContextMenuRadioGroup } from 'reka-ui'
+  import { ContextMenuRadioGroup } from '../../primitives/context-menu'
 
   defineOptions({ name: 'HnContextMenuRadioGroup' })
 

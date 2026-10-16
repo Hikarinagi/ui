@@ -4,7 +4,7 @@
     ContextMenuPortal,
     ContextMenuRoot,
     ContextMenuTrigger,
-  } from 'reka-ui'
+  } from '../../primitives/context-menu'
   import { cn } from '../../lib/cn'
   import Card from '../card/Card.vue'
 

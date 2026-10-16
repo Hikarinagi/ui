@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { Check } from '@lucide/vue'
-  import { ContextMenuCheckboxItem, ContextMenuItemIndicator } from 'reka-ui'
+  import { ContextMenuCheckboxItem, ContextMenuItemIndicator } from '../../primitives/context-menu'
   import { cn } from '../../lib/cn'
   import { dropdownItem } from '../dropdown-menu/dropdown-menu.variants'
 
