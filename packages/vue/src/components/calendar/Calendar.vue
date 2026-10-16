@@ -11,7 +11,7 @@
     CalendarNext,
     CalendarPrev,
     CalendarRoot,
-  } from 'reka-ui'
+  } from '../../primitives/calendar'
   import { getLocalTimeZone, today, type DateValue } from '@internationalized/date'
   import { cn } from '../../lib/cn'
   import { formatDateValue, parseDateValue } from '../../lib/date'
