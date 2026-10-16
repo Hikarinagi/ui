@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { DropdownMenuLabel } from 'reka-ui'
+  import { DropdownMenuLabel } from '../../primitives/dropdown-menu'
   import { cn } from '../../lib/cn'
 
   defineOptions({ name: 'HnDropdownMenuLabel' })

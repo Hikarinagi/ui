@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { DropdownMenuRadioGroup } from 'reka-ui'
+  import { DropdownMenuRadioGroup } from '../../primitives/dropdown-menu'
 
   defineOptions({ name: 'HnDropdownMenuRadioGroup' })
 

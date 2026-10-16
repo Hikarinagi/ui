@@ -5,7 +5,7 @@
     DropdownMenuSubTrigger,
     DropdownMenuPortal,
     DropdownMenuSubContent,
-  } from 'reka-ui'
+  } from '../../primitives/dropdown-menu'
   import Card from '../card/Card.vue'
   import { cn } from '../../lib/cn'
   import { dropdownItem } from './dropdown-menu.variants'

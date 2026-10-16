@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { DropdownMenuSeparator } from 'reka-ui'
+  import { DropdownMenuSeparator } from '../../primitives/dropdown-menu'
   import { cn } from '../../lib/cn'
 
   defineOptions({ name: 'HnDropdownMenuSeparator' })

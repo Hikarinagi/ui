@@ -7,7 +7,7 @@
     DropdownMenuPortal,
     DropdownMenuContent,
     type DropdownMenuContentEmits,
-  } from 'reka-ui'
+  } from '../../primitives/dropdown-menu'
   import { useAnchoredOverlay } from '../../lib/anchored-overlay'
   import Card from '../card/Card.vue'
   import { cn } from '../../lib/cn'
