@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { NavigationMenuTrigger as RekaNavigationMenuTrigger } from 'reka-ui'
+  import { NavigationMenuTrigger as RekaNavigationMenuTrigger } from '../../primitives/navigation-menu'
   import { cn } from '../../lib/cn'
   import DisclosureIcon from '../disclosure-icon/DisclosureIcon.vue'
   import { useNavigationMenu } from './context'

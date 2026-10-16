@@ -1,9 +1,9 @@
 <script setup lang="ts">
   import {
     NavigationMenuContent as RekaNavigationMenuContent,
-    useForwardPropsEmits,
     type NavigationMenuContentEmits,
-  } from 'reka-ui'
+  } from '../../primitives/navigation-menu'
+  import { useForwardPropsEmits } from '../../primitives/utils/useForwardPropsEmits'
   import { cn } from '../../lib/cn'
   import { navigationMenuContent } from './navigation-menu.variants'
 

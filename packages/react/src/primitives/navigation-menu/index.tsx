@@ -28,13 +28,15 @@ import {
   EVENT_ROOT_CONTENT_DISMISS,
   LINK_SELECT,
   focusFirst,
+  getMotionAttribute,
   getOpenState,
   getTabbableCandidates,
+  getViewportPosition,
   makeContentId,
   makeTriggerId,
   removeFromTabOrder,
   whenMouse,
-} from './utils'
+} from '../../../../shared/src/primitives/navigation-menu'
 import { DismissableLayer } from '../dismissable-layer'
 import { Portal as HnPortal } from '../portal'
 import { Presence } from '../presence'
@@ -681,24 +683,16 @@ function NavigationMenuContentImpl({
   const listeners = useRef({ onContentPointerEnter, onContentPointerLeave })
   listeners.current = { onContentPointerEnter, onContentPointerLeave }
 
-  const motionAttribute = (() => {
-    const values = menu.getItems().map(node => node.id.split('trigger-')[1])
-    if (menu.dir === 'rtl') values.reverse()
-    const index = values.indexOf(menu.modelValue)
-    const prevIndex = values.indexOf(menu.previousValue)
-    const isSelected = item.value === menu.modelValue
-    const wasSelected = prevIndex === values.indexOf(item.value)
-    if (!isSelected && !wasSelected) return prevMotionAttribute.current
-    const attribute = (() => {
-      if (index !== prevIndex) {
-        if (isSelected && prevIndex !== -1) return index > prevIndex ? 'from-end' : 'from-start'
-        if (wasSelected && index !== -1) return index > prevIndex ? 'to-start' : 'to-end'
-      }
-      return null
-    })()
-    prevMotionAttribute.current = attribute
-    return attribute
-  })()
+  const nextMotionAttribute = getMotionAttribute({
+    triggers: menu.getItems(),
+    dir: menu.dir,
+    modelValue: menu.modelValue,
+    previousValue: menu.previousValue,
+    value: item.value,
+  })
+  const motionAttribute =
+    nextMotionAttribute === undefined ? prevMotionAttribute.current : nextMotionAttribute
+  prevMotionAttribute.current = motionAttribute
 
   useEffect(() => {
     if (!element) return
@@ -854,42 +848,7 @@ export function NavigationMenuViewport({
     const trigger = activeTrigger.current
     const root = rootNavigationMenu.current
     if (!target || !trigger || !root) return
-    const bodyWidth = document.documentElement.offsetWidth
-    const bodyHeight = document.documentElement.offsetHeight
-    const rootRect = root.getBoundingClientRect()
-    const rect = trigger.getBoundingClientRect()
-    const { offsetWidth, offsetHeight } = target
-    const startPositionLeft = rect.left - rootRect.left
-    const startPositionTop = rect.top - rootRect.top
-    let posLeft: number
-    let posTop: number
-    switch (latest.current.align) {
-      case 'start':
-        posLeft = startPositionLeft
-        posTop = startPositionTop
-        break
-      case 'end':
-        posLeft = startPositionLeft - offsetWidth + rect.width
-        posTop = startPositionTop - offsetHeight + rect.height
-        break
-      default:
-        posLeft = startPositionLeft - offsetWidth / 2 + rect.width / 2
-        posTop = startPositionTop - offsetHeight / 2 + rect.height / 2
-    }
-    const screenOffset = 10
-    if (posLeft + rootRect.left < screenOffset) posLeft = screenOffset - rootRect.left
-    const rightOffset = posLeft + rootRect.left + offsetWidth
-    if (rightOffset > bodyWidth - screenOffset) {
-      posLeft -= rightOffset - bodyWidth + screenOffset
-      if (posLeft < screenOffset - rootRect.left) posLeft = screenOffset - rootRect.left
-    }
-    if (posTop + rootRect.top < screenOffset) posTop = screenOffset - rootRect.top
-    const bottomOffset = posTop + rootRect.top + offsetHeight
-    if (bottomOffset > bodyHeight - screenOffset) {
-      posTop -= bottomOffset - bodyHeight + screenOffset
-      if (posTop < screenOffset - rootRect.top) posTop = screenOffset - rootRect.top
-    }
-    setPosition({ left: Math.round(posLeft), top: Math.round(posTop) })
+    setPosition(getViewportPosition(root, trigger, target, latest.current.align))
   }, [activeTrigger, rootNavigationMenu])
 
   useEffect(() => {

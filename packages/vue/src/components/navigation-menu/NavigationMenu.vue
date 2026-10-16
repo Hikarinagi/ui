@@ -1,6 +1,10 @@
 <script setup lang="ts">
   import { computed, toRef } from 'vue'
-  import { NavigationMenuRoot, NavigationMenuList, NavigationMenuViewport } from 'reka-ui'
+  import {
+    NavigationMenuRoot,
+    NavigationMenuList,
+    NavigationMenuViewport,
+  } from '../../primitives/navigation-menu'
   import { cn } from '../../lib/cn'
   import { rekaNavigationViewportStyle } from '../../lib/reka/styles'
   import { useRekaNavigationViewport } from '../../lib/reka/navigation-viewport'

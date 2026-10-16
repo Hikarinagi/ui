@@ -18,8 +18,10 @@ function files(directory) {
 
 test('shared source imports stay within the layer or approved framework-independent dependencies', () => {
   const allowed = new Set([
+    '@floating-ui/dom',
     '@internationalized/date',
     '@internationalized/number',
+    'aria-hidden',
     'clsx',
     'tailwind-merge',
     'shiki',
