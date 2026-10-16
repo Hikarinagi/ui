@@ -102,6 +102,32 @@ describe('Tour', () => {
     expect(document.activeElement).toBe(byId('opener'))
   })
 
+  it('keeps the mask and the card on screen while moving between steps', async () => {
+    await harness()
+    await start()
+    const shownMask = mask()!
+    const shownCard = card()!
+    const changes: (string | null)[] = []
+    const observer = new MutationObserver(records => {
+      for (const record of records) changes.push(record.oldValue)
+    })
+    for (const element of [shownMask, shownCard])
+      observer.observe(element, {
+        attributes: true,
+        attributeFilter: ['data-state'],
+        attributeOldValue: true,
+      })
+    await userEvent.click(action('next'))
+    await vi.waitFor(() => expect(card()!.textContent).toContain('搜索'))
+    await userEvent.click(action('prev'))
+    await vi.waitFor(() => expect(card()!.textContent).toContain('新建'))
+    await new Promise(resolve => setTimeout(resolve, 50))
+    observer.disconnect()
+    expect(changes).toEqual([])
+    expect(mask()).toBe(shownMask)
+    expect(card()).toBe(shownCard)
+  })
+
   it('moves with the arrow keys and skips with Escape', async () => {
     const { step, events, open } = await harness()
     await start()

@@ -80,7 +80,7 @@
 
   const padding = computed(() => currentStep.value.padding ?? TOUR_PADDING)
   const active = computed(() => open.value && total.value > 0)
-  const resolved = computed(() => active.value && resolvedFor.value === current.value)
+  const resolved = computed(() => active.value && resolvedFor.value !== null)
   const beaconVisible = computed(() => resolved.value && !!target.value && beaconPending.value)
   const cardVisible = computed(() => resolved.value && !beaconVisible.value)
   const maskVisible = computed(() => cardVisible.value && props.mask)

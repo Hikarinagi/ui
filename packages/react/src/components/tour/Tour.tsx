@@ -182,7 +182,7 @@ export function Tour({
 
   const padding = currentStep.padding ?? TOUR_PADDING
   const active = open && total > 0
-  const resolved = active && resolvedFor === current
+  const resolved = active && resolvedFor !== null
   const beaconVisible = resolved && !!target && beaconPending
   const cardVisible = resolved && !beaconVisible
   const maskVisible = cardVisible && mask
