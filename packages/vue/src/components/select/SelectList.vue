@@ -8,7 +8,7 @@
     SelectItemText,
     SelectLabel,
     SelectPortal,
-  } from 'reka-ui'
+  } from '../../primitives/select'
   import { ref } from 'vue'
   import VirtualChoices from '../virtual-list/VirtualChoices.vue'
   import type { VirtualizeOptions } from '../../lib/virtual/types'

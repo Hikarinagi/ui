@@ -32,7 +32,6 @@ import {
 } from '../utils/dismissable'
 import {
   COLLECTION_ITEM,
-  compare,
   createCollection,
   createTypeahead,
   valueComparator,
@@ -40,6 +39,18 @@ import {
   type Comparator,
 } from '../listbox/utils'
 import { useVModel } from '../listbox/useVModel'
+import {
+  CONTENT_MARGIN,
+  createSelectedItemTracker,
+  isNullish,
+  OPEN_KEYS,
+  SELECT_SELECT,
+  SELECTION_KEYS,
+  selectNavigationCandidates,
+  shouldShowPlaceholder,
+  toggleSelectValue,
+  trackTriggerRelease,
+} from '../../../../shared/src/primitives/select'
 import { DismissableLayer } from '../dismissable-layer'
 import { FocusScope } from '../focus-scope'
 import { Portal as HnPortal } from '../portal'
@@ -55,26 +66,10 @@ export type { FocusOutsideEvent, PointerDownOutsideEvent } from '../utils/dismis
 type DataAttributes = { [attribute: `data-${string}`]: string | undefined }
 type Direction = 'ltr' | 'rtl'
 
-const OPEN_KEYS = [' ', 'Enter', 'ArrowUp', 'ArrowDown']
-const SELECTION_KEYS = [' ', 'Enter']
-const CONTENT_MARGIN = 10
 const AUTOFOCUS_ON_UNMOUNT = 'focusScope.autoFocusOnUnmount'
 
 function nextTick() {
   return Promise.resolve()
-}
-
-function isNullish(value: unknown) {
-  return value === null || value === undefined
-}
-
-export function shouldShowPlaceholder(value: unknown) {
-  return (
-    value === undefined ||
-    value === null ||
-    value === '' ||
-    (Array.isArray(value) && value.length === 0)
-  )
 }
 
 function focusFirst(candidates: HTMLElement[]) {
@@ -203,13 +198,9 @@ export function SelectRoot({
       getModelValue: () => modelRef.current,
       getOpen: () => openRef.current,
       onValueChange(value: unknown) {
-        if (latest.current.multiple) {
-          const array = Array.isArray(modelRef.current) ? [...modelRef.current] : []
-          const index = array.findIndex(item => compare(item, value, latest.current.by))
-          if (index === -1) array.push(value)
-          else array.splice(index, 1)
-          setModelValue([...array])
-        } else setModelValue(value)
+        if (latest.current.multiple)
+          setModelValue(toggleSelectValue(modelRef.current, value, latest.current.by))
+        else setModelValue(value)
       },
       onOpenChange(value: boolean) {
         openRef.current = value
@@ -576,8 +567,7 @@ function SelectContentImpl({
   const [typeahead] = useState(() => createTypeahead())
   const [isPositioned, setIsPositioned] = useState(false)
   const selectedItem = useRef<HTMLElement | null>(null)
-  const firstValidItemFound = useRef(false)
-  const firstSelectedItemInArrayFound = useRef(false)
+  const [selectedItemTracker] = useState(createSelectedItemTracker)
   const closeAutoFocus = useCallbackRef(onCloseAutoFocus)
   useFocusGuards()
   useBodyScrollLock(bodyLock)
@@ -615,29 +605,15 @@ function SelectContentImpl({
 
   useEffect(() => {
     if (!content) return
-    let pointerMoveDelta = { x: 0, y: 0 }
     const position = root.triggerPointerDownPosRef
-    const handlePointerMove = (event: PointerEvent) => {
-      pointerMoveDelta = {
-        x: Math.abs(Math.round(event.pageX) - (position.current?.x ?? 0)),
-        y: Math.abs(Math.round(event.pageY) - (position.current?.y ?? 0)),
-      }
-    }
-    const handlePointerUp = (event: PointerEvent) => {
-      if (event.pointerType === 'touch') return
-      if (pointerMoveDelta.x <= 10 && pointerMoveDelta.y <= 10) event.preventDefault()
-      else if (!content.contains(event.target as Node)) root.onOpenChange(false)
-      document.removeEventListener('pointermove', handlePointerMove)
-      position.current = null
-    }
-    if (position.current !== null) {
-      document.addEventListener('pointermove', handlePointerMove)
-      document.addEventListener('pointerup', handlePointerUp, { capture: true, once: true })
-    }
-    return () => {
-      document.removeEventListener('pointermove', handlePointerMove)
-      document.removeEventListener('pointerup', handlePointerUp, { capture: true })
-    }
+    return trackTriggerRelease({
+      content,
+      origin: () => position.current,
+      onOutsideRelease: () => root.onOpenChange(false),
+      onRelease: () => {
+        position.current = null
+      },
+    })
   }, [content, root.triggerPointerDownPosRef, root.onOpenChange])
 
   useLayoutEffect(() => {
@@ -667,13 +643,12 @@ function SelectContentImpl({
     if (event.key === 'Tab') event.preventDefault()
     if (!isModifierKey && event.key.length === 1)
       typeahead.handle(event.key, root.collection.getItems())
-    if (['ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) {
-      let candidateNodes = root.collection.getItems().map(item => item.ref)
-      if (['ArrowUp', 'End'].includes(event.key)) candidateNodes = candidateNodes.slice().reverse()
-      if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
-        const currentIndex = candidateNodes.indexOf(event.target as HTMLElement)
-        candidateNodes = candidateNodes.slice(currentIndex + 1)
-      }
+    const candidateNodes = selectNavigationCandidates(
+      root.collection.getItems().map(item => item.ref),
+      event.key,
+      event.target,
+    )
+    if (candidateNodes) {
       setTimeout(() => focusFirst(candidateNodes))
       event.preventDefault()
     }
@@ -684,16 +659,9 @@ function SelectContentImpl({
       content,
       onItemLeave: () => contentRef.current?.focus(),
       itemRefCallback: (node, value, disabled) => {
-        const isFirstValidItem = !firstValidItemFound.current && !disabled
         const isSelectedItem = valueComparator(root.getModelValue(), value, root.by)
-        if (root.multiple) {
-          if (firstSelectedItemInArrayFound.current) return
-          if (isSelectedItem || isFirstValidItem) {
-            selectedItem.current = node
-            if (isSelectedItem) firstSelectedItemInArrayFound.current = true
-          }
-        } else if (isSelectedItem || isFirstValidItem) selectedItem.current = node
-        if (isFirstValidItem) firstValidItemFound.current = true
+        if (selectedItemTracker.item(isSelectedItem, disabled, !!root.multiple))
+          selectedItem.current = node
       },
       itemTextRefCallback: () => {},
       focusSelectedItem,
@@ -843,12 +811,12 @@ export function SelectItem({
   function handleSelectCustomEvent(originalEvent: Event) {
     if (originalEvent.defaultPrevented) return
     const target = originalEvent.target as EventTarget
-    const event = new CustomEvent('select.select', {
+    const event = new CustomEvent(SELECT_SELECT, {
       bubbles: false,
       cancelable: true,
       detail: { originalEvent, value: latest.current.value },
     })
-    target.addEventListener('select.select', handleSelect, { once: true })
+    target.addEventListener(SELECT_SELECT, handleSelect, { once: true })
     target.dispatchEvent(event)
   }
 

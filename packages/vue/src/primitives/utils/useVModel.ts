@@ -3,6 +3,7 @@ import { computed, nextTick, ref, watch, type Ref } from 'vue'
 export interface VModelOptions<V> {
   defaultValue?: V
   passive?: boolean
+  deep?: boolean
 }
 
 export function useVModel<P extends object, K extends keyof P & string, V = P[K]>(
@@ -30,8 +31,12 @@ export function useVModel<P extends object, K extends keyof P & string, V = P[K]
       void nextTick(() => (updating = false))
     },
   )
-  watch(proxy, value => {
-    if (!updating && value !== (props[key] as unknown)) emit(event, value)
-  })
+  watch(
+    proxy,
+    value => {
+      if (!updating && (value !== (props[key] as unknown) || options.deep)) emit(event, value)
+    },
+    { deep: options.deep },
+  )
   return proxy
 }

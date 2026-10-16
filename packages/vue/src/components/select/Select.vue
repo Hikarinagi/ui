@@ -1,6 +1,7 @@
 <script setup lang="ts" generic="T extends SelectOption = SelectOption">
   import { computed, ref, shallowRef } from 'vue'
-  import { SelectRoot, SelectTrigger, useDirection } from 'reka-ui'
+  import { SelectRoot, SelectTrigger } from '../../primitives/select'
+  import { useDirection } from '../../primitives/utils/useDirection'
   import { cn } from '../../lib/cn'
   import type { VirtualizeOptions } from '../../lib/virtual/types'
   import { useUiLocale } from '../../locale'

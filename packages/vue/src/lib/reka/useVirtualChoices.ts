@@ -3,8 +3,8 @@ import { useEventListener } from '@vueuse/core'
 import {
   injectComboboxRootContext,
   injectListboxRootContext as injectRekaListboxRootContext,
-  injectSelectRootContext,
 } from 'reka-ui'
+import { injectSelectRootContext } from '../../primitives/select'
 import { injectListboxRootContext } from '../../primitives/listbox'
 import type ScrollArea from '../../components/scroll-area/ScrollArea.vue'
 import type { SelectItems, SelectOption } from '../../components/select/types'
