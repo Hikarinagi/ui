@@ -340,7 +340,5 @@ export type DropdownMenuContentEmits = {
   pointerDownOutside: [event: CustomEvent<{ originalEvent: PointerEvent }>]
   focusOutside: [event: CustomEvent<{ originalEvent: FocusEvent }>]
   interactOutside: [event: CustomEvent<{ originalEvent: PointerEvent | FocusEvent }>]
-  entryFocus: [event: Event]
-  openAutoFocus: [event: Event]
   closeAutoFocus: [event: Event]
 }

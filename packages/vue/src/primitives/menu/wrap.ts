@@ -6,6 +6,7 @@ import {
   renderSlot,
   withCtx,
   type Component,
+  type ComponentObjectPropsOptions,
 } from 'vue'
 import { useEmitAsProps } from '../utils/useEmitAsProps'
 import { useForwardExpose } from '../utils/useForwardExpose'
@@ -13,13 +14,13 @@ import { useForwardPropsEmits } from '../utils/useForwardPropsEmits'
 
 export type WrapMode = 'props' | 'emits' | 'forwarded'
 
-export function wrapMenuPart(
+export function wrapMenuPart<P extends ComponentObjectPropsOptions, const E extends string[] = []>(
   name: string,
   target: Component,
-  props: Record<string, object>,
-  options: { emits?: string[]; mode?: WrapMode; expose?: boolean } = {},
+  props: P,
+  options: { emits?: E; mode?: WrapMode; expose?: boolean } = {},
 ) {
-  const { emits = [], mode = 'props', expose = true } = options
+  const { emits = [] as string[] as E, mode = 'props', expose = true } = options
   return defineComponent({
     name,
     props,
