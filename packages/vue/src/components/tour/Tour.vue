@@ -7,8 +7,9 @@
     resolveTourTarget,
     revealTourTarget,
     runTourChange,
-    spotlightPath,
+    spotlightMask,
     spotlightRect,
+    spotlightShape,
     TOUR_ARROW_HEIGHT,
     TOUR_ARROW_PADDING,
     TOUR_ARROW_PATH,
@@ -23,6 +24,7 @@
     trapTourFocus,
     watchTourTarget,
     type TourRect,
+    type TourSpotlight,
   } from '../../../../shared/src/lib/tour'
   import { DismissableLayer } from '../../primitives/dismissable-layer'
   import { PopperArrow, PopperContent, PopperRoot } from '../../primitives/popper'
@@ -88,9 +90,13 @@
   const blocked = computed(() => tourTargetBlocked(currentStep.value, props.blockTarget))
   const blocking = computed(() => cardVisible.value && !!hole.value && blocked.value)
 
-  const clipPath = computed(() =>
-    spotlightPath(viewport.value, hole.value, currentStep.value.radius ?? TOUR_RADIUS),
+  const spotlight = computed(() =>
+    hole.value
+      ? spotlightShape(viewport.value, hole.value, currentStep.value.radius ?? TOUR_RADIUS)
+      : null,
   )
+  const lastSpotlight = shallowRef<TourSpotlight | null>(null)
+  const spotlightState = computed(() => spotlightMask(spotlight.value, lastSpotlight.value))
   const holeStyle = computed(() =>
     hole.value
       ? {
@@ -151,13 +157,20 @@
       !!isActive && !!wasActive && navigated,
     )
     navigated = false
-    if (!isActive) resolvedFor.value = null
+    if (!isActive) {
+      resolvedFor.value = null
+      lastSpotlight.value = null
+    }
     if (isActive && !wasActive) returnFocus = document.activeElement as HTMLElement | null
     if (!isActive && wasActive) void nextTick(restoreFocus)
     if (isActive && wasActive && focusInCard)
       void nextTick(() => {
         if (beaconVisible.value) beaconButton.value?.focus()
       })
+  })
+
+  watch([spotlight, maskVisible], ([value, visible]) => {
+    if (value && visible) lastSpotlight.value = value
   })
 
   watch(cardVisible, visible => {
@@ -318,8 +331,9 @@
         data-hn-tour-mask
         aria-hidden="true"
         :data-state="maskVisible ? 'open' : 'closed'"
+        :data-hn-tour-hole="spotlightState.hole"
         :class="tourMask()"
-        :style="{ clipPath }"
+        :style="spotlightState.style"
       />
     </Presence>
     <button

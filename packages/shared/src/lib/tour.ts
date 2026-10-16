@@ -80,16 +80,15 @@ function round(value: number) {
 
 export function spotlightPath(
   viewport: { width: number; height: number },
-  hole: TourRect | null,
+  hole: TourRect,
   radius = TOUR_RADIUS,
 ) {
   const { width, height } = viewport
-  const box = hole ?? { x: width / 2, y: height / 2, width: 0, height: 0 }
-  const r = round(Math.max(0, Math.min(radius, box.width / 2, box.height / 2)))
-  const x = round(box.x)
-  const y = round(box.y)
-  const right = round(box.x + box.width)
-  const bottom = round(box.y + box.height)
+  const r = round(Math.max(0, Math.min(radius, hole.width / 2, hole.height / 2)))
+  const x = round(hole.x)
+  const y = round(hole.y)
+  const right = round(hole.x + hole.width)
+  const bottom = round(hole.y + hole.height)
   const outer = `M0 0H${round(width)}V${round(height)}H0Z`
   const inner =
     `M${round(x + r)} ${y}H${round(right - r)}A${r} ${r} 0 0 1 ${right} ${round(y + r)}` +
@@ -97,6 +96,42 @@ export function spotlightPath(
     `H${round(x + r)}A${r} ${r} 0 0 1 ${x} ${round(bottom - r)}` +
     `V${round(y + r)}A${r} ${r} 0 0 1 ${round(x + r)} ${y}Z`
   return `path(evenodd, '${outer}${inner}')`
+}
+
+export interface TourSpotlight {
+  shape: string
+  origin: string
+}
+
+export type TourHoleState = 'shown' | 'hidden'
+
+export function spotlightShape(
+  viewport: { width: number; height: number },
+  hole: TourRect,
+  radius = TOUR_RADIUS,
+): TourSpotlight {
+  const centre = { x: hole.x + hole.width / 2, y: hole.y + hole.height / 2, width: 0, height: 0 }
+  return {
+    shape: spotlightPath(viewport, hole, radius),
+    origin: spotlightPath(viewport, centre, 0),
+  }
+}
+
+export function spotlightMask(
+  spotlight: TourSpotlight | null,
+  last: TourSpotlight | null,
+): { hole?: TourHoleState; style?: Record<string, string> } {
+  if (spotlight)
+    return {
+      hole: 'shown',
+      style: { clipPath: spotlight.shape, '--hn-tour-hole-origin': spotlight.origin },
+    }
+  if (last)
+    return {
+      hole: 'hidden',
+      style: { '--hn-tour-hole': last.shape, '--hn-tour-hole-origin': last.origin },
+    }
+  return {}
 }
 
 export function beaconPoint(rect: TourRect, dir: 'ltr' | 'rtl') {

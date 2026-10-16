@@ -1,5 +1,29 @@
-@layer components {
-  .hn-tour-mask {
-    transition: clip-path var(--hn-duration-base) var(--hn-ease-move);
+@keyframes hn-tour-hole-in {
+  from {
+    clip-path: var(--hn-tour-hole-origin);
+  }
+}
+
+@keyframes hn-tour-hole-out {
+  from {
+    clip-path: var(--hn-tour-hole);
+  }
+  to {
+    clip-path: var(--hn-tour-hole-origin);
+  }
+}
+
+@utility hn-tour-mask {
+  transition: clip-path var(--hn-duration-base) var(--hn-ease-move);
+
+  &[data-state='open'][data-hn-tour-hole='shown'] {
+    animation:
+      hn-fade-in var(--hn-duration-base) var(--hn-ease-enter),
+      hn-tour-hole-in var(--hn-duration-base) var(--hn-ease-enter);
+  }
+  &[data-state='open'][data-hn-tour-hole='hidden'] {
+    animation:
+      hn-fade-in var(--hn-duration-base) var(--hn-ease-enter),
+      hn-tour-hole-out var(--hn-duration-exit) var(--hn-ease-exit);
   }
 }

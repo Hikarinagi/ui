@@ -6,8 +6,10 @@ import {
   tourBeaconOnArrival,
   tourTargetBlocked,
   runTourChange,
+  spotlightMask,
   spotlightPath,
   spotlightRect,
+  spotlightShape,
   tourKeyAction,
 } from '../src/lib/tour.ts'
 
@@ -30,12 +32,28 @@ test('the spotlight pads the target and cuts a rounded hole out of the viewport'
   assert.ok(tight.includes('A2 2'))
 })
 
-test('without a target the hole collapses to the centre with the same commands', () => {
-  const empty = spotlightPath({ width: 800, height: 600 }, null)
-  const filled = spotlightPath({ width: 800, height: 600 }, { x: 10, y: 10, width: 40, height: 40 })
+test('the hole opens from its own centre with the same commands', () => {
+  const { shape, origin } = spotlightShape(
+    { width: 800, height: 600 },
+    { x: 10, y: 10, width: 40, height: 20 },
+  )
   const commands = value => value.replace(/[-\d.\s]+/g, ' ').trim()
-  assert.equal(commands(empty), commands(filled))
-  assert.ok(empty.includes('M400 300H400'))
+  assert.equal(commands(origin), commands(shape))
+  assert.ok(origin.includes('M30 20H30A0 0'))
+})
+
+test('the mask shows the current hole, closes the last one and starts without one', () => {
+  const current = { shape: 'path(a)', origin: 'path(b)' }
+  const last = { shape: 'path(c)', origin: 'path(d)' }
+  assert.deepEqual(spotlightMask(current, last), {
+    hole: 'shown',
+    style: { clipPath: 'path(a)', '--hn-tour-hole-origin': 'path(b)' },
+  })
+  assert.deepEqual(spotlightMask(null, last), {
+    hole: 'hidden',
+    style: { '--hn-tour-hole': 'path(c)', '--hn-tour-hole-origin': 'path(d)' },
+  })
+  assert.deepEqual(spotlightMask(null, null), {})
 })
 
 test('the beacon sits on the inline-end top corner', () => {

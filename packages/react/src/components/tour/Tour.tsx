@@ -11,6 +11,7 @@ import {
   useState,
   type KeyboardEvent as ReactKeyboardEvent,
   type ReactNode,
+  type CSSProperties,
   type Ref,
 } from 'react'
 import {
@@ -20,8 +21,9 @@ import {
   resolveTourTarget,
   revealTourTarget,
   runTourChange,
-  spotlightPath,
+  spotlightMask,
   spotlightRect,
+  spotlightShape,
   TOUR_ARROW_HEIGHT,
   TOUR_ARROW_PADDING,
   TOUR_ARROW_PATH,
@@ -39,6 +41,7 @@ import {
   type TourBeforeChange,
   type TourRect,
   type TourSide,
+  type TourSpotlight,
   type TourStepBase,
   type TourTarget,
 } from '../../../../shared/src/lib/tour'
@@ -178,6 +181,7 @@ export function Tour({
   const [hole, setHole] = useState<TourRect | null>(null)
   const [targetRect, setTargetRect] = useState<TourRect | null>(null)
   const [viewport, setViewport] = useState({ width: 0, height: 0 })
+  const [lastSpotlight, setLastSpotlight] = useState<TourSpotlight | null>(null)
   const direction = dir ?? config?.dir ?? inherited
 
   const padding = currentStep.padding ?? TOUR_PADDING
@@ -215,6 +219,21 @@ export function Tour({
   const arrivedActive = useRef(false)
   const navigated = useRef(false)
 
+  const measure = useCallback(
+    (element: HTMLElement | null) => {
+      setViewport({ width: window.innerWidth, height: window.innerHeight })
+      if (!element) {
+        setHole(null)
+        setTargetRect(null)
+        return
+      }
+      const rect = element.getBoundingClientRect()
+      setTargetRect(spotlightRect(rect, 0))
+      setHole(spotlightRect(rect, padding))
+    },
+    [padding],
+  )
+
   useLayoutEffect(() => {
     if (!active) return
     const definition = currentStep.target
@@ -223,18 +242,22 @@ export function Tour({
       devWarn('Tour', `the target of step ${current} was not found; the card is centered`)
     setTarget(element)
     setResolvedFor(current)
+    measure(element)
     setInherited(
       getComputedStyle(element ?? document.documentElement).direction === 'rtl' ? 'rtl' : 'ltr',
     )
     if (element && currentStep.scroll !== false) revealTourTarget(element)
-  }, [active, current, steps, currentStep.target, currentStep.scroll])
+  }, [active, current, steps, currentStep.target, currentStep.scroll, measure])
 
   useLayoutEffect(() => {
     const continued = active && arrivedActive.current && navigated.current
     arrivedActive.current = active
     navigated.current = false
     setBeaconPending(tourBeaconOnArrival(currentStep, beacon, continued))
-    if (!active) setResolvedFor(null)
+    if (!active) {
+      setResolvedFor(null)
+      setLastSpotlight(null)
+    }
   }, [active, current])
 
   useLayoutEffect(() => {
@@ -260,25 +283,15 @@ export function Tour({
   }, [cardVisible, cardElement])
 
   useLayoutEffect(() => {
-    if (!active) return
-    const update = () => {
-      setViewport({ width: window.innerWidth, height: window.innerHeight })
-      if (!target) {
-        setHole(null)
-        setTargetRect(null)
-        return
-      }
-      const rect = target.getBoundingClientRect()
-      setTargetRect(spotlightRect(rect, 0))
-      setHole(spotlightRect(rect, padding))
-    }
+    if (!active || !resolved) return
+    const update = () => measure(target)
     if (!target) {
       update()
       window.addEventListener('resize', update)
       return () => window.removeEventListener('resize', update)
     }
     return watchTourTarget(target, update)
-  }, [active, target, padding])
+  }, [active, resolved, target, measure])
 
   const reachable = !blocked
   useEffect(() => {
@@ -359,7 +372,15 @@ export function Tour({
     () => (target ? tourReference(target, padding) : undefined),
     [target, padding],
   )
-  const clipPath = spotlightPath(viewport, hole, currentStep.radius ?? TOUR_RADIUS)
+  const radius = currentStep.radius ?? TOUR_RADIUS
+  const spotlight = useMemo(
+    () => (hole ? spotlightShape(viewport, hole, radius) : null),
+    [viewport, hole, radius],
+  )
+  useLayoutEffect(() => {
+    if (spotlight && maskVisible) setLastSpotlight(spotlight)
+  }, [spotlight, maskVisible])
+  const spotlightState = spotlightMask(spotlight, lastSpotlight)
   const point = targetRect ? beaconPoint(targetRect, direction) : null
   const hasBody = !!currentStep.description || !!renderContent
 
@@ -482,8 +503,9 @@ export function Tour({
             data-hn-tour-mask=""
             aria-hidden="true"
             data-state={maskVisible ? 'open' : 'closed'}
+            data-hn-tour-hole={spotlightState.hole}
             className={tourMask()}
-            style={{ clipPath }}
+            style={spotlightState.style as CSSProperties | undefined}
           />
         </Presence>
       </Portal>

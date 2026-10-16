@@ -6,6 +6,7 @@ import { signal, tick } from '../../../test/signal'
 import '../../../test/browser.css'
 
 let mounted: Array<{ unmount: () => Promise<void> }> = []
+let cleanups: Array<() => void> = []
 
 beforeEach(() => {
   document.body.innerHTML = ''
@@ -14,12 +15,19 @@ beforeEach(() => {
 afterEach(async () => {
   for (const wrapper of mounted) await wrapper.unmount()
   mounted = []
+  cleanups.forEach(cleanup => cleanup())
+  cleanups = []
 })
 
 const steps: TourStep[] = [
   { target: '#first', title: '新建', description: '从这里创建项目。', blockTarget: true },
   { target: '#second', title: '搜索', description: '按名称查找。' },
   { target: '#third', title: '设置', description: '调整偏好。' },
+]
+
+const visibleSteps: TourStep[] = [
+  { target: '#first', title: '新建', description: '从这里创建项目。' },
+  { target: '#opener', title: '开始', description: '从这里重新开始。' },
 ]
 
 async function harness(props: Partial<TourProps> = {}) {
@@ -67,6 +75,27 @@ const beacon = () => document.querySelector<HTMLElement>('[data-hn-tour-beacon]'
 const byId = (id: string) => document.getElementById(id) as HTMLElement
 const action = (name: 'next' | 'prev' | 'skip') =>
   card()!.querySelector<HTMLElement>(`[data-hn-tour-${name}]`)!
+
+function maskMotion() {
+  const seen: string[] = []
+  const record = (event: Event) => {
+    if (!(event.target instanceof Element) || !event.target.matches('[data-hn-tour-mask]')) return
+    seen.push(
+      event instanceof TransitionEvent
+        ? `transition:${event.propertyName}`
+        : (event as AnimationEvent).animationName,
+    )
+  }
+  document.addEventListener('animationstart', record)
+  document.addEventListener('transitionrun', record)
+  cleanups.push(() => {
+    document.removeEventListener('animationstart', record)
+    document.removeEventListener('transitionrun', record)
+  })
+  return seen
+}
+
+const round = (value: number) => Math.round(value * 100) / 100
 
 async function start() {
   await userEvent.click(byId('opener'))
@@ -126,6 +155,80 @@ describe('Tour', () => {
     expect(changes).toEqual([])
     expect(mask()).toBe(shownMask)
     expect(card()).toBe(shownCard)
+  })
+
+  it('opens the first hole from the centre of its target and slides it between targets', async () => {
+    await harness({ steps: visibleSteps })
+    const seen = maskMotion()
+    await start()
+    await vi.waitFor(() => expect(seen).toEqual(['hn-fade-in', 'hn-tour-hole-in']))
+    const target = byId('first').getBoundingClientRect()
+    expect(mask()!.getAttribute('data-hn-tour-hole')).toBe('shown')
+    expect(mask()!.style.getPropertyValue('--hn-tour-hole-origin')).toContain(
+      `M${round(target.left + target.width / 2)} ${round(target.top + target.height / 2)}H`,
+    )
+    seen.length = 0
+    await userEvent.click(action('next'))
+    await vi.waitFor(() => expect(seen).toEqual(['transition:clip-path']))
+  })
+
+  it('opens the hole on its target after a centred step and closes it in place', async () => {
+    await harness({
+      steps: [
+        { title: '欢迎', description: '开始。' },
+        visibleSteps[0]!,
+        { title: '结束', description: '完成。' },
+      ],
+    })
+    const seen = maskMotion()
+    await start()
+    await vi.waitFor(() => expect(seen).toEqual(['hn-fade-in']))
+    expect(mask()!.hasAttribute('data-hn-tour-hole')).toBe(false)
+    seen.length = 0
+    await userEvent.click(action('next'))
+    await vi.waitFor(() => expect(seen).toEqual(['hn-tour-hole-in']))
+    expect(mask()!.getAttribute('data-hn-tour-hole')).toBe('shown')
+    seen.length = 0
+    await userEvent.click(action('next'))
+    await vi.waitFor(() => expect(seen).toEqual(['hn-tour-hole-out']))
+    expect(mask()!.getAttribute('data-hn-tour-hole')).toBe('hidden')
+    await new Promise(resolve => setTimeout(resolve, 50))
+    expect(seen).toEqual(['hn-tour-hole-out'])
+  })
+
+  it('reopens with a new hole instead of sliding from the last one', async () => {
+    const { step } = await harness({ steps: visibleSteps })
+    await start()
+    await userEvent.click(action('next'))
+    await vi.waitFor(() => expect(card()!.textContent).toContain('开始'))
+    await userEvent.keyboard('{Escape}')
+    await vi.waitFor(() => expect(mask()).toBeNull())
+    step.value = 1
+    await tick()
+    const seen = maskMotion()
+    await start()
+    await vi.waitFor(() => expect(seen).toEqual(['hn-fade-in', 'hn-tour-hole-in']))
+    await new Promise(resolve => setTimeout(resolve, 50))
+    expect(seen).toEqual(['hn-fade-in', 'hn-tour-hole-in'])
+  })
+
+  it('reopens on a centred step without closing the last hole again', async () => {
+    const { step } = await harness({
+      steps: [{ title: '欢迎', description: '开始。' }, visibleSteps[0]!],
+    })
+    await start()
+    await userEvent.click(action('next'))
+    await vi.waitFor(() => expect(mask()!.getAttribute('data-hn-tour-hole')).toBe('shown'))
+    await userEvent.keyboard('{Escape}')
+    await vi.waitFor(() => expect(mask()).toBeNull())
+    step.value = 1
+    await tick()
+    const seen = maskMotion()
+    await start()
+    await vi.waitFor(() => expect(seen).toEqual(['hn-fade-in']))
+    await new Promise(resolve => setTimeout(resolve, 50))
+    expect(seen).toEqual(['hn-fade-in'])
+    expect(mask()!.hasAttribute('data-hn-tour-hole')).toBe(false)
   })
 
   it('moves with the arrow keys and skips with Escape', async () => {
