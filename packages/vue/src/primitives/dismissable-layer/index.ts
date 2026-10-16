@@ -8,3 +8,4 @@ export {
   type FocusOutsideEvent,
   type PointerDownOutsideEvent,
 } from './DismissableLayer'
+export { DismissableLayerBranch } from './DismissableLayerBranch'
