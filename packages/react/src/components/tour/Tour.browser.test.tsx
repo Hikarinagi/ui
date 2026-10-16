@@ -208,6 +208,44 @@ describe('Tour', () => {
     await vi.waitFor(() => expect(card()).toBeNull())
   })
 
+  it('stays on its target while the closing animation runs', async () => {
+    const { open } = await harness()
+    await start()
+    const target = byId('first').getBoundingClientRect()
+    const offset = () => card()!.getBoundingClientRect().top - target.bottom
+    const resting = offset()
+    expect(resting).toBeGreaterThan(0)
+    const samples: number[] = []
+    let sampling = true
+    const sample = () => {
+      if (!sampling) return
+      if (card()) samples.push(offset())
+      requestAnimationFrame(sample)
+    }
+    await userEvent.click(action('skip'))
+    sample()
+    await vi.waitFor(() => expect(open.value).toBe(false))
+    await vi.waitFor(() => expect(card()).toBeNull())
+    sampling = false
+    expect(samples.length).toBeGreaterThan(1)
+    for (const value of samples) expect(Math.abs(value - resting)).toBeLessThan(12)
+  })
+
+  it('moves from a centred step to a target without hiding errors', async () => {
+    const error = vi.spyOn(console, 'error')
+    const warn = vi.spyOn(console, 'warn')
+    await harness({ steps: [{ title: '欢迎', description: '开始。' }, steps[0]!] })
+    await start()
+    await userEvent.click(action('next'))
+    await vi.waitFor(() => expect(card()!.textContent).toContain('新建'))
+    await vi.waitFor(() => expect(byId('opener').getAttribute('aria-hidden')).toBe('true'))
+    expect(card()!.closest('[aria-hidden="true"]')).toBeNull()
+    const calls = [...error.mock.calls, ...warn.mock.calls].flat().join(' ')
+    expect(calls).not.toContain('aria-hidden')
+    error.mockRestore()
+    warn.mockRestore()
+  })
+
   it('without a mask the tour is not modal and outside clicks keep it open', async () => {
     const { open, clicks } = await harness({ mask: false })
     await start()

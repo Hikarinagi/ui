@@ -114,10 +114,7 @@
   const mounted = ref(false)
 
   function resolveTarget() {
-    if (!mounted.value || !active.value) {
-      target.value = null
-      return
-    }
+    if (!mounted.value || !active.value) return
     const definition = currentStep.value.target
     const element = resolveTourTarget(definition)
     if (definition && !element)
@@ -177,20 +174,23 @@
     onCleanup(watchTourTarget(element, update))
   })
 
-  watchEffect(onCleanup => {
-    if (!cardVisible.value || !modal.value) return
-    const layerElement = layer.value?.$el
-    if (!layerElement) return
-    const interactive = currentStep.value.interactive
-    const element = target.value
-    onCleanup(hideOutsideTour([layerElement, element]))
-    onCleanup(
-      trapTourFocus(
-        () => [card.value?.$el, interactive ? element : null],
-        () => layer.value?.$el,
-      ),
-    )
-  })
+  watchEffect(
+    onCleanup => {
+      if (!cardVisible.value || !modal.value) return
+      const layerElement = layer.value?.$el as HTMLElement | undefined
+      if (!layerElement?.isConnected) return
+      const interactive = currentStep.value.interactive
+      const element = target.value
+      onCleanup(hideOutsideTour([layerElement, element]))
+      onCleanup(
+        trapTourFocus(
+          () => [card.value?.$el, interactive ? element : null],
+          () => layer.value?.$el,
+        ),
+      )
+    },
+    { flush: 'post' },
+  )
 
   function restoreFocus() {
     const focus = returnFocus

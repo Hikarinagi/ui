@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { Button, Inline, Kbd, Text, Tour, type TourStep } from '@hina-ui/vue'
+  import { Button, Indicator, Inline, Kbd, Text, Tour, type TourStep } from '@hina-ui/vue'
 
   const open = ref(false)
 
@@ -29,11 +29,12 @@
     <template #footer="{ current, total, next, prev }">
       <Inline gap="sm" align="center" justify="between">
         <Inline gap="xs" aria-hidden="true">
-          <span
+          <Indicator
             v-for="index in total"
             :key="index"
-            class="size-1.5 rounded-full"
-            :class="index === current ? 'bg-accent' : 'bg-line'"
+            size="sm"
+            :tone="index === current ? 'accent' : 'neutral'"
+            :class="index === current ? undefined : 'opacity-25'"
           />
         </Inline>
         <Inline gap="sm">

@@ -204,10 +204,7 @@ export function Tour({
   const wasActive = useRef(false)
 
   useLayoutEffect(() => {
-    if (!active) {
-      setTarget(null)
-      return
-    }
+    if (!active) return
     const definition = currentStep.target
     const element = resolveTourTarget(definition)
     if (definition && !element)
@@ -270,7 +267,7 @@ export function Tour({
   useEffect(() => {
     if (!cardVisible || !modal) return
     const layer = layerElement
-    if (!layer) return
+    if (!layer?.isConnected) return
     const restore = hideOutsideTour([layer, target])
     const release = trapTourFocus(
       () => [cardRef.current, interactive ? target : null],

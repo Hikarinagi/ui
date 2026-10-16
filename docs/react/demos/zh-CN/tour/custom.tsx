@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Button, Inline, Kbd, Text, Tour, type TourStep } from '@hina-ui/react'
+import { Button, Indicator, Inline, Kbd, Text, Tour, type TourStep } from '@hina-ui/react'
 
 const steps: TourStep[] = [
   { target: '#tour-custom-command', title: '命令面板', description: '随时打开命令面板。' },
@@ -45,9 +45,11 @@ export default function Demo() {
           <Inline gap="sm" align="center" justify="between">
             <Inline gap="xs" aria-hidden="true">
               {Array.from({ length: total }, (_, index) => (
-                <span
+                <Indicator
                   key={index}
-                  className={`size-1.5 rounded-full ${index + 1 === current ? 'bg-accent' : 'bg-line'}`}
+                  size="sm"
+                  tone={index + 1 === current ? 'accent' : 'neutral'}
+                  className={index + 1 === current ? undefined : 'opacity-25'}
                 />
               ))}
             </Inline>

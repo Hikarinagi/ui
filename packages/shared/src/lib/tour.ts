@@ -162,7 +162,7 @@ export function revealTourTarget(element: HTMLElement) {
 }
 
 export function hideOutsideTour(elements: (HTMLElement | null | undefined)[]) {
-  const present = elements.filter((element): element is HTMLElement => !!element)
+  const present = elements.filter((element): element is HTMLElement => !!element?.isConnected)
   return present.length ? hideOthers(present) : () => {}
 }
 
