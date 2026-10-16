@@ -1,0 +1,5 @@
+@layer components {
+  .hn-tour-mask {
+    transition: clip-path var(--hn-duration-base) var(--hn-ease-move);
+  }
+}

@@ -38,6 +38,15 @@ export const jaJP: UiMessages = {
     completed: '完了',
     error: 'このステップにエラーがあります',
   },
+  tour: {
+    prev: '戻る',
+    next: '次へ',
+    finish: '完了',
+    skip: 'ガイドをスキップ',
+    progress: (step, total) => `${step} / ${total}`,
+    beacon: (step, title) =>
+      title ? `ステップ ${step} を開く：${title}` : `ステップ ${step} を開く`,
+  },
   common: {
     close: '閉じる',
     copy: 'コピー',

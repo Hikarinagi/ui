@@ -143,6 +143,17 @@ export { default as Rating } from './components/rating/Rating.vue'
 export { default as FileUpload } from './components/file-upload/FileUpload.vue'
 export { default as AlertDialog } from './components/alert-dialog/AlertDialog.vue'
 export { default as Popconfirm } from './components/popconfirm/Popconfirm.vue'
+export { default as Tour } from './components/tour/Tour.vue'
+export type {
+  TourAlign,
+  TourBeforeChange,
+  TourExpose,
+  TourProps,
+  TourSide,
+  TourSlotProps,
+  TourStep,
+  TourTarget,
+} from './components/tour/types'
 export { default as HoverCard } from './components/hover-card/HoverCard.vue'
 export { default as ContextMenu } from './components/context-menu/ContextMenu.vue'
 export { default as ContextMenuItem } from './components/context-menu/ContextMenuItem.vue'
