@@ -45,6 +45,11 @@ import {
 import { useVModel } from '../listbox/useVModel'
 import { createCollatorFilter } from '../../../../shared/src/lib/virtual/filter'
 import {
+  comboboxSearchText,
+  filterComboboxItems,
+  isTargetWithinCombobox,
+} from '../../../../shared/src/primitives/combobox'
+import {
   guardLayer,
   type FocusOutsideEvent,
   type PointerDownOutsideEvent,
@@ -374,21 +379,7 @@ function ComboboxRootProvider({
         items: old?.items ?? new Map(),
         groups: old?.groups ?? new Set(store.groups.keys()),
       }
-    let count = 0
-    const items = new Map<string, number>()
-    const groups = new Set<string>()
-    for (const [id, text] of store.items) {
-      const score = store.filter.contains(text, filterSearch)
-      items.set(id, score ? 1 : 0)
-      if (score) count++
-    }
-    for (const [groupId, group] of store.groups)
-      for (const itemId of group)
-        if (items.get(itemId)! > 0) {
-          groups.add(groupId)
-          break
-        }
-    return { count, items, groups }
+    return filterComboboxItems(store.items, store.groups, filterSearch, store.filter.contains)
   }, [
     filterSearch,
     filterSearch ? ignoreFilter : null,
@@ -598,11 +589,7 @@ export function ComboboxInput({
   const [reset] = useState(() => () => {
     const { displayValue, setModel, root } = latest.current
     const rootModelValue = root.getModelValue()
-    let next: string
-    if (displayValue) next = displayValue(rootModelValue)
-    else if (!root.multiple && rootModelValue && !Array.isArray(rootModelValue))
-      next = typeof rootModelValue !== 'object' ? String(rootModelValue) : ''
-    else next = ''
+    const next = comboboxSearchText(rootModelValue, !!root.multiple, displayValue)
     latest.current.model = next
     setModel(next)
     void Promise.resolve().then(() => latest.current.setModel(latest.current.model as string))
@@ -898,10 +885,7 @@ function ComboboxContentImpl({
   }, [])
 
   function isWithinCombobox(target: EventTarget | null) {
-    if (root.getParentElement()?.contains(target as Node)) return true
-    const label = target instanceof Element ? target.closest('label') : null
-    const control = label?.control
-    return !!control && !!root.getParentElement()?.contains(control)
+    return isTargetWithinCombobox(root.getParentElement(), target)
   }
 
   const popperProps: Record<string, unknown> = {}

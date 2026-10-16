@@ -1,9 +1,6 @@
 import { computed, nextTick, onScopeDispose, shallowRef, useId, watch } from 'vue'
 import { useEventListener } from '@vueuse/core'
-import {
-  injectComboboxRootContext,
-  injectListboxRootContext as injectRekaListboxRootContext,
-} from 'reka-ui'
+import { injectComboboxRootContext } from '../../primitives/combobox'
 import { injectSelectRootContext } from '../../primitives/select'
 import { injectListboxRootContext } from '../../primitives/listbox'
 import type ScrollArea from '../../components/scroll-area/ScrollArea.vue'
@@ -34,11 +31,7 @@ export function useVirtualChoices<T extends SelectOption>(props: {
 }) {
   const select = props.kind === 'select' ? injectSelectRootContext() : undefined
   const listbox =
-    props.kind === 'listbox'
-      ? injectListboxRootContext()
-      : props.kind === 'combobox'
-        ? injectRekaListboxRootContext()
-        : undefined
+    props.kind === 'listbox' || props.kind === 'combobox' ? injectListboxRootContext() : undefined
   const combobox = props.kind === 'combobox' ? injectComboboxRootContext() : undefined
   const area = shallowRef<InstanceType<typeof ScrollArea>>()
   const body = shallowRef<HTMLElement>()
