@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { computed, shallowRef, useSlots } from 'vue'
-  import { TimeFieldInput, TimeFieldRoot, type TimeValue } from 'reka-ui'
+  import { TimeFieldInput, TimeFieldRoot, type TimeValue } from '../../primitives/time-field'
   import { cn } from '../../lib/cn'
   import { formatTimeValue, parseTimeValue, type TimeGranularity } from '../../lib/date'
   import { useUiLocale } from '../../locale'

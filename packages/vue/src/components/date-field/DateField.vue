@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { computed, shallowRef, useSlots } from 'vue'
-  import { DateFieldInput, DateFieldRoot } from 'reka-ui'
+  import { DateFieldInput, DateFieldRoot } from '../../primitives/date-field'
   import type { DateValue } from '@internationalized/date'
   import { cn } from '../../lib/cn'
   import { formatDateValue, parseDateValue, type DateGranularity } from '../../lib/date'
