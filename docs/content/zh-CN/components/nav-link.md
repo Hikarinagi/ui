@@ -14,7 +14,7 @@ links:
 import { NavLink } from '@hina-ui/vue'
 ```
 
-`NavLink` 是纵向导航列表中的一项，默认渲染为链接，整行都是点击区域。它自己不提供列表容器，外层用 `Stack` 或 `nav` 排布。
+`NavLink` 是纵向导航列表中的一项，默认渲染为链接，整行都是点击区域。它自己不提供列表容器，外层用 `Stack` 或 `nav` 排布。文字只占一行，放不下时以省略号截断。
 
 <Demo name="nav-link/basic" />
 

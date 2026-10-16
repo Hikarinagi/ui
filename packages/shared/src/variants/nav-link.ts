@@ -2,7 +2,7 @@ import { tv, type VariantProps } from '../lib/tv'
 
 export const navLink = tv({
   base: [
-    'hn-interactive hn-state-layer hn-press-none relative isolate flex cursor-pointer items-center',
+    'hn-interactive hn-state-layer hn-press-none relative isolate flex min-w-0 cursor-pointer items-center',
     'data-disabled:pointer-events-none data-disabled:opacity-50',
     'h-9 gap-[var(--hn-control-gap)] rounded-md ps-2.5 pe-2 text-sm select-none',
     '[&_svg]:size-4 [&_svg]:shrink-0',
@@ -17,5 +17,5 @@ export const navLink = tv({
 })
 
 export const navLinkLabel = tv({
-  base: 'hn-sidebar-label shrink-0 whitespace-nowrap',
+  base: 'hn-sidebar-label min-w-0 truncate',
 })

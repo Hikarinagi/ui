@@ -77,3 +77,38 @@ describe('选中墨真实上屏', () => {
     })
   })
 })
+
+describe('长标题', () => {
+  const title = '第十二章 一个很长很长、放不进面板的章节标题'
+
+  it('在横排面板里截断标题，页数留在面板内', async () => {
+    await mount(
+      <div data-panel="" style={{ display: 'flex', alignItems: 'center', width: '200px' }}>
+        <NavLink href="#">{title}</NavLink>
+        <span data-count="" style={{ flexShrink: 0 }}>
+          12 页
+        </span>
+      </div>,
+    )
+    const panel = document.querySelector('[data-panel]')!.getBoundingClientRect()
+    const count = document.querySelector('[data-count]')!.getBoundingClientRect()
+    const label = document.querySelector<HTMLElement>('[data-hn-label]')!
+    expect(count.right).toBeLessThanOrEqual(panel.right)
+    expect(label.getBoundingClientRect().right).toBeLessThanOrEqual(count.left)
+    expect(label.scrollWidth).toBeGreaterThan(label.clientWidth)
+    expect(getComputedStyle(label).textOverflow).toBe('ellipsis')
+  })
+
+  it('在竖排列表里截断标题，不溢出链接', async () => {
+    await mount(
+      <nav style={{ display: 'flex', flexDirection: 'column', width: '160px' }}>
+        <NavLink href="#">{title}</NavLink>
+      </nav>,
+    )
+    const link = document.querySelector('a')!.getBoundingClientRect()
+    const label = document.querySelector<HTMLElement>('[data-hn-label]')!
+    expect(link.width).toBe(160)
+    expect(label.getBoundingClientRect().right).toBeLessThanOrEqual(link.right)
+    expect(label.scrollWidth).toBeGreaterThan(label.clientWidth)
+  })
+})

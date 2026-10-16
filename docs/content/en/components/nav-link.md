@@ -14,7 +14,7 @@ links:
 import { NavLink } from '@hina-ui/vue'
 ```
 
-`NavLink` is one entry in a vertical navigation list. It renders as a link by default and the whole row is clickable. It brings no list container of its own — wrap the entries in a `Stack` or a `nav`.
+`NavLink` is one entry in a vertical navigation list. It renders as a link by default and the whole row is clickable. It brings no list container of its own — wrap the entries in a `Stack` or a `nav`. The label stays on one line and ends with an ellipsis when it does not fit.
 
 <Demo name="nav-link/basic" />
 

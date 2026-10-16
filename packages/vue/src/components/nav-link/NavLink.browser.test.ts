@@ -1,6 +1,7 @@
 import { describe, expect, it, beforeEach, vi } from 'vitest'
 import { userEvent } from '@vitest/browser/context'
 import { mount } from '@vue/test-utils'
+import { h } from 'vue'
 import NavLink from './NavLink.vue'
 import '../../../test/browser.css'
 
@@ -85,5 +86,50 @@ describe('选中墨真实上屏', () => {
     await vi.waitFor(() => {
       expect(getComputedStyle(active.find('a').element, '::after').opacity).toBe('0.2')
     })
+  })
+})
+
+describe('长标题', () => {
+  const title = '第十二章 一个很长很长、放不进面板的章节标题'
+
+  it('在横排面板里截断标题，页数留在面板内', async () => {
+    mount(
+      {
+        render: () =>
+          h(
+            'div',
+            { 'data-panel': '', style: 'display: flex; align-items: center; width: 200px' },
+            [
+              h(NavLink, { href: '#' }, () => title),
+              h('span', { 'data-count': '', style: 'flex-shrink: 0' }, '12 页'),
+            ],
+          ),
+      },
+      { attachTo: attach() },
+    )
+    const panel = document.querySelector('[data-panel]')!.getBoundingClientRect()
+    const count = document.querySelector('[data-count]')!.getBoundingClientRect()
+    const label = document.querySelector<HTMLElement>('[data-hn-label]')!
+    expect(count.right).toBeLessThanOrEqual(panel.right)
+    expect(label.getBoundingClientRect().right).toBeLessThanOrEqual(count.left)
+    expect(label.scrollWidth).toBeGreaterThan(label.clientWidth)
+    expect(getComputedStyle(label).textOverflow).toBe('ellipsis')
+  })
+
+  it('在竖排列表里截断标题，不溢出链接', async () => {
+    mount(
+      {
+        render: () =>
+          h('nav', { style: 'display: flex; flex-direction: column; width: 160px' }, [
+            h(NavLink, { href: '#' }, () => title),
+          ]),
+      },
+      { attachTo: attach() },
+    )
+    const link = document.querySelector('a')!.getBoundingClientRect()
+    const label = document.querySelector<HTMLElement>('[data-hn-label]')!
+    expect(link.width).toBe(160)
+    expect(label.getBoundingClientRect().right).toBeLessThanOrEqual(link.right)
+    expect(label.scrollWidth).toBeGreaterThan(label.clientWidth)
   })
 })
