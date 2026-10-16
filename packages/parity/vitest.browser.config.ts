@@ -26,6 +26,8 @@ function shardComponents() {
   const components = readdirSync(source('./cases'))
     .filter(file => file.endsWith('.live.tsx'))
     .map(file => file.slice(0, -'.live.tsx'.length))
+  const only = process.env.HINA_PARITY_ONLY?.split(',').filter(Boolean)
+  if (only?.length) return components.filter(name => only.includes(name))
   const cases = new Map(
     components.flatMap(name =>
       existsSync(vueLockFile('live', name))

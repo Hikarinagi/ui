@@ -5,7 +5,7 @@
     ListboxGroupLabel,
     ListboxItem,
     ListboxRoot,
-  } from 'reka-ui'
+  } from '../../primitives/listbox'
   import { cn } from '../../lib/cn'
   import { useFieldControl } from '../form-field/context'
   import { useUiLocale } from '../../locale'

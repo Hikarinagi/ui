@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T extends SelectOption = SelectOption">
   import { Check } from '@lucide/vue'
-  import { injectListboxItemContext, ListboxItemIndicator } from 'reka-ui'
+  import { injectListboxItemContext, ListboxItemIndicator } from '../../primitives/listbox'
   import type { SelectOption } from '../select/types'
 
   defineOptions({ name: 'HnListboxOptionContent', inheritAttrs: false })

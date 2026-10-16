@@ -2,10 +2,10 @@ import { computed, nextTick, onScopeDispose, shallowRef, useId, watch } from 'vu
 import { useEventListener } from '@vueuse/core'
 import {
   injectComboboxRootContext,
-  injectListboxRootContext,
+  injectListboxRootContext as injectRekaListboxRootContext,
   injectSelectRootContext,
-  useFilter,
 } from 'reka-ui'
+import { injectListboxRootContext } from '../../primitives/listbox'
 import type ScrollArea from '../../components/scroll-area/ScrollArea.vue'
 import type { SelectItems, SelectOption } from '../../components/select/types'
 import { useVirtualCollection } from '../virtual/useVirtualCollection'
@@ -24,6 +24,7 @@ import {
   enabledChoiceValues,
   selectedChoice,
 } from '../../../../shared/src/lib/virtual/choices'
+import { createCollatorFilter } from '../../../../shared/src/lib/virtual/filter'
 
 export function useVirtualChoices<T extends SelectOption>(props: {
   options: SelectItems<T>
@@ -32,14 +33,19 @@ export function useVirtualChoices<T extends SelectOption>(props: {
   input?: HTMLElement
 }) {
   const select = props.kind === 'select' ? injectSelectRootContext() : undefined
-  const listbox = props.kind !== 'select' ? injectListboxRootContext() : undefined
+  const listbox =
+    props.kind === 'listbox'
+      ? injectListboxRootContext()
+      : props.kind === 'combobox'
+        ? injectRekaListboxRootContext()
+        : undefined
   const combobox = props.kind === 'combobox' ? injectComboboxRootContext() : undefined
   const area = shallowRef<InstanceType<typeof ScrollArea>>()
   const body = shallowRef<HTMLElement>()
   const viewport = computed(() => area.value?.viewport)
   const activeKey = shallowRef<string>()
   const id = useId()
-  const { contains } = useFilter({ sensitivity: 'base' })
+  const { contains } = createCollatorFilter({ sensitivity: 'base' })
   const rows = computed(() =>
     choiceRows(
       props.options,

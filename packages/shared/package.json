@@ -14,7 +14,7 @@
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "test": "node --test test/*.test.mjs"
+    "test": "node --import ./test/resolve-ts.mjs --test test/*.test.mjs"
   },
   "dependencies": {
     "@internationalized/date": "^3.12.4",
