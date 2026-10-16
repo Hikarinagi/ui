@@ -60,6 +60,30 @@ function mountRange(props: Partial<State> = {}) {
 const NONE = 'rgba(0, 0, 0, 0)'
 
 describe('range-calendar · 选区', () => {
+  it('键盘：Enter 定起点，方向键移动后 Enter 定终点；重新选起点后按 Esc 回到上一个完整区间', async () => {
+    const { state, day } = mountRange({ placeholder: '2026-09-04' })
+    day('2026-09-04').focus()
+    await userEvent.keyboard('{Enter}')
+    await userEvent.keyboard('{ArrowRight}{ArrowRight}')
+    await vi.waitFor(() => expect(document.activeElement).toBe(day('2026-09-06')))
+    await userEvent.keyboard('{Enter}')
+    await vi.waitFor(() =>
+      expect(state.modelValue).toEqual({ start: '2026-09-04', end: '2026-09-06' }),
+    )
+    await userEvent.keyboard('{ArrowDown}')
+    await vi.waitFor(() => expect(document.activeElement).toBe(day('2026-09-13')))
+    await userEvent.keyboard('{Enter}')
+    await vi.waitFor(() =>
+      expect(day('2026-09-13').hasAttribute('data-selection-start')).toBe(true),
+    )
+    expect(day('2026-09-06').hasAttribute('data-selection-end')).toBe(false)
+    await userEvent.keyboard('{Escape}')
+    await vi.waitFor(() =>
+      expect(day('2026-09-04').hasAttribute('data-selection-start')).toBe(true),
+    )
+    expect(day('2026-09-06').hasAttribute('data-selection-end')).toBe(true)
+  })
+
   it('点两格得到区间：两端是实心格，中间是连成一条的浅色带，带外的格没有底色', async () => {
     const { state, day, cell } = mountRange({ placeholder: '2026-09-01' })
     await userEvent.click(day('2026-09-04'))

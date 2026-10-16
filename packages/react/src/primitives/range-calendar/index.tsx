@@ -1,6 +1,20 @@
 'use client'
 
 import {
+  calendarArrowShift,
+  calendarCellTabIndex,
+  calendarShiftCandidate,
+} from '../../../../shared/src/primitives/date/calendar-view'
+import {
+  highlightedCalendarRange,
+  isRangeDateDisabled,
+  isRangeDateSelected,
+  isRangeFocusedDate,
+  isRangeInvalid,
+  nextRangeSelection,
+  rangeSelectionFocus,
+} from '../../../../shared/src/primitives/date/range-calendar-view'
+import {
   createContext,
   useContext,
   useEffect,
@@ -21,16 +35,10 @@ import {
   type DateValue,
 } from '@internationalized/date'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
+import { getWeekStartsOn, type Month } from '../../../../shared/src/primitives/date/calendar'
 import {
-  getDaysBetween,
-  getWeekStartsOn,
-  type Month,
-} from '../../../../shared/src/primitives/date/calendar'
-import {
-  areAllDaysBetweenValid,
   getDefaultDate,
   isBefore,
-  isBetween,
   isBetweenInclusive,
   toDate,
 } from '../../../../shared/src/primitives/date/comparators'
@@ -90,87 +98,37 @@ function useRangeCalendarState(props: {
   maximumDays?: number
 }) {
   const { start, end } = props
-  const isStartInvalid = !!start && props.isDateDisabled(start)
-  const isEndInvalid = !!end && props.isDateDisabled(end)
-  const isInvalid = isStartInvalid || isEndInvalid || (!!start && !!end && isBefore(end, start))
-
+  const range = { start, end }
+  const isInvalid = isRangeInvalid(range, props.isDateDisabled)
   const isSelectionStart = (date: DateValue) => !!start && isSameDay(start, date)
   const isSelectionEnd = (date: DateValue) => !!end && isSameDay(end, date)
-  const isSelected = (date: DateValue) => {
-    if (start && isSameDay(start, date)) return true
-    if (end && isSameDay(end, date)) return true
-    if (end && start) return isBetween(date, start, end)
-    return false
-  }
-
-  const rangeIsDateDisabled = (date: DateValue) => {
-    if (props.isDateDisabled(date)) return true
-    if (props.maximumDays) {
-      if (start && end) {
-        if (props.fixedDate) {
-          const diff = getDaysBetween(start, end).length
-          if (diff <= props.maximumDays) {
-            const daysLeft = props.maximumDays - diff - 1
-            const startLimit = start.subtract({ days: daysLeft })
-            const endLimit = end.add({ days: daysLeft })
-            return !isBetween(date, startLimit, endLimit)
-          }
-        }
-        return false
-      }
-      if (start) {
-        const maxDate = start.add({ days: props.maximumDays })
-        const minDate = start.subtract({ days: props.maximumDays })
-        return !isBetween(date, minDate, maxDate)
-      }
-    }
-    return false
-  }
-
-  const isDateHighlightable = (date: DateValue) => !!props.isDateHighlightable?.(date)
-
-  function computeHighlightedRange(): HighlightedRange | null {
-    if (start && end && !props.fixedDate) return null
-    if (!start || !props.focusedValue) return null
-    const focused = props.focusedValue
-    const isStartBeforeFocused = isBefore(start, focused)
-    const rangeStart = isStartBeforeFocused ? start : focused
-    const rangeEnd = isStartBeforeFocused ? focused : start
-    if (isSameDay(rangeStart, rangeEnd)) return { start: rangeStart, end: rangeEnd }
-    if (props.maximumDays && !end) {
-      const maximumDays = props.maximumDays
-      const anchor = start
-      if (!isBefore(focused, anchor))
-        return { start: anchor, end: anchor.add({ days: maximumDays - 1 }) }
-      return { start: anchor.subtract({ days: maximumDays - 1 }), end: anchor }
-    }
-    const isValid = areAllDaysBetweenValid(
-      rangeStart,
-      rangeEnd,
-      props.allowNonContiguousRanges ? () => false : props.isDateUnavailable,
-      rangeIsDateDisabled,
-      props.isDateHighlightable,
+  const isSelected = (date: DateValue) => isRangeDateSelected(range, date)
+  const rangeIsDateDisabled = (date: DateValue) =>
+    isRangeDateDisabled(
+      date,
+      { start, end, fixedDate: props.fixedDate, maximumDays: props.maximumDays },
+      props.isDateDisabled,
     )
-    if (isValid) return { start: rangeStart, end: rangeEnd }
-    return null
-  }
-  const highlightedRange = computeHighlightedRange()
-
+  const isDateHighlightable = (date: DateValue) => !!props.isDateHighlightable?.(date)
+  const highlightedRange = highlightedCalendarRange({
+    start,
+    end,
+    focused: props.focusedValue,
+    fixedDate: props.fixedDate,
+    maximumDays: props.maximumDays,
+    allowNonContiguousRanges: props.allowNonContiguousRanges,
+    isDateUnavailable: props.isDateUnavailable,
+    isDateDisabled: rangeIsDateDisabled,
+    isDateHighlightable: props.isDateHighlightable,
+  })
   const isHighlightedStart = (date: DateValue) =>
     !!highlightedRange?.start && isSameDay(highlightedRange.start, date)
   const isHighlightedEnd = (date: DateValue) =>
     !!highlightedRange?.end && isSameDay(highlightedRange.end, date)
-  const hasSelectedDate = !!(start || end)
-  const isStartDateDisabled = !!(start && props.isDateDisabled(start))
-  const isEndDateDisabled = !!(end && props.isDateDisabled(end))
-  let isSelectedDisabled = false
-  if (start || end) {
-    if (start && end) isSelectedDisabled = isStartDateDisabled && isEndDateDisabled
-    else isSelectedDisabled = (!!start && isStartDateDisabled) || (!!end && isEndDateDisabled)
-  }
-  let selectedFocusableDate: DateValue | undefined
-  if (start && !isStartDateDisabled) selectedFocusableDate = start
-  else if (end && !isEndDateDisabled) selectedFocusableDate = end
+  const { hasSelectedDate, isSelectedDisabled, selectedFocusableDate } = rangeSelectionFocus(
+    range,
+    props.isDateDisabled,
+  )
 
   return {
     isInvalid,
@@ -604,69 +562,35 @@ export function RangeCalendarCellTrigger({
   const isDisabled =
     context.isDateDisabled(day) || (context.disableDaysOutsideCurrentView && isOutsideView)
   const dayValue = day.day.toLocaleString(context.locale)
-  let isFocusedDate = false
-  if (!isOutsideView && !isDisabled) {
-    if (!context.disabled && context.isPlaceholderFocusable && isSameDay(day, context.placeholder))
-      isFocusedDate = true
-    else if (!context.disabled && context.selectedFocusableDate && !context.isPlaceholderFocusable)
-      isFocusedDate = isSameDay(day, context.selectedFocusableDate)
-    else if (
-      !context.disabled &&
-      (!context.hasSelectedDate || context.isSelectedDisabled) &&
-      !context.isPlaceholderFocusable
-    )
-      isFocusedDate = !!context.firstFocusableDate && isSameDay(day, context.firstFocusableDate)
-  }
+  const isFocusedDate = isRangeFocusedDate({
+    day,
+    outsideView: isOutsideView,
+    disabled: isDisabled,
+    rootDisabled: context.disabled,
+    placeholderFocusable: context.isPlaceholderFocusable,
+    placeholder: context.placeholder,
+    selectedFocusableDate: context.selectedFocusableDate,
+    hasSelectedDate: context.hasSelectedDate,
+    selectedDisabled: context.isSelectedDisabled,
+    firstFocusableDate: context.firstFocusableDate,
+  })
 
   function changeDate(event: { preventDefault: () => void }, date: DateValue) {
     if (context.readonly) return
     if (context.isDateDisabled(date) || context.isDateUnavailable(date)) return
-    const start = context.startValue.get()
-    const end = context.endValue.get()
-    if (start && context.highlightedRange === null) {
-      if (isSameDay(date, start) && !context.preventDeselect && !end) {
-        context.startValue.set(undefined)
-        context.onPlaceholderChange(date)
-        context.lastPressedDateValue.current = date.copy()
-        return
-      } else if (!end) {
-        event.preventDefault()
-        if (
-          context.lastPressedDateValue.current &&
-          isSameDay(context.lastPressedDateValue.current, date)
-        )
-          context.startValue.set(date.copy())
-        context.lastPressedDateValue.current = date.copy()
-        return
-      }
-    }
-    context.lastPressedDateValue.current = date.copy()
-    if (
-      start &&
-      end &&
-      isSameDay(start, end) &&
-      isSameDay(start, date) &&
-      !context.preventDeselect
-    ) {
-      context.startValue.set(undefined)
-      context.endValue.set(undefined)
-      context.onPlaceholderChange(date)
-      return
-    }
-    if (!start) context.startValue.set(date.copy())
-    else if (!end) context.endValue.set(date.copy())
-    else if (end && start) {
-      if (!context.fixedDate) {
-        context.endValue.set(undefined)
-        context.startValue.set(date.copy())
-      } else if (context.fixedDate === 'start') {
-        if (date.compare(start) < 0) context.startValue.set(date.copy())
-        else context.endValue.set(date.copy())
-      } else if (context.fixedDate === 'end') {
-        if (date.compare(end) > 0) context.endValue.set(date.copy())
-        else context.startValue.set(date.copy())
-      }
-    }
+    const change = nextRangeSelection(date, {
+      start: context.startValue.get(),
+      end: context.endValue.get(),
+      highlighted: context.highlightedRange !== null,
+      lastPressed: context.lastPressedDateValue.current,
+      preventDeselect: context.preventDeselect,
+      fixedDate: context.fixedDate,
+    })
+    if (change.preventDefault) event.preventDefault()
+    if (change.start) context.startValue.set(change.start.value)
+    if (change.end) context.endValue.set(change.end.value)
+    if (change.placeholder) context.onPlaceholderChange(change.placeholder)
+    if (change.lastPressed) context.lastPressedDateValue.current = change.lastPressed
   }
 
   function handleFocus() {
@@ -685,32 +609,18 @@ export function RangeCalendarCellTrigger({
     event.preventDefault()
     event.stopPropagation()
     const parentElement = context.parentElement.current!
-    const sign = context.dir === 'rtl' ? -1 : 1
-    switch (event.code) {
-      case kbd.ARROW_RIGHT:
-        shiftFocus(day, sign)
-        break
-      case kbd.ARROW_LEFT:
-        shiftFocus(day, -sign)
-        break
-      case kbd.ARROW_UP:
-        shiftFocus(day, -7)
-        break
-      case kbd.ARROW_DOWN:
-        shiftFocus(day, 7)
-        break
-      case kbd.ENTER:
-      case kbd.SPACE_CODE:
-        changeDate(event, day)
-    }
+    const shift = calendarArrowShift(event.code, context.dir)
+    if (shift !== undefined) shiftFocus(day, shift)
+    else if (event.code === kbd.ENTER || event.code === kbd.SPACE_CODE) changeDate(event, day)
 
     function shiftFocus(from: DateValue, add: number) {
-      const candidateDayValue = from.add({ days: add })
-      if (
-        (context.minValue && candidateDayValue.compare(context.minValue) < 0) ||
-        (context.maxValue && candidateDayValue.compare(context.maxValue) > 0)
+      const candidateDayValue = calendarShiftCandidate(
+        from,
+        add,
+        context.minValue,
+        context.maxValue,
       )
-        return
+      if (!candidateDayValue) return
       const candidateDay = parentElement.querySelector<HTMLElement>(
         `[data-value='${candidateDayValue.toString()}']:not([data-outside-view])`,
       )
@@ -756,7 +666,7 @@ export function RangeCalendarCellTrigger({
       data-today={isDateToday ? '' : undefined}
       data-outside-view={isOutsideView ? '' : undefined}
       data-focused={isFocusedDate ? '' : undefined}
-      tabIndex={isFocusedDate ? 0 : isOutsideView || isDisabled ? undefined : -1}
+      tabIndex={calendarCellTabIndex(isFocusedDate, isOutsideView, isDisabled)}
       onClick={(event: MouseEvent<HTMLElement>) => {
         if (isDisabled) return
         changeDate(event, day)
