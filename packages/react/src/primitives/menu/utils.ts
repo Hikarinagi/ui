@@ -1,5 +1,5 @@
 import { getActiveElement, wrapArray } from '../roving-focus/utils'
-import { isPointInPolygon, type Polygon } from '../utils/grace-area'
+import { isPointInPolygon, type Polygon } from '../../../../shared/src/primitives/grace-area'
 
 export type CheckedState = boolean | 'indeterminate'
 export type Direction = 'ltr' | 'rtl'

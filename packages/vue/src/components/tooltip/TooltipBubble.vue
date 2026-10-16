@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { TooltipPortal, TooltipContent, TooltipArrow } from 'reka-ui'
+  import { TooltipPortal, TooltipContent, TooltipArrow } from '../../primitives/tooltip'
   import { cn } from '../../lib/cn'
   import type { TooltipProps } from './types'
 

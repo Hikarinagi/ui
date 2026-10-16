@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { TooltipProvider as RekaTooltipProvider } from 'reka-ui'
+  import { TooltipProvider as RekaTooltipProvider } from '../../primitives/tooltip'
 
   defineOptions({ name: 'HnTooltipProvider' })
 

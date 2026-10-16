@@ -35,7 +35,7 @@ import {
   paddedExitPoints,
   pointsFromRect,
   type Polygon,
-} from '../utils/grace-area'
+} from '../../../../shared/src/primitives/grace-area'
 import { DismissableLayer } from '../dismissable-layer'
 import { Portal as HnPortal } from '../portal'
 import { Presence } from '../presence'

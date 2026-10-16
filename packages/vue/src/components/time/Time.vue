@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { injectTooltipProviderContext } from 'reka-ui'
+  import { injectTooltipProviderContext } from '../../primitives/tooltip'
   import { cn } from '../../lib/cn'
   import { devWarn } from '../../lib/dev'
   import { useUiLocale } from '../../locale'

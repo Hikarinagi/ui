@@ -4,7 +4,7 @@ import {
   TooltipRoot,
   injectTooltipProviderContext,
   injectTooltipRootContext,
-} from 'reka-ui'
+} from '../../primitives/tooltip'
 import TooltipBubble from './TooltipBubble.vue'
 import { useTooltipTarget } from './composables/useTooltipTarget'
 import type { TooltipDirectiveOptions } from './types'

@@ -1,6 +1,6 @@
 import { computed, onScopeDispose, watch, type ComponentPublicInstance } from 'vue'
 import { useEventListener, useRafFn } from '@vueuse/core'
-import { injectHoverCardRootContext } from 'reka-ui'
+import { injectHoverCardRootContext } from '../../../primitives/hover-card'
 import {
   overlayAnchorElement,
   useOverlayAnchor,
