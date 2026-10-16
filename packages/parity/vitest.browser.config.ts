@@ -26,6 +26,8 @@ function shardComponents() {
   const components = readdirSync(source('./cases'))
     .filter(file => file.endsWith('.live.tsx'))
     .map(file => file.slice(0, -'.live.tsx'.length))
+  const only = process.env.HINA_PARITY_ONLY?.split(',').filter(Boolean)
+  if (only?.length) return components.filter(name => only.includes(name))
   const cases = new Map(
     components.flatMap(name =>
       existsSync(vueLockFile('live', name))
@@ -57,13 +59,12 @@ export default defineConfig({
       { find: /^@hina-ui\/react$/, replacement: source('../react/src/index.ts') },
       { find: /^@hina-ui\/react\/(.*)$/, replacement: `${source('../react/src')}/$1` },
     ],
-    dedupe: ['vue', 'react', 'react-dom', 'reka-ui'],
+    dedupe: ['vue', 'react', 'react-dom'],
   },
   optimizeDeps: {
     entries: ['cases/*.live.tsx', 'test/*.browser.test.ts'],
     include: [
       'vue',
-      '@hina-ui/vue > reka-ui',
       'react',
       'react/jsx-runtime',
       'react-dom',

@@ -20,8 +20,8 @@ import {
   isBefore,
   type Granularity,
   type HourCycle,
-} from './date/comparators'
-import { createDateFormatter } from './date/formatter'
+} from '../../../../shared/src/primitives/date/comparators'
+import { createDateFormatter } from '../../../../shared/src/primitives/date/formatter'
 import { useDirection, useLocale, useNextTick, useStore, useVModel, useWatch } from './date/hooks'
 import {
   createContent,
@@ -29,8 +29,11 @@ import {
   syncSegmentValues,
   type SegmentContent,
   type SegmentValueObj,
-} from './date/parser'
-import { getSegmentElements, isSegmentNavigationKey } from './date/segment'
+} from '../../../../shared/src/primitives/date/parser'
+import {
+  getSegmentElements,
+  isSegmentNavigationKey,
+} from '../../../../shared/src/primitives/date/segment'
 import {
   SegmentInput,
   type SegmentFieldContext,
@@ -45,11 +48,11 @@ import {
   normalizeHourCycle,
   normalizeInputValue,
   type DateStep,
-} from './date/utils'
+} from '../../../../shared/src/primitives/date/utils'
 
-export type { DateStep } from './date/utils'
-export type { SegmentContent } from './date/parser'
-export type { Granularity, HourCycle } from './date/comparators'
+export type { DateStep } from '../../../../shared/src/primitives/date/utils'
+export type { SegmentContent } from '../../../../shared/src/primitives/date/parser'
+export type { Granularity, HourCycle } from '../../../../shared/src/primitives/date/comparators'
 import { useComposedRefs } from '../utils/compose-refs'
 
 interface DateFieldContextValue extends SegmentFieldContext {

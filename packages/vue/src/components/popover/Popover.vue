@@ -1,7 +1,12 @@
 <script setup lang="ts">
   import type { OverlayAnchor, OverlayPositionStrategy } from '../../lib/overlay-anchor'
   import { computed } from 'vue'
-  import { PopoverRoot, PopoverTrigger, PopoverPortal, type PopoverContentEmits } from 'reka-ui'
+  import {
+    PopoverRoot,
+    PopoverTrigger,
+    PopoverPortal,
+    type PopoverContentEmits,
+  } from '../../primitives/popover'
   import PopoverContent from './PopoverContent.vue'
   import { useAnchoredOverlay } from '../../lib/anchored-overlay'
   import Card from '../card/Card.vue'

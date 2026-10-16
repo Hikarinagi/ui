@@ -15,6 +15,17 @@ export { LoadingOverlay } from '../components/loading-overlay/LoadingOverlay'
 export type { LoadingOverlayProps } from '../components/loading-overlay/LoadingOverlay'
 export { Popconfirm } from '../components/popconfirm/Popconfirm'
 export type { PopconfirmProps } from '../components/popconfirm/Popconfirm'
+export { Tour } from '../components/tour/Tour'
+export type {
+  TourAlign,
+  TourBeforeChange,
+  TourHandle,
+  TourProps,
+  TourSide,
+  TourSlotProps,
+  TourStep,
+  TourTarget,
+} from '../components/tour/Tour'
 export { HoverCard } from '../components/hover-card/HoverCard'
 export type { HoverCardProps } from '../components/hover-card/HoverCard'
 export type { OverlayAnchor, OverlayPositionStrategy } from '../lib/overlay-anchor'

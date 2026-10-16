@@ -1,6 +1,11 @@
 <script setup lang="ts">
   import { shallowRef } from 'vue'
-  import { MenubarContent, MenubarMenu, MenubarPortal, MenubarTrigger } from 'reka-ui'
+  import {
+    MenubarContent,
+    MenubarMenu,
+    MenubarPortal,
+    MenubarTrigger,
+  } from '../../primitives/menubar'
   import { cn } from '../../lib/cn'
   import Card from '../card/Card.vue'
   import { menubarContent, menubarTrigger } from './menubar.variants'

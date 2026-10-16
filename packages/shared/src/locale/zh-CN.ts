@@ -33,6 +33,14 @@ export const zhCN: UiMessages = {
     completed: '已完成',
     error: '该步骤存在错误',
   },
+  tour: {
+    prev: '上一步',
+    next: '下一步',
+    finish: '完成',
+    skip: '跳过引导',
+    progress: (step, total) => `${step} / ${total}`,
+    beacon: (step, title) => (title ? `查看第 ${step} 步：${title}` : `查看第 ${step} 步`),
+  },
   common: {
     close: '关闭',
     copy: '复制',

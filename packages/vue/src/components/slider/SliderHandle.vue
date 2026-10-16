@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { injectTooltipProviderContext } from 'reka-ui'
+  import { injectTooltipProviderContext } from '../../primitives/tooltip'
   import { SliderThumb } from '../../primitives/slider'
   import { rekaSliderThumbStyle } from '../../lib/reka/styles'
   import Tooltip from '../tooltip/Tooltip.vue'

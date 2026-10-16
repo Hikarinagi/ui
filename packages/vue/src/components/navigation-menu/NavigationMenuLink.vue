@@ -2,7 +2,7 @@
   import {
     NavigationMenuLink as RekaNavigationMenuLink,
     type NavigationMenuLinkEmits,
-  } from 'reka-ui'
+  } from '../../primitives/navigation-menu'
   import { cn } from '../../lib/cn'
   import { useNavigationMenu } from './context'
   import {

@@ -1,6 +1,11 @@
 <script setup lang="ts">
   import { computed, ref, useId } from 'vue'
-  import { PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger } from 'reka-ui'
+  import {
+    PopoverContent,
+    PopoverPortal,
+    PopoverRoot,
+    PopoverTrigger,
+  } from '../../primitives/popover'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'
   import Button from '../button/Button.vue'

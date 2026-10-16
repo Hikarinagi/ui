@@ -58,7 +58,7 @@ describe('engines shared by both adapters resolve to the same versions', () => {
       for (const name of path.slice(1)) directory = realpathSync(packageRoot(directory, name))
       return manifest(realpathSync(packageRoot(directory, '@floating-ui/dom'))).version
     }
-    expect(dom('react', '@floating-ui/react-dom')).toBe(dom('vue', 'reka-ui', '@floating-ui/vue'))
+    expect(dom('react', '@floating-ui/react-dom')).toBe(dom('vue', '@floating-ui/vue'))
   })
 
   it('carousel and code highlighting use the same releases', () => {

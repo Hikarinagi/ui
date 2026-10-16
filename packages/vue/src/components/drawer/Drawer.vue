@@ -9,7 +9,7 @@
     DialogTitle,
     DialogDescription,
     DialogClose,
-  } from 'reka-ui'
+  } from '../../primitives/dialog'
   import CloseButton from '../close-button/CloseButton.vue'
   import Card from '../card/Card.vue'
   import ScrollArea from '../scroll-area/ScrollArea.vue'

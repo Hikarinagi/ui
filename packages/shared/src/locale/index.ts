@@ -10,6 +10,7 @@ export function mergeUiMessages(base: UiMessages, patch: PartialUiMessages): UiM
     editable: { ...base.editable, ...patch.editable },
     tag: patch.tag ?? base.tag,
     common: { ...base.common, ...patch.common },
+    tour: { ...base.tour, ...patch.tour },
     stepper: { ...base.stepper, ...patch.stepper },
     banner: { ...base.banner, ...patch.banner },
     pagination: { ...base.pagination, ...patch.pagination },

@@ -31,6 +31,14 @@ export interface UiMessages {
     completed: string
     error: string
   }
+  tour: {
+    prev: string
+    next: string
+    finish: string
+    skip: string
+    progress: (step: number, total: number) => string
+    beacon: (step: number, title: string) => string
+  }
   common: {
     close: string
     copy: string

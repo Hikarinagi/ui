@@ -30,6 +30,14 @@ const options = [
   { value: 'anime', label: '动画' },
 ]
 
+const fruits = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'blueberry', label: 'Blueberry' },
+  { value: 'cherry', label: 'Cherry', disabled: true },
+  { value: 'date', label: 'Date' },
+]
+
 type Value = string | number | null | Array<string | number>
 
 function mountList(props: Record<string, unknown> = {}) {
@@ -90,6 +98,36 @@ describe('listbox · 选择', () => {
     await vi.waitFor(() => expect(items()[3]!.hasAttribute('data-highlighted')).toBe(true))
     await userEvent.keyboard('{Enter}')
     await vi.waitFor(() => expect(value.value).toBe('anime'))
+  })
+
+  it('键盘：首字母跳到匹配项并在同字母项间轮转，空格切换选中，Home/End 到两端，焦点跟着高亮走', async () => {
+    const { value, items } = mountList({ options: fruits })
+    await userEvent.keyboard('{Tab}')
+    await vi.waitFor(() => expect(document.activeElement).toBe(items()[0]))
+    await userEvent.keyboard('b')
+    await vi.waitFor(() => expect(document.activeElement).toBe(items()[1]))
+    await userEvent.keyboard('b')
+    await vi.waitFor(() => expect(document.activeElement).toBe(items()[2]))
+    expect(items()[2]!.hasAttribute('data-highlighted')).toBe(true)
+    await userEvent.keyboard(' ')
+    await vi.waitFor(() => expect(value.value).toBe('blueberry'))
+    await userEvent.keyboard(' ')
+    await vi.waitFor(() => expect(value.value).toBeUndefined())
+    await userEvent.keyboard('{End}')
+    await vi.waitFor(() => expect(document.activeElement).toBe(items()[4]))
+    await userEvent.keyboard('{Home}')
+    await vi.waitFor(() => expect(document.activeElement).toBe(items()[0]))
+    await userEvent.keyboard('{ArrowUp}')
+    expect(document.activeElement).toBe(items()[0])
+  })
+
+  it('多选：Ctrl+A 选中全部可用项，跳过禁用项', async () => {
+    const { value, items } = mountList({ multiple: true, modelValue: [] })
+    await userEvent.keyboard('{Tab}')
+    await vi.waitFor(() => expect(document.activeElement).toBe(items()[0]))
+    await userEvent.keyboard('{Control>}a{/Control}')
+    await vi.waitFor(() => expect(value.value).toEqual(['gal', 'ln', 'anime']))
+    expect(document.activeElement).toBe(items()[3])
   })
 
   it('超过 maxHeight 时在 ScrollArea 内滚动，键盘高亮跟随滚动', async () => {

@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T extends { label: string; disabled?: boolean }">
   import { shallowRef, watch } from 'vue'
-  import type { FlattenedItem } from 'reka-ui'
+  import type { FlattenedItem } from '../../primitives/tree'
   import type { VirtualizeOptions } from '../../lib/virtual/types'
   import ScrollArea from '../scroll-area/ScrollArea.vue'
   import VirtualTreeWindow from './VirtualTreeWindow.vue'

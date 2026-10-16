@@ -1,7 +1,7 @@
 import { expect, it } from 'vitest'
 import { createSSRApp, h } from 'vue'
 import { renderToString } from 'vue/server-renderer'
-import { TooltipProvider } from 'reka-ui'
+import { TooltipProvider } from '../../primitives/tooltip'
 import FloatButton from './FloatButton.vue'
 
 it.each([false, true])(

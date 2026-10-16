@@ -8,7 +8,7 @@
     ComboboxItemIndicator,
     ComboboxLabel,
     ComboboxPortal,
-  } from 'reka-ui'
+  } from '../../primitives/combobox'
   import { ref } from 'vue'
   import VirtualChoices from '../virtual-list/VirtualChoices.vue'
   import type { VirtualizeOptions } from '../../lib/virtual/types'

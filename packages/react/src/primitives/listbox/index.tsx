@@ -33,13 +33,21 @@ import {
   createCollection,
   createEventHook,
   createTypeahead,
-  findValuesBetween,
   valueComparator,
   type Collection,
   type CollectionEntry,
   type Comparator,
   type EventHook,
 } from './utils'
+import {
+  dispatchListboxSelect,
+  enabledListboxItems,
+  ignoresListboxArrow,
+  listboxNavigation,
+  listboxRangeValues,
+  nextListboxValue,
+  type ListboxSelectEvent,
+} from '../../../../shared/src/primitives/listbox'
 import { useVModel } from './useVModel'
 import { composeEventHandlers } from '../utils/compose-event-handlers'
 import { useComposedRefs } from '../utils/compose-refs'
@@ -268,31 +276,15 @@ export function ListboxRoot({
     function onValueChange(value: unknown) {
       const { multiple, selectionBehavior, by } = latest.current
       isUserAction.current = true
-      const model = modelRef.current
-      if (multiple) {
-        const modelArray = Array.isArray(model) ? [...model] : []
-        const index = modelArray.findIndex(item => compare(item, value, by))
-        if (selectionBehavior === 'toggle') {
-          if (index === -1) modelArray.push(value)
-          else modelArray.splice(index, 1)
-          setModelValue(modelArray)
-        } else {
-          setModelValue([value])
-          firstValue.current = value
-        }
-      } else if (selectionBehavior === 'toggle') {
-        if (compare(model, value, by)) setModelValue(undefined)
-        else setModelValue(value)
-      } else setModelValue(value)
+      const next = nextListboxValue(modelRef.current, value, { multiple, selectionBehavior, by })
+      setModelValue(next.value)
+      if (next.anchor) firstValue.current = value
       setTimeout(() => {
         isUserAction.current = false
       }, 1)
     }
     function getCollectionItem() {
-      return collection
-        .getItems()
-        .map(item => item.ref)
-        .filter(item => item.dataset.disabled !== '')
+      return enabledListboxItems(collection.getItems().map(item => item.ref))
     }
     function changeHighlight(
       target: HTMLElement | null | undefined,
@@ -349,41 +341,15 @@ export function ListboxRoot({
         !Array.isArray(modelRef.current)
       )
         return
-      const isMetaKey = event.altKey || event.ctrlKey || event.metaKey
-      if (isMetaKey && !event.shiftKey) return
-      if (event.shiftKey) {
-        const items = collection.getItems().filter(item => item.ref.dataset.disabled !== '')
-        let lastValue = items.find(item => item.ref === target)?.value
-        if (event.key === 'End') lastValue = items.at(-1)?.value
-        else if (event.key === 'Home') lastValue = items[0]?.value
-        if (!lastValue || !firstValue.current) return
-        setModelValue(
-          findValuesBetween(
-            items.map(item => item.value),
-            firstValue.current,
-            lastValue,
-          ),
-        )
-      }
+      const values = listboxRangeValues(event, collection.getItems(), target, firstValue.current)
+      if (values) setModelValue(values)
     }
     function onKeydownNavigation(event: KeyboardEvent) {
       const intent = getFocusIntent(event, latest.current.orientation, latest.current.dir)
       if (!intent) return
-      let items = getCollectionItem()
-      const current = highlightedRef.current
-      if (current) {
-        if (intent === 'last') items.reverse()
-        else if (intent === 'prev' || intent === 'next') {
-          if (intent === 'prev') items.reverse()
-          const currentIndex = items.indexOf(current)
-          items = items.slice(currentIndex + 1)
-        }
-        handleMultipleReplace(event, items[0])
-      }
-      if (items.length) {
-        const index = !current && intent === 'prev' ? items.length - 1 : 0
-        changeHighlight(items[index])
-      }
+      const navigation = listboxNavigation(getCollectionItem(), highlightedRef.current, intent)
+      if (navigation.extendsRange) handleMultipleReplace(event, navigation.rangeTarget)
+      if (navigation.target) changeHighlight(navigation.target)
       if (isVirtual.current) hooks.virtualKeydownHook.trigger(event)
     }
     function onKeydownTypeAhead(event: KeyboardEvent) {
@@ -603,12 +569,7 @@ export function ListboxContent({
       onKeyDown={composeEventHandlers(onKeyDown, (event: ReactKeyboardEvent<HTMLElement>) => {
         const native = event.nativeEvent
         if (NAVIGATION_KEYS.includes(event.key)) {
-          const crossAxis =
-            (context.orientation === 'vertical' &&
-              (event.key === 'ArrowLeft' || event.key === 'ArrowRight')) ||
-            (context.orientation === 'horizontal' &&
-              (event.key === 'ArrowUp' || event.key === 'ArrowDown'))
-          if (!crossAxis) {
+          if (!ignoresListboxArrow(event.key, context.orientation)) {
             event.preventDefault()
             if (context.getFocusable()) context.onKeydownNavigation(native)
           }
@@ -632,7 +593,7 @@ export function useListboxItemContext(consumer = 'ListboxItem') {
   return context
 }
 
-export type ListboxSelectEvent = CustomEvent<{ originalEvent: Event; value: unknown }>
+export type { ListboxSelectEvent }
 
 export interface ListboxItemProps
   extends PrimitiveProps, Omit<HTMLAttributes<HTMLElement>, 'onSelect'>, DataAttributes {
@@ -669,9 +630,9 @@ export function ListboxItem({
     [element, value, context.collection],
   )
 
-  function handleSelect(event: Event) {
+  function handleSelect(event: ListboxSelectEvent) {
     const current = latest.current
-    current.onSelect?.(event as ListboxSelectEvent)
+    current.onSelect?.(event)
     if (event.defaultPrevented) return
     if (!current.disabled) {
       context.onValueChange(current.value)
@@ -680,14 +641,7 @@ export function ListboxItem({
   }
 
   function handleSelectCustomEvent(originalEvent: Event) {
-    const target = originalEvent.target as EventTarget
-    const event = new CustomEvent('listbox.select', {
-      bubbles: false,
-      cancelable: true,
-      detail: { originalEvent, value: latest.current.value },
-    })
-    target.addEventListener('listbox.select', handleSelect, { once: true })
-    target.dispatchEvent(event)
+    dispatchListboxSelect(originalEvent, latest.current.value, handleSelect)
   }
 
   const itemContext = useMemo(() => ({ isSelected }), [isSelected])

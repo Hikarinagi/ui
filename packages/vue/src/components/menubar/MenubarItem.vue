@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { MenubarItem } from 'reka-ui'
+  import { MenubarItem } from '../../primitives/menubar'
   import { cn } from '../../lib/cn'
   import { dropdownItem, type DropdownItemVariants } from '../dropdown-menu/dropdown-menu.variants'
 

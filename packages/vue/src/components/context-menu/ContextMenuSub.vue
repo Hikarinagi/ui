@@ -5,7 +5,7 @@
     ContextMenuSub,
     ContextMenuSubContent,
     ContextMenuSubTrigger,
-  } from 'reka-ui'
+  } from '../../primitives/context-menu'
   import Card from '../card/Card.vue'
   import { cn } from '../../lib/cn'
   import { dropdownItem } from '../dropdown-menu/dropdown-menu.variants'

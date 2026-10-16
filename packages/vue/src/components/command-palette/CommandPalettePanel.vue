@@ -1,6 +1,11 @@
 <script setup lang="ts" generic="T = unknown">
   import { Search } from '@lucide/vue'
-  import { ListboxContent, ListboxGroup, ListboxGroupLabel, ListboxRoot } from 'reka-ui'
+  import {
+    ListboxContent,
+    ListboxGroup,
+    ListboxGroupLabel,
+    ListboxRoot,
+  } from '../../primitives/listbox'
   import { computed, nextTick, shallowRef } from 'vue'
   import { cn } from '../../lib/cn'
   import { useUiLocale } from '../../locale'

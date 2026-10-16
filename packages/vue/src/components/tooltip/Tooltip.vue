@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { TooltipRoot, TooltipTrigger } from 'reka-ui'
+  import { TooltipRoot, TooltipTrigger } from '../../primitives/tooltip'
   import TooltipBubble from './TooltipBubble.vue'
   import type { TooltipProps } from './types'
 

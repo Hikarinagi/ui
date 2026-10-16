@@ -38,6 +38,14 @@ export const enUS: UiMessages = {
     completed: 'Completed',
     error: 'This step has an error',
   },
+  tour: {
+    prev: 'Back',
+    next: 'Next',
+    finish: 'Done',
+    skip: 'Skip tour',
+    progress: (step, total) => `${step} / ${total}`,
+    beacon: (step, title) => (title ? `Open step ${step}: ${title}` : `Open step ${step}`),
+  },
   common: {
     close: 'Close',
     copy: 'Copy',

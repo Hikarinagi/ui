@@ -1,4 +1,4 @@
-import { injectDialogRootContext } from 'reka-ui'
+import { injectDialogRootContext } from '../primitives/dialog'
 
 export function useDialogCloseFocus(onCloseAutoFocus: (event: Event) => void) {
   const context = injectDialogRootContext()

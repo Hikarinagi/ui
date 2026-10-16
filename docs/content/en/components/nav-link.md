@@ -14,7 +14,7 @@ links:
 import { NavLink } from '@hina-ui/vue'
 ```
 
-`NavLink` is one entry in a vertical navigation list. It renders as a link by default and the whole row is clickable. It brings no list container of its own — wrap the entries in a `Stack` or a `nav`.
+`NavLink` is one entry in a vertical navigation list. It renders as a link by default and the whole row is clickable. It brings no list container of its own — wrap the entries in a `Stack` or a `nav`. The label stays on one line and ends with an ellipsis when it does not fit.
 
 <Demo name="nav-link/basic" />
 
@@ -37,6 +37,12 @@ Hovering an active entry adds the hover layer on top of the selected one rather 
 The `icon` slot sits before the text and the component sizes it to four units, so no size class is needed on the icon itself. The icon is decoration; the text is the readable name.
 
 <Demo name="nav-link/icon" />
+
+### Trailing content {#trailing}
+
+The `trailing` slot sits after the text at the end of the row, for page counts, counters or shortcuts. When the title does not fit, only the title is truncated and the trailing content stays whole; in a rail sidebar it hides together with the text.
+
+<Demo name="nav-link/trailing" />
 
 ### Router links {#router}
 
@@ -105,7 +111,8 @@ Remaining attributes pass through to the rendered element, such as `href` or a r
 
 ### Slots {#slots}
 
-| Slot      | Description                             |
-| --------- | --------------------------------------- |
-| `default` | The entry's text, and its readable name |
-| `icon`    | An icon shown before the text           |
+| Slot       | Description                                   |
+| ---------- | --------------------------------------------- |
+| `default`  | The entry's text, and its readable name       |
+| `icon`     | An icon shown before the text                 |
+| `trailing` | Content after the text, at the end of the row |

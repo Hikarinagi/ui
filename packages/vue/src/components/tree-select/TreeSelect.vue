@@ -6,9 +6,8 @@
     PopoverPortal,
     PopoverRoot,
     PopoverTrigger,
-    TreeItem,
-    TreeRoot,
-  } from 'reka-ui'
+  } from '../../primitives/popover'
+  import { TreeItem, TreeRoot } from '../../primitives/tree'
   import { cn } from '../../lib/cn'
   import { rekaPopoverStyle } from '../../lib/reka/styles'
   import { useUiLocale } from '../../locale'

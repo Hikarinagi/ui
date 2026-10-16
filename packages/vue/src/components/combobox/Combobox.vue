@@ -1,6 +1,11 @@
 <script setup lang="ts" generic="T extends SelectOption = SelectOption">
   import { computed } from 'vue'
-  import { ComboboxAnchor, ComboboxInput, ComboboxRoot, ComboboxTrigger } from 'reka-ui'
+  import {
+    ComboboxAnchor,
+    ComboboxInput,
+    ComboboxRoot,
+    ComboboxTrigger,
+  } from '../../primitives/combobox'
   import { cn } from '../../lib/cn'
   import type { VirtualizeOptions } from '../../lib/virtual/types'
   import { useUiLocale } from '../../locale'

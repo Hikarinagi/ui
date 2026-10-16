@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { type ComponentPublicInstance } from 'vue'
-  import { PopoverRoot, PopoverPortal } from 'reka-ui'
+  import { PopoverRoot, PopoverPortal } from '../../primitives/popover'
   import PopoverContent from '../popover/PopoverContent.vue'
   import Card from '../card/Card.vue'
   import Button from '../button/Button.vue'

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ListboxFilter } from 'reka-ui'
+  import { ListboxFilter } from '../../primitives/listbox'
   import { shallowRef, watchEffect } from 'vue'
   import { cn } from '../../lib/cn'
   import { commandInput } from './command-palette.variants'

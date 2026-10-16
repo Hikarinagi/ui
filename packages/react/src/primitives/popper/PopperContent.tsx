@@ -13,31 +13,20 @@ import {
   type Ref,
   type RefObject,
 } from 'react'
-import {
-  arrow as floatingUIarrow,
-  autoUpdate,
-  flip,
-  hide,
-  limitShift,
-  offset,
-  shift,
-  size,
-  useFloating,
-  type Middleware,
-  type Placement,
-  type ReferenceElement,
-} from '@floating-ui/react-dom'
+import { autoUpdate, useFloating, type ReferenceElement } from '@floating-ui/react-dom'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { usePopperDirection } from './direction'
 import { usePopperRootContext } from './PopperRoot'
 import {
   getSideAndAlignFromPlacement,
-  isNotNull,
-  transformOrigin,
+  popperMiddleware,
+  popperPlacement,
+  popperWrapperStyle,
+  shouldHidePopperArrow,
   type Align,
   type Direction,
   type Side,
-} from './utils'
+} from '../../../../shared/src/primitives/popper'
 import { useCallbackRef } from '../utils/callback-ref'
 import { useComposedRefs } from '../utils/compose-refs'
 
@@ -171,69 +160,26 @@ export function PopperContent({
   const { width: arrowWidth, height: arrowHeight } = useSize(arrowRef)
   const [strategy] = useState(positionStrategy)
 
-  const desiredPlacement = (side + (align !== 'center' ? `-${align}` : '')) as Placement
+  const desiredPlacement = popperPlacement(side, align)
 
-  const collisionPadding =
-    typeof collisionPaddingProp === 'number'
-      ? collisionPaddingProp
-      : { top: 0, right: 0, bottom: 0, left: 0, ...collisionPaddingProp }
-
-  const boundary = Array.isArray(collisionBoundary) ? collisionBoundary : [collisionBoundary]
-
-  const detectOverflowOptions = {
-    padding: collisionPadding,
-    boundary: boundary.filter(isNotNull),
-    altBoundary: boundary.length > 0,
-  }
-
-  const flipOptions = {
-    mainAxis: sideFlip,
-    crossAxis: alignFlip,
-  }
-
-  const middleware = [
-    offset({
-      mainAxis: sideOffset + arrowHeight,
-      alignmentAxis: alignOffset,
-    }),
-    prioritizePosition &&
-      avoidCollisions &&
-      flip({
-        ...detectOverflowOptions,
-        ...flipOptions,
-      }),
-    avoidCollisions &&
-      shift({
-        mainAxis: true,
-        crossAxis: !!prioritizePosition,
-        limiter: sticky === 'partial' ? limitShift() : undefined,
-        ...detectOverflowOptions,
-      }),
-    !prioritizePosition &&
-      avoidCollisions &&
-      flip({
-        ...detectOverflowOptions,
-        ...flipOptions,
-      }),
-    size({
-      ...detectOverflowOptions,
-      apply: ({ elements, rects, availableWidth, availableHeight }) => {
-        const { width: anchorWidth, height: anchorHeight } = rects.reference
-        const contentStyle = elements.floating.style
-        contentStyle.setProperty('--radix-popper-available-width', `${availableWidth}px`)
-        contentStyle.setProperty('--radix-popper-available-height', `${availableHeight}px`)
-        contentStyle.setProperty('--radix-popper-anchor-width', `${anchorWidth}px`)
-        contentStyle.setProperty('--radix-popper-anchor-height', `${anchorHeight}px`)
-      },
-    }),
-    arrow && floatingUIarrow({ element: arrow, padding: arrowPadding }),
-    transformOrigin({
-      arrowWidth,
-      arrowHeight,
-      dir,
-    }),
-    hideWhenDetached && hide({ strategy: 'referenceHidden', ...detectOverflowOptions }),
-  ] as Middleware[]
+  const middleware = popperMiddleware({
+    sideOffset,
+    alignOffset,
+    sideFlip,
+    alignFlip,
+    avoidCollisions,
+    prioritizePosition,
+    sticky,
+    collisionPadding: collisionPaddingProp,
+    collisionBoundary,
+    arrow,
+    arrowWidth,
+    arrowHeight,
+    arrowPadding,
+    hideWhenDetached,
+    dir,
+    prefix: 'radix',
+  })
 
   const reference = referenceProp ?? rootContext.anchor
 
@@ -256,8 +202,7 @@ export function PopperContent({
     if (isPositioned) handlePlaced()
   }, [isPositioned, handlePlaced])
 
-  const cannotCenterArrow = middlewareData.arrow?.centerOffset !== 0
-  const shouldHideArrow = hideShiftedArrow && cannotCenterArrow
+  const shouldHideArrow = shouldHidePopperArrow(hideShiftedArrow, middlewareData)
 
   const [contentZIndex, setContentZIndex] = useState('')
   useLayoutEffect(() => {
@@ -278,20 +223,12 @@ export function PopperContent({
       data-radix-popper-content-wrapper=""
       dir={dir}
       style={
-        {
-          ...floatingStyles,
-          transform: isPositioned ? floatingStyles.transform : 'translate(0, -200%)',
-          minWidth: 'max-content',
+        popperWrapperStyle(floatingStyles, {
+          isPositioned,
           zIndex: contentZIndex,
-          '--radix-popper-transform-origin': [
-            middlewareData.transformOrigin?.x,
-            middlewareData.transformOrigin?.y,
-          ].join(' '),
-          ...(middlewareData.hide?.referenceHidden && {
-            visibility: 'hidden',
-            pointerEvents: 'none',
-          }),
-        } as CSSProperties
+          middlewareData,
+          prefix: 'radix',
+        }) as CSSProperties
       }
     >
       <PopperContentContext value={contentContext}>

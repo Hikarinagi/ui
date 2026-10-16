@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { NavigationMenuItem as RekaNavigationMenuItem } from 'reka-ui'
+  import { NavigationMenuItem as RekaNavigationMenuItem } from '../../primitives/navigation-menu'
 
   defineOptions({ name: 'HnNavigationMenuItem' })
   const props = defineProps<{ value?: string }>()

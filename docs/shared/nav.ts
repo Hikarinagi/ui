@@ -568,6 +568,7 @@ export const components: DocsComponent[] = [
     i18n: 'components.tooltip',
     category: 'overlays',
   },
+  { label: 'Tour', to: '/components/tour', i18n: 'components.tour', category: 'overlays' },
   { label: 'Tree', to: '/components/tree', i18n: 'components.tree', category: 'forms' },
   {
     label: 'TreeSelect',

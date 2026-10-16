@@ -6,7 +6,7 @@
     PopoverPortal,
     PopoverRoot,
     PopoverTrigger,
-  } from 'reka-ui'
+  } from '../../primitives/popover'
   import { CalendarClock } from '@lucide/vue'
   import { cn } from '../../lib/cn'
   import { joinDateTime, splitDateTime, type TimeGranularity } from '../../lib/date'

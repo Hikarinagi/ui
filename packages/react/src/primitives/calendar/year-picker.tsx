@@ -1,5 +1,14 @@
 'use client'
 
+import { isCalendarSelectionInvalid } from '../../../../shared/src/primitives/date/calendar-view'
+import {
+  isPickerDateDisabled,
+  isPickerDateSelected,
+  isPickerNextDisabled,
+  isPickerPrevDisabled,
+  nextPickerSelection,
+  turnPickerPage,
+} from '../../../../shared/src/primitives/date/picker-view'
 import {
   createContext,
   useContext,
@@ -21,15 +30,16 @@ import {
   type DateValue,
 } from '@internationalized/date'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
-import { createYearGrid, type Grid } from '../date-field/date/calendar'
+import { createYearGrid, type Grid } from '../../../../shared/src/primitives/date/calendar'
 import {
   getDefaultDate,
-  isAfter,
-  isBefore,
   isSameYear,
   toDate,
-} from '../date-field/date/comparators'
-import { createDateFormatter, type Formatter } from '../date-field/date/formatter'
+} from '../../../../shared/src/primitives/date/comparators'
+import {
+  createDateFormatter,
+  type Formatter,
+} from '../../../../shared/src/primitives/date/formatter'
 import {
   useDirection,
   useLocale,
@@ -38,7 +48,7 @@ import {
   useVModel,
   useWatch,
 } from '../date-field/date/hooks'
-import { handleCalendarInitialFocus, kbd } from '../date-field/date/utils'
+import { handleCalendarInitialFocus, kbd } from '../../../../shared/src/primitives/date/utils'
 import {
   GridTable,
   HiddenHeading,
@@ -188,12 +198,14 @@ export function YearPickerRoot({
     createYearGrid({ dateObj: placeholder.value, yearsPerPage }),
   )
 
+  const bounds = () => ({
+    minValue: latest.current.minValue,
+    maxValue: latest.current.maxValue,
+    disabled: latest.current.disabled,
+  })
+
   function isYearDisabled(dateObj: DateValue) {
-    const current = latest.current
-    if (isYearDisabledProp?.(dateObj) || current.disabled) return true
-    if (current.maxValue && isAfter(startOfYear(dateObj), current.maxValue)) return true
-    if (current.minValue && isBefore(endOfYear(dateObj), current.minValue)) return true
-    return false
+    return isPickerDateDisabled('year', dateObj, bounds(), isYearDisabledProp)
   }
 
   function isYearUnavailable(date: DateValue) {
@@ -201,58 +213,43 @@ export function YearPickerRoot({
   }
 
   function isNextButtonDisabled(nextPageFunc?: PageFunction) {
-    const current = latest.current
-    if (!current.maxValue) return false
-    if (current.disabled) return true
-    const lastYearInView = grid.get().cells.at(-1)!
-    const page = nextPageFunc || current.nextPageProp
-    if (page) return isAfter(startOfYear(page(lastYearInView)), current.maxValue)
-    return isAfter(startOfYear(lastYearInView.add({ years: 1 })), current.maxValue)
+    return isPickerNextDisabled(
+      'year',
+      grid.get(),
+      bounds(),
+      latest.current.nextPageProp,
+      nextPageFunc,
+    )
   }
 
   function isPrevButtonDisabled(prevPageFunc?: PageFunction) {
-    const current = latest.current
-    if (!current.minValue) return false
-    if (current.disabled) return true
-    const firstYearInView = grid.get().value
-    const page = prevPageFunc || current.prevPageProp
-    if (page) return isBefore(endOfYear(page(firstYearInView)), current.minValue)
-    return isBefore(endOfYear(firstYearInView.subtract({ years: 1 })), current.minValue)
+    return isPickerPrevDisabled(
+      'year',
+      grid.get(),
+      bounds(),
+      latest.current.prevPageProp,
+      prevPageFunc,
+    )
   }
 
-  function nextPage(nextPageFunc?: PageFunction) {
-    const firstYearInGrid = grid.get().value
-    const page = nextPageFunc || latest.current.nextPageProp
-    const newDate = page
-      ? page(firstYearInGrid)
-      : firstYearInGrid.add({ years: latest.current.yearsPerPage })
-    grid.set(
-      createYearGrid({
-        dateObj: newDate,
+  function turn(direction: 1 | -1, pageFunc?: PageFunction) {
+    const next = turnPickerPage(
+      'year',
+      direction,
+      grid.get(),
+      placeholder.get(),
+      {
+        page: direction > 0 ? latest.current.nextPageProp : latest.current.prevPageProp,
         yearsPerPage: latest.current.yearsPerPage,
-        decadeAligned: false,
-      }),
+      },
+      pageFunc,
     )
-    const current = placeholder.get()
-    placeholder.set(newDate.set({ month: current.month, day: current.day }))
+    grid.set(next.grid)
+    placeholder.set(next.placeholder)
   }
 
-  function prevPage(prevPageFunc?: PageFunction) {
-    const firstYearInGrid = grid.get().value
-    const page = prevPageFunc || latest.current.prevPageProp
-    const newDate = page
-      ? page(firstYearInGrid)
-      : firstYearInGrid.subtract({ years: latest.current.yearsPerPage })
-    grid.set(
-      createYearGrid({
-        dateObj: newDate,
-        yearsPerPage: latest.current.yearsPerPage,
-        decadeAligned: false,
-      }),
-    )
-    const current = placeholder.get()
-    placeholder.set(newDate.set({ month: current.month, day: current.day }))
-  }
+  const nextPage = (nextPageFunc?: PageFunction) => turn(1, nextPageFunc)
+  const prevPage = (prevPageFunc?: PageFunction) => turn(-1, prevPageFunc)
 
   useWatch([placeholder.value] as const, ([next]) => {
     const firstYearInGrid = grid.get().value
@@ -273,16 +270,8 @@ export function YearPickerRoot({
   const fullCalendarLabel = `${calendarLabel ?? 'Year Picker'}, ${headingValue}`
 
   const date = modelValue.value
-  function isYearSelected(dateObj: DateValue) {
-    if (Array.isArray(date)) return date.some(d => isSameYear(d, dateObj))
-    if (!date) return false
-    return isSameYear(date, dateObj)
-  }
-  let isInvalid = false
-  if (Array.isArray(date)) {
-    for (const dateObj of date)
-      if (isYearDisabled(dateObj) || isYearUnavailable(dateObj)) isInvalid = true
-  } else if (date) isInvalid = isYearDisabled(date) || isYearUnavailable(date)
+  const isYearSelected = (dateObj: DateValue) => isPickerDateSelected('year', date, dateObj)
+  const isInvalid = isCalendarSelectionInvalid(date, isYearDisabled, isYearUnavailable)
 
   useWatch([date] as const, ([next]) => {
     if (Array.isArray(next) && next.length) {
@@ -292,37 +281,14 @@ export function YearPickerRoot({
       onPlaceholderChange(next)
   })
 
-  function resolveYearValue(next: DateValue, reference?: DateValue) {
-    if (!reference) return next.copy()
-    return next.copy().set({ month: reference.month, day: reference.day })
-  }
-
   function onYearChange(next: DateValue) {
-    const current = modelValue.get()
-    if (!multiple) {
-      if (!current) {
-        modelValue.set(resolveYearValue(next, placeholder.get()))
-        return
-      }
-      if (!preventDeselect && isSameYear(current as DateValue, next)) {
-        placeholder.set(resolveYearValue(next, current as DateValue))
-        modelValue.set(undefined)
-      } else modelValue.set(resolveYearValue(next, current as DateValue))
-    } else if (!current) modelValue.set([resolveYearValue(next, placeholder.get())])
-    else if (Array.isArray(current)) {
-      const list = current
-      const index = list.findIndex(item => isSameYear(item, next))
-      if (index === -1) modelValue.set([...list, resolveYearValue(next, placeholder.get())])
-      else if (!preventDeselect) {
-        const rest = list.filter(item => !isSameYear(item, next))
-        if (!rest.length) {
-          placeholder.set(resolveYearValue(next, list[index]))
-          modelValue.set(undefined)
-          return
-        }
-        modelValue.set(rest.map(item => item.copy()))
-      }
-    }
+    const result = nextPickerSelection('year', modelValue.get(), next, placeholder.get(), {
+      multiple,
+      preventDeselect,
+    })
+    if (!result) return
+    if (result.placeholder) placeholder.set(result.placeholder)
+    modelValue.set(result.value)
   }
 
   useEffect(() => {

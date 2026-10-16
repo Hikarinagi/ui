@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { DialogClose } from 'reka-ui'
+  import { DialogClose } from '../../primitives/dialog'
   import { Motion, type MotionValue } from 'motion-v'
   import { ChevronLeft, ChevronRight } from '@lucide/vue'
   import { useUiLocale } from '../../locale'

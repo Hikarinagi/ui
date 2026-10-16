@@ -46,6 +46,39 @@ function mountCalendar(props: Record<string, unknown> = {}) {
 }
 
 describe('calendar · 键盘', () => {
+  it('月份视图里上下键按行移动并跨年翻页，年份视图里 PageDown 翻过一整页', async () => {
+    const { root } = mountCalendar()
+    const focused = () => document.activeElement?.getAttribute('data-value')
+    await userEvent.click(root.querySelector('button[aria-label="选择月份"]')!)
+    await vi.waitFor(() => expect(focused()).toBe('2026-09-01'))
+    await userEvent.keyboard('{ArrowDown}')
+    await vi.waitFor(() => expect(focused()).toBe('2027-01-01'))
+    await userEvent.keyboard('{ArrowUp}')
+    await vi.waitFor(() => expect(focused()).toBe('2026-09-01'))
+    await userEvent.click(root.querySelector('button[aria-label="选择年份"]')!)
+    await vi.waitFor(() => expect(focused()).toBe('2026-01-01'))
+    await userEvent.keyboard('{PageDown}')
+    await vi.waitFor(() => expect(focused()).toBe('2038-01-01'))
+    await userEvent.keyboard('{PageUp}')
+    await vi.waitFor(() => expect(focused()).toBe('2026-01-01'))
+  })
+
+  it('方向键越过月末时翻到相邻月份并聚焦对应日期；越过 max 的方向键不移动焦点', async () => {
+    const { day } = mountCalendar({ modelValue: '2026-09-28', max: '2026-10-10' })
+    day('2026-09-28').focus()
+    await userEvent.keyboard('{ArrowDown}')
+    await vi.waitFor(() => expect(document.activeElement).toBe(day('2026-10-05')))
+    expect(day('2026-10-05').hasAttribute('data-outside-view')).toBe(false)
+    await userEvent.keyboard('{ArrowDown}')
+    await new Promise(resolve => setTimeout(resolve, 50))
+    expect(document.activeElement).toBe(day('2026-10-05'))
+    await userEvent.keyboard('{ArrowUp}')
+    await vi.waitFor(() => expect(document.activeElement).toBe(day('2026-09-28')))
+    expect(day('2026-09-28').hasAttribute('data-outside-view')).toBe(false)
+    await userEvent.keyboard('{ArrowLeft}')
+    await vi.waitFor(() => expect(document.activeElement).toBe(day('2026-09-27')))
+  })
+
   it('Tab 落在选中格；方向键按天与周移动焦点，Enter 选中；焦点环只在键盘下出现', async () => {
     const { state, root, day } = mountCalendar()
     const before = document.createElement('button')

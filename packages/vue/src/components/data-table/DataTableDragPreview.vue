@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T extends object">
-  import { DialogPortal } from 'reka-ui'
+  import { DialogPortal } from '../../primitives/dialog'
   import type { DataTableDrag } from './composables/useTableDrag'
   import type { DataTableLayout } from './composables/useTableColumns'
   defineProps<{ drag: DataTableDrag<T>; layout: DataTableLayout<T> }>()

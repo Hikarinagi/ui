@@ -361,4 +361,7 @@ const cases: LiveCase[] = [
   },
 ]
 
-export default defineLiveCases('Pagination', cases)
+export default defineLiveCases(
+  'Pagination',
+  cases.map(entry => ({ prepare: park, ...entry })),
+)

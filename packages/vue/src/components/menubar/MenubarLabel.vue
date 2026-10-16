@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { MenubarLabel } from 'reka-ui'
+  import { MenubarLabel } from '../../primitives/menubar'
   import { cn } from '../../lib/cn'
 
   defineOptions({ name: 'HnMenubarLabel' })

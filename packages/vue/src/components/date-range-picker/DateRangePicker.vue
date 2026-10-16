@@ -6,7 +6,7 @@
     PopoverPortal,
     PopoverRoot,
     PopoverTrigger,
-  } from 'reka-ui'
+  } from '../../primitives/popover'
   import { CalendarRange } from '@lucide/vue'
   import { cn } from '../../lib/cn'
   import type { DateRangeValue } from '../../lib/date'

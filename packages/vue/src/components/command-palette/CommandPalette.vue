@@ -6,8 +6,8 @@
     DialogRoot,
     DialogTitle,
     DialogTrigger,
-    VisuallyHidden,
-  } from 'reka-ui'
+  } from '../../primitives/dialog'
+  import { VisuallyHidden } from '../../primitives/visually-hidden'
   import { computed, watch } from 'vue'
   import type { VirtualizeOptions } from '../../lib/virtual/types'
   import { useUiLocale } from '../../locale'

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { MenubarSeparator } from 'reka-ui'
+  import { MenubarSeparator } from '../../primitives/menubar'
   import { cn } from '../../lib/cn'
 
   defineOptions({ name: 'HnMenubarSeparator' })

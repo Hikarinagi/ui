@@ -174,20 +174,20 @@ Tooltip 与 Toast 各自需要一个根节点，在应用入口挂载一次即�
 
 ::: vue
 
-`vue`、`reka-ui`、`@hina-ui/vue` 在同一个应用中各自只能存在一份实例。如果存在多份，会导致浮层行为异常、焦点管理失效。
+`vue`、`@hina-ui/vue` 在同一个应用中各自只能存在一份实例。如果存在多份，会导致浮层行为异常、焦点管理失效。
 
 ```bash
-pnpm why vue reka-ui @hina-ui/vue
+pnpm why vue @hina-ui/vue
 ```
 
 :::
 
 ::: react
 
-`react`、`react-dom`、`radix-ui`、`@hina-ui/react` 在同一个应用中各自只能存在一份实例。如果存在多份，会导致浮层行为异常、焦点管理失效。
+`react`、`react-dom`、`@hina-ui/react` 在同一个应用中各自只能存在一份实例。如果存在多份，会导致浮层行为异常、焦点管理失效。
 
 ```bash
-pnpm why react react-dom radix-ui @hina-ui/react
+pnpm why react react-dom @hina-ui/react
 ```
 
 :::
@@ -239,6 +239,20 @@ provideUiLocale(enUS)
 ```
 
 组件的内置文字默认为简体中文，在应用的最外层调用一次即可切换。也可以只传入一部分内容，覆盖个别文字，未覆盖的部分仍然使用中文。
+
+```vue
+<script setup lang="ts">
+  import { ConfigProvider } from '@hina-ui/vue'
+</script>
+
+<template>
+  <ConfigProvider dir="ltr">
+    <RouterView />
+  </ConfigProvider>
+</template>
+```
+
+`ConfigProvider` 设置全局的文字方向 `dir`，组件未单独设置 `dir` 时都会继承它；`teleportTo` 可以指定浮层挂载的容器。
 
 :::
 

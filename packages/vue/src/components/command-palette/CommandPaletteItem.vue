@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T = unknown">
-  import { ListboxItem } from 'reka-ui'
+  import { ListboxItem } from '../../primitives/listbox'
   import { computed } from 'vue'
   import Kbd from '../kbd/Kbd.vue'
   import { selectItem } from '../select/select.variants'

@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T extends { label: string; disabled?: boolean }">
   import { toRef } from 'vue'
-  import type { FlattenedItem } from 'reka-ui'
+  import type { FlattenedItem } from '../../primitives/tree'
   import type { VirtualizeOptions } from '../../lib/virtual/types'
   import { useVirtualTree } from '../../lib/reka/useVirtualTree'
   import { virtualListContent, virtualListItem } from '../virtual-list/virtual-list.variants'

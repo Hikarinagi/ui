@@ -1,0 +1,7 @@
+export { injectDialogRootContext, type DialogRootContext } from './context'
+export { DialogContent, type DialogContentProps } from './DialogContent'
+export { DialogOverlay, type DialogOverlayProps } from './DialogOverlay'
+export { DialogPortal, type DialogPortalProps } from './DialogPortal'
+export { DialogRoot, type DialogRootEmits, type DialogRootProps } from './DialogRoot'
+export { DialogClose, DialogDescription, DialogTitle, type DialogTextProps } from './DialogText'
+export { DialogTrigger, type DialogTriggerProps } from './DialogTrigger'

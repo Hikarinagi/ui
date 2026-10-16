@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ContextMenuGroup } from 'reka-ui'
+  import { ContextMenuGroup } from '../../primitives/context-menu'
   import { cn } from '../../lib/cn'
 
   defineOptions({ name: 'HnContextMenuGroup' })

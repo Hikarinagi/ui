@@ -27,11 +27,17 @@ import {
   type CalendarPagingProps,
   type CalendarPartProps,
 } from './shared'
-import { getWeekStartsOn, type Month } from '../date-field/date/calendar'
-import { getDefaultDate, toDate } from '../date-field/date/comparators'
-import type { Formatter } from '../date-field/date/formatter'
+import {
+  calendarArrowShift,
+  calendarCellTabIndex,
+  calendarShiftCandidate,
+  isCalendarFocusedDate,
+} from '../../../../shared/src/primitives/date/calendar-view'
+import { getWeekStartsOn, type Month } from '../../../../shared/src/primitives/date/calendar'
+import { getDefaultDate, toDate } from '../../../../shared/src/primitives/date/comparators'
+import type { Formatter } from '../../../../shared/src/primitives/date/formatter'
 import { useDirection, useLocale, useNextTick, useVModel, useWatch } from '../date-field/date/hooks'
-import { handleCalendarInitialFocus, kbd } from '../date-field/date/utils'
+import { handleCalendarInitialFocus, kbd } from '../../../../shared/src/primitives/date/utils'
 import {
   useCalendar,
   useCalendarState,
@@ -382,16 +388,17 @@ export function CalendarCellTrigger({
   const isOutsideVisibleView = context.isOutsideVisibleView(day)
   const isDisabled =
     context.isDateDisabled(day) || (context.disableDaysOutsideCurrentView && isOutsideView)
-  let isFocusedDate = false
-  if (!isOutsideView && !isDisabled) {
-    if (!context.disabled && context.isPlaceholderFocusable && isSameDay(day, context.placeholder))
-      isFocusedDate = true
-    else if (
-      (!context.hasSelectedDate || context.isSelectedDateDisabled) &&
-      !context.isPlaceholderFocusable
-    )
-      isFocusedDate = !!context.firstFocusableDate && isSameDay(day, context.firstFocusableDate)
-  }
+  const isFocusedDate = isCalendarFocusedDate({
+    day,
+    outsideView: isOutsideView,
+    disabled: isDisabled,
+    rootDisabled: context.disabled,
+    placeholderFocusable: context.isPlaceholderFocusable,
+    placeholder: context.placeholder,
+    hasSelectedDate: context.hasSelectedDate,
+    selectedDateDisabled: context.isSelectedDateDisabled,
+    firstFocusableDate: context.firstFocusableDate,
+  })
   const isSelectedDate = context.isDateSelected(day)
 
   function changeDate(date: DateValue) {
@@ -416,32 +423,18 @@ export function CalendarCellTrigger({
     event.preventDefault()
     event.stopPropagation()
     const parentElement = context.parentElement.current!
-    const sign = context.dir === 'rtl' ? -1 : 1
-    switch (event.code) {
-      case kbd.ARROW_RIGHT:
-        shiftFocus(day, sign)
-        break
-      case kbd.ARROW_LEFT:
-        shiftFocus(day, -sign)
-        break
-      case kbd.ARROW_UP:
-        shiftFocus(day, -7)
-        break
-      case kbd.ARROW_DOWN:
-        shiftFocus(day, 7)
-        break
-      case kbd.ENTER:
-      case kbd.SPACE_CODE:
-        changeDate(day)
-    }
+    const shift = calendarArrowShift(event.code, context.dir)
+    if (shift !== undefined) shiftFocus(day, shift)
+    else if (event.code === kbd.ENTER || event.code === kbd.SPACE_CODE) changeDate(day)
 
     function shiftFocus(from: DateValue, add: number) {
-      const candidateDayValue = from.add({ days: add })
-      if (
-        (context.minValue && candidateDayValue.compare(context.minValue) < 0) ||
-        (context.maxValue && candidateDayValue.compare(context.maxValue) > 0)
+      const candidateDayValue = calendarShiftCandidate(
+        from,
+        add,
+        context.minValue,
+        context.maxValue,
       )
-        return
+      if (!candidateDayValue) return
       const candidateDay = parentElement.querySelector<HTMLElement>(
         `[data-value='${candidateDayValue.toString()}']:not([data-outside-view])`,
       )
@@ -478,7 +471,7 @@ export function CalendarCellTrigger({
       data-outside-view={isOutsideView ? '' : undefined}
       data-outside-visible-view={isOutsideVisibleView ? '' : undefined}
       data-focused={isFocusedDate ? '' : undefined}
-      tabIndex={isFocusedDate ? 0 : isOutsideView || isDisabled ? undefined : -1}
+      tabIndex={calendarCellTabIndex(isFocusedDate, isOutsideView, isDisabled)}
       onClick={handleClick}
       onKeyDown={handleArrowKey}
       {...props}

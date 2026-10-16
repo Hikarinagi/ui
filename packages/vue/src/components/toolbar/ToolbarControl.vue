@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { injectTooltipProviderContext } from 'reka-ui'
+  import { injectTooltipProviderContext } from '../../primitives/tooltip'
   import { Passthrough } from '../../lib/passthrough'
   import Button from '../button/Button.vue'
   import Tooltip from '../tooltip/Tooltip.vue'

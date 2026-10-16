@@ -1,6 +1,6 @@
 import { onScopeDispose, watch, watchPostEffect } from 'vue'
 import { useEventListener } from '@vueuse/core'
-import { injectTooltipProviderContext, injectTooltipRootContext } from 'reka-ui'
+import { injectTooltipProviderContext, injectTooltipRootContext } from '../../../primitives/tooltip'
 
 type Handler = (event: Event) => void
 

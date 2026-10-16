@@ -1,10 +1,10 @@
 <script setup lang="ts">
   import {
     PopoverContent,
-    useForwardPropsEmits,
     type PopoverContentProps,
     type PopoverContentEmits,
-  } from 'reka-ui'
+  } from '../../primitives/popover'
+  import { useForwardPropsEmits } from '../../primitives/utils/useForwardPropsEmits'
   import { usePopoverCloseFocus } from './composables/usePopoverCloseFocus'
 
   defineOptions({ name: 'HnPopoverContent' })

@@ -7,7 +7,7 @@
     ToastTitle,
     ToastDescription,
     ToastClose,
-  } from 'reka-ui'
+  } from '../../primitives/toast'
   import { CircleCheck, CircleX, TriangleAlert, Info } from '@lucide/vue'
   import Button from '../button/Button.vue'
   import CloseButton from '../close-button/CloseButton.vue'

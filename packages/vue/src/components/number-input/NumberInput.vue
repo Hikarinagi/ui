@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { ChevronDown, ChevronUp } from '@lucide/vue'
-  import { useForwardPropsEmits } from 'reka-ui'
+  import { useForwardPropsEmits } from '../../primitives/utils/useForwardPropsEmits'
   import {
     NumberFieldDecrement,
     NumberFieldIncrement,

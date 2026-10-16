@@ -14,7 +14,7 @@ links:
 import { NavLink } from '@hina-ui/vue'
 ```
 
-`NavLink` 是纵向导航列表中的一项，默认渲染为链接，整行都是点击区域。它自己不提供列表容器，外层用 `Stack` 或 `nav` 排布。
+`NavLink` 是纵向导航列表中的一项，默认渲染为链接，整行都是点击区域。它自己不提供列表容器，外层用 `Stack` 或 `nav` 排布。文字只占一行，放不下时以省略号截断。
 
 <Demo name="nav-link/basic" />
 
@@ -37,6 +37,12 @@ import { NavLink } from '@hina-ui/vue'
 `icon` 插槽放在文字之前，尺寸由组件统一为 4 个单位，不需要在图标上写尺寸类。图标是装饰，文字才是可读名称。
 
 <Demo name="nav-link/icon" />
+
+### 尾部内容 {#trailing}
+
+`trailing` 插槽放在文字之后并贴在行末，用于页数、计数或快捷键。标题放不下时只截断标题，尾部内容保持完整；侧栏收起为 rail 时与文字一起隐藏。
+
+<Demo name="nav-link/trailing" />
 
 ### 路由链接 {#router}
 
@@ -105,7 +111,8 @@ import { NavLink } from '@hina-ui/vue'
 
 ### Slots {#slots}
 
-| 插槽      | 说明                   |
-| --------- | ---------------------- |
-| `default` | 项的文字，也是可读名称 |
-| `icon`    | 文字之前的图标         |
+| 插槽       | 说明                     |
+| ---------- | ------------------------ |
+| `default`  | 项的文字，也是可读名称   |
+| `icon`     | 文字之前的图标           |
+| `trailing` | 文字之后、贴在行末的内容 |

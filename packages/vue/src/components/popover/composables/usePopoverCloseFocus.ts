@@ -1,5 +1,5 @@
 import { nextTick } from 'vue'
-import { injectPopoverRootContext } from 'reka-ui'
+import { injectPopoverRootContext } from '../../../primitives/popover'
 
 export function usePopoverCloseFocus(emit: (event: 'closeAutoFocus', value: Event) => void) {
   const root = injectPopoverRootContext()

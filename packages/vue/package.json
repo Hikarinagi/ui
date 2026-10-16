@@ -1,7 +1,7 @@
 {
   "name": "@hina-ui/vue",
   "version": "1.7.12",
-  "description": "The design system behind Hikarinagi: Vue 3 components built on Reka UI and Tailwind CSS v4.",
+  "description": "The design system behind Hikarinagi: Vue 3 components built on Tailwind CSS v4.",
   "keywords": [
     "vue",
     "vue3",
@@ -9,7 +9,6 @@
     "design-system",
     "ui",
     "tailwindcss",
-    "reka-ui",
     "accessibility"
   ],
   "homepage": "https://hinaui.dev",
@@ -49,17 +48,19 @@
     "test:browser": "vitest run -c vitest.browser.config.ts"
   },
   "dependencies": {
+    "@floating-ui/dom": "1.7.6",
+    "@floating-ui/vue": "1.1.11",
     "@internationalized/date": "^3.12.4",
     "@internationalized/number": "^3.6.8",
     "@lucide/vue": "^1.37.0",
     "@tanstack/vue-table": "^9.2.4",
     "@tanstack/vue-virtual": "^3.13.36",
     "@vueuse/core": "^12.8.2",
+    "aria-hidden": "^1.2.6",
     "clsx": "^2.1.1",
     "embla-carousel": "8.6.0",
     "motion-v": "^2.2.1",
     "overlayscrollbars": "2.16.0",
-    "reka-ui": "^2.9.10",
     "shiki": "4.0.2",
     "tailwind-merge": "^3.6.0",
     "tailwind-variants": "^3.3.1",
@@ -70,7 +71,6 @@
     "vue": "^3.5.0"
   },
   "devDependencies": {
-    "@floating-ui/dom": "1.7.6",
     "@hina-ui/shared": "workspace:*",
     "@tailwindcss/vite": "^4.3.0",
     "@vitejs/plugin-vue": "^6.0.7",

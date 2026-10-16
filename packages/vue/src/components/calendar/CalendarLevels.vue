@@ -17,7 +17,7 @@
     YearPickerNext,
     YearPickerPrev,
     YearPickerRoot,
-  } from 'reka-ui'
+  } from '../../primitives/picker'
   import type { DateValue } from '@internationalized/date'
   import { useUiLocale } from '../../locale'
   import CalendarHeader from './CalendarHeader.vue'

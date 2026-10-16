@@ -1,6 +1,10 @@
 <script setup lang="ts">
   import { computed, shallowRef, useSlots } from 'vue'
-  import { DateRangeFieldInput, DateRangeFieldRoot, type DateRange } from 'reka-ui'
+  import {
+    DateRangeFieldInput,
+    DateRangeFieldRoot,
+    type DateRange,
+  } from '../../primitives/date-range-field'
   import { cn } from '../../lib/cn'
   import {
     formatDateRange,

@@ -38,7 +38,7 @@ import {
   paddedExitPoints,
   pointsFromRect,
   type Polygon,
-} from '../utils/grace-area'
+} from '../../../../shared/src/primitives/grace-area'
 
 export type { FocusOutsideEvent, PointerDownOutsideEvent } from '../utils/dismissable'
 import { DismissableLayer } from '../dismissable-layer'

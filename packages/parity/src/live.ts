@@ -9,6 +9,7 @@ export interface LiveCase {
   vue: () => VNode
   react: () => ReactElement
   viewport?: { width: number; height: number }
+  prepare?: () => Promise<void> | void
   interact?: (container: HTMLElement) => Promise<void> | void
   settle: () => Promise<void> | void
   ignoreAttributes?: string[]
@@ -97,9 +98,10 @@ function resetFocus() {
 
 export const LIVE_VIEWPORT = { width: 414, height: 896 }
 
-async function host({ viewport = LIVE_VIEWPORT }: LiveCase) {
+async function host({ viewport = LIVE_VIEWPORT, prepare }: LiveCase) {
   await page.viewport(viewport.width, viewport.height)
   reset()
+  await prepare?.()
   resetFocus()
   const container = document.createElement('div')
   container.id = 'parity-host'

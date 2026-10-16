@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { injectTooltipProviderContext } from 'reka-ui'
+  import { injectTooltipProviderContext } from '../../primitives/tooltip'
   import { Toggle as ToggleRoot } from '../../primitives/toggle'
   import { computed, useSlots } from 'vue'
   import { cn } from '../../lib/cn'

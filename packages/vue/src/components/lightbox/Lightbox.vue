@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import { computed, onMounted, shallowRef, watch } from 'vue'
-  import { DialogRoot, DialogPortal, DialogContent, DialogTitle, useBodyScrollLock } from 'reka-ui'
+  import { DialogRoot, DialogPortal, DialogContent, DialogTitle } from '../../primitives/dialog'
+  import { useBodyScrollLock } from '../../primitives/utils/useBodyScrollLock'
   import { Motion } from 'motion-v'
   import { cn } from '../../lib/cn'
   import VisuallyHidden from '../visually-hidden/VisuallyHidden.vue'

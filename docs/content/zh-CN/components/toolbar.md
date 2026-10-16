@@ -85,7 +85,7 @@ import {
 
 ::: vue
 
-`dir="rtl"` 同时调整排列和左右方向键。未传入时继承 [ConfigProvider](https://reka-ui.com/docs/utilities/config-provider) 的方向，或最近祖先的 `dir`。
+`dir="rtl"` 同时调整排列和左右方向键。未传入时继承 `ConfigProvider` 的方向，或最近祖先的 `dir`。
 
 :::
 

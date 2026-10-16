@@ -17,7 +17,7 @@ import {
 import { usePortalContainer } from '../../lib/config'
 import { Primitive, type PrimitiveElementProps } from '../../lib/primitive'
 import { PrimitiveVisuallyHidden } from '../visually-hidden'
-import { focusFirst, getActiveElement, getTabbableCandidates } from '../dialog/focus'
+import { focusFirst, getActiveElement } from '../dialog/focus'
 import {
   TOAST_SWIPE_CANCEL,
   TOAST_SWIPE_END,
@@ -25,14 +25,19 @@ import {
   TOAST_SWIPE_START,
   VIEWPORT_PAUSE,
   VIEWPORT_RESUME,
+  dispatchSwipeEvent,
   getAnnounceTextContent,
-  handleAndDispatchCustomEvent,
+  hotkeyMessage as formatHotkey,
   isDeltaInDirection,
+  sortTabbableCandidates,
+  swipeDelta,
+  swipeStartBuffer,
+  viewportLabel,
   type SwipeDirection,
   type SwipeEvent,
-} from './utils'
+} from '../../../../shared/src/primitives/toast'
 
-export type { SwipeDirection, SwipeEvent } from './utils'
+export type { SwipeDirection, SwipeEvent } from '../../../../shared/src/primitives/toast'
 import { createCollection } from '../collection'
 import { DismissableLayerBranch } from '../dismissable-layer'
 import { Portal as HnPortal } from '../portal'
@@ -173,7 +178,7 @@ export function ToastViewport({
   const headFocusProxyRef = useRef<HTMLElement | null>(null)
   const tailFocusProxyRef = useRef<HTMLElement | null>(null)
   const hasToasts = context.toastCount > 0
-  const hotkeyMessage = hotkey.join('+').replace(/Key/g, '').replace(/Digit/g, '')
+  const hotkeyMessage = formatHotkey(hotkey)
   const keys = useRef(hotkey)
 
   useEffect(() => {
@@ -189,15 +194,7 @@ export function ToastViewport({
       const toastItems = getItems()
         .map(item => item.ref.current)
         .filter((node): node is HTMLElement => !!node && node.dataset.disabled !== '')
-      const tabbableCandidates = toastItems.map(toastNode => {
-        const toastTabbableCandidates = [toastNode, ...getTabbableCandidates(toastNode)]
-        return tabbingDirection === 'forwards'
-          ? toastTabbableCandidates
-          : toastTabbableCandidates.reverse()
-      })
-      return (
-        tabbingDirection === 'forwards' ? tabbableCandidates.reverse() : tabbableCandidates
-      ).flat()
+      return sortTabbableCandidates(toastItems, tabbingDirection)
     },
     [getItems],
   )
@@ -262,9 +259,7 @@ export function ToastViewport({
   return (
     <DismissableLayerBranch
       role="region"
-      aria-label={
-        typeof label === 'string' ? label.replace('{hotkey}', hotkeyMessage) : label(hotkeyMessage)
-      }
+      aria-label={viewportLabel(label, hotkeyMessage)}
       tabIndex={-1}
       style={{ pointerEvents: hasToasts ? undefined : 'none' }}
     >
@@ -495,7 +490,10 @@ function ToastRootImpl({
     return () => onToastRemove()
   }, [onToastAdd, onToastRemove])
 
-  const announceTextContent = useMemo(() => (node ? getAnnounceTextContent(node) : null), [node])
+  const announceTextContent = useMemo(
+    () => (node ? getAnnounceTextContent(node, 'radix') : null),
+    [node],
+  )
   const rootContext = useMemo(() => ({ onClose: handleClose }), [handleClose])
   const swipeStyle: CSSProperties | undefined = provider.disableSwipe
     ? style
@@ -529,23 +527,21 @@ function ToastRootImpl({
               onPointerMove={event => {
                 onPointerMove?.(event)
                 if (provider.disableSwipe || !pointerStartRef.current) return
-                const x = event.clientX - pointerStartRef.current.x
-                const y = event.clientY - pointerStartRef.current.y
+                const { x, y, delta } = swipeDelta(
+                  pointerStartRef.current,
+                  event,
+                  provider.swipeDirection,
+                )
                 const hasSwipeMoveStarted = Boolean(swipeDeltaRef.current)
-                const isHorizontalSwipe = ['left', 'right'].includes(provider.swipeDirection)
-                const clamp = ['left', 'up'].includes(provider.swipeDirection) ? Math.min : Math.max
-                const clampedX = isHorizontalSwipe ? clamp(0, x) : 0
-                const clampedY = !isHorizontalSwipe ? clamp(0, y) : 0
-                const moveStartBuffer = event.pointerType === 'touch' ? 10 : 2
-                const delta = { x: clampedX, y: clampedY }
+                const moveStartBuffer = swipeStartBuffer(event.pointerType)
                 const target = event.currentTarget
                 const detail = { originalEvent: event.nativeEvent, delta }
                 if (hasSwipeMoveStarted) {
                   swipeDeltaRef.current = delta
-                  handleAndDispatchCustomEvent(TOAST_SWIPE_MOVE, target, onSwipeMove, detail)
+                  dispatchSwipeEvent(TOAST_SWIPE_MOVE, target, onSwipeMove, detail)
                 } else if (isDeltaInDirection(delta, provider.swipeDirection, moveStartBuffer)) {
                   swipeDeltaRef.current = delta
-                  handleAndDispatchCustomEvent(TOAST_SWIPE_START, target, onSwipeStart, detail)
+                  dispatchSwipeEvent(TOAST_SWIPE_START, target, onSwipeStart, detail)
                   ;(event.target as HTMLElement).setPointerCapture(event.pointerId)
                 } else if (Math.abs(x) > moveStartBuffer || Math.abs(y) > moveStartBuffer) {
                   pointerStartRef.current = null
@@ -564,8 +560,8 @@ function ToastRootImpl({
                 const toast = event.currentTarget
                 const detail = { originalEvent: event.nativeEvent, delta }
                 if (isDeltaInDirection(delta, provider.swipeDirection, provider.swipeThreshold))
-                  handleAndDispatchCustomEvent(TOAST_SWIPE_END, toast, onSwipeEnd, detail)
-                else handleAndDispatchCustomEvent(TOAST_SWIPE_CANCEL, toast, onSwipeCancel, detail)
+                  dispatchSwipeEvent(TOAST_SWIPE_END, toast, onSwipeEnd, detail)
+                else dispatchSwipeEvent(TOAST_SWIPE_CANCEL, toast, onSwipeCancel, detail)
                 toast.addEventListener('click', clickEvent => clickEvent.preventDefault(), {
                   once: true,
                 })

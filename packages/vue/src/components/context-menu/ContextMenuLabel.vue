@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ContextMenuLabel } from 'reka-ui'
+  import { ContextMenuLabel } from '../../primitives/context-menu'
   import { cn } from '../../lib/cn'
 
   defineOptions({ name: 'HnContextMenuLabel' })
