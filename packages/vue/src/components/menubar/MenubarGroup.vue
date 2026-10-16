@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { MenubarGroup } from 'reka-ui'
+  import { MenubarGroup } from '../../primitives/menubar'
   import { cn } from '../../lib/cn'
 
   defineOptions({ name: 'HnMenubarGroup' })

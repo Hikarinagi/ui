@@ -1,6 +1,11 @@
 <script setup lang="ts">
   import { ChevronRight } from '@lucide/vue'
-  import { MenubarPortal, MenubarSub, MenubarSubContent, MenubarSubTrigger } from 'reka-ui'
+  import {
+    MenubarPortal,
+    MenubarSub,
+    MenubarSubContent,
+    MenubarSubTrigger,
+  } from '../../primitives/menubar'
   import Card from '../card/Card.vue'
   import { cn } from '../../lib/cn'
   import { dropdownItem } from '../dropdown-menu/dropdown-menu.variants'

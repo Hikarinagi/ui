@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { Check } from '@lucide/vue'
-  import { MenubarCheckboxItem, MenubarItemIndicator } from 'reka-ui'
+  import { MenubarCheckboxItem, MenubarItemIndicator } from '../../primitives/menubar'
   import { cn } from '../../lib/cn'
   import { dropdownItem } from '../dropdown-menu/dropdown-menu.variants'
 

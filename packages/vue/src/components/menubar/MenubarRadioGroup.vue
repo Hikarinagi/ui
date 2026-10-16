@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { MenubarRadioGroup } from 'reka-ui'
+  import { MenubarRadioGroup } from '../../primitives/menubar'
 
   defineOptions({ name: 'HnMenubarRadioGroup' })
 

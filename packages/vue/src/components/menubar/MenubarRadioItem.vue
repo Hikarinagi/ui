@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { Check } from '@lucide/vue'
-  import { MenubarItemIndicator, MenubarRadioItem } from 'reka-ui'
+  import { MenubarItemIndicator, MenubarRadioItem } from '../../primitives/menubar'
   import { cn } from '../../lib/cn'
   import { dropdownItem } from '../dropdown-menu/dropdown-menu.variants'
 

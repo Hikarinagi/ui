@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { MenubarRoot } from 'reka-ui'
+  import { MenubarRoot } from '../../primitives/menubar'
   import { cn } from '../../lib/cn'
   import { menubarRoot } from './menubar.variants'
 
