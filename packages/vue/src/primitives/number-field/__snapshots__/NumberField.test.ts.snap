@@ -1,0 +1,288 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`client behaviour > controlled > beforeinput rejects invalid characters 1`] = `
+{
+  "emitted": [],
+  "html": "<div role="group"><input role="spinbutton" type="text" tabindex="0" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field" aria-valuemin="0" value=""><button tabindex="-1" aria-label="Increase" type="button">+</button><button tabindex="-1" aria-label="Decrease" type="button">-</button>
+  <!--v-if-->
+</div>",
+  "result": [
+    true,
+    false,
+    true,
+    false,
+  ],
+  "value": "",
+}
+`;
+
+exports[`client behaviour > controlled > clearing the text keeps it empty even when the parent ignores the update 1`] = `
+{
+  "emitted": [
+    undefined,
+  ],
+  "html": "<div role="group"><input role="spinbutton" type="text" tabindex="0" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field" aria-valuemin="0" value=""><button tabindex="-1" aria-label="Increase" type="button">+</button><button tabindex="-1" aria-label="Decrease" type="button">-</button>
+  <!--v-if-->
+</div>",
+  "result": undefined,
+  "value": "",
+}
+`;
+
+exports[`client behaviour > controlled > committed text shows the model the parent keeps 1`] = `
+{
+  "emitted": [
+    7,
+  ],
+  "html": "<div role="group"><input role="spinbutton" type="text" tabindex="0" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field" aria-valuenow="7" aria-valuemin="0" value="7"><button tabindex="-1" aria-label="Increase" type="button">+</button><button tabindex="-1" aria-label="Decrease" type="button">-</button>
+  <!--v-if-->
+</div>",
+  "result": undefined,
+  "value": "7",
+}
+`;
+
+exports[`client behaviour > controlled > keyboard stepping, paging and bounds 1`] = `
+{
+  "emitted": [
+    6,
+    7,
+    6,
+    16,
+    1,
+    40,
+    30,
+  ],
+  "html": "<div role="group"><input role="spinbutton" type="text" tabindex="0" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field" aria-valuenow="30" aria-valuemin="1" aria-valuemax="40" value="30"><button tabindex="-1" aria-label="Increase" type="button">+</button><button tabindex="-1" aria-label="Decrease" type="button">-</button>
+  <!--v-if-->
+</div>",
+  "result": undefined,
+  "value": "30",
+}
+`;
+
+exports[`client behaviour > controlled > press and hold repeats until release or the limit 1`] = `
+{
+  "emitted": [
+    7.5,
+    8,
+    8.5,
+    8,
+    7.5,
+    7,
+    6.5,
+    6,
+    5.5,
+    5,
+    4.5,
+    4,
+    3.5,
+    3,
+    2.5,
+  ],
+  "html": "<div role="group"><input role="spinbutton" type="text" tabindex="0" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field" aria-valuenow="2.5" aria-valuemax="9.5" value="2.5"><button tabindex="-1" aria-label="Increase" type="button">+</button><button tabindex="-1" aria-label="Decrease" type="button">-</button>
+  <!--v-if-->
+</div>",
+  "result": undefined,
+  "value": "2.5",
+}
+`;
+
+exports[`client behaviour > controlled > the hidden form input follows the value 1`] = `
+{
+  "emitted": [
+    4,
+  ],
+  "html": "<form>
+  <div role="group"><input role="spinbutton" type="text" tabindex="0" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field" aria-valuenow="4" value="4"><button tabindex="-1" aria-label="Increase" type="button">+</button><button tabindex="-1" aria-label="Decrease" type="button">-</button><!-- We render single input if it's required --><input aria-hidden="true" data-hidden="" tabindex="-1" style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); clip-path: inset(50%); white-space: nowrap; word-wrap: normal; top: -1px; left: -1px;" name="qty" type="text" value="4"></div>
+</form>",
+  "result": undefined,
+  "value": "4",
+}
+`;
+
+exports[`client behaviour > controlled > the wheel steps only while focused 1`] = `
+{
+  "emitted": [
+    3,
+    2,
+    1,
+  ],
+  "html": "<div role="group"><input role="spinbutton" type="text" tabindex="0" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field" aria-valuenow="1" value="1"><button tabindex="-1" aria-label="Increase" type="button">+</button><button tabindex="-1" aria-label="Decrease" type="button">-</button>
+  <!--v-if-->
+</div>",
+  "result": undefined,
+  "value": "1",
+}
+`;
+
+exports[`client behaviour > controlled > typing, Enter and blur parse and clamp 1`] = `
+{
+  "emitted": [
+    10,
+    3,
+    undefined,
+  ],
+  "html": "<div role="group"><input role="spinbutton" type="text" tabindex="0" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field" aria-valuemin="0" aria-valuemax="10" value=""><button tabindex="-1" aria-label="Increase" type="button">+</button><button tabindex="-1" aria-label="Decrease" type="button">-</button>
+  <!--v-if-->
+</div>",
+  "result": undefined,
+  "value": "",
+}
+`;
+
+exports[`client behaviour > uncontrolled > beforeinput rejects invalid characters 1`] = `
+{
+  "emitted": [],
+  "html": "<div role="group"><input role="spinbutton" type="text" tabindex="0" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field" aria-valuemin="0" value=""><button tabindex="-1" aria-label="Increase" type="button">+</button><button tabindex="-1" aria-label="Decrease" type="button">-</button>
+  <!--v-if-->
+</div>",
+  "result": [
+    true,
+    false,
+    true,
+    false,
+  ],
+  "value": "",
+}
+`;
+
+exports[`client behaviour > uncontrolled > clearing the text keeps it empty even when the parent ignores the update 1`] = `
+{
+  "emitted": [
+    undefined,
+  ],
+  "html": "<div role="group"><input role="spinbutton" type="text" tabindex="0" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field" aria-valuenow="3" aria-valuemin="0" value=""><button tabindex="-1" aria-label="Increase" type="button">+</button><button tabindex="-1" aria-label="Decrease" type="button">-</button>
+  <!--v-if-->
+</div>",
+  "result": undefined,
+  "value": "",
+}
+`;
+
+exports[`client behaviour > uncontrolled > committed text shows the model the parent keeps 1`] = `
+{
+  "emitted": [
+    7,
+  ],
+  "html": "<div role="group"><input role="spinbutton" type="text" tabindex="0" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field" aria-valuenow="3" aria-valuemin="0" value="3"><button tabindex="-1" aria-label="Increase" type="button">+</button><button tabindex="-1" aria-label="Decrease" type="button">-</button>
+  <!--v-if-->
+</div>",
+  "result": undefined,
+  "value": "3",
+}
+`;
+
+exports[`client behaviour > uncontrolled > keyboard stepping, paging and bounds 1`] = `
+{
+  "emitted": [
+    6,
+    6,
+    4,
+    15,
+    1,
+    40,
+    1,
+  ],
+  "html": "<div role="group"><input role="spinbutton" type="text" tabindex="0" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field" aria-valuenow="5" aria-valuemin="1" aria-valuemax="40" value="5"><button tabindex="-1" aria-label="Increase" type="button">+</button><button tabindex="-1" aria-label="Decrease" type="button">-</button>
+  <!--v-if-->
+</div>",
+  "result": undefined,
+  "value": "5",
+}
+`;
+
+exports[`client behaviour > uncontrolled > press and hold repeats until release or the limit 1`] = `
+{
+  "emitted": [
+    7.5,
+    7.5,
+    7.5,
+    6.5,
+    6.5,
+    6.5,
+    6.5,
+    6.5,
+    6.5,
+    6.5,
+    6.5,
+    6.5,
+    6.5,
+    6.5,
+    6.5,
+  ],
+  "html": "<div role="group"><input role="spinbutton" type="text" tabindex="0" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field" aria-valuenow="7" aria-valuemax="9.5" value="7"><button tabindex="-1" aria-label="Increase" type="button">+</button><button tabindex="-1" aria-label="Decrease" type="button">-</button>
+  <!--v-if-->
+</div>",
+  "result": undefined,
+  "value": "7",
+}
+`;
+
+exports[`client behaviour > uncontrolled > the hidden form input follows the value 1`] = `
+{
+  "emitted": [
+    4,
+  ],
+  "html": "<form>
+  <div role="group"><input role="spinbutton" type="text" tabindex="0" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field" aria-valuenow="3" value="3"><button tabindex="-1" aria-label="Increase" type="button">+</button><button tabindex="-1" aria-label="Decrease" type="button">-</button><!-- We render single input if it's required --><input aria-hidden="true" data-hidden="" tabindex="-1" style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); clip-path: inset(50%); white-space: nowrap; word-wrap: normal; top: -1px; left: -1px;" name="qty" type="text" value="3"></div>
+</form>",
+  "result": undefined,
+  "value": "3",
+}
+`;
+
+exports[`client behaviour > uncontrolled > the wheel steps only while focused 1`] = `
+{
+  "emitted": [
+    3,
+    1,
+    1,
+  ],
+  "html": "<div role="group"><input role="spinbutton" type="text" tabindex="0" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field" aria-valuenow="2" value="2"><button tabindex="-1" aria-label="Increase" type="button">+</button><button tabindex="-1" aria-label="Decrease" type="button">-</button>
+  <!--v-if-->
+</div>",
+  "result": undefined,
+  "value": "2",
+}
+`;
+
+exports[`client behaviour > uncontrolled > typing, Enter and blur parse and clamp 1`] = `
+{
+  "emitted": [
+    10,
+    3,
+  ],
+  "html": "<div role="group"><input role="spinbutton" type="text" tabindex="0" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field" aria-valuemin="0" aria-valuemax="10" value=""><button tabindex="-1" aria-label="Increase" type="button">+</button><button tabindex="-1" aria-label="Decrease" type="button">-</button>
+  <!--v-if-->
+</div>",
+  "result": undefined,
+  "value": "",
+}
+`;
+
+exports[`server markup > as and asChild 1`] = `"<span role="group"><!--[--><input value="1" role="spinbutton" type="text" tabindex="0" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field" aria-valuenow="1"><a tabindex="-1" aria-label="Increase" type="button" style="" href="#up" class="up">up</a><span tabindex="-1" aria-label="Decrease" style=""><!--[-->-<!--]--></span><!--]--><!--v-if--></span>"`;
+
+exports[`server markup > at the maximum with a decimal step 1`] = `"<div role="group"><!--[--><input value="10" role="spinbutton" type="text" tabindex="0" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field" aria-valuenow="10" aria-valuemin="0" aria-valuemax="10"><button disabled tabindex="-1" aria-label="Increase" type="button" style="" data-disabled><!--[-->+<!--]--></button><button tabindex="-1" aria-label="Decrease" type="button" style=""><!--[-->-<!--]--></button><!--]--><!--v-if--></div>"`;
+
+exports[`server markup > at the minimum 1`] = `"<div role="group"><!--[--><input value="0" role="spinbutton" type="text" tabindex="0" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10"><button tabindex="-1" aria-label="Increase" type="button" style=""><!--[-->+<!--]--></button><button disabled tabindex="-1" aria-label="Decrease" type="button" style="" data-disabled><!--[-->-<!--]--></button><!--]--><!--v-if--></div>"`;
+
+exports[`server markup > controlled value with bounds 1`] = `"<div role="group"><!--[--><input value="5" role="spinbutton" type="text" tabindex="0" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field" aria-valuenow="5" aria-valuemin="0" aria-valuemax="10" placeholder="qty" aria-label="qty"><button tabindex="-1" aria-label="Increase" type="button" style=""><!--[-->+<!--]--></button><button tabindex="-1" aria-label="Decrease" type="button" style=""><!--[-->-<!--]--></button><!--]--><!--v-if--></div>"`;
+
+exports[`server markup > default value with currency 1`] = `"<div role="group"><!--[--><input value="CN¥1,234.50" role="spinbutton" type="text" tabindex="0" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field" aria-valuenow="1234.5"><button tabindex="-1" aria-label="Increase" type="button" style=""><!--[-->+<!--]--></button><button tabindex="-1" aria-label="Decrease" type="button" style=""><!--[-->-<!--]--></button><!--]--><!--v-if--></div>"`;
+
+exports[`server markup > disabled and readonly 1`] = `"<div role="group" data-disabled data-readonly><!--[--><input value="4" role="spinbutton" type="text" tabindex="0" inputmode="decimal" disabled data-disabled readonly data-readonly autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field" aria-valuenow="4"><button disabled tabindex="-1" aria-label="Increase" type="button" style="" data-disabled><!--[-->+<!--]--></button><button disabled tabindex="-1" aria-label="Decrease" type="button" style="" data-disabled><!--[-->-<!--]--></button><!--]--><!--v-if--></div>"`;
+
+exports[`server markup > empty field 1`] = `"<div role="group"><!--[--><input value role="spinbutton" type="text" tabindex="0" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field"><button tabindex="-1" aria-label="Increase" type="button" style=""><!--[-->+<!--]--></button><button tabindex="-1" aria-label="Decrease" type="button" style=""><!--[-->-<!--]--></button><!--]--><!--v-if--></div>"`;
+
+exports[`server markup > form field 1`] = `"<form><div role="group"><!--[--><input value="3" role="spinbutton" type="text" tabindex="0" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field" aria-valuenow="3" aria-valuemin="0"><button tabindex="-1" aria-label="Increase" type="button" style=""><!--[-->+<!--]--></button><button tabindex="-1" aria-label="Decrease" type="button" style=""><!--[-->-<!--]--></button><!--]--><!--[--><!-- We render single input if it's required --><!--[--><input aria-hidden="true" data-hidden tabindex="-1" style="position:absolute;border:0;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);clip-path:inset(50%);white-space:nowrap;word-wrap:normal;top:-1px;left:-1px;" value="3" name="qty" required type="text"><!--]--><!--]--></div></form>"`;
+
+exports[`server markup > form field outside a form 1`] = `"<div role="group"><!--[--><input value="3" role="spinbutton" type="text" tabindex="0" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field" aria-valuenow="3"><button tabindex="-1" aria-label="Increase" type="button" style=""><!--[-->+<!--]--></button><button tabindex="-1" aria-label="Decrease" type="button" style=""><!--[-->-<!--]--></button><!--]--><!--[--><!-- We render single input if it's required --><!--[--><input aria-hidden="true" data-hidden tabindex="-1" style="position:absolute;border:0;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);clip-path:inset(50%);white-space:nowrap;word-wrap:normal;top:-1px;left:-1px;" value="3" name="qty" type="text"><!--]--><!--]--></div>"`;
+
+exports[`server markup > id, attributes and classes on every part 1`] = `"<div class="root" data-x="1" role="group"><!--[--><input id="own" value="2" role="spinbutton" type="text" tabindex="0" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field" aria-valuenow="2" class="input"><button disabled tabindex="-1" aria-label="more" type="button" style="" data-disabled class="up"><!--[-->+<!--]--></button><button tabindex="-1" aria-label="Decrease" type="button" style="color:red;" class="down"><!--[-->-<!--]--></button><!--]--><!--v-if--></div>"`;
+
+exports[`server markup > integer format 1`] = `"<div role="group"><!--[--><input value="3" role="spinbutton" type="text" tabindex="0" inputmode="numeric" autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field" aria-valuenow="3"><button tabindex="-1" aria-label="Increase" type="button" style=""><!--[-->+<!--]--></button><button tabindex="-1" aria-label="Decrease" type="button" style=""><!--[-->-<!--]--></button><!--]--><!--v-if--></div>"`;
+
+exports[`server markup > locale from the config provider 1`] = `"<!--[--><div role="group"><!--[--><input value="25 %" role="spinbutton" type="text" tabindex="0" inputmode="numeric" autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field" aria-valuenow="0.25"><button tabindex="-1" aria-label="Increase" type="button" style=""><!--[-->+<!--]--></button><button tabindex="-1" aria-label="Decrease" type="button" style=""><!--[-->-<!--]--></button><!--]--><!--v-if--></div><!--]-->"`;
+
+exports[`server markup > null model 1`] = `"<div role="group"><!--[--><input value role="spinbutton" type="text" tabindex="0" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" aria-roledescription="Number field"><button tabindex="-1" aria-label="Increase" type="button" style=""><!--[-->+<!--]--></button><button tabindex="-1" aria-label="Decrease" type="button" style=""><!--[-->-<!--]--></button><!--]--><!--v-if--></div>"`;

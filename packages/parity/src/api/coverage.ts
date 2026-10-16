@@ -19,7 +19,9 @@ export const EXCEPTIONS: Record<string, string> = {
   'ImageGroup: missing prop className':
     'Renders no element of its own: the template is the default slot plus a Lightbox, a multi-root fragment, so Vue drops the class as well',
   'TooltipProvider: missing prop className':
-    'Renders no element: the Reka provider only renders its slot, so Vue drops the class as well',
+    'Renders no element: the provider only renders its slot, so Vue drops the class as well',
+  'ConfigProvider: missing prop className':
+    'Renders no element: the provider only renders its slot, so Vue drops the class as well',
   'Tooltip: content children (slot default): does not accept a ReactNode':
     "The default slot is the trigger, rendered through Reka's asChild trigger, which lends its props to one element; React types it as that element",
 }

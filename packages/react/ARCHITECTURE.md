@@ -9,7 +9,7 @@ The package stays `private` until the parity gate at the end of this document pa
 | Layer             | Owns                                                                                   | Depends on                    |
 | ----------------- | -------------------------------------------------------------------------------------- | ----------------------------- |
 | `packages/shared` | Tokens, CSS, variants, motion values, locale messages, pure behavior cores, contracts  | Framework-independent libs    |
-| `packages/vue`    | Vue components, reactivity, slots, Reka adapter                                        | shared, `reka-ui`             |
+| `packages/vue`    | Vue components, reactivity, slots, primitive adapters                                  | shared                        |
 | `packages/react`  | React components, hooks, render props, Radix adapter                                   | shared, `radix-ui`            |
 | `packages/parity` | Cross-framework conformance: style constraints, markup parity, export and API coverage | vue, react, shared (dev only) |
 

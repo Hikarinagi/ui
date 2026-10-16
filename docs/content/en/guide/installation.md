@@ -174,20 +174,20 @@ Overlay and toast content renders only after mounting on the client; the server 
 
 ::: vue
 
-`vue`, `reka-ui` and `@hina-ui/vue` must each resolve to a single instance within one application. Duplicates cause overlays to misbehave and focus management to break.
+`vue` and `@hina-ui/vue` must each resolve to a single instance within one application. Duplicates cause overlays to misbehave and focus management to break.
 
 ```bash
-pnpm why vue reka-ui @hina-ui/vue
+pnpm why vue @hina-ui/vue
 ```
 
 :::
 
 ::: react
 
-`react`, `react-dom`, `radix-ui` and `@hina-ui/react` must each resolve to a single instance within one application. Duplicates cause overlays to misbehave and focus management to break.
+`react`, `react-dom` and `@hina-ui/react` must each resolve to a single instance within one application. Duplicates cause overlays to misbehave and focus management to break.
 
 ```bash
-pnpm why react react-dom radix-ui @hina-ui/react
+pnpm why react react-dom @hina-ui/react
 ```
 
 :::
@@ -239,6 +239,20 @@ provideUiLocale(enUS)
 ```
 
 Built-in wording defaults to Simplified Chinese and is switched with one call at the application root. A partial object also works, overriding individual strings while the rest stay in Chinese.
+
+```vue
+<script setup lang="ts">
+  import { ConfigProvider } from '@hina-ui/vue'
+</script>
+
+<template>
+  <ConfigProvider dir="ltr">
+    <RouterView />
+  </ConfigProvider>
+</template>
+```
+
+`ConfigProvider` sets the global text direction `dir`, which every component without its own `dir` inherits; `teleportTo` chooses the container that overlays mount into.
 
 :::
 

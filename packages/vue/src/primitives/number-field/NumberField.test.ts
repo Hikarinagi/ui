@@ -2,29 +2,22 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { createSSRApp, h, ref, type Component, type VNode } from 'vue'
 import { renderToString } from 'vue/server-renderer'
-import * as Reka from 'reka-ui'
 import {
   NumberFieldDecrement,
   NumberFieldIncrement,
   NumberFieldInput,
   NumberFieldRoot,
 } from './index'
+import ConfigProvider from '../../components/config-provider/ConfigProvider.vue'
 
-type Parts = Record<'Root' | 'Input' | 'Increment' | 'Decrement', Component>
+type Parts = Record<'Root' | 'Input' | 'Increment' | 'Decrement' | 'Config', Component>
 
-const engines: Record<'reka' | 'hina', Parts> = {
-  reka: {
-    Root: Reka.NumberFieldRoot,
-    Input: Reka.NumberFieldInput,
-    Increment: Reka.NumberFieldIncrement,
-    Decrement: Reka.NumberFieldDecrement,
-  },
-  hina: {
-    Root: NumberFieldRoot,
-    Input: NumberFieldInput,
-    Increment: NumberFieldIncrement,
-    Decrement: NumberFieldDecrement,
-  },
+const parts: Parts = {
+  Root: NumberFieldRoot,
+  Input: NumberFieldInput,
+  Increment: NumberFieldIncrement,
+  Decrement: NumberFieldDecrement,
+  Config: ConfigProvider,
 }
 
 interface Scenario {
@@ -45,9 +38,7 @@ function tree(parts: Parts, scenario: Scenario, root: Record<string, unknown> = 
     ),
     h(parts.Decrement, scenario.decrement, () => '-'),
   ])
-  const scoped = scenario.locale
-    ? h(Reka.ConfigProvider, { locale: scenario.locale }, () => field)
-    : field
+  const scoped = scenario.locale ? h(parts.Config, { locale: scenario.locale }, () => field) : field
   return scenario.form ? h('form', null, [scoped]) : scoped
 }
 
@@ -88,15 +79,11 @@ const scenarios: Record<string, Scenario> = {
   'form field outside a form': { root: { name: 'qty', modelValue: 3 } },
 }
 
-describe('server markup matches Reka', () => {
+describe('server markup', () => {
   for (const [name, scenario] of Object.entries(scenarios))
     it(name, async () => {
-      const [reka, hina] = await Promise.all(
-        [engines.reka, engines.hina].map(parts =>
-          renderToString(createSSRApp({ render: () => tree(parts, scenario) })),
-        ),
-      )
-      expect(hina).toBe(reka)
+      const html = await renderToString(createSSRApp({ render: () => tree(parts, scenario) }))
+      expect(html).toMatchSnapshot()
     })
 })
 
@@ -112,13 +99,13 @@ afterEach(() => {
   vi.useRealTimers()
 })
 
-function mountField(engine: keyof typeof engines, scenario: Scenario, controlled: boolean) {
+function mountField(scenario: Scenario, controlled: boolean) {
   const emitted: unknown[] = []
   const model = ref(scenario.root?.modelValue as number | null | undefined)
   const wrapper = mount(
     {
       render: () =>
-        tree(engines[engine], scenario, {
+        tree(parts, scenario, {
           ...(controlled ? { modelValue: model.value } : {}),
           'onUpdate:modelValue': (value: number | undefined) => {
             emitted.push(value)
@@ -141,12 +128,11 @@ async function settle() {
 }
 
 async function run(
-  engine: keyof typeof engines,
   scenario: Scenario,
   act: (field: Field) => Promise<unknown> | unknown,
   controlled: boolean,
 ) {
-  const field = mountField(engine, scenario, controlled)
+  const field = mountField(scenario, controlled)
   await settle()
   const result = await act(field)
   await settle()
@@ -167,13 +153,12 @@ async function compare(
   act: (field: Field) => Promise<unknown> | unknown,
   controlled = false,
 ) {
-  const reka = await run('reka', scenario, act, controlled)
-  const hina = await run('hina', scenario, act, controlled)
-  expect(hina).toEqual(reka)
-  return hina
+  const result = await run(scenario, act, controlled)
+  expect(result).toMatchSnapshot()
+  return result
 }
 
-describe('client behaviour matches Reka', () => {
+describe('client behaviour', () => {
   for (const controlled of [false, true])
     describe(controlled ? 'controlled' : 'uncontrolled', () => {
       it('keyboard stepping, paging and bounds', async () => {

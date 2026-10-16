@@ -8,6 +8,10 @@ export type { Bezier, TransitionName } from './motion'
 export { provideUiLocale, useUiLocale, zhCN, enUS, jaJP } from './locale'
 export type { UiMessages, PartialUiMessages } from './locale'
 
+export { default as ConfigProvider } from './components/config-provider/ConfigProvider.vue'
+export { useConfig } from './components/config-provider/useConfig'
+export type { ConfigProviderProps, ScrollBodyOption } from './components/config-provider/types'
+
 export { REQUIRED_SINGLETONS } from './singletons'
 export type { RequiredSingleton } from './singletons'
 

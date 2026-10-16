@@ -59,13 +59,12 @@ export default defineConfig({
       { find: /^@hina-ui\/react$/, replacement: source('../react/src/index.ts') },
       { find: /^@hina-ui\/react\/(.*)$/, replacement: `${source('../react/src')}/$1` },
     ],
-    dedupe: ['vue', 'react', 'react-dom', 'reka-ui'],
+    dedupe: ['vue', 'react', 'react-dom'],
   },
   optimizeDeps: {
     entries: ['cases/*.live.tsx', 'test/*.browser.test.ts'],
     include: [
       'vue',
-      '@hina-ui/vue > reka-ui',
       'react',
       'react/jsx-runtime',
       'react-dom',

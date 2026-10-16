@@ -1,7 +1,7 @@
 {
   "name": "@hina-ui/vue",
   "version": "1.7.12",
-  "description": "The design system behind Hikarinagi: Vue 3 components built on Reka UI and Tailwind CSS v4.",
+  "description": "The design system behind Hikarinagi: Vue 3 components built on Tailwind CSS v4.",
   "keywords": [
     "vue",
     "vue3",
@@ -9,7 +9,6 @@
     "design-system",
     "ui",
     "tailwindcss",
-    "reka-ui",
     "accessibility"
   ],
   "homepage": "https://hinaui.dev",
@@ -62,7 +61,6 @@
     "embla-carousel": "8.6.0",
     "motion-v": "^2.2.1",
     "overlayscrollbars": "2.16.0",
-    "reka-ui": "^2.9.10",
     "shiki": "4.0.2",
     "tailwind-merge": "^3.6.0",
     "tailwind-variants": "^3.3.1",

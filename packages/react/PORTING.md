@@ -10,7 +10,7 @@ The Vue component is the specification. Its source, its tests and its documentat
 - The shared variants it uses: `packages/shared/src/variants/<name>.ts` and any shared CSS in `packages/shared/src/styles/` that targets its classes or data attributes.
 - The components it imports from sibling directories. If one of them is not yet available in React, stop and report the dependency instead of inlining a substitute.
 - The docs page, in particular the prose under "行为" and the demos in `docs/vue/app/demos/zh-CN/<name>/`, which show supported combinations.
-- For Reka primitives: the Reka source in `packages/vue/node_modules/reka-ui/dist/<Primitive>/`. The DOM Reka produces is part of the specification.
+- For primitives: the shared core in `packages/shared/src/primitives/<name>/` and the Vue port in `packages/vue/src/primitives/<name>/`. The DOM the Vue port produces is part of the specification.
 
 ## 2. Move framework-free logic to shared
 

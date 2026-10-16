@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { defineComponent, h, ref } from 'vue'
-import { ConfigProvider } from 'reka-ui'
+import ConfigProvider from '../../components/config-provider/ConfigProvider.vue'
 import { userEvent } from 'vitest/browser'
 import Tree from '../../components/tree/Tree.vue'
 import TreeSelect from '../../components/tree-select/TreeSelect.vue'

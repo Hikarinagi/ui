@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { page, userEvent } from 'vitest/browser'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { ConfigProvider } from 'reka-ui'
+import ConfigProvider from '../config-provider/ConfigProvider.vue'
 import { h, nextTick, reactive, ref, type VNodeChild } from 'vue'
 import { expectNoA11yViolations } from '../../../test/axe'
 import Tree from './Tree.vue'

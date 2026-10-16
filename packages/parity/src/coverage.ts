@@ -8,9 +8,6 @@ export const EXCEPTIONS: Record<string, string> = {
 }
 
 export const REACT_ONLY: Record<string, string> = {
-  ConfigProvider:
-    'Vue users configure dir, teleportTo and scrollBody with reka-ui ConfigProvider; React users cannot import Reka, so the package provides the equivalent',
-  useConfig: 'Reader for ConfigProvider, the counterpart of reka-ui injectConfigProviderContext',
   useFormHandle:
     'Vue reads reactive form state from the Form template ref; a React ref is not reactive, so a hook returns the state and is passed to Form through the form prop',
 }
