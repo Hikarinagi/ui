@@ -21,15 +21,18 @@ import {
   type DateValue,
 } from '@internationalized/date'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
-import { createYearGrid, type Grid } from '../date-field/date/calendar'
+import { createYearGrid, type Grid } from '../../../../shared/src/primitives/date/calendar'
 import {
   getDefaultDate,
   isAfter,
   isBefore,
   isSameYear,
   toDate,
-} from '../date-field/date/comparators'
-import { createDateFormatter, type Formatter } from '../date-field/date/formatter'
+} from '../../../../shared/src/primitives/date/comparators'
+import {
+  createDateFormatter,
+  type Formatter,
+} from '../../../../shared/src/primitives/date/formatter'
 import {
   useDirection,
   useLocale,
@@ -38,7 +41,7 @@ import {
   useVModel,
   useWatch,
 } from '../date-field/date/hooks'
-import { handleCalendarInitialFocus, kbd } from '../date-field/date/utils'
+import { handleCalendarInitialFocus, kbd } from '../../../../shared/src/primitives/date/utils'
 import {
   GridTable,
   HiddenHeading,

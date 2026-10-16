@@ -21,7 +21,11 @@ import {
   type DateValue,
 } from '@internationalized/date'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
-import { getDaysBetween, getWeekStartsOn, type Month } from '../date-field/date/calendar'
+import {
+  getDaysBetween,
+  getWeekStartsOn,
+  type Month,
+} from '../../../../shared/src/primitives/date/calendar'
 import {
   areAllDaysBetweenValid,
   getDefaultDate,
@@ -29,8 +33,8 @@ import {
   isBetween,
   isBetweenInclusive,
   toDate,
-} from '../date-field/date/comparators'
-import type { Formatter } from '../date-field/date/formatter'
+} from '../../../../shared/src/primitives/date/comparators'
+import type { Formatter } from '../../../../shared/src/primitives/date/formatter'
 import {
   useDirection,
   useLocale,
@@ -39,7 +43,7 @@ import {
   useVModel,
   useWatch,
 } from '../date-field/date/hooks'
-import { handleCalendarInitialFocus, kbd } from '../date-field/date/utils'
+import { handleCalendarInitialFocus, kbd } from '../../../../shared/src/primitives/date/utils'
 import {
   GridTable,
   HiddenHeading,

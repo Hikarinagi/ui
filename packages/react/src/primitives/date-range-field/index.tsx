@@ -22,8 +22,8 @@ import {
   isBeforeOrSame,
   type Granularity,
   type HourCycle,
-} from '../date-field/date/comparators'
-import { createDateFormatter } from '../date-field/date/formatter'
+} from '../../../../shared/src/primitives/date/comparators'
+import { createDateFormatter } from '../../../../shared/src/primitives/date/formatter'
 import {
   useDirection,
   useLocale,
@@ -39,15 +39,23 @@ import {
   syncSegmentValues,
   type SegmentContent,
   type SegmentValueObj,
-} from '../date-field/date/parser'
-import { getSegmentElements, isSegmentNavigationKey } from '../date-field/date/segment'
+} from '../../../../shared/src/primitives/date/parser'
+import {
+  getSegmentElements,
+  isSegmentNavigationKey,
+} from '../../../../shared/src/primitives/date/segment'
 import {
   SegmentInput,
   type SegmentFieldContext,
   type SegmentInputConfig,
   type SegmentInputProps,
 } from '../date-field/date/segment-input'
-import { kbd, normalizeDateStep, normalizeHourCycle, type DateStep } from '../date-field/date/utils'
+import {
+  kbd,
+  normalizeDateStep,
+  normalizeHourCycle,
+  type DateStep,
+} from '../../../../shared/src/primitives/date/utils'
 import { useComposedRefs } from '../utils/compose-refs'
 
 export interface DateRange {

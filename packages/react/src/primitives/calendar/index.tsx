@@ -27,11 +27,11 @@ import {
   type CalendarPagingProps,
   type CalendarPartProps,
 } from './shared'
-import { getWeekStartsOn, type Month } from '../date-field/date/calendar'
-import { getDefaultDate, toDate } from '../date-field/date/comparators'
-import type { Formatter } from '../date-field/date/formatter'
+import { getWeekStartsOn, type Month } from '../../../../shared/src/primitives/date/calendar'
+import { getDefaultDate, toDate } from '../../../../shared/src/primitives/date/comparators'
+import type { Formatter } from '../../../../shared/src/primitives/date/formatter'
 import { useDirection, useLocale, useNextTick, useVModel, useWatch } from '../date-field/date/hooks'
-import { handleCalendarInitialFocus, kbd } from '../date-field/date/utils'
+import { handleCalendarInitialFocus, kbd } from '../../../../shared/src/primitives/date/utils'
 import {
   useCalendar,
   useCalendarState,

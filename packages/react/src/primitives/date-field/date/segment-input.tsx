@@ -3,10 +3,10 @@
 import { useEffect, useRef, type HTMLAttributes, type ReactNode, type Ref } from 'react'
 import type { DateValue } from '@internationalized/date'
 import { Primitive, type PrimitiveProps } from '../../../lib/primitive'
-import type { HourCycle } from './comparators'
-import type { Formatter } from './formatter'
+import type { HourCycle } from '../../../../../shared/src/primitives/date/comparators'
+import type { Formatter } from '../../../../../shared/src/primitives/date/formatter'
 import { useDateField, type SegmentStore } from './use-date-field'
-import type { DateStep } from './utils'
+import type { DateStep } from '../../../../../shared/src/primitives/date/utils'
 import { useComposedRefs } from '../../utils/compose-refs'
 
 export interface SegmentInputProps extends PrimitiveProps, HTMLAttributes<HTMLElement> {

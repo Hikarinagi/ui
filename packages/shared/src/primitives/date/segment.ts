@@ -26,16 +26,19 @@ export function isAcceptableSegmentKey(key: string) {
   return isNumberString(key)
 }
 
-export function getSegmentElements(parentElement: HTMLElement | null) {
+export function getSegmentElements(
+  parentElement: HTMLElement | null | undefined,
+  attribute = 'data-radix-date-field-segment',
+) {
   if (!parentElement) return []
-  return Array.from(
-    parentElement.querySelectorAll<HTMLElement>('[data-radix-date-field-segment]'),
-  ).filter(item => item.getAttribute('data-radix-date-field-segment') !== 'literal')
+  return Array.from(parentElement.querySelectorAll<HTMLElement>(`[${attribute}]`)).filter(
+    item => item.getAttribute(attribute) !== 'literal',
+  )
 }
 
-export function getTimeFieldSegmentElements(parentElement: HTMLElement | null) {
-  if (!parentElement) return []
-  return Array.from(
-    parentElement.querySelectorAll<HTMLElement>('[data-radix-time-field-segment]'),
-  ).filter(item => item.getAttribute('data-radix-time-field-segment') !== 'literal')
+export function getTimeFieldSegmentElements(
+  parentElement: HTMLElement | null | undefined,
+  attribute = 'data-radix-time-field-segment',
+) {
+  return getSegmentElements(parentElement, attribute)
 }

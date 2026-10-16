@@ -26,8 +26,8 @@ import {
   isBefore,
   type HourCycle,
   type TimeValue,
-} from '../date-field/date/comparators'
-import { createDateFormatter } from '../date-field/date/formatter'
+} from '../../../../shared/src/primitives/date/comparators'
+import { createDateFormatter } from '../../../../shared/src/primitives/date/formatter'
 import {
   useDirection,
   useLocale,
@@ -42,8 +42,11 @@ import {
   syncTimeSegmentValues,
   type SegmentContent,
   type SegmentValueObj,
-} from '../date-field/date/parser'
-import { getTimeFieldSegmentElements, isSegmentNavigationKey } from '../date-field/date/segment'
+} from '../../../../shared/src/primitives/date/parser'
+import {
+  getTimeFieldSegmentElements,
+  isSegmentNavigationKey,
+} from '../../../../shared/src/primitives/date/segment'
 import {
   SegmentInput,
   type SegmentFieldContext,
@@ -51,10 +54,15 @@ import {
   type SegmentInputProps,
 } from '../date-field/date/segment-input'
 import type { SegmentStore } from '../date-field/date/use-date-field'
-import { kbd, normalizeDateStep, normalizeHourCycle, type DateStep } from '../date-field/date/utils'
+import {
+  kbd,
+  normalizeDateStep,
+  normalizeHourCycle,
+  type DateStep,
+} from '../../../../shared/src/primitives/date/utils'
 import { useComposedRefs } from '../utils/compose-refs'
 
-export type { TimeValue } from '../date-field/date/comparators'
+export type { TimeValue } from '../../../../shared/src/primitives/date/comparators'
 
 type Converted = DateValue & { hour: number; minute: number; second: number; millisecond: number }
 
