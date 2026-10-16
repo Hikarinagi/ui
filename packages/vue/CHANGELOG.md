@@ -1,5 +1,29 @@
 # @hina-ui/vue
 
+## [1.7.13](https://github.com/Hikarinagi/ui/compare/@hina-ui/vue@1.7.12...@hina-ui/vue@1.7.13) (2026-10-16)
+
+### Added
+
+- **Tour** Add Tour, a step-by-step guide. A mask highlights each target and a card with an arrow sits next to it, or in the centre when a step has no target. Targets stay clickable unless blockTarget is set, beforeChange can hold a step until async validation finishes, and beacon starts the tour from a pulsing dot on the first target before moving between cards with Next and Back. The content and footer can be replaced, arrow keys move between steps, Escape skips unless the tour is locked, and focus stays in the card and returns afterwards.
+- **ConfigProvider** @hina-ui/vue now exports ConfigProvider and useConfig, matching @hina-ui/react. ConfigProvider sets dir, locale, scrollBody, nonce and teleportTo for every component inside it.
+- **NavLink** Add trailing for content after the label, such as a page count, which stays whole when a long label is truncated and hides with the label in a rail sidebar.
+
+### Changed
+
+- **Vue** Calendar now runs on Hina UI's own primitives instead of reka-ui. Its markup and behavior are unchanged.
+- **Vue** TagsInput now runs on Hina UI's own primitives instead of reka-ui. Its markup and behavior are unchanged.
+- **Vue** Tree and the TreeSelect tree now run on Hina UI's own primitives instead of reka-ui. Their markup and behavior are unchanged.
+- **Vue** RangeCalendar now runs on Hina UI's own primitives instead of reka-ui. Its markup and behavior are unchanged.
+- **Vue** DateField, TimeField and DateRangeField now run on Hina UI's own primitives instead of reka-ui. Their markup and behavior are unchanged.
+- **Vue** Dialog, AlertDialog, Drawer, Sheet, CommandPalette, Lightbox, Popover, Popconfirm, the date pickers, TreeSelect, Tooltip, HoverCard, DropdownMenu, ContextMenu, Menubar, NavigationMenu, Select, MultiSelect, Combobox, MultiCombobox and Toaster now run on Hina UI's own primitives instead of reka-ui, including the dismissable layer stack, focus scope, focus guards and body scroll lock they share. Their markup and behavior are unchanged.
+- **Vue** @hina-ui/vue no longer depends on reka-ui. The ConfigProvider from reka-ui no longer configures Hina UI components; use the ConfigProvider exported by @hina-ui/vue instead. REQUIRED_SINGLETONS no longer lists reka-ui.
+- **Vue** The month and year views of Calendar now run on Hina UI's own primitives instead of reka-ui. Their markup and behavior are unchanged.
+- **Vue** Listbox and the CommandPalette list now run on Hina UI's own primitives instead of reka-ui. Their markup and behavior are unchanged.
+
+### Fixed
+
+- **NavLink** Truncate long labels with an ellipsis and let the link shrink, so it no longer overflows lists and panels outside a sidebar.
+
 ## [1.7.12](https://github.com/Hikarinagi/ui/compare/@hina-ui/vue@1.7.11...@hina-ui/vue@1.7.12) (2026-10-12)
 
 ### Changed

@@ -1,5 +1,16 @@
 # @hina-ui/react
 
+## [1.7.13](https://github.com/Hikarinagi/ui/compare/@hina-ui/react@1.7.12...@hina-ui/react@1.7.13) (2026-10-16)
+
+### Added
+
+- **Tour** Add Tour, a step-by-step guide. A mask highlights each target and a card with an arrow sits next to it, or in the centre when a step has no target. Targets stay clickable unless blockTarget is set, beforeChange can hold a step until async validation finishes, and beacon starts the tour from a pulsing dot on the first target before moving between cards with Next and Back. The content and footer can be replaced, arrow keys move between steps, Escape skips unless the tour is locked, and focus stays in the card and returns afterwards.
+- **NavLink** Add trailing for content after the label, such as a page count, which stays whole when a long label is truncated and hides with the label in a rail sidebar.
+
+### Fixed
+
+- **NavLink** Truncate long labels with an ellipsis and let the link shrink, so it no longer overflows lists and panels outside a sidebar.
+
 ## [1.7.12](https://github.com/Hikarinagi/ui/compare/@hina-ui/react@1.7.11...@hina-ui/react@1.7.12) (2026-10-12)
 
 ### Changed
