@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { TagsInputItemText } from 'reka-ui'
+  import { TagsInputItemText } from '../../primitives/tags-input'
   import Chip from '../chip/Chip.vue'
   import type { ChipVariants } from '../chip/chip.variants'
   import { tagsInputChip } from './tags-input.variants'

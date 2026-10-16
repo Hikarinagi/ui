@@ -19,7 +19,16 @@ import {
   type Ref,
 } from 'react'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
-import { COLLECTION_ITEM, createCollection, isEqual, type Collection } from '../listbox/utils'
+import { COLLECTION_ITEM, createCollection, type Collection } from '../listbox/utils'
+import {
+  addTagsInputValue,
+  matchesTagsInputDelimiter,
+  removeTagsInputValue,
+  splitTagsInputPaste,
+  tagsInputDisplayValue,
+  tagsInputKeydown,
+  tagsInputValueIndex,
+} from '../../../../shared/src/primitives/tags-input'
 import { useVModel } from '../listbox/useVModel'
 import { VisuallyHiddenInput, useFormControl } from '../utils/hidden-input'
 import { useComposing } from '../utils/composing'
@@ -88,25 +97,6 @@ export interface TagsInputRootProps
 }
 
 const EMPTY: AcceptableInputValue[] = []
-const toText = (value: AcceptableInputValue) => value.toString()
-
-function arrowTarget(
-  event: KeyboardEvent,
-  current: HTMLElement,
-  items: HTMLElement[],
-  dir: Direction,
-) {
-  const index = items.indexOf(current)
-  if (index < 0) return null
-  const right = dir === 'rtl' ? -1 : 1
-  let next = index
-  if (event.key === 'ArrowRight') next = index + right
-  else if (event.key === 'ArrowLeft') next = index - right
-  else if (event.key === 'Home') next = 0
-  else if (event.key === 'End') next = items.length - 1
-  else return null
-  return items[next] ?? null
-}
 
 export function TagsInputRoot({
   value: valueProp,
@@ -124,7 +114,7 @@ export function TagsInputRoot({
   name,
   required,
   convertValue,
-  displayValue = toText,
+  displayValue = tagsInputDisplayValue,
   onInvalid,
   onAddTag,
   onRemoveTag,
@@ -205,7 +195,7 @@ export function TagsInputRoot({
       if (index === -1) return
       const model = modelRef.current ?? []
       const removed = model[index]!
-      setModel(model.filter((_, i) => i !== index))
+      setModel(removeTagsInputValue(model, index))
       latest.current.onRemoveTag?.(removed)
     }
     return {
@@ -214,93 +204,42 @@ export function TagsInputRoot({
       onRemoveValue: handleRemoveTag,
       onAddValue(text: string) {
         const { duplicate, max, convertValue, defaultValue, onInvalid, onAddTag } = latest.current
-        const array = current()
-        const modelIsObject = array.length > 0 && typeof array[0] === 'object'
-        const defaultIsObject = array.length > 0 && typeof defaultValue[0] === 'object'
-        if ((modelIsObject || defaultIsObject) && typeof convertValue !== 'function')
-          throw new Error(
-            'You must provide a `convertValue` function when using objects as values.',
-          )
-        const payload = convertValue ? convertValue(text) : text
-        if (array.length >= max && !!max) {
-          onInvalid?.(payload)
-          return false
-        }
-        if (duplicate) {
-          setModel([...array, payload])
-          onAddTag?.(payload)
+        const result = addTagsInputValue(modelRef.current, text, {
+          duplicate,
+          max,
+          defaultValue,
+          convertValue,
+        })
+        if (result.added) {
+          setModel(result.value)
+          onAddTag?.(result.payload)
           return true
         }
-        if (!array.includes(payload)) {
-          setModel([...array, payload])
-          onAddTag?.(payload)
-          return true
-        }
-        setInvalidState(true)
-        onInvalid?.(payload)
+        if (result.duplicate) setInvalidState(true)
+        onInvalid?.(result.payload)
         return false
       },
       onInputKeydown(event: KeyboardEvent) {
         if (event.isComposing) return
         const target = event.target as HTMLInputElement
-        const items = collection
-          .getItems(true)
-          .map(item => item.ref)
-          .filter(item => item.dataset.disabled !== '')
-        if (!items.length) return
-        const lastTag = items.at(-1)
-        const selected = selectedRef.current
-        switch (event.key) {
-          case 'Delete':
-          case 'Backspace': {
-            if (target.selectionStart !== 0 || target.selectionEnd !== 0) break
-            if (selected) {
-              const index = items.findIndex(item => item === selected)
-              const selectedItem = collection.getItems(true).find(item => item.ref === selected)
-              const model = modelRef.current ?? []
-              const modelIndex = selectedItem
-                ? model.findIndex(value => isEqual(value, selectedItem.value))
-                : -1
-              handleRemoveTag(modelIndex)
-              setSelectedElement(selected === lastTag ? items.at(index - 1) : items.at(index + 1))
-              event.preventDefault()
-            } else if (event.key === 'Backspace') {
-              setSelectedElement(lastTag)
-              event.preventDefault()
-            }
-            break
-          }
-          case 'Home':
-          case 'End':
-          case 'ArrowRight':
-          case 'ArrowLeft': {
-            const dir = latest.current.dir
-            const isArrowRight =
-              (event.key === 'ArrowRight' && dir === 'ltr') ||
-              (event.key === 'ArrowLeft' && dir === 'rtl')
-            const isArrowLeft = !isArrowRight
-            if (target.selectionStart !== 0 || target.selectionEnd !== 0) break
-            if (isArrowLeft && !selected) {
-              setSelectedElement(lastTag)
-              event.preventDefault()
-            } else if (isArrowRight && lastTag && selected === lastTag) {
-              setSelectedElement(undefined)
-              event.preventDefault()
-            } else if (selected) {
-              const next = arrowTarget(event, selected, items, dir)
-              if (next) setSelectedElement(next)
-              event.preventDefault()
-            }
-            break
-          }
-          case 'ArrowUp':
-          case 'ArrowDown': {
-            if (selected) event.preventDefault()
-            break
-          }
-          default:
-            setSelectedElement(undefined)
+        const action = tagsInputKeydown(event, {
+          caretAtStart: target.selectionStart === 0 && target.selectionEnd === 0,
+          items: collection
+            .getItems(true)
+            .map(item => item.ref)
+            .filter(item => item.dataset.disabled !== ''),
+          selected: selectedRef.current,
+          dir: latest.current.dir,
+        })
+        if (!action) return
+        if (action.remove) {
+          const selectedItem = collection.getItems(true).find(item => item.ref === action.remove)
+          handleRemoveTag(
+            selectedItem ? tagsInputValueIndex(modelRef.current ?? [], selectedItem.value) : -1,
+          )
         }
+        if (action.select) setSelectedElement(action.select.element)
+        if (action.preventDefault) event.preventDefault()
       },
     }
   }, [collection])
@@ -473,7 +412,7 @@ export function TagsInputItemDelete({
       onClick={event => {
         onClick?.(event)
         if (disabled) return
-        const index = root.modelValue.findIndex(value => isEqual(value, item.value))
+        const index = tagsInputValueIndex(root.modelValue, item.value)
         root.onRemoveValue(index)
       }}
     />
@@ -556,9 +495,7 @@ export function TagsInputInput({
           const data = (event.nativeEvent as InputEvent).data
           if (data !== null) {
             const delimiter = context.delimiter
-            const matches =
-              delimiter === data || (delimiter instanceof RegExp && delimiter.test(data))
-            if (matches) {
+            if (matchesTagsInputDelimiter(delimiter, data)) {
               const target = event.target as HTMLInputElement
               target.value = target.value.replace(delimiter, '')
               if (target.value.trim() === '') target.value = ''
@@ -598,10 +535,11 @@ export function TagsInputInput({
           event.preventDefault()
           const clipboardData = event.clipboardData
           if (clipboardData) {
-            const value = clipboardData.getData('text')
-            if (context.delimiter)
-              value.split(context.delimiter).forEach(part => context.onAddValue(part))
-            else context.onAddValue(value)
+            for (const part of splitTagsInputPaste(
+              clipboardData.getData('text'),
+              context.delimiter,
+            ))
+              context.onAddValue(part)
           }
         }
         onPaste?.(event as ReactClipboardEvent<HTMLInputElement>)

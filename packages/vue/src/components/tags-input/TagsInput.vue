@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { TagsInputInput, TagsInputItem, TagsInputRoot } from 'reka-ui'
+  import { TagsInputInput, TagsInputItem, TagsInputRoot } from '../../primitives/tags-input'
   import { computed } from 'vue'
   import { cn } from '../../lib/cn'
   import { useFieldControl } from '../form-field/context'
