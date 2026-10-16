@@ -1,5 +1,14 @@
 'use client'
 
+import { isCalendarSelectionInvalid } from '../../../../shared/src/primitives/date/calendar-view'
+import {
+  isPickerDateDisabled,
+  isPickerDateSelected,
+  isPickerNextDisabled,
+  isPickerPrevDisabled,
+  nextPickerSelection,
+  turnPickerPage,
+} from '../../../../shared/src/primitives/date/picker-view'
 import {
   createContext,
   useContext,
@@ -23,8 +32,6 @@ import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { createMonthGrid, type Grid } from '../../../../shared/src/primitives/date/calendar'
 import {
   getDefaultDate,
-  isAfter,
-  isBefore,
   isSameYearMonth,
   toDate,
 } from '../../../../shared/src/primitives/date/comparators'
@@ -185,12 +192,14 @@ export function MonthPickerRoot({
     headingFormatOptions.era = 'short'
   const grid = useStore<Grid<DateValue>>(() => createMonthGrid({ dateObj: placeholder.value }))
 
+  const bounds = () => ({
+    minValue: latest.current.minValue,
+    maxValue: latest.current.maxValue,
+    disabled: latest.current.disabled,
+  })
+
   function isMonthDisabled(dateObj: DateValue) {
-    const current = latest.current
-    if (isMonthDisabledProp?.(dateObj) || current.disabled) return true
-    if (current.maxValue && isAfter(dateObj.set({ day: 1 }), current.maxValue)) return true
-    if (current.minValue && isBefore(endOfMonth(dateObj), current.minValue)) return true
-    return false
+    return isPickerDateDisabled('month', dateObj, bounds(), isMonthDisabledProp)
   }
 
   function isMonthUnavailable(date: DateValue) {
@@ -198,45 +207,40 @@ export function MonthPickerRoot({
   }
 
   function isNextButtonDisabled(nextPageFunc?: PageFunction) {
-    const current = latest.current
-    if (!current.maxValue) return false
-    if (current.disabled) return true
-    const currentDate = grid.get().value
-    const page = nextPageFunc || current.nextPageProp
-    if (page) return isAfter(page(currentDate).set({ month: 1, day: 1 }), current.maxValue)
-    return isAfter(currentDate.add({ years: 1 }).set({ month: 1, day: 1 }), current.maxValue)
-  }
-
-  function isPrevButtonDisabled(prevPageFunc?: PageFunction) {
-    const current = latest.current
-    if (!current.minValue) return false
-    if (current.disabled) return true
-    const currentDate = grid.get().value
-    const page = prevPageFunc || current.prevPageProp
-    if (page) return isBefore(endOfMonth(page(currentDate).set({ month: 12 })), current.minValue)
-    return isBefore(
-      currentDate.subtract({ years: 1 }).set({ month: 12, day: 31 }),
-      current.minValue,
+    return isPickerNextDisabled(
+      'month',
+      grid.get(),
+      bounds(),
+      latest.current.nextPageProp,
+      nextPageFunc,
     )
   }
 
-  function nextPage(nextPageFunc?: PageFunction) {
-    const currentDate = grid.get().value
-    const page = nextPageFunc || latest.current.nextPageProp
-    const newDate = page ? page(currentDate) : currentDate.add({ years: 1 })
-    grid.set(createMonthGrid({ dateObj: newDate }))
-    const current = placeholder.get()
-    placeholder.set(newDate.set({ month: current.month, day: current.day }))
+  function isPrevButtonDisabled(prevPageFunc?: PageFunction) {
+    return isPickerPrevDisabled(
+      'month',
+      grid.get(),
+      bounds(),
+      latest.current.prevPageProp,
+      prevPageFunc,
+    )
   }
 
-  function prevPage(prevPageFunc?: PageFunction) {
-    const currentDate = grid.get().value
-    const page = prevPageFunc || latest.current.prevPageProp
-    const newDate = page ? page(currentDate) : currentDate.subtract({ years: 1 })
-    grid.set(createMonthGrid({ dateObj: newDate }))
-    const current = placeholder.get()
-    placeholder.set(newDate.set({ month: current.month, day: current.day }))
+  function turn(direction: 1 | -1, pageFunc?: PageFunction) {
+    const next = turnPickerPage(
+      'month',
+      direction,
+      grid.get(),
+      placeholder.get(),
+      { page: direction > 0 ? latest.current.nextPageProp : latest.current.prevPageProp },
+      pageFunc,
+    )
+    grid.set(next.grid)
+    placeholder.set(next.placeholder)
   }
+
+  const nextPage = (nextPageFunc?: PageFunction) => turn(1, nextPageFunc)
+  const prevPage = (prevPageFunc?: PageFunction) => turn(-1, prevPageFunc)
 
   useWatch([placeholder.value] as const, ([next]) => {
     if (next.year === grid.get().value.year) return
@@ -253,16 +257,8 @@ export function MonthPickerRoot({
   const fullCalendarLabel = `${calendarLabel ?? 'Month Picker'}, ${headingValue}`
 
   const date = modelValue.value
-  function isMonthSelected(dateObj: DateValue) {
-    if (Array.isArray(date)) return date.some(d => isSameYearMonth(d, dateObj))
-    if (!date) return false
-    return isSameYearMonth(date, dateObj)
-  }
-  let isInvalid = false
-  if (Array.isArray(date)) {
-    for (const dateObj of date)
-      if (isMonthDisabled(dateObj) || isMonthUnavailable(dateObj)) isInvalid = true
-  } else if (date) isInvalid = isMonthDisabled(date) || isMonthUnavailable(date)
+  const isMonthSelected = (dateObj: DateValue) => isPickerDateSelected('month', date, dateObj)
+  const isInvalid = isCalendarSelectionInvalid(date, isMonthDisabled, isMonthUnavailable)
 
   useWatch([date] as const, ([next]) => {
     if (Array.isArray(next) && next.length) {
@@ -273,37 +269,14 @@ export function MonthPickerRoot({
       onPlaceholderChange(next)
   })
 
-  function resolveMonthValue(next: DateValue, reference?: DateValue) {
-    if (!reference) return next.copy()
-    return next.copy().set({ day: reference.day })
-  }
-
   function onMonthChange(next: DateValue) {
-    const current = modelValue.get()
-    if (!multiple) {
-      if (!current) {
-        modelValue.set(resolveMonthValue(next, placeholder.get()))
-        return
-      }
-      if (!preventDeselect && isSameYearMonth(current as DateValue, next)) {
-        placeholder.set(resolveMonthValue(next, current as DateValue))
-        modelValue.set(undefined)
-      } else modelValue.set(resolveMonthValue(next, current as DateValue))
-    } else if (!current) modelValue.set([resolveMonthValue(next, placeholder.get())])
-    else {
-      const list = Array.isArray(current) ? current : [current]
-      const index = list.findIndex(item => isSameYearMonth(item, next))
-      if (index === -1) modelValue.set([...list, resolveMonthValue(next, placeholder.get())])
-      else if (!preventDeselect) {
-        const rest = list.filter(item => !isSameYearMonth(item, next))
-        if (!rest.length) {
-          placeholder.set(resolveMonthValue(next, list[index]))
-          modelValue.set(undefined)
-          return
-        }
-        modelValue.set(rest.map(item => item.copy()))
-      }
-    }
+    const result = nextPickerSelection('month', modelValue.get(), next, placeholder.get(), {
+      multiple,
+      preventDeselect,
+    })
+    if (!result) return
+    if (result.placeholder) placeholder.set(result.placeholder)
+    modelValue.set(result.value)
   }
 
   useEffect(() => {

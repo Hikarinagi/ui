@@ -23,9 +23,10 @@ export function createPagingButton(
   name: string,
   direction: 'next' | 'prev',
   inject: () => PagingContext,
+  unit: 'page' | 'year' = 'page',
 ) {
-  const label = direction === 'next' ? 'Next page' : 'Previous page'
-  const text = direction === 'next' ? ' Next page ' : ' Prev page '
+  const label = direction === 'next' ? `Next ${unit}` : `Previous ${unit}`
+  const text = direction === 'next' ? ` Next ${unit} ` : ` Prev ${unit} `
   const propName = direction === 'next' ? 'nextPage' : 'prevPage'
   return defineComponent({
     name,
