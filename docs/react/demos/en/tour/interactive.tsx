@@ -8,12 +8,12 @@ const steps: TourStep[] = [
     target: '#tour-interactive-name',
     title: 'Name your project',
     description: 'Type a name in the field, then press Next.',
-    interactive: true,
   },
   {
     target: '#tour-interactive-save',
     title: 'Save',
     description: 'The name shows up in the project list.',
+    blockTarget: true,
   },
 ]
 
@@ -53,12 +53,12 @@ export default function Demo() {
         onOpenChange={setOpen}
         beforeChange={beforeChange}
         onFinish={() => setError('')}
-        renderContent={({ step }) => (
+        renderContent={({ step, current }) => (
           <>
             <Text tone="muted" size="sm">
               {step.description}
             </Text>
-            {error && step.interactive ? (
+            {error && current === 1 ? (
               <Text tone="danger" size="sm">
                 {error}
               </Text>

@@ -11,12 +11,12 @@
       target: '#tour-interactive-name',
       title: 'Name your project',
       description: 'Type a name in the field, then press Next.',
-      interactive: true,
     },
     {
       target: '#tour-interactive-save',
       title: 'Save',
       description: 'The name shows up in the project list.',
+      blockTarget: true,
     },
   ]
 
@@ -35,9 +35,9 @@
     <Button variant="ghost" tone="neutral" @click="open = true">Start tour</Button>
   </Inline>
   <Tour v-model:open="open" :steps="steps" :before-change="beforeChange" @finish="error = ''">
-    <template #content="{ step }">
+    <template #content="{ step, current }">
       <Text tone="muted" size="sm">{{ step.description }}</Text>
-      <Text v-if="error && step.interactive" tone="danger" size="sm">{{ error }}</Text>
+      <Text v-if="error && current === 1" tone="danger" size="sm">{{ error }}</Text>
     </template>
   </Tour>
 </template>

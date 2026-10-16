@@ -18,8 +18,8 @@ afterEach(() => {
 })
 
 const steps: TourStep[] = [
-  { target: '#first', title: '新建', description: '从这里创建项目。' },
-  { target: '#second', title: '搜索', description: '按名称查找。', interactive: true },
+  { target: '#first', title: '新建', description: '从这里创建项目。', blockTarget: true },
+  { target: '#second', title: '搜索', description: '按名称查找。' },
   { target: '#third', title: '设置', description: '调整偏好。' },
 ]
 
@@ -137,7 +137,7 @@ describe('Tour', () => {
     await vi.waitFor(() => expect(step.value).toBe(2))
   })
 
-  it('blocks the highlighted target unless the step is interactive', async () => {
+  it('blocks the target only when the step asks for it', async () => {
     const { clicks } = harness()
     await start()
     expect(blocker()).toBeTruthy()
@@ -157,7 +157,7 @@ describe('Tour', () => {
     expect(card()).toBeTruthy()
   })
 
-  it('keeps Tab inside the card and the interactive target', async () => {
+  it('keeps Tab inside the card and the clickable target', async () => {
     harness({ step: 2 })
     await start()
     const input = byId('second')
@@ -183,8 +183,11 @@ describe('Tour', () => {
     warn.mockRestore()
   })
 
-  it('opens each step from its beacon', async () => {
-    const { step } = harness({ beacon: true })
+  it('opens from a beacon and then moves between cards directly', async () => {
+    const { step } = harness({
+      beacon: true,
+      steps: [steps[0]!, steps[1]!, { ...steps[2]!, beacon: true }],
+    })
     await userEvent.click(byId('opener'))
     await vi.waitFor(() => expect(beacon()).toBeTruthy())
     expect(card()).toBeNull()
@@ -200,8 +203,48 @@ describe('Tour', () => {
     expect(mask()).toBeTruthy()
     await userEvent.click(action('next'))
     await vi.waitFor(() => expect(step.value).toBe(2))
+    await vi.waitFor(() => expect(card()!.textContent).toContain('搜索'))
+    expect(beacon()).toBeNull()
+    expect(card()!.contains(document.activeElement)).toBe(true)
+
+    await userEvent.click(action('next'))
+    await vi.waitFor(() => expect(step.value).toBe(3))
     await vi.waitFor(() => expect(document.activeElement).toBe(beacon()))
     await vi.waitFor(() => expect(card()).toBeNull())
+    await userEvent.keyboard('{Enter}')
+    await vi.waitFor(() => expect(card()!.textContent).toContain('设置'))
+  })
+
+  it('points the arrow at the target and never shows the card centred first', async () => {
+    const inserted: HTMLElement[] = []
+    const observer = new MutationObserver(records => {
+      for (const record of records)
+        for (const node of record.addedNodes)
+          if (node instanceof HTMLElement) {
+            const found = node.matches('[data-hn-tour]')
+              ? node
+              : node.querySelector('[data-hn-tour]')
+            if (found) inserted.push(found as HTMLElement)
+          }
+    })
+    observer.observe(document.body, { childList: true, subtree: true })
+    harness()
+    await start()
+    observer.disconnect()
+    expect(inserted.length).toBeGreaterThan(0)
+    for (const element of inserted)
+      expect(
+        element.closest('[data-reka-popper-content-wrapper],[data-radix-popper-content-wrapper]'),
+      ).not.toBeNull()
+    const arrow = card()!.querySelector<SVGElement>('[data-hn-tour-arrow]')!
+    const arrowRect = arrow.getBoundingClientRect()
+    const target = byId('first').getBoundingClientRect()
+    const cardRect = card()!.getBoundingClientRect()
+    expect(arrowRect.top).toBeGreaterThan(target.bottom)
+    expect(arrowRect.bottom).toBeLessThanOrEqual(cardRect.top + 1)
+    expect(
+      Math.abs(arrowRect.left + arrowRect.width / 2 - (target.left + target.width / 2)),
+    ).toBeLessThan(2)
   })
 
   it('stays on its target while the closing animation runs', async () => {

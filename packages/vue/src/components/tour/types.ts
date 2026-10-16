@@ -15,6 +15,7 @@ export interface TourProps {
   mask?: boolean
   locked?: boolean
   beacon?: boolean
+  blockTarget?: boolean
   nextText?: string
   prevText?: string
   finishText?: string

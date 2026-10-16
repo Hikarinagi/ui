@@ -14,21 +14,21 @@ links:
 import { Tour } from '@hina-ui/vue'
 ```
 
-`steps` lists the steps. Each step points at an element on the page with `target` and gives a `title` and a `description`. While open, a mask covers the page and leaves only the target visible, with the card next to it; when `target` is empty or no element matches, the card sits in the centre of the viewport. `open` and `step` both support two-way binding, and `step` starts at 1.
+`steps` lists the steps. Each step points at an element on the page with `target` and gives a `title` and a `description`. While open, a mask covers the page and leaves only the target visible, with the card next to it and an arrow pointing at it; when `target` is empty or no element matches, the card sits in the centre of the viewport. `open` and `step` both support two-way binding, and `step` starts at 1.
 
 `target` can be a CSS selector, an element or a function returning an element. It is read when the step becomes active, so it can point at elements rendered after the tour opens.
 
 ## Examples {#examples}
 
-### Interactive steps and validation {#interactive}
+### Blocking the target and validation {#interactive}
 
-`interactive` lets the user click and type in the target of that step, and focus moves between the card and the target. `beforeChange` runs before every step change and keeps the current step when it returns `false`; when it returns a Promise, the card waits for it and the Next button shows a loading indicator.
+The highlighted target can be clicked and typed into by default, and focus moves between the card and the target. `blockTarget` blocks the target, either for the whole tour or for a single step. `beforeChange` runs before every step change and keeps the current step when it returns `false`; when it returns a Promise, the card waits for it and the Next button shows a loading indicator.
 
 <Demo name="tour/interactive" />
 
 ### Beacon {#beacon}
 
-`beacon` first shows a pulsing dot on the top end corner of the target and opens the card and the mask only when it is clicked. Set `beacon` on a single step to override the tour.
+`beacon` makes the tour start with a pulsing dot on the top end corner of the first target and opens the card and the mask only when it is clicked; after that, Next and Back move between cards directly. `beacon: true` on a step also stops on the beacon when navigation reaches that step, and `beacon: false` hides the beacon when the step is where the tour starts. Steps without a target never show a beacon.
 
 <Demo name="tour/beacon" />
 
@@ -49,7 +49,7 @@ The `content` slot replaces the description and the `footer` slot replaces the p
 ::: vue
 
 - Opening moves focus to the card; closing returns it to where it was before the tour opened.
-- With a mask the card is modal: the rest of the page is hidden from screen readers and Tab cycles inside the card. In an `interactive` step the target joins the cycle.
+- With a mask the card is modal: the rest of the page is hidden from screen readers and Tab cycles inside the card; the target joins the cycle unless `blockTarget` blocks it.
 - Left and right arrows move to the previous and next step, swapped in RTL. Escape skips the tour and emits `skip`. Clicking the mask does not close the tour.
 - The button of the last step reads Done; clicking it emits `finish` and closes the tour.
 - When a step becomes active, a target outside the viewport is scrolled to the centre; `scroll: false` turns this off. The mask and the card follow the target when it moves, resizes or the page scrolls.
@@ -60,7 +60,7 @@ The `content` slot replaces the description and the `footer` slot replaces the p
 ::: react
 
 - Opening moves focus to the card; closing returns it to where it was before the tour opened.
-- With a mask the card is modal: the rest of the page is hidden from screen readers and Tab cycles inside the card. In an `interactive` step the target joins the cycle.
+- With a mask the card is modal: the rest of the page is hidden from screen readers and Tab cycles inside the card; the target joins the cycle unless `blockTarget` blocks it.
 - Left and right arrows move to the previous and next step, swapped in RTL. Escape skips the tour and calls `onSkip`. Clicking the mask does not close the tour.
 - The button of the last step reads Done; clicking it calls `onFinish` and closes the tour.
 - When a step becomes active, a target outside the viewport is scrolled to the centre; `scroll: false` turns this off. The mask and the card follow the target when it moves, resizes or the page scrolls.
@@ -86,7 +86,8 @@ The `content` slot replaces the description and the `footer` slot replaces the p
 | `v-model:step` | `number`           | `1`            | The current step, starting at 1                   |
 | `mask`         | `boolean`          | `true`         | Shows the mask and makes the card modal           |
 | `locked`       | `boolean`          | `false`        | Hides the close button; Escape does not skip      |
-| `beacon`       | `boolean`          | `false`        | Shows a beacon first and opens the card on click  |
+| `beacon`       | `boolean`          | `false`        | Starts the tour from a beacon                     |
+| `blockTarget`  | `boolean`          | `false`        | Blocks the target of every step                   |
 | `beforeChange` | `TourBeforeChange` | —              | Runs before a step change; `false` keeps the step |
 | `nextText`     | `string`           | current locale | Text of the Next button                           |
 | `prevText`     | `string`           | current locale | Text of the Back button                           |
@@ -108,9 +109,9 @@ The `content` slot replaces the description and the `footer` slot replaces the p
 | `align`       | `'start' \| 'center' \| 'end'`                                 | `'center'` | Alignment of the card against the target        |
 | `padding`     | `number`                                                       | `8`        | Space around the target in the highlight, px    |
 | `radius`      | `number`                                                       | `8`        | Corner radius of the highlight, px              |
-| `interactive` | `boolean`                                                      | `false`    | The target can be clicked and typed into        |
 | `scroll`      | `boolean`                                                      | `true`     | Scrolls a target outside the viewport into view |
-| `beacon`      | `boolean`                                                      | inherited  | Overrides `beacon`                              |
+| `blockTarget` | `boolean`                                                      | inherited  | Blocks the target of this step                  |
+| `beacon`      | `boolean`                                                      | —          | See [Beacon](#beacon)                           |
 
 ### Slots {#slots}
 

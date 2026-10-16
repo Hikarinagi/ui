@@ -22,11 +22,17 @@ import {
   runTourChange,
   spotlightPath,
   spotlightRect,
+  TOUR_ARROW_HEIGHT,
+  TOUR_ARROW_PADDING,
+  TOUR_ARROW_PATH,
+  TOUR_ARROW_WIDTH,
   TOUR_PADDING,
   TOUR_RADIUS,
   TOUR_SIDE_OFFSET,
+  tourBeaconOnArrival,
   tourKeyAction,
   tourReference,
+  tourTargetBlocked,
   trapTourFocus,
   watchTourTarget,
   type TourAlign,
@@ -41,7 +47,7 @@ import { usePortalContainer, useConfig } from '../../lib/config'
 import { devWarn } from '../../lib/dev'
 import { useUiLocale } from '../../locale'
 import { DismissableLayer } from '../../primitives/dismissable-layer'
-import { PopperContent, PopperRoot } from '../../primitives/popper'
+import { PopperArrow, PopperContent, PopperRoot } from '../../primitives/popper'
 import { Portal } from '../../primitives/portal'
 import { Presence } from '../../primitives/presence'
 import { useControllableState } from '../../primitives/utils/controllable-state'
@@ -93,6 +99,7 @@ export interface TourProps {
   mask?: boolean
   locked?: boolean
   beacon?: boolean
+  blockTarget?: boolean
   nextText?: string
   prevText?: string
   finishText?: string
@@ -118,6 +125,7 @@ export function Tour({
   mask = true,
   locked = false,
   beacon = false,
+  blockTarget = false,
   nextText,
   prevText,
   finishText,
@@ -163,7 +171,8 @@ export function Tour({
     busyRef.current = value
     setBusyState(value)
   }, [])
-  const [beaconOpened, setBeaconOpened] = useState(false)
+  const [beaconPending, setBeaconPending] = useState(false)
+  const [resolvedFor, setResolvedFor] = useState<number | null>(null)
   const [target, setTarget] = useState<HTMLElement | null>(null)
   const [inherited, setInherited] = useState<'ltr' | 'rtl'>('ltr')
   const [hole, setHole] = useState<TourRect | null>(null)
@@ -172,13 +181,14 @@ export function Tour({
   const direction = dir ?? config?.dir ?? inherited
 
   const padding = currentStep.padding ?? TOUR_PADDING
-  const beaconMode = !!target && (currentStep.beacon ?? beacon) === true
   const active = open && total > 0
-  const cardVisible = active && (!beaconMode || beaconOpened)
-  const beaconVisible = active && beaconMode && !beaconOpened
+  const resolved = active && resolvedFor === current
+  const beaconVisible = resolved && !!target && beaconPending
+  const cardVisible = resolved && !beaconVisible
   const maskVisible = cardVisible && mask
   const modal = mask
-  const blocking = maskVisible && !!hole && !currentStep.interactive
+  const blocked = tourTargetBlocked(currentStep, blockTarget)
+  const blocking = cardVisible && !!hole && blocked
 
   const cardRef = useRef<HTMLElement | null>(null)
   const layerRef = useRef<HTMLElement | null>(null)
@@ -202,6 +212,8 @@ export function Tour({
   const returnFocus = useRef<HTMLElement | null>(null)
   const refocusBeacon = useRef(false)
   const wasActive = useRef(false)
+  const arrivedActive = useRef(false)
+  const navigated = useRef(false)
 
   useLayoutEffect(() => {
     if (!active) return
@@ -210,6 +222,7 @@ export function Tour({
     if (definition && !element)
       devWarn('Tour', `the target of step ${current} was not found; the card is centered`)
     setTarget(element)
+    setResolvedFor(current)
     setInherited(
       getComputedStyle(element ?? document.documentElement).direction === 'rtl' ? 'rtl' : 'ltr',
     )
@@ -217,7 +230,11 @@ export function Tour({
   }, [active, current, steps, currentStep.target, currentStep.scroll])
 
   useLayoutEffect(() => {
-    setBeaconOpened(false)
+    const continued = active && arrivedActive.current && navigated.current
+    arrivedActive.current = active
+    navigated.current = false
+    setBeaconPending(tourBeaconOnArrival(currentStep, beacon, continued))
+    if (!active) setResolvedFor(null)
   }, [active, current])
 
   useLayoutEffect(() => {
@@ -263,21 +280,21 @@ export function Tour({
     return watchTourTarget(target, update)
   }, [active, target, padding])
 
-  const interactive = !!currentStep.interactive
+  const reachable = !blocked
   useEffect(() => {
     if (!cardVisible || !modal) return
     const layer = layerElement
     if (!layer?.isConnected) return
     const restore = hideOutsideTour([layer, target])
     const release = trapTourFocus(
-      () => [cardRef.current, interactive ? target : null],
+      () => [cardRef.current, reachable ? target : null],
       () => layerRef.current,
     )
     return () => {
       release()
       restore()
     }
-  }, [cardVisible, modal, target, interactive, layerElement])
+  }, [cardVisible, modal, target, reachable, layerElement])
 
   const goTo = useCallback(
     async (value: number) => {
@@ -287,6 +304,7 @@ export function Tour({
       const allowed = await runTourChange(beforeChange, next, current, setBusy)
       if (!allowed) return
       refocusBeacon.current = !!cardRef.current?.contains(document.activeElement)
+      navigated.current = true
       setStep(next)
     },
     [beforeChange, current, setBusy, setStep, total],
@@ -393,6 +411,22 @@ export function Tour({
           )}
         </div>
       )}
+      {target ? (
+        <PopperArrow
+          data-hn-tour-arrow=""
+          width={TOUR_ARROW_WIDTH}
+          height={TOUR_ARROW_HEIGHT}
+          className="overflow-visible"
+        >
+          <path d={`${TOUR_ARROW_PATH}Z`} className="fill-surface" />
+          <path
+            d={TOUR_ARROW_PATH}
+            fill="none"
+            className="stroke-line"
+            vectorEffect="non-scaling-stroke"
+          />
+        </PopperArrow>
+      ) : null}
       {renderFooter ? (
         renderFooter(slotProps)
       ) : (
@@ -462,7 +496,7 @@ export function Tour({
             aria-label={t.tour.beacon(current, currentStep.title ?? '')}
             className={tourBeacon()}
             style={point ? { left: `${point.x}px`, top: `${point.y}px` } : undefined}
-            onClick={() => setBeaconOpened(true)}
+            onClick={() => setBeaconPending(false)}
           >
             <span className={tourBeaconPulse()} />
             <span className={tourBeaconDot()} />
@@ -490,6 +524,7 @@ export function Tour({
                   align={currentStep.align ?? 'center'}
                   sideOffset={TOUR_SIDE_OFFSET}
                   collisionPadding={16}
+                  arrowPadding={TOUR_ARROW_PADDING}
                 >
                   {card}
                 </PopperContent>

@@ -8,9 +8,13 @@ const steps: TourStep[] = [
     target: '#tour-interactive-name',
     title: '给项目起个名字',
     description: '在输入框里写下名字，再点「下一步」。',
-    interactive: true,
   },
-  { target: '#tour-interactive-save', title: '保存', description: '名字会出现在项目列表里。' },
+  {
+    target: '#tour-interactive-save',
+    title: '保存',
+    description: '名字会出现在项目列表里。',
+    blockTarget: true,
+  },
 ]
 
 export default function Demo() {
@@ -49,12 +53,12 @@ export default function Demo() {
         onOpenChange={setOpen}
         beforeChange={beforeChange}
         onFinish={() => setError('')}
-        renderContent={({ step }) => (
+        renderContent={({ step, current }) => (
           <>
             <Text tone="muted" size="sm">
               {step.description}
             </Text>
-            {error && step.interactive ? (
+            {error && current === 1 ? (
               <Text tone="danger" size="sm">
                 {error}
               </Text>

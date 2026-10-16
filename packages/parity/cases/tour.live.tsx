@@ -6,8 +6,13 @@ import { Tour, type TourStep } from '@hina-ui/react/components/tour/Tour'
 import { defineLiveCases, frames } from '../src/live'
 
 const steps: TourStep[] = [
-  { target: '#tour-first', title: 'Create', description: 'Start a project here.' },
-  { target: '#tour-second', title: 'Search', description: 'Find it by name.', interactive: true },
+  {
+    target: '#tour-first',
+    title: 'Create',
+    description: 'Start a project here.',
+    blockTarget: true,
+  },
+  { target: '#tour-second', title: 'Search', description: 'Find it by name.' },
   { target: '#tour-missing', title: 'Welcome', description: 'Nothing to point at.' },
   {
     target: '#tour-third',
@@ -73,7 +78,7 @@ export default defineLiveCases('Tour', [
     settle: shown,
   },
   {
-    name: 'interactive step leaves the target clickable',
+    name: 'a step without blockTarget leaves the target clickable',
     vue: vueHost({ open: true, step: 2 }),
     react: reactHost({ open: true, step: 2 }),
     settle: shown,
@@ -111,6 +116,24 @@ export default defineLiveCases('Tour', [
       await userEvent.click(document.querySelector<HTMLElement>('[data-hn-tour-beacon]')!)
     },
     settle: shown,
+  },
+  {
+    name: 'after the beacon, next goes straight to the next card',
+    vue: vueHost({ open: true, beacon: true }),
+    react: reactHost({ open: true, beacon: true }),
+    interact: async () => {
+      await beaconShown()
+      await userEvent.click(document.querySelector<HTMLElement>('[data-hn-tour-beacon]')!)
+      await shown()
+      await userEvent.click(document.querySelector<HTMLElement>('[data-hn-tour-next]')!)
+    },
+    settle: async () => {
+      await vi.waitFor(() => {
+        if (!document.querySelector('[data-hn-tour]')?.textContent?.includes('Search'))
+          throw new Error('still on the first step')
+      })
+      await shown()
+    },
   },
   {
     name: 'next moves to the second step',

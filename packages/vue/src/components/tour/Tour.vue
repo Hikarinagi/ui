@@ -9,17 +9,23 @@
     runTourChange,
     spotlightPath,
     spotlightRect,
+    TOUR_ARROW_HEIGHT,
+    TOUR_ARROW_PADDING,
+    TOUR_ARROW_PATH,
+    TOUR_ARROW_WIDTH,
     TOUR_PADDING,
     TOUR_RADIUS,
     TOUR_SIDE_OFFSET,
+    tourBeaconOnArrival,
     tourKeyAction,
     tourReference,
+    tourTargetBlocked,
     trapTourFocus,
     watchTourTarget,
     type TourRect,
   } from '../../../../shared/src/lib/tour'
   import { DismissableLayer } from '../../primitives/dismissable-layer'
-  import { PopperContent, PopperRoot } from '../../primitives/popper'
+  import { PopperArrow, PopperContent, PopperRoot } from '../../primitives/popper'
   import { Presence } from '../../primitives/presence'
   import { Teleport as TeleportPrimitive } from '../../primitives/teleport'
   import { cn } from '../../lib/cn'
@@ -45,7 +51,7 @@
 
   defineOptions({ name: 'HnTour' })
 
-  const props = withDefaults(defineProps<TourProps>(), { mask: true })
+  const props = withDefaults(defineProps<TourProps>(), { mask: true, blockTarget: false })
   const emit = defineEmits<{ finish: []; skip: [] }>()
   defineSlots<{
     content?(props: TourSlotProps): unknown
@@ -65,24 +71,22 @@
   const currentStep = computed<TourStep>(() => props.steps[current.value - 1] ?? {})
   const isLast = computed(() => current.value >= total.value)
   const busy = ref(false)
-  const beaconOpened = ref(false)
+  const beaconPending = ref(false)
+  const resolvedFor = ref<number | null>(null)
   const target = shallowRef<HTMLElement | null>(null)
   const hole = ref<TourRect | null>(null)
   const targetRect = ref<TourRect | null>(null)
   const viewport = ref({ width: 0, height: 0 })
 
   const padding = computed(() => currentStep.value.padding ?? TOUR_PADDING)
-  const beaconMode = computed(
-    () => !!target.value && (currentStep.value.beacon ?? props.beacon) === true,
-  )
   const active = computed(() => open.value && total.value > 0)
-  const cardVisible = computed(() => active.value && (!beaconMode.value || beaconOpened.value))
-  const beaconVisible = computed(() => active.value && beaconMode.value && !beaconOpened.value)
+  const resolved = computed(() => active.value && resolvedFor.value === current.value)
+  const beaconVisible = computed(() => resolved.value && !!target.value && beaconPending.value)
+  const cardVisible = computed(() => resolved.value && !beaconVisible.value)
   const maskVisible = computed(() => cardVisible.value && props.mask)
   const modal = computed(() => props.mask)
-  const blocking = computed(
-    () => maskVisible.value && !!hole.value && !currentStep.value.interactive,
-  )
+  const blocked = computed(() => tourTargetBlocked(currentStep.value, props.blockTarget))
+  const blocking = computed(() => cardVisible.value && !!hole.value && blocked.value)
 
   const clipPath = computed(() =>
     spotlightPath(viewport.value, hole.value, currentStep.value.radius ?? TOUR_RADIUS),
@@ -112,6 +116,7 @@
   let returnFocus: HTMLElement | null = null
 
   const mounted = ref(false)
+  let navigated = false
 
   function resolveTarget() {
     if (!mounted.value || !active.value) return
@@ -121,6 +126,7 @@
       devWarn('Tour', `the target of step ${current.value} was not found; the card is centered`)
     target.value = element
     root.value = element ?? document.documentElement
+    resolvedFor.value = current.value
     if (element && currentStep.value.scroll !== false) revealTourTarget(element)
   }
 
@@ -128,6 +134,7 @@
 
   onMounted(() => {
     mounted.value = true
+    beaconPending.value = tourBeaconOnArrival(currentStep.value, !!props.beacon, false)
     resolveTarget()
     if (!active.value) return
     returnFocus = document.activeElement as HTMLElement | null
@@ -138,7 +145,13 @@
 
   watch([active, current], ([isActive], [wasActive]) => {
     const focusInCard = !!card.value?.$el.contains(document.activeElement)
-    beaconOpened.value = false
+    beaconPending.value = tourBeaconOnArrival(
+      currentStep.value,
+      !!props.beacon,
+      !!isActive && !!wasActive && navigated,
+    )
+    navigated = false
+    if (!isActive) resolvedFor.value = null
     if (isActive && !wasActive) returnFocus = document.activeElement as HTMLElement | null
     if (!isActive && wasActive) void nextTick(restoreFocus)
     if (isActive && wasActive && focusInCard)
@@ -179,12 +192,12 @@
       if (!cardVisible.value || !modal.value) return
       const layerElement = layer.value?.$el as HTMLElement | undefined
       if (!layerElement?.isConnected) return
-      const interactive = currentStep.value.interactive
+      const reachable = !blocked.value
       const element = target.value
       onCleanup(hideOutsideTour([layerElement, element]))
       onCleanup(
         trapTourFocus(
-          () => [card.value?.$el, interactive ? element : null],
+          () => [card.value?.$el, reachable ? element : null],
           () => layer.value?.$el,
         ),
       )
@@ -211,7 +224,9 @@
       current.value,
       state => (busy.value = state),
     )
-    if (allowed) step.value = next
+    if (!allowed) return
+    navigated = true
+    step.value = next
   }
 
   async function next() {
@@ -278,6 +293,7 @@
           align: currentStep.value.align ?? 'center',
           sideOffset: TOUR_SIDE_OFFSET,
           collisionPadding: 16,
+          arrowPadding: TOUR_ARROW_PADDING,
         }
       : {
           class: cn(tourCentered(), 'hn-anim-pop'),
@@ -314,7 +330,7 @@
       :aria-label="t.tour.beacon(current, currentStep.title ?? '')"
       :class="tourBeacon()"
       :style="beaconStyle"
-      @click="beaconOpened = true"
+      @click="beaconPending = false"
     >
       <span :class="tourBeaconPulse()" />
       <span :class="tourBeaconDot()" />
@@ -366,6 +382,21 @@
                   <Text tone="muted" size="sm">{{ currentStep.description }}</Text>
                 </slot>
               </div>
+              <PopperArrow
+                v-if="target"
+                data-hn-tour-arrow
+                :width="TOUR_ARROW_WIDTH"
+                :height="TOUR_ARROW_HEIGHT"
+                class="overflow-visible"
+              >
+                <path :d="`${TOUR_ARROW_PATH}Z`" class="fill-surface" />
+                <path
+                  :d="TOUR_ARROW_PATH"
+                  fill="none"
+                  class="stroke-line"
+                  vector-effect="non-scaling-stroke"
+                />
+              </PopperArrow>
               <slot name="footer" v-bind="slotProps">
                 <div :class="tourFooter()">
                   <Text as="span" tone="muted" size="sm" class="tabular-nums">

@@ -15,7 +15,7 @@ export interface TourStepBase {
   align?: TourAlign
   padding?: number
   radius?: number
-  interactive?: boolean
+  blockTarget?: boolean
   scroll?: boolean
   beacon?: boolean
 }
@@ -35,6 +35,18 @@ export interface TourRect {
 export const TOUR_PADDING = 8
 export const TOUR_RADIUS = 8
 export const TOUR_SIDE_OFFSET = 12
+export const TOUR_ARROW_WIDTH = 16
+export const TOUR_ARROW_HEIGHT = 8
+export const TOUR_ARROW_PADDING = 12
+export const TOUR_ARROW_PATH = 'M0 0L6 6L12 0'
+
+export function tourBeaconOnArrival(step: TourStepBase, beacon: boolean, navigated: boolean) {
+  return navigated ? step.beacon === true : (step.beacon ?? beacon) === true
+}
+
+export function tourTargetBlocked(step: TourStepBase, blockTarget: boolean) {
+  return step.blockTarget ?? blockTarget
+}
 
 export function resolveTourTarget(target: TourTarget | undefined): HTMLElement | null {
   if (!target) return null

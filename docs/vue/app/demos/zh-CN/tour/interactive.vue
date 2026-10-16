@@ -11,9 +11,13 @@
       target: '#tour-interactive-name',
       title: '给项目起个名字',
       description: '在输入框里写下名字，再点「下一步」。',
-      interactive: true,
     },
-    { target: '#tour-interactive-save', title: '保存', description: '名字会出现在项目列表里。' },
+    {
+      target: '#tour-interactive-save',
+      title: '保存',
+      description: '名字会出现在项目列表里。',
+      blockTarget: true,
+    },
   ]
 
   async function beforeChange(next: number, previous: number) {
@@ -31,9 +35,9 @@
     <Button variant="ghost" tone="neutral" @click="open = true">开始引导</Button>
   </Inline>
   <Tour v-model:open="open" :steps="steps" :before-change="beforeChange" @finish="error = ''">
-    <template #content="{ step }">
+    <template #content="{ step, current }">
       <Text tone="muted" size="sm">{{ step.description }}</Text>
-      <Text v-if="error && step.interactive" tone="danger" size="sm">{{ error }}</Text>
+      <Text v-if="error && current === 1" tone="danger" size="sm">{{ error }}</Text>
     </template>
   </Tour>
 </template>

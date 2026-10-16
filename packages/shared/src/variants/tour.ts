@@ -5,7 +5,7 @@ export const tourMask = tv({ base: 'hn-scrim hn-tour-mask' })
 export const tourBlocker = tv({ base: 'fixed z-(--hn-z-overlay)' })
 
 export const tourCard = tv({
-  base: 'hn-anim-pop z-(--hn-z-overlay) flex w-80 max-w-[calc(100vw-2rem)] flex-col gap-3 p-4 shadow-lg outline-none',
+  base: 'relative z-(--hn-z-overlay) flex w-80 max-w-[calc(100vw-2rem)] flex-col gap-3 overflow-visible p-4 shadow-lg outline-none',
 })
 
 export const tourCentered = tv({

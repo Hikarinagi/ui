@@ -3,6 +3,8 @@ import { test } from 'node:test'
 import {
   beaconPoint,
   clampTourStep,
+  tourBeaconOnArrival,
+  tourTargetBlocked,
   runTourChange,
   spotlightPath,
   spotlightRect,
@@ -102,4 +104,19 @@ test('beforeChange can veto synchronously or after a pending promise', async () 
     ),
   )
   assert.equal(busy.at(-1), false)
+})
+
+test('the beacon only opens a tour or a step that asks for it on navigation', () => {
+  assert.equal(tourBeaconOnArrival({}, true, false), true)
+  assert.equal(tourBeaconOnArrival({}, true, true), false)
+  assert.equal(tourBeaconOnArrival({ beacon: true }, false, true), true)
+  assert.equal(tourBeaconOnArrival({ beacon: false }, true, false), false)
+  assert.equal(tourBeaconOnArrival({}, false, false), false)
+})
+
+test('targets stay clickable unless the tour or the step blocks them', () => {
+  assert.equal(tourTargetBlocked({}, false), false)
+  assert.equal(tourTargetBlocked({}, true), true)
+  assert.equal(tourTargetBlocked({ blockTarget: false }, true), false)
+  assert.equal(tourTargetBlocked({ blockTarget: true }, false), true)
 })
