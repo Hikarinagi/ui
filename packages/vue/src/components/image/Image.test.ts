@@ -1,6 +1,7 @@
 import { describe, expect, it, beforeEach, vi } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
-import { defineComponent, h, nextTick } from 'vue'
+import { createSSRApp, defineComponent, h, nextTick } from 'vue'
+import { renderToString } from 'vue/server-renderer'
 import Image from './Image.vue'
 import { provideImageResolver } from './resolver'
 import { resetDevWarnings } from '../../lib/dev'
@@ -161,6 +162,106 @@ describe('占位与空态', () => {
     })
     expect(w.find('.hn-skeleton').exists()).toBe(false)
     expect(w.text()).toBe('自定义占位')
+  })
+})
+
+describe('ThumbHash 占位', () => {
+  const HASH = 'YMcJJIIhukWZenmwmHWb9Pc5nw=='
+  const layer = (el: Element) => el.querySelector<HTMLElement>('span[aria-hidden="true"]')
+
+  it('缩略图取代骨架,铺在图片下层', () => {
+    const w = mount(Image, { props: { src: '/a.webp', thumbhash: HASH } })
+    const el = layer(w.element)!
+    expect(w.find('.hn-skeleton').exists()).toBe(false)
+    expect(el.style.backgroundImage).toMatch(/^url\("data:image\/png;base64,/)
+    expect(el.classList).toContain('bg-cover')
+    expect(el.childElementCount).toBe(0)
+    const nodes = [...w.element.children]
+    expect(nodes.indexOf(el)).toBeGreaterThan(nodes.indexOf(w.find('img').element))
+  })
+
+  it.each([
+    ['cover', 'bg-cover'],
+    ['contain', 'bg-contain'],
+    ['fill', 'bg-size-[100%_100%]'],
+    ['none', 'bg-cover'],
+    ['scale-down', 'bg-contain'],
+  ] as const)('fit 为 %s 时缩略图使用 %s', (fit, size) => {
+    const w = mount(Image, { props: { src: '/a.webp', thumbhash: HASH, fit } })
+    expect(layer(w.element)!.classList).toContain(size)
+  })
+
+  it('skeleton 为假或提供 skeleton 插槽时仍显示缩略图', () => {
+    const off = mount(Image, { props: { src: '/a.webp', thumbhash: HASH, skeleton: false } })
+    expect(layer(off.element)!.style.backgroundImage).toContain('data:image/png')
+    const slotted = mount(Image, {
+      props: { src: '/a.webp', thumbhash: HASH },
+      slots: { skeleton: () => h('p', '自定义占位') },
+    })
+    expect(slotted.text()).toBe('')
+    expect(layer(slotted.element)!.style.backgroundImage).toContain('data:image/png')
+  })
+
+  it('无法解析的值按未设置处理', () => {
+    const w = mount(Image, { props: { src: '/a.webp', thumbhash: 'not a hash!' } })
+    expect(w.find('.hn-skeleton').exists()).toBe(true)
+    expect(layer(w.element)!.style.backgroundImage).toBe('')
+    const off = mount(Image, {
+      props: { src: '/a.webp', thumbhash: 'not a hash!', skeleton: false },
+    })
+    expect(layer(off.element)).toBeNull()
+  })
+
+  it('懒加载的图在揭示前透明且模糊,过渡同时作用于透明度和模糊', () => {
+    const w = mount(Image, { props: { src: '/a.webp', thumbhash: HASH } })
+    const classes = w.find('img').classes()
+    expect(classes).toEqual(
+      expect.arrayContaining([
+        'opacity-0',
+        'blur-lg',
+        'transition-[opacity,filter]',
+        'duration-(--hn-duration-slow)',
+      ]),
+    )
+    expect(classes).not.toContain('transition-opacity')
+  })
+
+  it('lazy 为假时图片不模糊,加载完撤走缩略图', async () => {
+    const w = mount(Image, { props: { src: '/a.webp', thumbhash: HASH, lazy: false } })
+    expect(w.find('img').classes()).not.toContain('blur-lg')
+    expect(w.find('img').classes()).not.toContain('opacity-0')
+    expect(layer(w.element)).not.toBeNull()
+    await vi.waitFor(() => expect(layer(w.element)).toBeNull())
+  })
+
+  it('没有 src 时不显示缩略图', () => {
+    const w = mount(Image, {
+      props: { thumbhash: HASH },
+      slots: { empty: () => h('p', '暂无图片') },
+    })
+    expect(layer(w.element)).toBeNull()
+    expect(w.text()).toBe('暂无图片')
+  })
+
+  it('加载失败时缩略图随图片撤走,交给 error 插槽', async () => {
+    decodes = ['fail']
+    const w = mount(Image, {
+      props: { src: '/a.webp', thumbhash: HASH, lazy: false },
+      slots: { error: () => h('p', '加载失败') },
+    })
+    await flushPromises()
+    expect(layer(w.element)).toBeNull()
+    expect(w.text()).toBe('加载失败')
+  })
+
+  it('服务端渲染输出缩略图', async () => {
+    const html = await renderToString(
+      createSSRApp(
+        defineComponent({ render: () => h(Image, { src: '/a.webp', thumbhash: HASH }) }),
+      ),
+    )
+    expect(html).toContain('background-image:url(&quot;data:image/png;base64,')
+    expect(html).not.toContain('hn-skeleton')
   })
 })
 

@@ -5,7 +5,7 @@
   import Skeleton from '../skeleton/Skeleton.vue'
   import Lightbox from '../lightbox/Lightbox.vue'
   import type { LightboxItem } from '../lightbox/types'
-  import { image, imageRoot, type ImageVariants } from './image.variants'
+  import { image, imagePlaceholder, imageRoot, type ImageVariants } from './image.variants'
   import { useImage } from './composables/useImage'
   import { useImageGroup } from './context'
   import { useImageResolver } from './resolver'
@@ -18,6 +18,7 @@
       src?: string
       alt?: string
       fallback?: string
+      thumbhash?: string
       fit?: ImageVariants['fit']
       ratio?: number
       lazy?: boolean
@@ -48,9 +49,20 @@
     error: []
   }>()
 
-  const { rootEl, imageEl, skeletonEl, src, revealed, failed, showImage, showSkeleton } = useImage(
-    props,
-    emit,
+  const {
+    rootEl,
+    imageEl,
+    skeletonEl,
+    src,
+    placeholder,
+    revealed,
+    failed,
+    showImage,
+    showSkeleton,
+  } = useImage(props, emit)
+
+  const placeholderStyle = computed(() =>
+    placeholder.value ? { style: { backgroundImage: `url("${placeholder.value}")` } } : {},
   )
 
   useRequiredLabel('Image', () => !props.preview || !!props.alt, '替代文本')
@@ -113,8 +125,9 @@
       :draggable="props.draggable"
       :class="
         cn(
-          image({ fit: props.fit, lazy: props.lazy }),
+          image({ fit: props.fit, lazy: props.lazy, placeholder: !!placeholder }),
           props.lazy && !revealed && 'opacity-0',
+          props.lazy && !revealed && placeholder && 'blur-lg',
           props.imageClass,
         )
       "
@@ -126,9 +139,15 @@
       v-if="showSkeleton"
       ref="skeletonEl"
       aria-hidden="true"
-      class="pointer-events-none absolute inset-0"
+      :class="
+        cn(
+          'pointer-events-none absolute inset-0',
+          placeholder && imagePlaceholder({ fit: props.fit }),
+        )
+      "
+      v-bind="placeholderStyle"
     >
-      <slot name="skeleton">
+      <slot v-if="!placeholder" name="skeleton">
         <Skeleton class="size-full rounded-none" />
       </slot>
     </span>

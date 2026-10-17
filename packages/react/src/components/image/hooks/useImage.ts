@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
 import { cssTimeToMs } from '../../../../../shared/src/lib/css-time'
+import { thumbhashToDataUrl } from '../../../../../shared/src/lib/thumbhash'
 import { useImageResolver } from '../resolver'
 
 function ready(img: HTMLImageElement): Promise<void> {
@@ -29,6 +30,17 @@ function play(el: HTMLElement, frames: Keyframe[]): Animation | null {
   }
 }
 
+function hold(el: HTMLElement): Animation | null {
+  try {
+    const duration = cssTimeToMs(getComputedStyle(el).getPropertyValue('--hn-duration-slow'))
+    const anim = new Animation(new KeyframeEffect(null, null, duration))
+    anim.play()
+    return anim
+  } catch {
+    return null
+  }
+}
+
 function afterPaint() {
   return new Promise<void>(res => requestAnimationFrame(() => requestAnimationFrame(() => res())))
 }
@@ -37,6 +49,7 @@ export function useImage(
   props: {
     src?: string
     fallback?: string
+    thumbhash?: string
     lazy: boolean
     rootMargin: string
     skeleton: boolean
@@ -90,12 +103,22 @@ export function useImage(
     setFailed(false)
   }
 
+  const thumbhash = props.thumbhash
+  const placeholder = useMemo(() => (thumbhash ? thumbhashToDataUrl(thumbhash) : null), [thumbhash])
+
   const src = entered ? resolved || undefined : undefined
   const showImage = Boolean(resolved) && !failed
-  const showSkeleton = props.skeleton && showImage && skeletonMounted
+  const showSkeleton = (props.skeleton || !!placeholder) && showImage && skeletonMounted
 
-  const latest = useRef({ src, usingFallback, resolveFallback, lazy: props.lazy, emit })
-  latest.current = { src, usingFallback, resolveFallback, lazy: props.lazy, emit }
+  const latest = useRef({
+    src,
+    usingFallback,
+    resolveFallback,
+    placeholder,
+    lazy: props.lazy,
+    emit,
+  })
+  latest.current = { src, usingFallback, resolveFallback, placeholder, lazy: props.lazy, emit }
 
   useLayoutEffect(() => {
     fade.current?.cancel()
@@ -134,7 +157,9 @@ export function useImage(
 
     flushSync(() => setRevealed(true))
     const layer = skeletonEl.current
-    const anim = layer && play(layer, [{ opacity: 1 }, { opacity: 0 }])
+    const anim =
+      layer &&
+      (latest.current.placeholder ? hold(layer) : play(layer, [{ opacity: 1 }, { opacity: 0 }]))
     if (!anim) {
       setSkeletonMounted(false)
       return
@@ -190,6 +215,7 @@ export function useImage(
     imageEl: imageRef,
     skeletonRef: skeletonEl,
     src,
+    placeholder,
     revealed,
     failed,
     showImage,

@@ -3,6 +3,7 @@ import { mount, type VueWrapper } from '@vue/test-utils'
 import { page, userEvent } from '@vitest/browser/context'
 import { defineComponent, h, ref } from 'vue'
 import Image from './Image.vue'
+import { thumbhashToDataUrl } from '../../../../shared/src/lib/thumbhash'
 import '../../../test/browser.css'
 
 let mounted: VueWrapper[] = []
@@ -310,4 +311,97 @@ it.each([
   await userEvent.click(action)
   expect(click).toHaveBeenCalledOnce()
   expect(document.querySelector('[role="dialog"]')).toBeNull()
+})
+
+describe('image · ThumbHash', () => {
+  const HASH = 'YMcJJIIhukWZenmwmHWb9Pc5nw=='
+  const layerOf = (el: Element) => el.querySelector<HTMLElement>('span[aria-hidden="true"]')
+
+  it.each([
+    ['cover', 'cover'],
+    ['contain', 'contain'],
+    ['fill', '100% 100%'],
+  ])('fit=%s 时缩略图铺满外框,背景尺寸为 %s', (fit, size) => {
+    const w = mountImage({ src: PIXEL, thumbhash: HASH, fit, ratio: 2, class: 'w-40' })
+    const layer = layerOf(w.element)!
+    const host = (w.element as HTMLElement).getBoundingClientRect()
+    const box = layer.getBoundingClientRect()
+    expect([box.width, box.height]).toEqual([host.width, host.height])
+    const style = getComputedStyle(layer)
+    expect(style.backgroundSize).toBe(size)
+    expect(style.backgroundPosition).toBe('50% 50%')
+    expect(style.backgroundRepeat).toBe('no-repeat')
+    expect(style.backgroundImage).toMatch(/^url\("data:image\/png;base64,/)
+  })
+
+  it('图片在缩略图上层由模糊转清晰淡入,缩略图不做淡出,图片过渡结束后撤走', async () => {
+    const w = mountImage({ src: PIXEL, thumbhash: HASH, class: 'h-20 w-20' })
+    const img = w.find('img').element as HTMLImageElement
+    const layer = layerOf(w.element)!
+    expect(getComputedStyle(img).filter).toBe('blur(16px)')
+    expect(getComputedStyle(img).zIndex).toBe('10')
+    const started = new Promise<number>(resolve =>
+      img.addEventListener('transitionrun', () => resolve(performance.now()), { once: true }),
+    )
+
+    let transitions: CSSTransition[] = []
+    await vi.waitFor(() => {
+      transitions = img
+        .getAnimations()
+        .filter((animation): animation is CSSTransition => animation instanceof CSSTransition)
+      expect(transitions.map(t => t.transitionProperty).sort()).toEqual(['filter', 'opacity'])
+    })
+    const start = await started
+    transitions.forEach(t => t.pause())
+    expect(transitions.map(t => t.effect!.getTiming().duration)).toEqual([450, 450])
+
+    transitions.forEach(t => (t.currentTime = 150))
+    const blur = Number(/blur\(([\d.]+)px\)/.exec(getComputedStyle(img).filter)?.[1])
+    expect(blur).toBeGreaterThan(0)
+    expect(blur).toBeLessThan(16)
+    expect(Number(getComputedStyle(img).opacity)).toBeGreaterThan(0)
+    expect(Number(getComputedStyle(img).opacity)).toBeLessThan(1)
+    expect(layer.getAnimations()).toEqual([])
+    expect(getComputedStyle(layer).opacity).toBe('1')
+
+    transitions.forEach(t => t.finish())
+    await vi.waitFor(() => expect(layerOf(w.element)).toBeNull())
+    expect(performance.now() - start).toBeGreaterThanOrEqual(400)
+    expect(getComputedStyle(img).filter).toBe('none')
+    expect(getComputedStyle(img).opacity).toBe('1')
+  })
+
+  it('lazy 为假时缩略图垫在图片下层,加载后直接撤走', async () => {
+    const animate = vi.spyOn(Element.prototype, 'animate')
+    const w = mountImage({ src: PIXEL, thumbhash: HASH, lazy: false, class: 'h-20 w-20' })
+    const img = w.find('img').element as HTMLImageElement
+    const layer = layerOf(w.element)!
+    expect(getComputedStyle(img).filter).toBe('none')
+    expect(getComputedStyle(img).opacity).toBe('1')
+    await vi.waitFor(() => expect(layerOf(w.element)).toBeNull())
+    expect(animate.mock.contexts).not.toContain(layer)
+  })
+
+  it('换源后缩略图换成新图的,新图到位后撤走', async () => {
+    const OTHER = 'K2kGLQRRemhndpNMn6OolZmP9956'
+    const props = ref({ src: PIXEL, thumbhash: HASH })
+    const w = mount(
+      { setup: () => () => h(Image, { ...props.value, lazy: false, class: 'h-20 w-20' }) },
+      { attachTo: attach() },
+    )
+    mounted.push(w)
+    await vi.waitFor(() => expect(layerOf(w.element)).toBeNull())
+    let finishDecode: (() => void) | undefined
+    vi.spyOn(HTMLImageElement.prototype, 'decode').mockImplementation(
+      () =>
+        new Promise<void>(resolve => {
+          finishDecode = resolve
+        }),
+    )
+    props.value = { src: PIXEL + '#second', thumbhash: OTHER }
+    await vi.waitFor(() => expect(finishDecode).toBeTypeOf('function'))
+    expect(layerOf(w.element)!.style.backgroundImage).toBe(`url("${thumbhashToDataUrl(OTHER)}")`)
+    finishDecode!()
+    await vi.waitFor(() => expect(layerOf(w.element)).toBeNull())
+  })
 })

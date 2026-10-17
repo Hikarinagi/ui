@@ -39,6 +39,7 @@ export default defineConfig({
       'tailwind-variants',
       'overlayscrollbars',
       '@internationalized/date',
+      'thumbhash',
       'uqr',
       'jsqr',
       '@floating-ui/dom',

@@ -18,7 +18,7 @@ import { Primitive } from '../../lib/primitive'
 import { Skeleton } from '../skeleton/Skeleton'
 import { Lightbox } from '../lightbox/Lightbox'
 import type { LightboxItem } from '../lightbox/types'
-import { image, imageRoot, type ImageVariants } from './image.variants'
+import { image, imagePlaceholder, imageRoot, type ImageVariants } from './image.variants'
 import { useImage } from './hooks/useImage'
 import { useImageGroup } from './context'
 import { useImageResolver } from './resolver'
@@ -30,6 +30,7 @@ export interface ImageProps extends Omit<
   src?: string
   alt?: string
   fallback?: string
+  thumbhash?: string
   fit?: ImageVariants['fit']
   ratio?: number
   lazy?: boolean
@@ -55,6 +56,7 @@ export function Image({
   src: srcProp,
   alt = '',
   fallback: fallbackProp,
+  thumbhash,
   fit = 'cover',
   ratio,
   lazy = true,
@@ -81,12 +83,13 @@ export function Image({
     imageEl,
     skeletonRef,
     src,
+    placeholder,
     revealed,
     failed,
     showImage,
     showSkeleton,
   } = useImage(
-    { src: srcProp, fallback: fallbackProp, lazy, rootMargin, skeleton },
+    { src: srcProp, fallback: fallbackProp, thumbhash, lazy, rootMargin, skeleton },
     { load: onLoad, error: onError },
   )
 
@@ -155,7 +158,12 @@ export function Image({
           decoding={eager ? 'sync' : 'async'}
           fetchPriority={eager ? 'high' : undefined}
           draggable={draggable}
-          className={cn(image({ fit, lazy }), lazy && !revealed && 'opacity-0', imageClass)}
+          className={cn(
+            image({ fit, lazy, placeholder: !!placeholder }),
+            lazy && !revealed && 'opacity-0',
+            lazy && !revealed && placeholder && 'blur-lg',
+            imageClass,
+          )}
         />
       ) : failed ? (
         error
@@ -163,8 +171,16 @@ export function Image({
         empty
       )}
       {showSkeleton && (
-        <span ref={skeletonRef} aria-hidden="true" className="pointer-events-none absolute inset-0">
-          {hasContent(skeletonContent) ? (
+        <span
+          ref={skeletonRef}
+          aria-hidden="true"
+          className={cn(
+            'pointer-events-none absolute inset-0',
+            placeholder && imagePlaceholder({ fit }),
+          )}
+          style={placeholder ? { backgroundImage: `url("${placeholder}")` } : undefined}
+        >
+          {placeholder ? null : hasContent(skeletonContent) ? (
             skeletonContent
           ) : (
             <Skeleton className="size-full rounded-none" />

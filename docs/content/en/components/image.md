@@ -54,6 +54,14 @@ The picture waits until it comes near the viewport, with a skeleton holding the 
 
 <Demo name="image/eager" />
 
+### Blurred placeholder {#thumbhash}
+
+`thumbhash` takes the picture's [ThumbHash](https://evanw.github.io/thumbhash/) as a base64 string, in either the standard or the URL-safe alphabet. While the picture loads, the box shows the blurred thumbnail decoded from it instead of the skeleton; once decoded, the picture fades in above it, going from blurred to sharp.
+
+A ThumbHash comes from `rgbaToThumbHash` in the [thumbhash](https://www.npmjs.com/package/thumbhash) package, given the pixels of the picture scaled down to 100 pixels or less. It is usually generated at upload time and stored with the picture's address.
+
+<Demo name="image/thumbhash" />
+
 ### Empty and failed {#states}
 
 Without `src` the component renders the `empty` slot. When a picture fails and there is no fallback left, it renders the `error` slot instead.
@@ -117,6 +125,11 @@ Put several pictures inside an `ImageGroup` and opening any of them lets you mov
 - The skeleton covers the whole box, including the space left empty by `contain`. Once decoded, the picture fades in above it over 300ms while the skeleton fades out over 200ms, both with ease-out easing.
 - A lazy picture stays transparent until its fade begins. Disabling the skeleton keeps the picture's fade-in.
 - A picture with `lazy` off sits above the skeleton and appears as soon as the browser has painted it, without waiting for script; the skeleton beneath it is dropped outright, with no fade.
+- With `thumbhash` set, the decoded thumbnail shows while loading instead of a skeleton, and neither `skeleton` nor a custom skeleton has any effect. A value that cannot be decoded counts as unset.
+- The thumbnail follows `fit`: `cover` and `none` fill the box, `contain` and `scale-down` show it whole in the centre, and `fill` stretches it to the box.
+- The thumbnail is part of the server-rendered HTML and shows before any script loads.
+- A lazy picture goes from a 16px blur to sharp while fading in above the thumbnail over 450ms, and the thumbnail is removed without a fade when that transition ends. A picture with `lazy` off covers the thumbnail directly, and the thumbnail is removed once the picture has loaded.
+- When loading fails, the thumbnail goes with the picture.
 - Where the browser has no intersection observer, the picture loads as soon as the component mounts rather than being held back forever.
 - Attributes that are not props land on the `img` element, so `sizes`, `srcset` and the like work as usual.
 - Changing `src` resets the fallback, so a new picture starts from its own address rather than the previous fallback.
@@ -145,6 +158,7 @@ Put several pictures inside an `ImageGroup` and opening any of them lets you mov
 | `src`         | `string`                                                   | —         | The address, passed through the resolver                                          |
 | `alt`         | `string`                                                   | `''`      | Alternative text                                                                  |
 | `fallback`    | `string`                                                   | —         | Loaded when `src` fails                                                           |
+| `thumbhash`   | `string`                                                   | —         | The picture's ThumbHash, shown as a blurred thumbnail while loading               |
 | `fit`         | `'cover' \| 'contain' \| 'fill' \| 'none' \| 'scale-down'` | `'cover'` | How the picture fills its box                                                     |
 | `ratio`       | `number`                                                   | —         | Width divided by height, reserved in advance                                      |
 | `lazy`        | `boolean`                                                  | `true`    | Wait until it nears the viewport                                                  |
@@ -168,6 +182,7 @@ Put several pictures inside an `ImageGroup` and opening any of them lets you mov
 | `src`         | `string`                                                   | —         | The address, passed through the resolver                                          |
 | `alt`         | `string`                                                   | `''`      | Alternative text                                                                  |
 | `fallback`    | `string`                                                   | —         | Loaded when `src` fails                                                           |
+| `thumbhash`   | `string`                                                   | —         | The picture's ThumbHash, shown as a blurred thumbnail while loading               |
 | `fit`         | `'cover' \| 'contain' \| 'fill' \| 'none' \| 'scale-down'` | `'cover'` | How the picture fills its box                                                     |
 | `ratio`       | `number`                                                   | —         | Width divided by height, reserved in advance                                      |
 | `lazy`        | `boolean`                                                  | `true`    | Wait until it nears the viewport                                                  |
