@@ -21,12 +21,22 @@ export { Tour } from '../components/tour/Tour'
 export type {
   TourAlign,
   TourBeforeChange,
+  TourCloseReason,
   TourHandle,
+  TourPlay,
+  TourPlayContext,
+  TourPoint,
+  TourPointer,
+  TourPointerKind,
   TourProps,
+  TourRectLike,
   TourSide,
   TourSlotProps,
+  TourSpotlightOptions,
   TourStep,
   TourTarget,
+  TourTargetItem,
+  TourVirtualElement,
 } from '../components/tour/Tour'
 export { HoverCard } from '../components/hover-card/HoverCard'
 export type { HoverCardProps } from '../components/hover-card/HoverCard'

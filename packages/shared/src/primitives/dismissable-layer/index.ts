@@ -121,14 +121,19 @@ export function inBranch(target: EventTarget | null) {
 }
 
 export function hideOutsideLayers(targets: Element[]) {
-  let kept = [...branches]
-  let undo = hideOthers([...targets, ...kept])
+  const connected = () => [...branches].filter(branch => branch.isConnected)
+  let kept = connected()
+  const hide = () => {
+    const visible = [...targets.filter(target => target.isConnected), ...kept]
+    return visible.length ? hideOthers(visible) : () => {}
+  }
+  let undo = hide()
   const stop = subscribeLayers(() => {
-    const next = [...branches]
+    const next = connected()
     if (next.length === kept.length && next.every((branch, index) => branch === kept[index])) return
     kept = next
     const previous = undo
-    undo = hideOthers([...targets, ...kept])
+    undo = hide()
     previous()
   })
   return () => {

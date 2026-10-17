@@ -147,12 +147,22 @@ export { default as Tour } from './components/tour/Tour.vue'
 export type {
   TourAlign,
   TourBeforeChange,
+  TourCloseReason,
   TourExpose,
+  TourPlay,
+  TourPlayContext,
+  TourPoint,
+  TourPointer,
+  TourPointerKind,
   TourProps,
+  TourRectLike,
   TourSide,
   TourSlotProps,
+  TourSpotlightOptions,
   TourStep,
   TourTarget,
+  TourTargetItem,
+  TourVirtualElement,
 } from './components/tour/types'
 export { default as HoverCard } from './components/hover-card/HoverCard.vue'
 export { default as ContextMenu } from './components/context-menu/ContextMenu.vue'
