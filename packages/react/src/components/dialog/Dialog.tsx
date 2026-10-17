@@ -11,6 +11,7 @@ import {
   DialogTrigger,
 } from '../../primitives/dialog'
 import { cn } from '../../lib/cn'
+import type { FocusOutsideEvent, PointerDownOutsideEvent } from '../../primitives/dismissable-layer'
 import { FormScopeContext, useFormScope } from '../form/scope'
 import { hasContent } from '../../lib/content'
 import { useOverlayPortal } from '../../lib/overlay-portal'
@@ -46,6 +47,7 @@ export interface DialogProps {
   open?: boolean
   defaultOpen?: boolean
   onOpenChange?: (open: boolean) => void
+  onInteractOutside?: (event: PointerDownOutsideEvent | FocusOutsideEvent) => void
   children?: ReactNode
   icon?: ReactNode
   renderBody?: (props: DialogSlotProps) => ReactNode
@@ -67,6 +69,7 @@ export function Dialog({
   open: openProp,
   defaultOpen,
   onOpenChange,
+  onInteractOutside,
   children,
   icon,
   renderBody,
@@ -99,6 +102,11 @@ export function Dialog({
     if (locked) event.preventDefault()
   }
 
+  function interactOutside(event: PointerDownOutsideEvent | FocusOutsideEvent) {
+    onInteractOutside?.(event)
+    guard(event)
+  }
+
   const close = () => setOpen(false)
   const body = renderBody !== undefined
 
@@ -110,7 +118,7 @@ export function Dialog({
           <DialogPortal>
             <DialogOverlay className="hn-scrim" />
             <div className={dialogWrapper({ placement: placement ?? 'auto' })}>
-              <ModalContent asChild onEscapeKeyDown={guard} onInteractOutside={guard}>
+              <ModalContent asChild onEscapeKeyDown={guard} onInteractOutside={interactOutside}>
                 <Card
                   ref={contentRef}
                   {...(description ? {} : { 'aria-describedby': undefined })}

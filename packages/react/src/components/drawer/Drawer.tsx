@@ -12,6 +12,7 @@ import {
   DialogTrigger,
 } from '../../primitives/dialog'
 import { cn } from '../../lib/cn'
+import type { FocusOutsideEvent, PointerDownOutsideEvent } from '../../primitives/dismissable-layer'
 import { FormScopeContext, useFormScope } from '../form/scope'
 import { hasContent } from '../../lib/content'
 import { useOverlayPortal } from '../../lib/overlay-portal'
@@ -46,6 +47,7 @@ export interface DrawerProps {
   open?: boolean
   defaultOpen?: boolean
   onOpenChange?: (open: boolean) => void
+  onInteractOutside?: (event: PointerDownOutsideEvent | FocusOutsideEvent) => void
   children?: ReactNode
   icon?: ReactNode
   renderBody?: (props: DrawerSlotProps) => ReactNode
@@ -67,6 +69,7 @@ export function Drawer({
   open: openProp,
   defaultOpen,
   onOpenChange,
+  onInteractOutside,
   children,
   icon,
   renderBody,
@@ -99,6 +102,11 @@ export function Drawer({
     if (locked) event.preventDefault()
   }
 
+  function interactOutside(event: PointerDownOutsideEvent | FocusOutsideEvent) {
+    onInteractOutside?.(event)
+    guard(event)
+  }
+
   const close = () => setOpen(false)
   const body = renderBody !== undefined
 
@@ -109,7 +117,7 @@ export function Drawer({
         {present && (
           <DialogPortal>
             <DialogOverlay className="hn-scrim" />
-            <DialogContent asChild onEscapeKeyDown={guard} onInteractOutside={guard}>
+            <DialogContent asChild onEscapeKeyDown={guard} onInteractOutside={interactOutside}>
               <Card
                 ref={contentRef}
                 {...(description ? {} : { 'aria-describedby': undefined })}

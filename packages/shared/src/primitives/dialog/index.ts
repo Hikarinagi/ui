@@ -1,4 +1,4 @@
-import { hideOthers } from 'aria-hidden'
+import { hideOutsideLayers } from '../dismissable-layer'
 
 export function dialogWarnings({
   titleName = 'DialogTitle',
@@ -40,7 +40,7 @@ export function hideOutside(element: Element) {
   try {
     insideClosedPopover = !!element.closest('[popover]:not(:popover-open)')
   } catch {}
-  return insideClosedPopover ? undefined : hideOthers(element)
+  return insideClosedPopover ? undefined : hideOutsideLayers([element])
 }
 
 interface OutsideEvent {

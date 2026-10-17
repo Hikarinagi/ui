@@ -40,7 +40,7 @@ Reka-only primitives used by the Vue package: Calendar, RangeCalendar, DateField
 
 Only `src/lib/radix` and `src/primitives` may reference `--radix-*` variables; it maps them onto the Hina runtime properties defined in [`shared/runtime.md`](../shared/runtime.md), mirroring `vue/src/lib/reka`.
 
-Other engines follow the Vue package: `motion` (the engine behind `motion-v`) for layout animation, `@tanstack/react-table` and `@tanstack/react-virtual` for data and virtualization, `overlayscrollbars` behind `ScrollArea` only, `embla-carousel`, `shiki` and `uqr` as in Vue, `lucide-react` for built-in icons.
+Other engines follow the Vue package: `motion` (the engine behind `motion-v`) for layout animation, `@tanstack/react-table` and `@tanstack/react-virtual` for data and virtualization, `overlayscrollbars` behind `ScrollArea` only, `embla-carousel`, `shiki`, `uqr` and `thumbhash` as in Vue, `lucide-react` for built-in icons.
 
 ## API mapping
 

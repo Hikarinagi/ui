@@ -18,7 +18,13 @@ import { Primitive } from '../../lib/primitive'
 import { Skeleton } from '../skeleton/Skeleton'
 import { Lightbox } from '../lightbox/Lightbox'
 import type { LightboxItem } from '../lightbox/types'
-import { image, imageRoot, type ImageVariants } from './image.variants'
+import {
+  image,
+  imageFrame,
+  imagePlaceholder,
+  imageRoot,
+  type ImageVariants,
+} from './image.variants'
 import { useImage } from './hooks/useImage'
 import { useImageGroup } from './context'
 import { useImageResolver } from './resolver'
@@ -30,6 +36,7 @@ export interface ImageProps extends Omit<
   src?: string
   alt?: string
   fallback?: string
+  thumbhash?: string
   fit?: ImageVariants['fit']
   ratio?: number
   lazy?: boolean
@@ -55,6 +62,7 @@ export function Image({
   src: srcProp,
   alt = '',
   fallback: fallbackProp,
+  thumbhash,
   fit = 'cover',
   ratio,
   lazy = true,
@@ -81,12 +89,13 @@ export function Image({
     imageEl,
     skeletonRef,
     src,
+    placeholder,
     revealed,
     failed,
     showImage,
     showSkeleton,
   } = useImage(
-    { src: srcProp, fallback: fallbackProp, lazy, rootMargin, skeleton },
+    { src: srcProp, fallback: fallbackProp, thumbhash, lazy, rootMargin, skeleton },
     { load: onLoad, error: onError },
   )
 
@@ -136,6 +145,26 @@ export function Image({
     else setPreviewOpen(true)
   }
 
+  const framed = !!placeholder && showImage
+  const picture = (
+    <img
+      ref={imageRef}
+      {...attrs}
+      style={imageStyle}
+      src={src}
+      alt={alt}
+      decoding={eager ? 'sync' : 'async'}
+      fetchPriority={eager ? 'high' : undefined}
+      draggable={draggable}
+      className={cn(
+        image({ fit, lazy, placeholder: !!placeholder }),
+        lazy && !revealed && 'opacity-0',
+        lazy && revealed && placeholder && showSkeleton && 'mix-blend-plus-lighter',
+        imageClass,
+      )}
+    />
+  )
+
   return (
     <Primitive
       ref={rootRef}
@@ -145,24 +174,30 @@ export function Image({
       style={{ ...(ratio ? { aspectRatio: String(ratio) } : {}), ...style }}
       onClick={openPreview}
     >
-      {showImage ? (
-        <img
-          ref={imageRef}
-          {...attrs}
-          style={imageStyle}
-          src={src}
-          alt={alt}
-          decoding={eager ? 'sync' : 'async'}
-          fetchPriority={eager ? 'high' : undefined}
-          draggable={draggable}
-          className={cn(image({ fit, lazy }), lazy && !revealed && 'opacity-0', imageClass)}
-        />
+      {framed ? (
+        <span className={imageFrame()}>
+          {picture}
+          {showSkeleton && (
+            <span
+              ref={skeletonRef}
+              aria-hidden="true"
+              className={cn(
+                'pointer-events-none absolute inset-0',
+                imagePlaceholder({ fit }),
+                revealed && 'will-change-transform',
+              )}
+              style={{ backgroundImage: `url("${placeholder}")` }}
+            />
+          )}
+        </span>
+      ) : showImage ? (
+        picture
       ) : failed ? (
         error
       ) : (
         empty
       )}
-      {showSkeleton && (
+      {showSkeleton && !framed && (
         <span ref={skeletonRef} aria-hidden="true" className="pointer-events-none absolute inset-0">
           {hasContent(skeletonContent) ? (
             skeletonContent

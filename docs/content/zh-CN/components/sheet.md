@@ -183,6 +183,7 @@ import { Sheet } from '@hina-ui/vue'
 - 拖动只从把手与标题区域开始，正文区域留给滚动；松手时位移超过面板高度的三成，或者下滑速度足够快，面板从松手的位置继续滑出关闭，否则弹回原位。
 - 打开期间页面停止滚动，焦点被限制在面板内，关闭后回到触发器。
 - 按 Esc 或者点击遮罩关闭，`locked` 会同时禁用这两种方式与拖动。
+- 点击遮罩或焦点移到外部时先触发 `interactOutside`，调用 `preventDefault()` 后不关闭。[OverlayBranch](/components/overlay-branch) 里的内容不算外部。
 
 :::
 
@@ -193,6 +194,7 @@ import { Sheet } from '@hina-ui/vue'
 - 拖动只从把手与标题区域开始，正文区域留给滚动；松手时位移超过面板高度的三成，或者下滑速度足够快，面板从松手的位置继续滑出关闭，否则弹回原位。
 - 打开期间页面停止滚动，焦点被限制在面板内，关闭后回到触发器。
 - 按 Esc 或者点击遮罩关闭，`locked` 会同时禁用这两种方式与拖动。
+- 点击遮罩或焦点移到外部时先触发 `interactOutside`，调用 `preventDefault()` 后不关闭。[OverlayBranch](/components/overlay-branch) 里的内容不算外部。
 
 :::
 
@@ -229,6 +231,10 @@ import { Sheet } from '@hina-ui/vue'
 | `footer`  | `{ close, submitting }` | 底部操作按钮                               |
 
 `close` 关闭面板；`submitting` 在面板内的 [Form](/components/form) 提交期间为 `true`。
+
+| 事件              | 参数                                           | 说明                                                  |
+| ----------------- | ---------------------------------------------- | ----------------------------------------------------- |
+| `interactOutside` | `PointerDownOutsideEvent \| FocusOutsideEvent` | 外部按下或焦点移出时触发，`preventDefault()` 后不关闭 |
 
 ### 实例 {#expose}
 

@@ -133,6 +133,8 @@ accent 用于主操作，neutral 用于次要操作与取消，danger 用于不�
   :controls="[{ prop: 'pill' }, { prop: 'block' }, { prop: 'size', options: ['xs', 'sm', 'md', 'lg'], default: 'md' }]"
 />
 
+按钮宽度受限时（例如加上 `max-w-full`），默认插槽里的 `<Text truncate>` 在按钮内以省略号截断。
+
 ### 作为链接 {#link}
 
 ::: vue

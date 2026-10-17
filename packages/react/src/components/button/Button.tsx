@@ -104,7 +104,7 @@ export function Button({
           )}
           {hasContent(children) && (
             <span
-              className={`hn-transition inline-flex items-center gap-[var(--hn-control-gap)] ${loading && spinnerAt === 'center' ? 'opacity-0' : 'opacity-100'}`}
+              className={`hn-transition inline-flex min-w-0 items-center gap-[var(--hn-control-gap)] ${loading && spinnerAt === 'center' ? 'opacity-0' : 'opacity-100'}`}
             >
               {children}
             </span>

@@ -1,6 +1,7 @@
 import { computed, nextTick, onMounted, shallowRef, watch, type ComponentPublicInstance } from 'vue'
 import { useIntersectionObserver } from '@vueuse/core'
 import { cssTimeToMs } from '../../../../../shared/src/lib/css-time'
+import { thumbhashToDataUrl } from '../../../../../shared/src/lib/thumbhash'
 import { useImageResolver } from '../resolver'
 
 function ready(img: HTMLImageElement): Promise<void> {
@@ -18,6 +19,7 @@ export function useImage(
   props: {
     src?: string
     fallback?: string
+    thumbhash?: string
     lazy: boolean
     rootMargin: string
     skeleton: boolean
@@ -56,9 +58,13 @@ export function useImage(
 
   const resolved = computed(() => (usingFallback.value ? fallback.value : primary.value))
 
+  const placeholder = computed(() => (props.thumbhash ? thumbhashToDataUrl(props.thumbhash) : null))
+
   const src = computed(() => (entered.value ? resolved.value || undefined : undefined))
   const showImage = computed(() => Boolean(resolved.value) && !failed.value)
-  const showSkeleton = computed(() => props.skeleton && showImage.value && skeletonMounted.value)
+  const showSkeleton = computed(
+    () => (props.skeleton || !!placeholder.value) && showImage.value && skeletonMounted.value,
+  )
 
   watch(primary, () => {
     usingFallback.value = false
@@ -72,12 +78,12 @@ export function useImage(
     failed.value = false
   })
 
-  function play(el: HTMLElement, frames: Keyframe[]): Animation | null {
+  function play(el: HTMLElement, duration: string, easing: string): Animation | null {
     const style = getComputedStyle(el)
     try {
-      return el.animate(frames, {
-        duration: cssTimeToMs(style.getPropertyValue('--hn-duration-fast')),
-        easing: style.getPropertyValue('--hn-ease-enter').trim() || 'linear',
+      return el.animate([{ opacity: 1 }, { opacity: 0 }], {
+        duration: cssTimeToMs(style.getPropertyValue(duration)),
+        easing: style.getPropertyValue(easing).trim() || 'linear',
         fill: 'forwards',
       })
     } catch {
@@ -89,22 +95,13 @@ export function useImage(
     return new Promise<void>(res => requestAnimationFrame(() => requestAnimationFrame(() => res())))
   }
 
-  async function reveal() {
-    if (!props.lazy) {
-      revealed.value = true
-      skeletonMounted.value = false
-      return
-    }
-
-    const img = imageEl.value
-    const at = src.value
-    await nextTick()
-    await afterPaint()
-    if (imageEl.value !== img || src.value !== at) return
-
-    revealed.value = true
+  function dropLayer() {
     const layer = skeletonEl.value
-    const anim = layer && play(layer, [{ opacity: 1 }, { opacity: 0 }])
+    const anim =
+      layer &&
+      (placeholder.value
+        ? play(layer, '--hn-duration-slow', '--hn-ease-move')
+        : play(layer, '--hn-duration-fast', '--hn-ease-enter'))
     if (!anim) {
       skeletonMounted.value = false
       return
@@ -117,6 +114,24 @@ export function useImage(
       },
       () => {},
     )
+  }
+
+  async function reveal() {
+    if (!props.lazy) {
+      revealed.value = true
+      if (placeholder.value) dropLayer()
+      else skeletonMounted.value = false
+      return
+    }
+
+    const img = imageEl.value
+    const at = src.value
+    await nextTick()
+    await afterPaint()
+    if (imageEl.value !== img || src.value !== at) return
+
+    revealed.value = true
+    dropLayer()
   }
 
   function fail() {
@@ -153,5 +168,15 @@ export function useImage(
     if (!isSupported.value) entered.value = true
   })
 
-  return { rootEl, imageEl, skeletonEl, src, revealed, failed, showImage, showSkeleton }
+  return {
+    rootEl,
+    imageEl,
+    skeletonEl,
+    src,
+    placeholder,
+    revealed,
+    failed,
+    showImage,
+    showSkeleton,
+  }
 }

@@ -26,6 +26,7 @@ test('shared source imports stay within the layer or approved framework-independ
     'tailwind-merge',
     'shiki',
     'tailwind-variants',
+    'thumbhash',
     'uqr',
   ])
   for (const file of files(source).filter(file => file.endsWith('.ts'))) {

@@ -1,3 +1,5 @@
+import { hideOthers } from 'aria-hidden'
+
 export type PointerDownOutsideEvent = CustomEvent<{ originalEvent: PointerEvent }>
 export type FocusOutsideEvent = CustomEvent<{ originalEvent: FocusEvent }>
 
@@ -35,11 +37,30 @@ export function addLayer(element: HTMLElement) {
   }
 }
 
+const branchInline = new Map<HTMLElement, string>()
+
+function syncBranchPointerEvents() {
+  const list = [...branches]
+  for (const branch of list) branch.style.pointerEvents = branchInline.get(branch) ?? ''
+  if (blocking.size === 0 || list.length === 0) return
+  const body = list[0]!.ownerDocument.body
+  const blocked = body.style.pointerEvents
+  body.style.pointerEvents = originalBodyPointerEvents ?? ''
+  const natural = list.map(branch => getComputedStyle(branch).pointerEvents)
+  body.style.pointerEvents = blocked
+  list.forEach((branch, index) => (branch.style.pointerEvents = natural[index]!))
+}
+
 export function addBranch(element: HTMLElement) {
+  if (!branches.has(element)) branchInline.set(element, element.style.pointerEvents)
   branches.add(element)
+  syncBranchPointerEvents()
   changed()
   return () => {
-    if (branches.delete(element)) changed()
+    if (!branches.delete(element)) return
+    element.style.pointerEvents = branchInline.get(element) ?? ''
+    branchInline.delete(element)
+    changed()
   }
 }
 
@@ -50,11 +71,13 @@ export function blockOutsidePointerEvents(element: HTMLElement) {
     body.style.pointerEvents = 'none'
   }
   blocking.add(element)
+  syncBranchPointerEvents()
   changed()
   return () => {
     if (!blocking.delete(element)) return
     if (blocking.size === 0 && originalBodyPointerEvents != null)
       body.style.pointerEvents = originalBodyPointerEvents
+    syncBranchPointerEvents()
     changed()
   }
 }
@@ -62,6 +85,7 @@ export function blockOutsidePointerEvents(element: HTMLElement) {
 export function releaseLayer(element: HTMLElement) {
   const removed = layers.delete(element)
   const unblocked = blocking.delete(element)
+  if (unblocked) syncBranchPointerEvents()
   if (removed || unblocked) changed()
 }
 
@@ -82,6 +106,7 @@ export function bodyPointerEventsDisabled() {
 }
 
 export function pointerEventsEnabled(element: HTMLElement | null | undefined) {
+  if (inBranch(element ?? null)) return true
   const highest = [...blocking].at(-1)
   return layerIndex(element) >= (highest ? [...layers].indexOf(highest) : -1)
 }
@@ -93,6 +118,28 @@ export function layerPointerEvents(element: HTMLElement | null | undefined) {
 
 export function inBranch(target: EventTarget | null) {
   return [...branches].some(branch => branch.contains(target as Node | null))
+}
+
+export function hideOutsideLayers(targets: Element[]) {
+  const connected = () => [...branches].filter(branch => branch.isConnected)
+  let kept = connected()
+  const hide = () => {
+    const visible = [...targets.filter(target => target.isConnected), ...kept]
+    return visible.length ? hideOthers(visible) : () => {}
+  }
+  let undo = hide()
+  const stop = subscribeLayers(() => {
+    const next = connected()
+    if (next.length === kept.length && next.every((branch, index) => branch === kept[index])) return
+    kept = next
+    const previous = undo
+    undo = hide()
+    previous()
+  })
+  return () => {
+    stop()
+    undo()
+  }
 }
 
 export function isLayerExist(layer: HTMLElement, target: EventTarget | null) {

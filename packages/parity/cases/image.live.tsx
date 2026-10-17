@@ -7,6 +7,8 @@ import { defineLiveCases } from '../src/live'
 import { picture, quiet } from './lightbox.live'
 
 const photo = picture(800, 400)
+const thumbhash = 'YMcJJIIhukWZenmwmHWb9Pc5nw=='
+const placeholder = () => document.querySelector<HTMLElement>('span[aria-hidden="true"]')
 const broken = 'data:image/png;base64,bm90LWFuLWltYWdl'
 
 function loaded(selector = 'img') {
@@ -63,6 +65,46 @@ export default defineLiveCases('image', [
     ),
     interact: () => page.viewport(1024, 768),
     settle: settled(() => !!document.querySelector('.hn-skeleton')),
+  },
+  {
+    name: 'below the fold shows the thumbhash placeholder',
+    vue: () =>
+      h('div', [
+        h('div', { style: 'height: 300vh' }),
+        h(VImage, { src: photo, alt: '海边', thumbhash, class: 'block h-20 w-36' }),
+      ]),
+    react: () => (
+      <div>
+        <div style={{ height: '300vh' }} />
+        <Image src={photo} alt="海边" thumbhash={thumbhash} className="block h-20 w-36" />
+      </div>
+    ),
+    interact: () => page.viewport(1024, 768),
+    settle: settled(() => !!placeholder()?.style.backgroundImage),
+  },
+  {
+    name: 'thumbhash image crossfades with the placeholder',
+    vue: () =>
+      h(VImage, { src: photo, alt: '海边', thumbhash, ratio: 2, class: 'w-40 rounded-md' }),
+    react: () => (
+      <Image src={photo} alt="海边" thumbhash={thumbhash} ratio={2} className="w-40 rounded-md" />
+    ),
+    settle: settled(() => !!document.querySelector('img')?.naturalWidth && !placeholder()),
+  },
+  {
+    name: 'eager thumbhash image fades the placeholder out',
+    vue: () =>
+      h(VImage, { src: photo, alt: '海边', thumbhash, lazy: false, class: 'w-40 rounded-md' }),
+    react: () => (
+      <Image
+        src={photo}
+        alt="海边"
+        thumbhash={thumbhash}
+        lazy={false}
+        className="w-40 rounded-md"
+      />
+    ),
+    settle: settled(() => !!document.querySelector('img')?.naturalWidth && !placeholder()),
   },
   {
     name: 'failed image renders the error slot',

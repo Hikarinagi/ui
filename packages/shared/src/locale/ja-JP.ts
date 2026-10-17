@@ -43,6 +43,7 @@ export const jaJP: UiMessages = {
     next: '次へ',
     finish: '完了',
     skip: 'ガイドをスキップ',
+    replay: 'もう一度再生',
     progress: (step, total) => `${step} / ${total}`,
     beacon: (step, title) =>
       title ? `ステップ ${step} を開く：${title}` : `ステップ ${step} を開く`,

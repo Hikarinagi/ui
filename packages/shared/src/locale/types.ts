@@ -36,6 +36,7 @@ export interface UiMessages {
     next: string
     finish: string
     skip: string
+    replay: string
     progress: (step: number, total: number) => string
     beacon: (step: number, title: string) => string
   }

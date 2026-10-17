@@ -11,6 +11,8 @@ export { Drawer } from '../components/drawer/Drawer'
 export type { DrawerProps, DrawerHandle, DrawerSlotProps } from '../components/drawer/Drawer'
 export { Sheet } from '../components/sheet/Sheet'
 export type { SheetProps, SheetHandle, SheetSlotProps } from '../components/sheet/Sheet'
+export { OverlayBranch } from '../components/overlay-branch/OverlayBranch'
+export type { OverlayBranchProps } from '../components/overlay-branch/OverlayBranch'
 export { LoadingOverlay } from '../components/loading-overlay/LoadingOverlay'
 export type { LoadingOverlayProps } from '../components/loading-overlay/LoadingOverlay'
 export { Popconfirm } from '../components/popconfirm/Popconfirm'
@@ -19,12 +21,22 @@ export { Tour } from '../components/tour/Tour'
 export type {
   TourAlign,
   TourBeforeChange,
+  TourCloseReason,
   TourHandle,
+  TourPlay,
+  TourPlayContext,
+  TourPoint,
+  TourPointer,
+  TourPointerKind,
   TourProps,
+  TourRectLike,
   TourSide,
   TourSlotProps,
+  TourSpotlightOptions,
   TourStep,
   TourTarget,
+  TourTargetItem,
+  TourVirtualElement,
 } from '../components/tour/Tour'
 export { HoverCard } from '../components/hover-card/HoverCard'
 export type { HoverCardProps } from '../components/hover-card/HoverCard'

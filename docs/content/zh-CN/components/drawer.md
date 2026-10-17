@@ -149,6 +149,7 @@ import { Drawer } from '@hina-ui/vue'
 - 多个浮层按打开顺序叠放，后打开的在上方；组件的挂载先后不影响叠放。关闭后保留完整退场动画，再移除浮层。
 - 抽屉打开期间页面停止滚动，焦点被限制在面板内部，关闭后回到触发器。
 - 按 Esc 或点击遮罩关闭抽屉，`locked` 会同时禁用这两种方式。
+- 点击遮罩或焦点移到外部时先触发 `interactOutside`，调用 `preventDefault()` 后不关闭。[OverlayBranch](/components/overlay-branch) 里的内容不算外部。
 - 默认正文区域使用 [ScrollArea](/components/scroll-area)；`body` 的滚动由调用方控制。
 
 :::
@@ -158,6 +159,7 @@ import { Drawer } from '@hina-ui/vue'
 - 多个浮层按打开顺序叠放，后打开的在上方；组件的挂载先后不影响叠放。关闭后保留完整退场动画，再移除浮层。
 - 抽屉打开期间页面停止滚动，焦点被限制在面板内部，关闭后回到触发器。
 - 按 Esc 或点击遮罩关闭抽屉，`locked` 会同时禁用这两种方式。
+- 点击遮罩或焦点移到外部时先触发 `interactOutside`，调用 `preventDefault()` 后不关闭。[OverlayBranch](/components/overlay-branch) 里的内容不算外部。
 - 默认正文区域使用 [ScrollArea](/components/scroll-area)；`renderBody` 的滚动由调用方控制。
 
 :::
@@ -206,6 +208,10 @@ import { Drawer } from '@hina-ui/vue'
 | `footer`  | `{ close, submitting }` | 底部操作按钮                               |
 
 `close` 关闭抽屉；`submitting` 在抽屉内的 [Form](/components/form) 提交期间为 `true`。
+
+| 事件              | 参数                                           | 说明                                                  |
+| ----------------- | ---------------------------------------------- | ----------------------------------------------------- |
+| `interactOutside` | `PointerDownOutsideEvent \| FocusOutsideEvent` | 外部按下或焦点移出时触发，`preventDefault()` 后不关闭 |
 
 ### 实例 {#expose}
 

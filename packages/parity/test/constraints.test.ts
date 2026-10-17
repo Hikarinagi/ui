@@ -198,6 +198,24 @@ describe('token 层自身约束', () => {
     expect(cycles).toEqual([])
   })
 
+  it('引用了 .dark 改写过的令牌的 :root 令牌必须在 .dark 中重新声明,否则局部 .dark 容器继承到的是浅色值', () => {
+    const light = varMap(':root')
+    const changed = new Set(varMap('\\.dark').keys())
+    const missing: string[] = []
+    for (let grew = true; grew;) {
+      grew = false
+      for (const [name, value] of light) {
+        if (changed.has(name)) continue
+        const refs = [...value.matchAll(/var\((--[\w-]+)/g)].map(m => m[1]!)
+        if (!refs.some(ref => changed.has(ref))) continue
+        changed.add(name)
+        missing.push(name)
+        grew = true
+      }
+    }
+    expect(missing).toEqual([])
+  })
+
   it('中性色阶三通道严格相等', () => {
     const bad: string[] = []
     for (const [, name, hex] of tokens.matchAll(/(--color-neutral-\d+):\s*#([0-9a-f]{6});/g)) {

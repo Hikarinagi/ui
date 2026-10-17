@@ -1,31 +1,44 @@
 <script setup lang="ts">
-  import { computed, nextTick, onMounted, ref, shallowRef, useId, watch, watchEffect } from 'vue'
+  import {
+    computed,
+    nextTick,
+    onBeforeUnmount,
+    onMounted,
+    ref,
+    shallowRef,
+    useId,
+    watch,
+    watchEffect,
+  } from 'vue'
+  import { RotateCcw } from '@lucide/vue'
   import {
     beaconPoint,
     clampTourStep,
     hideOutsideTour,
-    resolveTourTarget,
-    revealTourTarget,
+    listenTourKeys,
     runTourChange,
     spotlightMask,
-    spotlightRect,
     spotlightShape,
     TOUR_ARROW_HEIGHT,
     TOUR_ARROW_PADDING,
     TOUR_ARROW_PATH,
     TOUR_ARROW_WIDTH,
-    TOUR_PADDING,
-    TOUR_RADIUS,
     TOUR_SIDE_OFFSET,
     tourBeaconOnArrival,
     tourKeyAction,
+    tourOwnsInput,
+    tourCardGap,
+    tourPageBlocked,
     tourReference,
     tourTargetBlocked,
     trapTourFocus,
-    watchTourTarget,
+    type TourCloseReason,
+    type TourPointerKind,
     type TourRect,
     type TourSpotlight,
   } from '../../../../shared/src/lib/tour'
+  import { createTourEngine } from '../../../../shared/src/lib/tour-engine'
+  import { addBranch } from '../../../../shared/src/primitives/dismissable-layer'
   import { DismissableLayer } from '../../primitives/dismissable-layer'
   import { PopperArrow, PopperContent, PopperRoot } from '../../primitives/popper'
   import { Presence } from '../../primitives/presence'
@@ -37,6 +50,7 @@
   import Button from '../button/Button.vue'
   import Card from '../card/Card.vue'
   import CloseButton from '../close-button/CloseButton.vue'
+  import IconButton from '../icon-button/IconButton.vue'
   import Text from '../text/Text.vue'
   import {
     tourBeacon,
@@ -47,14 +61,30 @@
     tourCentered,
     tourFooter,
     tourHeader,
+    tourKey,
+    tourKeyCap,
     tourMask,
+    tourPointer,
+    tourPointerArrow,
+    tourPointerTouch,
   } from './tour.variants'
   import type { TourExpose, TourProps, TourSlotProps, TourStep } from './types'
 
   defineOptions({ name: 'HnTour' })
 
-  const props = withDefaults(defineProps<TourProps>(), { mask: true, blockTarget: false })
-  const emit = defineEmits<{ finish: []; skip: [] }>()
+  const props = withDefaults(defineProps<TourProps>(), {
+    mask: true,
+    blockTarget: false,
+    blockPage: false,
+    pointer: 'auto',
+  })
+  const emit = defineEmits<{
+    finish: []
+    skip: []
+    close: [reason: TourCloseReason]
+    stepEnter: [step: number]
+    stepLeave: [step: number]
+  }>()
   defineSlots<{
     content?(props: TourSlotProps): unknown
     footer?(props: TourSlotProps): unknown
@@ -74,149 +104,215 @@
   const isLast = computed(() => current.value >= total.value)
   const busy = ref(false)
   const beaconPending = ref(false)
-  const resolvedFor = ref<number | null>(null)
-  const target = shallowRef<HTMLElement | null>(null)
-  const hole = ref<TourRect | null>(null)
-  const targetRect = ref<TourRect | null>(null)
-  const viewport = ref({ width: 0, height: 0 })
+  const entered = ref<number | null>(null)
+  const coarse = ref(false)
 
-  const padding = computed(() => currentStep.value.padding ?? TOUR_PADDING)
-  const active = computed(() => open.value && total.value > 0)
-  const resolved = computed(() => active.value && resolvedFor.value !== null)
-  const beaconVisible = computed(() => resolved.value && !!target.value && beaconPending.value)
-  const cardVisible = computed(() => resolved.value && !beaconVisible.value)
-  const maskVisible = computed(() => cardVisible.value && props.mask)
-  const modal = computed(() => props.mask)
-  const blocked = computed(() => tourTargetBlocked(currentStep.value, props.blockTarget))
-  const blocking = computed(() => cardVisible.value && !!hole.value && blocked.value)
-
-  const spotlight = computed(() =>
-    hole.value
-      ? spotlightShape(viewport.value, hole.value, currentStep.value.radius ?? TOUR_RADIUS)
-      : null,
-  )
-  const lastSpotlight = shallowRef<TourSpotlight | null>(null)
-  const spotlightState = computed(() => spotlightMask(spotlight.value, lastSpotlight.value))
-  const holeStyle = computed(() =>
-    hole.value
-      ? {
-          left: `${hole.value.x}px`,
-          top: `${hole.value.y}px`,
-          width: `${hole.value.width}px`,
-          height: `${hole.value.height}px`,
-        }
-      : undefined,
-  )
-  const beaconStyle = computed(() => {
-    if (!targetRect.value) return undefined
-    const point = beaconPoint(targetRect.value, direction.value)
-    return { left: `${point.x}px`, top: `${point.y}px` }
-  })
-  const reference = computed(() =>
-    target.value ? tourReference(target.value, padding.value) : undefined,
+  const pointerKind = computed<TourPointerKind>(() =>
+    props.pointer === 'auto' ? (coarse.value ? 'touch' : 'mouse') : props.pointer,
   )
 
   const card = shallowRef<{ $el: HTMLElement } | null>(null)
   const layer = shallowRef<{ $el: HTMLElement } | null>(null)
   const beaconButton = shallowRef<HTMLButtonElement | null>(null)
-  let returnFocus: HTMLElement | null = null
+  const maskElement = shallowRef<HTMLElement | null>(null)
+  const blockerElement = shallowRef<HTMLElement | null>(null)
+  const pointerElement = shallowRef<HTMLElement | null>(null)
+  const keyElement = shallowRef<HTMLElement | null>(null)
 
-  const mounted = ref(false)
-  let navigated = false
+  const engine = createTourEngine({
+    pointer: () => pointerElement.value,
+    keyBadge: () => keyElement.value,
+    pointerKind: () => pointerKind.value,
+    cardGap: () => tourCardGap(card.value?.$el),
+  })
+  const tour = shallowRef(engine.getState())
+  const unsubscribe = engine.subscribe(() => (tour.value = engine.getState()))
 
-  function resolveTarget() {
-    if (!mounted.value || !active.value) return
-    const definition = currentStep.value.target
-    const element = resolveTourTarget(definition)
-    if (definition && !element)
-      devWarn('Tour', `the target of step ${current.value} was not found; the card is centered`)
-    target.value = element
-    root.value = element ?? document.documentElement
-    resolvedFor.value = current.value
-    if (element && currentStep.value.scroll !== false) revealTourTarget(element)
-  }
+  const active = computed(() => open.value && total.value > 0)
+  const engaged = computed(() => active.value && entered.value !== null)
+  const live = computed(() => engaged.value && entered.value === current.value)
+  const status = computed(() => (engaged.value ? tour.value.status : 'idle'))
+  const beaconVisible = computed(
+    () => live.value && status.value === 'ready' && !!tour.value.hole && beaconPending.value,
+  )
+  const cardVisible = computed(
+    () =>
+      live.value &&
+      (status.value === 'ready' || status.value === 'missing') &&
+      tour.value.settled &&
+      !beaconVisible.value,
+  )
+  let anchoredWhenShown = false
+  const anchored = computed(() => {
+    if (!cardVisible.value) return anchoredWhenShown
+    anchoredWhenShown = status.value === 'ready' && !!tour.value.hole
+    return anchoredWhenShown
+  })
+  let stepWhenShown = current.value
+  const shown = computed(() => {
+    if (cardVisible.value) stepWhenShown = current.value
+    return clampTourStep(stepWhenShown, total.value)
+  })
+  const shownStep = computed<TourStep>(() => props.steps[shown.value - 1] ?? {})
+  const maskVisible = computed(
+    () =>
+      !!props.mask &&
+      status.value !== 'idle' &&
+      !beaconVisible.value &&
+      !(beaconPending.value && status.value === 'waiting'),
+  )
+  const modal = computed(() => !!props.mask)
+  const scripted = computed(() => !!currentStep.value.play)
+  const blocked = computed(() => tourTargetBlocked(currentStep.value, props.blockTarget))
+  const pageBlocked = computed(
+    () => engaged.value && tourPageBlocked(currentStep.value, props.blockPage),
+  )
+  const blocking = computed(() => cardVisible.value && !!tour.value.hole && blocked.value)
+  const targetElements = computed(() => tour.value.elements)
 
-  watch([active, current, () => props.steps], resolveTarget, { flush: 'post' })
-
-  onMounted(() => {
-    mounted.value = true
-    beaconPending.value = tourBeaconOnArrival(currentStep.value, !!props.beacon, false)
-    resolveTarget()
-    if (!active.value) return
-    returnFocus = document.activeElement as HTMLElement | null
-    void nextTick(() => {
-      if (cardVisible.value) card.value?.$el.focus({ preventScroll: true })
-    })
+  const spotlight = computed(() =>
+    tour.value.hole
+      ? spotlightShape(tour.value.viewport, tour.value.hole, tour.value.radius)
+      : null,
+  )
+  const lastSpotlight = shallowRef<TourSpotlight | null>(null)
+  const spotlightState = computed(() => spotlightMask(spotlight.value, lastSpotlight.value))
+  const blockerStyle = computed(() => {
+    if (pageBlocked.value) return { left: '0px', top: '0px', width: '100%', height: '100%' }
+    const hole = tour.value.hole
+    if (!blocking.value || !hole) return undefined
+    return {
+      left: `${hole.x}px`,
+      top: `${hole.y}px`,
+      width: `${hole.width}px`,
+      height: `${hole.height}px`,
+    }
+  })
+  const beaconStyle = computed(() => {
+    if (!tour.value.targetRect) return undefined
+    const point = beaconPoint(tour.value.targetRect, direction.value)
+    return { left: `${point.x}px`, top: `${point.y}px` }
+  })
+  let holeWhenShown: TourRect | null = null
+  const reference = tourReference(() => {
+    if (cardVisible.value) holeWhenShown = engine.getState().hole
+    return holeWhenShown
   })
 
-  watch([active, current], ([isActive], [wasActive]) => {
-    const focusInCard = !!card.value?.$el.contains(document.activeElement)
+  let returnFocus: HTMLElement | null = null
+  let closeReason: TourCloseReason | null = null
+  let navigated = false
+  let refocusBeacon = false
+  const mounted = ref(false)
+
+  function enterStep() {
+    if (!mounted.value) return
+    if (!active.value) {
+      if (entered.value !== null) exitTour()
+      return
+    }
+    if (entered.value === current.value) return
+    const previous = entered.value
+    refocusBeacon = !!card.value?.$el.contains(document.activeElement)
+    if (previous !== null) {
+      engine.leave()
+      emit('stepLeave', previous)
+    } else {
+      returnFocus = document.activeElement as HTMLElement | null
+      closeReason = null
+    }
     beaconPending.value = tourBeaconOnArrival(
       currentStep.value,
       !!props.beacon,
-      !!isActive && !!wasActive && navigated,
+      previous !== null && navigated,
     )
     navigated = false
-    if (!isActive) {
-      resolvedFor.value = null
-      lastSpotlight.value = null
-    }
-    if (isActive && !wasActive) returnFocus = document.activeElement as HTMLElement | null
-    if (!isActive && wasActive) void nextTick(restoreFocus)
-    if (isActive && wasActive && focusInCard)
-      void nextTick(() => {
-        if (beaconVisible.value) beaconButton.value?.focus()
-      })
+    const number = current.value
+    entered.value = number
+    emit('stepEnter', number)
+    void engine.enter(currentStep.value, number).then(result => {
+      if (result === 'missing' && entered.value === number)
+        devWarn('Tour', `the target of step ${number} was not found; the card is centered`)
+    })
+    if (!beaconPending.value) engine.play()
+  }
+
+  function exitTour() {
+    const previous = entered.value
+    entered.value = null
+    engine.close()
+    lastSpotlight.value = null
+    if (previous !== null) emit('stepLeave', previous)
+    emit('close', closeReason ?? 'close')
+    closeReason = null
+    void nextTick(restoreFocus)
+  }
+
+  watch([active, current], enterStep, { flush: 'post' })
+
+  onMounted(() => {
+    mounted.value = true
+    coarse.value = !!window.matchMedia?.('(pointer: coarse)').matches
+    enterStep()
+  })
+
+  onBeforeUnmount(() => {
+    unsubscribe()
+    engine.close()
   })
 
   watch([spotlight, maskVisible], ([value, visible]) => {
     if (value && visible) lastSpotlight.value = value
   })
 
+  watch(targetElements, elements => {
+    root.value = elements[0] ?? document.documentElement
+  })
+
   watch(cardVisible, visible => {
     if (visible) void nextTick(() => card.value?.$el.focus({ preventScroll: true }))
   })
 
-  watchEffect(onCleanup => {
-    const element = target.value
-    if (!mounted.value || !active.value) return
-    const update = () => {
-      viewport.value = { width: window.innerWidth, height: window.innerHeight }
-      if (!element) {
-        hole.value = null
-        targetRect.value = null
-        return
-      }
-      const rect = element.getBoundingClientRect()
-      targetRect.value = spotlightRect(rect, 0)
-      hole.value = spotlightRect(rect, padding.value)
-    }
-    if (!element) {
-      update()
-      window.addEventListener('resize', update)
-      onCleanup(() => window.removeEventListener('resize', update))
-      return
-    }
-    onCleanup(watchTourTarget(element, update))
+  watch(beaconVisible, visible => {
+    if (!visible || !refocusBeacon) return
+    refocusBeacon = false
+    void nextTick(() => beaconButton.value?.focus())
   })
+
+  function useBranch(element: () => HTMLElement | null | undefined) {
+    watch(
+      element,
+      (node, _, onCleanup) => {
+        if (node) onCleanup(addBranch(node))
+      },
+      { immediate: true, flush: 'post' },
+    )
+  }
+
+  useBranch(() => layer.value?.$el)
+  useBranch(() => maskElement.value)
+  useBranch(() => blockerElement.value)
+  useBranch(() => beaconButton.value)
+
+  const owns = () => tourOwnsInput(layer.value?.$el, scripted.value || pageBlocked.value)
 
   watchEffect(
     onCleanup => {
       if (!cardVisible.value || !modal.value) return
       const layerElement = layer.value?.$el as HTMLElement | undefined
       if (!layerElement?.isConnected) return
-      const reachable = !blocked.value
-      const element = target.value
-      onCleanup(hideOutsideTour([layerElement, element]))
-      onCleanup(
-        trapTourFocus(
-          () => [card.value?.$el, reachable ? element : null],
-          () => layer.value?.$el,
-        ),
-      )
+      const reachable = !blocked.value && !pageBlocked.value
+      const elements = targetElements.value
+      onCleanup(hideOutsideTour([layerElement, ...elements]))
+      onCleanup(trapTourFocus(() => [card.value?.$el, ...(reachable ? elements : [])], owns))
     },
     { flush: 'post' },
   )
+
+  watchEffect(onCleanup => {
+    if (!engaged.value || beaconVisible.value) return
+    onCleanup(listenTourKeys(onKeydown))
+  })
 
   function restoreFocus() {
     const focus = returnFocus
@@ -257,21 +353,29 @@
 
   function finish() {
     emit('finish')
+    closeReason = 'finish'
     open.value = false
   }
 
-  function skip() {
+  function skip(reason: 'skip' | 'escape' = 'skip') {
     if (busy.value) return
     emit('skip')
+    closeReason = reason
     open.value = false
   }
 
   function close() {
+    closeReason = 'close'
     open.value = false
   }
 
-  function onEscape(event: KeyboardEvent) {
-    if (props.locked || busy.value) event.preventDefault()
+  function replay() {
+    if (live.value && !beaconPending.value) engine.replay()
+  }
+
+  function openBeacon() {
+    beaconPending.value = false
+    engine.play()
   }
 
   function preventDismiss(event: Event) {
@@ -279,6 +383,13 @@
   }
 
   function onKeydown(event: KeyboardEvent) {
+    if (event.defaultPrevented || !owns()) return
+    if (event.key === 'Escape') {
+      event.preventDefault()
+      event.stopPropagation()
+      if (!props.locked) skip('escape')
+      return
+    }
     const action = tourKeyAction(event, direction.value)
     if (!action) return
     event.preventDefault()
@@ -288,25 +399,30 @@
   }
 
   const slotProps = computed<TourSlotProps>(() => ({
-    step: currentStep.value,
-    current: current.value,
+    step: shownStep.value,
+    current: shown.value,
     total: total.value,
     busy: busy.value,
+    playing: tour.value.playing,
     next: () => void next(),
     prev: () => void prev(),
-    skip,
+    skip: () => skip(),
+    replay,
   }))
 
   const popperProps = computed(() =>
-    target.value
+    anchored.value
       ? {
           asChild: true,
-          reference: reference.value,
-          side: currentStep.value.side ?? 'bottom',
-          align: currentStep.value.align ?? 'center',
+          reference,
+          side: shownStep.value.side ?? 'bottom',
+          align: shownStep.value.align ?? 'center',
           sideOffset: TOUR_SIDE_OFFSET,
           collisionPadding: 16,
           arrowPadding: TOUR_ARROW_PADDING,
+          prioritizePosition: true,
+          sticky: 'always' as const,
+          updatePositionStrategy: 'always' as const,
         }
       : {
           class: cn(tourCentered(), 'hn-anim-pop'),
@@ -314,23 +430,57 @@
         },
   )
 
-  defineExpose<TourExpose>({ next, prev, goTo, close })
+  defineExpose<TourExpose>({ next, prev, goTo, close, replay })
 </script>
 
 <template>
   <TeleportPrimitive v-if="total > 0">
     <div
+      ref="blockerElement"
       data-hn-tour-blocker
       aria-hidden="true"
-      :hidden="!blocking"
+      :hidden="!blockerStyle"
       :class="tourBlocker()"
-      :style="blocking ? holeStyle : undefined"
+      :style="blockerStyle"
     />
+    <div
+      ref="pointerElement"
+      data-hn-tour-pointer
+      :data-kind="pointerKind"
+      data-state="hidden"
+      aria-hidden="true"
+      :class="tourPointer()"
+    >
+      <span data-hn-tour-pointer-ring />
+      <span data-hn-tour-pointer-ripples />
+      <svg
+        v-if="pointerKind === 'mouse'"
+        data-hn-tour-pointer-glyph
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke-linejoin="round"
+        :class="tourPointerArrow()"
+      >
+        <path d="M4 2.5v16.2l4.1-3.9 2.8 6.6 2.9-1.2-2.8-6.5h5.8z" />
+      </svg>
+      <span v-else data-hn-tour-pointer-glyph :class="tourPointerTouch()" />
+    </div>
+    <div
+      ref="keyElement"
+      data-hn-tour-key
+      data-state="hidden"
+      aria-hidden="true"
+      :class="tourKey()"
+    >
+      <kbd data-hn-tour-key-label :class="tourKeyCap()" />
+    </div>
     <Presence :present="maskVisible">
       <div
+        ref="maskElement"
         data-hn-tour-mask
         aria-hidden="true"
         :data-state="maskVisible ? 'open' : 'closed'"
+        :data-mask="props.mask === 'dim' ? 'dim' : undefined"
         :data-hn-tour-hole="spotlightState.hole"
         :class="tourMask()"
         :style="spotlightState.style"
@@ -344,7 +494,7 @@
       :aria-label="t.tour.beacon(current, currentStep.title ?? '')"
       :class="tourBeacon()"
       :style="beaconStyle"
-      @click="beaconPending = false"
+      @click="openBeacon"
     >
       <span :class="tourBeaconPulse()" />
       <span :class="tourBeaconDot()" />
@@ -354,33 +504,31 @@
         <DismissableLayer
           ref="layer"
           as-child
-          @escape-key-down="onEscape"
+          @escape-key-down="preventDismiss"
           @pointer-down-outside="preventDismiss"
           @focus-outside="preventDismiss"
-          @dismiss="skip"
         >
-          <component :is="target ? PopperContent : 'div'" v-bind="popperProps">
+          <component :is="anchored ? PopperContent : 'div'" v-bind="popperProps">
             <Card
               ref="card"
               data-hn-tour
-              :data-step="current"
+              :data-step="shown"
               :data-state="cardVisible ? 'open' : 'closed'"
               :padded="false"
               role="dialog"
               tabindex="-1"
               :dir="direction"
               :aria-modal="modal ? 'true' : undefined"
-              :aria-labelledby="currentStep.title ? titleId : undefined"
+              :aria-labelledby="shownStep.title ? titleId : undefined"
               :aria-describedby="
-                currentStep.description || $slots.content ? descriptionId : undefined
+                shownStep.description || $slots.content ? descriptionId : undefined
               "
               :aria-busy="busy || undefined"
-              :class="cn(tourCard(), target && 'hn-anim-pop', props.class)"
-              @keydown="onKeydown"
+              :class="cn(tourCard(), anchored && 'hn-anim-pop', props.class)"
             >
-              <div v-if="currentStep.title || !props.locked" :class="tourHeader()">
-                <Text v-if="currentStep.title" :id="titleId" weight="medium" class="min-w-0 flex-1">
-                  {{ currentStep.title }}
+              <div v-if="shownStep.title || !props.locked" :class="tourHeader()">
+                <Text v-if="shownStep.title" :id="titleId" weight="medium" class="min-w-0 flex-1">
+                  {{ shownStep.title }}
                 </Text>
                 <CloseButton
                   v-if="!props.locked"
@@ -388,16 +536,16 @@
                   class="ms-auto -me-1.5 -mt-1.5"
                   :label="props.skipText ?? t.tour.skip"
                   :disabled="busy"
-                  @click="skip"
+                  @click="skip()"
                 />
               </div>
-              <div v-if="currentStep.description || $slots.content" :id="descriptionId">
+              <div v-if="shownStep.description || $slots.content" :id="descriptionId">
                 <slot name="content" v-bind="slotProps">
-                  <Text tone="muted" size="sm">{{ currentStep.description }}</Text>
+                  <Text tone="muted" size="sm">{{ shownStep.description }}</Text>
                 </slot>
               </div>
               <PopperArrow
-                v-if="target"
+                v-if="anchored"
                 data-hn-tour-arrow
                 :width="TOUR_ARROW_WIDTH"
                 :height="TOUR_ARROW_HEIGHT"
@@ -414,11 +562,24 @@
               <slot name="footer" v-bind="slotProps">
                 <div :class="tourFooter()">
                   <Text as="span" tone="muted" size="sm" class="tabular-nums">
-                    {{ t.tour.progress(current, total) }}
+                    {{ t.tour.progress(shown, total) }}
                   </Text>
+                  <IconButton
+                    v-if="!!shownStep.play"
+                    data-hn-tour-replay
+                    :label="props.replayText ?? t.tour.replay"
+                    :tooltip="false"
+                    size="sm"
+                    variant="ghost"
+                    tone="neutral"
+                    pill
+                    @click="replay"
+                  >
+                    <RotateCcw />
+                  </IconButton>
                   <div class="ms-auto flex gap-2">
                     <Button
-                      v-if="current > 1"
+                      v-if="shown > 1"
                       data-hn-tour-prev
                       size="sm"
                       variant="soft"
@@ -430,7 +591,7 @@
                     </Button>
                     <Button data-hn-tour-next size="sm" :loading="busy" @click="next">
                       {{
-                        isLast
+                        shown >= total
                           ? (props.finishText ?? t.tour.finish)
                           : (props.nextText ?? t.tour.next)
                       }}

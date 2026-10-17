@@ -15,12 +15,12 @@ import {
   type PointerEvent as ReactPointerEvent,
   type ReactNode,
 } from 'react'
-import { hideOthers } from 'aria-hidden'
 import { Primitive, type PrimitiveElementProps } from '../../lib/primitive'
 import { useBodyScrollLock } from '../body-scroll-lock'
 import { usePortalContainer } from '../../lib/config'
 import { focus, focusFirst, getActiveElement, getTabbableCandidates } from './focus'
 import { guardLayer } from '../utils/dismissable'
+import { hideOutside } from '../../../../shared/src/primitives/dialog'
 import { DismissableLayer } from '../dismissable-layer'
 import { FocusScope } from '../focus-scope'
 import { Portal as HnPortal } from '../portal'
@@ -304,12 +304,7 @@ function DialogContentModal({
 
   useEffect(() => {
     if (!present || !element) return
-    let insideClosedPopover = false
-    try {
-      insideClosedPopover = !!element.closest('[popover]:not(:popover-open)')
-    } catch {}
-    if (insideClosedPopover) return
-    return hideOthers(element)
+    return hideOutside(element)
   }, [present, element])
 
   useEffect(() => {

@@ -1,7 +1,9 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest'
 import { userEvent } from '@vitest/browser/context'
 import { mount } from '@vue/test-utils'
+import { h } from 'vue'
 import Button from './Button.vue'
+import Text from '../text/Text.vue'
 import '../../../test/browser.css'
 
 beforeEach(() => {
@@ -100,6 +102,27 @@ describe('尺寸', () => {
     })
     const box = (w.element as HTMLElement).getBoundingClientRect()
     expect([box.width, box.height]).toEqual([24, 24])
+  })
+
+  it('宽度受限时插槽里的 Text truncate 在按钮内截断', () => {
+    const w = mount(
+      {
+        render: () =>
+          h('div', { style: 'display: flex; width: 160px' }, [
+            h(Button, { variant: 'ghost', class: 'max-w-full' }, () =>
+              h(Text, { truncate: true }, () => '很长的标题'.repeat(8)),
+            ),
+          ]),
+      },
+      { attachTo: attach() },
+    )
+    const button = w.element.querySelector('button')!.getBoundingClientRect()
+    const text = w.element.querySelector('p')!
+    const box = text.getBoundingClientRect()
+    expect(button.width).toBe(160)
+    expect(text.scrollWidth).toBeGreaterThan(text.clientWidth)
+    expect(box.left).toBeGreaterThanOrEqual(button.left)
+    expect(box.right).toBeLessThanOrEqual(button.right)
   })
 })
 

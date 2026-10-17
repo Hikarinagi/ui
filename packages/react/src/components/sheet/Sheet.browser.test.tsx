@@ -257,4 +257,21 @@ describe('Sheet', () => {
     open.value = false
     await vi.waitFor(() => expect(panel()).toBeNull())
   })
+
+  it('点击遮罩触发 interactOutside，调用 preventDefault 后保持打开', async () => {
+    await page.viewport(1024, 720)
+    const onInteractOutside = vi.fn((event: CustomEvent<{ originalEvent: Event }>) =>
+      event.preventDefault(),
+    )
+    const w = await harness({ onInteractOutside })
+    await openIt(w)
+    await userEvent.click(document.querySelector('.hn-scrim') as HTMLElement, {
+      force: true,
+      position: { x: 4, y: 4 },
+    })
+    await vi.waitFor(() => expect(onInteractOutside).toHaveBeenCalledTimes(1))
+    expect(onInteractOutside.mock.calls[0]![0].detail.originalEvent.type).toBe('pointerdown')
+    await new Promise(r => setTimeout(r, 350))
+    expect(panel()).toBeTruthy()
+  })
 })

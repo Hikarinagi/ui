@@ -297,6 +297,7 @@
     "number-format": "Formats numbers for the current language",
     "page": "The skeleton of a page's content, with a header, body and aside",
     "pagination": "Selects a page within a numbered range",
+    "overlay-branch": "An outside layer that coexists with modal overlays",
     "panel": "A card with a standard title bar, with places for a title, a count and actions",
     "number-input": "A field for entering numbers",
     "password-input": "A password field with a visibility toggle",

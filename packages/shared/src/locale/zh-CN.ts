@@ -38,6 +38,7 @@ export const zhCN: UiMessages = {
     next: '下一步',
     finish: '完成',
     skip: '跳过引导',
+    replay: '重新演示',
     progress: (step, total) => `${step} / ${total}`,
     beacon: (step, title) => (title ? `查看第 ${step} 步：${title}` : `查看第 ${step} 步`),
   },

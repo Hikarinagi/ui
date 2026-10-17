@@ -147,12 +147,22 @@ export { default as Tour } from './components/tour/Tour.vue'
 export type {
   TourAlign,
   TourBeforeChange,
+  TourCloseReason,
   TourExpose,
+  TourPlay,
+  TourPlayContext,
+  TourPoint,
+  TourPointer,
+  TourPointerKind,
   TourProps,
+  TourRectLike,
   TourSide,
   TourSlotProps,
+  TourSpotlightOptions,
   TourStep,
   TourTarget,
+  TourTargetItem,
+  TourVirtualElement,
 } from './components/tour/types'
 export { default as HoverCard } from './components/hover-card/HoverCard.vue'
 export { default as ContextMenu } from './components/context-menu/ContextMenu.vue'
@@ -292,6 +302,7 @@ export { default as DropdownMenuRadioGroup } from './components/dropdown-menu/Dr
 export { default as DropdownMenuRadioItem } from './components/dropdown-menu/DropdownMenuRadioItem.vue'
 export { default as Dialog } from './components/dialog/Dialog.vue'
 export { default as Drawer } from './components/drawer/Drawer.vue'
+export { default as OverlayBranch } from './components/overlay-branch/OverlayBranch.vue'
 export { default as SidebarTrigger } from './components/sidebar/SidebarTrigger.vue'
 export type { SidebarState } from './components/sidebar/context'
 export { default as Toaster } from './components/toast/Toaster.vue'

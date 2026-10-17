@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { act, cleanup, render } from '@testing-library/react'
 import type { CSSProperties, ReactNode } from 'react'
+import { renderToString } from 'react-dom/server'
 import { Image, type ImageProps } from './Image'
 import { ImageResolverProvider } from './resolver'
 import { resetDevWarnings } from '../../lib/dev'
@@ -159,6 +160,107 @@ describe('占位与空态', () => {
     const w = mount(<Image src="/a.webp" lazy={false} skeletonContent={<p>自定义占位</p>} />)
     expect(w.container.querySelector('.hn-skeleton')).toBeNull()
     expect(w.element.textContent).toBe('自定义占位')
+  })
+})
+
+describe('ThumbHash 占位', () => {
+  const HASH = 'YMcJJIIhukWZenmwmHWb9Pc5nw=='
+  const layer = (el: Element) => el.querySelector<HTMLElement>('span[aria-hidden="true"]')
+  const classes = (el: Element) => [...el.classList]
+
+  it('缩略图取代骨架,和图片一起放在隔离的包裹层里,位于图片下层', () => {
+    const w = mount(<Image src="/a.webp" thumbhash={HASH} />)
+    const el = layer(w.element)!
+    const img = w.container.querySelector('img')!
+    expect(w.container.querySelector('.hn-skeleton')).toBeNull()
+    expect(el.style.backgroundImage).toMatch(/^url\("data:image\/png;base64,/)
+    expect(el.classList).toContain('bg-cover')
+    expect(el.childElementCount).toBe(0)
+    const frame = img.parentElement!
+    expect(frame.parentElement).toBe(w.element)
+    expect(frame.classList).toContain('isolate')
+    expect([...frame.children]).toEqual([img, el])
+  })
+
+  it('没有 thumbhash 时图片直接放在外框里', () => {
+    const w = mount(<Image src="/a.webp" />)
+    expect(w.container.querySelector('img')!.parentElement).toBe(w.element)
+  })
+
+  it.each([
+    ['cover', 'bg-cover'],
+    ['contain', 'bg-contain'],
+    ['fill', 'bg-size-[100%_100%]'],
+    ['none', 'bg-cover'],
+    ['scale-down', 'bg-contain'],
+  ] as const)('fit 为 %s 时缩略图使用 %s', (fit, size) => {
+    const w = mount(<Image src="/a.webp" thumbhash={HASH} fit={fit} />)
+    expect(layer(w.element)!.classList).toContain(size)
+  })
+
+  it('skeleton 为假或提供 skeletonContent 时仍显示缩略图', () => {
+    const off = mount(<Image src="/a.webp" thumbhash={HASH} skeleton={false} />)
+    expect(layer(off.element)!.style.backgroundImage).toContain('data:image/png')
+    const slotted = mount(
+      <Image src="/a.webp" thumbhash={HASH} skeletonContent={<p>自定义占位</p>} />,
+    )
+    expect(slotted.element.textContent).toBe('')
+    expect(layer(slotted.element)!.style.backgroundImage).toContain('data:image/png')
+  })
+
+  it('无法解析的值按未设置处理', () => {
+    const w = mount(<Image src="/a.webp" thumbhash="not a hash!" />)
+    expect(w.container.querySelector('.hn-skeleton')).not.toBeNull()
+    expect(layer(w.element)!.style.backgroundImage).toBe('')
+    const off = mount(<Image src="/a.webp" thumbhash="not a hash!" skeleton={false} />)
+    expect(layer(off.element)).toBeNull()
+  })
+
+  it('懒加载的图在揭示前透明,淡入使用较慢的时长与对称曲线,尚未叠加混合', () => {
+    const w = mount(<Image src="/a.webp" thumbhash={HASH} />)
+    const list = classes(w.container.querySelector('img')!)
+    expect(list).toEqual(
+      expect.arrayContaining([
+        'opacity-0',
+        'transition-opacity',
+        'duration-(--hn-duration-slow)',
+        'ease-move',
+      ]),
+    )
+    expect(list).not.toContain('duration-(--hn-duration-base)')
+    expect(list).not.toContain('ease-enter')
+    expect(list).not.toContain('mix-blend-plus-lighter')
+    expect(layer(w.element)!.classList).not.toContain('will-change-transform')
+  })
+
+  it('lazy 为假时图片直接可见,加载完撤走缩略图', async () => {
+    const w = mount(<Image src="/a.webp" thumbhash={HASH} lazy={false} />)
+    const list = classes(w.container.querySelector('img')!)
+    expect(list).not.toContain('opacity-0')
+    expect(list).not.toContain('mix-blend-plus-lighter')
+    expect(layer(w.element)).not.toBeNull()
+    await vi.waitFor(() => expect(layer(w.element)).toBeNull())
+  })
+
+  it('没有 src 时不显示缩略图', () => {
+    const w = mount(<Image thumbhash={HASH} empty={<p>暂无图片</p>} />)
+    expect(layer(w.element)).toBeNull()
+    expect(w.element.textContent).toBe('暂无图片')
+  })
+
+  it('加载失败时缩略图随图片撤走,交给 error 内容', async () => {
+    decodes = ['fail']
+    const w = mount(<Image src="/a.webp" thumbhash={HASH} lazy={false} error={<p>加载失败</p>} />)
+    await flushPromises()
+    expect(layer(w.element)).toBeNull()
+    expect(w.element.textContent).toBe('加载失败')
+  })
+
+  it('服务端渲染输出缩略图', () => {
+    const html = renderToString(<Image src="/a.webp" thumbhash={HASH} />)
+    expect(html).toContain('background-image:url(&quot;data:image/png;base64,')
+    expect(html).toContain('class="relative isolate block size-full"')
+    expect(html).not.toContain('hn-skeleton')
   })
 })
 

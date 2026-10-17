@@ -133,6 +133,8 @@ A click moves the button into the loading state, during which further clicks are
   :controls="[{ prop: 'pill' }, { prop: 'block' }, { prop: 'size', options: ['xs', 'sm', 'md', 'lg'], default: 'md' }]"
 />
 
+When the button's width is limited (for example with `max-w-full`), a `<Text truncate>` in the default slot is cut off with an ellipsis inside the button.
+
 ### As a link {#link}
 
 ::: vue

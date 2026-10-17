@@ -9,6 +9,8 @@ import { defineCases } from '../src/cases'
 
 const fits = ['cover', 'contain', 'fill', 'none', 'scale-down'] as const
 
+const thumbhash = 'YMcJJIIhukWZenmwmHWb9Pc5nw=='
+
 const cdn = (src: string, variant: string) => `https://cdn.test${src}?v=${variant}`
 
 const VResolver = defineComponent({
@@ -64,6 +66,44 @@ export default defineCases('Image', [
         { skeleton: () => h('p', { class: 'p-2' }, '载入中') },
       ),
     react: () => <Image src="/a.webp" alt="" skeletonContent={<p className="p-2">载入中</p>} />,
+  },
+  {
+    name: 'thumbhash replaces the skeleton',
+    vue: () => h(VImage, { src: '/a.webp', alt: '海边', thumbhash, ratio: 2 }),
+    react: () => <Image src="/a.webp" alt="海边" thumbhash={thumbhash} ratio={2} />,
+  },
+  {
+    name: 'thumbhash follows fit contain',
+    vue: () => h(VImage, { src: '/a.webp', alt: '海边', thumbhash, fit: 'contain' }),
+    react: () => <Image src="/a.webp" alt="海边" thumbhash={thumbhash} fit="contain" />,
+  },
+  {
+    name: 'thumbhash under an eager image',
+    vue: () => h(VImage, { src: '/a.webp', alt: '海边', thumbhash, lazy: false, eager: true }),
+    react: () => <Image src="/a.webp" alt="海边" thumbhash={thumbhash} lazy={false} eager />,
+  },
+  {
+    name: 'thumbhash with a custom skeleton and no skeleton',
+    vue: () =>
+      h(
+        VImage,
+        { src: '/a.webp', alt: '', thumbhash, skeleton: false },
+        { skeleton: () => h('p', '载入中') },
+      ),
+    react: () => (
+      <Image
+        src="/a.webp"
+        alt=""
+        thumbhash={thumbhash}
+        skeleton={false}
+        skeletonContent={<p>载入中</p>}
+      />
+    ),
+  },
+  {
+    name: 'unreadable thumbhash keeps the skeleton',
+    vue: () => h(VImage, { src: '/a.webp', alt: '', thumbhash: 'not a hash!' }),
+    react: () => <Image src="/a.webp" alt="" thumbhash="not a hash!" />,
   },
   {
     name: 'empty slot without a source',

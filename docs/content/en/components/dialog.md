@@ -180,6 +180,7 @@ The footer buttons in the example sit outside the form: the save button sets `ty
 
 - The page is locked from scrolling while the dialog is open, focus is trapped inside the panel, and it returns to the trigger on close.
 - Escape or a click on the scrim closes the dialog; `locked` disables both.
+- A press on the scrim or focus moving outside fires `interactOutside` first; calling `preventDefault()` keeps it open. Content inside an [OverlayBranch](/components/overlay-branch) does not count as outside.
 - A [Form](/components/form) submitting inside the dialog counts as `locked`; a form outside the dialog does not affect it, and a nested dialog only follows the forms inside itself.
 - The default body uses [ScrollArea](/components/scroll-area).
 
@@ -227,6 +228,10 @@ The footer buttons in the example sit outside the form: the save button sets `ty
 | `footer`  | `{ close, submitting }` | The actions along the bottom                                     |
 
 `close` closes the dialog; `submitting` is `true` while a [Form](/components/form) inside the dialog is submitting.
+
+| Event             | Payload                                        | Description                                                         |
+| ----------------- | ---------------------------------------------- | ------------------------------------------------------------------- |
+| `interactOutside` | `PointerDownOutsideEvent \| FocusOutsideEvent` | Fires on a press or focus outside; `preventDefault()` keeps it open |
 
 ### Exposed instance {#expose}
 

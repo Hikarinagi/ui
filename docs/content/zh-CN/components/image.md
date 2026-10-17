@@ -54,6 +54,14 @@ import { Image } from '@hina-ui/vue'
 
 <Demo name="image/eager" />
 
+### 模糊占位 {#thumbhash}
+
+`thumbhash` 接收图片的 [ThumbHash](https://evanw.github.io/thumbhash/)，格式为 base64 字符串，标准与 URL 安全两种字母表均可。加载期间外框显示由它还原的模糊缩略图，代替骨架；图片解码后与缩略图交叉淡化，图片淡入的同时缩略图淡出，两者同时开始、同时结束。
+
+ThumbHash 由 [thumbhash](https://www.npmjs.com/package/thumbhash) 包的 `rgbaToThumbHash` 生成，输入是缩小到 100 像素以内的图片像素，一般在上传时生成并与图片地址一起保存。
+
+<Demo name="image/thumbhash" />
+
 ### 空态与失败 {#states}
 
 没有 `src` 时渲染 `empty` 插槽。图片加载失败且没有可用的回退地址时，渲染 `error` 插槽。
@@ -117,6 +125,14 @@ import { Image } from '@hina-ui/vue'
 - 骨架铺满外框，`fit` 为 `contain` 时留出的空白同样被覆盖。图片解码完成后，在骨架上层以 300ms 淡入，骨架同时以 200ms 淡出，两者均使用 ease-out 曲线。
 - 懒加载的图片在淡入开始前保持透明；关闭骨架后，图片仍然淡入。
 - 关闭 `lazy` 的图片位于骨架上层，浏览器完成绘制即可见，无需等待脚本；其下方的骨架直接移除，不做淡出。
+- 设置 `thumbhash` 后，加载期间显示还原出的缩略图而不是骨架，`skeleton` 与自定义骨架都不起作用。值无法解析时按未设置处理。
+- 缩略图按 `fit` 铺放：`cover` 与 `none` 铺满外框，`contain` 与 `scale-down` 完整显示在外框中央，`fill` 拉伸到外框大小。
+- 缩略图随服务端渲染的 HTML 一同输出，脚本加载之前即可显示。
+- 懒加载的图片解码后与缩略图以 450ms 交叉淡化，两者使用同一条 ease-in-out 曲线，任一时刻不透明度之和为 1：过渡中不透出外框背景，透明图片周围露出的缩略图随图片淡入同步消失。
+- 交叉淡化只在图片与缩略图之间进行，外框的背景色不参与混合。
+- 关闭 `lazy` 的图片直接盖在缩略图上，加载完成后缩略图以 450ms 淡出。
+- 已显示的图片更换 `src` 时，旧图片以 450ms 淡出，下方直接换成新图片的缩略图。
+- 加载失败时缩略图随图片一同撤走。
 - 浏览器不支持交叉观察器时，组件挂载后立即加载，不会使图片始终无法显示。
 - 组件未声明的其余特性会落到 `img` 上，因此 `sizes`、`srcset` 之类照常可用。
 - 更换 `src` 会重置回退状态，新图片从自己的地址开始加载，而不是沿用上一张的回退地址。
@@ -145,6 +161,7 @@ import { Image } from '@hina-ui/vue'
 | `src`         | `string`                                                   | —         | 图片地址，会经过解析器                         |
 | `alt`         | `string`                                                   | `''`      | 替代文本                                       |
 | `fallback`    | `string`                                                   | —         | `src` 失败后改用的地址                         |
+| `thumbhash`   | `string`                                                   | —         | 图片的 ThumbHash，加载期间显示为模糊缩略图     |
 | `fit`         | `'cover' \| 'contain' \| 'fill' \| 'none' \| 'scale-down'` | `'cover'` | 图片如何填满外框                               |
 | `ratio`       | `number`                                                   | —         | 宽除以高，提前占位                             |
 | `lazy`        | `boolean`                                                  | `true`    | 是否等接近视口再加载                           |
@@ -168,6 +185,7 @@ import { Image } from '@hina-ui/vue'
 | `src`         | `string`                                                   | —         | 图片地址，会经过解析器                         |
 | `alt`         | `string`                                                   | `''`      | 替代文本                                       |
 | `fallback`    | `string`                                                   | —         | `src` 失败后改用的地址                         |
+| `thumbhash`   | `string`                                                   | —         | 图片的 ThumbHash，加载期间显示为模糊缩略图     |
 | `fit`         | `'cover' \| 'contain' \| 'fill' \| 'none' \| 'scale-down'` | `'cover'` | 图片如何填满外框                               |
 | `ratio`       | `number`                                                   | —         | 宽除以高，提前占位                             |
 | `lazy`        | `boolean`                                                  | `true`    | 是否等接近视口再加载                           |

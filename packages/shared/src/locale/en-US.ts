@@ -43,6 +43,7 @@ export const enUS: UiMessages = {
     next: 'Next',
     finish: 'Done',
     skip: 'Skip tour',
+    replay: 'Replay',
     progress: (step, total) => `${step} / ${total}`,
     beacon: (step, title) => (title ? `Open step ${step}: ${title}` : `Open step ${step}`),
   },

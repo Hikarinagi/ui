@@ -19,7 +19,6 @@ import {
   type SelectHTMLAttributes,
   type TouchEvent,
 } from 'react'
-import { hideOthers } from 'aria-hidden'
 import { usePortalContainer } from '../../lib/config'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { useBodyScrollLock } from '../body-scroll-lock'
@@ -51,6 +50,7 @@ import {
   toggleSelectValue,
   trackTriggerRelease,
 } from '../../../../shared/src/primitives/select'
+import { hideOutside } from '../../../../shared/src/primitives/dialog'
 import { DismissableLayer } from '../dismissable-layer'
 import { FocusScope } from '../focus-scope'
 import { Portal as HnPortal } from '../portal'
@@ -581,12 +581,7 @@ function SelectContentImpl({
 
   useEffect(() => {
     if (!content) return
-    let isInsideClosedPopover = false
-    try {
-      isInsideClosedPopover = !!content.closest('[popover]:not(:popover-open)')
-    } catch {}
-    if (isInsideClosedPopover) return
-    return hideOthers(content)
+    return hideOutside(content)
   }, [content])
 
   const setRoot = root.collection.setRoot

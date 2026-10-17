@@ -49,7 +49,9 @@ function reactHost(props: Partial<Parameters<typeof Tour>[0]>) {
 
 async function shown() {
   await vi.waitFor(() => {
-    const card = document.querySelector<HTMLElement>('[data-hn-tour]')
+    const cards = document.querySelectorAll<HTMLElement>('[data-hn-tour]')
+    const card = cards[0]
+    if (cards.length !== 1 || card!.dataset.state !== 'open') throw new Error('card not settled')
     if (!card || !card.contains(document.activeElement)) throw new Error('card not focused')
     const wrapper = card.closest<HTMLElement>(
       '[data-reka-popper-content-wrapper],[data-radix-popper-content-wrapper]',
@@ -68,6 +70,26 @@ async function beaconShown() {
     if (!document.querySelector('[data-hn-tour-beacon]')) throw new Error('no beacon')
   })
   await frames()
+}
+
+const scripted: TourStep[] = [
+  {
+    target: ['#tour-first', '#tour-second'],
+    title: 'Demo',
+    description: 'Watch the pointer.',
+    play: async ({ pointer }) => {
+      await pointer.move('#tour-first', 0)
+      await pointer.key('K', 100_000)
+    },
+  },
+]
+
+async function keyShown() {
+  await vi.waitFor(() => {
+    if (document.querySelector('[data-hn-tour-key]')?.getAttribute('data-state') !== 'shown')
+      throw new Error('no key')
+  })
+  await shown()
 }
 
 export default defineLiveCases('Tour', [
@@ -134,6 +156,24 @@ export default defineLiveCases('Tour', [
       })
       await shown()
     },
+  },
+  {
+    name: 'a scripted step with the pointer, a key and a spotlight over two targets',
+    vue: vueHost({ open: true, steps: scripted }),
+    react: reactHost({ open: true, steps: scripted }),
+    settle: keyShown,
+  },
+  {
+    name: 'a scripted step with a finger pointer',
+    vue: vueHost({ open: true, steps: scripted, pointer: 'touch' }),
+    react: reactHost({ open: true, steps: scripted, pointer: 'touch' }),
+    settle: keyShown,
+  },
+  {
+    name: 'dim mask and a blocked page',
+    vue: vueHost({ open: true, step: 2, mask: 'dim', blockPage: true }),
+    react: reactHost({ open: true, step: 2, mask: 'dim', blockPage: true }),
+    settle: shown,
   },
   {
     name: 'next moves to the second step',

@@ -1,11 +1,70 @@
 import { autoUpdate } from '@floating-ui/dom'
-import { hideOthers } from 'aria-hidden'
-import { isHighestLayer } from '../primitives/dismissable-layer'
+import { hideOutsideLayers, isHighestLayer } from '../primitives/dismissable-layer'
 import { getActiveElement, getTabbableCandidates } from '../primitives/focus-scope'
+import { cssTimeToMs } from './css-time'
 
 export type TourSide = 'top' | 'right' | 'bottom' | 'left'
 export type TourAlign = 'start' | 'center' | 'end'
-export type TourTarget = string | HTMLElement | (() => HTMLElement | null | undefined) | null
+
+export interface TourRectLike {
+  x?: number
+  y?: number
+  left?: number
+  top?: number
+  width: number
+  height: number
+}
+
+export interface TourVirtualElement {
+  getBoundingClientRect: () => TourRectLike
+  contextElement?: Element
+}
+
+export type TourTargetItem = string | Element | TourRectLike | TourVirtualElement
+export type TourTarget =
+  | TourTargetItem
+  | TourTargetItem[]
+  | (() => TourTargetItem | TourTargetItem[] | null | undefined)
+  | null
+
+export type TourPointerKind = 'mouse' | 'touch'
+export type TourCloseReason = 'finish' | 'skip' | 'escape' | 'close'
+
+export interface TourPoint {
+  x: number
+  y: number
+}
+
+export interface TourPointer {
+  move: (target: TourTarget | TourPoint, duration?: number) => Promise<void>
+  tap: () => Promise<void>
+  press: (duration?: number) => Promise<void>
+  drag: (
+    target: TourTarget | TourPoint,
+    duration?: number,
+    onMove?: (point: TourPoint) => void,
+  ) => Promise<void>
+  key: (key: string, duration?: number) => Promise<void>
+  hide: () => Promise<void>
+}
+
+export interface TourSpotlightOptions {
+  padding?: number
+  radius?: number
+  wait?: number
+}
+
+export interface TourPlayContext {
+  step: number
+  signal: AbortSignal
+  defer: (cleanup: () => void) => void
+  pointer: TourPointer
+  spotlight: (target?: TourTarget, options?: TourSpotlightOptions) => Promise<void>
+  waitFor: (target: TourTarget, timeout?: number) => Promise<boolean>
+  sleep: (ms: number) => Promise<void>
+}
+
+export type TourPlay = (context: TourPlayContext) => void | Promise<void>
 
 export interface TourStepBase {
   target?: TourTarget
@@ -16,8 +75,11 @@ export interface TourStepBase {
   padding?: number
   radius?: number
   blockTarget?: boolean
+  blockPage?: boolean
   scroll?: boolean
   beacon?: boolean
+  wait?: number
+  play?: TourPlay
 }
 
 export type TourBeforeChange = (
@@ -48,12 +110,100 @@ export function tourTargetBlocked(step: TourStepBase, blockTarget: boolean) {
   return step.blockTarget ?? blockTarget
 }
 
-export function resolveTourTarget(target: TourTarget | undefined): HTMLElement | null {
+export function tourPageBlocked(step: TourStepBase, blockPage: boolean) {
+  return step.blockPage ?? blockPage
+}
+
+export interface TourResolvedTarget {
+  elements: HTMLElement[]
+  virtual: boolean
+  rect: () => TourRect
+}
+
+function toRect(rect: TourRectLike): TourRect {
+  return {
+    x: rect.left ?? rect.x ?? 0,
+    y: rect.top ?? rect.y ?? 0,
+    width: rect.width,
+    height: rect.height,
+  }
+}
+
+export function unionRect(rects: TourRect[]): TourRect {
+  const left = Math.min(...rects.map(rect => rect.x))
+  const top = Math.min(...rects.map(rect => rect.y))
+  const right = Math.max(...rects.map(rect => rect.x + rect.width))
+  const bottom = Math.max(...rects.map(rect => rect.y + rect.height))
+  return { x: left, y: top, width: right - left, height: bottom - top }
+}
+
+type TourItemReader = { element: HTMLElement | null; read: () => TourRect }
+
+function readItem(item: TourTargetItem): TourItemReader | null {
+  if (typeof item === 'string') {
+    if (typeof document === 'undefined') return null
+    const element = document.querySelector<HTMLElement>(item)
+    return element ? { element, read: () => toRect(element.getBoundingClientRect()) } : null
+  }
+  if (typeof Element !== 'undefined' && item instanceof Element)
+    return { element: item as HTMLElement, read: () => toRect(item.getBoundingClientRect()) }
+  if (typeof (item as TourVirtualElement).getBoundingClientRect === 'function') {
+    const virtual = item as TourVirtualElement
+    return { element: null, read: () => toRect(virtual.getBoundingClientRect()) }
+  }
+  const rect = toRect(item as TourRectLike)
+  return { element: null, read: () => rect }
+}
+
+export function resolveTourTarget(target: TourTarget | undefined): TourResolvedTarget | null {
   if (!target) return null
-  if (typeof target === 'string')
-    return typeof document === 'undefined' ? null : document.querySelector<HTMLElement>(target)
-  if (typeof target === 'function') return target() ?? null
-  return target
+  const value = typeof target === 'function' ? target() : target
+  if (!value) return null
+  const items = Array.isArray(value) ? value : [value]
+  if (!items.length) return null
+  const readers: TourItemReader[] = []
+  for (const item of items) {
+    const reader = item ? readItem(item) : null
+    if (!reader) return null
+    readers.push(reader)
+  }
+  return {
+    elements: readers.flatMap(reader => (reader.element ? [reader.element] : [])),
+    virtual: readers.some(reader => !reader.element),
+    rect: () => unionRect(readers.map(reader => reader.read())),
+  }
+}
+
+export function waitForTourTarget(
+  target: TourTarget | undefined,
+  timeout: number,
+  signal?: AbortSignal,
+): Promise<TourResolvedTarget | null> {
+  const found = resolveTourTarget(target)
+  if (found || timeout <= 0 || signal?.aborted) return Promise.resolve(found)
+  return new Promise(resolve => {
+    const check = () => {
+      const resolved = resolveTourTarget(target)
+      if (resolved) finish(resolved)
+    }
+    const observer = new MutationObserver(check)
+    const interval = window.setInterval(check, 100)
+    const timer = window.setTimeout(() => finish(null), timeout)
+    const abort = () => finish(null)
+    function finish(value: TourResolvedTarget | null) {
+      observer.disconnect()
+      window.clearInterval(interval)
+      window.clearTimeout(timer)
+      signal?.removeEventListener('abort', abort)
+      resolve(value)
+    }
+    observer.observe(document.documentElement, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+    })
+    signal?.addEventListener('abort', abort)
+  })
 }
 
 export function clampTourStep(step: number | undefined, count: number) {
@@ -167,11 +317,17 @@ export async function runTourChange(
   }
 }
 
-export function tourReference(element: HTMLElement, padding = TOUR_PADDING) {
+export function tourCardGap(element?: Element | null) {
+  return cssTimeToMs(
+    getComputedStyle(element ?? document.documentElement).getPropertyValue('--hn-duration-exit'),
+  )
+}
+
+export function tourReference(read: () => TourRect | null, contextElement?: Element | null) {
   return {
-    contextElement: element,
+    contextElement: contextElement ?? undefined,
     getBoundingClientRect() {
-      const rect = spotlightRect(element.getBoundingClientRect(), padding)
+      const rect = read() ?? { x: 0, y: 0, width: 0, height: 0 }
       return {
         ...rect,
         left: rect.x,
@@ -183,23 +339,37 @@ export function tourReference(element: HTMLElement, padding = TOUR_PADDING) {
   }
 }
 
-export function watchTourTarget(element: HTMLElement, onChange: () => void) {
+export function watchTourTarget(resolved: TourResolvedTarget, onChange: () => void) {
   onChange()
-  return autoUpdate(element, document.documentElement, onChange)
+  const stops = resolved.elements.map(element =>
+    autoUpdate(element, document.documentElement, onChange),
+  )
+  if (resolved.virtual)
+    stops.push(
+      autoUpdate(
+        { getBoundingClientRect: () => DOMRect.fromRect(resolved.rect()) },
+        document.documentElement,
+        onChange,
+        { animationFrame: true },
+      ),
+    )
+  return () => {
+    for (const stop of stops) stop()
+  }
 }
 
-export function isFullyVisible(element: HTMLElement) {
-  const rect = element.getBoundingClientRect()
+export function isFullyVisible(rect: TourRect) {
   return (
-    rect.top >= 0 &&
-    rect.left >= 0 &&
-    rect.bottom <= window.innerHeight &&
-    rect.right <= window.innerWidth
+    rect.y >= 0 &&
+    rect.x >= 0 &&
+    rect.y + rect.height <= window.innerHeight &&
+    rect.x + rect.width <= window.innerWidth
   )
 }
 
-export function revealTourTarget(element: HTMLElement) {
-  if (isFullyVisible(element)) return
+export function revealTourTarget(resolved: TourResolvedTarget) {
+  const [element] = resolved.elements
+  if (!element || isFullyVisible(resolved.rect())) return
   const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
   element.scrollIntoView({
     block: 'center',
@@ -210,15 +380,18 @@ export function revealTourTarget(element: HTMLElement) {
 
 export function hideOutsideTour(elements: (HTMLElement | null | undefined)[]) {
   const present = elements.filter((element): element is HTMLElement => !!element?.isConnected)
-  return present.length ? hideOthers(present) : () => {}
+  return present.length ? hideOutsideLayers(present) : () => {}
+}
+
+export function tourOwnsInput(layer: HTMLElement | null | undefined, scripted: boolean) {
+  return scripted || isHighestLayer(layer)
 }
 
 export function trapTourFocus(
   getContainers: () => (HTMLElement | null | undefined)[],
-  getLayer: () => HTMLElement | null | undefined,
+  enabled: () => boolean,
 ) {
   const containers = () => getContainers().filter((node): node is HTMLElement => !!node)
-  const enabled = () => isHighestLayer(getLayer())
   const inside = (node: Node | null) => !!node && containers().some(c => c.contains(node))
 
   function candidates() {
@@ -258,4 +431,9 @@ export function trapTourFocus(
     document.removeEventListener('focusin', onFocusIn)
     document.removeEventListener('keydown', onKeyDown, true)
   }
+}
+
+export function listenTourKeys(onKeyDown: (event: KeyboardEvent) => void) {
+  window.addEventListener('keydown', onKeyDown, true)
+  return () => window.removeEventListener('keydown', onKeyDown, true)
 }

@@ -160,6 +160,7 @@ import { Dialog } from '@hina-ui/vue'
 
 - 对话框打开期间页面停止滚动，焦点被限制在面板内部，关闭后回到触发器。
 - 按 Esc 或点击遮罩关闭对话框，`locked` 会同时禁用这两种方式。
+- 点击遮罩或焦点移到外部时先触发 `interactOutside`，调用 `preventDefault()` 后不关闭。[OverlayBranch](/components/overlay-branch) 里的内容不算外部。
 - 对话框内的 [Form](/components/form) 提交期间按 `locked` 处理；对话框之外的表单不影响它，嵌套的对话框只跟随自身内部的表单。
 - 默认正文区域使用 [ScrollArea](/components/scroll-area)。
 
@@ -207,6 +208,10 @@ import { Dialog } from '@hina-ui/vue'
 | `footer`  | `{ close, submitting }` | 底部的操作按钮                         |
 
 `close` 关闭对话框；`submitting` 在对话框内的 [Form](/components/form) 提交期间为 `true`。
+
+| 事件              | 参数                                           | 说明                                                  |
+| ----------------- | ---------------------------------------------- | ----------------------------------------------------- |
+| `interactOutside` | `PointerDownOutsideEvent \| FocusOutsideEvent` | 外部按下或焦点移出时触发，`preventDefault()` 后不关闭 |
 
 ### 实例 {#expose}
 

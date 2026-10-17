@@ -84,4 +84,41 @@ describe('LoadingOverlay', () => {
     expect(parseFloat(getComputedStyle(overlay()!).opacity)).toBeGreaterThan(0.5)
     await vi.waitFor(() => expect(overlay()).toBeNull(), { timeout: 1500 })
   })
+
+  it('局部 .dark 容器里的遮罩底色与整页深色主题一致', async () => {
+    const host = document.createElement('div')
+    document.body.appendChild(host)
+    const box = 'position: relative; height: 80px'
+    const w = mount(
+      defineComponent({
+        setup: () => () =>
+          h('div', [
+            h('div', { 'data-region': 'plain', style: box }, [
+              h(LoadingOverlay, { visible: true, delay: 0 }),
+            ]),
+            h('div', { 'data-region': 'dark', class: 'dark', style: box }, [
+              h(LoadingOverlay, { visible: true, delay: 0 }),
+            ]),
+          ]),
+      }),
+      { attachTo: host, global: { stubs: { transition: false } } },
+    )
+    mounted.push(w)
+    const veil = (region: string) =>
+      getComputedStyle(
+        document.querySelector(`[data-region="${region}"] [data-hn-loading-overlay]`)!,
+      ).backgroundColor
+    await vi.waitFor(() =>
+      expect(document.querySelectorAll('[data-hn-loading-overlay]')).toHaveLength(2),
+    )
+    const light = veil('plain')
+    const local = veil('dark')
+    document.documentElement.classList.add('dark')
+    try {
+      expect(local).toBe(veil('plain'))
+      expect(local).not.toBe(light)
+    } finally {
+      document.documentElement.classList.remove('dark')
+    }
+  })
 })

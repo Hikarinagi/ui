@@ -6,48 +6,59 @@ import {
   useId,
   useImperativeHandle,
   useLayoutEffect,
-  useMemo,
   useRef,
   useState,
-  type KeyboardEvent as ReactKeyboardEvent,
-  type ReactNode,
+  useSyncExternalStore,
   type CSSProperties,
+  type ReactNode,
   type Ref,
 } from 'react'
+import { RotateCcw } from 'lucide-react'
 import {
   beaconPoint,
   clampTourStep,
   hideOutsideTour,
-  resolveTourTarget,
-  revealTourTarget,
+  listenTourKeys,
   runTourChange,
   spotlightMask,
-  spotlightRect,
   spotlightShape,
   TOUR_ARROW_HEIGHT,
   TOUR_ARROW_PADDING,
   TOUR_ARROW_PATH,
   TOUR_ARROW_WIDTH,
-  TOUR_PADDING,
-  TOUR_RADIUS,
   TOUR_SIDE_OFFSET,
   tourBeaconOnArrival,
+  tourCardGap,
   tourKeyAction,
+  tourOwnsInput,
+  tourPageBlocked,
   tourReference,
   tourTargetBlocked,
   trapTourFocus,
-  watchTourTarget,
   type TourAlign,
   type TourBeforeChange,
+  type TourCloseReason,
+  type TourPlay,
+  type TourPlayContext,
+  type TourPoint,
+  type TourPointer,
+  type TourPointerKind,
   type TourRect,
+  type TourRectLike,
   type TourSide,
   type TourSpotlight,
+  type TourSpotlightOptions,
   type TourStepBase,
   type TourTarget,
+  type TourTargetItem,
+  type TourVirtualElement,
 } from '../../../../shared/src/lib/tour'
+import { createTourEngine } from '../../../../shared/src/lib/tour-engine'
+import { addBranch } from '../../../../shared/src/primitives/dismissable-layer'
 import { cn } from '../../lib/cn'
 import { usePortalContainer, useConfig } from '../../lib/config'
 import { devWarn } from '../../lib/dev'
+import { lucide } from '../../lib/icon'
 import { useUiLocale } from '../../locale'
 import { DismissableLayer } from '../../primitives/dismissable-layer'
 import { PopperArrow, PopperContent, PopperRoot } from '../../primitives/popper'
@@ -57,6 +68,7 @@ import { useControllableState } from '../../primitives/utils/controllable-state'
 import { Button } from '../button/Button'
 import { Card } from '../card/Card'
 import { CloseButton } from '../close-button/CloseButton'
+import { IconButton } from '../icon-button/IconButton'
 import { Text } from '../text/Text'
 import {
   tourBeacon,
@@ -67,21 +79,45 @@ import {
   tourCentered,
   tourFooter,
   tourHeader,
+  tourKey,
+  tourKeyCap,
   tourMask,
+  tourPointer,
+  tourPointerArrow,
+  tourPointerTouch,
 } from './tour.variants'
 
-export type { TourAlign, TourBeforeChange, TourSide, TourTarget }
+export type {
+  TourAlign,
+  TourBeforeChange,
+  TourCloseReason,
+  TourPlay,
+  TourPlayContext,
+  TourPoint,
+  TourPointer,
+  TourPointerKind,
+  TourRectLike,
+  TourSide,
+  TourSpotlightOptions,
+  TourTarget,
+  TourTargetItem,
+  TourVirtualElement,
+}
 
 export type TourStep = TourStepBase
+
+const ReplayIcon = lucide(RotateCcw)
 
 export interface TourSlotProps {
   step: TourStep
   current: number
   total: number
   busy: boolean
+  playing: boolean
   next: () => void
   prev: () => void
   skip: () => void
+  replay: () => void
 }
 
 export interface TourHandle {
@@ -89,6 +125,7 @@ export interface TourHandle {
   prev: () => Promise<void>
   goTo: (step: number) => Promise<void>
   close: () => void
+  replay: () => void
 }
 
 export interface TourProps {
@@ -99,22 +136,32 @@ export interface TourProps {
   step?: number
   defaultStep?: number
   onStepChange?: (step: number) => void
-  mask?: boolean
+  mask?: boolean | 'dim'
   locked?: boolean
   beacon?: boolean
   blockTarget?: boolean
+  blockPage?: boolean
+  pointer?: 'auto' | TourPointerKind
   nextText?: string
   prevText?: string
   finishText?: string
   skipText?: string
+  replayText?: string
   beforeChange?: TourBeforeChange
   dir?: 'ltr' | 'rtl'
   className?: string
   onFinish?: () => void
   onSkip?: () => void
+  onClose?: (reason: TourCloseReason) => void
+  onStepEnter?: (step: number) => void
+  onStepLeave?: (step: number) => void
   renderContent?: (props: TourSlotProps) => ReactNode
   renderFooter?: (props: TourSlotProps) => ReactNode
   ref?: Ref<TourHandle>
+}
+
+function useBranch(element: HTMLElement | null) {
+  useEffect(() => (element ? addBranch(element) : undefined), [element])
 }
 
 export function Tour({
@@ -129,15 +176,21 @@ export function Tour({
   locked = false,
   beacon = false,
   blockTarget = false,
+  blockPage = false,
+  pointer = 'auto',
   nextText,
   prevText,
   finishText,
   skipText,
+  replayText,
   beforeChange,
   dir,
   className,
   onFinish,
   onSkip,
+  onClose,
+  onStepEnter,
+  onStepLeave,
   renderContent,
   renderFooter,
   ref,
@@ -175,35 +228,78 @@ export function Tour({
     setBusyState(value)
   }, [])
   const [beaconPending, setBeaconPending] = useState(false)
-  const [resolvedFor, setResolvedFor] = useState<number | null>(null)
-  const [target, setTarget] = useState<HTMLElement | null>(null)
+  const [entered, setEntered] = useState<number | null>(null)
+  const [coarse, setCoarse] = useState(false)
   const [inherited, setInherited] = useState<'ltr' | 'rtl'>('ltr')
-  const [hole, setHole] = useState<TourRect | null>(null)
-  const [targetRect, setTargetRect] = useState<TourRect | null>(null)
-  const [viewport, setViewport] = useState({ width: 0, height: 0 })
   const [lastSpotlight, setLastSpotlight] = useState<TourSpotlight | null>(null)
   const direction = dir ?? config?.dir ?? inherited
+  const pointerKind: TourPointerKind = pointer === 'auto' ? (coarse ? 'touch' : 'mouse') : pointer
 
-  const padding = currentStep.padding ?? TOUR_PADDING
-  const active = open && total > 0
-  const resolved = active && resolvedFor !== null
-  const beaconVisible = resolved && !!target && beaconPending
-  const cardVisible = resolved && !beaconVisible
-  const maskVisible = cardVisible && mask
-  const modal = mask
-  const blocked = tourTargetBlocked(currentStep, blockTarget)
-  const blocking = cardVisible && !!hole && blocked
-
+  const pointerRef = useRef<HTMLDivElement | null>(null)
+  const keyRef = useRef<HTMLDivElement | null>(null)
   const cardRef = useRef<HTMLElement | null>(null)
+  const kindRef = useRef(pointerKind)
+  kindRef.current = pointerKind
+  const [engine] = useState(() =>
+    createTourEngine({
+      pointer: () => pointerRef.current,
+      keyBadge: () => keyRef.current,
+      pointerKind: () => kindRef.current,
+      cardGap: () => tourCardGap(cardRef.current),
+    }),
+  )
+  const tour = useSyncExternalStore(engine.subscribe, engine.getState, engine.getState)
+
+  const active = open && total > 0
+  const engaged = active && entered !== null
+  const live = engaged && entered === current
+  const status = engaged ? tour.status : 'idle'
+  const beaconVisible = live && status === 'ready' && !!tour.hole && beaconPending
+  const cardVisible =
+    live && (status === 'ready' || status === 'missing') && tour.settled && !beaconVisible
+  const maskVisible =
+    !!mask && status !== 'idle' && !beaconVisible && !(beaconPending && status === 'waiting')
+  const modal = !!mask
+  const scripted = !!currentStep.play
+  const blocked = tourTargetBlocked(currentStep, blockTarget)
+  const pageBlocked = engaged && tourPageBlocked(currentStep, blockPage)
+  const blocking = cardVisible && !!tour.hole && blocked
+  const targetElements = tour.elements
+  const anchoredRef = useRef(false)
+  const shownRef = useRef(current)
+  const visibleRef = useRef(false)
+  const shownHole = useRef<TourRect | null>(null)
+  visibleRef.current = cardVisible
+  if (cardVisible) {
+    anchoredRef.current = status === 'ready' && !!tour.hole
+    shownRef.current = current
+  }
+  const anchored = anchoredRef.current
+  const shown = clampTourStep(shownRef.current, total)
+  const shownStep: TourStep = steps[shown - 1] ?? {}
+
   const layerRef = useRef<HTMLElement | null>(null)
   const [cardElement, setCardElement] = useState<HTMLElement | null>(null)
   const [layerElement, setLayerElement] = useState<HTMLElement | null>(null)
+  const [maskElement, setMaskElement] = useState<HTMLElement | null>(null)
+  const [blockerElement, setBlockerElement] = useState<HTMLElement | null>(null)
+  const [beaconElement, setBeaconElement] = useState<HTMLElement | null>(null)
+  const beaconRef = useRef<HTMLButtonElement | null>(null)
+  const returnFocus = useRef<HTMLElement | null>(null)
+  const refocusBeacon = useRef(false)
+  const navigated = useRef(false)
+  const enteredRef = useRef<number | null>(null)
+  const closeReason = useRef<TourCloseReason | null>(null)
+  const latest = useRef({ currentStep, beacon, onStepEnter, onStepLeave, onClose })
+  latest.current = { currentStep, beacon, onStepEnter, onStepLeave, onClose }
+
   const attachCard = useCallback((node: HTMLElement | null) => {
     cardRef.current = node
     setCardElement(node)
   }, [])
   const attachBeacon = useCallback((node: HTMLButtonElement | null) => {
     beaconRef.current = node
+    setBeaconElement(node)
     if (!node || !refocusBeacon.current) return
     refocusBeacon.current = false
     node.focus()
@@ -212,59 +308,57 @@ export function Tour({
     layerRef.current = node
     setLayerElement(node)
   }, [])
-  const beaconRef = useRef<HTMLButtonElement>(null)
-  const returnFocus = useRef<HTMLElement | null>(null)
-  const refocusBeacon = useRef(false)
-  const wasActive = useRef(false)
-  const arrivedActive = useRef(false)
-  const navigated = useRef(false)
 
-  const measure = useCallback(
-    (element: HTMLElement | null) => {
-      setViewport({ width: window.innerWidth, height: window.innerHeight })
-      if (!element) {
-        setHole(null)
-        setTargetRect(null)
-        return
-      }
-      const rect = element.getBoundingClientRect()
-      setTargetRect(spotlightRect(rect, 0))
-      setHole(spotlightRect(rect, padding))
-    },
-    [padding],
-  )
+  useBranch(layerElement)
+  useBranch(maskElement)
+  useBranch(blockerElement)
+  useBranch(beaconElement)
+
+  useEffect(() => {
+    setCoarse(!!window.matchMedia?.('(pointer: coarse)').matches)
+  }, [])
+
+  useEffect(() => () => engine.close(), [engine])
 
   useLayoutEffect(() => {
-    if (!active) return
-    const definition = currentStep.target
-    const element = resolveTourTarget(definition)
-    if (definition && !element)
-      devWarn('Tour', `the target of step ${current} was not found; the card is centered`)
-    setTarget(element)
-    setResolvedFor(current)
-    measure(element)
-    setInherited(
-      getComputedStyle(element ?? document.documentElement).direction === 'rtl' ? 'rtl' : 'ltr',
-    )
-    if (element && currentStep.scroll !== false) revealTourTarget(element)
-  }, [active, current, steps, currentStep.target, currentStep.scroll, measure])
-
-  useLayoutEffect(() => {
-    const continued = active && arrivedActive.current && navigated.current
-    arrivedActive.current = active
-    navigated.current = false
-    setBeaconPending(tourBeaconOnArrival(currentStep, beacon, continued))
+    const previous = enteredRef.current
+    const { currentStep: definition, onStepEnter, onStepLeave, onClose } = latest.current
     if (!active) {
-      setResolvedFor(null)
+      if (previous === null) return
+      enteredRef.current = null
+      setEntered(null)
+      engine.close()
       setLastSpotlight(null)
+      onStepLeave?.(previous)
+      onClose?.(closeReason.current ?? 'close')
+      closeReason.current = null
+      return
     }
-  }, [active, current])
-
-  useLayoutEffect(() => {
-    if (active && !wasActive.current)
+    if (previous === current) return
+    refocusBeacon.current = !!cardRef.current?.contains(document.activeElement)
+    if (previous !== null) {
+      engine.leave()
+      onStepLeave?.(previous)
+    } else {
       returnFocus.current = document.activeElement as HTMLElement | null
-    wasActive.current = active
-  }, [active])
+      closeReason.current = null
+    }
+    const pending = tourBeaconOnArrival(
+      definition,
+      latest.current.beacon,
+      previous !== null && navigated.current,
+    )
+    navigated.current = false
+    setBeaconPending(pending)
+    enteredRef.current = current
+    setEntered(current)
+    onStepEnter?.(current)
+    void engine.enter(definition, current).then(result => {
+      if (result === 'missing' && enteredRef.current === current)
+        devWarn('Tour', `the target of step ${current} was not found; the card is centered`)
+    })
+    if (!pending) engine.play()
+  }, [active, current, engine])
 
   useEffect(() => {
     if (active) return
@@ -283,31 +377,38 @@ export function Tour({
   }, [cardVisible, cardElement])
 
   useLayoutEffect(() => {
-    if (!active || !resolved) return
-    const update = () => measure(target)
-    if (!target) {
-      update()
-      window.addEventListener('resize', update)
-      return () => window.removeEventListener('resize', update)
-    }
-    return watchTourTarget(target, update)
-  }, [active, resolved, target, measure])
+    const [first] = targetElements
+    setInherited(
+      getComputedStyle(first ?? document.documentElement).direction === 'rtl' ? 'rtl' : 'ltr',
+    )
+  }, [targetElements])
 
-  const reachable = !blocked
+  const radius = tour.radius
+  const spotlight = tour.hole ? spotlightShape(tour.viewport, tour.hole, radius) : null
+  const shape = spotlight?.shape
+  useLayoutEffect(() => {
+    if (spotlight && maskVisible) setLastSpotlight(spotlight)
+  }, [shape, maskVisible])
+  const spotlightState = spotlightMask(spotlight, lastSpotlight)
+
+  const owns = useRef<() => boolean>(() => false)
+  owns.current = () => tourOwnsInput(layerRef.current, scripted || pageBlocked)
+
+  const reachable = !blocked && !pageBlocked
   useEffect(() => {
     if (!cardVisible || !modal) return
     const layer = layerElement
     if (!layer?.isConnected) return
-    const restore = hideOutsideTour([layer, target])
+    const restore = hideOutsideTour([layer, ...targetElements])
     const release = trapTourFocus(
-      () => [cardRef.current, reachable ? target : null],
-      () => layerRef.current,
+      () => [cardRef.current, ...(reachable ? targetElements : [])],
+      () => owns.current(),
     )
     return () => {
       release()
       restore()
     }
-  }, [cardVisible, modal, target, reachable, layerElement])
+  }, [cardVisible, modal, targetElements, reachable, layerElement])
 
   const goTo = useCallback(
     async (value: number) => {
@@ -316,7 +417,6 @@ export function Tour({
       if (next === current) return
       const allowed = await runTourChange(beforeChange, next, current, setBusy)
       if (!allowed) return
-      refocusBeacon.current = !!cardRef.current?.contains(document.activeElement)
       navigated.current = true
       setStep(next)
     },
@@ -325,6 +425,7 @@ export function Tour({
 
   const finish = useCallback(() => {
     onFinish?.()
+    closeReason.current = 'finish'
     setOpen(false)
   }, [onFinish, setOpen])
 
@@ -339,18 +440,45 @@ export function Tour({
 
   const prev = useCallback(() => goTo(current - 1), [current, goTo])
 
-  const skip = useCallback(() => {
-    if (busyRef.current) return
-    onSkip?.()
+  const skip = useCallback(
+    (reason: 'skip' | 'escape' = 'skip') => {
+      if (busyRef.current) return
+      onSkip?.()
+      closeReason.current = reason
+      setOpen(false)
+    },
+    [onSkip, setOpen],
+  )
+
+  const close = useCallback(() => {
+    closeReason.current = 'close'
     setOpen(false)
-  }, [onSkip, setOpen])
+  }, [setOpen])
 
-  const close = useCallback(() => setOpen(false), [setOpen])
+  const replayable = useRef(false)
+  replayable.current = live && !beaconPending
+  const replay = useCallback(() => {
+    if (replayable.current) engine.replay()
+  }, [engine])
 
-  useImperativeHandle(ref, () => ({ next, prev, goTo, close }), [next, prev, goTo, close])
+  useImperativeHandle(ref, () => ({ next, prev, goTo, close, replay }), [
+    next,
+    prev,
+    goTo,
+    close,
+    replay,
+  ])
 
-  function onKeyDown(event: ReactKeyboardEvent<HTMLElement>) {
-    const action = tourKeyAction(event.nativeEvent, direction)
+  const keyHandler = useRef<(event: KeyboardEvent) => void>(() => {})
+  keyHandler.current = (event: KeyboardEvent) => {
+    if (event.defaultPrevented || !owns.current()) return
+    if (event.key === 'Escape') {
+      event.preventDefault()
+      event.stopPropagation()
+      if (!locked) skip('escape')
+      return
+    }
+    const action = tourKeyAction(event, direction)
     if (!action) return
     event.preventDefault()
     if (action === 'next') {
@@ -358,31 +486,42 @@ export function Tour({
     } else if (current > 1) void prev()
   }
 
+  useEffect(() => {
+    if (!engaged || beaconVisible) return
+    return listenTourKeys(event => keyHandler.current(event))
+  }, [engaged, beaconVisible])
+
   const slotProps: TourSlotProps = {
-    step: currentStep,
-    current,
+    step: shownStep,
+    current: shown,
     total,
     busy,
+    playing: tour.playing,
     next: () => void next(),
     prev: () => void prev(),
-    skip,
+    skip: () => skip(),
+    replay,
   }
 
-  const reference = useMemo(
-    () => (target ? tourReference(target, padding) : undefined),
-    [target, padding],
+  const [reference] = useState(() =>
+    tourReference(() => {
+      if (visibleRef.current) shownHole.current = engine.getState().hole
+      return shownHole.current
+    }),
   )
-  const radius = currentStep.radius ?? TOUR_RADIUS
-  const spotlight = useMemo(
-    () => (hole ? spotlightShape(viewport, hole, radius) : null),
-    [viewport, hole, radius],
-  )
-  useLayoutEffect(() => {
-    if (spotlight && maskVisible) setLastSpotlight(spotlight)
-  }, [spotlight, maskVisible])
-  const spotlightState = spotlightMask(spotlight, lastSpotlight)
-  const point = targetRect ? beaconPoint(targetRect, direction) : null
-  const hasBody = !!currentStep.description || !!renderContent
+  const point = tour.targetRect ? beaconPoint(tour.targetRect, direction) : null
+  const hasBody = !!shownStep.description || !!renderContent
+  const hole = tour.hole
+  const blockerStyle: CSSProperties | undefined = pageBlocked
+    ? { left: '0px', top: '0px', width: '100%', height: '100%' }
+    : blocking && hole
+      ? {
+          left: `${hole.x}px`,
+          top: `${hole.y}px`,
+          width: `${hole.width}px`,
+          height: `${hole.height}px`,
+        }
+      : undefined
 
   if (total === 0) return null
 
@@ -390,24 +529,23 @@ export function Tour({
     <Card
       ref={attachCard}
       data-hn-tour=""
-      data-step={current}
+      data-step={shown}
       data-state={cardVisible ? 'open' : 'closed'}
       padded={false}
       role="dialog"
       tabIndex={-1}
       dir={direction}
       aria-modal={modal ? 'true' : undefined}
-      aria-labelledby={currentStep.title ? titleId : undefined}
+      aria-labelledby={shownStep.title ? titleId : undefined}
       aria-describedby={hasBody ? descriptionId : undefined}
       aria-busy={busy || undefined}
-      className={cn(tourCard(), target && 'hn-anim-pop', className)}
-      onKeyDown={onKeyDown}
+      className={cn(tourCard(), anchored && 'hn-anim-pop', className)}
     >
-      {(currentStep.title || !locked) && (
+      {(shownStep.title || !locked) && (
         <div className={tourHeader()}>
-          {currentStep.title && (
+          {shownStep.title && (
             <Text id={titleId} weight="medium" className="min-w-0 flex-1">
-              {currentStep.title}
+              {shownStep.title}
             </Text>
           )}
           {!locked && (
@@ -416,7 +554,7 @@ export function Tour({
               className="ms-auto -me-1.5 -mt-1.5"
               label={skipText ?? t.tour.skip}
               disabled={busy}
-              onClick={skip}
+              onClick={() => skip()}
             />
           )}
         </div>
@@ -427,12 +565,12 @@ export function Tour({
             renderContent(slotProps)
           ) : (
             <Text tone="muted" size="sm">
-              {currentStep.description}
+              {shownStep.description}
             </Text>
           )}
         </div>
       )}
-      {target ? (
+      {anchored ? (
         <PopperArrow
           data-hn-tour-arrow=""
           width={TOUR_ARROW_WIDTH}
@@ -453,10 +591,24 @@ export function Tour({
       ) : (
         <div className={tourFooter()}>
           <Text as="span" tone="muted" size="sm" className="tabular-nums">
-            {t.tour.progress(current, total)}
+            {t.tour.progress(shown, total)}
           </Text>
+          {!!shownStep.play && (
+            <IconButton
+              data-hn-tour-replay=""
+              label={replayText ?? t.tour.replay}
+              tooltip={false}
+              size="sm"
+              variant="ghost"
+              tone="neutral"
+              pill
+              onClick={replay}
+            >
+              <ReplayIcon />
+            </IconButton>
+          )}
           <div className="ms-auto flex gap-2">
-            {current > 1 && (
+            {shown > 1 && (
               <Button
                 data-hn-tour-prev=""
                 size="sm"
@@ -469,7 +621,7 @@ export function Tour({
               </Button>
             )}
             <Button data-hn-tour-next="" size="sm" loading={busy} onClick={() => void next()}>
-              {isLast ? (finishText ?? t.tour.finish) : (nextText ?? t.tour.next)}
+              {shown >= total ? (finishText ?? t.tour.finish) : (nextText ?? t.tour.next)}
             </Button>
           </div>
         </div>
@@ -481,28 +633,59 @@ export function Tour({
     <>
       <Portal asChild container={container}>
         <div
+          ref={setBlockerElement}
           data-hn-tour-blocker=""
           aria-hidden="true"
-          hidden={!blocking}
+          hidden={!blockerStyle}
           className={tourBlocker()}
-          style={
-            blocking && hole
-              ? {
-                  left: `${hole.x}px`,
-                  top: `${hole.y}px`,
-                  width: `${hole.width}px`,
-                  height: `${hole.height}px`,
-                }
-              : undefined
-          }
+          style={blockerStyle}
         />
+      </Portal>
+      <Portal asChild container={container}>
+        <div
+          ref={pointerRef}
+          data-hn-tour-pointer=""
+          data-kind={pointerKind}
+          data-state="hidden"
+          aria-hidden="true"
+          className={tourPointer()}
+        >
+          <span data-hn-tour-pointer-ring="" />
+          <span data-hn-tour-pointer-ripples="" />
+          {pointerKind === 'mouse' ? (
+            <svg
+              data-hn-tour-pointer-glyph=""
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              strokeLinejoin="round"
+              className={tourPointerArrow()}
+            >
+              <path d="M4 2.5v16.2l4.1-3.9 2.8 6.6 2.9-1.2-2.8-6.5h5.8z" />
+            </svg>
+          ) : (
+            <span data-hn-tour-pointer-glyph="" className={tourPointerTouch()} />
+          )}
+        </div>
+      </Portal>
+      <Portal asChild container={container}>
+        <div
+          ref={keyRef}
+          data-hn-tour-key=""
+          data-state="hidden"
+          aria-hidden="true"
+          className={tourKey()}
+        >
+          <kbd data-hn-tour-key-label="" className={tourKeyCap()} />
+        </div>
       </Portal>
       <Portal asChild container={container}>
         <Presence present={maskVisible}>
           <div
+            ref={setMaskElement}
             data-hn-tour-mask=""
             aria-hidden="true"
             data-state={maskVisible ? 'open' : 'closed'}
+            data-mask={mask === 'dim' ? 'dim' : undefined}
             data-hn-tour-hole={spotlightState.hole}
             className={tourMask()}
             style={spotlightState.style as CSSProperties | undefined}
@@ -518,7 +701,10 @@ export function Tour({
             aria-label={t.tour.beacon(current, currentStep.title ?? '')}
             className={tourBeacon()}
             style={point ? { left: `${point.x}px`, top: `${point.y}px` } : undefined}
-            onClick={() => setBeaconPending(false)}
+            onClick={() => {
+              setBeaconPending(false)
+              engine.play()
+            }}
           >
             <span className={tourBeaconPulse()} />
             <span className={tourBeaconDot()} />
@@ -531,22 +717,22 @@ export function Tour({
             <DismissableLayer
               ref={attachLayer}
               asChild
-              onEscapeKeyDown={event => {
-                if (locked || busyRef.current) event.preventDefault()
-              }}
+              onEscapeKeyDown={event => event.preventDefault()}
               onPointerDownOutside={event => event.preventDefault()}
               onFocusOutside={event => event.preventDefault()}
-              onDismiss={skip}
             >
-              {target ? (
+              {anchored ? (
                 <PopperContent
                   asChild
                   reference={reference}
-                  side={currentStep.side ?? 'bottom'}
-                  align={currentStep.align ?? 'center'}
+                  side={shownStep.side ?? 'bottom'}
+                  align={shownStep.align ?? 'center'}
                   sideOffset={TOUR_SIDE_OFFSET}
                   collisionPadding={16}
                   arrowPadding={TOUR_ARROW_PADDING}
+                  prioritizePosition
+                  sticky="always"
+                  updatePositionStrategy="always"
                 >
                   {card}
                 </PopperContent>
