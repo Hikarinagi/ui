@@ -200,6 +200,8 @@ pnpm why react react-dom @hina-ui/react
 </html>
 ```
 
+`dark` 类也可以加在页面中的某个容器上，容器内的语义颜色随之切换为深色。弹层默认传送到 `body`，不在容器内，跟随根元素的主题。
+
 ::: vue
 
 深色模式由根元素上的 `dark` 类切换，语义颜色随之翻转。使用 `@nuxtjs/color-mode` 时，需要将 `classSuffix` 设置为空字符串。

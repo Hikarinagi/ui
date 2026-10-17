@@ -200,6 +200,8 @@ pnpm why react react-dom @hina-ui/react
 </html>
 ```
 
+The `dark` class also works on a container within the page, switching the semantic colours inside it to dark. Overlays are teleported to `body` by default, outside the container, and follow the root element's theme.
+
 ::: vue
 
 Dark mode is toggled by the `dark` class on the root element, and the semantic colours flip with it. With `@nuxtjs/color-mode`, set `classSuffix` to an empty string.

@@ -88,6 +88,7 @@
   --hn-bg-subtle: #141414;
   --hn-bg-inset: var(--color-neutral-800);
   --hn-bg-scrim: rgb(0 0 0 / 0.6);
+  --hn-bg-veil: color-mix(in srgb, var(--hn-surface) 70%, transparent);
 
   --hn-fg-default: var(--color-neutral-150);
   --hn-fg-max: var(--color-neutral-0);
