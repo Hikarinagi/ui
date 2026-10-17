@@ -1,5 +1,26 @@
 # @hina-ui/vue
 
+## [1.7.14](https://github.com/Hikarinagi/ui/compare/@hina-ui/vue@1.7.13...@hina-ui/vue@1.7.14) (2026-10-17)
+
+### Added
+
+- **Tour** A virtual pointer for scripts: move, tap, press, drag with a per-frame position callback and key hints, drawn as a mouse arrow or a fingertip after (pointer: coarse) or the pointer prop, and jumping to the end with reduced motion.
+- **Tour** Targets can be rectangles, virtual elements with getBoundingClientRect() or arrays highlighted together, wait waits for a target that appears later, blockPage keeps the whole page except the card from responding, mask="dim" darkens without blur, and the tour emits stepEnter, stepLeave and close with the reason.
+- **Tour** Steps can run a play script when they become active, with an AbortSignal, deferred cleanups that run in reverse when the step is left or the tour closes, spotlight() to move the highlight within the step, waitFor() and sleep(). Steps with a script show a Replay button, also available as replay().
+- **OverlayBranch** Add OverlayBranch, which marks an outside layer such as a hand-built guide as part of every open overlay. While a Dialog, Drawer, Sheet, modal Popover or menu is open, pressing or focusing inside the branch does not close the overlay, the branch stays visible to screen readers, keeps its own pointer-events and can take focus.
+- **Dialog** Dialog, Drawer and Sheet emit interactOutside (onInteractOutside in React) before a press or focus outside closes them; calling preventDefault() keeps them open.
+- **Image** Add thumbhash, which takes a base64 ThumbHash and shows the blurred thumbnail decoded from it in place of the skeleton while the image loads, including in server-rendered HTML. Once decoded, the image and the thumbnail crossfade, so the thumbnail around a transparent image fades out together with the image fading in.
+
+### Changed
+
+- **Tour** Between steps the card now fades out in place while the highlight waits for an animating target to stop and springs to it, then reappears there instead of sliding along. The arrow keys and Escape work while focus is outside the card, the tour stacks above dialogs, drawers and menus and coexists with modal overlays opened by a script, and a card that does not fit next to its target shifts into the viewport.
+
+### Fixed
+
+- **Tour** Close the highlight onto the centre of its target over 300ms with an ease-in-out curve when moving to a step without a target, mirroring how it opens. It used to take 200ms on an accelerating curve and seemed to vanish in the last frame.
+- **Styles** Switch the LoadingOverlay veil colour (--hn-bg-veil) to dark inside a container with the dark class while the page root stays light, like the other semantic colours. It used to keep the light theme's translucent white.
+- **Button** Let a truncated Text in the default slot shrink and show its ellipsis inside a width-limited button.
+
 ## [1.7.13](https://github.com/Hikarinagi/ui/compare/@hina-ui/vue@1.7.12...@hina-ui/vue@1.7.13) (2026-10-16)
 
 ### Added
