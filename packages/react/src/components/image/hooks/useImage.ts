@@ -17,25 +17,14 @@ function ready(img: HTMLImageElement): Promise<void> {
   })
 }
 
-function play(el: HTMLElement, frames: Keyframe[]): Animation | null {
+function play(el: HTMLElement, duration: string, easing: string): Animation | null {
   const style = getComputedStyle(el)
   try {
-    return el.animate(frames, {
-      duration: cssTimeToMs(style.getPropertyValue('--hn-duration-fast')),
-      easing: style.getPropertyValue('--hn-ease-enter').trim() || 'linear',
+    return el.animate([{ opacity: 1 }, { opacity: 0 }], {
+      duration: cssTimeToMs(style.getPropertyValue(duration)),
+      easing: style.getPropertyValue(easing).trim() || 'linear',
       fill: 'forwards',
     })
-  } catch {
-    return null
-  }
-}
-
-function hold(el: HTMLElement): Animation | null {
-  try {
-    const duration = cssTimeToMs(getComputedStyle(el).getPropertyValue('--hn-duration-slow'))
-    const anim = new Animation(new KeyframeEffect(null, null, duration))
-    anim.play()
-    return anim
   } catch {
     return null
   }
@@ -143,23 +132,13 @@ export function useImage(
     return () => observer.disconnect()
   }, [rootEl, entered, options])
 
-  async function reveal() {
-    if (!latest.current.lazy) {
-      setRevealed(true)
-      setSkeletonMounted(false)
-      return
-    }
-
-    const img = imageRef.current
-    const at = latest.current.src
-    await afterPaint()
-    if (imageRef.current !== img || latest.current.src !== at) return
-
-    flushSync(() => setRevealed(true))
+  function dropLayer() {
     const layer = skeletonEl.current
     const anim =
       layer &&
-      (latest.current.placeholder ? hold(layer) : play(layer, [{ opacity: 1 }, { opacity: 0 }]))
+      (latest.current.placeholder
+        ? play(layer, '--hn-duration-slow', '--hn-ease-move')
+        : play(layer, '--hn-duration-fast', '--hn-ease-enter'))
     if (!anim) {
       setSkeletonMounted(false)
       return
@@ -172,6 +151,27 @@ export function useImage(
       },
       () => {},
     )
+  }
+
+  async function reveal() {
+    if (!latest.current.lazy) {
+      if (latest.current.placeholder) {
+        flushSync(() => setRevealed(true))
+        dropLayer()
+      } else {
+        setRevealed(true)
+        setSkeletonMounted(false)
+      }
+      return
+    }
+
+    const img = imageRef.current
+    const at = latest.current.src
+    await afterPaint()
+    if (imageRef.current !== img || latest.current.src !== at) return
+
+    flushSync(() => setRevealed(true))
+    dropLayer()
   }
 
   function fail() {

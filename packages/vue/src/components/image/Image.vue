@@ -5,7 +5,13 @@
   import Skeleton from '../skeleton/Skeleton.vue'
   import Lightbox from '../lightbox/Lightbox.vue'
   import type { LightboxItem } from '../lightbox/types'
-  import { image, imagePlaceholder, imageRoot, type ImageVariants } from './image.variants'
+  import {
+    image,
+    imageFrame,
+    imagePlaceholder,
+    imageRoot,
+    type ImageVariants,
+  } from './image.variants'
   import { useImage } from './composables/useImage'
   import { useImageGroup } from './context'
   import { useImageResolver } from './resolver'
@@ -61,9 +67,26 @@
     showSkeleton,
   } = useImage(props, emit)
 
-  const placeholderStyle = computed(() =>
-    placeholder.value ? { style: { backgroundImage: `url("${placeholder.value}")` } } : {},
-  )
+  const framed = computed(() => !!placeholder.value && showImage.value)
+
+  const imageProps = computed(() => ({
+    style: props.imageStyle,
+    src: src.value,
+    alt: props.alt,
+    decoding: props.eager ? ('sync' as const) : ('async' as const),
+    fetchpriority: props.eager ? ('high' as const) : undefined,
+    draggable: props.draggable,
+    class: cn(
+      image({ fit: props.fit, lazy: props.lazy, placeholder: !!placeholder.value }),
+      props.lazy && !revealed.value && 'opacity-0',
+      props.lazy &&
+        revealed.value &&
+        placeholder.value &&
+        showSkeleton.value &&
+        'mix-blend-plus-lighter',
+      props.imageClass,
+    ),
+  }))
 
   useRequiredLabel('Image', () => !props.preview || !!props.alt, '替代文本')
 
@@ -113,41 +136,33 @@
     :style="[props.ratio ? { aspectRatio: String(props.ratio) } : undefined, props.style]"
     @click="openPreview"
   >
-    <img
-      v-if="showImage"
-      ref="imageEl"
-      v-bind="$attrs"
-      :style="props.imageStyle"
-      :src="src"
-      :alt="props.alt"
-      :decoding="props.eager ? 'sync' : 'async'"
-      :fetchpriority="props.eager ? 'high' : undefined"
-      :draggable="props.draggable"
-      :class="
-        cn(
-          image({ fit: props.fit, lazy: props.lazy, placeholder: !!placeholder }),
-          props.lazy && !revealed && 'opacity-0',
-          props.lazy && !revealed && placeholder && 'blur-lg',
-          props.imageClass,
-        )
-      "
-    />
+    <span v-if="framed" :class="imageFrame()">
+      <img ref="imageEl" v-bind="{ ...$attrs, ...imageProps }" />
+      <span
+        v-if="showSkeleton"
+        ref="skeletonEl"
+        aria-hidden="true"
+        :class="
+          cn(
+            'pointer-events-none absolute inset-0',
+            imagePlaceholder({ fit: props.fit }),
+            revealed && 'will-change-transform',
+          )
+        "
+        :style="{ backgroundImage: `url(&quot;${placeholder}&quot;)` }"
+      />
+    </span>
+    <img v-else-if="showImage" ref="imageEl" v-bind="{ ...$attrs, ...imageProps }" />
     <slot v-else-if="failed" name="error" />
     <slot v-else name="empty" />
 
     <span
-      v-if="showSkeleton"
+      v-if="showSkeleton && !framed"
       ref="skeletonEl"
       aria-hidden="true"
-      :class="
-        cn(
-          'pointer-events-none absolute inset-0',
-          placeholder && imagePlaceholder({ fit: props.fit }),
-        )
-      "
-      v-bind="placeholderStyle"
+      class="pointer-events-none absolute inset-0"
     >
-      <slot v-if="!placeholder" name="skeleton">
+      <slot name="skeleton">
         <Skeleton class="size-full rounded-none" />
       </slot>
     </span>

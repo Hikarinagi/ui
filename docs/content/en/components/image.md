@@ -56,7 +56,7 @@ The picture waits until it comes near the viewport, with a skeleton holding the 
 
 ### Blurred placeholder {#thumbhash}
 
-`thumbhash` takes the picture's [ThumbHash](https://evanw.github.io/thumbhash/) as a base64 string, in either the standard or the URL-safe alphabet. While the picture loads, the box shows the blurred thumbnail decoded from it instead of the skeleton; once decoded, the picture fades in above it, going from blurred to sharp.
+`thumbhash` takes the picture's [ThumbHash](https://evanw.github.io/thumbhash/) as a base64 string, in either the standard or the URL-safe alphabet. While the picture loads, the box shows the blurred thumbnail decoded from it instead of the skeleton; once decoded, the picture and the thumbnail crossfade, the picture fading in while the thumbnail fades out, starting and ending together.
 
 A ThumbHash comes from `rgbaToThumbHash` in the [thumbhash](https://www.npmjs.com/package/thumbhash) package, given the pixels of the picture scaled down to 100 pixels or less. It is usually generated at upload time and stored with the picture's address.
 
@@ -128,7 +128,10 @@ Put several pictures inside an `ImageGroup` and opening any of them lets you mov
 - With `thumbhash` set, the decoded thumbnail shows while loading instead of a skeleton, and neither `skeleton` nor a custom skeleton has any effect. A value that cannot be decoded counts as unset.
 - The thumbnail follows `fit`: `cover` and `none` fill the box, `contain` and `scale-down` show it whole in the centre, and `fill` stretches it to the box.
 - The thumbnail is part of the server-rendered HTML and shows before any script loads.
-- A lazy picture goes from a 16px blur to sharp while fading in above the thumbnail over 450ms, and the thumbnail is removed without a fade when that transition ends. A picture with `lazy` off covers the thumbnail directly, and the thumbnail is removed once the picture has loaded.
+- Once decoded, a lazy picture crossfades with the thumbnail over 450ms. Both follow the same ease-in-out curve and their opacities add up to 1 at every moment: nothing behind the box shows through, and the thumbnail showing around a transparent picture fades away as the picture fades in.
+- The crossfade blends only the picture and the thumbnail; the box's own background takes no part in it.
+- A picture with `lazy` off covers the thumbnail directly, and the thumbnail fades out over 450ms once the picture has loaded.
+- When a picture already on screen gets a new `src`, the old picture fades out over 450ms over the new picture's thumbnail.
 - When loading fails, the thumbnail goes with the picture.
 - Where the browser has no intersection observer, the picture loads as soon as the component mounts rather than being held back forever.
 - Attributes that are not props land on the `img` element, so `sizes`, `srcset` and the like work as usual.

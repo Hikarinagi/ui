@@ -78,25 +78,14 @@ export function useImage(
     failed.value = false
   })
 
-  function play(el: HTMLElement, frames: Keyframe[]): Animation | null {
+  function play(el: HTMLElement, duration: string, easing: string): Animation | null {
     const style = getComputedStyle(el)
     try {
-      return el.animate(frames, {
-        duration: cssTimeToMs(style.getPropertyValue('--hn-duration-fast')),
-        easing: style.getPropertyValue('--hn-ease-enter').trim() || 'linear',
+      return el.animate([{ opacity: 1 }, { opacity: 0 }], {
+        duration: cssTimeToMs(style.getPropertyValue(duration)),
+        easing: style.getPropertyValue(easing).trim() || 'linear',
         fill: 'forwards',
       })
-    } catch {
-      return null
-    }
-  }
-
-  function hold(el: HTMLElement): Animation | null {
-    try {
-      const duration = cssTimeToMs(getComputedStyle(el).getPropertyValue('--hn-duration-slow'))
-      const anim = new Animation(new KeyframeEffect(null, null, duration))
-      anim.play()
-      return anim
     } catch {
       return null
     }
@@ -106,23 +95,13 @@ export function useImage(
     return new Promise<void>(res => requestAnimationFrame(() => requestAnimationFrame(() => res())))
   }
 
-  async function reveal() {
-    if (!props.lazy) {
-      revealed.value = true
-      skeletonMounted.value = false
-      return
-    }
-
-    const img = imageEl.value
-    const at = src.value
-    await nextTick()
-    await afterPaint()
-    if (imageEl.value !== img || src.value !== at) return
-
-    revealed.value = true
+  function dropLayer() {
     const layer = skeletonEl.value
     const anim =
-      layer && (placeholder.value ? hold(layer) : play(layer, [{ opacity: 1 }, { opacity: 0 }]))
+      layer &&
+      (placeholder.value
+        ? play(layer, '--hn-duration-slow', '--hn-ease-move')
+        : play(layer, '--hn-duration-fast', '--hn-ease-enter'))
     if (!anim) {
       skeletonMounted.value = false
       return
@@ -135,6 +114,24 @@ export function useImage(
       },
       () => {},
     )
+  }
+
+  async function reveal() {
+    if (!props.lazy) {
+      revealed.value = true
+      if (placeholder.value) dropLayer()
+      else skeletonMounted.value = false
+      return
+    }
+
+    const img = imageEl.value
+    const at = src.value
+    await nextTick()
+    await afterPaint()
+    if (imageEl.value !== img || src.value !== at) return
+
+    revealed.value = true
+    dropLayer()
   }
 
   function fail() {

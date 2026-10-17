@@ -18,7 +18,13 @@ import { Primitive } from '../../lib/primitive'
 import { Skeleton } from '../skeleton/Skeleton'
 import { Lightbox } from '../lightbox/Lightbox'
 import type { LightboxItem } from '../lightbox/types'
-import { image, imagePlaceholder, imageRoot, type ImageVariants } from './image.variants'
+import {
+  image,
+  imageFrame,
+  imagePlaceholder,
+  imageRoot,
+  type ImageVariants,
+} from './image.variants'
 import { useImage } from './hooks/useImage'
 import { useImageGroup } from './context'
 import { useImageResolver } from './resolver'
@@ -139,6 +145,26 @@ export function Image({
     else setPreviewOpen(true)
   }
 
+  const framed = !!placeholder && showImage
+  const picture = (
+    <img
+      ref={imageRef}
+      {...attrs}
+      style={imageStyle}
+      src={src}
+      alt={alt}
+      decoding={eager ? 'sync' : 'async'}
+      fetchPriority={eager ? 'high' : undefined}
+      draggable={draggable}
+      className={cn(
+        image({ fit, lazy, placeholder: !!placeholder }),
+        lazy && !revealed && 'opacity-0',
+        lazy && revealed && placeholder && showSkeleton && 'mix-blend-plus-lighter',
+        imageClass,
+      )}
+    />
+  )
+
   return (
     <Primitive
       ref={rootRef}
@@ -148,39 +174,32 @@ export function Image({
       style={{ ...(ratio ? { aspectRatio: String(ratio) } : {}), ...style }}
       onClick={openPreview}
     >
-      {showImage ? (
-        <img
-          ref={imageRef}
-          {...attrs}
-          style={imageStyle}
-          src={src}
-          alt={alt}
-          decoding={eager ? 'sync' : 'async'}
-          fetchPriority={eager ? 'high' : undefined}
-          draggable={draggable}
-          className={cn(
-            image({ fit, lazy, placeholder: !!placeholder }),
-            lazy && !revealed && 'opacity-0',
-            lazy && !revealed && placeholder && 'blur-lg',
-            imageClass,
+      {framed ? (
+        <span className={imageFrame()}>
+          {picture}
+          {showSkeleton && (
+            <span
+              ref={skeletonRef}
+              aria-hidden="true"
+              className={cn(
+                'pointer-events-none absolute inset-0',
+                imagePlaceholder({ fit }),
+                revealed && 'will-change-transform',
+              )}
+              style={{ backgroundImage: `url("${placeholder}")` }}
+            />
           )}
-        />
+        </span>
+      ) : showImage ? (
+        picture
       ) : failed ? (
         error
       ) : (
         empty
       )}
-      {showSkeleton && (
-        <span
-          ref={skeletonRef}
-          aria-hidden="true"
-          className={cn(
-            'pointer-events-none absolute inset-0',
-            placeholder && imagePlaceholder({ fit }),
-          )}
-          style={placeholder ? { backgroundImage: `url("${placeholder}")` } : undefined}
-        >
-          {placeholder ? null : hasContent(skeletonContent) ? (
+      {showSkeleton && !framed && (
+        <span ref={skeletonRef} aria-hidden="true" className="pointer-events-none absolute inset-0">
+          {hasContent(skeletonContent) ? (
             skeletonContent
           ) : (
             <Skeleton className="size-full rounded-none" />

@@ -83,11 +83,26 @@ export default defineLiveCases('image', [
     settle: settled(() => !!placeholder()?.style.backgroundImage),
   },
   {
-    name: 'thumbhash image sharpens in and drops the placeholder',
+    name: 'thumbhash image crossfades with the placeholder',
     vue: () =>
       h(VImage, { src: photo, alt: '海边', thumbhash, ratio: 2, class: 'w-40 rounded-md' }),
     react: () => (
       <Image src={photo} alt="海边" thumbhash={thumbhash} ratio={2} className="w-40 rounded-md" />
+    ),
+    settle: settled(() => !!document.querySelector('img')?.naturalWidth && !placeholder()),
+  },
+  {
+    name: 'eager thumbhash image fades the placeholder out',
+    vue: () =>
+      h(VImage, { src: photo, alt: '海边', thumbhash, lazy: false, class: 'w-40 rounded-md' }),
+    react: () => (
+      <Image
+        src={photo}
+        alt="海边"
+        thumbhash={thumbhash}
+        lazy={false}
+        className="w-40 rounded-md"
+      />
     ),
     settle: settled(() => !!document.querySelector('img')?.naturalWidth && !placeholder()),
   },

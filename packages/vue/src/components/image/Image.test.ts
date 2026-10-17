@@ -169,15 +169,23 @@ describe('ThumbHash 占位', () => {
   const HASH = 'YMcJJIIhukWZenmwmHWb9Pc5nw=='
   const layer = (el: Element) => el.querySelector<HTMLElement>('span[aria-hidden="true"]')
 
-  it('缩略图取代骨架,铺在图片下层', () => {
+  it('缩略图取代骨架,和图片一起放在隔离的包裹层里,位于图片下层', () => {
     const w = mount(Image, { props: { src: '/a.webp', thumbhash: HASH } })
     const el = layer(w.element)!
+    const img = w.find('img').element
     expect(w.find('.hn-skeleton').exists()).toBe(false)
     expect(el.style.backgroundImage).toMatch(/^url\("data:image\/png;base64,/)
     expect(el.classList).toContain('bg-cover')
     expect(el.childElementCount).toBe(0)
-    const nodes = [...w.element.children]
-    expect(nodes.indexOf(el)).toBeGreaterThan(nodes.indexOf(w.find('img').element))
+    const frame = img.parentElement!
+    expect(frame.parentElement).toBe(w.element)
+    expect(frame.classList).toContain('isolate')
+    expect([...frame.children]).toEqual([img, el])
+  })
+
+  it('没有 thumbhash 时图片直接放在外框里', () => {
+    const w = mount(Image, { props: { src: '/a.webp' } })
+    expect(w.find('img').element.parentElement).toBe(w.element)
   })
 
   it.each([
@@ -212,24 +220,27 @@ describe('ThumbHash 占位', () => {
     expect(layer(off.element)).toBeNull()
   })
 
-  it('懒加载的图在揭示前透明且模糊,过渡同时作用于透明度和模糊', () => {
+  it('懒加载的图在揭示前透明,淡入使用较慢的时长与对称曲线,尚未叠加混合', () => {
     const w = mount(Image, { props: { src: '/a.webp', thumbhash: HASH } })
     const classes = w.find('img').classes()
     expect(classes).toEqual(
       expect.arrayContaining([
         'opacity-0',
-        'blur-lg',
-        'transition-[opacity,filter]',
+        'transition-opacity',
         'duration-(--hn-duration-slow)',
+        'ease-move',
       ]),
     )
-    expect(classes).not.toContain('transition-opacity')
+    expect(classes).not.toContain('duration-(--hn-duration-base)')
+    expect(classes).not.toContain('ease-enter')
+    expect(classes).not.toContain('mix-blend-plus-lighter')
+    expect(layer(w.element)!.classList).not.toContain('will-change-transform')
   })
 
-  it('lazy 为假时图片不模糊,加载完撤走缩略图', async () => {
+  it('lazy 为假时图片直接可见,加载完撤走缩略图', async () => {
     const w = mount(Image, { props: { src: '/a.webp', thumbhash: HASH, lazy: false } })
-    expect(w.find('img').classes()).not.toContain('blur-lg')
     expect(w.find('img').classes()).not.toContain('opacity-0')
+    expect(w.find('img').classes()).not.toContain('mix-blend-plus-lighter')
     expect(layer(w.element)).not.toBeNull()
     await vi.waitFor(() => expect(layer(w.element)).toBeNull())
   })
@@ -261,6 +272,7 @@ describe('ThumbHash 占位', () => {
       ),
     )
     expect(html).toContain('background-image:url(&quot;data:image/png;base64,')
+    expect(html).toContain('class="relative isolate block size-full"')
     expect(html).not.toContain('hn-skeleton')
   })
 })

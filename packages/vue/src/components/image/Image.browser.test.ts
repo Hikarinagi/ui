@@ -1,7 +1,8 @@
-import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest'
+import { describe, expect, it, beforeEach, afterEach, vi, type MockInstance } from 'vitest'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { page, userEvent } from '@vitest/browser/context'
 import { defineComponent, h, ref } from 'vue'
+import { rgbaToThumbHash } from 'thumbhash'
 import Image from './Image.vue'
 import { thumbhashToDataUrl } from '../../../../shared/src/lib/thumbhash'
 import '../../../test/browser.css'
@@ -315,7 +316,43 @@ it.each([
 
 describe('image · ThumbHash', () => {
   const HASH = 'YMcJJIIhukWZenmwmHWb9Pc5nw=='
+  const OTHER = 'K2kGLQRRemhndpNMn6OolZmP9956'
+  const RED = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><rect width="8" height="8" fill="#f00"/></svg>')}`
+  const GREEN = btoa(
+    String.fromCharCode(
+      ...rgbaToThumbHash(
+        8,
+        8,
+        Uint8Array.from({ length: 256 }, (_, i) => [0, 128, 0, 255][i % 4]!),
+      ),
+    ),
+  )
   const layerOf = (el: Element) => el.querySelector<HTMLElement>('span[aria-hidden="true"]')
+
+  function crossfade(img: HTMLImageElement, layer: HTMLElement, animate: MockInstance) {
+    return vi.waitFor(() => {
+      const transition = img
+        .getAnimations()
+        .find((animation): animation is CSSTransition => animation instanceof CSSTransition)
+      expect(transition?.transitionProperty).toBe('opacity')
+      expect(animate.mock.contexts).toContain(layer)
+      const fade = animate.mock.results[animate.mock.contexts.indexOf(layer)]!.value as Animation
+      return { transition: transition!, fade }
+    })
+  }
+
+  async function pixel(element: HTMLElement) {
+    const base64 = await page.screenshot({ element, save: false })
+    const picture = new window.Image()
+    picture.src = `data:image/png;base64,${base64}`
+    await picture.decode()
+    const canvas = document.createElement('canvas')
+    canvas.width = picture.width
+    canvas.height = picture.height
+    const context = canvas.getContext('2d')!
+    context.drawImage(picture, 0, 0)
+    return [...context.getImageData(picture.width >> 1, picture.height >> 1, 1, 1).data.slice(0, 3)]
+  }
 
   it.each([
     ['cover', 'cover'],
@@ -334,63 +371,101 @@ describe('image · ThumbHash', () => {
     expect(style.backgroundImage).toMatch(/^url\("data:image\/png;base64,/)
   })
 
-  it('图片在缩略图上层由模糊转清晰淡入,缩略图不做淡出,图片过渡结束后撤走', async () => {
+  it('原图与缩略图交叉淡化:同一帧开始、时长与曲线相同,任一时刻不透明度之和为 1', async () => {
+    const animate = vi.spyOn(Element.prototype, 'animate')
     const w = mountImage({ src: PIXEL, thumbhash: HASH, class: 'h-20 w-20' })
     const img = w.find('img').element as HTMLImageElement
     const layer = layerOf(w.element)!
-    expect(getComputedStyle(img).filter).toBe('blur(16px)')
-    expect(getComputedStyle(img).zIndex).toBe('10')
-    const started = new Promise<number>(resolve =>
-      img.addEventListener('transitionrun', () => resolve(performance.now()), { once: true }),
-    )
+    expect(getComputedStyle(img.parentElement!).isolation).toBe('isolate')
+    expect(getComputedStyle(img).mixBlendMode).toBe('normal')
 
-    let transitions: CSSTransition[] = []
-    await vi.waitFor(() => {
-      transitions = img
-        .getAnimations()
-        .filter((animation): animation is CSSTransition => animation instanceof CSSTransition)
-      expect(transitions.map(t => t.transitionProperty).sort()).toEqual(['filter', 'opacity'])
+    const { transition, fade } = await crossfade(img, layer, animate)
+    await Promise.all([transition.ready, fade.ready])
+    expect(Number(transition.startTime)).toBeCloseTo(Number(fade.startTime), 0)
+    transition.pause()
+    fade.pause()
+    const timing = transition.effect!.getComputedTiming()
+    expect(timing.duration).toBe(450)
+    expect(fade.effect!.getComputedTiming()).toMatchObject({
+      duration: 450,
+      delay: 0,
+      easing: getComputedStyle(img).transitionTimingFunction,
     })
-    const start = await started
-    transitions.forEach(t => t.pause())
-    expect(transitions.map(t => t.effect!.getTiming().duration)).toEqual([450, 450])
+    expect(getComputedStyle(img).transitionTimingFunction).toBe('cubic-bezier(0.4, 0, 0.2, 1)')
+    expect(getComputedStyle(img).mixBlendMode).toBe('plus-lighter')
+    expect(getComputedStyle(layer).willChange).toBe('transform')
 
-    transitions.forEach(t => (t.currentTime = 150))
-    const blur = Number(/blur\(([\d.]+)px\)/.exec(getComputedStyle(img).filter)?.[1])
-    expect(blur).toBeGreaterThan(0)
-    expect(blur).toBeLessThan(16)
-    expect(Number(getComputedStyle(img).opacity)).toBeGreaterThan(0)
-    expect(Number(getComputedStyle(img).opacity)).toBeLessThan(1)
-    expect(layer.getAnimations()).toEqual([])
-    expect(getComputedStyle(layer).opacity).toBe('1')
+    for (const time of [45, 150, 225, 300, 405]) {
+      transition.currentTime = time
+      fade.currentTime = time
+      const sum = Number(getComputedStyle(img).opacity) + Number(getComputedStyle(layer).opacity)
+      expect(sum).toBeCloseTo(1, 2)
+    }
 
-    transitions.forEach(t => t.finish())
+    transition.finish()
+    fade.finish()
     await vi.waitFor(() => expect(layerOf(w.element)).toBeNull())
-    expect(performance.now() - start).toBeGreaterThanOrEqual(400)
-    expect(getComputedStyle(img).filter).toBe('none')
     expect(getComputedStyle(img).opacity).toBe('1')
+    expect(getComputedStyle(img).mixBlendMode).toBe('normal')
   })
 
-  it('lazy 为假时缩略图垫在图片下层,加载后直接撤走', async () => {
+  it('交叉淡化到一半时不透出外框背景,也不把背景色叠加进来', async () => {
+    const animate = vi.spyOn(Element.prototype, 'animate')
+    const w = mountImage({
+      src: RED,
+      thumbhash: GREEN,
+      class: 'h-20 w-20',
+      style: { background: 'rgb(0, 0, 255)' },
+    })
+    const img = w.find('img').element as HTMLImageElement
+    const { transition, fade } = await crossfade(img, layerOf(w.element)!, animate)
+    transition.pause()
+    fade.pause()
+    transition.currentTime = 225
+    fade.currentTime = 225
+    await new Promise<void>(resolve =>
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+    )
+    const [red, green, blue] = await pixel(w.element as HTMLElement)
+    expect(blue).toBeLessThan(16)
+    expect(red).toBeGreaterThan(60)
+    expect(green).toBeGreaterThan(20)
+  })
+
+  it('lazy 为假时图片直接可见,加载后缩略图以同样的时长与曲线淡出', async () => {
     const animate = vi.spyOn(Element.prototype, 'animate')
     const w = mountImage({ src: PIXEL, thumbhash: HASH, lazy: false, class: 'h-20 w-20' })
     const img = w.find('img').element as HTMLImageElement
     const layer = layerOf(w.element)!
-    expect(getComputedStyle(img).filter).toBe('none')
     expect(getComputedStyle(img).opacity).toBe('1')
+    await vi.waitFor(() => expect(animate.mock.contexts).toContain(layer))
+    const fade = animate.mock.results[animate.mock.contexts.indexOf(layer)]!.value as Animation
+    fade.pause()
+    expect(fade.effect!.getComputedTiming()).toMatchObject({
+      duration: 450,
+      easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+    })
+    fade.currentTime = 225
+    expect(Number(getComputedStyle(layer).opacity)).toBeGreaterThan(0)
+    expect(Number(getComputedStyle(layer).opacity)).toBeLessThan(1)
+    expect(getComputedStyle(img).mixBlendMode).toBe('normal')
+    expect(getComputedStyle(img).opacity).toBe('1')
+    fade.finish()
     await vi.waitFor(() => expect(layerOf(w.element)).toBeNull())
-    expect(animate.mock.contexts).not.toContain(layer)
   })
 
-  it('换源后缩略图换成新图的,新图到位后撤走', async () => {
-    const OTHER = 'K2kGLQRRemhndpNMn6OolZmP9956'
+  it('换源时旧图正常淡出,下方换成新图的缩略图,新图到位后再交叉淡化', async () => {
     const props = ref({ src: PIXEL, thumbhash: HASH })
     const w = mount(
-      { setup: () => () => h(Image, { ...props.value, lazy: false, class: 'h-20 w-20' }) },
+      { setup: () => () => h(Image, { ...props.value, class: 'h-20 w-20' }) },
       { attachTo: attach() },
     )
     mounted.push(w)
-    await vi.waitFor(() => expect(layerOf(w.element)).toBeNull())
+    const img = w.find('img').element as HTMLImageElement
+    await vi.waitFor(() => {
+      expect(layerOf(w.element)).toBeNull()
+      expect(getComputedStyle(img).opacity).toBe('1')
+    })
     let finishDecode: (() => void) | undefined
     vi.spyOn(HTMLImageElement.prototype, 'decode').mockImplementation(
       () =>
@@ -401,7 +476,12 @@ describe('image · ThumbHash', () => {
     props.value = { src: PIXEL + '#second', thumbhash: OTHER }
     await vi.waitFor(() => expect(finishDecode).toBeTypeOf('function'))
     expect(layerOf(w.element)!.style.backgroundImage).toBe(`url("${thumbhashToDataUrl(OTHER)}")`)
+    expect(getComputedStyle(img).mixBlendMode).toBe('normal')
+    await vi.waitFor(() => expect(getComputedStyle(img).opacity).toBe('0'))
     finishDecode!()
-    await vi.waitFor(() => expect(layerOf(w.element)).toBeNull())
+    await vi.waitFor(() => {
+      expect(layerOf(w.element)).toBeNull()
+      expect(getComputedStyle(img).opacity).toBe('1')
+    })
   })
 })

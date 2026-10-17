@@ -32,10 +32,14 @@ export const image = tv({
     {
       lazy: true,
       placeholder: true,
-      class: 'transition-[opacity,filter] duration-(--hn-duration-slow)',
+      class: 'duration-(--hn-duration-slow) ease-move',
     },
   ],
   defaultVariants: { fit: 'cover' },
+})
+
+export const imageFrame = tv({
+  base: 'relative isolate block size-full',
 })
 
 export const imagePlaceholder = tv({
