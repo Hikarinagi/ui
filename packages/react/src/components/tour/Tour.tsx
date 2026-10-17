@@ -28,6 +28,7 @@ import {
   TOUR_ARROW_WIDTH,
   TOUR_SIDE_OFFSET,
   tourBeaconOnArrival,
+  tourCardGap,
   tourKeyAction,
   tourOwnsInput,
   tourPageBlocked,
@@ -42,6 +43,7 @@ import {
   type TourPoint,
   type TourPointer,
   type TourPointerKind,
+  type TourRect,
   type TourRectLike,
   type TourSide,
   type TourSpotlight,
@@ -235,6 +237,7 @@ export function Tour({
 
   const pointerRef = useRef<HTMLDivElement | null>(null)
   const keyRef = useRef<HTMLDivElement | null>(null)
+  const cardRef = useRef<HTMLElement | null>(null)
   const kindRef = useRef(pointerKind)
   kindRef.current = pointerKind
   const [engine] = useState(() =>
@@ -242,6 +245,7 @@ export function Tour({
       pointer: () => pointerRef.current,
       keyBadge: () => keyRef.current,
       pointerKind: () => kindRef.current,
+      cardGap: () => tourCardGap(cardRef.current),
     }),
   )
   const tour = useSyncExternalStore(engine.subscribe, engine.getState, engine.getState)
@@ -262,10 +266,18 @@ export function Tour({
   const blocking = cardVisible && !!tour.hole && blocked
   const targetElements = tour.elements
   const anchoredRef = useRef(false)
-  if (cardVisible) anchoredRef.current = status === 'ready' && !!tour.hole
+  const shownRef = useRef(current)
+  const visibleRef = useRef(false)
+  const shownHole = useRef<TourRect | null>(null)
+  visibleRef.current = cardVisible
+  if (cardVisible) {
+    anchoredRef.current = status === 'ready' && !!tour.hole
+    shownRef.current = current
+  }
   const anchored = anchoredRef.current
+  const shown = clampTourStep(shownRef.current, total)
+  const shownStep: TourStep = steps[shown - 1] ?? {}
 
-  const cardRef = useRef<HTMLElement | null>(null)
   const layerRef = useRef<HTMLElement | null>(null)
   const [cardElement, setCardElement] = useState<HTMLElement | null>(null)
   const [layerElement, setLayerElement] = useState<HTMLElement | null>(null)
@@ -480,8 +492,8 @@ export function Tour({
   }, [engaged, beaconVisible])
 
   const slotProps: TourSlotProps = {
-    step: currentStep,
-    current,
+    step: shownStep,
+    current: shown,
     total,
     busy,
     playing: tour.playing,
@@ -491,9 +503,14 @@ export function Tour({
     replay,
   }
 
-  const [reference] = useState(() => tourReference(() => engine.getState().hole))
+  const [reference] = useState(() =>
+    tourReference(() => {
+      if (visibleRef.current) shownHole.current = engine.getState().hole
+      return shownHole.current
+    }),
+  )
   const point = tour.targetRect ? beaconPoint(tour.targetRect, direction) : null
-  const hasBody = !!currentStep.description || !!renderContent
+  const hasBody = !!shownStep.description || !!renderContent
   const hole = tour.hole
   const blockerStyle: CSSProperties | undefined = pageBlocked
     ? { left: '0px', top: '0px', width: '100%', height: '100%' }
@@ -512,23 +529,23 @@ export function Tour({
     <Card
       ref={attachCard}
       data-hn-tour=""
-      data-step={current}
+      data-step={shown}
       data-state={cardVisible ? 'open' : 'closed'}
       padded={false}
       role="dialog"
       tabIndex={-1}
       dir={direction}
       aria-modal={modal ? 'true' : undefined}
-      aria-labelledby={currentStep.title ? titleId : undefined}
+      aria-labelledby={shownStep.title ? titleId : undefined}
       aria-describedby={hasBody ? descriptionId : undefined}
       aria-busy={busy || undefined}
       className={cn(tourCard(), anchored && 'hn-anim-pop', className)}
     >
-      {(currentStep.title || !locked) && (
+      {(shownStep.title || !locked) && (
         <div className={tourHeader()}>
-          {currentStep.title && (
+          {shownStep.title && (
             <Text id={titleId} weight="medium" className="min-w-0 flex-1">
-              {currentStep.title}
+              {shownStep.title}
             </Text>
           )}
           {!locked && (
@@ -548,7 +565,7 @@ export function Tour({
             renderContent(slotProps)
           ) : (
             <Text tone="muted" size="sm">
-              {currentStep.description}
+              {shownStep.description}
             </Text>
           )}
         </div>
@@ -574,9 +591,9 @@ export function Tour({
       ) : (
         <div className={tourFooter()}>
           <Text as="span" tone="muted" size="sm" className="tabular-nums">
-            {t.tour.progress(current, total)}
+            {t.tour.progress(shown, total)}
           </Text>
-          {scripted && (
+          {!!shownStep.play && (
             <IconButton
               data-hn-tour-replay=""
               label={replayText ?? t.tour.replay}
@@ -591,7 +608,7 @@ export function Tour({
             </IconButton>
           )}
           <div className="ms-auto flex gap-2">
-            {current > 1 && (
+            {shown > 1 && (
               <Button
                 data-hn-tour-prev=""
                 size="sm"
@@ -604,7 +621,7 @@ export function Tour({
               </Button>
             )}
             <Button data-hn-tour-next="" size="sm" loading={busy} onClick={() => void next()}>
-              {isLast ? (finishText ?? t.tour.finish) : (nextText ?? t.tour.next)}
+              {shown >= total ? (finishText ?? t.tour.finish) : (nextText ?? t.tour.next)}
             </Button>
           </div>
         </div>
@@ -708,8 +725,8 @@ export function Tour({
                 <PopperContent
                   asChild
                   reference={reference}
-                  side={currentStep.side ?? 'bottom'}
-                  align={currentStep.align ?? 'center'}
+                  side={shownStep.side ?? 'bottom'}
+                  align={shownStep.align ?? 'center'}
                   sideOffset={TOUR_SIDE_OFFSET}
                   collisionPadding={16}
                   arrowPadding={TOUR_ARROW_PADDING}

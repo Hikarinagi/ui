@@ -57,7 +57,7 @@ A step's `play` runs when the step becomes active and can be async. It demonstra
 
 Once `signal` is aborted, `sleep`, `spotlight`, `waitFor` and the pointer methods reject with an `AbortError`, which stops the script; the tour ignores that error.
 
-A step with `play` shows a Replay button at the bottom of the card. It does the same as `replay()`: runs the cleanups, moves the highlight back to the step's target and runs the script again.
+A step with `play` shows a Replay button at the bottom of the card. It does the same as `replay()`: runs the cleanups, waits for the animations they start to finish, moves the highlight back to the step's target and runs the script again.
 
 `blockPage` makes the whole page, including the highlight, ignore clicks and input during the step while the card stays usable. It can be set on the tour or on a single step.
 
@@ -76,7 +76,7 @@ A step with `play` shows a Replay button at the bottom of the card. It does the 
 | `key(key, duration?)`              | Shows a key, 700ms by default, next to the pointer when it is visible and at the bottom of the viewport otherwise              |
 | `hide()`                           | Hides the pointer                                                                                                              |
 
-Moves and drags read their end point again every frame, so the pointer keeps up with a moving target. A method rejects with an error when its target does not exist; wait for a target that appears after the interface updates with `waitFor()` first.
+Pointer methods start once the step's highlight has come to rest and its card is shown. Moves and drags read their end point again every frame, so the pointer keeps up with a moving target. A method rejects with an error when its target does not exist; wait for a target that appears after the interface updates with `waitFor()` first.
 
 The pointer follows `(pointer: coarse)` by default: a mouse arrow for fine pointers and a fingertip dot for touch screens. The `pointer` prop can fix it to `'mouse'` or `'touch'`. With reduced motion, moves and drags jump to the end and `onMove` receives only the end position. The pointer hides when the step is left.
 
@@ -97,7 +97,8 @@ The tour sits above Dialog, Drawer, Sheet, menus and other overlays, at `--hn-z-
 - Left and right arrows move to the previous and next step, swapped in RTL. Escape skips the tour and emits `skip` and `close`. The keys work anywhere while the tour is open, without focus on the card; arrows in text fields are left alone. In a step without `play` or `blockPage`, an overlay opened from the target handles the keys first. Clicking the mask does not close the tour.
 - The button of the last step reads Done; clicking it emits `finish` and closes the tour.
 - When a step becomes active, a target outside the viewport is scrolled to the centre; `scroll: false` turns this off. The mask and the card follow the target when it moves, resizes or the page scrolls.
-- Between steps the card hides, the highlight springs to the new target and, once it rests, the card appears at its new place. When `spotlight()` moves the highlight within a step, the card follows it.
+- Between steps the card fades out where it is and keeps the previous step's content. When the new target is still animating, the highlight waits for it to stop, then springs to it; once the highlight rests, the card appears at its new place. When `spotlight()` moves the highlight within a step, the card follows it.
+- When the target element is removed, the highlight stays where it is; once a target given as a selector or a function matches again, the highlight moves to the new element.
 - The highlight opens from the centre of its target and closes in place onto the centre of its target before a step without a target, taking 300ms each.
 - When the card does not fit on its side of the target it flips to the other side, and when it still does not fit it shifts into the viewport, over the target if needed.
 - Page scrolling stays enabled, and the tour renders nothing on the server.
@@ -111,7 +112,8 @@ The tour sits above Dialog, Drawer, Sheet, menus and other overlays, at `--hn-z-
 - Left and right arrows move to the previous and next step, swapped in RTL. Escape skips the tour and calls `onSkip` and `onClose`. The keys work anywhere while the tour is open, without focus on the card; arrows in text fields are left alone. In a step without `play` or `blockPage`, an overlay opened from the target handles the keys first. Clicking the mask does not close the tour.
 - The button of the last step reads Done; clicking it calls `onFinish` and closes the tour.
 - When a step becomes active, a target outside the viewport is scrolled to the centre; `scroll: false` turns this off. The mask and the card follow the target when it moves, resizes or the page scrolls.
-- Between steps the card hides, the highlight springs to the new target and, once it rests, the card appears at its new place. When `spotlight()` moves the highlight within a step, the card follows it.
+- Between steps the card fades out where it is and keeps the previous step's content. When the new target is still animating, the highlight waits for it to stop, then springs to it; once the highlight rests, the card appears at its new place. When `spotlight()` moves the highlight within a step, the card follows it.
+- When the target element is removed, the highlight stays where it is; once a target given as a selector or a function matches again, the highlight moves to the new element.
 - The highlight opens from the centre of its target and closes in place onto the centre of its target before a step without a target, taking 300ms each.
 - When the card does not fit on its side of the target it flips to the other side, and when it still does not fit it shifts into the viewport, over the target if needed.
 - Page scrolling stays enabled, and the tour renders nothing on the server.

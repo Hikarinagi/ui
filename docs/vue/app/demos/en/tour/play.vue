@@ -3,6 +3,7 @@
   import { Button, Drawer, Inline, List, ListItem, Text, Tour, type TourStep } from '@hina-ui/vue'
 
   const open = ref(false)
+  const step = ref(1)
   const contents = ref(false)
   const page = ref(12)
 
@@ -42,6 +43,11 @@
       },
     },
   ]
+
+  function start() {
+    step.value = 1
+    open.value = true
+  }
 </script>
 
 <template>
@@ -50,7 +56,7 @@
       Contents
     </Button>
     <Text id="tour-play-page" tone="muted" class="tabular-nums">Page {{ page }}</Text>
-    <Button variant="ghost" tone="neutral" @click="open = true">Show me how</Button>
+    <Button variant="ghost" tone="neutral" @click="start">Show me how</Button>
   </Inline>
   <Drawer v-model:open="contents" title="Contents">
     <template #content>
@@ -61,5 +67,5 @@
       </List>
     </template>
   </Drawer>
-  <Tour v-model:open="open" :steps="steps" mask="dim" block-page />
+  <Tour v-model:open="open" v-model:step="step" :steps="steps" mask="dim" block-page />
 </template>

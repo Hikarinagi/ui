@@ -27,12 +27,14 @@
     tourBeaconOnArrival,
     tourKeyAction,
     tourOwnsInput,
+    tourCardGap,
     tourPageBlocked,
     tourReference,
     tourTargetBlocked,
     trapTourFocus,
     type TourCloseReason,
     type TourPointerKind,
+    type TourRect,
     type TourSpotlight,
   } from '../../../../shared/src/lib/tour'
   import { createTourEngine } from '../../../../shared/src/lib/tour-engine'
@@ -121,6 +123,7 @@
     pointer: () => pointerElement.value,
     keyBadge: () => keyElement.value,
     pointerKind: () => pointerKind.value,
+    cardGap: () => tourCardGap(card.value?.$el),
   })
   const tour = shallowRef(engine.getState())
   const unsubscribe = engine.subscribe(() => (tour.value = engine.getState()))
@@ -145,6 +148,12 @@
     anchoredWhenShown = status.value === 'ready' && !!tour.value.hole
     return anchoredWhenShown
   })
+  let stepWhenShown = current.value
+  const shown = computed(() => {
+    if (cardVisible.value) stepWhenShown = current.value
+    return clampTourStep(stepWhenShown, total.value)
+  })
+  const shownStep = computed<TourStep>(() => props.steps[shown.value - 1] ?? {})
   const maskVisible = computed(
     () =>
       !!props.mask &&
@@ -184,7 +193,11 @@
     const point = beaconPoint(tour.value.targetRect, direction.value)
     return { left: `${point.x}px`, top: `${point.y}px` }
   })
-  const reference = tourReference(() => engine.getState().hole)
+  let holeWhenShown: TourRect | null = null
+  const reference = tourReference(() => {
+    if (cardVisible.value) holeWhenShown = engine.getState().hole
+    return holeWhenShown
+  })
 
   let returnFocus: HTMLElement | null = null
   let closeReason: TourCloseReason | null = null
@@ -386,8 +399,8 @@
   }
 
   const slotProps = computed<TourSlotProps>(() => ({
-    step: currentStep.value,
-    current: current.value,
+    step: shownStep.value,
+    current: shown.value,
     total: total.value,
     busy: busy.value,
     playing: tour.value.playing,
@@ -402,8 +415,8 @@
       ? {
           asChild: true,
           reference,
-          side: currentStep.value.side ?? 'bottom',
-          align: currentStep.value.align ?? 'center',
+          side: shownStep.value.side ?? 'bottom',
+          align: shownStep.value.align ?? 'center',
           sideOffset: TOUR_SIDE_OFFSET,
           collisionPadding: 16,
           arrowPadding: TOUR_ARROW_PADDING,
@@ -499,23 +512,23 @@
             <Card
               ref="card"
               data-hn-tour
-              :data-step="current"
+              :data-step="shown"
               :data-state="cardVisible ? 'open' : 'closed'"
               :padded="false"
               role="dialog"
               tabindex="-1"
               :dir="direction"
               :aria-modal="modal ? 'true' : undefined"
-              :aria-labelledby="currentStep.title ? titleId : undefined"
+              :aria-labelledby="shownStep.title ? titleId : undefined"
               :aria-describedby="
-                currentStep.description || $slots.content ? descriptionId : undefined
+                shownStep.description || $slots.content ? descriptionId : undefined
               "
               :aria-busy="busy || undefined"
               :class="cn(tourCard(), anchored && 'hn-anim-pop', props.class)"
             >
-              <div v-if="currentStep.title || !props.locked" :class="tourHeader()">
-                <Text v-if="currentStep.title" :id="titleId" weight="medium" class="min-w-0 flex-1">
-                  {{ currentStep.title }}
+              <div v-if="shownStep.title || !props.locked" :class="tourHeader()">
+                <Text v-if="shownStep.title" :id="titleId" weight="medium" class="min-w-0 flex-1">
+                  {{ shownStep.title }}
                 </Text>
                 <CloseButton
                   v-if="!props.locked"
@@ -526,9 +539,9 @@
                   @click="skip()"
                 />
               </div>
-              <div v-if="currentStep.description || $slots.content" :id="descriptionId">
+              <div v-if="shownStep.description || $slots.content" :id="descriptionId">
                 <slot name="content" v-bind="slotProps">
-                  <Text tone="muted" size="sm">{{ currentStep.description }}</Text>
+                  <Text tone="muted" size="sm">{{ shownStep.description }}</Text>
                 </slot>
               </div>
               <PopperArrow
@@ -549,10 +562,10 @@
               <slot name="footer" v-bind="slotProps">
                 <div :class="tourFooter()">
                   <Text as="span" tone="muted" size="sm" class="tabular-nums">
-                    {{ t.tour.progress(current, total) }}
+                    {{ t.tour.progress(shown, total) }}
                   </Text>
                   <IconButton
-                    v-if="scripted"
+                    v-if="!!shownStep.play"
                     data-hn-tour-replay
                     :label="props.replayText ?? t.tour.replay"
                     :tooltip="false"
@@ -566,7 +579,7 @@
                   </IconButton>
                   <div class="ms-auto flex gap-2">
                     <Button
-                      v-if="current > 1"
+                      v-if="shown > 1"
                       data-hn-tour-prev
                       size="sm"
                       variant="soft"
@@ -578,7 +591,7 @@
                     </Button>
                     <Button data-hn-tour-next size="sm" :loading="busy" @click="next">
                       {{
-                        isLast
+                        shown >= total
                           ? (props.finishText ?? t.tour.finish)
                           : (props.nextText ?? t.tour.next)
                       }}

@@ -671,6 +671,98 @@ describe('Tour', () => {
     expect(calls).not.toContain('aria-hidden')
   })
 
+  it('keeps the leaving card on its own step and in place while it fades out', async () => {
+    await harness()
+    await start()
+    const resting = cardBox()!
+    const frames = sampleFrames(() => {
+      const leaving = document.querySelector<HTMLElement>('[data-hn-tour][data-state="closed"]')
+      if (!leaving) return null
+      const wrapper = leaving.closest<HTMLElement>('[data-radix-popper-content-wrapper]')!
+      return { text: leaving.textContent ?? '', left: wrapper.getBoundingClientRect().left }
+    })
+    await press('next')
+    await shown('搜索')
+    const leaving = frames.stop().filter(frame => frame !== null)
+    expect(leaving.length).toBeGreaterThan(2)
+    for (const frame of leaving) {
+      expect(frame.text).toContain('新建')
+      expect(frame.text).toContain('1 / 3')
+      expect(Math.abs(frame.left - resting.left)).toBeLessThan(1)
+    }
+  })
+
+  it('fades a centred card out before the card at the target appears', async () => {
+    await harness({ steps: [{ title: '欢迎', description: '开始。' }, visibleSteps[0]!] })
+    await start()
+    const frames = sampleFrames(() =>
+      [...document.querySelectorAll<HTMLElement>('[data-hn-tour]')]
+        .map(
+          element => `${element.getAttribute('data-step')}:${element.getAttribute('data-state')}`,
+        )
+        .join(' '),
+    )
+    await press('next')
+    await shown('新建')
+    const seen = frames.stop()
+    expect(seen.filter(frame => frame === '1:closed').length).toBeGreaterThan(1)
+    expect(seen.indexOf('1:closed')).toBeLessThan(seen.indexOf('2:open'))
+  })
+
+  it('waits for a target that is still moving before springing the hole to it', async () => {
+    await harness({ steps: [visibleSteps[0]!, { target: '#moving', title: '移动中' }] }, () => (
+      <div id="slider">
+        <button id="moving">moving</button>
+      </div>
+    ))
+    await start()
+    const before = holeBox()!
+    const frames = sampleFrames(() => ({ at: performance.now(), hole: holeBox() }))
+    const slide = byId('slider').animate(
+      [{ transform: 'translateY(240px)' }, { transform: 'none' }],
+      { duration: 500 },
+    )
+    let landed = 0
+    void slide.finished.then(() => (landed = performance.now()))
+    await press('next')
+    await shown('移动中')
+    const samples = frames.stop()
+    const moved = samples.find(frame => frame.hole && Math.abs(frame.hole.left - before.left) > 1)!
+    expect(landed).toBeGreaterThan(0)
+    expect(moved.at).toBeGreaterThanOrEqual(landed - 20)
+  })
+
+  it('keeps the hole in place while the target is gone and follows its replacement', async () => {
+    const version = signal(0)
+    function Swap() {
+      const current = version.use()
+      if (current === 1) return null
+      return (
+        <button key={current} id="swap" style={{ marginLeft: `${current * 80}px` }}>
+          swap
+        </button>
+      )
+    }
+    await harness({ steps: [{ target: '#swap', title: '替换' }] }, () => <Swap />)
+    await start()
+    const resting = holeBox()!
+    const frames = sampleFrames(() => holeBox())
+    version.value = 1
+    await vi.waitFor(() => expect(document.getElementById('swap')).toBeNull())
+    await settle(300)
+    expect(holeBox()).toEqual(resting)
+    version.value = 2
+    await vi.waitFor(() => {
+      const target = byId('swap').getBoundingClientRect()
+      const hole = holeBox()!
+      expect(hole.left).toBeLessThanOrEqual(target.left)
+      expect(hole.left).toBeGreaterThan(target.left - 20)
+      expect(hole.right).toBeGreaterThanOrEqual(target.right)
+    })
+    const samples = frames.stop()
+    for (const hole of samples) expect(hole!.left).toBeGreaterThanOrEqual(resting.left - 0.5)
+  })
+
   it('without a mask the tour is not modal and outside clicks keep it open', async () => {
     const { open, clicks } = await harness({ mask: false })
     await start()
@@ -743,6 +835,77 @@ describe('Tour scripts', () => {
     await userEvent.keyboard('{Escape}')
     await vi.waitFor(() => expect(open.value).toBe(false))
     expect(log).toEqual(['play', 'cleanup', 'play', 'cleanup'])
+  })
+
+  it('replays once the animations the cleanup started have finished', async () => {
+    const log: string[] = []
+    await harness({
+      steps: [
+        {
+          target: '#first',
+          title: '演示',
+          play: (context: { defer: (fn: () => void) => void }) => {
+            log.push('play')
+            context.defer(() => {
+              void byId('third')
+                .animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300 })
+                .finished.then(() => log.push('faded'))
+            })
+          },
+        },
+      ],
+    })
+    await start()
+    await vi.waitFor(() => expect(log).toEqual(['play']))
+    await press('replay')
+    await vi.waitFor(() => expect(log).toEqual(['play', 'faded', 'play']))
+  })
+
+  it('starts pointer actions once the hole has arrived and the card is shown', async () => {
+    await harness({
+      steps: [
+        visibleSteps[0]!,
+        {
+          target: '#third',
+          title: '指针',
+          play: async (context: { pointer: { move: (target: string) => Promise<void> } }) => {
+            await context.pointer.move('#third')
+          },
+        },
+      ],
+    })
+    await start()
+    const frames = sampleFrames(() => ({
+      pointer: pointer().getAttribute('data-state') === 'shown',
+      left: holeLeft(),
+    }))
+    await press('next')
+    await shown('指针')
+    await vi.waitFor(() => expect(frames.samples.some(frame => frame.pointer)).toBe(true))
+    const samples = frames.stop()
+    const first = samples.find(frame => frame.pointer)!
+    expect(Math.abs(first.left! - holeLeft()!)).toBeLessThan(0.5)
+  })
+
+  it('shows the card when the script moves the spotlight while the step is entering', async () => {
+    await harness({
+      steps: [
+        visibleSteps[0]!,
+        {
+          target: '#second',
+          title: '改道',
+          play: (context: { spotlight: (target: string) => Promise<void> }) =>
+            context.spotlight('#third'),
+        },
+      ],
+    })
+    await start()
+    await press('next')
+    await shown('改道')
+    const third = byId('third').getBoundingClientRect()
+    const hole = holeBox()!
+    expect(hole.left).toBeLessThanOrEqual(third.left)
+    expect(hole.right).toBeGreaterThanOrEqual(third.right)
   })
 
   it('moves the spotlight inside a step and the card follows it smoothly', async () => {

@@ -35,6 +35,7 @@ export interface TourEngineOptions {
   pointer: () => HTMLElement | null | undefined
   keyBadge: () => HTMLElement | null | undefined
   pointerKind: () => TourPointerKind
+  cardGap?: () => number
 }
 
 const INITIAL: TourEngineState = {
@@ -164,6 +165,55 @@ export function tween(
   })
 }
 
+const nextFrame = () => new Promise<void>(resolve => requestAnimationFrame(() => resolve()))
+const delay = (ms: number) => new Promise<void>(resolve => window.setTimeout(resolve, ms))
+
+function finiteAnimations(affects: (node: Node) => boolean = () => true) {
+  if (typeof document.getAnimations !== 'function') return []
+  return document.getAnimations().filter(animation => {
+    if (animation.playState !== 'running' || animation.timeline !== document.timeline) return false
+    const end = animation.effect?.getComputedTiming().endTime
+    if (typeof end !== 'number' || !Number.isFinite(end)) return false
+    const node = (animation.effect as KeyframeEffect | null)?.target
+    return !!node && affects(node)
+  })
+}
+
+function settle(animations: Animation[], until: number) {
+  if (!animations.length) return Promise.resolve()
+  return Promise.race([
+    Promise.allSettled(animations.map(animation => animation.finished)),
+    delay(Math.max(until - performance.now(), 0)),
+  ])
+}
+
+async function waitForStillTarget(target: TourResolvedTarget, limit = 1000) {
+  const until = performance.now() + limit
+  await nextFrame()
+  await settle(
+    finiteAnimations(node =>
+      target.elements.some(element => node === element || node.contains(element)),
+    ),
+    until,
+  )
+  let previous = target.rect()
+  let still = 0
+  while (still < 2 && performance.now() < until) {
+    await nextFrame()
+    const rect = target.rect()
+    const moved = KEYS.some(key => Math.abs(rect[key] - previous[key]) > 0.5)
+    previous = rect
+    still = moved ? 0 : still + 1
+  }
+}
+
+async function waitForFiniteAnimations(limit = 1000) {
+  const until = performance.now() + limit
+  await nextFrame()
+  await nextFrame()
+  await settle(finiteAnimations(), until)
+}
+
 function isPoint(value: unknown): value is TourPoint {
   return (
     !!value &&
@@ -187,6 +237,7 @@ function createPointer(
   keyBadge: () => HTMLElement | null | undefined,
   signal: AbortSignal,
   memory: { point: TourPoint | null },
+  ready: () => Promise<void>,
 ): TourPointer {
   const place = (point: TourPoint) => {
     memory.point = point
@@ -239,9 +290,12 @@ function createPointer(
     )
   }
   return {
-    move: (target, duration = 600) => travel(target, duration),
+    async move(target, duration = 600) {
+      await ready()
+      await travel(target, duration)
+    },
     async tap() {
-      guard(signal)
+      await ready()
       setState('data-pressed', '')
       ripple()
       await tourSleep(120, signal)
@@ -249,7 +303,7 @@ function createPointer(
       await tourSleep(180, signal)
     },
     async press(duration = 800) {
-      guard(signal)
+      await ready()
       element()?.style.setProperty('--hn-tour-press', `${duration}ms`)
       setState('data-pressed', 'long')
       try {
@@ -259,7 +313,7 @@ function createPointer(
       }
     },
     async drag(target, duration = 800, onMove) {
-      guard(signal)
+      await ready()
       setState('data-pressed', '')
       try {
         await tourSleep(80, signal)
@@ -271,7 +325,7 @@ function createPointer(
       }
     },
     async key(key, duration = 700) {
-      guard(signal)
+      await ready()
       const badge = keyBadge()
       if (!badge) return
       const label = badge.querySelector('[data-hn-tour-key-label]') ?? badge
@@ -308,6 +362,11 @@ export function createTourEngine(options: TourEngineOptions) {
   let resolved: TourResolvedTarget | null = null
   let stopTracking = () => {}
   let token = 0
+  let epoch = 0
+  let revealAt = 0
+  let entering = false
+  let entry = Promise.resolve()
+  let markEntered = () => {}
   let waiting: AbortController | null = null
 
   let position: TourRect | null = null
@@ -320,7 +379,13 @@ export function createTourEngine(options: TourEngineOptions) {
   const pointerMemory: { point: TourPoint | null } = { point: null }
 
   const viewport = () => ({ width: window.innerWidth, height: window.innerHeight })
-  const goal = () => (resolved ? spotlightRect(toBox(resolved.rect()), padding) : null)
+  const attached = (found: TourResolvedTarget) =>
+    found.elements.every(element => element.isConnected)
+  const goal = () => {
+    if (!resolved) return null
+    if (!attached(resolved)) return position ? { ...position } : null
+    return spotlightRect(toBox(resolved.rect()), padding)
+  }
   const toBox = (rect: TourRect) => ({
     left: rect.x,
     top: rect.y,
@@ -341,11 +406,15 @@ export function createTourEngine(options: TourEngineOptions) {
   }
 
   function snap() {
+    if (resolved && !attached(resolved)) {
+      set({ viewport: viewport() })
+      return
+    }
     const target = goal()
     position = target ? { ...target } : null
     velocity = { x: 0, y: 0, width: 0, height: 0 }
     set({
-      hole: position,
+      hole: position ? { ...position } : null,
       targetRect: resolved ? resolved.rect() : null,
       viewport: viewport(),
     })
@@ -368,7 +437,11 @@ export function createTourEngine(options: TourEngineOptions) {
       flushSettled()
       return
     }
-    set({ hole: { ...position }, targetRect: resolved!.rect(), viewport: viewport() })
+    set({
+      hole: { ...position },
+      ...(attached(resolved!) ? { targetRect: resolved!.rect() } : {}),
+      viewport: viewport(),
+    })
     frame = requestAnimationFrame(tick)
   }
 
@@ -391,10 +464,53 @@ export function createTourEngine(options: TourEngineOptions) {
     snap()
   }
 
+  function follow(target: TourTarget | undefined, found: TourResolvedTarget) {
+    let stopWatch = watchTourTarget(found, track)
+    const observer = new MutationObserver(() => {
+      if (!resolved || attached(resolved)) return
+      const again = resolveTourTarget(target)
+      if (!again || !attached(again)) return
+      resolved = again
+      stopWatch()
+      set({ elements: again.elements })
+      void springTo(!!position)
+      stopWatch = watchTourTarget(again, track)
+    })
+    observer.observe(document.body, { childList: true, subtree: true })
+    return () => {
+      observer.disconnect()
+      stopWatch()
+    }
+  }
+
   function onResize() {
     if (frame) return
     if (resolved) snap()
     else set({ viewport: viewport() })
+  }
+
+  async function reveal(current: number) {
+    if (revealAt > performance.now()) {
+      await delay(revealAt - performance.now())
+      if (current !== token) return false
+    }
+    entering = false
+    set({ settled: true })
+    markEntered()
+    return true
+  }
+
+  function untilEntered(signal: AbortSignal) {
+    return new Promise<void>((resolve, reject) => {
+      if (signal.aborted) return reject(abortError())
+      const abort = () => reject(abortError())
+      signal.addEventListener('abort', abort, { once: true })
+      void entry.then(() => {
+        signal.removeEventListener('abort', abort)
+        if (signal.aborted) reject(abortError())
+        else resolve()
+      })
+    })
   }
 
   async function aim(
@@ -402,10 +518,9 @@ export function createTourEngine(options: TourEngineOptions) {
     {
       wait = 0,
       scroll = true,
-      entering = false,
       padding: nextPadding,
       radius,
-    }: TourSpotlightOptions & { scroll?: boolean; entering?: boolean },
+    }: TourSpotlightOptions & { scroll?: boolean },
   ) {
     const current = ++token
     waiting?.abort()
@@ -424,29 +539,43 @@ export function createTourEngine(options: TourEngineOptions) {
       position = null
       set({
         status: 'missing',
-        settled: true,
+        settled: !entering,
         hole: null,
         targetRect: null,
         elements: [],
         viewport: viewport(),
       })
+      if (entering && !(await reveal(current))) return 'stale' as const
       return target ? ('missing' as const) : ('empty' as const)
+    }
+    stopTracking()
+    stopTracking = () => {}
+    const animate = !!position
+    if (scroll) revealTourTarget(found)
+    if (animate && !reducedMotion()) {
+      stopSpring()
+      for (let attempt = 0; attempt < 3; attempt++) {
+        await waitForStillTarget(found)
+        if (current !== token) return 'stale' as const
+        if (attached(found)) break
+        const again = resolveTourTarget(target)
+        if (!again) break
+        found = again
+      }
     }
     resolved = found
     padding = nextPadding ?? step.padding ?? TOUR_PADDING
-    stopTracking()
-    const animate = !!position
     set({
       status: 'ready',
       elements: found.elements,
       radius: radius ?? step.radius ?? TOUR_RADIUS,
       ...(entering ? { settled: false } : {}),
     })
-    if (scroll) revealTourTarget(found)
     const settled = springTo(animate)
-    stopTracking = watchTourTarget(found, track)
+    stopTracking = follow(target, found)
     await settled
-    if (current === token && entering) set({ settled: true })
+    if (current !== token) return 'stale' as const
+    if (entering && !(await reveal(current))) return 'stale' as const
     return 'ready' as const
   }
 
@@ -470,6 +599,7 @@ export function createTourEngine(options: TourEngineOptions) {
 
   function play() {
     abortRun()
+    epoch += 1
     const script = step.play
     if (!script) return
     const controller = new AbortController()
@@ -484,7 +614,9 @@ export function createTourEngine(options: TourEngineOptions) {
         if (signal.aborted) cleanup()
         else cleanups.push(cleanup)
       },
-      pointer: createPointer(options.pointer, options.keyBadge, signal, pointerMemory),
+      pointer: createPointer(options.pointer, options.keyBadge, signal, pointerMemory, () =>
+        untilEntered(signal),
+      ),
       async spotlight(target, spotlightOptions = {}) {
         guard(signal)
         await aim(target === undefined ? step.target : target, {
@@ -523,6 +655,7 @@ export function createTourEngine(options: TourEngineOptions) {
     pointerKind: options.pointerKind,
     enter(next: TourStepBase, number: number) {
       abortRun()
+      epoch += 1
       const fresh = state.status === 'idle'
       if (fresh) {
         stopSpring()
@@ -530,6 +663,10 @@ export function createTourEngine(options: TourEngineOptions) {
         pointerMemory.point = null
         window.addEventListener('resize', onResize)
       }
+      revealAt = fresh ? 0 : performance.now() + (options.cardGap?.() ?? 0)
+      markEntered()
+      entering = true
+      entry = new Promise<void>(resolve => (markEntered = resolve))
       step = next
       stepNumber = number
       set({
@@ -541,24 +678,32 @@ export function createTourEngine(options: TourEngineOptions) {
       return aim(next.target, {
         wait: next.wait ?? 0,
         scroll: next.scroll !== false,
-        entering: true,
       })
     },
     play,
     replay() {
       if (!step.play) return
       abortRun()
-      void aim(step.target, { wait: step.wait ?? 0, scroll: false })
-      play()
+      const current = ++epoch
+      stopTracking()
+      stopTracking = () => {}
+      stopSpring()
+      void waitForFiniteAnimations().then(() => {
+        if (current !== epoch) return
+        void aim(step.target, { wait: step.wait ?? 0, scroll: false })
+        play()
+      })
     },
     leave() {
       abortRun()
+      epoch += 1
       token += 1
       waiting?.abort()
       waiting = null
     },
     close() {
       abortRun()
+      epoch += 1
       token += 1
       waiting?.abort()
       waiting = null
@@ -566,6 +711,8 @@ export function createTourEngine(options: TourEngineOptions) {
       stopTracking = () => {}
       stopSpring()
       window.removeEventListener('resize', onResize)
+      entering = false
+      markEntered()
       set({ status: 'idle', settled: false, playing: false })
     },
   }

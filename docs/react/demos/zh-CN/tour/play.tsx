@@ -5,6 +5,7 @@ import { Button, Drawer, Inline, List, ListItem, Text, Tour, type TourStep } fro
 
 export default function Demo() {
   const [open, setOpen] = useState(false)
+  const [step, setStep] = useState(1)
   const [contents, setContents] = useState(false)
   const [page, setPage] = useState(12)
 
@@ -48,6 +49,11 @@ export default function Demo() {
     [],
   )
 
+  function start() {
+    setStep(1)
+    setOpen(true)
+  }
+
   return (
     <>
       <Inline gap="sm" align="center" wrap>
@@ -62,7 +68,7 @@ export default function Demo() {
         <Text id="tour-play-page" tone="muted" className="tabular-nums">
           第 {page} 页
         </Text>
-        <Button variant="ghost" tone="neutral" onClick={() => setOpen(true)}>
+        <Button variant="ghost" tone="neutral" onClick={start}>
           看看怎么用
         </Button>
       </Inline>
@@ -78,7 +84,15 @@ export default function Demo() {
           </List>
         )}
       />
-      <Tour open={open} onOpenChange={setOpen} steps={steps} mask="dim" blockPage />
+      <Tour
+        open={open}
+        onOpenChange={setOpen}
+        step={step}
+        onStepChange={setStep}
+        steps={steps}
+        mask="dim"
+        blockPage
+      />
     </>
   )
 }

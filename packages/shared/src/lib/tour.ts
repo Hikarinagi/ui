@@ -1,6 +1,7 @@
 import { autoUpdate } from '@floating-ui/dom'
 import { hideOutsideLayers, isHighestLayer } from '../primitives/dismissable-layer'
 import { getActiveElement, getTabbableCandidates } from '../primitives/focus-scope'
+import { cssTimeToMs } from './css-time'
 
 export type TourSide = 'top' | 'right' | 'bottom' | 'left'
 export type TourAlign = 'start' | 'center' | 'end'
@@ -314,6 +315,12 @@ export async function runTourChange(
   } finally {
     setBusy(false)
   }
+}
+
+export function tourCardGap(element?: Element | null) {
+  return cssTimeToMs(
+    getComputedStyle(element ?? document.documentElement).getPropertyValue('--hn-duration-exit'),
+  )
 }
 
 export function tourReference(read: () => TourRect | null, contextElement?: Element | null) {
