@@ -28,7 +28,7 @@ import { OverlayBranch } from '@hina-ui/vue'
 - It registers when mounted and unregisters when unmounted; a branch mounted after an overlay opened works too.
 - While an overlay sets `pointer-events: none` on `body`, the branch root keeps its own `pointer-events`. A transparent full-screen root with `pointer-events: none` does not block the overlay; parts of it that take input set `pointer-events: auto` themselves. The branch's inline style is restored when the overlay closes.
 - The overlay's Tab loop does not include the branch. When focus moves from the branch to an element outside both the overlay and the branch, it returns to the overlay.
-- Stacking is up to you. To sit over overlays, render the branch under `body` (`Teleport` in Vue, `createPortal` in React) with a `z-index` above `--hn-z-overlay`. Inside a container that forms a stacking context, such as one with a `z-index` or a `transform`, the branch's `z-index` only counts within that container and the overlay's scrim covers it.
+- Stacking is up to you. To sit over overlays, render the branch under `body` with a `z-index` above `--hn-z-overlay`. Inside a container that forms a stacking context, such as one with a `z-index` or a `transform`, the branch's `z-index` only counts within that container and the overlay's scrim covers it.
 
 ## API {#api}
 

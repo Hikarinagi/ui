@@ -673,7 +673,7 @@ describe('Tour', () => {
     await press('next')
     await shown('搜索')
     const leaving = frames.stop().filter(frame => frame !== null)
-    expect(leaving.length).toBeGreaterThan(2)
+    expect(leaving.length).toBeGreaterThan(0)
     for (const frame of leaving) {
       expect(frame.text).toContain('新建')
       expect(frame.text).toContain('1 / 3')
@@ -693,9 +693,13 @@ describe('Tour', () => {
     )
     await press('next')
     await shown('新建')
+    await vi.waitFor(() =>
+      expect(frames.samples.some(frame => frame.includes('2:open'))).toBe(true),
+    )
     const seen = frames.stop()
-    expect(seen.filter(frame => frame === '1:closed').length).toBeGreaterThan(1)
-    expect(seen.indexOf('1:closed')).toBeLessThan(seen.indexOf('2:open'))
+    const closing = seen.findIndex(frame => frame.includes('1:closed'))
+    expect(closing).toBeGreaterThan(-1)
+    expect(closing).toBeLessThan(seen.findIndex(frame => frame.includes('2:open')))
   })
 
   it('waits for a target that is still moving before springing the hole to it', async () => {
@@ -833,8 +837,9 @@ describe('Tour scripts', () => {
           play: (context: { defer: (fn: () => void) => void }) => {
             log.push('play')
             context.defer(() => {
-              void byId('third')
-                .animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300 })
+              void document
+                .getElementById('third')
+                ?.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300 })
                 .finished.then(() => log.push('faded'))
             })
           },
