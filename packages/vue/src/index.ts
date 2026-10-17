@@ -292,6 +292,7 @@ export { default as DropdownMenuRadioGroup } from './components/dropdown-menu/Dr
 export { default as DropdownMenuRadioItem } from './components/dropdown-menu/DropdownMenuRadioItem.vue'
 export { default as Dialog } from './components/dialog/Dialog.vue'
 export { default as Drawer } from './components/drawer/Drawer.vue'
+export { default as OverlayBranch } from './components/overlay-branch/OverlayBranch.vue'
 export { default as SidebarTrigger } from './components/sidebar/SidebarTrigger.vue'
 export type { SidebarState } from './components/sidebar/context'
 export { default as Toaster } from './components/toast/Toaster.vue'

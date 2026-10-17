@@ -193,6 +193,7 @@ The example calls `close` from a footer [Button](/components/button).
 - Dragging starts only on the handle and the title area, leaving the body to scrolling; on release the sheet keeps sliding out from where it was let go when it has travelled more than three tenths of its height or fast enough, and snaps back otherwise.
 - The page stops scrolling while it is open, focus is trapped inside, and focus returns to the trigger on close.
 - Esc and clicking the scrim close it; `locked` disables both along with dragging.
+- A press on the scrim or focus moving outside fires `interactOutside` first; calling `preventDefault()` keeps it open. Content inside an [OverlayBranch](/components/overlay-branch) does not count as outside.
 
 :::
 
@@ -203,6 +204,7 @@ The example calls `close` from a footer [Button](/components/button).
 - Dragging starts only on the handle and the title area, leaving the body to scrolling; on release the sheet keeps sliding out from where it was let go when it has travelled more than three tenths of its height or fast enough, and snaps back otherwise.
 - The page stops scrolling while it is open, focus is trapped inside, and focus returns to the trigger on close.
 - Esc and clicking the scrim close it; `locked` disables both along with dragging.
+- A press on the scrim or focus moving outside fires `interactOutside` first; calling `preventDefault()` keeps it open. Content inside an [OverlayBranch](/components/overlay-branch) does not count as outside.
 
 :::
 
@@ -239,6 +241,10 @@ The example calls `close` from a footer [Button](/components/button).
 | `footer`  | `{ close, submitting }` | Actions along the bottom                                                 |
 
 `close` closes the sheet; `submitting` is `true` while a [Form](/components/form) inside the sheet is submitting.
+
+| Event             | Payload                                        | Description                                                         |
+| ----------------- | ---------------------------------------------- | ------------------------------------------------------------------- |
+| `interactOutside` | `PointerDownOutsideEvent \| FocusOutsideEvent` | Fires on a press or focus outside; `preventDefault()` keeps it open |
 
 ### Exposed instance {#expose}
 

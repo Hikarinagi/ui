@@ -377,6 +377,12 @@ export const components: DocsComponent[] = [
     i18n: 'components.number-input',
     category: 'forms',
   },
+  {
+    label: 'OverlayBranch',
+    to: '/components/overlay-branch',
+    i18n: 'components.overlay-branch',
+    category: 'overlays',
+  },
   { label: 'Page', to: '/components/page', i18n: 'components.page', category: 'shell' },
   {
     label: 'Pagination',

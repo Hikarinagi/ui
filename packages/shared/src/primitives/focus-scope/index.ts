@@ -1,3 +1,5 @@
+import { inBranch } from '../dismissable-layer'
+
 export const AUTOFOCUS_ON_MOUNT = 'focusScope.autoFocusOnMount'
 export const AUTOFOCUS_ON_UNMOUNT = 'focusScope.autoFocusOnUnmount'
 const EVENT_OPTIONS = { bubbles: false, cancelable: true }
@@ -118,21 +120,21 @@ export function trapFocus(container: HTMLElement, scope: FocusScopeAPI) {
     if (scope.paused) return
     const target = event.target as HTMLElement | null
     if (container.contains(target)) lastFocused = target
-    else focus(lastFocused, { select: true })
+    else if (!inBranch(target)) focus(lastFocused, { select: true })
   }
 
   const handleFocusOut = (event: FocusEvent) => {
     if (scope.paused) return
     const related = event.relatedTarget as HTMLElement | null
     if (related === null) return
-    if (!container.contains(related)) focus(lastFocused, { select: true })
+    if (!container.contains(related) && !inBranch(related)) focus(lastFocused, { select: true })
   }
 
   const handleMutations = (mutations: MutationRecord[]) => {
     if (lastFocused === null) return
     if (!mutations.some(mutation => mutation.removedNodes.length > 0)) return
     const active = getActiveElement()
-    if (active && container.contains(active)) return
+    if (active && (container.contains(active) || inBranch(active))) return
     if (!container.contains(lastFocused)) focus(container)
   }
 

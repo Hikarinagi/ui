@@ -19,7 +19,6 @@ import {
   type Ref,
   type RefObject,
 } from 'react'
-import { hideOthers } from 'aria-hidden'
 import { Primitive, type PrimitiveProps } from '../../lib/primitive'
 import { usePortalContainer } from '../../lib/config'
 import { useBodyScrollLock } from '../body-scroll-lock'
@@ -66,6 +65,7 @@ import {
 
 export type { FocusOutsideEvent, PointerDownOutsideEvent } from '../utils/dismissable'
 export type { CheckedState, Direction } from './utils'
+import { hideOutside } from '../../../../shared/src/primitives/dialog'
 import { DismissableLayer } from '../dismissable-layer'
 import { FocusScope } from '../focus-scope'
 import { Portal as HnPortal } from '../portal'
@@ -366,12 +366,7 @@ export function MenuContent({ forceMount, ...props }: MenuContentProps) {
 function useHideOthers(element: HTMLElement | null) {
   useEffect(() => {
     if (!element) return
-    let isInsideClosedPopover = false
-    try {
-      isInsideClosedPopover = !!element.closest('[popover]:not(:popover-open)')
-    } catch {}
-    if (isInsideClosedPopover) return
-    return hideOthers(element)
+    return hideOutside(element)
   }, [element])
 }
 

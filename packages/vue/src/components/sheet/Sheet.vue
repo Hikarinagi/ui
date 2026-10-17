@@ -1,5 +1,9 @@
 <script setup lang="ts">
   import { computed } from 'vue'
+  import type {
+    FocusOutsideEvent,
+    PointerDownOutsideEvent,
+  } from '../../primitives/dismissable-layer'
   import {
     DialogClose,
     DialogContent,
@@ -71,6 +75,15 @@
     if (locked.value) event.preventDefault()
   }
 
+  const emit = defineEmits<{
+    interactOutside: [event: PointerDownOutsideEvent | FocusOutsideEvent]
+  }>()
+
+  function onInteractOutside(event: PointerDownOutsideEvent | FocusOutsideEvent) {
+    emit('interactOutside', event)
+    guard(event)
+  }
+
   function close() {
     open.value = false
   }
@@ -83,7 +96,7 @@
     </DialogTrigger>
     <DialogPortal v-if="present">
       <DialogOverlay class="hn-scrim" />
-      <DialogContent as-child @escape-key-down="guard" @interact-outside="guard">
+      <DialogContent as-child @escape-key-down="guard" @interact-outside="onInteractOutside">
         <Card
           ref="panel"
           v-bind="props.description ? {} : { 'aria-describedby': undefined }"

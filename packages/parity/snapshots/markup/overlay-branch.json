@@ -1,0 +1,22 @@
+{
+  "OverlayBranch renders a div": [
+    "<div id=\"guide\" class=\"fixed\">",
+    "  <!--[-->",
+    "  <!--[-->",
+    "  \"Guide\"",
+    "  <!--]-->",
+    "  <!--]-->"
+  ],
+  "OverlayBranch as a section": [
+    "<section>",
+    "  <!--[-->",
+    "  <!--[-->",
+    "  \"Guide\"",
+    "  <!--]-->",
+    "  <!--]-->"
+  ],
+  "OverlayBranch asChild renders the child only": [
+    "<aside id=\"guide\">",
+    "  \"Guide\""
+  ]
+}

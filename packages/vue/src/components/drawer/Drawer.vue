@@ -1,5 +1,9 @@
 <script setup lang="ts">
   import { computed } from 'vue'
+  import type {
+    FocusOutsideEvent,
+    PointerDownOutsideEvent,
+  } from '../../primitives/dismissable-layer'
   import {
     DialogRoot,
     DialogTrigger,
@@ -53,6 +57,15 @@
     if (locked.value) e.preventDefault()
   }
 
+  const emit = defineEmits<{
+    interactOutside: [event: PointerDownOutsideEvent | FocusOutsideEvent]
+  }>()
+
+  function onInteractOutside(event: PointerDownOutsideEvent | FocusOutsideEvent) {
+    emit('interactOutside', event)
+    guard(event)
+  }
+
   const { scrollArea, viewport } = useScrollViewport()
   defineExpose({ viewport })
 
@@ -71,7 +84,7 @@
     </DialogTrigger>
     <DialogPortal v-if="present">
       <DialogOverlay class="hn-scrim" />
-      <DialogContent as-child @escape-key-down="guard" @interact-outside="guard">
+      <DialogContent as-child @escape-key-down="guard" @interact-outside="onInteractOutside">
         <Card
           ref="content"
           v-bind="props.description ? {} : { 'aria-describedby': undefined }"

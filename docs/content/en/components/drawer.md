@@ -179,6 +179,7 @@ With `locked`, neither Escape nor a click on the scrim closes the drawer, and an
 - Overlays stack in opening order, with the latest above earlier overlays, regardless of component mount order. Closing preserves the full exit animation before removing the overlay.
 - The page is locked from scrolling while the drawer is open, focus is trapped inside the panel, and it returns to the trigger on close.
 - Escape or a click on the scrim closes the drawer; `locked` disables both.
+- A press on the scrim or focus moving outside fires `interactOutside` first; calling `preventDefault()` keeps it open. Content inside an [OverlayBranch](/components/overlay-branch) does not count as outside.
 - The default body uses [ScrollArea](/components/scroll-area); a `body` slot controls its own scrolling.
 
 :::
@@ -188,6 +189,7 @@ With `locked`, neither Escape nor a click on the scrim closes the drawer, and an
 - Overlays stack in opening order, with the latest above earlier overlays, regardless of component mount order. Closing preserves the full exit animation before removing the overlay.
 - The page is locked from scrolling while the drawer is open, focus is trapped inside the panel, and it returns to the trigger on close.
 - Escape or a click on the scrim closes the drawer; `locked` disables both.
+- A press on the scrim or focus moving outside fires `interactOutside` first; calling `preventDefault()` keeps it open. Content inside an [OverlayBranch](/components/overlay-branch) does not count as outside.
 - The default body uses [ScrollArea](/components/scroll-area); content from `renderBody` controls its own scrolling.
 
 :::
@@ -236,6 +238,10 @@ With `locked`, neither Escape nor a click on the scrim closes the drawer, and an
 | `footer`  | `{ close, submitting }` | Actions along the bottom                                                 |
 
 `close` closes the drawer; `submitting` is `true` while a [Form](/components/form) inside the drawer is submitting.
+
+| Event             | Payload                                        | Description                                                         |
+| ----------------- | ---------------------------------------------- | ------------------------------------------------------------------- |
+| `interactOutside` | `PointerDownOutsideEvent \| FocusOutsideEvent` | Fires on a press or focus outside; `preventDefault()` keeps it open |
 
 ### Exposed instance {#expose}
 
