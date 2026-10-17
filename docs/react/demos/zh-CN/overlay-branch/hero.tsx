@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Button, Card, Drawer, OverlayBranch, Text } from '@hina-ui/react'
 
 export default function Demo() {
@@ -21,18 +22,20 @@ export default function Demo() {
           打开抽屉
         </Button>
       </Drawer>
-      {open && (
-        <OverlayBranch className="fixed start-4 bottom-4 z-[calc(var(--hn-z-overlay)+1)] w-56">
-          <Card className="flex flex-col gap-2 p-3 shadow-lg">
-            <Text size="sm" tone="muted">
-              外部图层
-            </Text>
-            <Button size="sm" onClick={() => setCount(value => value + 1)}>
-              已点击 {count} 次
-            </Button>
-          </Card>
-        </OverlayBranch>
-      )}
+      {open &&
+        createPortal(
+          <OverlayBranch className="fixed start-4 bottom-4 z-[calc(var(--hn-z-overlay)+1)] w-56">
+            <Card className="flex flex-col gap-2 p-3 shadow-lg">
+              <Text size="sm" tone="muted">
+                外部图层
+              </Text>
+              <Button size="sm" onClick={() => setCount(value => value + 1)}>
+                已点击 {count} 次
+              </Button>
+            </Card>
+          </OverlayBranch>,
+          document.body,
+        )}
     </>
   )
 }

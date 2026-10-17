@@ -13,10 +13,12 @@
       <Text tone="muted">左下角的卡片在抽屉外面。点它的按钮，抽屉保持打开。</Text>
     </template>
   </Drawer>
-  <OverlayBranch v-if="open" class="fixed start-4 bottom-4 z-[calc(var(--hn-z-overlay)+1)] w-56">
-    <Card class="flex flex-col gap-2 p-3 shadow-lg">
-      <Text size="sm" tone="muted">外部图层</Text>
-      <Button size="sm" @click="count++">已点击 {{ count }} 次</Button>
-    </Card>
-  </OverlayBranch>
+  <Teleport to="body">
+    <OverlayBranch v-if="open" class="fixed start-4 bottom-4 z-[calc(var(--hn-z-overlay)+1)] w-56">
+      <Card class="flex flex-col gap-2 p-3 shadow-lg">
+        <Text size="sm" tone="muted">外部图层</Text>
+        <Button size="sm" @click="count++">已点击 {{ count }} 次</Button>
+      </Card>
+    </OverlayBranch>
+  </Teleport>
 </template>

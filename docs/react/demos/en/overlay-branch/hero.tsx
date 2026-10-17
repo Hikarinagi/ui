@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Button, Card, Drawer, OverlayBranch, Text } from '@hina-ui/react'
 
 export default function Demo() {
@@ -24,18 +25,20 @@ export default function Demo() {
           Open drawer
         </Button>
       </Drawer>
-      {open && (
-        <OverlayBranch className="fixed start-4 bottom-4 z-[calc(var(--hn-z-overlay)+1)] w-56">
-          <Card className="flex flex-col gap-2 p-3 shadow-lg">
-            <Text size="sm" tone="muted">
-              Outside layer
-            </Text>
-            <Button size="sm" onClick={() => setCount(value => value + 1)}>
-              Clicked {count} times
-            </Button>
-          </Card>
-        </OverlayBranch>
-      )}
+      {open &&
+        createPortal(
+          <OverlayBranch className="fixed start-4 bottom-4 z-[calc(var(--hn-z-overlay)+1)] w-56">
+            <Card className="flex flex-col gap-2 p-3 shadow-lg">
+              <Text size="sm" tone="muted">
+                Outside layer
+              </Text>
+              <Button size="sm" onClick={() => setCount(value => value + 1)}>
+                Clicked {count} times
+              </Button>
+            </Card>
+          </OverlayBranch>,
+          document.body,
+        )}
     </>
   )
 }

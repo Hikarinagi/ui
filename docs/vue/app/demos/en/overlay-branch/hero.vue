@@ -16,10 +16,12 @@
       </Text>
     </template>
   </Drawer>
-  <OverlayBranch v-if="open" class="fixed start-4 bottom-4 z-[calc(var(--hn-z-overlay)+1)] w-56">
-    <Card class="flex flex-col gap-2 p-3 shadow-lg">
-      <Text size="sm" tone="muted">Outside layer</Text>
-      <Button size="sm" @click="count++">Clicked {{ count }} times</Button>
-    </Card>
-  </OverlayBranch>
+  <Teleport to="body">
+    <OverlayBranch v-if="open" class="fixed start-4 bottom-4 z-[calc(var(--hn-z-overlay)+1)] w-56">
+      <Card class="flex flex-col gap-2 p-3 shadow-lg">
+        <Text size="sm" tone="muted">Outside layer</Text>
+        <Button size="sm" @click="count++">Clicked {{ count }} times</Button>
+      </Card>
+    </OverlayBranch>
+  </Teleport>
 </template>
