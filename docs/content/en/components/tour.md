@@ -53,7 +53,7 @@ The `content` slot replaces the description and the `footer` slot replaces the p
 - Left and right arrows move to the previous and next step, swapped in RTL. Escape skips the tour and emits `skip`. Clicking the mask does not close the tour.
 - The button of the last step reads Done; clicking it emits `finish` and closes the tour.
 - When a step becomes active, a target outside the viewport is scrolled to the centre; `scroll: false` turns this off. The mask and the card follow the target when it moves, resizes or the page scrolls.
-- The highlight opens from the centre of its target, slides to the next target between steps and closes in place before a step without a target.
+- The highlight opens from the centre of its target, slides to the next target between steps and closes in place onto the centre of its target before a step without a target. Opening, sliding and closing each take 300ms.
 - Page scrolling stays enabled, and the tour renders nothing on the server.
 
 :::
@@ -65,7 +65,7 @@ The `content` slot replaces the description and the `footer` slot replaces the p
 - Left and right arrows move to the previous and next step, swapped in RTL. Escape skips the tour and calls `onSkip`. Clicking the mask does not close the tour.
 - The button of the last step reads Done; clicking it calls `onFinish` and closes the tour.
 - When a step becomes active, a target outside the viewport is scrolled to the centre; `scroll: false` turns this off. The mask and the card follow the target when it moves, resizes or the page scrolls.
-- The highlight opens from the centre of its target, slides to the next target between steps and closes in place before a step without a target.
+- The highlight opens from the centre of its target, slides to the next target between steps and closes in place onto the centre of its target before a step without a target. Opening, sliding and closing each take 300ms.
 - Page scrolling stays enabled, and the tour renders nothing on the server.
 
 :::

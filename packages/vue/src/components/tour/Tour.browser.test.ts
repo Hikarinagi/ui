@@ -188,6 +188,13 @@ describe('Tour', () => {
     await userEvent.click(action('next'))
     await vi.waitFor(() => expect(seen).toEqual(['hn-tour-hole-out']))
     expect(mask()!.getAttribute('data-hn-tour-hole')).toBe('hidden')
+    const closing = mask()!
+      .getAnimations()
+      .find(animation => (animation as CSSAnimation).animationName === 'hn-tour-hole-out')!
+    expect(closing.effect!.getComputedTiming().duration).toBe(300)
+    expect((closing.effect as KeyframeEffect).getKeyframes()[0]!.easing).toBe(
+      'cubic-bezier(0.4, 0, 0.2, 1)',
+    )
     await new Promise(resolve => setTimeout(resolve, 50))
     expect(seen).toEqual(['hn-tour-hole-out'])
   })
