@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 import { userEvent } from 'vitest/browser'
 import { Button } from './Button'
+import { Text } from '../text/Text'
 import { mount } from '../../../test/mount'
 import '../../../test/browser.css'
 
@@ -90,6 +91,23 @@ describe('尺寸', () => {
     )
     const box = w.element.getBoundingClientRect()
     expect([box.width, box.height]).toEqual([24, 24])
+  })
+
+  it('宽度受限时插槽里的 Text truncate 在按钮内截断', async () => {
+    const w = await mount(
+      <div style={{ display: 'flex', width: 160 }}>
+        <Button variant="ghost" className="max-w-full">
+          <Text truncate>{'很长的标题'.repeat(8)}</Text>
+        </Button>
+      </div>,
+    )
+    const button = w.element.querySelector('button')!.getBoundingClientRect()
+    const text = w.element.querySelector('p')!
+    const box = text.getBoundingClientRect()
+    expect(button.width).toBe(160)
+    expect(text.scrollWidth).toBeGreaterThan(text.clientWidth)
+    expect(box.left).toBeGreaterThanOrEqual(button.left)
+    expect(box.right).toBeLessThanOrEqual(button.right)
   })
 })
 

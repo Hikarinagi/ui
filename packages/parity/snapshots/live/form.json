@@ -51,7 +51,7 @@
     "      <div aria-hidden=\"true\" class=\"hn-ripple\">",
     "        <div class=\"hn-ripple-surface\">",
     "      <!--v-if-->",
-    "      <span class=\"hn-transition inline-flex items-center gap-[var(--hn-control-gap)] opacity-100\">",
+    "      <span class=\"hn-transition inline-flex min-w-0 items-center gap-[var(--hn-control-gap)] opacity-100\">",
     "        \"保存\"",
     "      <!--v-if-->",
     "      <!--v-if-->"
@@ -108,7 +108,7 @@
     "      <div aria-hidden=\"true\" class=\"hn-ripple\">",
     "        <div class=\"hn-ripple-surface\">",
     "      <!--v-if-->",
-    "      <span class=\"hn-transition inline-flex items-center gap-[var(--hn-control-gap)] opacity-100\">",
+    "      <span class=\"hn-transition inline-flex min-w-0 items-center gap-[var(--hn-control-gap)] opacity-100\">",
     "        \"保存\"",
     "      <!--v-if-->",
     "      <!--v-if-->"
@@ -162,7 +162,7 @@
     "      <div aria-hidden=\"true\" class=\"hn-ripple\">",
     "        <div class=\"hn-ripple-surface\">",
     "      <!--v-if-->",
-    "      <span class=\"hn-transition inline-flex items-center gap-[var(--hn-control-gap)] opacity-100\">",
+    "      <span class=\"hn-transition inline-flex min-w-0 items-center gap-[var(--hn-control-gap)] opacity-100\">",
     "        \"保存\"",
     "      <!--v-if-->",
     "      <!--v-if-->"
