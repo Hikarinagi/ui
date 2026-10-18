@@ -18,7 +18,7 @@ const options = [
 const items = (w: ReturnType<typeof mount>) => w.findAll('button')
 
 describe('结构', () => {
-  it('根是 role=group 承接 attrs；每项是带 aria-pressed 的按钮；未绑定值时选中第一个可用项', async () => {
+  it('role=group 承接 attrs，外层滚动容器承接类名；每项是带 aria-pressed 的按钮；未绑定值时选中第一个可用项', async () => {
     const w = mount(SegmentedControl, {
       props: { options, class: 'w-64' },
       attrs: { 'aria-label': '连载状态' },
@@ -27,7 +27,10 @@ describe('结构', () => {
     const root = w.find('[data-hn-segmented-control]')
     expect(root.attributes('role')).toBe('group')
     expect(root.attributes('aria-label')).toBe('连载状态')
-    expect(root.classes()).toContain('w-64')
+    expect(root.classes()).not.toContain('w-64')
+    expect(w.element.contains(root.element)).toBe(true)
+    expect(w.classes()).toContain('w-64')
+    expect(w.attributes('aria-label')).toBeUndefined()
     expect(items(w).map(item => item.text())).toEqual(['全部', '连载中', '已完结'])
     expect(items(w).map(item => item.attributes('aria-pressed'))).toEqual([
       'true',

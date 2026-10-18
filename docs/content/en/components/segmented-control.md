@@ -16,7 +16,7 @@ links:
 import { SegmentedControl } from '@hina-ui/vue'
 ```
 
-A segmented control lays a few peer options in a row; exactly one is selected at any time, and a sliding thumb marks it. `options` uses the types defined by [Select](/components/select#types), `v-model` binds the selected value, and with no bound value the first enabled option is selected. Attributes it does not declare land on the root, so name the group with `aria-label` or `aria-labelledby`.
+A segmented control lays a few peer options in a row; exactly one is selected at any time, and a sliding thumb marks it. `options` uses the types defined by [Select](/components/select#types), `v-model` binds the selected value, and with no bound value the first enabled option is selected. Attributes it does not declare land on the `role="group"` element, so name the group with `aria-label` or `aria-labelledby`; `class` is appended to the outer scroll container.
 
 <Demo name="segmented-control/basic" />
 
@@ -44,6 +44,12 @@ The complete option type is inferred from `options`. Slot parameters preserve ad
 
 <Demo name="segmented-control/block" />
 
+### When there are too many options {#overflow}
+
+Once the options overflow their container the row scrolls sideways without showing a scrollbar: edge shadows indicate the scroll position, the mouse wheel scrolls the row directly, and an item scrolls into view when the arrow keys move focus to it. With `block`, items that do not fit keep their content width. A vertical control scrolls up and down instead and stays within the height of its parent.
+
+<Demo name="segmented-control/overflow" />
+
 ### Vertical {#vertical}
 
 `orientation="vertical"` stacks the items; the thumb moves up and down.
@@ -70,7 +76,7 @@ Inside a [FormField](/components/form-field) the label is linked to the whole gr
 
 ## Accessibility {#a11y}
 
-- The root is `role="group"`; every item is a button with `aria-pressed`.
+- The group is a `role="group"` element; every item is a button with `aria-pressed`.
 - Name the group with `aria-label` or `aria-labelledby`. With the `#option` slot, every item is named by its `label`.
 
 ## API {#api}
@@ -87,7 +93,7 @@ Inside a [FormField](/components/form-field) the label is linked to the whole gr
 | `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'`             | Layout direction                                  |
 | `block`       | `boolean`                    | `false`                    | Whether to fill the parent width                  |
 | `disabled`    | `boolean`                    | `false`                    | Whether the whole group is disabled               |
-| `class`       | `string`                     | —                          | Classes appended to the root element              |
+| `class`       | `string`                     | —                          | Classes appended to the outer scroll container    |
 
 ### Slots {#slots}
 

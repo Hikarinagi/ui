@@ -27,12 +27,14 @@ function mount(ui: ReactNode) {
 }
 
 describe('结构', () => {
-  it('根是 role=group 承接 attrs；每项是带 aria-pressed 的按钮；未绑定值时选中第一个可用项', async () => {
+  it('role=group 承接 attrs，外层滚动容器承接类名；每项是带 aria-pressed 的按钮；未绑定值时选中第一个可用项', async () => {
     const w = mount(<SegmentedControl options={options} className="w-64" aria-label="连载状态" />)
     const root = w.find('[data-hn-segmented-control]')
     expect(root.getAttribute('role')).toBe('group')
     expect(root.getAttribute('aria-label')).toBe('连载状态')
-    expect([...root.classList]).toContain('w-64')
+    expect([...root.classList]).not.toContain('w-64')
+    expect(w.element.contains(root)).toBe(true)
+    expect([...w.element.classList]).toContain('w-64')
     expect(w.items().map(item => item.textContent?.trim())).toEqual(['全部', '连载中', '已完结'])
     expect(w.items().map(item => item.getAttribute('aria-pressed'))).toEqual([
       'true',
