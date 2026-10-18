@@ -1,5 +1,15 @@
 # @hina-ui/react
 
+## [1.7.15](https://github.com/Hikarinagi/ui/compare/@hina-ui/react@1.7.14...@hina-ui/react@1.7.15) (2026-10-18)
+
+### Changed
+
+- **SegmentedControl** The control now sits in a scroll container that draws the background and takes class (className in React); the other attributes still land on the role="group" element.
+
+### Fixed
+
+- **SegmentedControl** Options that do not fit the container now scroll sideways like Tabs: no scrollbar, edge shadows mark the scroll position, the mouse wheel scrolls the row and an option reached with the arrow keys scrolls into view. A vertical control scrolls up and down within the height of its parent. They used to overflow the container.
+
 ## [1.7.14](https://github.com/Hikarinagi/ui/compare/@hina-ui/react@1.7.13...@hina-ui/react@1.7.14) (2026-10-17)
 
 ### Added
