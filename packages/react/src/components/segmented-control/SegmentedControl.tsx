@@ -10,10 +10,12 @@ import {
 import { useFieldControl } from '../form-field/context'
 import { Highlight } from '../highlight/Highlight'
 import { Ripple } from '../ripple/Ripple'
+import { ScrollArea } from '../scroll-area/ScrollArea'
 import type { SelectOption } from '../select/types'
 import {
   segmentedControl,
   segmentedItem,
+  segmentedScroll,
   segmentedThumb,
   type SegmentedControlVariants,
   type SegmentedItemVariants,
@@ -67,38 +69,44 @@ export function SegmentedControl<T extends SelectOption = SelectOption>({
   }
 
   return (
-    <ToggleGroupRoot
-      type="single"
-      value={current}
-      disabled={disabled}
-      aria-labelledby={labelledBy}
-      aria-describedby={describedBy}
-      orientation={orientation}
-      data-hn-segmented-control=""
-      data-disabled={disabled ? '' : undefined}
-      onValueChange={select}
-      {...attrs}
-      className={cn(segmentedControl({ orientation, block }), className)}
+    <ScrollArea
+      direction={orientation}
+      scrollbar={false}
+      className={cn(segmentedScroll({ orientation, block, disabled }), className)}
     >
-      {options.map(option => (
-        <ToggleGroupItem
-          key={option.value}
-          value={option.value}
-          disabled={option.disabled}
-          aria-label={renderOption ? option.label : undefined}
-          className={segmentedItem({ size, block })}
-        >
-          {option.value === current && (
-            <Highlight
-              id={highlightId}
-              axis={orientation === 'vertical' ? 'y' : 'x'}
-              className={segmentedThumb()}
-            />
-          )}
-          <Ripple />
-          {renderOption ? renderOption({ option }) : option.label}
-        </ToggleGroupItem>
-      ))}
-    </ToggleGroupRoot>
+      <ToggleGroupRoot
+        type="single"
+        value={current}
+        disabled={disabled}
+        aria-labelledby={labelledBy}
+        aria-describedby={describedBy}
+        orientation={orientation}
+        data-hn-segmented-control=""
+        data-disabled={disabled ? '' : undefined}
+        onValueChange={select}
+        {...attrs}
+        className={segmentedControl({ orientation, block })}
+      >
+        {options.map(option => (
+          <ToggleGroupItem
+            key={option.value}
+            value={option.value}
+            disabled={option.disabled}
+            aria-label={renderOption ? option.label : undefined}
+            className={segmentedItem({ size, block })}
+          >
+            {option.value === current && (
+              <Highlight
+                id={highlightId}
+                axis={orientation === 'vertical' ? 'y' : 'x'}
+                className={segmentedThumb()}
+              />
+            )}
+            <Ripple />
+            {renderOption ? renderOption({ option }) : option.label}
+          </ToggleGroupItem>
+        ))}
+      </ToggleGroupRoot>
+    </ScrollArea>
   )
 }

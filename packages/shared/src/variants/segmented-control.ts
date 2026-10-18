@@ -1,18 +1,33 @@
 import { tv, type VariantProps } from '../lib/tv'
 
+export const segmentedScroll = tv({
+  base: 'bg-inset max-w-full rounded-md select-none',
+  variants: {
+    orientation: {
+      horizontal: '',
+      vertical: 'max-h-full',
+    },
+    block: {
+      true: 'w-full',
+      false: 'inline-grid w-fit',
+    },
+    disabled: {
+      true: 'cursor-not-allowed opacity-50',
+    },
+  },
+  defaultVariants: { orientation: 'horizontal', block: false },
+})
+
 export const segmentedControl = tv({
-  base: [
-    'group/hn-segmented bg-inset relative isolate max-w-full rounded-md p-1 select-none',
-    'data-disabled:cursor-not-allowed data-disabled:opacity-50',
-  ],
+  base: 'group/hn-segmented relative isolate flex p-1',
   variants: {
     orientation: {
       horizontal: 'flex-row',
       vertical: 'flex-col',
     },
     block: {
-      true: 'flex w-full',
-      false: 'inline-flex w-fit',
+      true: 'w-full min-w-fit',
+      false: 'w-fit',
     },
   },
   defaultVariants: { orientation: 'horizontal', block: false },

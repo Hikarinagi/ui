@@ -16,7 +16,7 @@ links:
 import { SegmentedControl } from '@hina-ui/vue'
 ```
 
-分段控制器把几个并列的选项排成一行，任何时刻恰有一项被选中，选中项由一块滑块标示。`options` 的类型见 [Select](/components/select#types)，`v-model` 绑定选中项的值；未绑定值时默认选中第一个可用项。未声明的属性都会传给根元素，请用 `aria-label` 或者 `aria-labelledby` 为整组命名。
+分段控制器把几个并列的选项排成一行，任何时刻恰有一项被选中，选中项由一块滑块标示。`options` 的类型见 [Select](/components/select#types)，`v-model` 绑定选中项的值；未绑定值时默认选中第一个可用项。未声明的属性都会传给 `role="group"` 的元素，请用 `aria-label` 或者 `aria-labelledby` 为整组命名；`class` 追加到外层的滚动容器上。
 
 <Demo name="segmented-control/basic" />
 
@@ -44,6 +44,12 @@ import { SegmentedControl } from '@hina-ui/vue'
 
 <Demo name="segmented-control/block" />
 
+### 选项过多时 {#overflow}
+
+选项超出容器宽度时，整行可以横向滚动，并且不显示滚动条：滚动位置由两端的边缘阴影提示，鼠标可直接在该行上滚动滚轮，方向键把焦点移到视野外的项时该项滚入视野。`block` 放不下时各项保持内容宽度。竖排时改为纵向滚动，高度不超过父元素。
+
+<Demo name="segmented-control/overflow" />
+
 ### 竖排 {#vertical}
 
 `orientation="vertical"` 把各项竖向排列，滑块随之上下移动。
@@ -70,7 +76,7 @@ import { SegmentedControl } from '@hina-ui/vue'
 
 ## 无障碍 {#a11y}
 
-- 根元素是 `role="group"`，每一项是带 `aria-pressed` 的按钮。
+- 整组是 `role="group"` 的元素，每一项是带 `aria-pressed` 的按钮。
 - 整组通过 `aria-label` 或者 `aria-labelledby` 命名；使用 `#option` 插槽时，每一项以 `label` 命名。
 
 ## API {#api}
@@ -87,7 +93,7 @@ import { SegmentedControl } from '@hina-ui/vue'
 | `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'`   | 排列方向                                        |
 | `block`       | `boolean`                    | `false`          | 是否占满父元素宽度                              |
 | `disabled`    | `boolean`                    | `false`          | 是否禁用整组                                    |
-| `class`       | `string`                     | —                | 追加至根元素的类名                              |
+| `class`       | `string`                     | —                | 追加至外层滚动容器的类名                        |
 
 ### 插槽 {#slots}
 

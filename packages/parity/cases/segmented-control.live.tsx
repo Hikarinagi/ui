@@ -10,7 +10,15 @@ async function idle() {
   let stable = 0
   await vi.waitFor(
     () => {
-      const running = document.getAnimations().filter(a => a.playState === 'running')
+      const running = document
+        .getAnimations()
+        .filter(
+          a =>
+            a.playState === 'running' &&
+            !((a.effect as KeyframeEffect | null)?.target as Element | null)?.closest(
+              '.os-scrollbar',
+            ),
+        )
       if (running.length || document.querySelector('[data-pressed]')) throw new Error('busy')
       const highlight = document.querySelector<HTMLElement>('[data-hn-highlight]')
       const key = highlight
