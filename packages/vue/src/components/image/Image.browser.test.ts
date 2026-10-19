@@ -341,7 +341,7 @@ describe('image · ThumbHash', () => {
     })
   }
 
-  async function pixel(element: HTMLElement) {
+  async function capture(element: HTMLElement) {
     const base64 = await page.screenshot({ element, save: false })
     const picture = new window.Image()
     picture.src = `data:image/png;base64,${base64}`
@@ -351,7 +351,39 @@ describe('image · ThumbHash', () => {
     canvas.height = picture.height
     const context = canvas.getContext('2d')!
     context.drawImage(picture, 0, 0)
-    return [...context.getImageData(picture.width >> 1, picture.height >> 1, 1, 1).data.slice(0, 3)]
+    return context.getImageData(0, 0, picture.width, picture.height)
+  }
+
+  async function pixel(element: HTMLElement) {
+    const { data, width, height } = await capture(element)
+    const at = ((height >> 1) * width + (width >> 1)) * 4
+    return [...data.slice(at, at + 3)]
+  }
+
+  const BLACK = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><rect width="8" height="8"/></svg>')}`
+
+  function blackHash(width: number, height: number) {
+    const rgba = Uint8Array.from({ length: width * height * 4 }, (_, i) => (i % 4 === 3 ? 255 : 0))
+    return btoa(String.fromCharCode(...rgbaToThumbHash(width, height, rgba)))
+  }
+
+  function edgeGlow({ data, width, height }: ImageData) {
+    const red = (x: number, y: number) => data[(y * width + x) * 4]!
+    const inner = red(width >> 1, height >> 1)
+    const median = (values: number[]) => values.sort((a, b) => a - b)[values.length >> 1]!
+    const column = (x: number) =>
+      median(Array.from({ length: height >> 1 }, (_, y) => red(x, y + (height >> 2))))
+    const row = (y: number) =>
+      median(Array.from({ length: width >> 1 }, (_, x) => red(x + (width >> 2), y)))
+    return {
+      inner,
+      sides: {
+        left: Math.max(column(2), column(3)) - inner,
+        right: Math.max(column(width - 3), column(width - 4)) - inner,
+        top: Math.max(row(2), row(3)) - inner,
+        bottom: Math.max(row(height - 3), row(height - 4)) - inner,
+      },
+    }
   }
 
   it.each([
@@ -431,6 +463,42 @@ describe('image · ThumbHash', () => {
     expect(red).toBeGreaterThan(60)
     expect(green).toBeGreaterThan(20)
   })
+
+  it.each([
+    [23, 32, 262, 393],
+    [23, 32, 300, 300],
+    [23, 32, 400, 200],
+    [32, 18, 200, 400],
+    [32, 18, 169, 226],
+    [32, 18, 400, 189],
+  ])(
+    '%ix%i 的缩略图放大铺进 %ix%i 的外框,交叉淡化进行中四边和中间一样不透出背景',
+    async (hashWidth, hashHeight, width, height) => {
+      const animate = vi.spyOn(Element.prototype, 'animate')
+      const w = mountImage({
+        src: BLACK,
+        thumbhash: blackHash(hashWidth, hashHeight),
+        style: {
+          width: `${width}px`,
+          height: `${height}px`,
+          background: '#fff',
+          '--hn-duration-slow': '20s',
+        },
+      })
+      const img = w.find('img').element as HTMLImageElement
+      const layer = layerOf(w.element)!
+      const { fade } = await crossfade(img, layer, animate)
+      await fade.ready
+      await new Promise<void>(resolve =>
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+      )
+      const { inner, sides } = edgeGlow(await capture(w.element as HTMLElement))
+      expect(fade.playState).toBe('running')
+      expect(layerOf(w.element)).toBe(layer)
+      expect(inner).toBeLessThan(40)
+      expect(Object.entries(sides).filter(([, glow]) => glow >= 16)).toEqual([])
+    },
+  )
 
   it('lazy 为假时图片直接可见,加载后缩略图以同样的时长与曲线淡出', async () => {
     const animate = vi.spyOn(Element.prototype, 'animate')
