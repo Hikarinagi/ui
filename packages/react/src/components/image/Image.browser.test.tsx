@@ -332,7 +332,7 @@ describe('image · ThumbHash', () => {
     })
   }
 
-  async function pixel(element: HTMLElement) {
+  async function capture(element: HTMLElement) {
     const base64 = await page.screenshot({ element, save: false })
     const picture = new window.Image()
     picture.src = `data:image/png;base64,${base64}`
@@ -342,7 +342,39 @@ describe('image · ThumbHash', () => {
     canvas.height = picture.height
     const context = canvas.getContext('2d')!
     context.drawImage(picture, 0, 0)
-    return [...context.getImageData(picture.width >> 1, picture.height >> 1, 1, 1).data.slice(0, 3)]
+    return context.getImageData(0, 0, picture.width, picture.height)
+  }
+
+  async function pixel(element: HTMLElement) {
+    const { data, width, height } = await capture(element)
+    const at = ((height >> 1) * width + (width >> 1)) * 4
+    return [...data.slice(at, at + 3)]
+  }
+
+  const BLACK = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><rect width="8" height="8"/></svg>')}`
+
+  function blackHash(width: number, height: number) {
+    const rgba = Uint8Array.from({ length: width * height * 4 }, (_, i) => (i % 4 === 3 ? 255 : 0))
+    return btoa(String.fromCharCode(...rgbaToThumbHash(width, height, rgba)))
+  }
+
+  function edgeGlow({ data, width, height }: ImageData) {
+    const red = (x: number, y: number) => data[(y * width + x) * 4]!
+    const inner = red(width >> 1, height >> 1)
+    const median = (values: number[]) => values.sort((a, b) => a - b)[values.length >> 1]!
+    const column = (x: number) =>
+      median(Array.from({ length: height >> 1 }, (_, y) => red(x, y + (height >> 2))))
+    const row = (y: number) =>
+      median(Array.from({ length: width >> 1 }, (_, x) => red(x + (width >> 2), y)))
+    return {
+      inner,
+      sides: {
+        left: Math.max(column(2), column(3)) - inner,
+        right: Math.max(column(width - 3), column(width - 4)) - inner,
+        top: Math.max(row(2), row(3)) - inner,
+        bottom: Math.max(row(height - 3), row(height - 4)) - inner,
+      },
+    }
   }
 
   it.each([
@@ -422,6 +454,205 @@ describe('image · ThumbHash', () => {
     expect(red).toBeGreaterThan(60)
     expect(green).toBeGreaterThan(20)
   })
+
+  const afterFrames = () =>
+    new Promise<void>(resolve =>
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+    )
+
+  const svgOf = (width: number, height: number, body: string) =>
+    `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">${body}</svg>`)}`
+
+  function hashOf(width: number, height: number, color: (y: number) => number[]) {
+    const rgba = new Uint8Array(width * height * 4)
+    for (let i = 0; i < width * height; i++) rgba.set([...color(Math.floor(i / width)), 255], i * 4)
+    return btoa(String.fromCharCode(...rgbaToThumbHash(width, height, rgba)))
+  }
+
+  const red = () => [255, 0, 0]
+  const GRADIENT = svgOf(
+    100,
+    100,
+    '<defs><linearGradient id="g" x2="0" y2="1"><stop offset="0" stop-color="#f00"/><stop offset="1" stop-color="#00f"/></linearGradient></defs><rect width="100" height="100" fill="url(#g)"/>',
+  )
+  const GRADIENT_HASH = hashOf(100, 100, y => {
+    const k = (y + 0.5) / 100
+    return [Math.round(255 * (1 - k)), 0, Math.round(255 * k)]
+  })
+  const WIDE = svgOf(300, 100, '<rect width="300" height="100" fill="#f00"/>')
+  const WIDE_HASH = hashOf(96, 32, red)
+
+  function mismatch(before: ImageData, after: ImageData) {
+    let count = 0
+    for (let i = 0; i < before.data.length; i += 4) {
+      const diff = Math.max(
+        Math.abs(before.data[i]! - after.data[i]!),
+        Math.abs(before.data[i + 1]! - after.data[i + 1]!),
+        Math.abs(before.data[i + 2]! - after.data[i + 2]!),
+      )
+      if (diff > 48) count++
+    }
+    return count / (before.width * before.height)
+  }
+
+  function redBox({ data, width, height }: ImageData) {
+    let [left, top, right, bottom] = [width, height, -1, -1]
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        const i = (y * width + x) * 4
+        if (data[i]! < 128 || data[i + 1]! > 100 || data[i + 2]! > 100) continue
+        left = Math.min(left, x)
+        top = Math.min(top, y)
+        right = Math.max(right, x)
+        bottom = Math.max(bottom, y)
+      }
+    }
+    return [left, top, right, bottom]
+  }
+
+  it.each([
+    [23, 32, 262, 393],
+    [23, 32, 300, 300],
+    [23, 32, 400, 200],
+    [32, 18, 200, 400],
+    [32, 18, 169, 226],
+    [32, 18, 400, 189],
+  ])(
+    '%ix%i 的缩略图放大铺进 %ix%i 的外框,交叉淡化进行中四边和中间一样不透出背景',
+    async (hashWidth, hashHeight, width, height) => {
+      const animate = vi.spyOn(Element.prototype, 'animate')
+      const w = mountImage({
+        src: BLACK,
+        thumbhash: blackHash(hashWidth, hashHeight),
+        style: { width, height, background: '#fff', '--hn-duration-slow': '20s' } as CSSProperties,
+      })
+      const img = w.element.querySelector('img') as HTMLImageElement
+      const layer = layerOf(w.element)!
+      const { fade } = await crossfade(img, layer, animate)
+      await fade.ready
+      await new Promise<void>(resolve =>
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+      )
+      const { inner, sides } = edgeGlow(await capture(w.element))
+      expect(fade.playState).toBe('running')
+      expect(layerOf(w.element)).toBe(layer)
+      expect(inner).toBeLessThan(40)
+      expect(Object.entries(sides).filter(([, glow]) => glow >= 16)).toEqual([])
+    },
+  )
+
+  it.each([
+    [
+      'imageClass 改成 object-contain',
+      {
+        src: svgOf(160, 90, '<rect width="160" height="90" fill="#f00"/>'),
+        thumbhash: hashOf(100, 56, red),
+        imageClass: 'object-contain',
+      },
+      200,
+      200,
+    ],
+    [
+      'imageClass 贴顶',
+      { src: GRADIENT, thumbhash: GRADIENT_HASH, imageClass: 'object-top' },
+      200,
+      100,
+    ],
+    [
+      'imageStyle 贴顶',
+      { src: GRADIENT, thumbhash: GRADIENT_HASH, imageStyle: { objectPosition: 'top' } },
+      200,
+      100,
+    ],
+    [
+      'imageClass 加内边距',
+      {
+        src: svgOf(100, 100, '<rect width="100" height="100" fill="#f00"/>'),
+        thumbhash: hashOf(100, 100, red),
+        imageClass: 'p-4',
+      },
+      200,
+      200,
+    ],
+  ] as const)(
+    '缩略图跟随原图的摆放(%s),交叉淡化刚开始时就和原图对齐',
+    async (_, props, width, height) => {
+      const animate = vi.spyOn(Element.prototype, 'animate')
+      const w = mountImage({ ...props, style: { width, height, background: '#fff' } })
+      const img = w.element.querySelector('img') as HTMLImageElement
+      const { transition, fade } = await crossfade(img, layerOf(w.element)!, animate)
+      transition.pause()
+      fade.pause()
+      transition.currentTime = 45
+      fade.currentTime = 45
+      await afterFrames()
+      const start = await capture(w.element)
+      transition.finish()
+      fade.finish()
+      await vi.waitFor(() => expect(layerOf(w.element)).toBeNull())
+      await afterFrames()
+      expect(mismatch(start, await capture(w.element))).toBeLessThan(0.06)
+    },
+  )
+
+  it('原图的内边距和边框都算进缩略图的内缩', async () => {
+    const w = mountImage({
+      src: PIXEL,
+      thumbhash: HASH,
+      imageClass: 'border-4 p-2',
+      className: 'h-20 w-20',
+    })
+    const layer = layerOf(w.element)!
+    await vi.waitFor(() => expect(getComputedStyle(layer).padding).toBe('12px'))
+    expect(getComputedStyle(layer).backgroundOrigin).toBe('content-box')
+    expect(getComputedStyle(layer).backgroundClip).toBe('content-box')
+  })
+
+  it.each([
+    ['contain 居中', { fit: 'contain' }],
+    ['contain 贴左上', { fit: 'contain', imageClass: 'object-left-top' }],
+    ['contain 偏右下', { fit: 'contain', imageStyle: { objectPosition: 'right 10px bottom 5px' } }],
+    [
+      'scale-down',
+      { fit: 'scale-down', src: svgOf(120, 40, '<rect width="120" height="40" fill="#f00"/>') },
+    ],
+  ] as const)(
+    '%s:thumbhash 的宽高比只是近似,交叉淡化结束时缩略图正好落在原图上',
+    async (_, props) => {
+      const animate = vi.spyOn(Element.prototype, 'animate')
+      const w = mountImage({
+        src: WIDE,
+        thumbhash: WIDE_HASH,
+        ...props,
+        style: { width: 300, height: 300, background: '#fff' },
+      })
+      const img = w.element.querySelector('img') as HTMLImageElement
+      const { transition, fade } = await crossfade(img, layerOf(w.element)!, animate)
+      transition.pause()
+      fade.pause()
+      const effect = fade.effect as KeyframeEffect
+      effect.setKeyframes(
+        effect.getKeyframes().map(({ offset, transform }) => ({
+          offset,
+          ...(transform ? { transform } : {}),
+          opacity: 1,
+        })),
+      )
+      fade.currentTime = Number(effect.getComputedTiming().endTime)
+      img.style.visibility = 'hidden'
+      await afterFrames()
+      const thumb = redBox(await capture(w.element))
+      img.style.visibility = ''
+      transition.finish()
+      fade.finish()
+      await vi.waitFor(() => expect(layerOf(w.element)).toBeNull())
+      await afterFrames()
+      const picture = redBox(await capture(w.element))
+      expect(Math.max(...thumb.map((edge, i) => Math.abs(edge - picture[i]!)))).toBeLessThanOrEqual(
+        1,
+      )
+    },
+  )
 
   it('lazy 为假时图片直接可见,加载后缩略图以同样的时长与曲线淡出', async () => {
     const animate = vi.spyOn(Element.prototype, 'animate')

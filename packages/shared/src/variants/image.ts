@@ -43,7 +43,7 @@ export const imageFrame = tv({
 })
 
 export const imagePlaceholder = tv({
-  base: 'bg-center bg-no-repeat',
+  base: 'bg-fg/[0.4%] bg-center bg-no-repeat',
   variants: {
     fit: {
       cover: 'bg-cover',

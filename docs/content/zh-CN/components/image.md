@@ -126,7 +126,8 @@ ThumbHash 由 [thumbhash](https://www.npmjs.com/package/thumbhash) 包的 `rgbaT
 - 懒加载的图片在淡入开始前保持透明；关闭骨架后，图片仍然淡入。
 - 关闭 `lazy` 的图片位于骨架上层，浏览器完成绘制即可见，无需等待脚本；其下方的骨架直接移除，不做淡出。
 - 设置 `thumbhash` 后，加载期间显示还原出的缩略图而不是骨架，`skeleton` 与自定义骨架都不起作用。值无法解析时按未设置处理。
-- 缩略图按 `fit` 铺放：`cover` 与 `none` 铺满外框，`contain` 与 `scale-down` 完整显示在外框中央，`fill` 拉伸到外框大小。
+- 缩略图与图片摆放方式相同：读取图片计算后的 `object-fit`、`object-position`、内边距与边框，经 `imageClass` 或 `imageStyle` 修改这些属性时缩略图随之调整。`cover` 与 `none` 铺满，`contain` 与 `scale-down` 完整显示，`fill` 拉伸到外框大小。服务端渲染的 HTML 按 `fit` 铺放，脚本运行后改为跟随图片。
+- ThumbHash 只记录近似的宽高比。`contain` 与 `scale-down` 时，缩略图在交叉淡化过程中缩放到图片的实际范围，淡化结束时两者重合。
 - 缩略图随服务端渲染的 HTML 一同输出，脚本加载之前即可显示。
 - 懒加载的图片解码后与缩略图以 450ms 交叉淡化，两者使用同一条 ease-in-out 曲线，任一时刻不透明度之和为 1：过渡中不透出外框背景，透明图片周围露出的缩略图随图片淡入同步消失。
 - 交叉淡化只在图片与缩略图之间进行，外框的背景色不参与混合。

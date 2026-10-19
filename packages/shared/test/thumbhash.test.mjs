@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { thumbHashToDataURL } from 'thumbhash'
-import { thumbhashToDataUrl } from '../src/lib/thumbhash.ts'
+import { decodeThumbhash, thumbhashToDataUrl } from '../src/lib/thumbhash.ts'
 
 const hash = 'YMcJJIIhukWZenmwmHWb9Pc5nw=='
 
@@ -14,6 +14,13 @@ test('a base64 ThumbHash decodes to a PNG data URL', () => {
   const url = thumbhashToDataUrl(hash)
   assert.equal(url, thumbHashToDataURL(Buffer.from(hash, 'base64')))
   assert.deepEqual(size(url), [32, 18])
+})
+
+test('decoding also reports the size of the decoded image', () => {
+  assert.deepEqual(decodeThumbhash(hash), { url: thumbhashToDataUrl(hash), width: 32, height: 18 })
+  const { width, height, url } = decodeThumbhash('K2kGLQRRemhndpNMn6OolZmP9956')
+  assert.deepEqual([width, height], size(url))
+  assert.equal(decodeThumbhash('not a hash!'), null)
 })
 
 test('URL-safe base64, missing padding and surrounding spaces are accepted', () => {
