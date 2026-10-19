@@ -1,5 +1,12 @@
 # @hina-ui/react
 
+## [1.7.16](https://github.com/Hikarinagi/ui/compare/@hina-ui/react@1.7.15...@hina-ui/react@1.7.16) (2026-10-19)
+
+### Fixed
+
+- **Image** In Chromium-based browsers the thumbhash placeholder no longer leaves a see-through band along its right or bottom edge while it fades out.
+- **Image** The thumbhash placeholder is now laid out like the image: it follows the computed object-fit, object-position, padding and border, including values set through imageClass or imageStyle. With contain and scale-down it scales to the image's actual bounds during the crossfade, since a ThumbHash only records an approximate aspect ratio.
+
 ## [1.7.15](https://github.com/Hikarinagi/ui/compare/@hina-ui/react@1.7.14...@hina-ui/react@1.7.15) (2026-10-18)
 
 ### Changed
