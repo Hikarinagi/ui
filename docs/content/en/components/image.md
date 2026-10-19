@@ -126,7 +126,8 @@ Put several pictures inside an `ImageGroup` and opening any of them lets you mov
 - A lazy picture stays transparent until its fade begins. Disabling the skeleton keeps the picture's fade-in.
 - A picture with `lazy` off sits above the skeleton and appears as soon as the browser has painted it, without waiting for script; the skeleton beneath it is dropped outright, with no fade.
 - With `thumbhash` set, the decoded thumbnail shows while loading instead of a skeleton, and neither `skeleton` nor a custom skeleton has any effect. A value that cannot be decoded counts as unset.
-- The thumbnail follows `fit`: `cover` and `none` fill the box, `contain` and `scale-down` show it whole in the centre, and `fill` stretches it to the box.
+- The thumbnail is laid out like the picture: it reads the picture's computed `object-fit`, `object-position`, padding and border, so changing them through `imageClass` or `imageStyle` moves the thumbnail as well. `cover` and `none` fill, `contain` and `scale-down` show it whole, and `fill` stretches it to the box. The server-rendered HTML lays it out by `fit`; once script runs, it follows the picture.
+- A ThumbHash only records an approximate aspect ratio. With `contain` and `scale-down`, the thumbnail scales to the picture's actual bounds during the crossfade, and the two coincide when it ends.
 - The thumbnail is part of the server-rendered HTML and shows before any script loads.
 - Once decoded, a lazy picture crossfades with the thumbnail over 450ms. Both follow the same ease-in-out curve and their opacities add up to 1 at every moment: nothing behind the box shows through, and the thumbnail showing around a transparent picture fades away as the picture fades in.
 - The crossfade blends only the picture and the thumbnail; the box's own background takes no part in it.

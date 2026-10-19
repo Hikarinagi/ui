@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
 import { cssTimeToMs } from '../../../../../shared/src/lib/css-time'
-import { thumbhashToDataUrl } from '../../../../../shared/src/lib/thumbhash'
+import { decodeThumbhash } from '../../../../../shared/src/lib/thumbhash'
+import { fitPlaceholder, settlePlaceholder } from '../../../../../shared/src/lib/image-placeholder'
 import { useImageResolver } from '../resolver'
 
 function ready(img: HTMLImageElement): Promise<void> {
@@ -17,10 +18,17 @@ function ready(img: HTMLImageElement): Promise<void> {
   })
 }
 
-function play(el: HTMLElement, duration: string, easing: string): Animation | null {
+function play(
+  el: HTMLElement,
+  duration: string,
+  easing: string,
+  transform?: string,
+): Animation | null {
   const style = getComputedStyle(el)
   try {
-    return el.animate([{ opacity: 1 }, { opacity: 0 }], {
+    const from: Keyframe = transform ? { opacity: 1, transform: 'none' } : { opacity: 1 }
+    const to: Keyframe = transform ? { opacity: 0, transform } : { opacity: 0 }
+    return el.animate([from, to], {
       duration: cssTimeToMs(style.getPropertyValue(duration)),
       easing: style.getPropertyValue(easing).trim() || 'linear',
       fill: 'forwards',
@@ -42,6 +50,9 @@ export function useImage(
     lazy: boolean
     rootMargin: string
     skeleton: boolean
+    fit?: string
+    imageClass?: string
+    imageStyle?: unknown
   },
   emit: {
     load?: (size: { width: number; height: number }) => void
@@ -93,7 +104,8 @@ export function useImage(
   }
 
   const thumbhash = props.thumbhash
-  const placeholder = useMemo(() => (thumbhash ? thumbhashToDataUrl(thumbhash) : null), [thumbhash])
+  const thumb = useMemo(() => (thumbhash ? decodeThumbhash(thumbhash) : null), [thumbhash])
+  const placeholder = thumb?.url ?? null
 
   const src = entered ? resolved || undefined : undefined
   const showImage = Boolean(resolved) && !failed
@@ -104,10 +116,24 @@ export function useImage(
     usingFallback,
     resolveFallback,
     placeholder,
+    thumb,
     lazy: props.lazy,
     emit,
   })
-  latest.current = { src, usingFallback, resolveFallback, placeholder, lazy: props.lazy, emit }
+  latest.current = {
+    src,
+    usingFallback,
+    resolveFallback,
+    placeholder,
+    thumb,
+    lazy: props.lazy,
+    emit,
+  }
+
+  useLayoutEffect(() => {
+    const layer = skeletonEl.current
+    if (layer && imageEl && placeholder) fitPlaceholder(layer, imageEl)
+  }, [imageEl, placeholder, showSkeleton, props.fit, props.imageClass, props.imageStyle])
 
   useLayoutEffect(() => {
     fade.current?.cancel()
@@ -132,12 +158,23 @@ export function useImage(
     return () => observer.disconnect()
   }, [rootEl, entered, options])
 
+  function settleLayer(layer: HTMLElement) {
+    const img = imageRef.current
+    const thumb = latest.current.thumb
+    if (!img || !thumb) return undefined
+    fitPlaceholder(layer, img)
+    const settle = settlePlaceholder(img, thumb)
+    if (!settle) return undefined
+    layer.style.transformOrigin = settle.transformOrigin
+    return settle.transform
+  }
+
   function dropLayer() {
     const layer = skeletonEl.current
     const anim =
       layer &&
       (latest.current.placeholder
-        ? play(layer, '--hn-duration-slow', '--hn-ease-move')
+        ? play(layer, '--hn-duration-slow', '--hn-ease-move', settleLayer(layer))
         : play(layer, '--hn-duration-fast', '--hn-ease-enter'))
     if (!anim) {
       setSkeletonMounted(false)

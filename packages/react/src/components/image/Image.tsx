@@ -95,7 +95,17 @@ export function Image({
     showImage,
     showSkeleton,
   } = useImage(
-    { src: srcProp, fallback: fallbackProp, thumbhash, lazy, rootMargin, skeleton },
+    {
+      src: srcProp,
+      fallback: fallbackProp,
+      thumbhash,
+      lazy,
+      rootMargin,
+      skeleton,
+      fit,
+      imageClass,
+      imageStyle,
+    },
     { load: onLoad, error: onError },
   )
 

@@ -1,7 +1,8 @@
 import { computed, nextTick, onMounted, shallowRef, watch, type ComponentPublicInstance } from 'vue'
 import { useIntersectionObserver } from '@vueuse/core'
 import { cssTimeToMs } from '../../../../../shared/src/lib/css-time'
-import { thumbhashToDataUrl } from '../../../../../shared/src/lib/thumbhash'
+import { decodeThumbhash } from '../../../../../shared/src/lib/thumbhash'
+import { fitPlaceholder, settlePlaceholder } from '../../../../../shared/src/lib/image-placeholder'
 import { useImageResolver } from '../resolver'
 
 function ready(img: HTMLImageElement): Promise<void> {
@@ -23,6 +24,9 @@ export function useImage(
     lazy: boolean
     rootMargin: string
     skeleton: boolean
+    fit?: string
+    imageClass?: string
+    imageStyle?: unknown
   },
   emit: {
     (e: 'load', size: { width: number; height: number }): void
@@ -58,7 +62,9 @@ export function useImage(
 
   const resolved = computed(() => (usingFallback.value ? fallback.value : primary.value))
 
-  const placeholder = computed(() => (props.thumbhash ? thumbhashToDataUrl(props.thumbhash) : null))
+  const thumb = computed(() => (props.thumbhash ? decodeThumbhash(props.thumbhash) : null))
+
+  const placeholder = computed(() => thumb.value?.url ?? null)
 
   const src = computed(() => (entered.value ? resolved.value || undefined : undefined))
   const showImage = computed(() => Boolean(resolved.value) && !failed.value)
@@ -78,10 +84,29 @@ export function useImage(
     failed.value = false
   })
 
-  function play(el: HTMLElement, duration: string, easing: string): Animation | null {
+  function fitLayer() {
+    const layer = skeletonEl.value
+    const img = imageEl.value
+    if (layer && img && placeholder.value) fitPlaceholder(layer, img)
+  }
+
+  watch(
+    [skeletonEl, imageEl, () => props.fit, () => props.imageClass, () => props.imageStyle],
+    fitLayer,
+    { flush: 'post' },
+  )
+
+  function play(
+    el: HTMLElement,
+    duration: string,
+    easing: string,
+    transform?: string,
+  ): Animation | null {
     const style = getComputedStyle(el)
     try {
-      return el.animate([{ opacity: 1 }, { opacity: 0 }], {
+      const from: Keyframe = transform ? { opacity: 1, transform: 'none' } : { opacity: 1 }
+      const to: Keyframe = transform ? { opacity: 0, transform } : { opacity: 0 }
+      return el.animate([from, to], {
         duration: cssTimeToMs(style.getPropertyValue(duration)),
         easing: style.getPropertyValue(easing).trim() || 'linear',
         fill: 'forwards',
@@ -95,12 +120,22 @@ export function useImage(
     return new Promise<void>(res => requestAnimationFrame(() => requestAnimationFrame(() => res())))
   }
 
+  function settleLayer(layer: HTMLElement) {
+    const img = imageEl.value
+    if (!img || !thumb.value) return undefined
+    fitPlaceholder(layer, img)
+    const settle = settlePlaceholder(img, thumb.value)
+    if (!settle) return undefined
+    layer.style.transformOrigin = settle.transformOrigin
+    return settle.transform
+  }
+
   function dropLayer() {
     const layer = skeletonEl.value
     const anim =
       layer &&
       (placeholder.value
-        ? play(layer, '--hn-duration-slow', '--hn-ease-move')
+        ? play(layer, '--hn-duration-slow', '--hn-ease-move', settleLayer(layer))
         : play(layer, '--hn-duration-fast', '--hn-ease-enter'))
     if (!anim) {
       skeletonMounted.value = false
